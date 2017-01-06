@@ -1,0 +1,50 @@
+require "../../spec_helper"
+
+class TestRender < LuckyWeb::HTMLView
+  def render
+    renders_complicated_html
+  end
+
+  private def renders_complicated_html
+    header({class: "header"}) do
+      text "my text"
+      h1 "h1"
+      br
+      br({class: "br"})
+      br class: "br"
+      img({src: "src"})
+      h2 "A bit smaller", {class: "peculiar"}
+      h6 class: "h6!!!!" do
+        small "super tiny", class: "so-small"
+        span "wow"
+      end
+    end
+  end
+end
+
+describe LuckyWeb::HTMLView do
+  describe "tags that contain contents" do
+    it "can be called with various arguments" do
+      view.header("text").to_s.should eq %(<header>text</header>)
+      view.header("text", {class: "stuff"}).to_s.should eq %(<header class="stuff">text</header>)
+      view.header("text", class: "stuff").to_s.should eq %(<header class="stuff">text</header>)
+    end
+  end
+
+  describe "empty tags" do
+    it "can be called with various arguments" do
+      view.br.to_s.should eq %(<br/>)
+      view.img(src: "my_src").to_s.should eq %(<img src="my_src"/>)
+      view.img({src: "my_src"}).to_s.should eq %(<img src="my_src"/>)
+      view.img({"src" => "my_src"}).to_s.should eq %(<img src="my_src"/>)
+    end
+  end
+
+  it "renders complicated HTML syntax" do
+    view.render.to_s.should be_a(String)
+  end
+end
+
+private def view
+  TestRender.new
+end

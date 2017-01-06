@@ -2,6 +2,8 @@
 
 A web framework for Crystal
 
+This is just a README to work as an outline for what I want to eventually do. There is no/very little code done.
+
 ## Installation
 
 Add this to your application's `shard.yml`:
@@ -70,7 +72,7 @@ end
 
 Let's create a new model for tasks so we can create, edit and delete them.
 
-```
+```crystal
 # src/models/task.cr
 class Task < App::Record
   field :title
@@ -110,7 +112,7 @@ class Tasks::IndexAction < Lucky::BaseAction
   root_path
 
   def call
-    tasks = Task.rows.all # Get all tasks from the database
+    tasks = Task::Rows.new.all # Get all tasks from the database
     render tasks: tasks
   end
 end
@@ -159,7 +161,7 @@ class Tasks::NewHtmlView < App::BaseHtmlView
 
   def call
     h1 "Create a new task"
-    form_for task, Task::CreateAction.route do |form|
+    form_for task, url: Task::CreateAction.route do |form|
       text_field form, task.title_field
       text_field form, task.desription_field
 
@@ -167,6 +169,148 @@ class Tasks::NewHtmlView < App::BaseHtmlView
     end
   end
 end
+```
+
+This won't work though since we need a Changeset. A Changeset is what validates and saves record to the database. Let's create one for our task.
+
+```crystal
+# src/changesets/task_changeset
+# This base class is auto generated from our Task model
+class Task::Changeset < Task::BaseChangeset
+  allow :title, :description # only these fields can be set from params
+
+  # This is called before anything else. You can set up validations, modify fields, etc.
+  def process
+    validate_required :title, :description
+  end
+end
+```
+
+Now we should have a form. Let's add a create action to actually save our task
+
+??? Maybe add generator `lucky gen.action Tasks::CreateAction`
+
+```crystal
+# src/web/tasks/create_action.cr
+class Tasks::CreateAction < App::BaseAction
+  # Route is inferred as `POST /tasks`
+  def call
+    # The changeset will automatically get the right param name, so pass the full `params`
+    task = Task::Changeset.new(params)
+
+    if task.insert
+      flash[:success] = "This is cool"
+      redirect to: Tasks::IndexAction.route
+    else
+      flash[:error] = "Nooooo!"
+      render :new, task: task # This will render Tasks::NewHtmlView
+    end
+  end
+end
+```
+
+Let's make sure we show errors in our new form view
+
+```crystal
+class Tasks::NewHtmlView < App::BaseHtmlView
+  assigns task : Task::Changeset
+
+  def call
+    flash_errors if flash[:error]?
+    task_errors if !task.errors.empty?
+    h1 "Create a new task"
+    form_for task, url: Task::CreateAction.route do |form|
+      text_field form, task.title_field
+      text_field form, task.desription_field
+
+      submit_button
+    end
+  end
+
+  private def flash_errors
+    h2 flash[:error], class: "oopsies"
+  end
+
+  private def task_errors
+    ul(class: "validation-errors") do
+      task.errors.each do |error|
+        li error.message, class: "validation-errors-message"
+      end
+    end
+  end
+end
+```
+
+Now if there are errors or flash messages they will be seen in the form
+
+## Testing
+
+Let's create a test for the tasks list
+
+```crystal
+# spec/web/tasks/index_action_spec.cr
+require "action_helper.cr"
+
+describe Tasks::IndexActionSpec do
+  it "renders list of tasks"
+    tasks = TasksBox.create_pair
+    conn = LuckyWeb::Spec::Conn.new
+
+    conn.request Tasks::IndexAction.route
+
+    tasks.each do |task|
+      conn.response.body.should include(tasks.title)
+      conn.response.body.should include(tasks.description)
+    end
+  end
+end
+```
+
+let's create a "box" for our tasks. this is a way to easily generate test data.
+
+```crystal
+# spec/support/boxes/task_box.cr
+class TaskBox < App::Box
+  def build
+    task.new(title: "default", description: "something")
+  end
+end
+```
+
+The cool thing about this being a regular class is you can add methods to customize the objects. Note this is still very much a WIP. Not sure how this will work exactly.
+
+```crystal
+# spec/support/boxes/task_box.cr
+class TaskBox < App::Box
+  def build
+    @record = task.new(title: "default", description: "something")
+  end
+
+  def completed
+    @record.completed = true
+  end
+end
+
+taskbox.build.completed
+```
+
+## customizing the spec connection
+
+let's say for some connections you want to set a session.  let's create a custom connection
+
+```crystal
+# spec/support/app_conn.new
+class App::Conn < LuckyWeb::Spec::Conn
+  def sign_in_as(user)
+    session.int[:current_user_id] = user.id
+  end
+end
+```
+
+Now in your tests you can do
+
+```
+conn = App::Conn.new.sign_in_as(user)
 ```
 
 ## Contributing

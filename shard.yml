@@ -4,6 +4,12 @@ version: 0.1.0
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
+dependencies:
+  radix:
+    github: luislavena/radix
+  lucky_cli:
+    github: luckyframework/cli
+
 crystal: 0.20.3
 
 license: MIT
