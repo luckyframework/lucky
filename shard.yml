@@ -1,0 +1,9 @@
+name: lucky_web
+version: 0.1.0
+
+authors:
+  - Paul Smith <paulcsmith0218@gmail.com>
+
+crystal: 0.20.3
+
+license: MIT
