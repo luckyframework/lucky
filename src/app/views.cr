@@ -1,4 +1,4 @@
-class Tasks::IndexHTML < LuckyWeb::HTMLView
+class Tasks::IndexPage < LuckyWeb::HTMLView
   def render
     header class: "test" do
       h1 "Tasks index"
@@ -13,7 +13,7 @@ class Tasks::IndexHTML < LuckyWeb::HTMLView
   end
 end
 
-class Tasks::NewHTML < LuckyWeb::HTMLView
+class Tasks::NewPage < LuckyWeb::HTMLView
   def render
     header({class: "WHAT"}) do
       text "New HTML"

@@ -11,7 +11,7 @@ abstract class LuckyWeb::Action
   abstract def call : LuckyWeb::Response
 
   macro render
-    view = {{ @type.name.gsub(/Action/, "HTML") }}.new
+    view = {{ @type.name.gsub(/Action/, "Page") }}.new
     body = view.render.to_s
     LuckyWeb::Response.new(context, "text/html", body)
   end
