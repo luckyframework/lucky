@@ -26,7 +26,7 @@ require "lucky_web"
 # src/web/tasks/index_action.cr
 require "./index_html_view.cr"
 
-class Tasks::IndexAction < App::BaseAction
+class Tasks::Index < App::BaseAction
   root_path # this action will be called when visiting "/" in your browser
 
   def call
@@ -108,7 +108,7 @@ Now in our index action let's get a list of real tasks
 
 ```crystal
 # src/web/tasks/index_action.cr
-class Tasks::IndexAction < Lucky::BaseAction
+class Tasks::Index < Lucky::BaseAction
   root_path
 
   def call
@@ -143,7 +143,7 @@ Now you should see a blank list of tasks. Let's create an action for creating ta
 
 ```crystal
 # src/web/tasks/new_action.cr
-class Tasks::NewAction < App::BaseAction
+class Tasks::New < App::BaseAction
   # The route is automatically inferred from the class name
   # In this case it is "/tasks/new"
   def call
@@ -192,7 +192,7 @@ Now we should have a form. Let's add a create action to actually save our task
 
 ```crystal
 # src/web/tasks/create_action.cr
-class Tasks::CreateAction < App::BaseAction
+class Tasks::Create < App::BaseAction
   # Route is inferred as `POST /tasks`
   def call
     # The changeset will automatically get the right param name, so pass the full `params`

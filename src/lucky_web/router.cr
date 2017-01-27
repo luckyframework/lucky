@@ -17,8 +17,9 @@ class LuckyWeb::Router
   end
 
   def add(path, action)
-    @tree.add(path, action)
-    @routes << LuckyWeb::Route.new(:get, path, action)
+    route = LuckyWeb::Route.new(:get, path, action)
+    @routes << route
+    @tree.add(route.path, route.action)
   end
 
   def find_action(path)

@@ -1,25 +1,25 @@
-class Tasks::IndexAction < LuckyWeb::Action
-  def call
+class Tasks::Index < LuckyWeb::Action
+  action do
     render
   end
 end
 
-class Tasks::NewAction < LuckyWeb::Action
-  def call
+class Tasks::New < LuckyWeb::Action
+  action do
     render
   end
 end
 
-class Tasks::ShowAction < LuckyWeb::Action
-  def call
+class Tasks::Show < LuckyWeb::Action
+  action do
     render_text("Show action")
   end
 end
 
 # A different resource
 
-class MyUsers::IndexAction < LuckyWeb::Action
-  def call
+class MyUsers::Index < LuckyWeb::Action
+  action do
     render_text("users")
   end
 end

@@ -1,12 +1,17 @@
 class Tasks::IndexPage < LuckyWeb::HTMLView
   def render
-    header class: "test" do
-      h1 "Tasks index"
-      br
-      a "new task", href: Tasks::NewAction.route
-      ul do
+    header do
+      h1 "All my tasks"
+      a "New task", href: Tasks::NewAction.route
+      tasks_list
+    end
+  end
+
+  private def tasks_list
+    ul do
+      TaskRows.all.each do |task|
         li do
-          a "A cool task", href: Tasks::ShowAction.route("test_id")
+          a task.title, href: Tasks::ShowAction.route(task.id)
         end
       end
     end
