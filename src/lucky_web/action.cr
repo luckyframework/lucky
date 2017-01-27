@@ -1,5 +1,3 @@
-require "./routeable"
-
 abstract class LuckyWeb::Action
   getter :context, :path_params
 
