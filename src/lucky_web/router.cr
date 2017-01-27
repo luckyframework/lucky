@@ -5,7 +5,7 @@ class LuckyWeb::Router
 
   def initialize
     @tree = Radix::Tree(LuckyWeb::Action.class).new
-    @routes = [] of {method: Symbol, path: String, action: LuckyWeb::Action.class}
+    @routes = [] of LuckyWeb::Route
   end
 
   def self.add(path, action)
@@ -18,7 +18,7 @@ class LuckyWeb::Router
 
   def add(path, action)
     @tree.add(path, action)
-    @routes << {method: :get, path: path, action: action}
+    @routes << LuckyWeb::Route.new(:get, path, action)
   end
 
   def find_action(path)
