@@ -11,6 +11,8 @@ module LuckyWeb::Routeable
       {% path = "/#{resource.id}" %}
     {% elsif action_name == "new" %}
       {% path = "/#{resource.id}/new" %}
+    {% elsif action_name == "new" %}
+      {% path = "/#{resource.id}/new" %}
     {% else %}
       {% raise(
            <<-ERROR
@@ -26,25 +28,5 @@ module LuckyWeb::Routeable
     {% end %}
 
     LuckyWeb::Router.add({{path}}, {{@type.name.id}})
-    # case action_name
-    # when "index"
-    #   "/#{resource}"
-    # when "new"
-    #   "/#{resource}/new"
-    # when "show"
-    #   "/#{resource}/:id"
-    # else
-    #   raise <<-ERROR
-    #   Could not infer route for #{"{{@type.name}}".colorize(:red)}
-    #
-    #   Got:
-    #     #{"{{@type.name}}".colorize(:red)} #{"(missing a resourceful action)".colorize(:yellow)}
-    #
-    #   Expected something like:
-    #     ResourceName::#{"Index".colorize.mode(:underline)}Action # Index, Show, New, Create, Edit, Update, or Delete
-    #
-    #   \n
-    #   ERROR
-    # end
   end
 end
