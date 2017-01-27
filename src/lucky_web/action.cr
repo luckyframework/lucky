@@ -20,6 +20,10 @@ abstract class LuckyWeb::Action
     context.request.query_params[name.to_s]
   end
 
+  def query_param?(name)
+    context.request.query_params[name.to_s]?
+  end
+
   def perform_action
     response = call
     handle_response(response)
