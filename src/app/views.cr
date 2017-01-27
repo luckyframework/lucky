@@ -5,7 +5,9 @@ class Tasks::IndexHTML < LuckyWeb::HTMLView
       br
       a "new task", href: Tasks::NewAction.route
       ul do
-        li "A cool task", href: Tasks::ShowAction.route("test_id")
+        li do
+          a "A cool task", href: Tasks::ShowAction.route("test_id")
+        end
       end
     end
   end

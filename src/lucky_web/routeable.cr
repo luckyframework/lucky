@@ -23,7 +23,7 @@ module LuckyWeb::Routeable
       {% path = "/#{resource.id}/:id" %}
 
       def self.route(id)
-        "/#{resource.id}/#{id}"
+        "/{{resource.id}}/#{id}"
       end
     {% else %}
       {% raise(
