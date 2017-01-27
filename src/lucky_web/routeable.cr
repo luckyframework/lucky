@@ -9,10 +9,22 @@ module LuckyWeb::Routeable
 
     {% if action_name == "index" %}
       {% path = "/#{resource.id}" %}
+
+      def self.route
+        {{path}}
+      end
     {% elsif action_name == "new" %}
       {% path = "/#{resource.id}/new" %}
-    {% elsif action_name == "new" %}
-      {% path = "/#{resource.id}/new" %}
+
+      def self.route
+        {{path}}
+      end
+    {% elsif action_name == "show" %}
+      {% path = "/#{resource.id}/:id" %}
+
+      def self.route(id)
+        "/#{resource.id}/#{id}"
+      end
     {% else %}
       {% raise(
            <<-ERROR
