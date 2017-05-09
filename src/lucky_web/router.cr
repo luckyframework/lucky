@@ -22,11 +22,15 @@ class LuckyWeb::Router
     @tree.add(route.path, route.action)
   end
 
-  def find_action(path)
-    @tree.find(path)
+  def find_action(method, path)
+    @tree.find LuckyWeb::Route.build_route_path(method, path)
   end
 
-  def self.find_action(path)
-    INSTANCE.find_action(path)
+  def self.find_action(method, path)
+    INSTANCE.find_action(method, path)
+  end
+
+  def self.find_action(request)
+    INSTANCE.find_action(request.method, request.path)
   end
 end

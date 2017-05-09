@@ -7,6 +7,10 @@ class LuckyWeb::Route
   def_equals @method, @path, @action
 
   def path
-    "/#{method}/#{@path}"
+    self.class.build_route_path(method, @path)
+  end
+
+  def self.build_route_path(method : Symbol, path : String)
+    "/#{method}/#{path}"
   end
 end
