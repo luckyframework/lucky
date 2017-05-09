@@ -24,7 +24,31 @@ class Tests::New < LuckyWeb::Action
   end
 end
 
+class Tests::Edit < LuckyWeb::Action
+  action do
+    render_text "test"
+  end
+end
+
 class Tests::Show < LuckyWeb::Action
+  action do
+    render_text "test"
+  end
+end
+
+class Tests::Delete < LuckyWeb::Action
+  action do
+    render_text "test"
+  end
+end
+
+class Tests::Update < LuckyWeb::Action
+  action do
+    render_text "test"
+  end
+end
+
+class Tests::Create < LuckyWeb::Action
   action do
     render_text "test"
   end
@@ -38,16 +62,31 @@ end
 
 describe LuckyWeb::Action do
   describe "routing" do
-    it "creates route helpers for the resourceful actions" do
-      Tests::Index.route.should eq "/tests"
-      Tests::New.route.should eq "/tests/new"
-      Tests::Show.route("test-id").should eq "/tests/test-id"
+    it "creates URL helpers for the resourceful actions" do
+      Tests::Index.path.should eq "/tests"
+      Tests::Index.route.should eq LuckyWeb::RouteHelper.new(:get, "/tests")
+      Tests::New.path.should eq "/tests/new"
+      Tests::New.route.should eq LuckyWeb::RouteHelper.new(:get, "/tests/new")
+      Tests::Edit.path("test-id").should eq "/tests/test-id/edit"
+      Tests::Edit.route("test-id").should eq LuckyWeb::RouteHelper.new(:get, "/tests/test-id/edit")
+      Tests::Show.path("test-id").should eq "/tests/test-id"
+      Tests::Show.route("test-id").should eq LuckyWeb::RouteHelper.new(:get, "/tests/test-id")
+      Tests::Delete.path("test-id").should eq "/tests/test-id"
+      Tests::Delete.route("test-id").should eq LuckyWeb::RouteHelper.new(:delete, "/tests/test-id")
+      Tests::Update.path("test-id").should eq "/tests/test-id"
+      Tests::Update.route("test-id").should eq LuckyWeb::RouteHelper.new(:put, "/tests/test-id")
+      Tests::Create.path.should eq "/tests"
+      Tests::Create.route.should eq LuckyWeb::RouteHelper.new(:post, "/tests")
     end
 
     it "adds routes to the router" do
       assert_route_added? LuckyWeb::Route.new :get, "/tests", Tests::Index
       assert_route_added? LuckyWeb::Route.new :get, "/tests/new", Tests::New
+      assert_route_added? LuckyWeb::Route.new :get, "/tests/:id/edit", Tests::Edit
       assert_route_added? LuckyWeb::Route.new :get, "/tests/:id", Tests::Show
+      assert_route_added? LuckyWeb::Route.new :delete, "/tests/:id", Tests::Delete
+      assert_route_added? LuckyWeb::Route.new :put, "/tests/:id", Tests::Update
+      assert_route_added? LuckyWeb::Route.new :post, "/tests", Tests::Create
     end
 
     it "allows setting custom routes" do

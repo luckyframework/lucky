@@ -8,16 +8,16 @@ class LuckyWeb::Router
     @routes = [] of LuckyWeb::Route
   end
 
-  def self.add(path, action)
-    INSTANCE.add(path, action)
+  def self.add(method, path, action)
+    INSTANCE.add(method, path, action)
   end
 
   def self.routes
     INSTANCE.routes
   end
 
-  def add(path, action)
-    route = LuckyWeb::Route.new(:get, path, action)
+  def add(method, path, action)
+    route = LuckyWeb::Route.new(method, path, action)
     @routes << route
     @tree.add(route.path, route.action)
   end

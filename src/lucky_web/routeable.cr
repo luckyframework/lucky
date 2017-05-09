@@ -4,7 +4,7 @@ module LuckyWeb::Routeable
   end
 
   macro get(path)
-    add_route {{path}}, {{@type.name.id}}
+    add_route :get, {{path}}, {{@type.name.id}}
 
     def call
       {{yield}}
@@ -24,12 +24,15 @@ module LuckyWeb::Routeable
   macro infer_route
     {% resource = @type.name.split("::").first.underscore %}
     {% action_name = @type.name.split("::").last.underscore %}
+    {% method = :get %}
 
-    {% if action_name == "index" %}
+    {% if ["index", "create"].includes? action_name %}
       {% path = "/#{resource.id}" %}
     {% elsif action_name == "new" %}
       {% path = "/#{resource.id}/new" %}
-    {% elsif action_name == "show" %}
+    {% elsif action_name == "edit" %}
+      {% path = "/#{resource.id}/:id/edit" %}
+    {% elsif ["show", "update", "delete"].includes? action_name %}
       {% path = "/#{resource.id}/:id" %}
     {% else %}
       {% raise(
@@ -45,16 +48,25 @@ module LuckyWeb::Routeable
          ) %}
     {% end %}
 
-    add_route {{path}}, {{@type.name.id}}
+    {% if action_name == "delete" %}
+      {% method = :delete %}
+    {% elsif action_name == "create" %}
+      {% method = :post %}
+    {% elsif action_name == "update" %}
+      {% method = :put %}
+    {% end %}
+
+    add_route {{method}}, {{path}}, {{@type.name.id}}
   end
 
-  macro add_route(path, action)
-    LuckyWeb::Router.add({{path}}, {{@type.name.id}})
+  macro add_route(method, path, action)
+    LuckyWeb::Router.add({{method}}, {{path}}, {{@type.name.id}})
     mark_route_defined
 
     {% path_parts = path.split("/").reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(":")) %}
-    def self.route(
+
+    def self.path(
     {% for param in path_params %}
       {{param.gsub(/:/, "").id}},
     {% end %}
@@ -69,6 +81,24 @@ module LuckyWeb::Routeable
           {% end %}
         {% end %}
       end
+    end
+
+    def self.route(
+    {% for param in path_params %}
+      {{param.gsub(/:/, "").id}},
+    {% end %}
+      )
+      path = String.build do |path|
+        {% for part in path_parts %}
+          path << "/"
+          {% if part.starts_with?(":") %}
+            path << {{part.gsub(/:/, "").id}}
+          {% else %}
+            path << {{part}}
+          {% end %}
+        {% end %}
+      end
+      LuckyWeb::RouteHelper.new {{method}}, path
     end
   end
 
