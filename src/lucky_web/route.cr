@@ -11,6 +11,6 @@ class LuckyWeb::Route
   end
 
   def self.build_route_path(method : Symbol, path : String)
-    "/#{method}/#{path}"
+    "#{method}#{path}"
   end
 end
