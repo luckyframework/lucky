@@ -14,11 +14,17 @@ class TestRender < LuckyWeb::HTMLView
       br class: "br"
       img({src: "src"})
       h2 "A bit smaller", {class: "peculiar"}
-      h6 class: "h6!!!!" do
+      h6 class: "h6" do
         small "super tiny", class: "so-small"
         span "wow"
       end
     end
+  end
+end
+
+class UnsafePage < LuckyWeb::HTMLView
+  def render
+    text "<script>not safe</span>"
   end
 end
 
@@ -37,6 +43,12 @@ describe LuckyWeb::HTMLView do
       view.img(src: "my_src").to_s.should eq %(<img src="my_src"/>)
       view.img({src: "my_src"}).to_s.should eq %(<img src="my_src"/>)
       view.img({"src" => "my_src"}).to_s.should eq %(<img src="my_src"/>)
+    end
+  end
+
+  describe "HTML escaping" do
+    it "escapes text" do
+      UnsafePage.new.render.to_s.should eq "&lt;script&gt;not safe&lt;/span&gt;"
     end
   end
 

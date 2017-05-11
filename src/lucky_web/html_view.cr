@@ -66,7 +66,7 @@ abstract class LuckyWeb::HTMLView
   {% end %}
 
   def text(content : String)
-    @io << content
+    @io << HTML.escape(content)
   end
 
   private def build_tag_attrs(options)
