@@ -28,6 +28,28 @@ class UnsafePage < LuckyWeb::HTMLView
   end
 end
 
+class InnerPage < LuckyWeb::HTMLView
+  def render
+    Layout.new(self).render.to_s
+  end
+
+  def title
+    "A great title"
+  end
+end
+
+class Layout < LuckyWeb::HTMLView
+  @page : InnerPage
+
+  def initialize(@page)
+    @io = IO::Memory.new
+  end
+
+  def render
+    title @page.title
+  end
+end
+
 describe LuckyWeb::HTMLView do
   describe "tags that contain contents" do
     it "can be called with various arguments" do
@@ -62,6 +84,12 @@ describe LuckyWeb::HTMLView do
 
   it "renders complicated HTML syntax" do
     view.render.to_s.should be_a(String)
+  end
+
+  describe "can be used to render layouts" do
+    it "renders layouts" do
+      InnerPage.new.render.to_s.should eq %(<title>A great title</title>)
+    end
   end
 end
 
