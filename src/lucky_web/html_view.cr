@@ -72,7 +72,7 @@ abstract class LuckyWeb::HTMLView
   private def build_tag_attrs(options)
     tag_attrs = String.build do |attrs|
       options.each do |key, value|
-        attrs << %( #{key}="#{value}")
+        attrs << %( #{key}="#{HTML.escape(value)}")
       end
     end
   end
