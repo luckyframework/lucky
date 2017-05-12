@@ -29,21 +29,17 @@ class UnsafePage < LuckyWeb::HTMLView
 end
 
 class InnerPage < LuckyWeb::HTMLView
-  def render
-    Layout.new(self).render.to_s
-  end
+  layout MainLayout
 
   def title
     "A great title"
   end
 end
 
-class Layout < LuckyWeb::HTMLView
-  @page : InnerPage
+class MainLayout < LuckyWeb::HTMLView
+  include LuckyWeb::Layout
 
-  def initialize(@page)
-    @io = IO::Memory.new
-  end
+  @page : InnerPage
 
   def render
     title @page.title

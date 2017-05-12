@@ -5,8 +5,12 @@ abstract class LuckyWeb::HTMLView
 
   abstract def render
 
-  def initialize
-    @io = IO::Memory.new
+  @io = IO::Memory.new
+
+  macro layout(layout_class)
+    def render
+      {{layout_class}}.new(self).render.to_s
+    end
   end
 
   {% for tag in TAGS %}
