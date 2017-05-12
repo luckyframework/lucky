@@ -1,6 +1,10 @@
 module LuckyWeb::Renderable
-  macro render
-    view = {{ "#{@type.name}Page".id }}.new
+  macro render(**args)
+    view = {{ "#{@type.name}Page".id }}.new(
+      {% for key, value in args %}
+        {{key}}: {{value}}
+      {% end %}
+    )
     body = view.render.to_s
     LuckyWeb::Response.new(context, "text/html", body)
   end

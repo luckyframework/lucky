@@ -2,6 +2,7 @@ abstract class LuckyWeb::HTMLView
   TAGS             = %i(a b body button div em small fieldset h1 h2 h3 h4 h5 h6 head html i label li ol option p s script span strong table tbody td textarea thead th title tr u ul form footer header article aside bdi details dialog figcaption figure main mark menuitem meter nav progress rp rt ruby section summary time wbr)
   EMPTY_TAGS       = %i(img br)
   EMPTY_HTML_ATTRS = {} of String => String
+  ASSIGNS          = [] of Symbol
 
   abstract def render
 
@@ -10,6 +11,26 @@ abstract class LuckyWeb::HTMLView
   macro layout(layout_class)
     def render
       {{layout_class}}.new(self).render.to_s
+    end
+  end
+
+  macro assign(*type_declarations)
+    {% for declaration in type_declarations %}
+      {% ASSIGNS << declaration.var %}
+      getter {{declaration}}
+    {% end %}
+  end
+
+  macro finished
+    generate_initializer
+  end
+
+  macro generate_initializer
+    def initialize(
+      {% for var in ASSIGNS %}
+        @{{var}},
+      {% end %}
+      )
     end
   end
 
