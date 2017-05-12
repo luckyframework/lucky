@@ -1,7 +1,7 @@
 module LuckyWeb::Renderable
-  macro render(**args)
+  macro render(**assigns)
     view = {{ "#{@type.name}Page".id }}.new(
-      {% for key, value in args %}
+      {% for key, value in assigns %}
         {{key}}: {{value}}
       {% end %}
     )
