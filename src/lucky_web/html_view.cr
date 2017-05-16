@@ -5,7 +5,7 @@ abstract class LuckyWeb::HTMLView
 
   abstract def render
 
-  @io = IO::Memory.new
+  @view = IO::Memory.new
 
   macro layout(layout_class)
     def render
@@ -44,37 +44,37 @@ abstract class LuckyWeb::HTMLView
 
     def {{tag.id}}(options, &block)
       tag_attrs = build_tag_attrs(options)
-      @io << %(<{{tag.id}}#{tag_attrs}>)
+      @view << %(<{{tag.id}}#{tag_attrs}>)
       yield
-      @io << %(</{{tag.id}}>)
+      @view << %(</{{tag.id}}>)
     end
 
     def {{tag.id}}(**options, &block)
       tag_attrs = build_tag_attrs(options)
-      @io << %(<{{tag.id}}#{tag_attrs}>)
+      @view << %(<{{tag.id}}#{tag_attrs}>)
       yield
-      @io << %(</{{tag.id}}>)
+      @view << %(</{{tag.id}}>)
     end
   {% end %}
 
   {% for tag in EMPTY_TAGS %}
     def {{tag.id}}
-      @io << %(<{{tag.id}}/>)
+      @view << %(<{{tag.id}}/>)
     end
 
     def {{tag.id}}(options)
       tag_attrs = build_tag_attrs(options)
-      @io << %(<{{tag.id}}#{tag_attrs}/>)
+      @view << %(<{{tag.id}}#{tag_attrs}/>)
     end
 
     def {{tag.id}}(**options)
       tag_attrs = build_tag_attrs(options)
-      @io << %(<{{tag.id}}#{tag_attrs}/>)
+      @view << %(<{{tag.id}}#{tag_attrs}/>)
     end
   {% end %}
 
   def text(content : String)
-    @io << HTML.escape(content)
+    @view << HTML.escape(content)
   end
 
   private def build_tag_attrs(options)
