@@ -1,6 +1,6 @@
 class Tasks::Index < LuckyWeb::Action
   action do
-    render
+    render tasks: TaskRows.all
   end
 end
 

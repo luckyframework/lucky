@@ -1,4 +1,6 @@
 class Tasks::IndexPage < LuckyWeb::HTMLView
+  assign tasks : Array(Task)
+
   def render
     header do
       h1 "All my tasks"
@@ -9,7 +11,7 @@ class Tasks::IndexPage < LuckyWeb::HTMLView
 
   private def tasks_list
     ul do
-      TaskRows.all.each do |task|
+      tasks.each do |task|
         li do
           a task.title, href: Tasks::Show.path(task.id)
         end

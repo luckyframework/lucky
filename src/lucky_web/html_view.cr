@@ -44,16 +44,16 @@ abstract class LuckyWeb::HTMLView
 
     def {{tag.id}}(options, &block)
       tag_attrs = build_tag_attrs(options)
-      @view << %(<{{tag.id}}#{tag_attrs}>)
+      @view << "<{{tag.id}}" << tag_attrs << ">"
       yield
-      @view << %(</{{tag.id}}>)
+      @view << "</{{tag.id}}>"
     end
 
     def {{tag.id}}(**options, &block)
       tag_attrs = build_tag_attrs(options)
-      @view << %(<{{tag.id}}#{tag_attrs}>)
+      @view << "<{{tag.id}}" << tag_attrs << ">"
       yield
-      @view << %(</{{tag.id}}>)
+      @view << "</{{tag.id}}>"
     end
   {% end %}
 
@@ -80,7 +80,9 @@ abstract class LuckyWeb::HTMLView
   private def build_tag_attrs(options)
     tag_attrs = String.build do |attrs|
       options.each do |key, value|
-        attrs << %( #{key}="#{HTML.escape(value)}")
+        attrs << " " << key << "=\""
+        attrs << HTML.escape(value)
+        attrs << "\""
       end
     end
   end
@@ -88,7 +90,9 @@ abstract class LuckyWeb::HTMLView
   private def build_tag_attrs(**options)
     tag_attrs = String.build do |attrs|
       options.each do |key, value|
-        attrs << %( #{key}="#{value}")
+        attrs << " " << key << "=\""
+        attrs << HTML.escape(value)
+        attrs << "\""
       end
     end
   end
