@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-class Tests::IndexPage < LuckyWeb::HTMLView
+class Rendering::IndexPage < LuckyWeb::HTMLView
   assign title : String
 
   def render
@@ -8,7 +8,7 @@ class Tests::IndexPage < LuckyWeb::HTMLView
   end
 end
 
-class Tests::Index < LuckyWeb::Action
+class Rendering::Index < LuckyWeb::Action
   action do
     render title: "Anything"
   end
@@ -17,7 +17,7 @@ end
 describe LuckyWeb::Action do
   describe "rendering" do
     it "render assigns" do
-      body = Tests::Index.new(context, params).call.body
+      body = Rendering::Index.new(context, params).call.body
 
       body.should eq "Anything"
     end

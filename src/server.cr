@@ -9,4 +9,6 @@ server = HTTP::Server.new("127.0.0.1", 8080, [
 ])
 
 puts "Listening on http://127.0.0.1:8080...".colorize(:green)
+
+# TODO: Make sure finishe macro works for rendering
 server.listen

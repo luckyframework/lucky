@@ -5,6 +5,7 @@ describe LuckyWeb::Router do
     LuckyWeb::Router.add :get, "/test", LuckyWeb::Action
 
     LuckyWeb::Router.find_action(:get, "/test").found?.should be_true
+    LuckyWeb::Router.find_action("get", "/test").found?.should be_true
     LuckyWeb::Router.find_action(:post, "/test").found?.should be_false
   end
 end
