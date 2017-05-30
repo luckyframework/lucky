@@ -1,5 +1,3 @@
-# LuckyWeb
-
 ![small navy full logo](https://cloud.githubusercontent.com/assets/22394/26591304/3cfe5e76-452b-11e7-95f4-37c3aa8d2542.png)
 
 A web framework for Crystal
