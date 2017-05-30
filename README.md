@@ -1,5 +1,7 @@
 # LuckyWeb
 
+![navy full logo](https://cloud.githubusercontent.com/assets/22394/26591089/93ba6bfc-452a-11e7-8fb2-9dcf6ecd9ee8.png)
+
 A web framework for Crystal
 
 This is just a README to work as an outline for what I want to eventually do. There is no/very little code done.
