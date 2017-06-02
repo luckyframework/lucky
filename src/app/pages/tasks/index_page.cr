@@ -1,4 +1,4 @@
-class Tasks::IndexPage < LuckyWeb::HTMLView
+class Tasks::IndexPage < LuckyWeb::Page
   assign tasks : Array(Task)
 
   def render

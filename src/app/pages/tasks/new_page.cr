@@ -1,4 +1,4 @@
-class Tasks::NewPage < LuckyWeb::HTMLView
+class Tasks::NewPage < LuckyWeb::Page
   def render
     header({class: "WHAT"}) do
       text "New HTML"

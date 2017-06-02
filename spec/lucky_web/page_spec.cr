@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-class TestRender < LuckyWeb::HTMLView
+class TestRender < LuckyWeb::Page
   def render
     renders_complicated_html
   end
@@ -22,13 +22,13 @@ class TestRender < LuckyWeb::HTMLView
   end
 end
 
-class UnsafePage < LuckyWeb::HTMLView
+class UnsafePage < LuckyWeb::Page
   def render
     text "<script>not safe</span>"
   end
 end
 
-class InnerPage < LuckyWeb::HTMLView
+class InnerPage < LuckyWeb::Page
   layout MainLayout
 
   def title
@@ -36,7 +36,7 @@ class InnerPage < LuckyWeb::HTMLView
   end
 end
 
-class MainLayout < LuckyWeb::HTMLView
+class MainLayout < LuckyWeb::Page
   include LuckyWeb::Layout
 
   @page : InnerPage
@@ -46,7 +46,7 @@ class MainLayout < LuckyWeb::HTMLView
   end
 end
 
-describe LuckyWeb::HTMLView do
+describe LuckyWeb::Page do
   describe "tags that contain contents" do
     it "can be called with various arguments" do
       view.header("text").to_s.should eq %(<header>text</header>)

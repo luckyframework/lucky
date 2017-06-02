@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-class Rendering::IndexPage < LuckyWeb::HTMLView
+class Rendering::IndexPage < LuckyWeb::Page
   assign title : String
 
   def render
