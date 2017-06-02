@@ -53,6 +53,10 @@ describe LuckyWeb::Page do
       view.header("text", {class: "stuff"}).to_s.should eq %(<header class="stuff">text</header>)
       view.header("text", class: "stuff").to_s.should eq %(<header class="stuff">text</header>)
     end
+
+    it "dasherizes attribute names" do
+      view.header("text", data_foo: "stuff").to_s.should eq %(<header data-foo="stuff">text</header>)
+    end
   end
 
   describe "empty tags" do
