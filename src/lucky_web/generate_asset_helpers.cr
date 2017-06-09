@@ -12,9 +12,15 @@ begin
       puts %({% ASSET_MANIFEST["#{key.as_s}"] = "#{value.as_s}" %})
     end
 
-    puts "macro asset(path)"
-    puts "  {{ ASSET_MANIFEST[path] }}"
-    puts "end"
+    puts <<-ASSET_MACRO
+    macro asset(path)
+      {% if ASSET_MANIFEST[path] %}
+        {{ ASSET_MANIFEST[path] }}
+      {% else %}
+        {% raise "\#{path} does not exist in the manifest.\n Make sure webpack is running and the asset exists." %}
+      {% end %}
+    end
+    ASSET_MACRO
   else
     puts "Manifest at #{manifest_path} does not exist".colorize(:red)
     puts "Make sure you have run webpack".colorize(:red)
