@@ -1,58 +1,42 @@
-![small navy full logo](https://cloud.githubusercontent.com/assets/22394/26591304/3cfe5e76-452b-11e7-95f4-37c3aa8d2542.png)
+![github banner](https://user-images.githubusercontent.com/22394/26988937-35c96708-4d1f-11e7-8275-878504a7b409.png)
 
 A web framework for Crystal
 
-This is just a README to work as an outline for what I want to eventually do. There is no/very little code done.
-
 ## Installation
 
-Add this to your application's `shard.yml`:
-
-```yaml
-dependencies:
-  lucky_web:
-    github: luckyframework/web
-```
-
-## Usage
-
-```crystal
-require "lucky_web"
-```
+1. Install the Lucky CLI: https://github.com/luckyframework/cli#installing-the-cli
+1. Run `lucky init`
+1. Type `web` when it asks you what you would like to generate
+1. Run `lucky dev` to start the server
 
 ## Hello World
 
 ```crystal
-# src/web/tasks/index_action.cr
-require "./index_html_view.cr"
-
-class Tasks::Index < App::BaseAction
-  root_path # this action will be called when visiting "/" in your browser
-
-  def call
+# src/actions/tasks/index.cr
+class Tasks::Index < BaseAction
+  get "/" do
     text "Hello World!"
   end
 end
 ```
 
-Run `lucky watch`, and visit `localhost:8000` and you should see "Hello World!"
+Run `lucky dev`, and visit `localhost:8000` and you should see "Hello World!"
 
 That's pretty boring though, let's make something a bit more fancy
 
 ```crystal
-# src/web/tasks/index.cr (the same file)
-
+# src/action/tasks/index.cr (the same file)
 def call
   tasks = ["Clean room", "Play Titanfall 2"]
   render tasks: tasks
 end
 ```
 
-Now we need to create a view to generate HTML
+Now we need to create a page to generate HTML
 
 ```crystal
-# src/web/tasks/index_html_view.cr
-class Tasks::IndexHtmlView < App::HtmlView
+# src/pages/tasks/index_page.cr
+class Tasks::IndexPage < BasePage
   # This makes it so you can pass tasks when rendering this view
   assigns tasks : Array(String)
 
@@ -74,16 +58,18 @@ Let's create a new model for tasks so we can create, edit and delete them.
 
 ```crystal
 # src/models/task.cr
-class Task < App::Record
-  field :title
-  field :description
+class Task < BaseModel
+  table :tasks do
+    field :title
+    field :description
+  end
 end
 ```
 
 Now let's set up the database
 
 1. Run `lucky db.create` to create the db
-2. Run `luckt gen.migration CreateTasks`
+2. Run `lucky gen.migration CreateTasks`
 
 ```crystal
 # db/migrations/xxxxx_create_tasks.cr
@@ -91,8 +77,8 @@ class CreateTasks::VXXXXX < LuckyMigrator::Migration::V1
   def up
     create_table :tasks do
       # Timestamps and primary key are automatically added
-      add_string :title, null: false
-      add_string :description, null: false
+      add String :title # Since there is no `?` this field is marked as NULL false in the db
+      add String? :description # Using `?` will make this nullable
     end
   end
 
@@ -107,12 +93,10 @@ Let's run the migration with `lucky db.migrate`
 Now in our index action let's get a list of real tasks
 
 ```crystal
-# src/web/tasks/index_action.cr
+# src/actions/tasks/index.cr
 class Tasks::Index < Lucky::BaseAction
-  root_path
-
-  def call
-    tasks = Task::Rows.new.all # Get all tasks from the database
+  get "/" do
+    tasks = Task::BaseQuery.all # Get all tasks from the database
     render tasks: tasks
   end
 end
@@ -121,10 +105,9 @@ end
 We need to change the view a bit
 
 ```crystal
-# src/web/tasks/index_html_view.cr
-class Tasks::IndexHtmlView < App::HtmlView
+class Tasks::IndexPage < BasePage
   # Change this to get an array of Tasks
-  assigns tasks : Task::Rows
+  assigns tasks : Task::BaseQuery
 
   def render
     section do
@@ -142,12 +125,12 @@ end
 Now you should see a blank list of tasks. Let's create an action for creating tasks
 
 ```crystal
-# src/web/tasks/new_action.cr
+# src/actions/tasks/new.cr
 class Tasks::New < App::BaseAction
   # The route is automatically inferred from the class name
   # In this case it is "/tasks/new"
-  def call
-    task = Task::Changeset.new
+  action do
+    task = TaskForm.new
     render task: task
   end
 end
@@ -156,14 +139,14 @@ end
 And a view
 
 ```crystal
-class Tasks::NewHtmlView < App::BaseHtmlView
-  assigns task : Task::Changeset
+class Tasks::NewPage < BasePage
+  assigns task : TaskForm
 
   def call
     h1 "Create a new task"
-    form_for task, url: Task::CreateAction.route do |form|
-      text_field form, task.title_field
-      text_field form, task.desription_field
+    form_for url: Task::Create.route do
+      text_field task.title_field
+      text_field task.desription_field
 
       submit_button
     end
@@ -171,17 +154,17 @@ class Tasks::NewHtmlView < App::BaseHtmlView
 end
 ```
 
-This won't work though since we need a Changeset. A Changeset is what validates and saves record to the database. Let's create one for our task.
+This won't work though since we need a Form. A Form is what validates and saves record to the database. Let's create one for our task.
 
 ```crystal
-# src/changesets/task_changeset
+# src/forms/task_form.cr
 # This base class is auto generated from our Task model
-class Task::Changeset < Task::BaseChangeset
+class TaskForm < Task::BaseForm
   allow :title, :description # only these fields can be set from params
 
   # This is called before anything else. You can set up validations, modify fields, etc.
   def process
-    validate_required :title, :description
+    validate_required title, description
   end
 end
 ```
@@ -191,19 +174,19 @@ Now we should have a form. Let's add a create action to actually save our task
 ??? Maybe add generator `lucky gen.action Tasks::CreateAction`
 
 ```crystal
-# src/web/tasks/create_action.cr
-class Tasks::Create < App::BaseAction
+# src/actions/tasks/create.cr
+class Tasks::Create < BaseAction
   # Route is inferred as `POST /tasks`
-  def call
+  action do
     # The changeset will automatically get the right param name, so pass the full `params`
-    task = Task::Changeset.new(params)
-
-    if task.insert
-      flash[:success] = "This is cool"
-      redirect to: Tasks::IndexAction.route
-    else
-      flash[:error] = "Nooooo!"
-      render :new, task: task # This will render Tasks::NewHtmlView
+    TaskForm.save params do |form, task|
+      if task
+        flash[:success] = "This is cool"
+        redirect to: Tasks::IndexAction.route
+      else
+        flash[:error] = "Nooooo!"
+        render NewPage, task: form # This will render Tasks::NewPage
+      end
     end
   end
 end
@@ -213,15 +196,15 @@ Let's make sure we show errors in our new form view
 
 ```crystal
 class Tasks::NewHtmlView < App::BaseHtmlView
-  assigns task : Task::Changeset
+  assigns task : TaskForm
 
   def call
     flash_errors if flash[:error]?
     task_errors if !task.errors.empty?
     h1 "Create a new task"
-    form_for task, url: Task::CreateAction.route do |form|
-      text_field form, task.title_field
-      text_field form, task.desription_field
+    form_for url: Task::Create.route do
+      text_field task.title_field
+      text_field task.desription_field
 
       submit_button
     end
@@ -244,6 +227,8 @@ end
 Now if there are errors or flash messages they will be seen in the form
 
 ## Testing
+
+Note: None of these helpers are written yet
 
 Let's create a test for the tasks list
 
