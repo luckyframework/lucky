@@ -1,7 +1,7 @@
 require "colorize"
 
 class Routes < LuckyCli::Task
-  banner "All the routes for the app"
+  banner "Show all the routes for the app"
 
   def call
     LuckyWeb::Router.routes.each do |route|
