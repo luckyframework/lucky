@@ -9,6 +9,8 @@ dependencies:
     github: luislavena/radix
   lucky_cli:
     github: luckyframework/cli
+  habitat:
+    github: luckyframework/habitat
 
 crystal: 0.20.3
 
