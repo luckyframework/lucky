@@ -1,4 +1,4 @@
-![github banner](https://user-images.githubusercontent.com/22394/26988937-35c96708-4d1f-11e7-8275-878504a7b409.png)
+![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)
 
 A web framework for Crystal
 
