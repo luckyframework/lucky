@@ -6,6 +6,10 @@ class LuckyWeb::Route
 
   def_equals @method, @path, @action
 
+  def path_without_method
+    @path
+  end
+
   def path
     self.class.build_route_path(method, @path)
   end
