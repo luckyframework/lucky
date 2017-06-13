@@ -1,8 +1,4 @@
 module LuckyWeb::Routeable
-  macro included
-    ROUTE_SETTINGS = {route_defined: false}
-  end
-
   macro get(path)
     add_route :get, {{path}}, {{@type.name.id}}
 
@@ -11,31 +7,49 @@ module LuckyWeb::Routeable
     end
   end
 
-  macro action
-    {% unless ROUTE_SETTINGS[:route_defined] %}
-      infer_route
-    {% end %}
+  macro nested_action
+    infer_nested_route
 
     def call
       {{yield}}
     end
   end
 
-  macro infer_route
+  macro action
+    infer_route
+
+    def call
+      {{yield}}
+    end
+  end
+
+  macro infer_nested_route
+    infer_route(true)
+  end
+
+  macro infer_route(has_parent = false)
     {% action_pieces = @type.name.split("::").map(&.underscore) %}
 
-    {% resource = action_pieces[-2] %}
+    {% if has_parent %}
+      {% parent_resource_name = action_pieces[-3] %}
+      {% singularized_param_name = ":#{parent_resource_name.gsub(/s$/, "").id}_id"}
+      {{ parent_resource_pieces = [parent_resource_name, singularized_param_name] }}
+    {% else %}
+      {% parent_resource_pieces = [] of String %}
+    {% end %}
+
+    {% resource = action_pieces[-2].id %}
     {% action_name = action_pieces.last %}
     {% method = :get %}
 
     {% if ["index", "create"].includes? action_name %}
-      {% path = "/#{resource.id}" %}
+      {% resource_pieces = [resource] %}
     {% elsif action_name == "new" %}
-      {% path = "/#{resource.id}/new" %}
+      {% resource_pieces = [resource, "new"] %}
     {% elsif action_name == "edit" %}
-      {% path = "/#{resource.id}/:id/edit" %}
+      {% resource_pieces = [resource, ":id", "edit"] %}
     {% elsif ["show", "update", "delete"].includes? action_name %}
-      {% path = "/#{resource.id}/:id" %}
+      {% resource_pieces = [resource, ":id"] %}
     {% else %}
       {% raise(
            <<-ERROR
@@ -58,19 +72,20 @@ module LuckyWeb::Routeable
       {% method = :put %}
     {% end %}
 
-    {% if action_pieces.size > 2 %}
-      {% namespace_pieces = action_pieces.reject { |piece| piece == action_name || piece == resource } %}
-      {% namespace = "/" + namespace_pieces.join("/") %}
-    {% else %}
-      {% namespace = "" %}
+    {% namespace_pieces = action_pieces.reject { |piece| piece == action_name || piece == resource } %}
+    {% if has_parent %}
+      {% namespace_pieces = namespace_pieces.reject { |piece| piece == parent_resource_name } %}
     {% end %}
 
-    add_route {{method}}, {{namespace + path}}, {{@type.name.id}}
+    {% all_pieces = (namespace_pieces + parent_resource_pieces + resource_pieces).reject(&.== "") %}
+
+    add_route {{ method }},
+      {{ "/" + all_pieces.join("/") }},
+      {{ @type.name.id }}
   end
 
   macro add_route(method, path, action)
     LuckyWeb::Router.add({{method}}, {{path}}, {{@type.name.id}})
-    mark_route_defined
 
     {% path_parts = path.split("/").reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(":")) %}
@@ -109,9 +124,5 @@ module LuckyWeb::Routeable
       end
       LuckyWeb::RouteHelper.new {{method}}, path
     end
-  end
-
-  macro mark_route_defined
-    {% ROUTE_SETTINGS[:route_defined] = true %}
   end
 end
