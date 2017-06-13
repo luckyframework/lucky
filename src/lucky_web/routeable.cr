@@ -22,8 +22,10 @@ module LuckyWeb::Routeable
   end
 
   macro infer_route
-    {% resource = @type.name.split("::").first.underscore %}
-    {% action_name = @type.name.split("::").last.underscore %}
+    {% action_pieces = @type.name.split("::").map(&.underscore) %}
+
+    {% resource = action_pieces[-2] %}
+    {% action_name = action_pieces.last %}
     {% method = :get %}
 
     {% if ["index", "create"].includes? action_name %}
@@ -56,7 +58,14 @@ module LuckyWeb::Routeable
       {% method = :put %}
     {% end %}
 
-    add_route {{method}}, {{path}}, {{@type.name.id}}
+    {% if action_pieces.size > 2 %}
+      {% namespace_pieces = action_pieces.reject { |piece| piece == action_name || piece == resource } %}
+      {% namespace = "/" + namespace_pieces.join("/") %}
+    {% else %}
+      {% namespace = "" %}
+    {% end %}
+
+    add_route {{method}}, {{namespace + path}}, {{@type.name.id}}
   end
 
   macro add_route(method, path, action)
