@@ -7,8 +7,10 @@ class CustomRoutes::Index < LuckyWeb::Action
 end
 
 class Tests::IndexPage
-  def render
-    "Rendered from Tests::IndexPage"
+  include LuckyWeb::Page
+
+  render do
+    text "Rendered from Tests::IndexPage"
   end
 end
 

@@ -1,7 +1,7 @@
 class Tasks::IndexPage < LuckyWeb::Page
   assign tasks : Array(Task)
 
-  def render
+  render do
     header do
       h1 "All my tasks"
       a "New task", href: Tasks::New.path

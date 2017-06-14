@@ -1,9 +1,9 @@
 require "../spec_helper"
 
-private class TestPage < LuckyWeb::Page
+private class TestPage
   include LuckyWeb::AssetHelpers
 
-  def render
+  def asset_url
     asset("images/logo.png")
   end
 end
@@ -14,6 +14,6 @@ describe LuckyWeb::AssetHelpers do
   end
 
   it "works when included in another class" do
-    TestPage.new.render.should eq "images/logo-with-hash.png"
+    TestPage.new.asset_url.should eq "images/logo-with-hash.png"
   end
 end

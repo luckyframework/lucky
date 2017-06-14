@@ -1,9 +1,11 @@
 require "../../spec_helper"
 
-class Rendering::IndexPage < LuckyWeb::Page
+class Rendering::IndexPage
+  include LuckyWeb::Page
+
   assign title : String
 
-  def render
+  render do
     text title
   end
 end

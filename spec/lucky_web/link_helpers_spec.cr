@@ -12,8 +12,10 @@ class LinkHelpers::Create < LuckyWeb::Action
   end
 end
 
-private class TestPage < LuckyWeb::Page
-  def render
+private class TestPage
+  include LuckyWeb::Page
+
+  render do
   end
 
   def get_route

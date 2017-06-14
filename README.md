@@ -40,7 +40,7 @@ class Tasks::IndexPage < BasePage
   # This makes it so you can pass tasks when rendering this view
   assigns tasks : Array(String)
 
-  def render
+  render do
     section do
       ul do
         tasks.each do |task_name|
@@ -109,7 +109,7 @@ class Tasks::IndexPage < BasePage
   # Change this to get an array of Tasks
   assigns tasks : Task::BaseQuery
 
-  def render
+  render do
     section do
       h1 "List all tasks"
       ul do

@@ -1,11 +1,13 @@
 require "../../spec_helper"
 
-class TestRender < LuckyWeb::Page
-  def render
-    renders_complicated_html
+class TestRender
+  include LuckyWeb::Page
+
+  render do
+    render_complicated_html
   end
 
-  private def renders_complicated_html
+  private def render_complicated_html
     header({class: "header"}) do
       text "my text"
       h1 "h1"
@@ -22,27 +24,39 @@ class TestRender < LuckyWeb::Page
   end
 end
 
-class UnsafePage < LuckyWeb::Page
-  def render
+class UnsafePage
+  include LuckyWeb::Page
+
+  render do
     text "<script>not safe</span>"
   end
 end
 
-class InnerPage < LuckyWeb::Page
+class InnerPage
+  include LuckyWeb::Page
+
   layout MainLayout
+
+  render do
+    text "Inner text"
+  end
 
   def title
     "A great title"
   end
 end
 
-class MainLayout < LuckyWeb::Page
+class MainLayout
   include LuckyWeb::Layout
 
   @page : InnerPage
 
-  def render
+  render do
     title @page.title
+
+    body do
+      @page.render_inner
+    end
   end
 end
 
@@ -88,7 +102,8 @@ describe LuckyWeb::Page do
 
   describe "can be used to render layouts" do
     it "renders layouts" do
-      InnerPage.new.render.to_s.should eq %(<title>A great title</title>)
+      InnerPage.new.render.to_s.should contain %(<title>A great title</title>)
+      InnerPage.new.render.to_s.should contain %(<body>Inner text</body>)
     end
   end
 end
