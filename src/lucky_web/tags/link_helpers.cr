@@ -1,4 +1,4 @@
-module LuckyWeb::TagHelpers
+module LuckyWeb::LinkHelpers
   def link(text, to : LuckyWeb::RouteHelper, **html_options)
     a text, merge_options(html_options, link_to_href(to))
   end
