@@ -1,3 +1,5 @@
+require "./tag_helpers"
+
 abstract class LuckyWeb::Page
   include LuckyWeb::TagHelpers
 
