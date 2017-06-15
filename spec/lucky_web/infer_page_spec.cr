@@ -16,11 +16,23 @@ class Rendering::Foo < LuckyWeb::Action
   end
 end
 
+class Rendering::WithinSameNameSpace < LuckyWeb::Action
+  get "/in-namespace" do
+    render CustomPage, title: "WithinSameNameSpace"
+  end
+end
+
 describe LuckyWeb::Action do
   it "renders fully qualified pages" do
     body = Rendering::Foo.new(context, params).call.body
 
     body.should eq "EditPage"
+  end
+
+  it "renders within the same namespace" do
+    body = Rendering::WithinSameNameSpace.new(context, params).call.body
+
+    body.should eq "WithinSameNameSpace"
   end
 end
 
