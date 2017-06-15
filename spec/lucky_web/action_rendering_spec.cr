@@ -4,6 +4,7 @@ class Rendering::IndexPage
   include LuckyWeb::Page
 
   assign title : String
+  assign arg2 : String
 
   render do
     text title
@@ -12,7 +13,7 @@ end
 
 class Rendering::Index < LuckyWeb::Action
   action do
-    render title: "Anything"
+    render title: "Anything", arg2: "testing multiple args"
   end
 end
 
