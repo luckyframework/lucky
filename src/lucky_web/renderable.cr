@@ -1,8 +1,18 @@
 module LuckyWeb::Renderable
+  macro render(page, **assigns)
+    view = {{ page }}.new(
+      {% for key, value in assigns %}
+        {{ key }}: {{ value }}
+      {% end %}
+    )
+    body = view.render.to_s
+    LuckyWeb::Response.new(context, "text/html", body)
+  end
+
   macro render(**assigns)
     view = {{ "#{@type.name}Page".id }}.new(
       {% for key, value in assigns %}
-        {{key}}: {{value}}
+        {{ key }}: {{ value }}
       {% end %}
     )
     body = view.render.to_s
