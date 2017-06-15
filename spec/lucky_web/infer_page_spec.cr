@@ -4,7 +4,7 @@ class Rendering::CustomPage
   include LuckyWeb::Page
 
   assign title : String
-  assign foo : String
+  assign arg2 : String
 
   render do
     text title
@@ -13,13 +13,13 @@ end
 
 class Rendering::Foo < LuckyWeb::Action
   get "/foo" do
-    render Rendering::CustomPage, title: "EditPage", foo: "foo"
+    render Rendering::CustomPage, title: "EditPage", arg2: "testing_multiple_args"
   end
 end
 
 class Rendering::WithinSameNameSpace < LuckyWeb::Action
   get "/in-namespace" do
-    render CustomPage, title: "WithinSameNameSpace", foo: "foo"
+    render CustomPage, title: "WithinSameNameSpace", arg2: "testing_multiple_args"
   end
 end
 
