@@ -6,7 +6,15 @@ module LuckyWeb::Page
   include LuckyWeb::Assignable
 
   macro included
+    # If included directly
     SETTINGS = {} of Nil => Nil
+    ASSIGNS = {} of Nil => Nil
+
+    macro inherited
+      # If used as a base class, reset the settings and assign when it's inherited
+      SETTINGS = {} of Nil => Nil
+      ASSIGNS = {} of Nil => Nil
+    end
   end
 
   macro layout(layout_class)

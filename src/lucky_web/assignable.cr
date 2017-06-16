@@ -1,21 +1,14 @@
 module LuckyWeb::Assignable
-  macro included
-    macro included
-      ASSIGNS = [] of Symbol
-    end
-  end
-
   macro assign(*type_declarations)
     {% for declaration in type_declarations %}
-      {% ASSIGNS << declaration.var %}
-      getter {{declaration}}
+      {% ASSIGNS[declaration.var] = declaration.type %}
     {% end %}
   end
 
   macro generate_initializer
     def initialize(
-      {% for var in ASSIGNS %}
-        @{{var}},
+      {% for var, type in ASSIGNS %}
+        @{{ var }} : {{ type }},
       {% end %}
       )
     end

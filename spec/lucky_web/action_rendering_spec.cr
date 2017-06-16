@@ -7,7 +7,7 @@ class Rendering::IndexPage
   assign arg2 : String
 
   render do
-    text title
+    text @title
   end
 end
 
