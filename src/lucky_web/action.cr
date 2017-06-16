@@ -1,3 +1,5 @@
+require "./*"
+
 abstract class LuckyWeb::Action
   getter :context, :path_params
 
@@ -5,6 +7,8 @@ abstract class LuckyWeb::Action
   end
 
   abstract def call : LuckyWeb::Response
+
+  EXPOSURES = [] of Symbol
 
   macro inherited
     include LuckyWeb::Routeable

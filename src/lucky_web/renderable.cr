@@ -4,6 +4,9 @@ module LuckyWeb::Renderable
       {% for key, value in assigns %}
         {{ key }}: {{ value }},
       {% end %}
+      {% for key in EXPOSURES %}
+        {{ key }}: {{ key }},
+      {% end %}
     )
     body = view.render.to_s
     LuckyWeb::Response.new(context, "text/html", body)
@@ -13,6 +16,9 @@ module LuckyWeb::Renderable
     view = {{ "#{@type.name}Page".id }}.new(
       {% for key, value in assigns %}
         {{ key }}: {{ value }},
+      {% end %}
+      {% for key in EXPOSURES %}
+        {{ key }}: {{ key }},
       {% end %}
     )
     body = view.render.to_s
