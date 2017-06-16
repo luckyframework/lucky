@@ -120,6 +120,20 @@ describe LuckyWeb::Action do
       action.query_param?("not_there").should eq nil
     end
   end
+
+  it "redirects" do
+    action = Tests::Index.new(context, params)
+    action.redirect to: "/somewhere"
+    action.context.response.headers["Location"].should eq "/somewhere"
+    action.context.response.status_code.should eq 302
+  end
+
+  it "redirects with custom status" do
+    action = Tests::Index.new(context, params)
+    action.redirect to: "/somewhere", status: 301
+    action.context.response.headers["Location"].should eq "/somewhere"
+    action.context.response.status_code.should eq 301
+  end
 end
 
 private def assert_route_added?(expected_route)
