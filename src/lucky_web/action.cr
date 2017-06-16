@@ -15,4 +15,10 @@ abstract class LuckyWeb::Action
     include LuckyWeb::Renderable
     include LuckyWeb::ParamParser
   end
+
+  def redirect(to path, status = 302)
+    context.response.headers.add "Location", path
+    context.response.status_code = status
+    LuckyWeb::Response.new(context, "", "")
+  end
 end
