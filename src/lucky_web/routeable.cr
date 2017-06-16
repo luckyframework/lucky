@@ -95,7 +95,7 @@ module LuckyWeb::Routeable
       {{param.gsub(/:/, "").id}},
     {% end %}
       )
-      String.build do |path|
+      path = String.build do |path|
         {% for part in path_parts %}
           path << "/"
           {% if part.starts_with?(":") %}
@@ -105,6 +105,9 @@ module LuckyWeb::Routeable
           {% end %}
         {% end %}
       end
+      is_root_path = path == ""
+      path = "/" if is_root_path
+      path
     end
 
     def self.route(
@@ -122,6 +125,9 @@ module LuckyWeb::Routeable
           {% end %}
         {% end %}
       end
+
+      is_root_path = path == ""
+      path = "/" if is_root_path
       LuckyWeb::RouteHelper.new {{method}}, path
     end
   end
