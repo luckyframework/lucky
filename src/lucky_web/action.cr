@@ -13,7 +13,7 @@ abstract class LuckyWeb::Action
   macro inherited
     include LuckyWeb::Routeable
     include LuckyWeb::Renderable
-    include LuckyWeb::ParamParser
+    include LuckyWeb::ParamHelpers
   end
 
   def redirect(to path, status = 302)

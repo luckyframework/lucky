@@ -111,13 +111,10 @@ describe LuckyWeb::Action do
     end
   end
 
-  describe "query params" do
-    it "can get query params from a string or a symbol" do
+  describe "params" do
+    it "can get params" do
       action = PlainText::Index.new(context(path: "/?q=test"), params)
-      action.query_param(:q).should eq "test"
-      action.query_param("q").should eq "test"
-      action.query_param?(:not_there).should eq nil
-      action.query_param?("not_there").should eq nil
+      action.params.get(:q).should eq "test"
     end
   end
 
