@@ -36,7 +36,11 @@ class LuckyWeb::Params
   end
 
   private def params
-    @params ||= HTTP::Params.parse(request.body.to_s)
+    @params ||= HTTP::Params.parse(body)
+  end
+
+  private def body
+    (request.body || IO::Memory.new).gets_to_end
   end
 
   private def empty_params
