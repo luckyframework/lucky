@@ -2,7 +2,7 @@ module LuckyWeb::Routeable
   macro get(path)
     add_route :get, {{path}}, {{@type.name.id}}
 
-    def call
+    def call : LuckyWeb::Response
       {{yield}}
     end
   end
@@ -10,7 +10,7 @@ module LuckyWeb::Routeable
   macro nested_action
     infer_nested_route
 
-    def call
+    def call : LuckyWeb::Response
       {{yield}}
     end
   end
@@ -18,7 +18,7 @@ module LuckyWeb::Routeable
   macro action
     infer_route
 
-    def call
+    def call : LuckyWeb::Response
       {{yield}}
     end
   end
