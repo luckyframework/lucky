@@ -40,16 +40,16 @@ describe LuckyWeb::Params do
       params = LuckyWeb::Params.new(request)
 
       expect_raises do
-        params.get(:missing)
+        params.get!(:missing)
       end
     end
 
-    it "returns nil if using get? version" do
+    it "returns nil if using get version" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 
       params = LuckyWeb::Params.new(request)
 
-      params.get?(:missing).should be_nil
+      params.get(:missing).should be_nil
     end
   end
 
@@ -64,24 +64,24 @@ describe LuckyWeb::Params do
       params.nested_in(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
-    it "raises if no nested params exist" do
+    it "raises if nested params are missing" do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
 
       params = LuckyWeb::Params.new(request)
 
       expect_raises do
-        params.nested_in(:missing)
+        params.nested_in!(:missing)
       end
     end
 
-    it "returns empty hash if no nested_params exist" do
+    it "returns empty hash if nested_params are missing" do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
 
       params = LuckyWeb::Params.new(request)
 
-      params.nested_in?(:missing).should eq({} of String => String)
+      params.nested_in(:missing).should eq({} of String => String)
     end
   end
 end
