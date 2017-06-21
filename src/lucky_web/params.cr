@@ -15,8 +15,8 @@ class LuckyWeb::Params
     params[key.to_s]? || query_params[key.to_s]?
   end
 
-  def nested_in!(nested_key)
-    nested_params = nested_in(nested_key)
+  def nested!(nested_key)
+    nested_params = nested(nested_key)
     if nested_params.keys.empty?
       raise "No nested params for: #{nested_key}"
     else
@@ -24,7 +24,7 @@ class LuckyWeb::Params
     end
   end
 
-  def nested_in(nested_key : String | Symbol)
+  def nested(nested_key : String | Symbol)
     nested_key = "#{nested_key}:"
     params.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key

@@ -53,7 +53,7 @@ describe LuckyWeb::Params do
     end
   end
 
-  describe "nested_in" do
+  describe "nested" do
     it "gets nested params" do
       request = build_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1",
         content_type: "application/x-www-form-urlencoded"
@@ -61,7 +61,7 @@ describe LuckyWeb::Params do
 
       params = LuckyWeb::Params.new(request)
 
-      params.nested_in(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
+      params.nested(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
     it "raises if nested params are missing" do
@@ -71,7 +71,7 @@ describe LuckyWeb::Params do
       params = LuckyWeb::Params.new(request)
 
       expect_raises do
-        params.nested_in!(:missing)
+        params.nested!(:missing)
       end
     end
 
@@ -81,7 +81,7 @@ describe LuckyWeb::Params do
 
       params = LuckyWeb::Params.new(request)
 
-      params.nested_in(:missing).should eq({} of String => String)
+      params.nested(:missing).should eq({} of String => String)
     end
   end
 end
