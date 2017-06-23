@@ -1,9 +1,5 @@
 require "../../spec_helper"
 
-class FormHelpers::Index < LuckyWeb::Action
-  action { render_text "foo" }
-end
-
 class TestUser
   def first_name
     "My Name"
@@ -29,8 +25,12 @@ private class TestPage
   render do
   end
 
-  def label_without_options
+  def label_without_html_options
     label_for form.first_name
+  end
+
+  def label_with_html_options
+    label_for form.first_name, class: "best-label"
   end
 
   private def form
@@ -38,10 +38,14 @@ private class TestPage
   end
 end
 
-describe LuckyWeb::FormHelpers do
-  it "renders a form tag" do
-    view.label_without_options.to_s.should contain <<-HTML
+describe LuckyWeb::LabelHelpers do
+  it "renders a label tag" do
+    view.label_without_html_options.to_s.should contain <<-HTML
     <label>First name</label>
+    HTML
+
+    view.label_with_html_options.to_s.should contain <<-HTML
+    <label class="best-label">First name</label>
     HTML
   end
 end

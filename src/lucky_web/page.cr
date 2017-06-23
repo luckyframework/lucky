@@ -1,9 +1,10 @@
 require "./tags/**"
 
 module LuckyWeb::Page
+  include LuckyWeb::BaseTags
   include LuckyWeb::LinkHelpers
   include LuckyWeb::FormHelpers
-  include LuckyWeb::BaseTags
+  include LuckyWeb::LabelHelpers
   include LuckyWeb::Assignable
 
   macro included
