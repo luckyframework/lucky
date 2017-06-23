@@ -5,6 +5,7 @@ module LuckyWeb::Page
   include LuckyWeb::LinkHelpers
   include LuckyWeb::FormHelpers
   include LuckyWeb::LabelHelpers
+  include LuckyWeb::InputHelpers
   include LuckyWeb::Assignable
 
   macro included
