@@ -6,7 +6,7 @@ class TestUser
   end
 end
 
-class TestForm < LuckyRecord::Form(TestUser)
+class InputTestForm < LuckyRecord::Form(TestUser)
   allow :first_name
 
   def table_name
@@ -30,28 +30,16 @@ private class TestPage
 
   render do
   end
-
-  def text_input_without_html_options
-    text_input form.first_name
-  end
-
-  def text_input_with_html_options
-    text_input form.first_name, class: "cool-input"
-  end
-
-  private def form
-    TestForm.new.call
-  end
 end
 
 describe LuckyWeb::LabelHelpers do
   it "renders text inputs" do
-    view.text_input_without_html_options.to_s.should contain <<-HTML
+    view.text_input(form.first_name).to_s.should contain <<-HTML
     <input type="text" name="user:first_name" value="My name"/>
     HTML
 
-    view.text_input_with_html_options.to_s.should contain <<-HTML
-    <input type="text" name="user:first_name" value="My name" class="cool-input"/>
+    view.text_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="text" name="user:first_name" value="My name" class="cool"/>
     HTML
   end
 
@@ -134,10 +122,20 @@ describe LuckyWeb::LabelHelpers do
     <input type="password" name="user:first_name" value="" class="cool"/>
     HTML
   end
+
+  it "renders range inputs" do
+    view.range_input(form.first_name).to_s.should contain <<-HTML
+    <input type="range" name="user:first_name" value="My name"/>
+    HTML
+
+    view.range_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="range" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
 end
 
 private def form
-  TestForm.new.call
+  InputTestForm.new.call
 end
 
 private def view

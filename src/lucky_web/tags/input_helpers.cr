@@ -35,6 +35,10 @@ module LuckyWeb::InputHelpers
     generate_input(field, "password", html_options, {"value" => ""})
   end
 
+  def range_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "range", html_options)
+  end
+
   private def generate_input(field, type, html_options, input_overrides = {} of String => String)
     input_options = {
       "type"  => type,
