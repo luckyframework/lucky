@@ -94,6 +94,16 @@ describe LuckyWeb::LabelHelpers do
     <input type="number" name="user:first_name" value="My name" class="cool"/>
     HTML
   end
+
+  it "renders telephone inputs" do
+    view.telephone_input(form.first_name).to_s.should contain <<-HTML
+    <input type="telephone" name="user:first_name" value="My name"/>
+    HTML
+
+    view.telephone_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="telephone" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
 end
 
 private def form

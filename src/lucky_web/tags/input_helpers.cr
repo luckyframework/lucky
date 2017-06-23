@@ -19,6 +19,10 @@ module LuckyWeb::InputHelpers
     generate_input(field, "number", html_options)
   end
 
+  def telephone_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "telephone", html_options)
+  end
+
   private def generate_input(field, type, html_options)
     input_options = {
       "type"  => type,
