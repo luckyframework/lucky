@@ -54,6 +54,20 @@ describe LuckyWeb::LabelHelpers do
     <input type="text" name="user:first_name" value="My name" class="cool-input"/>
     HTML
   end
+
+  it "renders email inputs" do
+    view.email_input(form.first_name).to_s.should contain <<-HTML
+    <input type="email" name="user:first_name" value="My name"/>
+    HTML
+
+    view.email_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="email" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
+end
+
+private def form
+  TestForm.new.call
 end
 
 private def view
