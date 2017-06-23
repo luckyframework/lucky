@@ -7,6 +7,10 @@ module LuckyWeb::InputHelpers
     generate_input(field, "email", html_options)
   end
 
+  def color_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "color", html_options)
+  end
+
   private def generate_input(field, type, html_options)
     input_options = {
       "type"  => type,

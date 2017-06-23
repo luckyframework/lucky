@@ -64,6 +64,16 @@ describe LuckyWeb::LabelHelpers do
     <input type="email" name="user:first_name" value="My name" class="cool"/>
     HTML
   end
+
+  it "renders color inputs" do
+    view.color_input(form.first_name).to_s.should contain <<-HTML
+    <input type="color" name="user:first_name" value="My name"/>
+    HTML
+
+    view.color_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="color" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
 end
 
 private def form
