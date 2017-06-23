@@ -35,6 +35,12 @@ private class TestPage
       text "foo"
     end
   end
+
+  def form_with_html_options
+    form_for FormHelpers::Create.route, class: "cool-form" do
+      text "foo"
+    end
+  end
 end
 
 describe LuckyWeb::FormHelpers do
@@ -49,6 +55,10 @@ describe LuckyWeb::FormHelpers do
 
     view.inferred_get_form.to_s.should contain <<-HTML
     <form action="/form_helpers" method="get">foo</form>
+    HTML
+
+    view.form_with_html_options.to_s.should contain <<-HTML
+    <form action="/form_helpers" method="post" class="cool-form">foo</form>
     HTML
   end
 end

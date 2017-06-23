@@ -74,4 +74,15 @@ module LuckyWeb::BaseTags
       end
     end
   end
+
+  private def merge_options(html_options, tag_attrs)
+    options = {} of String => String
+    if !html_options.empty?
+      html_options.each do |key, value|
+        options[key.to_s] = value
+      end
+    end
+
+    tag_attrs.merge(options)
+  end
 end
