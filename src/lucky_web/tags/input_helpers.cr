@@ -23,12 +23,24 @@ module LuckyWeb::InputHelpers
     generate_input(field, "telephone", html_options)
   end
 
-  private def generate_input(field, type, html_options)
+  def url_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "url", html_options)
+  end
+
+  def search_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "search", html_options)
+  end
+
+  def password_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "password", html_options, {"value" => ""})
+  end
+
+  private def generate_input(field, type, html_options, input_overrides = {} of String => String)
     input_options = {
       "type"  => type,
       "name"  => input_name(field),
       "value" => field.param.to_s,
-    }
+    }.merge(input_overrides)
     input merge_options(html_options, input_options)
   end
 

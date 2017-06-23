@@ -104,6 +104,36 @@ describe LuckyWeb::LabelHelpers do
     <input type="telephone" name="user:first_name" value="My name" class="cool"/>
     HTML
   end
+
+  it "renders url inputs" do
+    view.url_input(form.first_name).to_s.should contain <<-HTML
+    <input type="url" name="user:first_name" value="My name"/>
+    HTML
+
+    view.url_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="url" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
+
+  it "renders search inputs" do
+    view.search_input(form.first_name).to_s.should contain <<-HTML
+    <input type="search" name="user:first_name" value="My name"/>
+    HTML
+
+    view.search_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="search" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
+
+  it "renders password inputs" do
+    view.password_input(form.first_name).to_s.should contain <<-HTML
+    <input type="password" name="user:first_name" value=""/>
+    HTML
+
+    view.password_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="password" name="user:first_name" value="" class="cool"/>
+    HTML
+  end
 end
 
 private def form
