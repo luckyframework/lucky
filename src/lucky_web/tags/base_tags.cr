@@ -74,14 +74,4 @@ module LuckyWeb::BaseTags
       end
     end
   end
-
-  private def build_tag_attrs(**options)
-    tag_attrs = String.build do |attrs|
-      options.each do |key, value|
-        attrs << " " << key.to_s.dasherize << "=\""
-        attrs << HTML.escape(value)
-        attrs << "\""
-      end
-    end
-  end
 end
