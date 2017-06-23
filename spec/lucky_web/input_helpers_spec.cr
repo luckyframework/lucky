@@ -45,7 +45,7 @@ private class TestPage
 end
 
 describe LuckyWeb::LabelHelpers do
-  it "renders a label tag" do
+  it "renders text inputs" do
     view.text_input_without_html_options.to_s.should contain <<-HTML
     <input type="text" name="user:first_name" value="My name"/>
     HTML

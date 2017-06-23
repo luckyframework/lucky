@@ -1,7 +1,11 @@
 module LuckyWeb::InputHelpers
   def text_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "text", html_options)
+  end
+
+  private def generate_input(field, type, html_options)
     input_options = {
-      "type"  => "text",
+      "type"  => type,
       "name"  => input_name(field),
       "value" => field.param.to_s,
     }
