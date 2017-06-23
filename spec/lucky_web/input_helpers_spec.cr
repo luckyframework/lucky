@@ -74,6 +74,26 @@ describe LuckyWeb::LabelHelpers do
     <input type="color" name="user:first_name" value="My name" class="cool"/>
     HTML
   end
+
+  it "renders hidden inputs" do
+    view.hidden_input(form.first_name).to_s.should contain <<-HTML
+    <input type="hidden" name="user:first_name" value="My name"/>
+    HTML
+
+    view.hidden_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="hidden" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
+
+  it "renders number inputs" do
+    view.number_input(form.first_name).to_s.should contain <<-HTML
+    <input type="number" name="user:first_name" value="My name"/>
+    HTML
+
+    view.number_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="number" name="user:first_name" value="My name" class="cool"/>
+    HTML
+  end
 end
 
 private def form

@@ -11,6 +11,14 @@ module LuckyWeb::InputHelpers
     generate_input(field, "color", html_options)
   end
 
+  def hidden_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "hidden", html_options)
+  end
+
+  def number_input(field : LuckyRecord::Field, **html_options)
+    generate_input(field, "number", html_options)
+  end
+
   private def generate_input(field, type, html_options)
     input_options = {
       "type"  => type,
