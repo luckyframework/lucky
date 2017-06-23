@@ -1,3 +1,4 @@
+require "lucky_record"
 require "./charms/*"
 require "http/server"
 require "radix"

@@ -1,4 +1,6 @@
 class LuckyWeb::Params
+  include LuckyRecord::Paramable
+
   @request : HTTP::Request
   @params : HTTP::Params?
 

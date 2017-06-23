@@ -11,6 +11,8 @@ dependencies:
     github: luckyframework/cli
   habitat:
     github: luckyframework/habitat
+  lucky_record:
+    github: luckyframework/record
 
 crystal: 0.20.3
 
