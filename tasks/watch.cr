@@ -37,14 +37,13 @@ module Sentry
         process.kill unless process.terminated?
       end
 
-      puts "🤖  compiling..."
+      puts "compiling..."
       build_result = build_app_processes()
       if build_result.all? &.success?
         @app_built = true
         create_app_processes()
-      elsif !@app_built # if build fails on first time compiling, then exit
-        puts "🤖  Compile time errors detected. SentryBot shutting down...".colorize(:red)
-        exit 1
+      elsif !@app_built
+        puts "There was a problem compiling. Watching for fixes...".colorize(:red)
       end
     end
 
@@ -57,14 +56,14 @@ module Sentry
         if FILE_TIMESTAMPS[file]? && FILE_TIMESTAMPS[file] != timestamp
           FILE_TIMESTAMPS[file] = timestamp
           file_changed = true
-          puts "🤖  #{file} has changed".colorize(:yellow)
+          puts "#{file} has changed".colorize(:yellow)
         elsif FILE_TIMESTAMPS[file]?.nil?
           FILE_TIMESTAMPS[file] = timestamp
           file_changed = true if (app_processes.none? &.terminated?)
         end
       end
 
-      start_app() if (file_changed || app_processes.empty?)
+      start_app() if file_changed # (file_changed || app_processes.empty?)
     end
   end
 end
@@ -75,7 +74,7 @@ class Watch < LuckyCli::Task
   def call
     build_commands = ["crystal build ./src/server.cr"]
     run_commands = ["./server"]
-    files = ["./src/**/*.cr", "./src/**/*.ecr"]
+    files = ["./src/**/*.cr", "./src/**/*.ecr", "./public/manifest.json"]
     files_cleared = false
     show_help = false
 
@@ -124,7 +123,7 @@ class Watch < LuckyCli::Task
       run_commands: run_commands
     )
 
-    puts "🤖  Your SentryBot is vigilant. beep-boop..."
+    puts "Beginnning to watch your project"
 
     loop do
       process_runner.scan_files
