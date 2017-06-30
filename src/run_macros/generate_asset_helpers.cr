@@ -15,7 +15,7 @@ begin
     puts <<-ASSET_MACRO
     macro asset(path)
       {% if ASSET_MANIFEST[path] %}
-        {{ ASSET_MANIFEST[path] }}
+        {{ "/" + ASSET_MANIFEST[path] }}
       {% else %}
         {% raise "\#{path} does not exist in the manifest.\n Make sure webpack is running and the asset exists." %}
       {% end %}
