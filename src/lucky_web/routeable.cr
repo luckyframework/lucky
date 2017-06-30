@@ -90,6 +90,15 @@ module LuckyWeb::Routeable
     {% path_parts = path.split("/").reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(":")) %}
 
+    {% for part in path_parts %}
+      {% if part.starts_with?(":") %}
+        {% part = part.gsub(/:/, "").id %}
+        def {{ part }}
+          params.get!(:{{ part }})
+        end
+      {% end %}
+    {% end %}
+
     def self.path(
     {% for param in path_params %}
       {{param.gsub(/:/, "").id}},
