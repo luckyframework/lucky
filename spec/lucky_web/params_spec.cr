@@ -13,6 +13,18 @@ describe LuckyWeb::Params do
     end
   end
 
+  describe "when route params are passed in" do
+    it "gets the param from the route params" do
+      request = build_request body: "id=from_form",
+        content_type: "application/x-www-form-urlencoded"
+      route_params = {"id" => "from_route"}
+
+      params = LuckyWeb::Params.new(request, route_params)
+
+      params.get(:id).should eq "from_route"
+    end
+  end
+
   describe "get" do
     it "parses form encoded params" do
       request = build_request body: "page=1&foo=bar",

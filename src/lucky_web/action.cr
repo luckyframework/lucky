@@ -1,9 +1,9 @@
 require "./*"
 
 abstract class LuckyWeb::Action
-  getter :context, :path_params
+  getter :context, :route_params
 
-  def initialize(@context : HTTP::Server::Context, @path_params : Hash(String, String))
+  def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
   end
 
   abstract def call : LuckyWeb::Response

@@ -3,10 +3,12 @@ class LuckyWeb::Params
 
   @request : HTTP::Request
   @params : HTTP::Params?
+  @route_params : Hash(String, String) = {} of String => String
 
   getter :request
+  getter :route_params
 
-  def initialize(@request)
+  def initialize(@request, @route_params = {} of String => String)
   end
 
   def get!(key)
@@ -14,7 +16,7 @@ class LuckyWeb::Params
   end
 
   def get(key : String | Symbol)
-    params[key.to_s]? || query_params[key.to_s]?
+    route_params[key.to_s]? || params[key.to_s]? || query_params[key.to_s]?
   end
 
   def nested!(nested_key)
