@@ -13,4 +13,8 @@ module LuckyWeb::SpecialtyTags
     tag_attrs = build_tag_attrs(options)
     @view << "<script" << tag_attrs << "></script>"
   end
+
+  def raw(string : String)
+    @view << string
+  end
 end
