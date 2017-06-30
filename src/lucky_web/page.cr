@@ -7,6 +7,7 @@ module LuckyWeb::Page
   include LuckyWeb::LabelHelpers
   include LuckyWeb::InputHelpers
   include LuckyWeb::Assignable
+  include LuckyWeb::AssetHelpers
 
   macro included
     # If included directly
