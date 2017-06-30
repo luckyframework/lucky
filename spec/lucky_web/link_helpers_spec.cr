@@ -33,6 +33,18 @@ private class TestPage
   def string_path_with_options
     link "Test", to: "/foos", data_method: "post"
   end
+
+  def get_route_with_block
+    link to: LinkHelpers::Index.route do
+      text "Hello"
+    end
+  end
+
+  def string_path_with_block
+    link to: "/foo" do
+      text "Hello"
+    end
+  end
 end
 
 describe LuckyWeb::LinkHelpers do
@@ -45,6 +57,16 @@ describe LuckyWeb::LinkHelpers do
       .should contain %(<a href="/link_helpers" data-method="post" something-custom="foo">Test</a>)
     view.string_path.to_s.should contain %(<a href="/foos">Test</a>)
     view.string_path_with_options.to_s.should contain %(<a href="/foos" data-method="post">Test</a>)
+  end
+
+  it "renders a link tag with a block" do
+    view.string_path_with_block.to_s.should contain <<-HTML
+    <a href="/foo">Hello</a>
+    HTML
+
+    view.get_route_with_block.to_s.should contain <<-HTML
+    <a href="/link_helpers">Hello</a>
+    HTML
   end
 end
 
