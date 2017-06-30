@@ -6,4 +6,8 @@ class String
   def humanize
     self.downcase.gsub("_", " ").capitalize
   end
+
+  def to_param
+    self
+  end
 end

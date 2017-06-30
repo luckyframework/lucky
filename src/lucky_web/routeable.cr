@@ -128,7 +128,7 @@ module LuckyWeb::Routeable
         {% for part in path_parts %}
           path << "/"
           {% if part.starts_with?(":") %}
-            path << {{part.gsub(/:/, "").id}}
+            path << {{part.gsub(/:/, "").id}}.to_param
           {% else %}
             path << {{part}}
           {% end %}
