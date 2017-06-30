@@ -100,6 +100,10 @@ describe LuckyWeb::Page do
     view.render.to_s.should be_a(String)
   end
 
+  it "can render raw strings" do
+    view.raw("<safe>").to_s.should eq "<safe>"
+  end
+
   describe "can be used to render layouts" do
     it "renders layouts" do
       InnerPage.new.render.to_s.should contain %(<title>A great title</title>)
