@@ -6,6 +6,7 @@ module LuckyWeb::Page
   include LuckyWeb::FormHelpers
   include LuckyWeb::LabelHelpers
   include LuckyWeb::InputHelpers
+  include LuckyWeb::SpecialtyTags
   include LuckyWeb::Assignable
   include LuckyWeb::AssetHelpers
 
