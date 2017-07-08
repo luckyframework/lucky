@@ -76,6 +76,15 @@ describe LuckyWeb::Params do
       params.nested(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
+    it "gets nested params after unescaping" do
+      request = build_request body: "user%3Aname=paul",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = LuckyWeb::Params.new(request)
+
+      params.nested(:user).should eq({"name" => "paul"})
+    end
+
     it "raises if nested params are missing" do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
