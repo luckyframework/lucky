@@ -6,14 +6,9 @@ module LuckyWeb::BaseTags
   @view = IO::Memory.new
 
   {% for tag in TAGS %}
-    def {{tag.id}}(content, options)
-      {{tag.id}}(options) do
-        text content
-      end
-    end
-
-    def {{tag.id}}(content, **options)
-      {{tag.id}}(options) do
+    def {{tag.id}}(content, options = EMPTY_HTML_ATTRS, **other_options)
+      merged_options = merge_options(other_options, options)
+      {{tag.id}}(merged_options) do
         text content
       end
     end
@@ -30,15 +25,9 @@ module LuckyWeb::BaseTags
       end
     end
 
-    def {{tag.id}}(options, &block)
-      tag_attrs = build_tag_attrs(options)
-      @view << "<{{tag.id}}" << tag_attrs << ">"
-      yield
-      @view << "</{{tag.id}}>"
-    end
-
-    def {{tag.id}}(**options, &block)
-      tag_attrs = build_tag_attrs(options)
+    def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block)
+      merged_options = merge_options(other_options, options)
+      tag_attrs = build_tag_attrs(merged_options)
       @view << "<{{tag.id}}" << tag_attrs << ">"
       yield
       @view << "</{{tag.id}}>"
@@ -77,12 +66,14 @@ module LuckyWeb::BaseTags
 
   private def merge_options(html_options, tag_attrs)
     options = {} of String => String
-    if !html_options.empty?
-      html_options.each do |key, value|
-        options[key.to_s] = value
-      end
+    tag_attrs.each do |key, value|
+      options[key.to_s] = value
     end
 
-    tag_attrs.merge(options)
+    html_options.each do |key, value|
+      options[key.to_s] = value
+    end
+
+    options
   end
 end
