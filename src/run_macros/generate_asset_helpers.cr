@@ -17,7 +17,7 @@ begin
       {% if ASSET_MANIFEST[path] %}
         {{ "/" + ASSET_MANIFEST[path] }}
       {% else %}
-        {% raise "\#{path} does not exist in the manifest.\n Make sure webpack is running and the asset exists." %}
+        {{ run "../run_macros/missing_asset", path }}
       {% end %}
     end
     ASSET_MACRO
