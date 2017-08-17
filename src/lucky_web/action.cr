@@ -16,7 +16,11 @@ abstract class LuckyWeb::Action
     include LuckyWeb::ParamHelpers
   end
 
-  def redirect(to path, status = 302)
+  def redirect(to route : LuckyWeb::RouteHelper, status = 302)
+    redirect to: route.path, status: status
+  end
+
+  def redirect(to path : String, status = 302)
     context.response.headers.add "Location", path
     context.response.status_code = status
     LuckyWeb::Response.new(context, "", "")

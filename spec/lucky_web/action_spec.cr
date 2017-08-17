@@ -123,6 +123,11 @@ describe LuckyWeb::Action do
     action.redirect to: "/somewhere"
     action.context.response.headers["Location"].should eq "/somewhere"
     action.context.response.status_code.should eq 302
+
+    action = Tests::Index.new(context, params)
+    action.redirect to: Tests::Index.route
+    action.context.response.headers["Location"].should eq Tests::Index.path
+    action.context.response.status_code.should eq 302
   end
 
   it "redirects with custom status" do
