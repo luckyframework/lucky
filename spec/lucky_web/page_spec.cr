@@ -12,6 +12,7 @@ class TestRender
       text "my text"
       h1 "h1"
       br
+      div class: "empty-contents"
       br({class: "br"})
       br class: "br"
       img({src: "src"})

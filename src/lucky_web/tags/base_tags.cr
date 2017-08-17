@@ -6,7 +6,7 @@ module LuckyWeb::BaseTags
   @view = IO::Memory.new
 
   {% for tag in TAGS %}
-    def {{tag.id}}(content, options = EMPTY_HTML_ATTRS, **other_options)
+    def {{tag.id}}(content = "", options = EMPTY_HTML_ATTRS, **other_options)
       merged_options = merge_options(other_options, options)
       {{tag.id}}(merged_options) do
         text content
