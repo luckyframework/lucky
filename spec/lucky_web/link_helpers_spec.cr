@@ -59,6 +59,18 @@ describe LuckyWeb::LinkHelpers do
     view.string_path_with_options.to_s.should contain %(<a href="/foos" data-method="post">Test</a>)
   end
 
+  it "renders a link tag with an action" do
+    view.link("Test", to: LinkHelpers::Index).to_s.should contain <<-HTML
+    <a href="/link_helpers">Test</a>
+    HTML
+
+    link = view.link(to: LinkHelpers::Index, class: "link") { }
+
+    link.to_s.should contain <<-HTML
+    <a href="/link_helpers" class="link"></a>
+    HTML
+  end
+
   it "renders a link tag with a block" do
     view.string_path_with_block.to_s.should contain <<-HTML
     <a href="/foo">Hello</a>

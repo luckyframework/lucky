@@ -3,8 +3,18 @@ module LuckyWeb::LinkHelpers
     a text, merge_options(html_options, link_to_href(to))
   end
 
+  def link(text, to : LuckyWeb::Action.class, **html_options)
+    a text, merge_options(html_options, link_to_href(to.route))
+  end
+
   def link(to : LuckyWeb::RouteHelper, **html_options)
     a merge_options(html_options, link_to_href(to)) do
+      yield
+    end
+  end
+
+  def link(to : LuckyWeb::Action.class, **html_options)
+    a merge_options(html_options, link_to_href(to.route)) do
       yield
     end
   end
