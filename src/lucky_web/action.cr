@@ -20,6 +20,10 @@ abstract class LuckyWeb::Action
     redirect to: route.path, status: status
   end
 
+  def redirect(to action : LuckyWeb::Action.class, status = 302)
+    redirect to: action.route, status: status
+  end
+
   def redirect(to path : String, status = 302)
     context.response.headers.add "Location", path
     context.response.status_code = status
