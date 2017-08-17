@@ -121,26 +121,27 @@ describe LuckyWeb::Action do
   it "redirects" do
     action = Tests::Index.new(context, params)
     action.redirect to: "/somewhere"
-    action.context.response.headers["Location"].should eq "/somewhere"
-    action.context.response.status_code.should eq 302
+    should_redirect(action, to: "/somewhere", status: 302)
 
     action = Tests::Index.new(context, params)
     action.redirect to: Tests::Index.route
-    action.context.response.headers["Location"].should eq Tests::Index.path
-    action.context.response.status_code.should eq 302
+    should_redirect(action, to: Tests::Index.path, status: 302)
 
     action = Tests::Index.new(context, params)
     action.redirect to: Tests::Index
-    action.context.response.headers["Location"].should eq Tests::Index.path
-    action.context.response.status_code.should eq 302
+    should_redirect(action, to: Tests::Index.path, status: 302)
   end
 
   it "redirects with custom status" do
     action = Tests::Index.new(context, params)
     action.redirect to: "/somewhere", status: 301
-    action.context.response.headers["Location"].should eq "/somewhere"
-    action.context.response.status_code.should eq 301
+    should_redirect(action, to: "/somewhere", status: 301)
   end
+end
+
+private def should_redirect(action, to path, status)
+  action.context.response.headers["Location"].should eq path
+  action.context.response.status_code.should eq status
 end
 
 private def assert_route_added?(expected_route)
