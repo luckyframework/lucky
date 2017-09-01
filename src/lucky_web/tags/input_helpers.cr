@@ -1,41 +1,41 @@
 module LuckyWeb::InputHelpers
-  def text_input(field : LuckyRecord::Field, **html_options)
+  def text_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "text", html_options)
   end
 
-  def email_input(field : LuckyRecord::Field, **html_options)
+  def email_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "email", html_options)
   end
 
-  def color_input(field : LuckyRecord::Field, **html_options)
+  def color_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "color", html_options)
   end
 
-  def hidden_input(field : LuckyRecord::Field, **html_options)
+  def hidden_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "hidden", html_options)
   end
 
-  def number_input(field : LuckyRecord::Field, **html_options)
+  def number_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "number", html_options)
   end
 
-  def telephone_input(field : LuckyRecord::Field, **html_options)
+  def telephone_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "telephone", html_options)
   end
 
-  def url_input(field : LuckyRecord::Field, **html_options)
+  def url_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "url", html_options)
   end
 
-  def search_input(field : LuckyRecord::Field, **html_options)
+  def search_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "search", html_options)
   end
 
-  def password_input(field : LuckyRecord::Field, **html_options)
+  def password_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "password", html_options, {"value" => ""})
   end
 
-  def range_input(field : LuckyRecord::Field, **html_options)
+  def range_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "range", html_options)
   end
 

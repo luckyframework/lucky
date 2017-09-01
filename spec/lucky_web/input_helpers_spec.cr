@@ -6,23 +6,16 @@ class TestUser
   end
 end
 
-class InputTestForm < LuckyRecord::Form(TestUser)
-  allow :first_name
-
-  def table_name
-    "user"
+class InputTestForm
+  def first_name
+    field = LuckyRecord::Field(String).new(
+      name: :first_name,
+      param: "My name",
+      value: "",
+      form_name: "user"
+    )
+    LuckyRecord::AllowedField.new(field)
   end
-
-  def form_name
-    "user"
-  end
-
-  def call
-    first_name.param = "My name"
-    self
-  end
-
-  add_fields [{name: first_name, type: LuckyRecord::StringType}]
 end
 
 private class TestPage
@@ -32,7 +25,7 @@ private class TestPage
   end
 end
 
-describe LuckyWeb::LabelHelpers do
+describe LuckyWeb::InputHelpers do
   it "renders text inputs" do
     view.text_input(form.first_name).to_s.should contain <<-HTML
     <input type="text" name="user:first_name" value="My name"/>
@@ -135,7 +128,7 @@ describe LuckyWeb::LabelHelpers do
 end
 
 private def form
-  InputTestForm.new.call
+  InputTestForm.new
 end
 
 private def view
