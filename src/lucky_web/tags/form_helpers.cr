@@ -7,6 +7,10 @@ module LuckyWeb::FormHelpers
     end
   end
 
+  def form_for(route action : LuckyWeb::Action.class, **html_options, &block)
+    form_for action.route, **html_options, &block
+  end
+
   private def form_method(route)
     if route.method == :get
       "get"

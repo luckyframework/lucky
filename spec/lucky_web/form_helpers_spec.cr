@@ -60,6 +60,16 @@ describe LuckyWeb::FormHelpers do
     view.form_with_html_options.to_s.should contain <<-HTML
     <form action="/form_helpers" method="post" class="cool-form">foo</form>
     HTML
+
+    form = view.form_for(FormHelpers::Index) { }
+    form.to_s.should contain <<-HTML
+    <form action="/form_helpers" method="get"></form>
+    HTML
+
+    form = view.form_for(FormHelpers::Index, class: "form-block") { }
+    form.to_s.should contain <<-HTML
+    <form action="/form_helpers" method="get" class="form-block"></form>
+    HTML
   end
 end
 
