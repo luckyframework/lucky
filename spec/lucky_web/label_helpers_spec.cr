@@ -6,17 +6,16 @@ class TestUser
   end
 end
 
-class TestForm < LuckyRecord::Form(TestUser)
-  allow :first_name
-
-  def table_name
-    "user"
+class TestForm
+  def first_name
+    field = LuckyRecord::Field(String).new(
+      name: :first_name,
+      param: "",
+      value: "",
+      form_name: "user"
+    )
+    LuckyRecord::AllowedField.new(field)
   end
-
-  def call
-  end
-
-  add_fields [{name: first_name, type: LuckyRecord::StringType}]
 end
 
 private class TestPage
