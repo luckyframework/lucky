@@ -13,6 +13,7 @@ module Sentry
       @run_commands = run_commands
       @files = [] of String
       @files = files
+      @successful_compilations = 0
     end
 
     private def build_app_processes
@@ -23,9 +24,32 @@ module Sentry
 
     private def create_app_processes
       @app_processes.clear
-      @run_commands.each do |command|
+      result = @run_commands.each do |command|
         @app_processes << Process.new(command, shell: true, output: true, error: true)
       end
+
+      @successful_compilations += 1
+      if @successful_compilations == 1
+        start_browser_sync
+      else
+        reload_browser_sync
+      end
+    end
+
+    private def start_browser_sync
+      spawn do
+        Process.run "yarn run browser-sync -- start -c bs-config.js",
+          output: true,
+          error: true,
+          shell: true
+      end
+    end
+
+    private def reload_browser_sync
+      Process.run "yarn run browser-sync -- reload",
+        output: true,
+        error: true,
+        shell: true
     end
 
     private def get_timestamp(file : String)
@@ -74,7 +98,7 @@ class Watch < LuckyCli::Task
   def call
     build_commands = ["crystal build ./src/server.cr"]
     run_commands = ["./server"]
-    files = ["./src/**/*.cr", "./src/**/*.ecr", "./public/manifest.json"]
+    files = ["./src/**/*.cr", "./src/**/*.ecr"]
     files_cleared = false
     show_help = false
 
