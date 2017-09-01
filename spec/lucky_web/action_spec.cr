@@ -6,6 +6,24 @@ class CustomRoutes::Index < LuckyWeb::Action
   end
 end
 
+class CustomRoutes::Put < LuckyWeb::Action
+  put "/so_custom" do
+    render_text "test"
+  end
+end
+
+class CustomRoutes::Post < LuckyWeb::Action
+  post "/so_custom" do
+    render_text "test"
+  end
+end
+
+class CustomRoutes::Delete < LuckyWeb::Action
+  delete "/so_custom" do
+    render_text "test"
+  end
+end
+
 class Tests::IndexPage
   include LuckyWeb::Page
 
@@ -92,8 +110,12 @@ describe LuckyWeb::Action do
     end
 
     it "allows setting custom routes" do
-      assert_route_added? LuckyWeb::Route.new :get, "/so_custom", CustomRoutes::Index
       assert_route_not_added? LuckyWeb::Route.new :get, "/custom_routes", CustomRoutes::Index
+
+      assert_route_added? LuckyWeb::Route.new :get, "/so_custom", CustomRoutes::Index
+      assert_route_added? LuckyWeb::Route.new :put, "/so_custom", CustomRoutes::Put
+      assert_route_added? LuckyWeb::Route.new :post, "/so_custom", CustomRoutes::Post
+      assert_route_added? LuckyWeb::Route.new :delete, "/so_custom", CustomRoutes::Delete
     end
   end
 

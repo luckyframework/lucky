@@ -1,11 +1,13 @@
 module LuckyWeb::Routeable
-  macro get(path)
-    add_route :get, {{path}}, {{@type.name.id}}
+  {% for http_method in [:get, :put, :post, :delete] %}
+    macro {{ http_method.id }}(path)
+      add_route :{{ http_method.id }}, \{{path}}, \{{@type.name.id}}
 
-    def call : LuckyWeb::Response
-      {{yield}}
+      def call : LuckyWeb::Response
+        \{{yield}}
+      end
     end
-  end
+  {% end %}
 
   macro nested_action
     infer_nested_route
