@@ -44,7 +44,9 @@ class LuckyWeb::Params
   end
 
   private def body
-    (request.body || IO::Memory.new).gets_to_end
+    (request.body || IO::Memory.new).gets_to_end.tap do |request_body|
+      request.body = IO::Memory.new(request_body)
+    end
   end
 
   private def empty_params

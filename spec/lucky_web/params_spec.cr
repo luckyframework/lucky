@@ -1,6 +1,17 @@
 require "../spec_helper"
 
 describe LuckyWeb::Params do
+  it "works when parsing params twice" do
+    request = build_request body: "from=form",
+      content_type: "application/x-www-form-urlencoded"
+
+    params = LuckyWeb::Params.new(request)
+    dup_params = LuckyWeb::Params.new(request)
+
+    params.get(:from).should eq "form"
+    dup_params.get(:from).should eq "form"
+  end
+
   describe "all" do
     it "gives preference to body params if query param is also present" do
       request = build_request body: "from=form",
