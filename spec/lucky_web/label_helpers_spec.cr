@@ -40,11 +40,11 @@ end
 describe LuckyWeb::LabelHelpers do
   it "renders a label tag" do
     view.label_without_html_options.to_s.should contain <<-HTML
-    <label>First name</label>
+    <label>First name </label>
     HTML
 
     view.label_with_html_options.to_s.should contain <<-HTML
-    <label class="best-label">First name</label>
+    <label class="best-label">First name </label>
     HTML
   end
 end

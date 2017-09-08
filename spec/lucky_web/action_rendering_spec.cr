@@ -24,7 +24,7 @@ describe LuckyWeb::Action do
     it "render assigns" do
       body = Rendering::Index.new(context, params).call.body
 
-      body.should eq "Anything"
+      body.should contain "Anything"
     end
   end
 end

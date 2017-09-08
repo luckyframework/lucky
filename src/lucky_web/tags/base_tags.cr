@@ -30,7 +30,7 @@ module LuckyWeb::BaseTags
       tag_attrs = build_tag_attrs(merged_options)
       @view << "<{{tag.id}}" << tag_attrs << ">"
       yield
-      @view << "</{{tag.id}}>"
+      @view << "</{{tag.id}}> "
     end
   end
 
@@ -40,18 +40,18 @@ module LuckyWeb::BaseTags
 
   {% for tag in EMPTY_TAGS %}
     def {{tag.id}}
-      @view << %(<{{tag.id}}/>)
+      @view << %(<{{tag.id}}/> )
     end
 
     def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      @view << %(<{{tag.id}}#{tag_attrs}/>)
+      @view << %(<{{tag.id}}#{tag_attrs}/> )
     end
   {% end %}
 
   def text(content : String)
-    @view << HTML.escape(content)
+    @view << HTML.escape(content) << " "
   end
 
   private def build_tag_attrs(options)

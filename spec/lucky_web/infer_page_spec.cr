@@ -27,12 +27,12 @@ describe LuckyWeb::Action do
   it "renders fully qualified pages" do
     body = Rendering::Foo.new(context, params).call.body
 
-    body.should eq "EditPage"
+    body.should contain "EditPage"
   end
 
   it "renders within the same namespace" do
     body = Rendering::WithinSameNameSpace.new(context, params).call.body
 
-    body.should eq "WithinSameNameSpace"
+    body.should contain "WithinSameNameSpace"
   end
 end

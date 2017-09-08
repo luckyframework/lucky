@@ -130,7 +130,7 @@ describe LuckyWeb::Action do
 
     it "infer the correct HTML page to render" do
       response = Tests::Index.new(context, params).call
-      response.body.should eq "Rendered from Tests::IndexPage"
+      response.body.should contain "Rendered from Tests::IndexPage"
       response.content_type.should eq "text/html"
     end
   end
