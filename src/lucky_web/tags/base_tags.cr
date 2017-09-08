@@ -5,7 +5,7 @@ module LuckyWeb::BaseTags
 
   @view = IO::Memory.new
 
-  {% for tag in TAGS %}
+  macro generate_tag_methods(tag)
     def {{tag.id}}(content = "", options = EMPTY_HTML_ATTRS, **other_options)
       merged_options = merge_options(other_options, options)
       {{tag.id}}(merged_options) do
@@ -32,6 +32,10 @@ module LuckyWeb::BaseTags
       yield
       @view << "</{{tag.id}}>"
     end
+  end
+
+  {% for tag in TAGS %}
+    generate_tag_methods({{tag.id}})
   {% end %}
 
   {% for tag in EMPTY_TAGS %}
