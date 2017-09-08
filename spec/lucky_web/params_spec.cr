@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ContextHelper
+
 describe LuckyWeb::Params do
   it "works when parsing params twice" do
     request = build_request body: "from=form",
@@ -116,10 +118,4 @@ describe LuckyWeb::Params do
       params.nested(:missing).should eq({} of String => String)
     end
   end
-end
-
-private def build_request(body, content_type)
-  headers = HTTP::Headers.new
-  headers.add("Content-Type", content_type)
-  HTTP::Request.new("GET", "/", body: body, headers: headers)
 end

@@ -1,5 +1,7 @@
 require "../../spec_helper"
 
+include ContextHelper
+
 private class TestAction < LuckyWeb::Action
   get "/test/:param_1/:param_2" do
     render_text "test"
@@ -14,15 +16,4 @@ describe "Automatically generated param helpers" do
     typeof(action.param_1).should eq String
     typeof(action.param_2).should eq String
   end
-end
-
-private def context(path = "/")
-  io = IO::Memory.new
-  request = HTTP::Request.new("GET", path)
-  response = HTTP::Server::Response.new(io)
-  HTTP::Server::Context.new request, response
-end
-
-private def params
-  {} of String => String
 end

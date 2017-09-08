@@ -1,5 +1,7 @@
 require "../../spec_helper"
 
+include ContextHelper
+
 class CustomRoutes::Index < LuckyWeb::Action
   get "/so_custom" do
     render_text "test"
@@ -172,15 +174,4 @@ end
 
 private def assert_route_not_added?(expected_route)
   LuckyWeb::Router.routes.should_not contain(expected_route)
-end
-
-private def context(path = "/")
-  io = IO::Memory.new
-  request = HTTP::Request.new("GET", path)
-  response = HTTP::Server::Response.new(io)
-  HTTP::Server::Context.new request, response
-end
-
-private def params
-  {} of String => String
 end

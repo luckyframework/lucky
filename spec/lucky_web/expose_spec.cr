@@ -1,5 +1,7 @@
 require "../spec/spec_helper"
 
+include ContextHelper
+
 class OnlyExpose < LuckyWeb::Action
   include LuckyWeb::Exposeable
 
@@ -66,15 +68,4 @@ describe "exposures" do
     OnlyExpose.new(context, params).call
     MultipleExposeAndAssigns.new(context, params).call
   end
-end
-
-private def context(path = "/")
-  io = IO::Memory.new
-  request = HTTP::Request.new("GET", path)
-  response = HTTP::Server::Response.new(io)
-  HTTP::Server::Context.new request, response
-end
-
-private def params
-  {} of String => String
 end

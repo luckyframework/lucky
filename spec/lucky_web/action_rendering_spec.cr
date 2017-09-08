@@ -1,5 +1,7 @@
 require "../../spec_helper"
 
+include ContextHelper
+
 class Rendering::IndexPage
   include LuckyWeb::Page
 
@@ -25,15 +27,4 @@ describe LuckyWeb::Action do
       body.should eq "Anything"
     end
   end
-end
-
-private def context(path = "/")
-  io = IO::Memory.new
-  request = HTTP::Request.new("GET", path)
-  response = HTTP::Server::Response.new(io)
-  HTTP::Server::Context.new request, response
-end
-
-private def params
-  {} of String => String
 end
