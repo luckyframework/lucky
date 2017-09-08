@@ -1,4 +1,8 @@
 module LuckyWeb::InputHelpers
+  def submit(text : String, **html_options)
+    input merge_options(html_options, {"type" => "submit", "value" => text})
+  end
+
   def text_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "text", html_options)
   end

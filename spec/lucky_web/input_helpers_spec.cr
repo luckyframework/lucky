@@ -26,6 +26,16 @@ private class TestPage
 end
 
 describe LuckyWeb::InputHelpers do
+  it "renders submit input" do
+    view.submit("Save").to_s.should contain <<-HTML
+    <input type="submit" value="Save"/>
+    HTML
+
+    view.submit("Save", class: "cool").to_s.should contain <<-HTML
+    <input type="submit" value="Save" class="cool"/>
+    HTML
+  end
+
   it "renders text inputs" do
     view.text_input(form.first_name).to_s.should contain <<-HTML
     <input type="text" name="user:first_name" value="My name"/>
