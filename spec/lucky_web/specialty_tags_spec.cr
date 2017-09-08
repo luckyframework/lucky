@@ -33,6 +33,12 @@ describe LuckyWeb::SpecialtyTags do
     <script src="app.js" foo="bar"></script>
     HTML
   end
+
+  it "render utf8 meta tag" do
+    view.utf8_charset.to_s.should contain <<-HTML
+    <meta charset="utf-8">
+    HTML
+  end
 end
 
 private def view

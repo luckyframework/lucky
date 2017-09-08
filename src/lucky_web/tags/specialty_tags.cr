@@ -14,6 +14,10 @@ module LuckyWeb::SpecialtyTags
     @view << "<script" << tag_attrs << "></script>"
   end
 
+  def utf8_charset
+    raw %(<meta charset="utf-8">)
+  end
+
   def raw(string : String)
     @view << string
   end

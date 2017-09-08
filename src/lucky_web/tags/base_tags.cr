@@ -1,6 +1,6 @@
 module LuckyWeb::BaseTags
   TAGS             = %i(a b body button div em small fieldset h1 h2 h3 h4 h5 h6 head html i label li ol option p s script span strong table tbody td textarea thead th title tr u ul form footer header article aside bdi details dialog figcaption figure main mark menuitem meter nav progress rp rt ruby section summary time wbr)
-  EMPTY_TAGS       = %i(img br input)
+  EMPTY_TAGS       = %i(img br input meta)
   EMPTY_HTML_ATTRS = {} of String => String
 
   @view = IO::Memory.new
