@@ -3,6 +3,10 @@ module LuckyWeb::InputHelpers
     input merge_options(html_options, {"type" => "submit", "value" => text})
   end
 
+  def textarea(field : LuckyRecord::AllowedField, **html_options)
+    textarea field.param.to_s, html_options
+  end
+
   def text_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "text", html_options)
   end

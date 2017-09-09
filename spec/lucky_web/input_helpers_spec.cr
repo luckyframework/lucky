@@ -135,6 +135,16 @@ describe LuckyWeb::InputHelpers do
     <input type="range" name="user:first_name" value="My name" class="cool"/>
     HTML
   end
+
+  it "renders textareas" do
+    view.textarea(form.first_name).to_s.should contain <<-HTML
+    <textarea>My name </textarea>
+    HTML
+
+    view.textarea(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <textarea class="cool">My name </textarea>
+    HTML
+  end
 end
 
 private def form
