@@ -4,20 +4,20 @@ class BasePage
   include LuckyWeb::Page
 
   macro inherited
-    assign name : String
+    needs name : String
   end
 end
 
 class PageOne < BasePage
-  assign title : String
-  assign second : String
+  needs title : String
+  needs second : String
 
   render do
   end
 end
 
 class PageTwo < BasePage
-  assign title : String
+  needs title : String
 
   render do
   end

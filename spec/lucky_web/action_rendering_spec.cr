@@ -5,8 +5,8 @@ include ContextHelper
 class Rendering::IndexPage
   include LuckyWeb::Page
 
-  assign title : String
-  assign arg2 : String
+  needs title : String
+  needs arg2 : String
 
   render do
     text @title

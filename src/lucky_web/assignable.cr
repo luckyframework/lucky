@@ -1,5 +1,5 @@
 module LuckyWeb::Assignable
-  macro assign(*type_declarations)
+  macro needs(*type_declarations)
     {% for declaration in type_declarations %}
       {% ASSIGNS[declaration.var] = declaration.type %}
     {% end %}

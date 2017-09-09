@@ -20,7 +20,7 @@ end
 class OnlyExposePage
   include LuckyWeb::Page
 
-  assign name : String
+  needs name : String
 
   render do
   end
@@ -54,10 +54,10 @@ end
 class MultipleExposeAndAssignsPage
   include LuckyWeb::Page
 
-  assign expose_one : String
-  assign expose_two : String
-  assign arg1 : String
-  assign arg2 : String
+  needs expose_one : String
+  needs expose_two : String
+  needs arg1 : String
+  needs arg2 : String
 
   render do
   end

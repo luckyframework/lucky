@@ -1,5 +1,5 @@
 class Tasks::IndexPage < LuckyWeb::Page
-  assign tasks : Array(Task)
+  needs tasks : Array(Task)
 
   render do
     header do

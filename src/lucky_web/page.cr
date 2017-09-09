@@ -16,7 +16,7 @@ module LuckyWeb::Page
     ASSIGNS = {} of Nil => Nil
 
     macro inherited
-      # If used as a base class, reset the settings and assign when it's inherited
+      # If used as a base class, reset the settings and assigns when it's inherited
       SETTINGS = {} of Nil => Nil
       ASSIGNS = {} of Nil => Nil
     end

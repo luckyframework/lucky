@@ -3,8 +3,8 @@ require "../../spec_helper"
 class Rendering::CustomPage
   include LuckyWeb::Page
 
-  assign title : String
-  assign arg2 : String
+  needs title : String
+  needs arg2 : String
 
   render do
     text @title
