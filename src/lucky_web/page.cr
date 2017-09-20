@@ -10,22 +10,19 @@ module LuckyWeb::Page
   include LuckyWeb::Assignable
   include LuckyWeb::AssetHelpers
 
-  macro included
-    # If included directly
-    SETTINGS = {} of Nil => Nil
-    ASSIGNS = {} of Nil => Nil
-
-    macro inherited
-      # If used as a base class, reset the settings and assigns when it's inherited
-      SETTINGS = {} of Nil => Nil
-      ASSIGNS = {} of Nil => Nil
-    end
-  end
-
   macro layout(layout_class)
     {% SETTINGS[:has_layout] = true %}
     def render
       {{layout_class}}.new(self, @view).render.to_s
+    end
+  end
+
+  macro generate_initializer
+    def initialize(
+      {% for var, type in ASSIGNS %}
+        @{{ var }} : {{ type }},
+      {% end %}
+      )
     end
   end
 

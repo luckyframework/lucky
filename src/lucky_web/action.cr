@@ -8,13 +8,10 @@ abstract class LuckyWeb::Action
 
   abstract def call : LuckyWeb::Response
 
-  EXPOSURES = [] of Symbol
-
-  macro inherited
-    include LuckyWeb::Routeable
-    include LuckyWeb::Renderable
-    include LuckyWeb::ParamHelpers
-  end
+  include LuckyWeb::Exposeable
+  include LuckyWeb::Routeable
+  include LuckyWeb::Renderable
+  include LuckyWeb::ParamHelpers
 
   def redirect(to route : LuckyWeb::RouteHelper, status = 302)
     redirect to: route.path, status: status

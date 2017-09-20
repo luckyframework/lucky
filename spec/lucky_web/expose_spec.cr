@@ -3,8 +3,6 @@ require "../spec/spec_helper"
 include ContextHelper
 
 class OnlyExpose < LuckyWeb::Action
-  include LuckyWeb::Exposeable
-
   expose :name
 
   get "/expose" do
@@ -26,28 +24,32 @@ class OnlyExposePage
   end
 end
 
-abstract class InheritedExposureAction < LuckyWeb::Action
-  include LuckyWeb::Exposeable
-
-  macro inherited
-    expose :expose_one
-  end
+abstract class BaseExposureAction < LuckyWeb::Action
+  expose :expose_one
 
   def expose_one
     "expose_one"
   end
 end
 
-class MultipleExposeAndAssigns < InheritedExposureAction
+abstract class InheritedExposureAction < BaseExposureAction
   expose :expose_two
+
+  def expose_two
+    "expose_two"
+  end
+end
+
+class MultipleExposeAndAssigns < InheritedExposureAction
+  expose :expose_three
 
   get "/mutli-expose" do
     render arg1: "arg1", arg2: "arg2"
     render MultipleExposeAndAssignsPage, arg1: "arg1", arg2: "arg2"
   end
 
-  def expose_two
-    "expose_two"
+  def expose_three
+    "expose_three"
   end
 end
 
@@ -56,6 +58,7 @@ class MultipleExposeAndAssignsPage
 
   needs expose_one : String
   needs expose_two : String
+  needs expose_three : String
   needs arg1 : String
   needs arg2 : String
 

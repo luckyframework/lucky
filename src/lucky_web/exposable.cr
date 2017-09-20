@@ -4,7 +4,15 @@ module LuckyWeb::Exposeable
 
     macro inherited
       EXPOSURES = [] of Symbol
+
+      inherit_exposures
     end
+  end
+
+  macro inherit_exposures
+    \{% for v in @type.ancestors.first.constant :EXPOSURES %}
+      \{% EXPOSURES << v %}
+    \{% end %}
   end
 
   macro expose(method_name)
