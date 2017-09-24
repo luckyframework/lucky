@@ -5,7 +5,7 @@ module ContextHelper
     HTTP::Request.new(method, "/", body: body, headers: headers)
   end
 
-  private def context(path = "/", request = nil)
+  private def build_context(path = "/", request = nil)
     io = IO::Memory.new
     request = request || HTTP::Request.new("GET", path)
     response = HTTP::Server::Response.new(io)

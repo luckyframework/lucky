@@ -3,6 +3,8 @@ require "./*"
 abstract class LuckyWeb::Action
   getter :context, :route_params
 
+  delegate cookies, session, to: context
+
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
   end
 

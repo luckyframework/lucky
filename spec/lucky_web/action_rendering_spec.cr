@@ -22,7 +22,7 @@ end
 describe LuckyWeb::Action do
   describe "rendering" do
     it "render assigns" do
-      body = Rendering::Index.new(context, params).call.body
+      body = Rendering::Index.new(build_context, params).call.body
 
       body.should contain "Anything"
     end
