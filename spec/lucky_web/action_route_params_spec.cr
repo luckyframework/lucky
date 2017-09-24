@@ -10,7 +10,7 @@ end
 
 describe "Automatically generated param helpers" do
   it "generates helpers for all route params" do
-    action = TestAction.new(context, {"param_1" => "param_1_value", "param_2" => "param_2_value"})
+    action = TestAction.new(build_context, {"param_1" => "param_1_value", "param_2" => "param_2_value"})
     action.param_1.should eq "param_1_value"
     action.param_2.should eq "param_2_value"
     typeof(action.param_1).should eq String

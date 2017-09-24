@@ -22,6 +22,6 @@ end
 
 private def should_handle(original_method, overridden_method, and_return expected_method)
   request = build_request original_method, body: "_method=#{overridden_method}"
-  handler = LuckyWeb::HttpMethodOverrideHandler.new.call(context(request: request))
+  handler = LuckyWeb::HttpMethodOverrideHandler.new.call(build_context(request: request))
   request.method.should eq expected_method
 end

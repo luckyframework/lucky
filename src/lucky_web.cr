@@ -1,4 +1,5 @@
 require "lucky_record"
+require "habitat"
 require "./charms/*"
 require "http/server"
 require "lucky_router"

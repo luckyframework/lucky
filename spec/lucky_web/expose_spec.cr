@@ -68,7 +68,7 @@ end
 
 describe "exposures" do
   it "works without explicit assigns" do
-    OnlyExpose.new(context, params).call
-    MultipleExposeAndAssigns.new(context, params).call
+    OnlyExpose.new(build_context, params).call
+    MultipleExposeAndAssigns.new(build_context, params).call
   end
 end

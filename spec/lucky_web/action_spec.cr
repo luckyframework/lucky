@@ -123,13 +123,13 @@ describe LuckyWeb::Action do
 
   describe "rendering" do
     it "renders plain text" do
-      response = PlainText::Index.new(context, params).call
+      response = PlainText::Index.new(build_context, params).call
       response.body.should eq "plain"
       response.content_type.should eq "text/plain"
     end
 
     it "infer the correct HTML page to render" do
-      response = Tests::Index.new(context, params).call
+      response = Tests::Index.new(build_context, params).call
       response.body.should contain "Rendered from Tests::IndexPage"
       response.content_type.should eq "text/html"
     end
@@ -137,27 +137,27 @@ describe LuckyWeb::Action do
 
   describe "params" do
     it "can get params" do
-      action = PlainText::Index.new(context(path: "/?q=test"), params)
+      action = PlainText::Index.new(build_context(path: "/?q=test"), params)
       action.params.get(:q).should eq "test"
     end
   end
 
   it "redirects" do
-    action = Tests::Index.new(context, params)
+    action = Tests::Index.new(build_context, params)
     action.redirect to: "/somewhere"
     should_redirect(action, to: "/somewhere", status: 302)
 
-    action = Tests::Index.new(context, params)
+    action = Tests::Index.new(build_context, params)
     action.redirect to: Tests::Index.route
     should_redirect(action, to: Tests::Index.path, status: 302)
 
-    action = Tests::Index.new(context, params)
+    action = Tests::Index.new(build_context, params)
     action.redirect to: Tests::Index
     should_redirect(action, to: Tests::Index.path, status: 302)
   end
 
   it "redirects with custom status" do
-    action = Tests::Index.new(context, params)
+    action = Tests::Index.new(build_context, params)
     action.redirect to: "/somewhere", status: 301
     should_redirect(action, to: "/somewhere", status: 301)
   end
