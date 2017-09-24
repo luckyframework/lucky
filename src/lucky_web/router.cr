@@ -4,7 +4,7 @@ class LuckyWeb::Router
   getter :routes
 
   def initialize
-    @tree = Radix::Tree(LuckyWeb::Action.class).new
+    @matcher = LuckyRouter::Matcher(LuckyWeb::Action.class).new
     @routes = [] of LuckyWeb::Route
   end
 
@@ -19,11 +19,11 @@ class LuckyWeb::Router
   def add(method, path, action)
     route = LuckyWeb::Route.new(method, path, action)
     @routes << route
-    @tree.add(route.path, route.action)
+    @matcher.add(route.method.to_s, route.path, route.action)
   end
 
   def find_action(method, path)
-    @tree.find LuckyWeb::Route.build_route_path(method, path)
+    @matcher.match method.to_s, path
   end
 
   def self.find_action(method, path)

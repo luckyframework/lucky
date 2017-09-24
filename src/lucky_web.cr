@@ -1,5 +1,5 @@
 require "lucky_record"
 require "./charms/*"
 require "http/server"
-require "radix"
+require "lucky_router"
 require "./lucky_web/*"

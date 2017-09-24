@@ -13,6 +13,8 @@ dependencies:
     github: luckyframework/habitat
   lucky_record:
     github: luckyframework/record
+  lucky_router:
+    github: luckyframework/router
 
 crystal: 0.20.3
 
