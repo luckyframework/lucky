@@ -5,7 +5,7 @@ class Routes < LuckyCli::Task
 
   def call
     LuckyWeb::Router.routes.each do |route|
-      puts "#{route.method.to_s.upcase} #{route.path_without_method.colorize(:green)} #{route.action}"
+      puts "#{route.method.to_s.upcase} #{route.path.colorize(:green)} #{route.action}"
     end
   end
 end
