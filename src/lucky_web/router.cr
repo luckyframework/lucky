@@ -23,7 +23,7 @@ class LuckyWeb::Router
   end
 
   def find_action(method, path)
-    @matcher.match method.to_s, path
+    @matcher.match method.to_s.downcase, path
   end
 
   def self.find_action(method, path)
