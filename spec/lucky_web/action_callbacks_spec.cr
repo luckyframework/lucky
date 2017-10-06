@@ -8,10 +8,12 @@ abstract class InheritableCallbacks < LuckyWeb::Action
 
   def set_before_cookie
     cookies["before"] = "before"
+    continue
   end
 
   def overwrite_after_cookie
     cookies["after"] = "after"
+    continue
   end
 end
 
@@ -26,10 +28,12 @@ class Callbacks::Index < InheritableCallbacks
 
   def set_second_before_cookie
     cookies["second_before"] = "second_before"
+    continue
   end
 
   def set_second_after_cookie
     cookies["second_after"] = "second_after"
+    continue
   end
 end
 
@@ -47,6 +51,7 @@ class Callbacks::HaltedBefore < LuckyWeb::Action
 
   def should_not_be_reached
     cookies["before"] = "nope"
+    continue
   end
 end
 
@@ -64,6 +69,7 @@ class Callbacks::HaltedAfter < LuckyWeb::Action
 
   def should_not_be_reached
     cookies["after"] = "nope"
+    continue
   end
 end
 
