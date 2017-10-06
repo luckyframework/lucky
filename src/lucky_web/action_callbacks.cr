@@ -36,6 +36,14 @@ module LuckyWeb::ActionCallbacks
     {% for callback_method in BEFORE_CALLBACKS %}
       callback_result = {{ callback_method }}
       ensure_callbacks_return_response_or_continue(callback_result)
+      # Callback {{ callback_method }} should return a LuckyWeb::Response or LuckyWeb::ActionCallbacks::Continue
+      # Do this by using `continue` or one of rendering methods like `render` or `redirect`
+      #
+      #   def {{ callback_method }}
+      #     cookies["name"] = "John"
+      #     continue # or redirect, render
+      #   end
+
       if callback_result.is_a?(LuckyWeb::Response)
         return callback_result
       end
