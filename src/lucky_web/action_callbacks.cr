@@ -54,7 +54,6 @@ module LuckyWeb::ActionCallbacks
       #     cookies["name"] = "John"
       #     continue # or redirect, render
       #   end
-      #
 
       if callback_result.is_a?(LuckyWeb::Response)
         return callback_result
