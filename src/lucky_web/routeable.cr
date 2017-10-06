@@ -4,7 +4,21 @@ module LuckyWeb::Routeable
       add_route :{{ http_method.id }}, \{{path}}, \{{@type.name.id}}
 
       def call : LuckyWeb::Response
-        \{{yield}}
+        callback_result = run_before_callbacks
+
+        response = if callback_result.is_a?(LuckyWeb::Response)
+          callback_result
+        else
+          \{{yield}}
+        end
+
+        callback_result = run_after_callbacks
+
+        if callback_result.is_a?(LuckyWeb::Response)
+          callback_result
+        else
+          response
+        end
       end
     end
   {% end %}

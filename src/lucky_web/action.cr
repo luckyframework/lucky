@@ -14,6 +14,7 @@ abstract class LuckyWeb::Action
   include LuckyWeb::Routeable
   include LuckyWeb::Renderable
   include LuckyWeb::ParamHelpers
+  include LuckyWeb::ActionCallbacks
 
   def redirect(to route : LuckyWeb::RouteHelper, status = 302)
     redirect to: route.path, status: status
