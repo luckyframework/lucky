@@ -9,6 +9,7 @@ module LuckyWeb::Redirectable
 
   def redirect(to path : String, status = 302)
     context.response.headers.add "Location", path
+    context.response.headers.add "Turbolinks-Location", path
     context.response.status_code = status
     LuckyWeb::Response.new(context, "", "")
   end

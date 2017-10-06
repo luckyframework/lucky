@@ -32,5 +32,6 @@ end
 
 private def should_redirect(action, to path, status)
   action.context.response.headers["Location"].should eq path
+  action.context.response.headers["Turbolinks-Location"].should eq path
   action.context.response.status_code.should eq status
 end
