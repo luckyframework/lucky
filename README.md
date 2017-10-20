@@ -6,9 +6,13 @@
 1. Run `lucky init {project_name}`
 1. Run `lucky dev` to start the server
 
-## Guides
+## Status
 
 Lucky is still in it's early stages. A guide will be written once the API is more stabilized.
+
+## Sign up for updates
+
+Sign up for updates on new blog posts, guides, and new releases at the [Lucky website](http://luckyframework.org)
 
 ## Contributing
 
