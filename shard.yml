@@ -5,8 +5,6 @@ authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
 dependencies:
-  radix:
-    github: luislavena/radix
   lucky_cli:
     github: luckyframework/cli
   habitat:
