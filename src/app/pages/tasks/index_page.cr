@@ -1,4 +1,6 @@
-class Tasks::IndexPage < LuckyWeb::Page
+class Tasks::IndexPage
+  include LuckyWeb::Page
+
   needs tasks : Array(Task)
 
   render do

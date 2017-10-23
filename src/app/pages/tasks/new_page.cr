@@ -1,4 +1,6 @@
-class Tasks::NewPage < LuckyWeb::Page
+class Tasks::NewPage
+  include LuckyWeb::Page
+
   render do
     header({class: "WHAT"}) do
       text "New HTML"
