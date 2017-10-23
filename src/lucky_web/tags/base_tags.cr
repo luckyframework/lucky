@@ -36,11 +36,11 @@ module LuckyWeb::BaseTags
   end
 
   {% for tag in TAGS %}
-    generate_tag_methods({{tag.id}}, {{tag.id}})
+    generate_tag_methods(method_name: {{tag.id}}, tag: {{tag.id}})
   {% end %}
 
   {% for name, tag in RENAMED_TAGS %}
-    generate_tag_methods({{name}}, {{tag}})
+    generate_tag_methods(method_name: {{name}}, tag: {{tag}})
   {% end %}
 
   {% for tag in EMPTY_TAGS %}
