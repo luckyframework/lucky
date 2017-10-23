@@ -1,31 +1,32 @@
 module LuckyWeb::BaseTags
-  TAGS             = %i(a b body button div em small fieldset h1 h2 h3 h4 h5 h6 head html i label li ol option p s script span strong table tbody td textarea thead th title tr u ul form footer header article aside bdi details dialog figcaption figure main mark menuitem meter nav progress rp rt ruby section summary time wbr)
+  TAGS             = %i(a b body button div em small fieldset h1 h2 h3 h4 h5 h6 head html i label li ol option s script span strong table tbody td textarea thead th title tr u ul form footer header article aside bdi details dialog figcaption figure main mark menuitem meter nav progress rp rt ruby section summary time wbr)
+  RENAMED_TAGS     = {"para": "p"}
   EMPTY_TAGS       = %i(img br input meta)
   EMPTY_HTML_ATTRS = {} of String => String
 
   @view = IO::Memory.new
 
-  macro generate_tag_methods(tag)
-    def {{tag.id}}(content = "", options = EMPTY_HTML_ATTRS, **other_options)
+  macro generate_tag_methods(method_name, tag)
+    def {{method_name.id}}(content = "", options = EMPTY_HTML_ATTRS, **other_options)
       merged_options = merge_options(other_options, options)
-      {{tag.id}}(merged_options) do
+      {{method_name.id}}(merged_options) do
         text content
       end
     end
 
-    def {{tag.id}}(content : String)
-      {{tag.id}}(EMPTY_HTML_ATTRS) do
+    def {{method_name.id}}(content : String)
+      {{method_name.id}}(EMPTY_HTML_ATTRS) do
         text content
       end
     end
 
-    def {{tag.id}}(&block)
-      {{tag.id}}(EMPTY_HTML_ATTRS) do
+    def {{method_name.id}}(&block)
+      {{method_name.id}}(EMPTY_HTML_ATTRS) do
         yield
       end
     end
 
-    def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block)
+    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
       @view << "<{{tag.id}}" << tag_attrs << ">"
@@ -35,7 +36,11 @@ module LuckyWeb::BaseTags
   end
 
   {% for tag in TAGS %}
-    generate_tag_methods({{tag.id}})
+    generate_tag_methods(method_name: {{tag.id}}, tag: {{tag.id}})
+  {% end %}
+
+  {% for name, tag in RENAMED_TAGS %}
+    generate_tag_methods(method_name: {{name}}, tag: {{tag}})
   {% end %}
 
   {% for tag in EMPTY_TAGS %}
