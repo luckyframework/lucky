@@ -13,7 +13,7 @@ class Tasks::IndexPage
 
   private def tasks_list
     ul do
-      tasks.each do |task|
+      @tasks.each do |task|
         li do
           a task.title, href: Tasks::Show.path(task.id)
         end

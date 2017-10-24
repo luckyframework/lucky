@@ -64,36 +64,36 @@ end
 describe LuckyWeb::Page do
   describe "tags that contain contents" do
     it "can be called with various arguments" do
-      view.header("text").to_s.should eq %(<header>text </header> )
-      view.header("text", {class: "stuff"}).to_s.should eq %(<header class="stuff">text </header> )
-      view.header("text", class: "stuff").to_s.should eq %(<header class="stuff">text </header> )
+      view.header("text").to_s.should eq %(<header>text</header>)
+      view.header("text", {class: "stuff"}).to_s.should eq %(<header class="stuff">text</header>)
+      view.header("text", class: "stuff").to_s.should eq %(<header class="stuff">text</header>)
     end
 
     it "dasherizes attribute names" do
-      view.header("text", data_foo: "stuff").to_s.should eq %(<header data-foo="stuff">text </header> )
+      view.header("text", data_foo: "stuff").to_s.should eq %(<header data-foo="stuff">text</header>)
     end
   end
 
   describe "empty tags" do
     it "can be called with various arguments" do
-      view.br.to_s.should eq %(<br/> )
-      view.img(src: "my_src").to_s.should eq %(<img src="my_src"/> )
-      view.img({src: "my_src"}).to_s.should eq %(<img src="my_src"/> )
-      view.img({:src => "my_src"}).to_s.should eq %(<img src="my_src"/> )
+      view.br.to_s.should eq %(<br/>)
+      view.img(src: "my_src").to_s.should eq %(<img src="my_src"/>)
+      view.img({src: "my_src"}).to_s.should eq %(<img src="my_src"/>)
+      view.img({:src => "my_src"}).to_s.should eq %(<img src="my_src"/>)
     end
   end
 
   describe "HTML escaping" do
     it "escapes text" do
-      UnsafePage.new.render.to_s.should eq "&lt;script&gt;not safe&lt;/span&gt; "
+      UnsafePage.new.render.to_s.should eq "&lt;script&gt;not safe&lt;/span&gt;"
     end
 
     it "escapes HTML attributes" do
       unsafe = "<span>bad news</span>"
       escaped = "&lt;span&gt;bad news&lt;/span&gt;"
-      view.img(src: unsafe).to_s.should eq %(<img src="#{escaped}"/> )
-      view.img({src: unsafe}).to_s.should eq %(<img src="#{escaped}"/> )
-      view.img({:src => unsafe}).to_s.should eq %(<img src="#{escaped}"/> )
+      view.img(src: unsafe).to_s.should eq %(<img src="#{escaped}"/>)
+      view.img({src: unsafe}).to_s.should eq %(<img src="#{escaped}"/>)
+      view.img({:src => unsafe}).to_s.should eq %(<img src="#{escaped}"/>)
     end
   end
 
@@ -107,8 +107,8 @@ describe LuckyWeb::Page do
 
   describe "can be used to render layouts" do
     it "renders layouts" do
-      InnerPage.new.render.to_s.should contain %(<title>A great title </title>)
-      InnerPage.new.render.to_s.should contain %(<body>Inner text </body>)
+      InnerPage.new.render.to_s.should contain %(<title>A great title</title>)
+      InnerPage.new.render.to_s.should contain %(<body>Inner text</body>)
     end
   end
 end
