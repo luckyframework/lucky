@@ -46,7 +46,7 @@ end
 describe LuckyWeb::FormHelpers do
   it "renders a form tag" do
     view.inferred_put_form.to_s.should contain <<-HTML
-    <form action="/form_helpers/fake_id" method="post"><input type="hidden" name="_method" value="put"/> foo</form>
+    <form action="/form_helpers/fake_id" method="post"><input type="hidden" name="_method" value="put"/>foo</form>
     HTML
 
     view.inferred_post_form.to_s.should contain <<-HTML
