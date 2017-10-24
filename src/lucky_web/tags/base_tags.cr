@@ -56,7 +56,7 @@ module LuckyWeb::BaseTags
   {% end %}
 
   def text(content : String)
-    @view << "\n" << HTML.escape(content) << "\n"
+    @view << HTML.escape(content)
   end
 
   private def build_tag_attrs(options)
