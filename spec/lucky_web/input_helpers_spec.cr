@@ -138,11 +138,11 @@ describe LuckyWeb::InputHelpers do
 
   it "renders textareas" do
     view.textarea(form.first_name).to_s.should contain <<-HTML
-    <textarea name="user:first_name">My name </textarea>
+    <textarea name="user:first_name">\nMy name\n</textarea>
     HTML
 
     view.textarea(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <textarea name="user:first_name" class="cool">My name </textarea>
+    <textarea name="user:first_name" class="cool">\nMy name\n</textarea>
     HTML
   end
 end

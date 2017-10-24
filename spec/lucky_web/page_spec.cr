@@ -64,13 +64,13 @@ end
 describe LuckyWeb::Page do
   describe "tags that contain contents" do
     it "can be called with various arguments" do
-      view.header("text").to_s.should eq %(<header>text </header> )
-      view.header("text", {class: "stuff"}).to_s.should eq %(<header class="stuff">text </header> )
-      view.header("text", class: "stuff").to_s.should eq %(<header class="stuff">text </header> )
+      view.header("text").to_s.should eq %(<header>\ntext\n</header> )
+      view.header("text", {class: "stuff"}).to_s.should eq %(<header class="stuff">\ntext\n</header> )
+      view.header("text", class: "stuff").to_s.should eq %(<header class="stuff">\ntext\n</header> )
     end
 
     it "dasherizes attribute names" do
-      view.header("text", data_foo: "stuff").to_s.should eq %(<header data-foo="stuff">text </header> )
+      view.header("text", data_foo: "stuff").to_s.should eq %(<header data-foo="stuff">\ntext\n</header> )
     end
   end
 
@@ -85,7 +85,7 @@ describe LuckyWeb::Page do
 
   describe "HTML escaping" do
     it "escapes text" do
-      UnsafePage.new.render.to_s.should eq "&lt;script&gt;not safe&lt;/span&gt; "
+      UnsafePage.new.render.to_s.should eq "\n&lt;script&gt;not safe&lt;/span&gt;\n"
     end
 
     it "escapes HTML attributes" do
@@ -107,8 +107,8 @@ describe LuckyWeb::Page do
 
   describe "can be used to render layouts" do
     it "renders layouts" do
-      InnerPage.new.render.to_s.should contain %(<title>A great title </title>)
-      InnerPage.new.render.to_s.should contain %(<body>Inner text </body>)
+      InnerPage.new.render.to_s.should contain %(<title>\nA great title\n</title>)
+      InnerPage.new.render.to_s.should contain %(<body>\nInner text\n</body>)
     end
   end
 end
