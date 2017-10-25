@@ -37,4 +37,12 @@ module LuckyWeb::Renderable
   private def render_text(body)
     LuckyWeb::Response.new(context, "text/plain", body)
   end
+
+  private def json(body)
+    json(body, 200)
+  end
+
+  private def json(body, status : Int32)
+    LuckyWeb::Response.new(context, "application/json", body.to_json, status)
+  end
 end

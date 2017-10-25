@@ -19,12 +19,33 @@ class Rendering::Index < LuckyWeb::Action
   end
 end
 
+class Rendering::JSON::Index < LuckyWeb::Action
+  action do
+    json({name: "Paul"})
+  end
+end
+
+class Rendering::JSON::WithStatus < LuckyWeb::Action
+  get "/foo" do
+    json({name: "Paul"}, status: 201)
+  end
+end
+
 describe LuckyWeb::Action do
-  describe "rendering" do
+  describe "rendering HTML pages" do
     it "render assigns" do
       body = Rendering::Index.new(build_context, params).call.body
 
       body.should contain "Anything"
     end
+  end
+
+  it "renders JSON" do
+    response = Rendering::JSON::Index.new(build_context, params).call
+    response.body.should eq %({"name":"Paul"})
+    response.status.should eq 200
+
+    status = Rendering::JSON::WithStatus.new(build_context, params).call.status
+    status.should eq 201
   end
 end
