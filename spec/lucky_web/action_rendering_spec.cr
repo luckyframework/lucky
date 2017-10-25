@@ -31,6 +31,12 @@ class Rendering::JSON::WithStatus < LuckyWeb::Action
   end
 end
 
+class Rendering::HeadOnly < LuckyWeb::Action
+  get "/foo" do
+    head status: 204
+  end
+end
+
 describe LuckyWeb::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
@@ -47,5 +53,11 @@ describe LuckyWeb::Action do
 
     status = Rendering::JSON::WithStatus.new(build_context, params).call.status
     status.should eq 201
+  end
+
+  it "renders head response with no body" do
+    response = Rendering::HeadOnly.new(build_context, params).call
+    response.body.should eq ""
+    response.status.should eq 204
   end
 end
