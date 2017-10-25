@@ -1,31 +1,57 @@
 require "json"
 require "colorize"
 
-begin
-  manifest_path = File.expand_path("./public/manifest.json")
+class AssetManifestBuilder
+  MANIFEST_PATH = File.expand_path("./public/manifest.json")
+  MAX_RETRIES = 20
+  RETRY_AFTER = 0.25
 
-  if File.exists?(manifest_path)
-    manifest_file = File.read(manifest_path)
+  property retries
+  @retries : Int32 = 0
+
+  def self.build_with_retry
+    new.build_with_retry
+  end
+
+  def build_with_retry
+    if manifest_exists?
+      build
+    else
+      retry_or_raise_error
+    end
+  end
+
+  private def retry_or_raise_error
+    if retries < MAX_RETRIES
+      self.retries += 1
+      sleep(RETRY_AFTER)
+      build_with_retry
+    else
+      raise_missing_manifest_error
+    end
+  end
+
+  private def build
+    manifest_file = File.read(MANIFEST_PATH)
     manifest = JSON.parse(manifest_file)
 
     manifest.each do |key, value|
       puts %({% ASSET_MANIFEST["#{key.as_s}"] = "#{value.as_s}" %})
     end
-
-    puts <<-ASSET_MACRO
-    macro asset(path)
-      {% if ASSET_MANIFEST[path] %}
-        {{ "/" + ASSET_MANIFEST[path] }}
-      {% else %}
-        {{ run "../run_macros/missing_asset", path }}
-      {% end %}
-    end
-    ASSET_MACRO
-  else
-    puts "Manifest at #{manifest_path} does not exist".colorize(:red)
-    puts "Make sure you have run webpack".colorize(:red)
-    raise "Error generating asset helpers"
   end
+
+  private def manifest_exists?
+    File.exists?(MANIFEST_PATH)
+  end
+
+  private def raise_missing_manifest_error
+    puts "Manifest at #{AssetManifestBuilder::MANIFEST_PATH} does not exist".colorize(:red)
+    puts "Make sure you have compiled your assets".colorize(:red)
+  end
+end
+
+begin
+  AssetManifestBuilder.build_with_retry
 rescue ex
   puts ex.message.colorize(:red)
   raise ex
