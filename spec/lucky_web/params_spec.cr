@@ -89,7 +89,7 @@ describe LuckyWeb::Params do
   end
 
   describe "nested" do
-    it "gets nested params" do
+    it "gets form encoded nested params" do
       request = build_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1",
         content_type: "application/x-www-form-urlencoded"
       request.query = "from=query"
@@ -97,6 +97,16 @@ describe LuckyWeb::Params do
       params = LuckyWeb::Params.new(request)
 
       params.nested(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
+    end
+
+    it "gets JSON nested params" do
+      request = build_request body: {user: {name: "Paul", age: 28}}.to_json,
+        content_type: "application/json"
+      request.query = "from=query"
+
+      params = LuckyWeb::Params.new(request)
+
+      params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
     it "gets nested params after unescaping" do

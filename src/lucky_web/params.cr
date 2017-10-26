@@ -27,7 +27,25 @@ class LuckyWeb::Params
     end
   end
 
-  def nested(nested_key : String | Symbol) : Hash(String, String)?
+  def nested(nested_key : String | Symbol) : Hash(String, String)
+    if json?
+      nested_json_params(nested_key.to_s)
+    else
+      nested_form_params(nested_key.to_s)
+    end
+  end
+
+  def nested_json_params(nested_key : String) : Hash(String, String)
+    nested_params = {} of String => String
+
+    JSON::Any.new(parsed_json.as_h[nested_key]).each do |key, value|
+      nested_params[key.to_s] = value.to_s
+    end
+
+    nested_params
+  end
+
+  def nested_form_params(nested_key : String) : Hash(String, String)
     nested_key = "#{nested_key}:"
     form_params.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
