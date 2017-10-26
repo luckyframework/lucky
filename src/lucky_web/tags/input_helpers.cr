@@ -5,7 +5,7 @@ module LuckyWeb::InputHelpers
 
   def textarea(field : LuckyRecord::AllowedField, **html_options)
     textarea field.param.to_s, merge_options(html_options, {
-      "name"  => input_name(field),
+      "name" => input_name(field),
     })
   end
 

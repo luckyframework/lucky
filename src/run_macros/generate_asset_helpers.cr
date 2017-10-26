@@ -3,8 +3,8 @@ require "colorize"
 
 class AssetManifestBuilder
   MANIFEST_PATH = File.expand_path("./public/manifest.json")
-  MAX_RETRIES = 20
-  RETRY_AFTER = 0.25
+  MAX_RETRIES   =   20
+  RETRY_AFTER   = 0.25
 
   property retries
   @retries : Int32 = 0

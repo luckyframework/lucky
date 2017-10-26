@@ -65,6 +65,7 @@ class LuckyWeb::Params
   end
 
   @_form_params : HTTP::Params?
+
   private def form_params
     @_form_params ||= HTTP::Params.parse(body)
   end
@@ -78,6 +79,7 @@ class LuckyWeb::Params
   end
 
   @_parsed_json : JSON::Any?
+
   private def parsed_json
     @_parsed_json ||= JSON.parse(body)
   end
