@@ -49,6 +49,16 @@ describe LuckyWeb::Params do
       params.get(:foo).should eq "bar"
     end
 
+    it "parses JSON params" do
+      request = build_request body: {page: 1, foo: "bar"}.to_json,
+        content_type: "application/json"
+
+      params = LuckyWeb::Params.new(request)
+
+      params.get(:page).should eq "1"
+      params.get(:foo).should eq "bar"
+    end
+
     it "parses query params" do
       request = build_request body: "", content_type: ""
       request.query = "page=1&id=1"
