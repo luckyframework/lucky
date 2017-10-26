@@ -142,6 +142,7 @@ describe LuckyWeb::Action do
     end
   end
 end
+
 private def assert_route_added?(expected_route)
   LuckyWeb::Router.routes.should contain(expected_route)
 end
