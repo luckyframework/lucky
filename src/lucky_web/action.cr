@@ -3,13 +3,12 @@ require "./*"
 abstract class LuckyWeb::Action
   getter :context, :route_params
 
-  delegate flash, cookies, session, response, request, to: context
-
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
   end
 
   abstract def call : LuckyWeb::Response
 
+  include LuckyWeb::ActionDelegates
   include LuckyWeb::Exposeable
   include LuckyWeb::Routeable
   include LuckyWeb::Renderable
