@@ -3,8 +3,9 @@ class LuckyWeb::WelcomePage
 
   render do
     html_doctype
-    html do
+    html lang: "en" do
       head do
+        utf8_charset
         title "Welcome to Lucky"
         load_lato_font
         normalize_styles
