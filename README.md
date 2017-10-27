@@ -10,6 +10,12 @@
 
 Lucky is still in it's early stages. A guide will be written once the API is more stabilized.
 
+## Testing
+
+You need to make sure to install the Crystal dependencies.
+1. Run `crystal deps`
+1. Run `crystal spec` from the project root.
+
 ## Sign up for updates
 
 Sign up for updates on new blog posts, guides, and new releases at the [Lucky website](http://luckyframework.org)
