@@ -7,7 +7,7 @@ module LuckyWeb::BaseTags
   @view = IO::Memory.new
 
   macro generate_tag_methods(method_name, tag)
-    def {{method_name.id}}(content = "", options = EMPTY_HTML_ATTRS, **other_options)
+    def {{method_name.id}}(content : String? = "", options = EMPTY_HTML_ATTRS, **other_options)
       merged_options = merge_options(other_options, options)
       {{method_name.id}}(merged_options) do
         text content
