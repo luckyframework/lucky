@@ -2,6 +2,7 @@ require "./tags/**"
 
 module LuckyWeb::Page
   include LuckyWeb::BaseTags
+  include LuckyWeb::ButtonHelpers
   include LuckyWeb::LinkHelpers
   include LuckyWeb::FormHelpers
   include LuckyWeb::LabelHelpers
