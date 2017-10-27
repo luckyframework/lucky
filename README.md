@@ -8,7 +8,7 @@
 
 ## Status
 
-Lucky is still in it's early stages. A guide will be written once the API is more stabilized.
+Lucky is still in its early stages. A guide will be written once the API is more stabilized.
 
 ## Testing
 
