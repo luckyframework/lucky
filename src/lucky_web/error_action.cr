@@ -4,6 +4,7 @@ abstract class LuckyWeb::ErrorAction
   include LuckyWeb::ActionDelegates
   include LuckyWeb::Renderable
   include LuckyWeb::Redirectable
+  include LuckyWeb::ContentTypeHelpers
 
   getter context
 
