@@ -2,7 +2,7 @@ class LuckyWeb::ErrorHandler
   include HTTP::Handler
 
   Habitat.create do
-    setting show_debug_output : Bool = false
+    setting show_debug_output : Bool
   end
 
   private getter action
