@@ -11,6 +11,12 @@ LuckyWeb::Server.configure do
   settings.secret_key_base = "super-secret"
 end
 
+LuckyRecord::Repo.configure do
+  settings.url = "Not used yet"
+end
+
 LuckyWeb::ErrorHandler.configure do
   settings.show_debug_output = false
 end
+
+Habitat.raise_if_missing_settings!

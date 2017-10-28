@@ -9,6 +9,7 @@ dependencies:
     github: luckyframework/cli
   habitat:
     github: luckyframework/habitat
+    version: "~> 0.2.0"
   lucky_record:
     github: luckyframework/record
   lucky_router:
