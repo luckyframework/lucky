@@ -10,3 +10,7 @@ end
 LuckyWeb::Server.configure do
   settings.secret_key_base = "super-secret"
 end
+
+LuckyWeb::ErrorHandler.configure do
+  settings.show_debug_output = false
+end

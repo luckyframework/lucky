@@ -21,7 +21,7 @@ end
 describe LuckyWeb::ErrorHandler do
   it "does nothing if no errors are raised" do
     error_handler = LuckyWeb::ErrorHandler.new(action: FakeErrorAction)
-    error_handler.next = ->(ctx : HTTP::Server::Context) { }
+    error_handler.next = ->(ctx : HTTP::Server::Context) {}
 
     error_handler.call(build_context)
   end
@@ -32,6 +32,7 @@ describe LuckyWeb::ErrorHandler do
 
     context = error_handler.call(build_context).as(HTTP::Server::Context)
 
+    context.response.headers["Content-Type"].should eq("")
     context.response.status_code.should eq(404)
   end
 
@@ -41,6 +42,29 @@ describe LuckyWeb::ErrorHandler do
 
     context = error_handler.call(build_context).as(HTTP::Server::Context)
 
+    context.response.headers["Content-Type"].should eq("")
     context.response.status_code.should eq(500)
+  end
+
+  context "when configured to show debug output" do
+    it "prints debug output instead of calling the error action" do
+      begin
+        LuckyWeb::ErrorHandler.configure do
+          settings.show_debug_output = true
+        end
+
+        error_handler = LuckyWeb::ErrorHandler.new(action: FakeErrorAction)
+        error_handler.next = ->(ctx : HTTP::Server::Context) { raise UnhandledError.new }
+
+        context = error_handler.call(build_context).as(HTTP::Server::Context)
+
+        context.response.headers["Content-Type"].should eq("text/plain")
+        context.response.status_code.should eq(500)
+      ensure
+        LuckyWeb::ErrorHandler.configure do
+          settings.show_debug_output = false
+        end
+      end
+    end
   end
 end
