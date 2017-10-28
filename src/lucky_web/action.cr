@@ -9,6 +9,7 @@ abstract class LuckyWeb::Action
   abstract def call : LuckyWeb::Response
 
   include LuckyWeb::ActionDelegates
+  include LuckyWeb::ContentTypeHelpers
   include LuckyWeb::Exposeable
   include LuckyWeb::Routeable
   include LuckyWeb::Renderable
