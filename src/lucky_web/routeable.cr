@@ -23,28 +23,28 @@ module LuckyWeb::Routeable
     end
   {% end %}
 
-  macro nested_action
-    infer_nested_route
+  macro nested_action(singular = false)
+    infer_nested_route(singular: {{singular}})
 
     def call : LuckyWeb::Response
       {{yield}}
     end
   end
 
-  macro action
-    infer_route
+  macro action(singular = false)
+    infer_route(singular: {{singular}})
 
     def call : LuckyWeb::Response
       {{yield}}
     end
   end
 
-  macro infer_nested_route
-    infer_route(true)
+  macro infer_nested_route(singular = false)
+    infer_route(has_parent: true, singular: singular)
   end
 
-  macro infer_route(has_parent = false)
-    {{ run "../run_macros/infer_route", has_parent, @type.name }}
+  macro infer_route(has_parent = false, singular = false)
+    {{ run "../run_macros/infer_route", has_parent, @type.name, singular }}
   end
 
   macro add_route(method, path, action)

@@ -1,8 +1,8 @@
 class InferRoute
-  getter? nested_route
+  getter? nested_route, singular
   getter action_class_name
 
-  def initialize(@nested_route : Bool, @action_class_name : String)
+  def initialize(@nested_route : Bool, @action_class_name : String, @singular : Bool = false)
   end
 
   def generate_inferred_route
@@ -31,7 +31,8 @@ class InferRoute
   end
 
   private def all_pieces
-    (namespace_pieces + parent_resource_pieces + resource_pieces).reject(&.== "")
+    resource_pieces = singular? ? singular_resource_pieces : plural_resource_pieces
+    (namespace_pieces + parent_resource_pieces + resource_pieces).reject(&.empty?)
   end
 
   private def resource
@@ -51,30 +52,65 @@ class InferRoute
     end
   end
 
-  private def resource_pieces
-    if ["index", "create"].includes? action_name
+  private def plural_resource_pieces
+    case action_name
+    when "index", "create"
       [resource]
-    elsif action_name == "new"
+    when "new"
       [resource, "new"]
-    elsif action_name == "edit"
+    when "edit"
       [resource, ":id", "edit"]
-    elsif ["show", "update", "delete"].includes? action_name
+    when "show", "update", "delete"
       [resource, ":id"]
     else
+      resource_error
+    end
+  end
+
+  private def singular_resource_pieces
+    case action_name
+    when "index"
       puts(
         <<-ERROR
         Could not infer route for #{action_class_name}
 
-        Got:
-          #{action_class_name} (missing a known resourceful action)
-
-        Expected something like:
-          Users::Index # Index, Show, New, Create, Edit, Update, or Delete
+        Reason: Singular routes do not support an index action"
         ERROR
       )
 
-      raise "Problem inferring route"
+      raise "Invalid index action for singular resource"
+    when "create", "show", "update", "delete"
+      [resource]
+    when "new"
+      [resource, "new"]
+    when "edit"
+      [resource, "edit"]
+    else
+      resource_error
     end
+  end
+
+  private def resource_error
+    examples =
+      if singular?
+        "Users::New # Show, New, Create, Edit, Update, or Delete"
+      else
+        "Users::Index # Index, Show, New, Create, Edit, Update, or Delete"
+      end
+
+    puts(
+      <<-ERROR
+      Could not infer route for #{action_class_name}
+
+      Got:
+        #{action_class_name} (missing a known resourceful action)
+
+      Expected something like:
+        #{examples}
+      ERROR
+    )
+
+    raise "Problem inferring route"
   end
 
   private def parent_resource_pieces
@@ -96,5 +132,8 @@ class InferRoute
 end
 
 nested_route = ARGV.first == "true"
+singular = ARGV.last == "true"
 
-puts InferRoute.new(nested_route: nested_route, action_class_name: ARGV[1]).generate_inferred_route
+puts InferRoute.new(
+  nested_route: nested_route, action_class_name: ARGV[1], singular: singular
+).generate_inferred_route
