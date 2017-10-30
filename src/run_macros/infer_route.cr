@@ -2,7 +2,7 @@ class InferRoute
   getter? nested_route, singular
   getter action_class_name
 
-  def initialize(@nested_route : Bool, @action_class_name : String, @singular : Bool = false)
+  def initialize(@action_class_name : String, @nested_route : Bool, @singular : Bool = false)
   end
 
   def generate_inferred_route
@@ -31,7 +31,6 @@ class InferRoute
   end
 
   private def all_pieces
-    resource_pieces = singular? ? singular_resource_pieces : plural_resource_pieces
     (namespace_pieces + parent_resource_pieces + resource_pieces).reject(&.empty?)
   end
 
@@ -49,6 +48,14 @@ class InferRoute
       _namespace_pieces.reject { |piece| piece == parent_resource_name }
     else
       _namespace_pieces
+    end
+  end
+
+  private def resource_pieces
+    if singular?
+      singular_resource_pieces
+    else
+      plural_resource_pieces
     end
   end
 
@@ -78,7 +85,7 @@ class InferRoute
         ERROR
       )
 
-      raise "Invalid index action for singular resource"
+      raise "Invalid Index action for singular resource"
     when "create", "show", "update", "delete"
       [resource]
     when "new"
@@ -131,9 +138,9 @@ class InferRoute
   end
 end
 
-nested_route = ARGV.first == "true"
-singular = ARGV.last == "true"
+nested_route = ARGV[1] == "true"
+singular = ARGV[2] == "true"
 
 puts InferRoute.new(
-  nested_route: nested_route, action_class_name: ARGV[1], singular: singular
+  action_class_name: ARGV[0], nested_route: nested_route, singular: singular
 ).generate_inferred_route
