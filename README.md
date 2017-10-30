@@ -1,11 +1,5 @@
 [![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)](http://luckyframework.org)
 
-## Installation
-
-1. Install the Lucky CLI: https://github.com/luckyframework/cli#installing-the-cli
-1. Run `lucky init {project_name}`
-1. Run `lucky dev` to start the server
-
 ## Status
 
 Lucky is still in its early stages. A guide will be written once the API is more stabilized.
