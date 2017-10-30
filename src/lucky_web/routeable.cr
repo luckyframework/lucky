@@ -1,7 +1,7 @@
 module LuckyWeb::Routeable
   {% for http_method in [:get, :put, :post, :delete] %}
     macro {{ http_method.id }}(path)
-      add_route :{{ http_method.id }}, \{{path}}, \{{@type.name.id}}
+      add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
 
       def call : LuckyWeb::Response
         callback_result = run_before_callbacks
@@ -9,7 +9,7 @@ module LuckyWeb::Routeable
         response = if callback_result.is_a?(LuckyWeb::Response)
           callback_result
         else
-          \{{yield}}
+          \{{ yield }}
         end
 
         callback_result = run_after_callbacks
@@ -23,32 +23,32 @@ module LuckyWeb::Routeable
     end
   {% end %}
 
-  macro nested_action
-    infer_nested_route
+  macro nested_action(singular = false)
+    infer_nested_route(singular: {{ singular }})
 
     def call : LuckyWeb::Response
-      {{yield}}
+      {{ yield }}
     end
   end
 
-  macro action
-    infer_route
+  macro action(singular = false)
+    infer_route(singular: {{ singular }})
 
     def call : LuckyWeb::Response
-      {{yield}}
+      {{ yield }}
     end
   end
 
-  macro infer_nested_route
-    infer_route(true)
+  macro infer_nested_route(singular = false)
+    infer_route(has_parent: true, singular: singular)
   end
 
-  macro infer_route(has_parent = false)
-    {{ run "../run_macros/infer_route", has_parent, @type.name }}
+  macro infer_route(has_parent = false, singular = false)
+    {{ run "../run_macros/infer_route", @type.name, has_parent, singular }}
   end
 
   macro add_route(method, path, action)
-    LuckyWeb::Router.add({{method}}, {{path}}, {{@type.name.id}})
+    LuckyWeb::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
 
     {% path_parts = path.split("/").reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(":")) %}
@@ -64,16 +64,16 @@ module LuckyWeb::Routeable
 
     def self.path(
     {% for param in path_params %}
-      {{param.gsub(/:/, "").id}},
+      {{ param.gsub(/:/, "").id }},
     {% end %}
       )
       path = String.build do |path|
         {% for part in path_parts %}
           path << "/"
           {% if part.starts_with?(":") %}
-            path << {{part.gsub(/:/, "").id}}
+            path << {{ part.gsub(/:/, "").id }}
           {% else %}
-            path << {{part}}
+            path << {{ part }}
           {% end %}
         {% end %}
       end
@@ -84,23 +84,23 @@ module LuckyWeb::Routeable
 
     def self.route(
     {% for param in path_params %}
-      {{param.gsub(/:/, "").id}},
+      {{ param.gsub(/:/, "").id }},
     {% end %}
       )
       path = String.build do |path|
         {% for part in path_parts %}
           path << "/"
           {% if part.starts_with?(":") %}
-            path << {{part.gsub(/:/, "").id}}.to_param
+            path << {{ part.gsub(/:/, "").id }}.to_param
           {% else %}
-            path << {{part}}
+            path << {{ part }}
           {% end %}
         {% end %}
       end
 
       is_root_path = path == ""
       path = "/" if is_root_path
-      LuckyWeb::RouteHelper.new {{method}}, path
+      LuckyWeb::RouteHelper.new {{ method }}, path
     end
   end
 end
