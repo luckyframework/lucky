@@ -38,7 +38,7 @@ module Sentry
 
     private def start_browser_sync
       spawn do
-        Process.run "yarn run browser-sync -- start -c bs-config.js",
+        Process.run "yarn run browser-sync start -c bs-config.js",
           output: true,
           error: true,
           shell: true
@@ -46,7 +46,7 @@ module Sentry
     end
 
     private def reload_browser_sync
-      Process.run "yarn run browser-sync -- reload",
+      Process.run "yarn run browser-sync reload",
         output: true,
         error: true,
         shell: true
