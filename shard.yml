@@ -14,6 +14,8 @@ dependencies:
     github: luckyframework/record
   lucky_router:
     github: luckyframework/router
+  shell-table:
+    github: jwaldrip/shell-table.cr
 
 crystal: 0.20.3
 
