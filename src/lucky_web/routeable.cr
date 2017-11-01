@@ -102,5 +102,17 @@ module LuckyWeb::Routeable
       path = "/" if is_root_path
       LuckyWeb::RouteHelper.new {{ method }}, path
     end
+
+    def self.with(**args)
+      route(**args)
+    end
+
+    def self.with(*args)
+      route(*args)
+    end
+
+    def self.with
+      \{% raise "Use `route` instead of `with` if the action doesn't need params" %}
+    end
   end
 end

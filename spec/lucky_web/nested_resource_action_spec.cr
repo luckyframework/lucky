@@ -19,13 +19,13 @@ describe LuckyWeb::Action do
         .path("project_id", "task_id")
         .should eq "/projects/project_id/tasks/task_id"
       Projects::Tasks::Show
-        .route("project_id", "task_id")
+        .with("project_id", "task_id")
         .should eq LuckyWeb::RouteHelper.new(:get, "/projects/project_id/tasks/task_id")
       Admin::Projects::Tasks::Show
         .path("project_id", "task_id")
         .should eq "/admin/projects/project_id/tasks/task_id"
       Admin::Projects::Tasks::Show
-        .route("project_id", "task_id")
+        .with("project_id", "task_id")
         .should eq LuckyWeb::RouteHelper.new(:get, "/admin/projects/project_id/tasks/task_id")
     end
 

@@ -19,25 +19,25 @@ private class TestPage
   end
 
   def inferred_put_form
-    form_for FormHelpers::Update.route("fake_id") do
+    form_for FormHelpers::Update.with("fake_id") do
       text "foo"
     end
   end
 
   def inferred_post_form
-    form_for FormHelpers::Create.route do
+    form_for FormHelpers::Create do
       text "foo"
     end
   end
 
   def inferred_get_form
-    form_for FormHelpers::Index.route do
+    form_for FormHelpers::Index do
       text "foo"
     end
   end
 
   def form_with_html_options
-    form_for FormHelpers::Create.route, class: "cool-form" do
+    form_for FormHelpers::Create, class: "cool-form" do
       text "foo"
     end
   end
