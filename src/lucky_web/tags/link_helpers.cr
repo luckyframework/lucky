@@ -4,7 +4,7 @@ module LuckyWeb::LinkHelpers
   end
 
   def link(text, to : LuckyWeb::Action.class, **html_options)
-    a text, merge_options(html_options, link_to_href(to.with))
+    a text, merge_options(html_options, link_to_href(to.route))
   end
 
   def link(to : LuckyWeb::RouteHelper, **html_options)
@@ -14,7 +14,7 @@ module LuckyWeb::LinkHelpers
   end
 
   def link(to : LuckyWeb::Action.class, **html_options)
-    a merge_options(html_options, link_to_href(to.with)) do
+    a merge_options(html_options, link_to_href(to.route)) do
       yield
     end
   end

@@ -15,7 +15,7 @@ describe LuckyWeb::Action do
     should_redirect(action, to: "/somewhere", status: 302)
 
     action = RedirectAction.new(build_context, params)
-    action.redirect to: RedirectAction.with
+    action.redirect to: RedirectAction.route
     should_redirect(action, to: RedirectAction.path, status: 302)
 
     action = RedirectAction.new(build_context, params)
