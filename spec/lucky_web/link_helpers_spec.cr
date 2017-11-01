@@ -15,15 +15,15 @@ private class TestPage
   end
 
   def get_route
-    link "Test", to: LinkHelpers::Index.route
+    link "Test", to: LinkHelpers::Index
   end
 
   def non_get_route
-    link "Test", to: LinkHelpers::Create.route
+    link "Test", to: LinkHelpers::Create
   end
 
   def non_get_route_with_options
-    link "Test", to: LinkHelpers::Create.route, something_custom: "foo"
+    link "Test", to: LinkHelpers::Create, something_custom: "foo"
   end
 
   def string_path
@@ -35,7 +35,7 @@ private class TestPage
   end
 
   def get_route_with_block
-    link to: LinkHelpers::Index.route do
+    link to: LinkHelpers::Index do
       text "Hello"
     end
   end

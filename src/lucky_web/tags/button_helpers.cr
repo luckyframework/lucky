@@ -8,7 +8,7 @@ module LuckyWeb::ButtonHelpers
   end
 
   def button(text, to : LuckyWeb::Action.class, **html_options)
-    a text, merge_options(html_options, link_to_href(to.route))
+    a text, merge_options(html_options, link_to_href(to.with))
   end
 
   def button(to : LuckyWeb::RouteHelper, **html_options)
@@ -18,7 +18,7 @@ module LuckyWeb::ButtonHelpers
   end
 
   def button(to : LuckyWeb::Action.class, **html_options)
-    a merge_options(html_options, link_to_href(to.route)) do
+    a merge_options(html_options, link_to_href(to.with)) do
       yield
     end
   end

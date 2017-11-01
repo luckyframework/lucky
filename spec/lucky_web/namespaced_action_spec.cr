@@ -13,7 +13,7 @@ describe LuckyWeb::Action do
         .path("foo")
         .should eq "/admin/multi_word/users/foo"
       Admin::MultiWord::Users::Show
-        .route("foo")
+        .with("foo")
         .should eq LuckyWeb::RouteHelper.new(:get, "/admin/multi_word/users/foo")
     end
 

@@ -82,7 +82,7 @@ module LuckyWeb::Routeable
       path
     end
 
-    def self.route(
+    def self.with(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}

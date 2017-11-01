@@ -86,19 +86,19 @@ describe LuckyWeb::Action do
   describe "routing" do
     it "creates URL helpers for the resourceful actions" do
       Tests::Index.path.should eq "/tests"
-      Tests::Index.route.should eq LuckyWeb::RouteHelper.new(:get, "/tests")
+      Tests::Index.with.should eq LuckyWeb::RouteHelper.new(:get, "/tests")
       Tests::New.path.should eq "/tests/new"
-      Tests::New.route.should eq LuckyWeb::RouteHelper.new(:get, "/tests/new")
+      Tests::New.with.should eq LuckyWeb::RouteHelper.new(:get, "/tests/new")
       Tests::Edit.path("test-id").should eq "/tests/test-id/edit"
-      Tests::Edit.route("test-id").should eq LuckyWeb::RouteHelper.new(:get, "/tests/test-id/edit")
+      Tests::Edit.with("test-id").should eq LuckyWeb::RouteHelper.new(:get, "/tests/test-id/edit")
       Tests::Show.path("test-id").should eq "/tests/test-id"
-      Tests::Show.route("test-id").should eq LuckyWeb::RouteHelper.new(:get, "/tests/test-id")
+      Tests::Show.with("test-id").should eq LuckyWeb::RouteHelper.new(:get, "/tests/test-id")
       Tests::Delete.path("test-id").should eq "/tests/test-id"
-      Tests::Delete.route("test-id").should eq LuckyWeb::RouteHelper.new(:delete, "/tests/test-id")
+      Tests::Delete.with("test-id").should eq LuckyWeb::RouteHelper.new(:delete, "/tests/test-id")
       Tests::Update.path("test-id").should eq "/tests/test-id"
-      Tests::Update.route("test-id").should eq LuckyWeb::RouteHelper.new(:put, "/tests/test-id")
+      Tests::Update.with("test-id").should eq LuckyWeb::RouteHelper.new(:put, "/tests/test-id")
       Tests::Create.path.should eq "/tests"
-      Tests::Create.route.should eq LuckyWeb::RouteHelper.new(:post, "/tests")
+      Tests::Create.with.should eq LuckyWeb::RouteHelper.new(:post, "/tests")
     end
 
     it "adds routes to the router" do

@@ -4,7 +4,7 @@ module LuckyWeb::Redirectable
   end
 
   def redirect(to action : LuckyWeb::Action.class, status = 302)
-    redirect to: action.route, status: status
+    redirect to: action.with, status: status
   end
 
   def redirect(to path : String, status = 302)

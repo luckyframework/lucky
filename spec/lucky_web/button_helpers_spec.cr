@@ -15,15 +15,15 @@ private class TestPage
   end
 
   def get_route
-    button "Test", to: ButtonHelpers::Index.route
+    button "Test", to: ButtonHelpers::Index
   end
 
   def non_get_route
-    button "Test", to: ButtonHelpers::Create.route
+    button "Test", to: ButtonHelpers::Create
   end
 
   def non_get_route_with_options
-    button "Test", to: ButtonHelpers::Create.route, something_custom: "foo"
+    button "Test", to: ButtonHelpers::Create, something_custom: "foo"
   end
 
   def string_path
@@ -35,7 +35,7 @@ private class TestPage
   end
 
   def get_route_with_block
-    button to: ButtonHelpers::Index.route do
+    button to: ButtonHelpers::Index do
       text "Hello"
     end
   end
