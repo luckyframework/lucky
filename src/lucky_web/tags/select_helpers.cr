@@ -1,7 +1,7 @@
 module LuckyWeb::SelectHelpers
   alias SelectOption = (String | Int32 | Int64)
 
-  def select(field : LuckyRecord::AllowedField, **html_options)
+  def select_input(field : LuckyRecord::AllowedField, **html_options)
     select_tag merge_options(html_options, {"name" => input_name(field)}) do
       yield
     end
