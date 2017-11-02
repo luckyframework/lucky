@@ -1,6 +1,7 @@
 require "option_parser"
 require "colorize"
 
+# Based on the sentry shard with some modifications to outut and build process.
 module Sentry
   FILE_TIMESTAMPS = {} of String => String # {file => timestamp}
 
@@ -93,12 +94,12 @@ module Sentry
 end
 
 class Watch < LuckyCli::Task
-  banner "watch it"
+  banner "Start and recompile project when files change"
 
   def call
     build_commands = ["crystal build ./src/server.cr"]
     run_commands = ["./server"]
-    files = ["./src/**/*.cr", "./src/**/*.ecr"]
+    files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
     files_cleared = false
     show_help = false
 
