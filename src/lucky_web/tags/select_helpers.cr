@@ -7,7 +7,7 @@ module LuckyWeb::SelectHelpers
     end
   end
 
-  def options_for_select(field : LuckyRecord::AllowedField, select_options : Array(String, SelectOption), **html_options)
+  def options_for_select(field : LuckyRecord::AllowedField, select_options : Array(Tuple(String, SelectOption)), **html_options)
     select_options.each do |select_name, select_value|
        is_selected = if select_value.to_s == field.value.to_s
          "true"
