@@ -59,6 +59,16 @@ describe LuckyWeb::Params do
       params.get(:foo).should eq "bar"
     end
 
+    it "handles empty JSON body" do
+      request = build_request body: "",
+        content_type: "application/json"
+
+      params = LuckyWeb::Params.new(request)
+
+      # Should not raise
+      params.get(:anything)
+    end
+
     it "parses query params" do
       request = build_request body: "", content_type: ""
       request.query = "page=1&id=1"
