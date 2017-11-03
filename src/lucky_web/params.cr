@@ -80,8 +80,14 @@ class LuckyWeb::Params
 
   @_parsed_json : JSON::Any?
 
-  private def parsed_json
-    @_parsed_json ||= JSON.parse(body)
+  private def parsed_json : JSON::Any
+    @_parsed_json ||= begin
+      if body.blank?
+        JSON.parse("{}")
+      else
+        JSON.parse(body)
+      end
+    end
   end
 
   private def body
