@@ -7,15 +7,19 @@ authors:
 dependencies:
   lucky_cli:
     github: luckyframework/cli
+    version: ~> 0.6.0
   habitat:
     github: luckyframework/habitat
     version: "~> 0.2.0"
   lucky_record:
     github: luckyframework/record
+    version: "~> 0.2.0"
   lucky_router:
     github: luckyframework/router
+    version: "~> 0.2.0"
   shell-table:
     github: jwaldrip/shell-table.cr
+    version: "~> 0.9.2"
 
 crystal: 0.20.3
 
