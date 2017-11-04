@@ -22,7 +22,7 @@ class LuckyWeb::WelcomePage
   end
 
   def lucky_logo
-    img src: lucky_logo_data_uri, class: "lucky-logo"
+    raw %(<img src="#{lucky_logo_data_uri}" class="lucky-logo"/>)
   end
 
   def lucky_welcome_tagline
