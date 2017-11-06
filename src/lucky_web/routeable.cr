@@ -3,40 +3,40 @@ module LuckyWeb::Routeable
     macro {{ http_method.id }}(path)
       add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
 
-      def call : LuckyWeb::Response
-        callback_result = run_before_callbacks
-
-        response = if callback_result.is_a?(LuckyWeb::Response)
-          callback_result
-        else
-          \{{ yield }}
-        end
-
-        callback_result = run_after_callbacks
-
-        if callback_result.is_a?(LuckyWeb::Response)
-          callback_result
-        else
-          response
-        end
-      end
+      setup_call_method(\{{ yield }})
     end
   {% end %}
+
+  macro setup_call_method(body)
+    def call : LuckyWeb::Response
+      callback_result = run_before_callbacks
+
+      response = if callback_result.is_a?(LuckyWeb::Response)
+        callback_result
+      else
+        {{ body }}
+      end
+
+      callback_result = run_after_callbacks
+
+      if callback_result.is_a?(LuckyWeb::Response)
+        callback_result
+      else
+        response
+      end
+    end
+  end
 
   macro nested_action(singular = false)
     infer_nested_route(singular: {{ singular }})
 
-    def call : LuckyWeb::Response
-      {{ yield }}
-    end
+    setup_call_method({{ yield }})
   end
 
   macro action(singular = false)
     infer_route(singular: {{ singular }})
 
-    def call : LuckyWeb::Response
-      {{ yield }}
-    end
+    setup_call_method({{ yield }})
   end
 
   macro infer_nested_route(singular = false)

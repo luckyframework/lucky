@@ -2,6 +2,19 @@ require "../../spec_helper"
 
 include ContextHelper
 
+class CallbackFromActionMacro::Index < LuckyWeb::Action
+  before set_before_cookie
+
+  action do
+    render_text "Body"
+  end
+
+  def set_before_cookie
+    cookies["before"] = "before"
+    continue
+  end
+end
+
 abstract class InheritableCallbacks < LuckyWeb::Action
   before set_before_cookie
   after overwrite_after_cookie
@@ -74,6 +87,11 @@ class Callbacks::HaltedAfter < LuckyWeb::Action
 end
 
 describe LuckyWeb::Action do
+  it "works with actions that use the `action` macro" do
+    response = CallbackFromActionMacro::Index.new(build_context, params).call
+    response.context.cookies["before"].should eq "before"
+  end
+
   describe "handles before callbacks" do
     it "runs through all the callbacks if no LuckyWeb::Response is returned" do
       response = Callbacks::Index.new(build_context, params).call
