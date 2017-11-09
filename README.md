@@ -25,3 +25,13 @@ Sign up for updates on new blog posts, guides, and new releases at the [Lucky we
 ## Contributors
 
 - [paulcsmith](https://github.com/paulcsmith) Paul Smith - creator, maintainer
+
+## Thanks & Attributions
+
+* SessionHandler, CookieHandler and FlashHandler are based on [Amber](https://github.com/amberframework/amber). Thank you to the Amber team!
+* Thanks to Rails for inspiring many of the ideas that are easy to take for
+  granted. Convention over configuration, removing boilerplate, and most
+  importantly - focusing on developer happiness.
+* Thanks to Phoenix, Ecto and Elixir for inspiring LuckyRecord's forms,
+  LuckyWeb's single base actions and pipes, and focusing on helpful error
+  messages.
