@@ -1,18 +1,24 @@
 [![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)](http://luckyframework.org)
 
-## Status
+## Try Lucky
 
-Lucky is still in its early stages. A guide will be written once the API is more stabilized.
+Lucky has a [fresh new set of guides](https://luckyframework.org/guides/) so you
+can learn to use Lucky. Feel free to say hi or ask questions on our
+[chat room](https://gitter.im/luckyframework/Lobby).
 
-## Testing
-
-You need to make sure to install the Crystal dependencies.
-1. Run `crystal deps`
-1. Run `crystal spec` from the project root.
+> Lucky is in its early stages, so things will be changed often. Be prepared to
+make fairly significant updates to your apps until 1.0.
 
 ## Sign up for updates
 
 Sign up for updates on new blog posts, guides, and new releases at the [Lucky website](http://luckyframework.org)
+
+## Testing
+
+You need to make sure to install the Crystal dependencies.
+
+1. Run `crystal deps`
+1. Run `crystal spec` from the project root.
 
 ## Contributing
 
