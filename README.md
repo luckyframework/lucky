@@ -1,13 +1,15 @@
 [![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)](http://luckyframework.org)
 
+Catch bugs early, forget about most performance issues, and spend more time on
+code instead of debugging and writing tests.
+
 ## Try Lucky
 
-Lucky has a [fresh new set of guides](https://luckyframework.org/guides/) so you
-can learn to use Lucky. Feel free to say hi or ask questions on our
-[chat room](https://gitter.im/luckyframework/Lobby).
+Lucky has a [fresh new set of guides](https://luckyframework.org/guides/) that
+make it easy to get started.
 
-> Lucky is in its early stages, so things will be changed often. Be prepared to
-make fairly significant updates to your apps until 1.0.
+Feel free to say hi or ask questions on our
+[chat room](https://gitter.im/luckyframework/Lobby).
 
 ## Sign up for updates
 
@@ -32,7 +34,7 @@ You need to make sure to install the Crystal dependencies.
 
 - [paulcsmith](https://github.com/paulcsmith) Paul Smith - creator, maintainer
 
-## Thanks & Attributions
+## Thanks & attributions
 
 * SessionHandler, CookieHandler and FlashHandler are based on [Amber](https://github.com/amberframework/amber). Thank you to the Amber team!
 * Thanks to Rails for inspiring many of the ideas that are easy to take for
