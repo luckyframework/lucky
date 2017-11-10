@@ -36,6 +36,20 @@ describe LuckyWeb::InputHelpers do
     HTML
   end
 
+  it "renders checkbox inputs" do
+    view.checkbox(form.first_name, value: "1").to_s.should contain <<-HTML
+    <input type="checkbox" name="user:first_name" value="1"/>
+    HTML
+
+    view.checkbox(form.first_name, value: "1", class: "cool").to_s.should contain <<-HTML
+    <input type="checkbox" name="user:first_name" value="1" class="cool"/>
+    HTML
+
+    view.checkbox(form.first_name, value: "1").to_s.should have_unchecked_value("0")
+
+    view.checkbox(form.first_name, unchecked_value: "not_accepted").to_s.should have_unchecked_value("not_accepted")
+  end
+
   it "renders text inputs" do
     view.text_input(form.first_name).to_s.should contain <<-HTML
     <input type="text" name="user:first_name" value="My name"/>
@@ -153,4 +167,10 @@ end
 
 private def view
   TestPage.new
+end
+
+private def have_unchecked_value(value)
+  contain <<-HTML
+  <input type="hidden" name="user:first_name" value="#{value}" id=""/>
+  HTML
 end

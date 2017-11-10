@@ -9,6 +9,12 @@ module LuckyWeb::InputHelpers
     })
   end
 
+  def checkbox(field : LuckyRecord::AllowedField, **html_options, unchecked_value : String? = nil)
+    hidden_value = unchecked_value || "0"
+    generate_input(field, "hidden", {"id" => ""}, {"value" => hidden_value})
+    generate_input(field, "checkbox", html_options)
+  end
+
   def text_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "text", html_options)
   end
