@@ -14,7 +14,7 @@ module LuckyWeb::BaseTags
       end
     end
 
-    def {{method_name.id}}(content : String)
+    def {{method_name.id}}(content : String | LuckyWeb::AllowedInTags)
       {{method_name.id}}(EMPTY_HTML_ATTRS) do
         text content
       end
@@ -55,8 +55,8 @@ module LuckyWeb::BaseTags
     end
   {% end %}
 
-  def text(content : String)
-    @view << HTML.escape(content)
+  def text(content : String | LuckyWeb::AllowedInTags)
+    @view << HTML.escape(content.to_s)
   end
 
   private def build_tag_attrs(options)
