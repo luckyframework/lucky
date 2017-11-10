@@ -33,31 +33,28 @@ class UnsafePage
   end
 end
 
-class InnerPage
+abstract class MainLayout
   include LuckyWeb::Page
 
-  layout MainLayout
-
   render do
+    title page_title
+
+    body do
+      inner
+    end
+  end
+
+  abstract def inner
+  abstract def page_title
+end
+
+class InnerPage < MainLayout
+  def inner
     text "Inner text"
   end
 
-  def title
+  def page_title
     "A great title"
-  end
-end
-
-class MainLayout
-  include LuckyWeb::Layout
-
-  @page : InnerPage
-
-  render do
-    title @page.title
-
-    body do
-      @page.render_inner
-    end
   end
 end
 
