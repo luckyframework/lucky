@@ -1,0 +1,2 @@
+module LuckyWeb::AllowedInTags
+end
