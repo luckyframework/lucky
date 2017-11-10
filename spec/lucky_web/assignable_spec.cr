@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class BasePage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   needs name : String
 end

@@ -19,7 +19,7 @@ class InputTestForm
 end
 
 private class TestPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   render do
   end

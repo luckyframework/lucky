@@ -3,7 +3,7 @@ require "../../spec_helper"
 include ContextHelper
 
 class Rendering::IndexPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   needs title : String
   needs arg2 : String

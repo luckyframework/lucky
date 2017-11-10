@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 private class TestPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   render do
   end

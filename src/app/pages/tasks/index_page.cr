@@ -1,5 +1,5 @@
 class Tasks::IndexPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   needs tasks : Array(Task)
 
