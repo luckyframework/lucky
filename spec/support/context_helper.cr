@@ -6,7 +6,10 @@ module ContextHelper
   end
 
   private def build_context(path = "/", request = nil) : HTTP::Server::Context
-    io = IO::Memory.new
+    build_context_with_io(IO::Memory.new, path: path, request: request)
+  end
+
+  private def build_context_with_io(io : IO, path = "/", request = nil) : HTTP::Server::Context
     request = request || HTTP::Request.new("GET", path)
     response = HTTP::Server::Response.new(io)
     HTTP::Server::Context.new request, response

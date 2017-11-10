@@ -5,6 +5,8 @@ class HTTP::Server::Context
   setter cookies : LuckyWeb::Cookies::Store?
   setter flash : LuckyWeb::Flash::Store?
 
+  getter debug_messages : Array(String) = [] of String
+
   def cookies
     @cookies ||= LuckyWeb::Cookies::Store.build(request, LuckyWeb::Server.settings.secret_key_base)
   end
@@ -15,5 +17,11 @@ class HTTP::Server::Context
 
   def flash
     @flash ||= LuckyWeb::Flash.from_session(session.fetch(LuckyWeb::Flash::Handler::PARAM_KEY, "{}"))
+  end
+
+  def add_debug_message(message : String)
+    {% if !flag?(:release) %}
+      debug_messages << message
+    {% end %}
   end
 end
