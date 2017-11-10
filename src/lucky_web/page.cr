@@ -12,13 +12,6 @@ module LuckyWeb::Page
   include LuckyWeb::Assignable
   include LuckyWeb::AssetHelpers
 
-  macro layout(layout_class)
-    {% SETTINGS[:has_layout] = true %}
-    def render
-      {{layout_class}}.new(self, @view).render.to_s
-    end
-  end
-
   macro generate_initializer
     def initialize(
       {% for var, type in ASSIGNS %}
@@ -29,12 +22,7 @@ module LuckyWeb::Page
   end
 
   macro render
-    {% if SETTINGS[:has_layout] %}
-      {% render_method_name = :render_inner %}
-    {% else %}
-      {% render_method_name = :render %}
-    {% end %}
-    def {{ render_method_name.id }}
+    def render
       {{ yield }}
       @view
     end
