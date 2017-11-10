@@ -1,5 +1,5 @@
 class LuckyWeb::WelcomePage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   render do
     html_doctype

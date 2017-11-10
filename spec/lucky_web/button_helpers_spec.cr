@@ -9,7 +9,7 @@ class ButtonHelpers::Create < LuckyWeb::Action
 end
 
 private class TestPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   render do
   end

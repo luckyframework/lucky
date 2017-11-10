@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class Rendering::CustomPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   needs title : String
   needs arg2 : String

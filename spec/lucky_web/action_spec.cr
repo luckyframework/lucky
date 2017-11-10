@@ -27,7 +27,7 @@ class CustomRoutes::Delete < LuckyWeb::Action
 end
 
 class Tests::IndexPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   render do
     text "Rendered from Tests::IndexPage"

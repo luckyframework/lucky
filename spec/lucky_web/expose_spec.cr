@@ -16,7 +16,7 @@ class OnlyExpose < LuckyWeb::Action
 end
 
 class OnlyExposePage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   needs name : String
 
@@ -54,7 +54,7 @@ class MultipleExposeAndAssigns < InheritedExposureAction
 end
 
 class MultipleExposeAndAssignsPage
-  include LuckyWeb::Page
+  include LuckyWeb::HTMLPage
 
   needs expose_one : String
   needs expose_two : String
