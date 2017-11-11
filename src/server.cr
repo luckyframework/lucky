@@ -12,7 +12,7 @@ LuckyWeb::Session::Store.configure do
 end
 
 server = HTTP::Server.new("127.0.0.1", 8080, [
-  HTTP::LogHandler.new,
+  LuckyWeb::LogHandler.new,
   LuckyWeb::ErrorHandler.new(action: ErrorAction),
   LuckyWeb::Flash::Handler.new,
   LuckyWeb::RouteHandler.new,
