@@ -1,6 +1,7 @@
 require "./session/**"
 
 class HTTP::Server::Context
+  DEBUG_COLOR = :green
   setter session : LuckyWeb::Session::AbstractStore?
   setter cookies : LuckyWeb::Cookies::Store?
   setter flash : LuckyWeb::Flash::Store?

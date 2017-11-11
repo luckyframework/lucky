@@ -24,7 +24,7 @@ class LuckyWeb::LogHandler
 
   private def log_debug_messages(context)
     context.debug_messages.each do |message|
-      @io.puts "  #{"▸".colorize(:green)} #{message}"
+      @io.puts "  #{"▸".colorize(:cyan)} #{message}"
     end
   end
 

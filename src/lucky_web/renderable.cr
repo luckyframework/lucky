@@ -8,6 +8,7 @@ module LuckyWeb::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
+    log_html_render(context, view)
     body = view.render.to_s
     LuckyWeb::Response.new(context, "text/html", body)
   end
@@ -21,8 +22,13 @@ module LuckyWeb::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
+    log_html_render(context, view)
     body = view.render.to_s
     LuckyWeb::Response.new(context, "text/html", body)
+  end
+
+  def log_html_render(context, view)
+    context.add_debug_message("Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}")
   end
 
   def perform_action
