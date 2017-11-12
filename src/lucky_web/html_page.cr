@@ -42,10 +42,12 @@ module LuckyWeb::HTMLPage
   end
 
   macro render
-    def render
-      {{ yield }}
-      @view
-    end
+    {% raise "Lucky now looks for a regular `def render` method. Please use that instead of `def render/end`" %}
+  end
+
+  def perform_render : IO::Memory
+    render
+    @view
   end
 
   macro p(_arg, **args)

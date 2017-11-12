@@ -4,7 +4,7 @@ class Tasks::IndexPage
   needs tasks : Array(Task)
   needs flash : LuckyWeb::Flash::Store
 
-  render do
+  def render
     header do
       h1 "All my tasks"
       a "New task", href: Tasks::New.path

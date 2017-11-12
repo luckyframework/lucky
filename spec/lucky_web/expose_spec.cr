@@ -20,7 +20,7 @@ class OnlyExposePage
 
   needs name : String
 
-  render do
+  def render
   end
 end
 
@@ -62,7 +62,7 @@ class MultipleExposeAndAssignsPage
   needs arg1 : String
   needs arg2 : String
 
-  render do
+  def render
   end
 end
 

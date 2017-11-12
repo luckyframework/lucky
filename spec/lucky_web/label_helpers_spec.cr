@@ -21,7 +21,7 @@ end
 private class TestPage
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
   end
 
   def label_without_html_options

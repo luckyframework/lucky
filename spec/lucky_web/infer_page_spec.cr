@@ -6,7 +6,7 @@ class Rendering::CustomPage
   needs title : String
   needs arg2 : String
 
-  render do
+  def render
     text @title
   end
 end

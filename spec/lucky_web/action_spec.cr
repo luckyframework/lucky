@@ -29,7 +29,7 @@ end
 class Tests::IndexPage
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
     text "Rendered from Tests::IndexPage"
   end
 end

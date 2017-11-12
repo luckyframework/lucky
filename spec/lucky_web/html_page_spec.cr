@@ -3,7 +3,7 @@ require "../../spec_helper"
 class TestRender
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
     render_complicated_html
   end
 
@@ -28,7 +28,7 @@ end
 class UnsafePage
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
     text "<script>not safe</span>"
   end
 end
@@ -36,7 +36,7 @@ end
 abstract class MainLayout
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
     title page_title
 
     body do

@@ -3,7 +3,7 @@ class LuckyWeb::WelcomePage
 
   needs flash : LuckyWeb::Flash::Store
 
-  render do
+  def render
     html_doctype
     html lang: "en" do
       head do

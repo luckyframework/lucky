@@ -3,7 +3,7 @@ require "../../spec_helper"
 private class TestPage
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
   end
 end
 

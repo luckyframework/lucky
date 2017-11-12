@@ -1,7 +1,7 @@
 class Tasks::NewPage
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
     header({class: "WHAT"}) do
       text "New HTML"
       a "back to index", href: Tasks::Index.path

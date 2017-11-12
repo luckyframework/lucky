@@ -20,7 +20,7 @@ module LuckyWeb::Renderable
       {% end %}
     )
     log_html_render(context, view)
-    body = view.render.to_s
+    body = view.perform_render.to_s
     LuckyWeb::Response.new(context, "text/html", body)
   end
 
