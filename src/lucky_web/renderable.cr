@@ -1,6 +1,17 @@
 module LuckyWeb::Renderable
-  macro render(page, **assigns)
-    view = {{ page }}.new(
+  macro render(page_class = nil, **assigns)
+    render_html_page(
+      {{ page_class || "#{@type.name}Page".id }},
+      {% if assigns.empty? %}
+        {} of String => String
+      {% else %}
+        {{ assigns }}
+      {% end %}
+    )
+  end
+
+  macro render_html_page(page_class, assigns)
+    view = {{ page_class.id }}.new(
       {% for key, value in assigns %}
         {{ key }}: {{ value }},
       {% end %}
@@ -13,21 +24,7 @@ module LuckyWeb::Renderable
     LuckyWeb::Response.new(context, "text/html", body)
   end
 
-  macro render(**assigns)
-    view = {{ "#{@type.name}Page".id }}.new(
-      {% for key, value in assigns %}
-        {{ key }}: {{ value }},
-      {% end %}
-      {% for key in EXPOSURES %}
-        {{ key }}: {{ key }},
-      {% end %}
-    )
-    log_html_render(context, view)
-    body = view.render.to_s
-    LuckyWeb::Response.new(context, "text/html", body)
-  end
-
-  def log_html_render(context, view)
+  private def log_html_render(context, view)
     context.add_debug_message("Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}")
   end
 
