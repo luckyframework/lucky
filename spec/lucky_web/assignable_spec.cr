@@ -14,21 +14,21 @@ class PageOne < BasePage
   needs title : String
   needs second : String
 
-  render do
+  def render
   end
 end
 
 class PageTwo < BasePage
   needs title : String
 
-  render do
+  def render
   end
 end
 
 class PageThree < AdminPage
   needs title : String
 
-  render do
+  def render
   end
 end
 

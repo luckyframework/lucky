@@ -15,7 +15,7 @@ end
 private class TestPage
   include LuckyWeb::HTMLPage
 
-  render do
+  def render
   end
 
   def inferred_put_form
