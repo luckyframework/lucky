@@ -12,13 +12,33 @@ module LuckyWeb::HTMLPage
   include LuckyWeb::Assignable
   include LuckyWeb::AssetHelpers
 
-  macro generate_initializer
-    def initialize(
-      {% for var, type in ASSIGNS %}
-        @{{ var }} : {{ type }},
-      {% end %}
-      )
+  macro setup_initializer_hook
+    macro finished
+      generate_needy_initializer
     end
+
+    macro included
+      setup_initializer_hook
+    end
+
+    macro inherited
+      setup_initializer_hook
+    end
+  end
+
+  macro included
+    setup_initializer_hook
+  end
+
+  macro generate_needy_initializer
+    {% if !@type.abstract? %}
+      def initialize(
+        {% for var, type in ASSIGNS %}
+          @{{ var }} : {{ type }},
+        {% end %}
+        )
+      end
+    {% end %}
   end
 
   macro render
@@ -26,8 +46,6 @@ module LuckyWeb::HTMLPage
       {{ yield }}
       @view
     end
-
-    generate_initializer
   end
 
   macro p(_arg, **args)

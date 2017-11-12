@@ -49,8 +49,11 @@ abstract class MainLayout
 end
 
 class InnerPage < MainLayout
+  needs foo : String
+
   def inner
     text "Inner text"
+    text @foo
   end
 
   def page_title
@@ -103,9 +106,9 @@ describe LuckyWeb::HTMLPage do
   end
 
   describe "can be used to render layouts" do
-    it "renders layouts" do
-      InnerPage.new.render.to_s.should contain %(<title>A great title</title>)
-      InnerPage.new.render.to_s.should contain %(<body>Inner text</body>)
+    it "renders layouts and needs" do
+      InnerPage.new(foo: "bar").render.to_s.should contain %(<title>A great title</title>)
+      InnerPage.new(foo: "bar").render.to_s.should contain %(<body>Inner textbar</body>)
     end
   end
 end
