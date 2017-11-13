@@ -16,6 +16,7 @@ describe LuckyWeb::LogHandler do
     log_output.should contain("GET")
     log_output.should contain("200")
     log_output.should contain("/")
+    log_output.should_not match(/#{Time.now.to_s("%Y-%m-%d")}/)
     called.should be_true
   end
 
@@ -41,6 +42,7 @@ describe LuckyWeb::LogHandler do
     end
     log_output = log_io.to_s
     log_output.should contain("GET")
+    log_output.should_not match(/#{Time.now.to_s("%Y-%m-%d")}/)
     log_output.should contain("Unhandled exception:")
   end
 
