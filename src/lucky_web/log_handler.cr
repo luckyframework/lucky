@@ -16,18 +16,12 @@ class LuckyWeb::LogHandler
     elapsed = Time.now - time
     elapsed_text = elapsed_text(elapsed)
 
-    timestamp = if settings.show_timestamps
-                  Time::Format::ISO_8601_DATE_TIME.format(time)
-                else
-                  ""
-                end
-
-    @io.puts "#{context.request.method} #{context.response.status_code} #{context.request.resource.colorize(:green)} #{timestamp} (#{elapsed_text})"
+    @io.puts "#{context.request.method} #{context.response.status_code} #{context.request.resource.colorize(:green)}#{timestamp(time)} (#{elapsed_text})"
     {% if !flag?(:release) %}
       log_debug_messages(context)
     {% end %}
   rescue e
-    @io.puts "#{context.request.method} #{context.request.resource} #{timestamp} - Unhandled exception:"
+    @io.puts "#{context.request.method} #{context.request.resource}#{timestamp(time)} - Unhandled exception:"
     e.inspect_with_backtrace(@io)
     raise e
   end
@@ -49,5 +43,13 @@ class LuckyWeb::LogHandler
     return "#{millis.round(2)}ms" if millis >= 1
 
     "#{(millis * 1000).round(2)}µs"
+  end
+
+  private def timestamp(time)
+    if settings.show_timestamps && time
+      " #{Time::Format::ISO_8601_DATE_TIME.format(time)}"
+    else
+      ""
+    end
   end
 end
