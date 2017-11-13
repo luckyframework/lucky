@@ -43,6 +43,32 @@ describe LuckyWeb::LogHandler do
     log_output.should contain("GET")
     log_output.should contain("Unhandled exception:")
   end
+
+  context "when configured to log timestamps" do
+    it "logs timestamp" do
+      begin
+        LuckyWeb::LogHandler.configure do
+          settings.show_timestamps = true
+        end
+
+        io = IO::Memory.new
+        called = false
+        log_io = IO::Memory.new
+        context = build_context_with_io(io)
+
+        call_log_handler_with(log_io, context) { called = true }
+
+        log_output = log_io.to_s
+        log_output.should contain("GET")
+        log_output.should match(/#{Time.now.to_s("%Y-%m-%d")}/)
+        called.should be_true
+      ensure
+        LuckyWeb::LogHandler.configure do
+          settings.show_timestamps = false
+        end
+      end
+    end
+  end
 end
 
 private def call_log_handler_with(io : IO, context : HTTP::Server::Context, &block)

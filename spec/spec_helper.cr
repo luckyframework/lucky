@@ -19,4 +19,8 @@ LuckyWeb::ErrorHandler.configure do
   settings.show_debug_output = false
 end
 
+LuckyWeb::LogHandler.configure do
+  settings.show_timestamps = false
+end
+
 Habitat.raise_if_missing_settings!

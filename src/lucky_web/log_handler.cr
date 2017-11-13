@@ -3,6 +3,10 @@ require "colorize"
 class LuckyWeb::LogHandler
   include HTTP::Handler
 
+  Habitat.create do
+    setting show_timestamps : Bool
+  end
+
   def initialize(@io : IO = STDOUT)
   end
 
@@ -12,12 +16,18 @@ class LuckyWeb::LogHandler
     elapsed = Time.now - time
     elapsed_text = elapsed_text(elapsed)
 
-    @io.puts "#{context.request.method} #{context.response.status_code} #{context.request.resource.colorize(:green)} (#{elapsed_text})"
+    timestamp = if settings.show_timestamps
+                  Time::Format::ISO_8601_DATE_TIME.format(time)
+                else
+                  ""
+                end
+
+    @io.puts "#{context.request.method} #{context.response.status_code} #{context.request.resource.colorize(:green)} #{timestamp} (#{elapsed_text})"
     {% if !flag?(:release) %}
       log_debug_messages(context)
     {% end %}
   rescue e
-    @io.puts "#{context.request.method} #{context.request.resource} - Unhandled exception:"
+    @io.puts "#{context.request.method} #{context.request.resource} #{timestamp} - Unhandled exception:"
     e.inspect_with_backtrace(@io)
     raise e
   end
