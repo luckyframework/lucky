@@ -46,8 +46,8 @@ class LuckyWeb::LogHandler
   end
 
   private def timestamp(time)
-    if settings.show_timestamps && time
-      " #{Time::Format::ISO_8601_DATE_TIME.format(time)}"
+    if settings.show_timestamps
+      " #{Time::Format::ISO_8601_DATE_TIME.format(time || Time.now)}"
     else
       ""
     end
