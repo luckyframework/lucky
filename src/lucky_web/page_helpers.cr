@@ -5,20 +5,15 @@ module LuckyWeb::PageHelpers
   DEFAULT_DELIMITER       = ","
   DEFAULT_DELIMITER_REGEX = /(\d)(?=(\d\d\d)+(?!\d))/
 
-  def number_to_currency(value : Float | Int32, **options)
-    number_to_currency(value.to_s, **options)
+  def number_to_currency(value : Float | Int32, precision : Int32 = DEFAULT_PRECISION, unit : String = DEFAULT_UNIT, separator : String = DEFAULT_SEPARATOR, delimiter : String = DEFAULT_DELIMITER, delimiter_pattern : Regex = DEFAULT_DELIMITER_REGEX)
+    number_to_currency(value.to_s, precision: precision, unit: unit, separator: separator, delimiter: delimiter, delimiter_pattern: delimiter_pattern)
   end
 
-  def number_to_currency(value : String, **options)
-    precision = options.fetch(:precision, DEFAULT_PRECISION)
-    unit = options.fetch(:unit, DEFAULT_UNIT)
-    separator = options.fetch(:separator, DEFAULT_SEPARATOR)
-    delimiter = options.fetch(:delimiter, DEFAULT_DELIMITER)
-
+  def number_to_currency(value : String, precision : Int32 = DEFAULT_PRECISION, unit : String = DEFAULT_UNIT, separator : String = DEFAULT_SEPARATOR, delimiter : String = DEFAULT_DELIMITER, delimiter_pattern : Regex = DEFAULT_DELIMITER_REGEX)
     value = "%.#{precision}f" % value
 
     left, right = value.split(".")
-    left = left.gsub(DEFAULT_DELIMITER_REGEX) do |digit_to_delimit|
+    left = left.gsub(delimiter_pattern) do |digit_to_delimit|
       "#{digit_to_delimit}#{delimiter}"
     end
 

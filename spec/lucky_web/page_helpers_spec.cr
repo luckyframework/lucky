@@ -37,6 +37,10 @@ describe LuckyWeb::PageHelpers do
       it "accepts delimiter" do
         view.number_to_currency(1234567890.29, delimiter: "-").should eq "$1-234-567-890.29"
       end
+
+      it "accepts delimiter pattern" do
+        view.number_to_currency(1230000, delimiter_pattern: /(\d+?)(?=(\d\d)+(\d)(?!\d))/).should eq "$12,30,000.00"
+      end
     end
   end
 end
