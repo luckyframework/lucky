@@ -17,6 +17,10 @@ describe LuckyWeb::PageHelpers do
       view.number_to_currency("92.29").should eq "$92.29"
     end
 
+    it "accepts Integer" do
+      view.number_to_currency(92).should eq "$92.00"
+    end
+
     describe "options" do
       it "accepts precision" do
         view.number_to_currency(29.929123, precision: 3).should eq "$29.929"

@@ -5,7 +5,7 @@ module LuckyWeb::PageHelpers
   DEFAULT_DELIMITER       = ","
   DEFAULT_DELIMITER_REGEX = /(\d)(?=(\d\d\d)+(?!\d))/
 
-  def number_to_currency(value : Float, **options)
+  def number_to_currency(value : Float | Int32, **options)
     number_to_currency(value.to_s, **options)
   end
 
