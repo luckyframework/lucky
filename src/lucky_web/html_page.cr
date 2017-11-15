@@ -42,7 +42,7 @@ module LuckyWeb::HTMLPage
   end
 
   macro render
-    {% raise "Lucky now looks for a regular `def render` method. Please use that instead of `def render/end`" %}
+    {% raise "Lucky now looks for a regular `def render` method. Please use that instead of `render do/end`" %}
   end
 
   def perform_render : IO::Memory
