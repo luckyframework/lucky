@@ -5,6 +5,7 @@ module LuckyWeb::InputHelpers
 
   def textarea(field : LuckyRecord::AllowedField, **html_options)
     textarea field.param.to_s, merge_options(html_options, {
+      "id" => input_id(field),
       "name" => input_name(field),
     })
   end
@@ -58,6 +59,7 @@ module LuckyWeb::InputHelpers
   private def generate_input(field, type, html_options, input_overrides = {} of String => String)
     input_options = {
       "type"  => type,
+      "id"    => input_id(field),
       "name"  => input_name(field),
       "value" => field.param.to_s,
     }.merge(input_overrides)
@@ -66,5 +68,9 @@ module LuckyWeb::InputHelpers
 
   private def input_name(field)
     "#{field.form_name}:#{field.name}"
+  end
+
+  private def input_id(field)
+    "#{field.form_name}_#{field.name}"
   end
 end
