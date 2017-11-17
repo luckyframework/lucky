@@ -26,7 +26,7 @@ describe LuckyWeb::LogHandler do
     context = build_context_with_io(io)
     context.add_debug_message("debug this")
 
-    call_log_handler_with(log_io, context) {}
+    call_log_handler_with(log_io, context) { }
 
     log_output = log_io.to_s
     log_output.should contain("debug this")
