@@ -25,14 +25,14 @@ describe "Hash charm" do
       hash.get!("foo").should eq "bar"
     end
 
-    it "returns nil if the key is missing" do
+    it "raises KeyError if the key is missing" do
       hash = {"foo" => "bar"}
 
       expect_raises(KeyError) do
-        hash.get!(:missing).should be_nil
+        hash.get!(:missing)
       end
       expect_raises(KeyError) do
-        hash.get!("missing").should eq be_nil
+        hash.get!("missing")
       end
     end
   end
