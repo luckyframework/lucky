@@ -1,3 +1,4 @@
+require "lucky_cli"
 require "option_parser"
 require "colorize"
 
