@@ -23,4 +23,8 @@ LuckyWeb::LogHandler.configure do
   settings.show_timestamps = false
 end
 
+LuckyWeb::StaticFileHandler.configure do
+  settings.hide_from_logs = true
+end
+
 Habitat.raise_if_missing_settings!
