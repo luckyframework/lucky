@@ -1,3 +1,4 @@
+require "lucky_cli"
 require "colorize"
 require "shell-table"
 

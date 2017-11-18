@@ -1,5 +1,6 @@
 require "spec"
 require "../src/lucky_web"
+require "../tasks/**"
 require "./support/**"
 
 LuckyWeb::Session::Store.configure do
