@@ -1,8 +1,12 @@
 require "http/server"
 
 class LuckyWeb::StaticFileHandler < HTTP::StaticFileHandler
+  Habitat.create do
+    setting hide_from_logs : Bool
+  end
+
   def call(context : HTTP::Server::Context)
-    context.hide_from_logs = true
+    context.hide_from_logs = settings.hide_from_logs
     super(context)
   end
 
