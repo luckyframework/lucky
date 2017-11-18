@@ -16,7 +16,9 @@ class LuckyWeb::LogHandler
     elapsed = Time.now - time
     elapsed_text = elapsed_text(elapsed)
 
-    @io.puts "#{context.request.method} #{context.response.status_code} #{context.request.resource.colorize(:green)}#{timestamp(time)} (#{elapsed_text})"
+    if !context.hide_from_logs?
+      @io.puts "#{context.request.method} #{context.response.status_code} #{context.request.resource.colorize(:green)}#{timestamp(time)} (#{elapsed_text})"
+    end
     {% if !flag?(:release) %}
       log_debug_messages(context)
     {% end %}

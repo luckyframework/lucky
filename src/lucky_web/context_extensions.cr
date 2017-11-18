@@ -7,6 +7,7 @@ class HTTP::Server::Context
   setter flash : LuckyWeb::Flash::Store?
 
   getter debug_messages : Array(String) = [] of String
+  property? hide_from_logs : Bool = false
 
   def cookies
     @cookies ||= LuckyWeb::Cookies::Store.build(request, LuckyWeb::Server.settings.secret_key_base)
