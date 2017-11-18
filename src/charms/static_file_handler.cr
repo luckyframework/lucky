@@ -1,4 +1,11 @@
-class HTTP::StaticFileHandler
+require "http/server"
+
+class LuckyWeb::StaticFileHandler < HTTP::StaticFileHandler
+  def call(context : HTTP::Server::Context)
+    context.hide_from_logs = true
+    super(context)
+  end
+
   private def mime_type(path)
     case File.extname(path)
     when ".txt"          then "text/plain"
