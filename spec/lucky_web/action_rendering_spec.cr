@@ -33,7 +33,7 @@ end
 
 class Rendering::JSON::WithTypedStatus < LuckyWeb::Action
   get "/foo" do
-    json({name: "Paul"}, status: LuckyWeb::Status::Created)
+    json({name: "Paul"}, status: Status::Created)
   end
 end
 
@@ -45,7 +45,7 @@ end
 
 class Rendering::HeadOnly::WithTypedStatus < LuckyWeb::Action
   get "/foo" do
-    head status: LuckyWeb::Status::NoContent
+    head status: Status::NoContent
   end
 end
 

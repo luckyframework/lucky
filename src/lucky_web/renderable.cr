@@ -45,7 +45,7 @@ module LuckyWeb::Renderable
     LuckyWeb::Response.new(context, content_type: "", body: "", status: status)
   end
 
-  private def head(status : LuckyWeb::Status)
+  private def head(status : LuckyWeb::Action::Status)
     head(status.value)
   end
 
@@ -53,7 +53,7 @@ module LuckyWeb::Renderable
     LuckyWeb::Response.new(context, "application/json", body.to_json, status)
   end
 
-  private def json(body, status : LuckyWeb::Status = nil)
+  private def json(body, status : LuckyWeb::Action::Status = nil)
     json(body, status.value)
   end
 end

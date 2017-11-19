@@ -14,7 +14,7 @@ module LuckyWeb::Redirectable
     LuckyWeb::Response.new(context, "", "")
   end
 
-  def redirect(to path : String, status : LuckyWeb::Status = LuckyWeb::Status::Found)
+  def redirect(to path : String, status : LuckyWeb::Action::Status = LuckyWeb::Action::Status::Found)
     redirect(path, status.value)
   end
 end
