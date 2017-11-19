@@ -13,4 +13,8 @@ module LuckyWeb::Redirectable
     context.response.status_code = status
     LuckyWeb::Response.new(context, "", "")
   end
+
+  def redirect(to path : String, status : LuckyWeb::Action::Status = LuckyWeb::Action::Status::Found)
+    redirect(path, status.value)
+  end
 end
