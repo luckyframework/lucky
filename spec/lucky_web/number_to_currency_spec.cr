@@ -7,7 +7,7 @@ private class TestPage
   end
 end
 
-describe LuckyWeb::PageHelpers do
+describe LuckyWeb::NumberToCurrency do
   describe "number_to_currency" do
     it "accepts Float" do
       view.number_to_currency(29.92).should eq "$29.92"

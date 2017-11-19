@@ -1,4 +1,4 @@
-module LuckyWeb::PageHelpers
+module LuckyWeb::NumberToCurrency
   DEFAULT_PRECISION       = 2
   DEFAULT_UNIT            = "$"
   DEFAULT_SEPARATOR       = "."

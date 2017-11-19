@@ -1,5 +1,5 @@
 require "./tags/**"
-require "./page_helpers"
+require "./page_helpers/**"
 
 module LuckyWeb::HTMLPage
   include LuckyWeb::BaseTags
@@ -12,7 +12,7 @@ module LuckyWeb::HTMLPage
   include LuckyWeb::SpecialtyTags
   include LuckyWeb::Assignable
   include LuckyWeb::AssetHelpers
-  include LuckyWeb::PageHelpers
+  include LuckyWeb::NumberToCurrency
 
   macro setup_initializer_hook
     macro finished
