@@ -45,7 +45,15 @@ module LuckyWeb::Renderable
     LuckyWeb::Response.new(context, content_type: "", body: "", status: status)
   end
 
+  private def head(status : LuckyWeb::Status)
+    LuckyWeb::Response.new(context, content_type: "", body: "", status: status.value)
+  end
+
   private def json(body, status : Int32? = nil)
     LuckyWeb::Response.new(context, "application/json", body.to_json, status)
+  end
+
+  private def json(body, status : LuckyWeb::Status? = nil)
+    LuckyWeb::Response.new(context, "application/json", body.to_json, status.value)
   end
 end
