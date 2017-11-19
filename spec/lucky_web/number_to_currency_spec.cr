@@ -21,10 +21,6 @@ describe LuckyWeb::NumberToCurrency do
       view.number_to_currency(92).should eq "$92.00"
     end
 
-    it "accepts Nil" do
-      view.number_to_currency(nil).should eq nil
-    end
-
     describe "options" do
       it "accepts precision" do
         view.number_to_currency(29.929123, precision: 3).should eq "$29.929"
