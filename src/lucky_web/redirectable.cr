@@ -13,4 +13,11 @@ module LuckyWeb::Redirectable
     context.response.status_code = status
     LuckyWeb::Response.new(context, "", "")
   end
+
+  def redirect(to path : String, status : LuckyWeb::Status = LuckyWeb::Status::Found)
+    context.response.headers.add "Location", path
+    context.response.headers.add "Turbolinks-Location", path
+    context.response.status_code = status.value
+    LuckyWeb::Response.new(context, "", "")
+  end
 end
