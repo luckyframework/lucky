@@ -49,6 +49,10 @@ describe LuckyWeb::PageHelpers do
       it "accepts format" do
         view.number_to_currency("1234567890.50", format: "<b>%n</b> %u").should eq "<b>1,234,567,890.50</b> $"
       end
+
+      it "accepts negative format" do
+        view.number_to_currency("-1234567890.50", negative_format: "<b>%n</b> - %u").should eq "<b>1,234,567,890.50</b> - $"
+      end
     end
   end
 end
