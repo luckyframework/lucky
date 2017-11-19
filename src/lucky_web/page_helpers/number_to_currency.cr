@@ -6,11 +6,9 @@ module LuckyWeb::NumberToCurrency
   DEFAULT_DELIMITER_REGEX = /(\d)(?=(\d\d\d)+(?!\d))/
   DEFAULT_FORMAT          = "%u%n"
 
-  def number_to_currency(value : Float | Int32, precision : Int32 = DEFAULT_PRECISION, unit : String = DEFAULT_UNIT, separator : String = DEFAULT_SEPARATOR, delimiter : String = DEFAULT_DELIMITER, delimiter_pattern : Regex = DEFAULT_DELIMITER_REGEX, format : String = DEFAULT_FORMAT, negative_format : String = DEFAULT_FORMAT)
-    number_to_currency(value.to_s, precision: precision, unit: unit, separator: separator, delimiter: delimiter, delimiter_pattern: delimiter_pattern)
-  end
+  def number_to_currency(value : Float | Int32 | String, precision : Int32 = DEFAULT_PRECISION, unit : String = DEFAULT_UNIT, separator : String = DEFAULT_SEPARATOR, delimiter : String = DEFAULT_DELIMITER, delimiter_pattern : Regex = DEFAULT_DELIMITER_REGEX, format : String = DEFAULT_FORMAT, negative_format : String = DEFAULT_FORMAT)
+    value = value.to_s
 
-  def number_to_currency(value : String, precision : Int32 = DEFAULT_PRECISION, unit : String = DEFAULT_UNIT, separator : String = DEFAULT_SEPARATOR, delimiter : String = DEFAULT_DELIMITER, delimiter_pattern : Regex = DEFAULT_DELIMITER_REGEX, format : String = DEFAULT_FORMAT, negative_format : String = DEFAULT_FORMAT)
     if value.to_f.sign == -1
       format = negative_format if negative_format != DEFAULT_FORMAT
       value = value.to_f.abs.to_s
