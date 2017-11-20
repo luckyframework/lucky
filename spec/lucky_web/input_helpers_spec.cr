@@ -80,6 +80,16 @@ describe LuckyWeb::InputHelpers do
     HTML
   end
 
+  it "renders file inputs" do
+    view.file_input(form.first_name).to_s.should contain <<-HTML
+    <input type="file" id="user_first_name" name="user:first_name"/>
+    HTML
+
+    view.file_input(form.first_name, class: "cool").to_s.should contain <<-HTML
+    <input type="file" id="user_first_name" name="user:first_name" class="cool"/>
+    HTML
+  end
+
   it "renders hidden inputs" do
     view.hidden_input(form.first_name).to_s.should contain <<-HTML
     <input type="hidden" id="user_first_name" name="user:first_name" value="My name"/>

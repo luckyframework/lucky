@@ -28,6 +28,14 @@ module LuckyWeb::InputHelpers
     generate_input(field, "color", html_options)
   end
 
+  def file_input(field : LuckyRecord::AllowedField, **html_options)
+    input merge_options(html_options, {
+      "type" => "file",
+      "id" => input_id(field),
+      "name" => input_name(field),
+    })
+  end
+
   def hidden_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "hidden", html_options)
   end
