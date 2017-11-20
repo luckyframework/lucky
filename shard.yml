@@ -11,6 +11,8 @@ dependencies:
   habitat:
     github: luckyframework/habitat
     version: "~> 0.2.0"
+  lucky_inflector:
+    github: luckyframework/inflector
   lucky_record:
     github: luckyframework/record
     version: "~> 0.2.0"
