@@ -1,3 +1,4 @@
+require "lucky_inflector"
 require "lucky_record"
 require "habitat"
 require "./charms/*"
