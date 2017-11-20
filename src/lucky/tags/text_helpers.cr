@@ -141,7 +141,7 @@ module Lucky::TextHelpers
     cycle.reset if cycle
   end
 
-  class Cycle #:nodoc:
+  class Cycle
     @values : Array(String)
     getter :values
     @index = 0
@@ -152,7 +152,7 @@ module Lucky::TextHelpers
       @values = string_values
       reset
     end
-    
+
     def initialize(values : Array(String))
       @values = Array(String).new
       @values = values
