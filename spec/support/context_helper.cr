@@ -15,6 +15,24 @@ module ContextHelper
     HTTP::Server::Context.new request, response
   end
 
+  private def build_multipart_request(body = "")
+    boundary = HTTP::Multipart.generate_boundary
+    body = build_multipart_body(body, boundary)
+    build_request body: body,
+      content_type: "multipart/mixed; boundary=#{boundary}"
+  end
+
+  private def build_multipart_body(body = "", boundary = HTTP::Multipart.generate_boundary)
+    io = IO::Memory.new
+    multipart = HTTP::Multipart::Builder.new(io, boundary)
+    multipart.body_part(
+      HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"},
+      body
+    )
+    multipart.finish
+    io.to_s
+  end
+
   private def params
     {} of String => String
   end
