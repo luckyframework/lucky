@@ -107,6 +107,18 @@ module Lucky::TextHelpers
     text.join(break_sequence)
   end
 
+  def simple_format(text, **html_options, wrapper_tag = "p")
+    paragraphs = split_paragraphs(text)
+
+    if paragraphs.empty?
+      content_tag(wrapper_tag, nil, **html_options).to_s
+    else
+      paragraphs.map { |paragraph|
+        content_tag(wrapper_tag, paragraph, **html_options)
+      }.join("\n\n")
+    end
+  end
+
   def cycle(*values, name = "default")
     string_values = Array(String).new
     values.each{ |v| string_values << v.to_s }
@@ -213,5 +225,13 @@ module Lucky::TextHelpers
     end
 
     return affix, part.join(separator)
+  end
+
+  private def split_paragraphs(text)
+    return Array(String).new if text.blank?
+
+    text.to_s.gsub(/\r\n?/, "\n").split(/\n\n+/).map do |t|
+      t.gsub(/([^\n]\n)(?=[^\n])/, "\\1<br />") || t
+    end
   end
 end

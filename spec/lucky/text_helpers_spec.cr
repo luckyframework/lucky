@@ -25,11 +25,104 @@ private class TestPage
       "<a href=\"##{word}\">#{word}</a>"
     end
   end
+
+  def test_content_tag
+    content_tag "p" do
+      text "Foo bar baz"
+    end
+  end
+
+  def test_content_tag2
+    content_tag "p", "Foo bar baz"
+  end
+
+  def test_content_tag3
+    content_tag "a", href: "#foo" do
+      text "Foo bar baz"
+    end
+  end
+
+  def test_content_tag4
+    content_tag "a", "Foo bar baz", href: "#foo", bar: "baz"
+  end
+
+  def test_content_tag5
+    content_tag "a", { href: "#foo", bar: "baz" } do
+      text "Foo bar baz"
+    end
+  end
+
+  def test_content_tag6
+    content_tag :a, { href: "#foo", bar: "baz" } do
+      text "Foo bar baz"
+      text "Foo bar baz"
+    end
+  end
+
+  def test_content_tag7
+    content_tag :a, "Foo bar baz", href: "#foo", bar: "baz"
+  end
 end
 
 describe Lucky::TextHelpers do
   Spec.before_each do
     view.reset_cycles
+  end
+
+  it "simple_formats" do
+    view.simple_format(nil).should eq "<p></p>"
+
+    view.simple_format("crazy\r\n cross\r platform linebreaks").should eq "<p>crazy\n<br /> cross\n<br /> platform linebreaks</p>"
+    view.simple_format("A paragraph\n\nand another one!").should eq "<p>A paragraph</p>\n\n<p>and another one!</p>"
+    view.simple_format("A paragraph\n With a newline").should eq "<p>A paragraph\n<br /> With a newline</p>"
+
+    text = "A\nB\nC\nD"
+    view.simple_format(text).should eq "<p>A\n<br />B\n<br />C\n<br />D</p>"
+
+    text = "A\r\n  \nB\n\n\r\n\t\nC\nD"
+    view.simple_format(text).should eq "<p>A\n<br />  \n<br />B</p>\n\n<p>\t\n<br />C\n<br />D</p>"
+
+    view.simple_format("This is a classy test", class: "test").should eq "<p class=\"test\">This is a classy test</p>"
+    view.simple_format("para 1\n\npara 2", class: "test").should eq %Q(<p class="test">para 1</p>\n\n<p class="test">para 2</p>)
+  end
+
+  it "simple_formats with custom wrapper" do
+    view.simple_format(nil, wrapper_tag: "div").should eq "<div></div>"
+  end
+
+  it "simple_formats with custom wrapper and multi line breaks" do
+    view.simple_format("We want to put a wrapper...\n\n...right there.", wrapper_tag: "div").should eq "<div>We want to put a wrapper...</div>\n\n<div>...right there.</div>"
+  end
+
+  it "simple_formats without changing the text passed" do
+    text = "<b>Ok</b><script>code!</script>"
+    text_clone = text.dup
+    view.simple_format(text)
+    text.should eq text_clone
+  end
+
+  it "simple_format without modifying the html options hash" do
+    options = { class: "foobar" }
+    passed_options = options.dup
+    view.simple_format("some text", **passed_options)
+    passed_options.should eq options
+  end
+
+  it "simple_format_does_not_modify_the_options_hash" do
+    options = { wrapper_tag: :div }
+    passed_options = options.dup
+    view.simple_format("some text", **passed_options)
+    passed_options.should eq options
+  end
+
+  it "has content tag" do
+    view.test_content_tag.to_s.should eq "<p>Foo bar baz</p>"
+    view.test_content_tag2.to_s.should eq "<p>Foo bar baz</p>"
+    view.test_content_tag3.to_s.should eq "<a href=\"#foo\">Foo bar baz</a>"
+    view.test_content_tag4.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
+    view.test_content_tag5.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
+    view.test_content_tag6.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar bazFoo bar baz</a>"
+    view.test_content_tag7.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
   end
 
   it "truncates" do
