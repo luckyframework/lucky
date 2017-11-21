@@ -1,13 +1,5 @@
 require "../../spec_helper"
 
-class TextHelpers::Index < Lucky::Action
-  action { render_text "foo" }
-end
-
-class TextHelpers::Create < Lucky::Action
-  action { render_text "foo" }
-end
-
 private class TestPage
   include Lucky::HTMLPage
 
@@ -24,43 +16,6 @@ private class TestPage
     highlight "This is a beautiful morning, but also a beautiful day", "beautiful" do |word|
       "<a href=\"##{word}\">#{word}</a>"
     end
-  end
-
-  def test_content_tag
-    content_tag "p" do
-      text "Foo bar baz"
-    end
-  end
-
-  def test_content_tag2
-    content_tag "p", "Foo bar baz"
-  end
-
-  def test_content_tag3
-    content_tag "a", href: "#foo" do
-      text "Foo bar baz"
-    end
-  end
-
-  def test_content_tag4
-    content_tag "a", "Foo bar baz", href: "#foo", bar: "baz"
-  end
-
-  def test_content_tag5
-    content_tag "a", { href: "#foo", bar: "baz" } do
-      text "Foo bar baz"
-    end
-  end
-
-  def test_content_tag6
-    content_tag :a, { href: "#foo", bar: "baz" } do
-      text "Foo bar baz"
-      text "Foo bar baz"
-    end
-  end
-
-  def test_content_tag7
-    content_tag :a, "Foo bar baz", href: "#foo", bar: "baz"
   end
 end
 
@@ -113,16 +68,6 @@ describe Lucky::TextHelpers do
     passed_options = options.dup
     view.simple_format("some text", **passed_options)
     passed_options.should eq options
-  end
-
-  it "has content tag" do
-    view.test_content_tag.to_s.should eq "<p>Foo bar baz</p>"
-    view.test_content_tag2.to_s.should eq "<p>Foo bar baz</p>"
-    view.test_content_tag3.to_s.should eq "<a href=\"#foo\">Foo bar baz</a>"
-    view.test_content_tag4.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
-    view.test_content_tag5.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
-    view.test_content_tag6.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar bazFoo bar baz</a>"
-    view.test_content_tag7.to_s.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
   end
 
   it "truncates" do

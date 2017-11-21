@@ -6,23 +6,6 @@ module Lucky::BaseTags
 
   @view = IO::Memory.new
 
-  def content_tag(name : String | Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block)
-    merged_options = merge_options(other_options, options)
-    tag_attrs = build_tag_attrs(merged_options)
-    @view << "<#{name.to_s}" << tag_attrs << ">"
-    yield
-    @view << "</#{name.to_s}>"
-    # ugly hack follows
-    result = @view
-    @view = IO::Memory.new
-    result
-  end
-
-  def content_tag(name : String | Symbol, inner : String | Nil, options = EMPTY_HTML_ATTRS, **other_options, escape = false)
-    block = -> { text(inner.to_s, escape: escape) }
-    content_tag(name, options, **other_options, &block)
-  end
-
   macro generate_tag_methods(method_name, tag)
     def {{method_name.id}}(content : String? = "", options = EMPTY_HTML_ATTRS, **other_options)
       merged_options = merge_options(other_options, options)
@@ -72,8 +55,8 @@ module Lucky::BaseTags
     end
   {% end %}
 
-  def text(content : String | Lucky::AllowedInTags, escape = true)
-    @view << (escape ? HTML.escape(content.to_s) : content.to_s)
+  def text(content : String | Lucky::AllowedInTags)
+    @view << HTML.escape(content.to_s)
   end
 
   private def build_tag_attrs(options)
