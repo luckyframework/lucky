@@ -6,18 +6,18 @@ authors:
 
 dependencies:
   lucky_cli:
-    github: luckyframework/cli
+    github: luckyframework/lucky_cli
     version: ~> 0.6.0
   habitat:
     github: luckyframework/habitat
     version: "~> 0.2.0"
   lucky_inflector:
-    github: luckyframework/inflector
+    github: luckyframework/lucky_inflector
   lucky_record:
-    github: luckyframework/record
+    github: luckyframework/lucky_record
     version: "~> 0.2.0"
   lucky_router:
-    github: luckyframework/router
+    github: luckyframework/lucky_router
     version: "~> 0.2.0"
   shell-table:
     github: jwaldrip/shell-table.cr
