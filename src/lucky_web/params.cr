@@ -98,7 +98,7 @@ class LuckyWeb::Params
   end
 
   private def multipart?
-    content_type.try { |ct| ct.match /^multipart\// }
+    request.headers.includes_word?("Content-Type", "multipart")
   end
 
   private def content_type : String?
