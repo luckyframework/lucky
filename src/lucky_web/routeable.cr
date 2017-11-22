@@ -119,4 +119,12 @@ module LuckyWeb::Routeable
       LuckyWeb::RouteHelper.new {{ method }}, path
     end
   end
+
+  macro optional_param(param)
+    {% OPTIONAL_PARAMS << param.id %}
+
+    def {{ param }}
+      params.get?(:{{ param }})
+    end
+  end
 end
