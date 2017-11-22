@@ -17,8 +17,8 @@ module ContextHelper
 
   private def build_multipart_request(body = "")
     boundary = HTTP::Multipart.generate_boundary
-    body = build_multipart_body(body, boundary)
-    build_request body: body,
+    multipart_body = build_multipart_body(body, boundary)
+    build_request body: multipart_body,
       content_type: "multipart/mixed; boundary=#{boundary}"
   end
 
