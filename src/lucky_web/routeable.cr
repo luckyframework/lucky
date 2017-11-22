@@ -1,4 +1,20 @@
 module LuckyWeb::Routeable
+  macro included
+    OPTIONAL_PARAMS = [] of Symbol
+
+    macro inherited
+      OPTIONAL_PARAMS = [] of Symbol
+
+      inherit_optional_params
+    end
+  end
+
+  macro inherit_optional_params
+    \{% for v in @type.ancestors.first.constant :OPTIONAL_PARAMS %}
+      \{% OPTIONAL_PARAMS << v %}
+    \{% end %}
+  end
+
   {% for http_method in [:get, :put, :post, :delete] %}
     macro {{ http_method.id }}(path)
       add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
@@ -66,6 +82,10 @@ module LuckyWeb::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+
+    {% for param in OPTIONAL_PARAMS %}
+      {{ param.id }} : String? = nil,
+    {% end %}
       )
       path = String.build do |path|
         {% for part in path_parts %}
@@ -85,6 +105,10 @@ module LuckyWeb::Routeable
     def self.route(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
+    {% end %}
+
+    {% for param in OPTIONAL_PARAMS %}
+      {{ param.id }} : String? = nil,
     {% end %}
       )
       path = String.build do |path|
@@ -113,6 +137,14 @@ module LuckyWeb::Routeable
 
     def self.with
       \{% raise "Use `route` instead of `with` if the action doesn't need params" %}
+    end
+  end
+
+  macro optional_param(param)
+    {% OPTIONAL_PARAMS << param.id %}
+
+    def {{ param }}
+      params.get?(:{{ param }})
     end
   end
 end
