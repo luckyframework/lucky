@@ -1,7 +1,7 @@
 module Lucky::TextHelpers
   @@_cycles = Hash(String, Cycle).new
 
-  def truncate(text, length = 30, omission = "...", separator = nil, escape = false, blk : Nil | Proc = nil)
+  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil)
     if text
       content = truncate_text(text, length, omission, separator)
       content = escape ? HTML.escape(content) : content
@@ -10,12 +10,12 @@ module Lucky::TextHelpers
     end
   end
 
-  def truncate(text, length = 30, omission = "...", separator = nil, escape = true, &block : -> _)
+  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, &block : -> _)
     truncate(text, length, omission, separator, escape, blk: block)
   end
 
   # This could go in a String extension
-  private def truncate_text(text, truncate_at, omission = "...", separator = nil)
+  private def truncate_text(text : String, truncate_at : Int32, omission : String = "...", separator : String | Nil = nil)
     return text unless text.size > truncate_at
 
     length_with_room_for_omission = truncate_at - omission.size
@@ -29,13 +29,13 @@ module Lucky::TextHelpers
     "#{text[0, stop]}#{omission}"
   end
 
-  def highlight(text, phrases : Nil | String | Regex | Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
+  def highlight(text : String, phrases : String | Regex | Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
     if text.to_s.blank? || phrases.to_s.blank?
-      text.nil? ? "" : text
+      text || ""
     else
       unless phrases.is_a?(Array)
         phrase = phrases
-        phrases = Array(String | Regex | Nil).new
+        phrases = Array(String | Regex).new
         phrases << phrase
       end
 
@@ -51,18 +51,14 @@ module Lucky::TextHelpers
     end
   end
 
-  def highlight(text, phrases : Nil | String | Regex | Array(String | Regex), &block : String -> _)
+  def highlight(text : String, phrases : String | Regex | Array(String | Regex), &block : String -> _)
     highlight(text, phrases, highlighter: block)
   end
 
-  def excerpt(text, phrase : Nil | Regex | String, separator = "", radius = 100, omission = "...")
+  def excerpt(text : String, phrase : Regex | String, separator : String = "", radius : Int32 = 100, omission : String = "...")
     return "" if text.to_s.blank?
 
-    separator = "" if separator.nil?
-
     case phrase
-    when Nil
-      return ""
     when Regex
       regex = phrase
     else
@@ -90,7 +86,7 @@ module Lucky::TextHelpers
     [prefix, affix, postfix].join
   end
 
-  def pluralize(count, singular, plural_arg = nil, plural = plural_arg)
+  def pluralize(count : Int32 | String | Nil, singular : String, plural = nil)
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
       singular
     else
@@ -100,14 +96,14 @@ module Lucky::TextHelpers
     "#{count || 0} #{word}"
   end
 
-  def word_wrap(text, line_width = 80, break_sequence = "\n")
+  def word_wrap(text : String, line_width : Int32 = 80, break_sequence : String = "\n")
     text = text.split("\n").map do |line|
       line.size > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1#{break_sequence}").strip : line
     end
     text.join(break_sequence)
   end
 
-  def simple_format(text, **html_options, wrapper_tag = "p")
+  def simple_format(text : String, **html_options, wrapper_tag : String | Symbol = "p")
     paragraphs = split_paragraphs(text)
 
     if paragraphs.empty?
@@ -119,7 +115,7 @@ module Lucky::TextHelpers
     end
   end
 
-  def cycle(*values, name = "default")
+  def cycle(*values, name : String = "default")
     string_values = Array(String).new
     values.each{ |v| string_values << v.to_s }
     values = string_values
@@ -143,12 +139,12 @@ module Lucky::TextHelpers
     cycle.to_s
   end
 
-  def current_cycle(name = "default")
+  def current_cycle(name : String = "default")
     cycle = get_cycle(name)
     cycle.current_value if cycle
   end
 
-  def reset_cycle(name = "default")
+  def reset_cycle(name : String = "default")
     cycle = get_cycle(name)
     cycle.reset if cycle
   end
@@ -193,7 +189,7 @@ module Lucky::TextHelpers
       step_index(-1)
     end
 
-    private def step_index(n)
+    private def step_index(n : Int32)
       (@index + n) % @values.size
     end
   end
@@ -210,7 +206,7 @@ module Lucky::TextHelpers
     @@_cycles[name] = cycle_object
   end
 
-  private def cut_excerpt_part(part_position, part, separator, radius, omission)
+  private def cut_excerpt_part(part_position : Symbol, part : String | Nil, separator : String, radius : Int32, omission : String)
     return "", "" if part.nil?
 
     part = part.split(separator)
@@ -227,7 +223,7 @@ module Lucky::TextHelpers
     return affix, part.join(separator)
   end
 
-  private def split_paragraphs(text)
+  private def split_paragraphs(text : String)
     return Array(String).new if text.blank?
 
     text.to_s.gsub(/\r\n?/, "\n").split(/\n\n+/).map do |t|
