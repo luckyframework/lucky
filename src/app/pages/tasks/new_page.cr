@@ -1,5 +1,5 @@
 class Tasks::NewPage
-  include LuckyWeb::HTMLPage
+  include Lucky::HTMLPage
 
   def render
     header({class: "WHAT"}) do

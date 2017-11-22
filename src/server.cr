@@ -1,21 +1,21 @@
-require "./lucky_web"
+require "./lucky"
 require "./app/**"
 require "colorize"
 
-LuckyWeb::Server.configure do
+Lucky::Server.configure do
   settings.secret_key_base = "super_secret"
 end
 
-LuckyWeb::Session::Store.configure do
+Lucky::Session::Store.configure do
   settings.key = "test_app"
   settings.secret = "super-secret"
 end
 
 server = HTTP::Server.new("127.0.0.1", 8080, [
-  LuckyWeb::LogHandler.new,
-  LuckyWeb::ErrorHandler.new(action: ErrorAction),
-  LuckyWeb::Flash::Handler.new,
-  LuckyWeb::RouteHandler.new,
+  Lucky::LogHandler.new,
+  Lucky::ErrorHandler.new(action: ErrorAction),
+  Lucky::Flash::Handler.new,
+  Lucky::RouteHandler.new,
 ])
 
 puts "Listening on http://127.0.0.1:8080...".colorize(:green)

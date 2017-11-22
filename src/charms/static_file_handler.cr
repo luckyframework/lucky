@@ -1,6 +1,6 @@
 require "http/server"
 
-class LuckyWeb::StaticFileHandler < HTTP::StaticFileHandler
+class Lucky::StaticFileHandler < HTTP::StaticFileHandler
   Habitat.create do
     setting hide_from_logs : Bool
   end
