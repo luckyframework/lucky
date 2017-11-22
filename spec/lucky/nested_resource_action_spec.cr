@@ -27,6 +27,12 @@ describe Lucky::Action do
       Admin::Projects::Tasks::Show
         .with("project_id", "task_id")
         .should eq Lucky::RouteHelper.new(:get, "/admin/projects/project_id/tasks/task_id")
+      Admin::Projects::Tasks::Show
+        .with("project_id", "task_id", anchor: "foo")
+        .should eq Lucky::RouteHelper.new(:get, "/admin/projects/project_id/tasks/task_id#foo")
+      Admin::Projects::Tasks::Show
+        .with("project_id", "task_id", anchor: "#foo")
+        .should eq Lucky::RouteHelper.new(:get, "/admin/projects/project_id/tasks/task_id#foo")
     end
 
     it "adds routes to the router" do

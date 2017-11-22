@@ -99,6 +99,10 @@ describe Lucky::Action do
       Tests::Update.with("test-id").should eq Lucky::RouteHelper.new(:put, "/tests/test-id")
       Tests::Create.path.should eq "/tests"
       Tests::Create.route.should eq Lucky::RouteHelper.new(:post, "/tests")
+      Tests::Show.path("test-id", anchor: "comment-12345").should eq "/tests/test-id#comment-12345"
+      Tests::Show.with("test-id", anchor: "comment-12345").should eq Lucky::RouteHelper.new(:get, "/tests/test-id#comment-12345")
+      Tests::Show.path("test-id", anchor: "#comment-12345").should eq "/tests/test-id#comment-12345"
+      Tests::Show.with("test-id", anchor: "#comment-12345").should eq Lucky::RouteHelper.new(:get, "/tests/test-id#comment-12345")
     end
 
     it "adds routes to the router" do

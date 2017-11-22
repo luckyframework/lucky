@@ -66,7 +66,7 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
-      )
+      **args)
       path = String.build do |path|
         {% for part in path_parts %}
           path << "/"
@@ -79,6 +79,9 @@ module Lucky::Routeable
       end
       is_root_path = path == ""
       path = "/" if is_root_path
+      if anchor = args[:anchor]?
+        path = "#{path}##{anchor.sub(/^#/,"")}"
+      end
       path
     end
 
@@ -86,7 +89,7 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
-      )
+      **args)
       path = String.build do |path|
         {% for part in path_parts %}
           path << "/"
@@ -100,6 +103,9 @@ module Lucky::Routeable
 
       is_root_path = path == ""
       path = "/" if is_root_path
+      if anchor = args[:anchor]?
+        path = "#{path}##{anchor.sub(/^#/,"")}"
+      end
       Lucky::RouteHelper.new {{ method }}, path
     end
 
@@ -107,8 +113,8 @@ module Lucky::Routeable
       route(**args)
     end
 
-    def self.with(*args)
-      route(*args)
+    def self.with(*args, **other_args)
+      route(*args, **other_args)
     end
 
     def self.with
