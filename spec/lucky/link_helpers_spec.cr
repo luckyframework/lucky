@@ -45,6 +45,36 @@ private class TestPage
       text "Hello"
     end
   end
+
+  def string_path_with_anchor
+    link "Hello", to: "/foo", anchor: "bar"
+  end
+
+  def string_path_with_anchor_and_hashmark
+    link "Hello", to: "/foo", anchor: "#bar"
+  end
+
+  def get_route_with_anchor
+    link "Test", to: LinkHelpers::Index, anchor: "bar"
+  end
+
+  def non_get_route_with_anchor
+    link "Test", to: LinkHelpers::Create, anchor: "bar"
+  end
+
+  def non_get_route_with_options_with_anchor
+    link "Test", to: LinkHelpers::Create, something_custom: "foo", anchor: "bar"
+  end
+
+  def string_path_with_options_with_anchor
+    link "Test", to: "/foos", data_method: "post", anchor: "bar"
+  end
+
+  def get_route_with_block_with_anchor
+    link to: LinkHelpers::Index, anchor: "bar" do
+      text "Hello"
+    end
+  end
 end
 
 describe Lucky::LinkHelpers do
@@ -78,6 +108,32 @@ describe Lucky::LinkHelpers do
 
     view.get_route_with_block.to_s.should contain <<-HTML
     <a href="/link_helpers">Hello</a>
+    HTML
+  end
+
+  it "renders a link tag with an anchor" do
+    view.string_path_with_anchor.to_s.should contain <<-HTML
+    <a href="/foo#bar">Hello</a>
+    HTML
+
+    view.string_path_with_anchor_and_hashmark.to_s.should contain <<-HTML
+    <a href="/foo#bar">Hello</a>
+    HTML
+
+    view.get_route_with_anchor.to_s.should contain <<-HTML
+    <a href="/link_helpers#bar">Test</a>
+    HTML
+
+    view.non_get_route_with_anchor.to_s.should contain <<-HTML
+    <a href="/link_helpers#bar" data-method="post">Test</a>
+    HTML
+
+    view.non_get_route_with_options_with_anchor.to_s.should contain <<-HTML
+    <a href="/link_helpers#bar" data-method="post" something-custom="foo">Test</a>
+    HTML
+
+    view.string_path_with_options_with_anchor.to_s.should contain <<-HTML
+    <a href="/foos#bar" data-method="post">Test</a>
     HTML
   end
 end
