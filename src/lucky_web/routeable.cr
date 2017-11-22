@@ -1,4 +1,20 @@
 module LuckyWeb::Routeable
+  macro included
+    OPTIONAL_PARAMS = [] of Symbol
+
+    macro inherited
+      OPTIONAL_PARAMS = [] of Symbol
+
+      inherit_optional_params
+    end
+  end
+
+  macro inherit_optional_params
+    \{% for v in @type.ancestors.first.constant :OPTIONAL_PARAMS %}
+      \{% OPTIONAL_PARAMS << v %}
+    \{% end %}
+  end
+
   {% for http_method in [:get, :put, :post, :delete] %}
     macro {{ http_method.id }}(path)
       add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
