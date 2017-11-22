@@ -2,7 +2,7 @@ require "./spec_helper"
 
 include ContextHelper
 
-describe LuckyWeb::HttpMethodOverrideHandler do
+describe Lucky::HttpMethodOverrideHandler do
   describe "#call" do
     it "leaves GET and POST as-is" do
       should_handle "GET", overridden_method: "", and_return: "GET"
@@ -22,6 +22,6 @@ end
 
 private def should_handle(original_method, overridden_method, and_return expected_method)
   request = build_request original_method, body: "_method=#{overridden_method}"
-  handler = LuckyWeb::HttpMethodOverrideHandler.new.call(build_context(request: request))
+  handler = Lucky::HttpMethodOverrideHandler.new.call(build_context(request: request))
   request.method.should eq expected_method
 end

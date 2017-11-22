@@ -6,7 +6,7 @@ class Routes < LuckyCli::Task
   banner "Show all the routes for the app"
 
   def call
-    routes = LuckyWeb::Router.routes.map do |route|
+    routes = Lucky::Router.routes.map do |route|
       [route.method.to_s.upcase, route.path.colorize(:green), route.action]
     end
 

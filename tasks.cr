@@ -1,5 +1,5 @@
 require "lucky_cli"
-require "./src/lucky_web"
+require "./src/lucky"
 require "./src/app/**"
 require "./tasks/**"
 

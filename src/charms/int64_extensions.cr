@@ -1,5 +1,5 @@
-require "../lucky_web/allowed_in_tags"
+require "../lucky/allowed_in_tags"
 
 struct Int64
-  include LuckyWeb::AllowedInTags
+  include Lucky::AllowedInTags
 end

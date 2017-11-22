@@ -1,8 +1,8 @@
 class Tasks::IndexPage
-  include LuckyWeb::HTMLPage
+  include Lucky::HTMLPage
 
   needs tasks : Array(Task)
-  needs flash : LuckyWeb::Flash::Store
+  needs flash : Lucky::Flash::Store
 
   def render
     header do

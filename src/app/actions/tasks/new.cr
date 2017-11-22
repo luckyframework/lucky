@@ -1,4 +1,4 @@
-class Tasks::New < LuckyWeb::Action
+class Tasks::New < Lucky::Action
   action do
     render
   end

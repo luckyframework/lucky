@@ -1,0 +1,2 @@
+module Lucky::AllowedInTags
+end

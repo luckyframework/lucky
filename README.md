@@ -41,6 +41,6 @@ You need to make sure to install the Crystal dependencies.
   granted. Convention over configuration, removing boilerplate, and most
   importantly - focusing on developer happiness.
 * Thanks to Phoenix, Ecto and Elixir for inspiring LuckyRecord's forms,
-  LuckyWeb's single base actions and pipes, and focusing on helpful error
+  Lucky's single base actions and pipes, and focusing on helpful error
   messages.
 * `lucky watch` based heavily on [Sentry](https://github.com/samueleaton/sentry). Thanks [@samueleaton](https://github.com/samueleaton)!

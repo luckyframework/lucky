@@ -1,4 +1,4 @@
-class Tasks::Index < LuckyWeb::Action
+class Tasks::Index < Lucky::Action
   expose flash
 
   action do
