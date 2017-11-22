@@ -59,6 +59,8 @@ class LuckyWeb::Params
   private def body_param(key : String)
     if json?
       parsed_json.as_h[key]?.try(&.to_s)
+    elsif multipart?
+      multipart_params[key]?
     else
       form_params[key]?
     end
@@ -67,11 +69,37 @@ class LuckyWeb::Params
   @_form_params : HTTP::Params?
 
   private def form_params
-    @_form_params ||= HTTP::Params.parse(body)
+    @_form_params ||= HTTP::Params.parse(multipart_body || body)
+  end
+
+  @_multipart_params : HTTP::Params?
+
+  private def multipart_params
+    @_multipart_params ||= HTTP::Params.parse(multipart_body.to_s)
+  end
+
+  @_multipart_body : String?
+
+  private def multipart_body
+    return unless multipart?
+    extract_multipart_content
+    @_multipart_body
+  end
+
+  private def extract_multipart_content
+    HTTP::Multipart.parse(request) do |headers, io|
+      if headers["Content-Type"]? == "application/x-www-form-urlencoded"
+        @_multipart_body = io.gets_to_end
+      end
+    end
   end
 
   private def json?
     content_type == "application/json"
+  end
+
+  private def multipart?
+    content_type.try(&.match(/^multipart\//))
   end
 
   private def content_type : String?

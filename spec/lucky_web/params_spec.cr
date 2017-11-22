@@ -79,6 +79,13 @@ describe LuckyWeb::Params do
       params.get(:id).should eq "1"
     end
 
+    it "extracts and parses multipart params" do
+      request = build_multipart_request body: "from=form"
+
+      params = LuckyWeb::Params.new(request)
+      params.get(:from).should eq "form"
+    end
+
     it "raises if missing a param and using get! version" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 
@@ -117,6 +124,14 @@ describe LuckyWeb::Params do
       params = LuckyWeb::Params.new(request)
 
       params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+    end
+
+    it "gets multipart encoded nested params" do
+      request = build_multipart_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1"
+
+      params = LuckyWeb::Params.new(request)
+
+      params.nested(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
     it "gets nested params after unescaping" do
