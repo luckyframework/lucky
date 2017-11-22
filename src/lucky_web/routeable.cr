@@ -82,6 +82,10 @@ module LuckyWeb::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+
+    {% for param in OPTIONAL_PARAMS %}
+      {{ param.id }} : String? = nil,
+    {% end %}
       )
       path = String.build do |path|
         {% for part in path_parts %}
@@ -101,6 +105,10 @@ module LuckyWeb::Routeable
     def self.route(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
+    {% end %}
+
+    {% for param in OPTIONAL_PARAMS %}
+      {{ param.id }} : String? = nil,
     {% end %}
       )
       path = String.build do |path|
