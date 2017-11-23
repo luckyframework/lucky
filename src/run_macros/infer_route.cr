@@ -1,3 +1,5 @@
+require "lucky_inflector"
+
 class InferRoute
   getter? nested_route, singular
   getter action_class_name
@@ -122,7 +124,7 @@ class InferRoute
 
   private def parent_resource_pieces
     if nested_route?
-      singularized_param_name = ":#{parent_resource_name.gsub(/s$/, "")}_id"
+      singularized_param_name = ":#{LuckyInflector::Inflector.singularize(parent_resource_name)}_id"
       [parent_resource_name, singularized_param_name]
     else
       [] of String
