@@ -25,6 +25,14 @@ describe Lucky::BaseTags do
     view.para(MySpecialClass.new).to_s.should contain "<p>it works</p>"
     view.para(1_i64).to_s.should contain "<p>1</p>"
   end
+
+  describe "#style" do
+    it "renders a style tag" do
+      view.style("body { font-size: 2em; }").to_s.should contain <<-HTML
+      <style>body { font-size: 2em; }</style>
+      HTML
+    end
+  end
 end
 
 private def view

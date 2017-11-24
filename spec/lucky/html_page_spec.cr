@@ -9,6 +9,7 @@ class TestRender
 
   private def render_complicated_html
     header({class: "header"}) do
+      style "body { font-size: 2em; }"
       text "my text"
       h1 "h1"
       br
