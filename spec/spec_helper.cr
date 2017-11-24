@@ -10,6 +10,8 @@ end
 
 Lucky::Server.configure do
   settings.secret_key_base = "super-secret"
+  settings.host = "0.0.0.0"
+  settings.port = 8080
 end
 
 LuckyRecord::Repo.configure do
