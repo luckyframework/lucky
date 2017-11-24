@@ -1,4 +1,4 @@
-module Lucky::DateHelpers
+module Lucky::TimeHelpers
   def distance_of_time_in_words(from : Time, to : Time)
     minutes = (to - from).minutes
     seconds = (to - from).seconds
