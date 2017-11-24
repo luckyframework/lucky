@@ -59,6 +59,10 @@ module Lucky::BaseTags
     @view << HTML.escape(content.to_s)
   end
 
+  def style(styles : String)
+    @view << "<style>#{styles}</style>"
+  end
+
   private def build_tag_attrs(options)
     tag_attrs = String.build do |attrs|
       options.each do |key, value|
