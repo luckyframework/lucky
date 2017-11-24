@@ -1,5 +1,6 @@
 require "./tags/**"
 require "./page_helpers/**"
+require "./time_helpers"
 
 module Lucky::HTMLPage
   include Lucky::BaseTags
