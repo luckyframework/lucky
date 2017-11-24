@@ -1,4 +1,4 @@
-module LuckyWeb::DateHelpers
+module Lucky::DateHelpers
   def distance_of_time_in_words(from : Time, to : Time)
     minutes = (to - from).minutes
     seconds = (to - from).seconds
@@ -17,8 +17,8 @@ module LuckyWeb::DateHelpers
 
   private def distance_in_days(distance : Int32)
     case distance
-    when 1...29 then distance ? "a day" : "#{distance} days"
-    when 30...60 then "about a month"
+    when 1...29   then distance ? "a day" : "#{distance} days"
+    when 30...60  then "about a month"
     when 60...365 then "#{(distance / 30).round} months"
     when 365...730
       "about a year"

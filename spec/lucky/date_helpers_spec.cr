@@ -1,10 +1,10 @@
 require "../spec_helper"
 
 private class TestPage
-  include LuckyWeb::DateHelpers
+  include Lucky::DateHelpers
 end
 
-describe LuckyWeb::DateHelpers do
+describe Lucky::DateHelpers do
   describe "distance_of_time_in_words" do
     it "reports the approximate distance in time between two Time" do
       from_time = Time.now
