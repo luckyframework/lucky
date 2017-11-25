@@ -71,9 +71,9 @@ module Lucky::Routeable
         {% for part in path_parts %}
           path << "/"
           {% if part.starts_with?(":") %}
-            path << {{ part.gsub(/:/, "").id }}
+            path << URI.escape({{ part.gsub(/:/, "").id }})
           {% else %}
-            path << {{ part }}
+            path << URI.escape({{ part }})
           {% end %}
         {% end %}
       end
@@ -91,9 +91,9 @@ module Lucky::Routeable
         {% for part in path_parts %}
           path << "/"
           {% if part.starts_with?(":") %}
-            path << {{ part.gsub(/:/, "").id }}.to_param
+            path << URI.escape({{ part.gsub(/:/, "").id }}.to_param)
           {% else %}
-            path << {{ part }}
+            path << URI.escape({{ part }})
           {% end %}
         {% end %}
       end
