@@ -29,7 +29,7 @@ module Lucky::TextHelpers
   end
 
   def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
-    if text.to_s.blank? || phrases.all?(&.to_s.blank?)
+    if text.blank? || phrases.all?(&.to_s.blank?)
       text || ""
     else
       match = phrases.map do |p|
@@ -39,7 +39,7 @@ module Lucky::TextHelpers
       if highlighter.is_a?(Proc)
         text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
       else
-        text.to_s.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
+        text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
       end
     end
   end
@@ -109,13 +109,21 @@ module Lucky::TextHelpers
   def simple_format(text : String, **html_options, wrapper_tag : String | Symbol = "p")
     paragraphs = split_paragraphs(text)
 
-    if paragraphs.empty?
-      content_tag(wrapper_tag, nil, **html_options).to_s
-    else
-      paragraphs.map { |paragraph|
-        content_tag(wrapper_tag, paragraph, **html_options)
-      }.join("\n\n")
-    end
+    paragraphs = [""] if paragraphs.empty?
+
+    paragraphs.map { |paragraph|
+      content_tag(wrapper_tag, paragraph, **html_options)
+    }.join("\n\n")
+  end
+
+  def simple_format(text : String, &block : String -> _)
+    paragraphs = split_paragraphs(text)
+
+    paragraphs = [""] if paragraphs.empty?
+
+    paragraphs.map { |paragraph|
+      capture(paragraph, &block)
+    }.join("\n\n")
   end
 
   def cycle(*values, name : String = "default")

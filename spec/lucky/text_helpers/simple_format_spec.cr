@@ -1,5 +1,17 @@
 require "./text_helpers_spec"
 
+class TextHelperTestPage
+  def test_simple_format_with_block
+    simple_format("my cool test\n\nis great") do |formatted_text|
+      para formatted_text, class: "this-is-a-custom-class"
+    end
+  end
+
+  def test_simple_format_without_block
+    simple_format("my cool test\n\nis great")
+  end
+end
+
 describe Lucky::TextHelpers do
   describe "simple_format" do
     it "simple_formats" do
@@ -34,18 +46,23 @@ describe Lucky::TextHelpers do
       text.should eq text_clone
     end
 
-    it "simple_format without modifying the html options" do
+    it "simple_formats without modifying the html options" do
       options = { class: "foobar" }
       passed_options = options.dup
       view.simple_format("some text", **passed_options)
       passed_options.should eq options
     end
 
-    it "simple_format_does_not_modify_the_options_hash" do
+    it "simple_formats without modifying the options hash" do
       options = { wrapper_tag: :div }
       passed_options = options.dup
       view.simple_format("some text", **passed_options)
       passed_options.should eq options
+    end
+
+    it "should" do
+      view.test_simple_format_without_block.should eq "<p>my cool test</p>\n\n<p>is great</p>"
+      view.test_simple_format_with_block.should eq "<p class=\"this-is-a-custom-class\">my cool test</p>\n\n<p class=\"this-is-a-custom-class\">is great</p>"
     end
   end
 end
