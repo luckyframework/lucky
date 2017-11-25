@@ -1,5 +1,13 @@
 require "./text_helpers_spec"
 
+class TextHelperTestPage
+  def test_truncate
+    truncate "Hello World", length: 8 do
+      link "Continue", "#"
+    end
+  end
+end
+
 describe Lucky::TextHelpers do
   describe "truncate" do
     it "truncates" do

@@ -1,5 +1,13 @@
 require "./text_helpers_spec"
 
+class TextHelperTestPage
+  def test_highlight
+    highlight "This is a beautiful morning, but also a beautiful day", "beautiful" do |word|
+      span word, "data-highlight-word": word, "data-color": "yellow", "data-español": "bello"
+    end
+  end
+end
+
 describe Lucky::TextHelpers do
   describe "highlight" do
     it "highlights" do
