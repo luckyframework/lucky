@@ -101,6 +101,11 @@ describe Lucky::Action do
       Tests::Create.route.should eq Lucky::RouteHelper.new(:post, "/tests")
     end
 
+    it "escapes path params" do
+      Tests::Edit.path("test/id").should eq "/tests/test%2Fid/edit"
+      Tests::Edit.with("test/id").should eq Lucky::RouteHelper.new(:get, "/tests/test%2Fid/edit")
+    end
+
     it "adds routes to the router" do
       assert_route_added? Lucky::Route.new :get, "/tests", Tests::Index
       assert_route_added? Lucky::Route.new :get, "/tests/new", Tests::New
