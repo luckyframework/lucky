@@ -5,7 +5,7 @@ module Lucky::TextHelpers
     if text
       content = truncate_text(text, length, omission, separator)
       content = escape ? HTML.escape(content) : content
-      content += blk.call.to_s if blk.is_a?(Proc) && text.size > length
+      content += blk.call.to_s if !blk.nil? && text.size > length
       content
     end
   end
