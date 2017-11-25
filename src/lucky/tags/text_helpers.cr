@@ -28,16 +28,10 @@ module Lucky::TextHelpers
     "#{text[0, stop]}#{omission}"
   end
 
-  def highlight(text : String, phrases : String | Regex | Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
-    if text.to_s.blank? || phrases.to_s.blank?
+  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
+    if text.to_s.blank? || phrases.all?(&.to_s.blank?)
       text || ""
     else
-      unless phrases.is_a?(Array)
-        phrase = phrases
-        phrases = Array(String | Regex).new
-        phrases << phrase
-      end
-
       match = phrases.map do |p|
         p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
       end.join("|")
@@ -50,7 +44,17 @@ module Lucky::TextHelpers
     end
   end
 
-  def highlight(text : String, phrases : String | Regex | Array(String | Regex), &block : String -> _)
+  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _)
+    highlight(text, phrases, highlighter: block)
+  end
+
+  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>")
+    phrases = [phrase] of String | Regex
+    highlight(text, phrases, highlighter)
+  end
+
+  def highlight(text : String, phrase : String | Regex, &block : String -> _)
+    phrases = [phrase] of String | Regex
     highlight(text, phrases, highlighter: block)
   end
 
