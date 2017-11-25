@@ -104,12 +104,6 @@ describe Lucky::Action do
     it "escapes path params" do
       Tests::Edit.path("test/id").should eq "/tests/test%2Fid/edit"
       Tests::Edit.with("test/id").should eq Lucky::RouteHelper.new(:get, "/tests/test%2Fid/edit")
-      Tests::Show.path("test/id").should eq "/tests/test%2Fid"
-      Tests::Show.with("test/id").should eq Lucky::RouteHelper.new(:get, "/tests/test%2Fid")
-      Tests::Delete.path("test/id").should eq "/tests/test%2Fid"
-      Tests::Delete.with("test/id").should eq Lucky::RouteHelper.new(:delete, "/tests/test%2Fid")
-      Tests::Update.path("test/id").should eq "/tests/test%2Fid"
-      Tests::Update.with("test/id").should eq Lucky::RouteHelper.new(:put, "/tests/test%2Fid")
     end
 
     it "adds routes to the router" do
