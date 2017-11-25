@@ -14,7 +14,6 @@ module Lucky::TextHelpers
     truncate(text, length, omission, separator, escape, blk: block)
   end
 
-  # This could go in a String extension
   private def truncate_text(text : String, truncate_at : Int32, omission : String = "...", separator : String | Nil = nil)
     return text unless text.size > truncate_at
 
