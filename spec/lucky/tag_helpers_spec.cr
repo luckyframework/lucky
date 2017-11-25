@@ -16,27 +16,27 @@ private class TestPage
     content_tag "p", "Foo bar baz"
   end
 
-  def test_content_tag_with_block_and_attrubute
+  def test_content_tag_with_block_and_attribute
     content_tag "a", href: "#foo" do
       text "Foo bar baz"
     end
   end
 
-  def test_content_tag_without_block_and_extra_attrubute
+  def test_content_tag_without_block_and_extra_attribute
     content_tag "a", "Foo bar baz", href: "#foo", bar: "baz"
   end
 
-  def test_content_tag_with_block_and_attrubutes_as_hash
+  def test_content_tag_with_block_and_attributes_as_hash
     content_tag "a", { href: "#foo", bar: "baz" } do
       text "Foo bar baz"
     end
   end
 
-  def test_content_tag_with_symbol_and_attrubutes
+  def test_content_tag_with_symbol_and_attributes
     content_tag :a, "Foo bar baz", href: "#foo", bar: "baz"
   end
 
-  def test_content_tag_with_symbol_block_and_attrubutes_as_hash
+  def test_content_tag_with_symbol_block_and_attributes_as_hash
     content_tag :a, { href: "#foo", bar: "baz" } do
       text "Foo bar baz"
       br
@@ -59,23 +59,23 @@ describe Lucky::TagHelpers do
   end
 
   it "creates content by content tag with block and attribute" do
-    view.test_content_tag_with_block_and_attrubute.should eq "<a href=\"#foo\">Foo bar baz</a>"
+    view.test_content_tag_with_block_and_attribute.should eq "<a href=\"#foo\">Foo bar baz</a>"
   end
 
   it "creates content by content tag without block and extra attribute" do
-    view.test_content_tag_without_block_and_extra_attrubute.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
+    view.test_content_tag_without_block_and_extra_attribute.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
   end
 
   it "creates content by content tag with block and attributes as hash" do
-    view.test_content_tag_with_block_and_attrubutes_as_hash.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
+    view.test_content_tag_with_block_and_attributes_as_hash.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
   end
 
   it "creates content by content tag with symbol and attributes" do
-    view.test_content_tag_with_symbol_and_attrubutes.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
+    view.test_content_tag_with_symbol_and_attributes.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz</a>"
   end
 
   it "creates content by content tag with symbol, block and attributes as hash" do
-    view.test_content_tag_with_symbol_block_and_attrubutes_as_hash.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz<br/>Foo bar baz</a>"
+    view.test_content_tag_with_symbol_block_and_attributes_as_hash.should eq "<a href=\"#foo\" bar=\"baz\">Foo bar baz<br/>Foo bar baz</a>"
   end
 end
 
