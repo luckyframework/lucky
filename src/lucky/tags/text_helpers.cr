@@ -126,11 +126,14 @@ module Lucky::TextHelpers
     }.join("\n\n")
   end
 
-  def cycle(*values, name : String = "default")
+  private def normalize_values(values)
     string_values = Array(String).new
     values.each{ |v| string_values << v.to_s }
     values = string_values
+  end
 
+  def cycle(values : Array, name = "default")
+    values = normalize_values(values)
     cycle = get_cycle(name)
     unless cycle && cycle.values == values
       cycle = set_cycle(name, Cycle.new(values))
@@ -138,16 +141,9 @@ module Lucky::TextHelpers
     cycle.to_s
   end
 
-  def cycle(values : Array, name = "default")
-    string_values = Array(String).new
-    values.each{ |v| string_values << v.to_s }
-    values = string_values
-
-    cycle = get_cycle(name)
-    unless cycle && cycle.values == values
-      cycle = set_cycle(name, Cycle.new(values))
-    end
-    cycle.to_s
+  def cycle(*values, name : String = "default")
+    values = normalize_values(values)
+    cycle(values, name: name)
   end
 
   def current_cycle(name : String = "default")
