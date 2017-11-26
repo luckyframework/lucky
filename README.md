@@ -11,7 +11,7 @@ make it easy to get started.
 Feel free to say hi or ask questions on our
 [chat room](https://gitter.im/luckyframework/Lobby).
 
-## Sign up for updates
+## Sign up for news
 
 Sign up for updates on new blog posts, guides, and new releases at the [Lucky website](http://luckyframework.org)
 
