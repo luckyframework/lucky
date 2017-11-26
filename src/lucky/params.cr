@@ -1,3 +1,5 @@
+require "tempfile"
+
 class Lucky::Params
   include LuckyRecord::Paramable
 
@@ -16,6 +18,10 @@ class Lucky::Params
 
   def get(key : String | Symbol) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
+  end
+
+  def get_file(key : String | Symbol) : Tempfile?
+    multipart_files[key.to_s]?
   end
 
   def nested!(nested_key) : Hash(String, String)
@@ -80,6 +86,18 @@ class Lucky::Params
       @_multipart_params[part.name] = part.body.gets_to_end
     end
     @_multipart_params
+  end
+
+  @_multipart_files = {} of String => Tempfile
+
+  private def multipart_files
+    HTTP::FormData.parse(request) do |part|
+      part_file = Tempfile.open(part.name) do |tempfile|
+        IO.copy(part.body, tempfile)
+      end
+      @_multipart_files[part.name] = part_file
+    end
+    @_multipart_files
   end
 
   private def json?

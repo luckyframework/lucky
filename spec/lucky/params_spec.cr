@@ -169,4 +169,16 @@ describe Lucky::Params do
       params.nested(:missing).should eq({} of String => String)
     end
   end
+
+  describe "get_file" do
+    it "gets files" do
+      request = build_multipart_file_request name: "welcome", contents: "hello paul"
+
+      params = LuckyWeb::Params.new(request)
+
+      file = params.get_file(:welcome).not_nil!
+      file.is_a?(Tempfile).should eq(true)
+      File.read(file.path).should eq "hello paul"
+    end
+  end
 end

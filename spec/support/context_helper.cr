@@ -36,6 +36,18 @@ module ContextHelper
     build_multipart_request(flattened_body)
   end
 
+  private def build_multipart_file_request(name = "", contents = "")
+    form_io, content_type = IO::Memory.new, ""
+    HTTP::FormData.build(form_io) do |formdata|
+      content_type = formdata.content_type
+      file_io = IO::Memory.new(contents)
+      metadata = HTTP::FormData::FileMetadata.new(filename: name)
+      headers = HTTP::Headers{"Context-Type" => "text/plain"}
+      formdata.file(name, file_io, metadata, headers)
+    end
+    build_request(method: "POST", body: form_io.to_s, content_type: content_type)
+  end
+
   private def params
     {} of String => String
   end
