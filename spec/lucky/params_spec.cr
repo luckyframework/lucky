@@ -79,6 +79,14 @@ describe Lucky::Params do
       params.get(:id).should eq "1"
     end
 
+    it "parses multipart params" do
+      request = build_multipart_request body: { "from" => "multipart" }
+
+      params = LuckyWeb::Params.new(request)
+
+      params.get(:from).should eq "multipart"
+    end
+
     it "raises if missing a param and using get! version" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 

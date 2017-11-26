@@ -15,6 +15,17 @@ module ContextHelper
     HTTP::Server::Context.new request, response
   end
 
+  private def build_multipart_request(body = {} of String => String)
+    io, content_type = IO::Memory.new, ""
+    HTTP::FormData.build(io) do |formdata|
+      content_type = formdata.content_type
+      body.each do |key, value|
+        formdata.field(key, value)
+      end
+    end
+    build_request(method: "POST", body: io.to_s, content_type: content_type)
+  end
+
   private def params
     {} of String => String
   end
