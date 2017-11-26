@@ -106,9 +106,7 @@ module Lucky::TextHelpers
     raw text.join(break_sequence)
   end
 
-  def simple_format(text : String, **options, &block : String -> _)
-    text = HTML.escape(text) if options.fetch(:escape, true) # in lieu of sanitize
-
+  def simple_format(text : String, &block : String -> _)
     paragraphs = split_paragraphs(text)
 
     paragraphs = [""] if paragraphs.empty?
@@ -120,8 +118,8 @@ module Lucky::TextHelpers
     @view
   end
 
-  def simple_format(text : String, html_options = {} of String | Symbol => String, **options)
-    simple_format(text, **options) do |formatted_text|
+  def simple_format(text : String, **html_options)
+    simple_format(text) do |formatted_text|
       para(html_options) do
         raw formatted_text
       end
