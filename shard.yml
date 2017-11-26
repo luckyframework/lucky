@@ -7,7 +7,7 @@ authors:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.6.0
+    version: ~> 0.7.0
   habitat:
     github: luckyframework/habitat
     version: "~> 0.2.0"
@@ -15,7 +15,7 @@ dependencies:
     github: luckyframework/lucky_inflector
   lucky_record:
     github: luckyframework/lucky_record
-    version: "~> 0.2.0"
+    version: "~> 0.3.0"
   lucky_router:
     github: luckyframework/lucky_router
     version: "~> 0.2.0"
