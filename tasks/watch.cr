@@ -40,11 +40,15 @@ module Sentry
 
     private def start_browser_sync
       spawn do
-        Process.run "yarn run browser-sync start -c bs-config.js",
+        Process.run "yarn run browser-sync start -c bs-config.js -p #{proxy}",
           output: true,
           error: true,
           shell: true
       end
+    end
+
+    private def proxy
+      "http://#{Lucky::Server.settings.host}:#{Lucky::Server.settings.port}"
     end
 
     private def reload_browser_sync
