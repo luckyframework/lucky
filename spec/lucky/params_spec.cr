@@ -127,6 +127,19 @@ describe Lucky::Params do
       params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
+    it "gets multipart nested params" do
+      request = build_multipart_request body: {
+        "user" => {
+          "name" => "Paul",
+          "age" => "28"
+        }
+      }
+
+      params = LuckyWeb::Params.new(request)
+
+      params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+    end
+
     it "gets nested params after unescaping" do
       request = build_request body: "user%3Aname=paul",
         content_type: "application/x-www-form-urlencoded"

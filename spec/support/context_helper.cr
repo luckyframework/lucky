@@ -26,6 +26,16 @@ module ContextHelper
     build_request(method: "POST", body: io.to_s, content_type: content_type)
   end
 
+  private def build_multipart_request(body : Hash(String, Hash(String, String)))
+    flattened_body = body.each_with_object({} of String => String) do |entry, hash|
+      entry[1].each do |sub_key, sub_value|
+        key_name = entry[0] + ":" + sub_key
+        hash[key_name] = sub_value
+      end
+    end
+    build_multipart_request(flattened_body)
+  end
+
   private def params
     {} of String => String
   end

@@ -47,7 +47,8 @@ class Lucky::Params
 
   def nested_form_params(nested_key : String) : Hash(String, String)
     nested_key = "#{nested_key}:"
-    form_params.to_h.reduce(empty_params) do |nested_params, (key, value)|
+    source = multipart? ? multipart_params : form_params
+    source.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
         nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
       end
