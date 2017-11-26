@@ -4,9 +4,9 @@ module Lucky::TextHelpers
   def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil)
     if text
       content = truncate_text(text, length, omission, separator)
-      content = escape ? HTML.escape(content) : content
-      content += blk.call.to_s if !blk.nil? && text.size > length
-      content
+      raw (escape ? HTML.escape(content) : content)
+      blk.call if !blk.nil? && text.size > length
+      @view
     end
   end
 
@@ -30,16 +30,16 @@ module Lucky::TextHelpers
 
   def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
     if text.blank? || phrases.all?(&.to_s.blank?)
-      text || ""
+      raw (text || "")
     else
       match = phrases.map do |p|
         p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
       end.join("|")
 
       if highlighter.is_a?(Proc)
-        text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
+        raw text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
       else
-        text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
+        raw text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
       end
     end
   end
@@ -50,7 +50,7 @@ module Lucky::TextHelpers
 
   def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>")
     phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter)
+    highlight(text, phrases, highlighter: highlighter)
   end
 
   def highlight(text : String, phrase : String | Regex, &block : String -> _)
@@ -86,7 +86,7 @@ module Lucky::TextHelpers
     postfix, second_part = cut_excerpt_part(:second, second_part, separator, radius, omission)
 
     affix = [first_part, separator, phrase, separator, second_part].join.strip
-    [prefix, affix, postfix].join
+    raw [prefix, affix, postfix].join
   end
 
   def pluralize(count : Int32 | String | Nil, singular : String, plural = nil)
@@ -96,14 +96,14 @@ module Lucky::TextHelpers
       plural || LuckyInflector::Inflector.pluralize(singular)
     end
 
-    "#{count || 0} #{word}"
+    raw "#{count || 0} #{word}"
   end
 
   def word_wrap(text : String, line_width : Int32 = 80, break_sequence : String = "\n")
     text = text.split("\n").map do |line|
       line.size > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1#{break_sequence}").strip : line
     end
-    text.join(break_sequence)
+    raw text.join(break_sequence)
   end
 
   def simple_format(text : String, **options, &block : String -> _)
@@ -115,7 +115,7 @@ module Lucky::TextHelpers
 
     paragraphs.each do |paragraph|
       yield paragraph
-      @view << "\n\n" unless paragraph == paragraphs.last
+      raw "\n\n" unless paragraph == paragraphs.last
     end
     @view
   end
@@ -140,7 +140,7 @@ module Lucky::TextHelpers
     unless cycle && cycle.values == values
       cycle = set_cycle(name, Cycle.new(values))
     end
-    cycle.to_s
+    raw cycle.to_s
   end
 
   def cycle(*values, name : String = "default")
