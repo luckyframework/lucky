@@ -106,24 +106,26 @@ module Lucky::TextHelpers
     text.join(break_sequence)
   end
 
-  def simple_format(text : String, **html_options, wrapper_tag : String | Symbol = "p")
+  def simple_format(text : String, **options, &block : String -> _)
+    text = HTML.escape(text) if options.fetch(:escape, true) # in lieu of sanitize
+
     paragraphs = split_paragraphs(text)
 
     paragraphs = [""] if paragraphs.empty?
 
-    paragraphs.map { |paragraph|
-      content_tag(wrapper_tag, paragraph, **html_options)
-    }.join("\n\n")
+    paragraphs.each do |paragraph|
+      yield paragraph
+      @view << "\n\n" unless paragraph == paragraphs.last
+    end
+    @view
   end
 
-  def simple_format(text : String, &block : String -> _)
-    paragraphs = split_paragraphs(text)
-
-    paragraphs = [""] if paragraphs.empty?
-
-    paragraphs.map { |paragraph|
-      capture(paragraph, &block)
-    }.join("\n\n")
+  def simple_format(text : String, html_options = {} of String | Symbol => String, **options)
+    simple_format(text, **options) do |formatted_text|
+      para(html_options) do
+        raw formatted_text
+      end
+    end
   end
 
   private def normalize_values(values)

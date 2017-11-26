@@ -13,8 +13,6 @@ module Lucky::HTMLPage
   include Lucky::Assignable
   include Lucky::AssetHelpers
   include Lucky::NumberToCurrency
-  include Lucky::CaptureHelpers
-  include Lucky::TagHelpers
   include Lucky::TextHelpers
 
   macro setup_initializer_hook
