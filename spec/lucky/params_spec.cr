@@ -80,9 +80,9 @@ describe Lucky::Params do
     end
 
     it "parses multipart params" do
-      request = build_multipart_request body: { "from" => "multipart" }
+      request = build_multipart_request form_parts: { "from" => "multipart" }
 
-      params = LuckyWeb::Params.new(request)
+      params = Lucky::Params.new(request)
 
       params.get(:from).should eq "multipart"
     end
@@ -128,14 +128,14 @@ describe Lucky::Params do
     end
 
     it "gets multipart nested params" do
-      request = build_multipart_request body: {
+      request = build_multipart_request form_parts: {
         "user" => {
           "name" => "Paul",
           "age" => "28"
         }
       }
 
-      params = LuckyWeb::Params.new(request)
+      params = Lucky::Params.new(request)
 
       params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
     end
@@ -172,13 +172,82 @@ describe Lucky::Params do
 
   describe "get_file" do
     it "gets files" do
-      request = build_multipart_file_request name: "welcome", contents: "hello paul"
+      request = build_multipart_request file_parts: {
+        "welcome" => "hello paul"
+      }
 
-      params = LuckyWeb::Params.new(request)
+      params = Lucky::Params.new(request)
 
-      file = params.get_file(:welcome).not_nil!
+      file = params.get_file!(:welcome)
       file.is_a?(Tempfile).should eq(true)
       File.read(file.path).should eq "hello paul"
+    end
+
+    it "gets files alongside params" do
+      request = build_multipart_request(
+        form_parts: {
+          "from" => "multipart"
+        },
+        file_parts: {
+          "with" => "a file"
+        }
+      )
+
+      params = Lucky::Params.new(request)
+
+      file = params.get_file!(:with)
+      File.read(file.path).should eq "a file"
+    end
+
+    it "raises if missing a param and using get_file! version" do
+      request = build_multipart_request form_parts: { "this" => "that" }
+
+      params = Lucky::Params.new(request)
+
+      expect_raises do
+        params.get_file!(:missing)
+      end
+    end
+
+    it "returns nil if using get_file version" do
+      request = build_multipart_request form_parts: { "this" => "that" }
+
+      params = Lucky::Params.new(request)
+
+      params.get_file(:missing).should be_nil
+    end
+  end
+
+  describe "nested_file" do
+    it "gets multipart nested params" do
+      request = build_multipart_request file_parts: {
+        "user" => {
+          "avatar" => "an image"
+        }
+      }
+
+      params = Lucky::Params.new(request)
+
+      file = params.nested_file!(:user)["avatar"]
+      File.read(file.path).should eq "an image"
+    end
+
+    it "raises if nested files are missing and using nested_file! version" do
+      request = build_multipart_request form_parts: { "this" => "that" }
+
+      params = Lucky::Params.new(request)
+
+      expect_raises do
+        params.nested_file!(:missing)
+      end
+    end
+
+    it "returns empty hash if nested files are missing and using nested_file version" do
+      request = build_multipart_request form_parts: { "this" => "that" }
+
+      params = Lucky::Params.new(request)
+
+      params.nested_file(:missing).should eq({} of String => Tempfile)
     end
   end
 end

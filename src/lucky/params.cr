@@ -20,6 +20,10 @@ class Lucky::Params
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
+  def get_file!(key) : Tempfile
+    get_file(key) || raise "Missing file: #{key}"
+  end
+
   def get_file(key : String | Symbol) : Tempfile?
     multipart_files[key.to_s]?
   end
@@ -39,6 +43,19 @@ class Lucky::Params
     else
       nested_form_params(nested_key.to_s)
     end
+  end
+
+  def nested_file!(nested_key : String | Symbol) : Hash(String, Tempfile)
+    nested_file_params = nested_file(nested_key)
+    if nested_file_params.keys.empty?
+      raise "No nested files for: #{nested_key}"
+    else
+      nested_file_params
+    end
+  end
+
+  def nested_file(nested_key : String | Symbol) : Hash(String, Tempfile)?
+    nested_file_params(nested_key.to_s)
   end
 
   def nested_json_params(nested_key : String) : Hash(String, String)
@@ -63,6 +80,17 @@ class Lucky::Params
     end
   end
 
+  def nested_file_params(nested_key : String) : Hash(String, Tempfile)
+    nested_key = "#{nested_key}:"
+    multipart_files.to_h.reduce(empty_file_params) do |nested_params, (key, value)|
+      if key.starts_with? nested_key
+        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+      end
+
+      nested_params
+    end
+  end
+
   private def body_param(key : String)
     if json?
       parsed_json.as_h[key]?.try(&.to_s)
@@ -79,25 +107,33 @@ class Lucky::Params
     @_form_params ||= HTTP::Params.parse(body)
   end
 
-  @_multipart_params = {} of String => String
+  @_multipart_params : Hash(String, String)?
 
-  private def multipart_params
-    HTTP::FormData.parse(request) do |part|
-      @_multipart_params[part.name] = part.body.gets_to_end
-    end
-    @_multipart_params
+  private def multipart_params : Hash(String, String)
+    @_multipart_params ||= parse_multipart_request[0]
   end
 
-  @_multipart_files = {} of String => Tempfile
+  @_multipart_files : Hash(String, Tempfile)?
 
-  private def multipart_files
+  private def multipart_files : Hash(String, Tempfile)
+    @_multipart_files ||=  parse_multipart_request[1]
+  end
+
+  private def parse_multipart_request
+    multipart_params = {} of String => String
+    multipart_files = {} of String => Tempfile
     HTTP::FormData.parse(request) do |part|
-      part_file = Tempfile.open(part.name) do |tempfile|
-        IO.copy(part.body, tempfile)
+      case part.headers
+      when .includes_word?("Content-Disposition", "filename")
+        part_file = Tempfile.open(part.name) do |tempfile|
+          IO.copy(part.body, tempfile)
+        end
+        multipart_files.try(&.[part.name] = part_file)
+      else
+        multipart_params.try(&.[part.name] = part.body.gets_to_end)
       end
-      @_multipart_files[part.name] = part_file
     end
-    @_multipart_files
+    { multipart_params, multipart_files }
   end
 
   private def json?
@@ -132,6 +168,10 @@ class Lucky::Params
 
   private def empty_params
     {} of String => String
+  end
+
+  private def empty_file_params
+    {} of String => Tempfile
   end
 
   private def query_params
