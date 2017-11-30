@@ -109,47 +109,6 @@ class Watch < LuckyCli::Task
     build_commands = ["crystal build ./src/server.cr"]
     run_commands = ["./server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
-    files_cleared = false
-    show_help = false
-
-    OptionParser.parse! do |parser|
-      parser.banner = "Usage: ./sentry [options]"
-      parser.on(
-        "-r RUN_COMMAND",
-        "--run=RUN_COMMAND",
-        "Overrides the default run command") { |command| run_commands = [command] }
-      parser.on(
-        "-b BUILD_COMMAND",
-        "--build=BUILD_COMMAND",
-        "Overrides the default build command") { |command| build_commands = [command] }
-      parser.on(
-        "-w FILE",
-        "--watch=FILE",
-        "Overrides default files and appends to list of watched files") do |file|
-        unless files_cleared
-          files.clear
-          files_cleared = true
-        end
-        files << file
-      end
-      parser.on(
-        "-i",
-        "--info",
-        "Shows the values for build command, run command, and watched files") do
-        puts "
-      build: \t#{build_commands}
-      run: \t#{run_commands}
-      files: \t#{files}
-    "
-      end
-      parser.on(
-        "-h",
-        "--help",
-        "Show this help") do
-        puts parser
-        exit 0
-      end
-    end
 
     process_runner = Sentry::ProcessRunner.new(
       files: files,
