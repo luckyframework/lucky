@@ -40,7 +40,7 @@ module Sentry
 
     private def start_browser_sync
       spawn do
-        Process.run "yarn run browser-sync start -c bs-config.js -p #{proxy}",
+        Process.run "yarn run browser-sync start -c bs-config.js --port #{browsersync_port} -p #{proxy}",
           output: true,
           error: true,
           shell: true
@@ -52,10 +52,14 @@ module Sentry
     end
 
     private def reload_browser_sync
-      Process.run "yarn run browser-sync reload",
+      Process.run "yarn run browser-sync reload --port #{browsersync_port}",
         output: true,
         error: true,
         shell: true
+    end
+
+    private def browsersync_port
+      3001
     end
 
     private def get_timestamp(file : String)
