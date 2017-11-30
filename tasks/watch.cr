@@ -32,13 +32,13 @@ module Sentry
 
       @successful_compilations += 1
       if @successful_compilations == 1
-        start_browser_sync
+        start_browsersync
       else
-        reload_browser_sync
+        reload_browsersync
       end
     end
 
-    private def start_browser_sync
+    private def start_browsersync
       spawn do
         Process.run "yarn run browser-sync start -c bs-config.js --port #{browsersync_port} -p #{proxy}",
           output: true,
@@ -51,7 +51,7 @@ module Sentry
       "http://#{Lucky::Server.settings.host}:#{Lucky::Server.settings.port}"
     end
 
-    private def reload_browser_sync
+    private def reload_browsersync
       Process.run "yarn run browser-sync reload --port #{browsersync_port}",
         output: true,
         error: true,
