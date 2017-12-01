@@ -44,7 +44,7 @@ class Gen::Action < LuckyCli::Task
   banner "Generate a new action"
 
   def call(io : IO = STDOUT)
-    if ARGV.first? == nil
+    if ARGV.first?.nil?
       io.puts "Action name is required. Example: lucky gen.action Users::Index".colorize(:red)
     else
       Lucky::ActionGenerator.new(name: ARGV.first).generate
