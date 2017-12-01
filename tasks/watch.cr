@@ -11,14 +11,15 @@ module Sentry
 
     getter app_processes = [] of Process
     property successful_compilations
+    property app_built
 
-    def initialize(build_commands : Array(String), run_commands : Array(String), files)
-      @app_built = false
+    @app_built : Bool = false
+    @successful_compilations : Int32 = 0
+
+    def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String))
       @build_commands = build_commands
       @run_commands = run_commands
-      @files = [] of String
       @files = files
-      @successful_compilations = 0
     end
 
     private def build_app_processes
@@ -70,27 +71,37 @@ module Sentry
     end
 
     def start_app
+      stop_all_processes
+      puts "compiling..."
+      start_all_processes
+    end
+
+    private def stop_all_processes
       @app_processes.each do |process|
         process.kill unless process.terminated?
       end
+    end
 
-      puts "compiling..."
-      build_result = build_app_processes()
-      if build_result.all? &.success?
-        @app_built = true
+    private def start_all_processes
+      if build_app_processes.all? &.success?
+        self.app_built = true
         create_app_processes()
-      elsif !@app_built
-        puts "There was a problem compiling. Watching for fixes...".colorize(:red)
-        if successful_compilations.zero?
-          puts <<-ERROR
+      elsif !app_built
+        print_error_message
+      end
+    end
 
-          Try this...
+    private def print_error_message
+      puts "There was a problem compiling. Watching for fixes...".colorize(:red)
+      if successful_compilations.zero?
+        puts <<-ERROR
 
-            #{green_arrow} If you haven't done it already, run #{"bin/setup".colorize(:green)}
-            #{green_arrow} Run #{"shards install".colorize(:green)} to ensure dependencies are installed
-            #{green_arrow} Ask for help in #{"https://gitter.im/luckyframework/Lobby".colorize(:green)}
-          ERROR
-        end
+        Try this...
+
+          #{green_arrow} If you haven't done it already, run #{"bin/setup".colorize(:green)}
+          #{green_arrow} Run #{"shards install".colorize(:green)} to ensure dependencies are installed
+          #{green_arrow} Ask for help in #{"https://gitter.im/luckyframework/Lobby".colorize(:green)}
+        ERROR
       end
     end
 
