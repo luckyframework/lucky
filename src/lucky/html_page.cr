@@ -1,5 +1,6 @@
 require "./tags/**"
 require "./page_helpers/**"
+require "./time_helpers"
 
 module Lucky::HTMLPage
   include Lucky::BaseTags
@@ -13,6 +14,7 @@ module Lucky::HTMLPage
   include Lucky::Assignable
   include Lucky::AssetHelpers
   include Lucky::NumberToCurrency
+  include Lucky::TimeHelpers
 
   macro setup_initializer_hook
     macro finished
