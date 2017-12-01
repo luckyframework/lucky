@@ -1,4 +1,3 @@
-require "lucky_cli"
 require "colorize"
 require "ecr"
 require "file_utils"
