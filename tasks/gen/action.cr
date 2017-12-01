@@ -1,11 +1,10 @@
 require "colorize"
-require "ecr"
 require "file_utils"
 
-class Lucky::ActionGenerator
+class Lucky::ActionGenerator < Teeplate::FileTree
   getter :name
 
-  ECR.def_to_s "#{__DIR__}/action.ecr"
+  directory "#{__DIR__}"
 
   def initialize(@name : String)
   end
@@ -42,12 +41,27 @@ end
 
 class Gen::Action < LuckyCli::Task
   banner "Generate a new action"
+  error : String?
 
   def call(io : IO = STDOUT)
-    if ARGV.first?.nil?
-      io.puts "Action name is required. Example: lucky gen.action Users::Index".colorize(:red)
-    else
+    if valid?
       Lucky::ActionGenerator.new(name: ARGV.first).generate
+    else
+      io.puts @error.colorize(:red)
     end
+  end
+
+  private def valid?
+    name_is_present && name_matches_format
+  end
+
+  private def name_is_present
+    @error = "Action name is required. Example: lucky gen.action Users::Index"
+    ARGV.first?
+  end
+
+  private def name_matches_format
+    @error = "That's not a valid Action.  Example: lucky gen.action Users::Index"
+    ARGV.first.includes?("::")
   end
 end

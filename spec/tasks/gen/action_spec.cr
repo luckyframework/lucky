@@ -33,5 +33,18 @@ describe Gen::Action do
 
     io.to_s.strip.should eq(message)
   end
-end
 
+  it "displays an error if given only one class" do
+    begin
+      io = IO::Memory.new
+      ARGV.push("Users")
+
+      Gen::Action.new.call(io)
+      message = "\e[31mThat's not a valid Action.  Example: lucky gen.action Users::Index\e[0m"
+
+      io.to_s.strip.should eq(message)
+    ensure
+      ARGV.pop
+    end
+  end
+end
