@@ -41,7 +41,6 @@ end
 
 class Gen::Action < LuckyCli::Task
   banner "Generate a new action"
-  error : String?
 
   def call(io : IO = STDOUT)
     if valid?
