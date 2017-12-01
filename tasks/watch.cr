@@ -7,7 +7,10 @@ module Sentry
   FILE_TIMESTAMPS = {} of String => String # {file => timestamp}
 
   class ProcessRunner
+    include LuckyCli::TextHelpers
+
     getter app_processes = [] of Process
+    property successful_compilations
 
     def initialize(build_commands : Array(String), run_commands : Array(String), files)
       @app_built = false
@@ -30,8 +33,8 @@ module Sentry
         @app_processes << Process.new(command, shell: true, output: true, error: true)
       end
 
-      @successful_compilations += 1
-      if @successful_compilations == 1
+      self.successful_compilations += 1
+      if successful_compilations == 1
         start_browsersync
       else
         reload_browsersync
@@ -78,6 +81,16 @@ module Sentry
         create_app_processes()
       elsif !@app_built
         puts "There was a problem compiling. Watching for fixes...".colorize(:red)
+        if successful_compilations.zero?
+          puts <<-ERROR
+
+          Try this...
+
+            #{green_arrow} If you haven't done it already, run #{"bin/setup".colorize(:green)}
+            #{green_arrow} Run #{"shards install".colorize(:green)} to ensure dependencies are installed
+            #{green_arrow} Ask for help in #{"https://gitter.im/luckyframework/Lobby".colorize(:green)}
+          ERROR
+        end
       end
     end
 
