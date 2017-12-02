@@ -1,41 +1,13 @@
 require "colorize"
 require "file_utils"
 
-class Lucky::ActionGenerator < Teeplate::FileTree
-  getter :name
+class Lucky::ActionTemplate < Teeplate::FileTree
+  @name : String
+  @action : String
 
-  directory "#{__DIR__}"
+  directory "#{__DIR__}/templates"
 
-  def initialize(@name : String)
-  end
-
-  def generate
-    make_folders_if_missing
-    File.write(filename, contents)
-  end
-
-  private def make_folders_if_missing
-    FileUtils.mkdir_p Dir.current + "/src/actions/#{path}"
-  end
-
-  private def path_args
-    name.split("::").map(&.downcase)
-  end
-
-  private def path
-    path_args[0..-2].join("/")
-  end
-
-  private def action
-    path_args.last
-  end
-
-  private def filename
-    Dir.current + "/src/actions/#{path}/#{action}.cr"
-  end
-
-  private def contents
-    to_s
+  def initialize(@name, @action)
   end
 end
 
@@ -44,7 +16,7 @@ class Gen::Action < LuckyCli::Task
 
   def call(io : IO = STDOUT)
     if valid?
-      Lucky::ActionGenerator.new(name: ARGV.first).generate
+      Lucky::ActionTemplate.new(action_name, action).render(output_path)
     else
       io.puts @error.colorize(:red)
     end
@@ -62,5 +34,25 @@ class Gen::Action < LuckyCli::Task
   private def name_matches_format
     @error = "That's not a valid Action.  Example: lucky gen.action Users::Index"
     ARGV.first.includes?("::")
+  end
+
+  private def action_name
+    ARGV.first
+  end
+
+  private def action
+    path_args.last
+  end
+
+  private def output_path
+    Dir.current + "/src/actions/#{path}"
+  end
+
+  private def path
+    path_args[0..-2].join("/")
+  end
+
+  private def path_args
+    action_name.split("::").map(&.downcase)
   end
 end

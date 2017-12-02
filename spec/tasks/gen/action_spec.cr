@@ -3,25 +3,29 @@ require "../../spec_helper"
 describe Gen::Action do
   it "generates a basic action" do
     begin
-      ARGV.push("Users::Index")
+      valid_action_name = "Users::Index"
+      ARGV.push(valid_action_name)
+
       Gen::Action.new.call
 
-      File.exists?("src/actions/users/index.cr").should be_true
+      File.read("./src/actions/users/index.cr").
+        should contain(valid_action_name)
     ensure
-      ARGV.pop
-      FileUtils.rm_rf "src/actions/users/index.cr"
+      cleanup
     end
   end
 
   it "generates a nested action" do
     begin
-      ARGV.push("Users::Announcements::Index")
+      valid_nested_action_name = "Users::Announcements::Index"
+      ARGV.push(valid_nested_action_name)
+
       Gen::Action.new.call
 
-      File.exists?("src/actions/users/announcements/index.cr").should be_true
+      File.read("src/actions/users/announcements/index.cr").
+        should contain(valid_nested_action_name)
     ensure
-      ARGV.pop
-      FileUtils.rm_rf "src/actions/users/announcements/index.cr"
+      cleanup
     end
   end
 
@@ -37,14 +41,20 @@ describe Gen::Action do
   it "displays an error if given only one class" do
     begin
       io = IO::Memory.new
-      ARGV.push("Users")
+      invalid_action_name = "Users"
+      ARGV.push(invalid_action_name)
 
       Gen::Action.new.call(io)
       message = "\e[31mThat's not a valid Action.  Example: lucky gen.action Users::Index\e[0m"
 
       io.to_s.strip.should eq(message)
     ensure
-      ARGV.pop
+      ARGV.clear
     end
   end
+end
+
+def cleanup
+  ARGV.clear
+  FileUtils.rm_rf("./src/actions")
 end
