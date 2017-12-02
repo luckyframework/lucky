@@ -17,7 +17,7 @@ Here are some ways *you* can contribute:
 * by closing [issues][]
 * by reviewing patches
 
-[issues]: https://github.com/thoughtbot/factory_bot/issues
+[issues]: https://github.com/luckyframework/lucky/issues
 
 ## Submitting an Issue
 
