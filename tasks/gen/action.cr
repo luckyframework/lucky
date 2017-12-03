@@ -33,7 +33,7 @@ class Gen::Action < LuckyCli::Task
   end
 
   private def name_matches_format
-    @error = "That's not a valid Action.  Example: lucky gen.action Users::Index"
+    @error = "That's not a valid Action. Example: lucky gen.action Users::Index"
     ARGV.first.includes?("::")
   end
 

@@ -53,7 +53,7 @@ describe Gen::Action do
       ARGV.push(invalid_action_name)
 
       Gen::Action.new.call(io)
-      message = "\e[31mThat's not a valid Action.  Example: lucky gen.action Users::Index\e[0m"
+      message = "\e[31mThat's not a valid Action. Example: lucky gen.action Users::Index\e[0m"
 
       io.to_s.strip.should eq(message)
     end
