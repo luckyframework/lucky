@@ -62,6 +62,6 @@ class Gen::Action < LuckyCli::Task
   end
 
   private def success_message
-    "Done generating #{action_name.colorize(:green)} in #{output_path.colorize(:green)}"
+    "Done generating #{action_name.colorize(:green)} in #{app_directory_path.colorize(:green)}"
   end
 end

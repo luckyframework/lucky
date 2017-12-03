@@ -3,25 +3,37 @@ require "../../spec_helper"
 describe Gen::Action do
   it "generates a basic action" do
     with_cleanup do
+      io = IO::Memory.new
       valid_action_name = "Users::Index"
       ARGV.push(valid_action_name)
 
-      Gen::Action.new.call
+      Gen::Action.new.call(io)
+      expected_path = "/src/actions/users"
+      expected_message =
+        "Done generating #{valid_action_name.colorize(:green)}" \
+        " in #{expected_path.colorize(:green)}"
 
       File.read("./src/actions/users/index.cr").
         should contain(valid_action_name)
+      io.to_s.strip.should eq(expected_message)
     end
   end
 
   it "generates a nested action" do
     with_cleanup do
+      io = IO::Memory.new
       valid_nested_action_name = "Users::Announcements::Index"
       ARGV.push(valid_nested_action_name)
 
-      Gen::Action.new.call
+      Gen::Action.new.call(io)
+      expected_path = "/src/actions/users/announcements"
+      expected_message =
+        "Done generating #{valid_nested_action_name.colorize(:green)}" \
+        " in #{expected_path.colorize(:green)}"
 
       File.read("src/actions/users/announcements/index.cr").
         should contain(valid_nested_action_name)
+      io.to_s.strip.should eq(expected_message)
     end
   end
 
