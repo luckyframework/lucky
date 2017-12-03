@@ -54,7 +54,7 @@ describe Gen::Action do
   end
 end
 
-def cleanup
+private def cleanup
   ARGV.clear
   FileUtils.rm_rf("./src/actions")
 end
