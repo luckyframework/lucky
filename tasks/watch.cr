@@ -31,7 +31,7 @@ module Sentry
     private def create_app_processes
       @app_processes.clear
       result = @run_commands.each do |command|
-        @app_processes << Process.new(command, shell: true, output: true, error: true)
+        @app_processes << Process.new(command, shell: false, output: true, error: true)
       end
 
       self.successful_compilations += 1
