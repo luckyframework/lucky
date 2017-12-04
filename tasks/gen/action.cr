@@ -46,11 +46,7 @@ class Gen::Action < LuckyCli::Task
   end
 
   private def output_path
-    Dir.current + app_directory_path
-  end
-
-  private def app_directory_path
-    "/src/actions/#{path}"
+    "./src/actions/#{path}"
   end
 
   private def path
@@ -62,6 +58,6 @@ class Gen::Action < LuckyCli::Task
   end
 
   private def success_message
-    "Done generating #{action_name.colorize(:green)} in #{app_directory_path.colorize(:green)}"
+    "Done generating #{action_name.colorize(:green)} in #{output_path.colorize(:green)}"
   end
 end
