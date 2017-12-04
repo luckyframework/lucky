@@ -2,26 +2,32 @@ require "../../spec_helper"
 
 describe Gen::Action do
   it "generates a basic action" do
-    begin
-      ARGV.push("Users::Index")
-      Gen::Action.new.call
+    with_cleanup do
+      io = IO::Memory.new
+      valid_action_name = "Users::Index"
+      ARGV.push(valid_action_name)
 
-      File.exists?("src/actions/users/index.cr").should be_true
-    ensure
-      ARGV.pop
-      FileUtils.rm_rf "src/actions/users/index.cr"
+      Gen::Action.new.call(io)
+
+      File.read("./src/actions/users/index.cr").
+        should contain(valid_action_name)
+      io.to_s.should contain(valid_action_name)
+      io.to_s.should contain("/src/actions/users")
     end
   end
 
   it "generates a nested action" do
-    begin
-      ARGV.push("Users::Announcements::Index")
-      Gen::Action.new.call
+    with_cleanup do
+      io = IO::Memory.new
+      valid_nested_action_name = "Users::Announcements::Index"
+      ARGV.push(valid_nested_action_name)
 
-      File.exists?("src/actions/users/announcements/index.cr").should be_true
-    ensure
-      ARGV.pop
-      FileUtils.rm_rf "src/actions/users/announcements/index.cr"
+      Gen::Action.new.call(io)
+
+      File.read("src/actions/users/announcements/index.cr").
+        should contain(valid_nested_action_name)
+      io.to_s.should contain(valid_nested_action_name)
+      io.to_s.should contain("/src/actions/users/announcements")
     end
   end
 
@@ -29,22 +35,32 @@ describe Gen::Action do
     io = IO::Memory.new
 
     Gen::Action.new.call(io)
-    message = "\e[31mAction name is required. Example: lucky gen.action Users::Index\e[0m"
 
-    io.to_s.strip.should eq(message)
+    io.to_s.should contain("Action name is required.")
   end
 
   it "displays an error if given only one class" do
-    begin
+    with_cleanup do
       io = IO::Memory.new
-      ARGV.push("Users")
+      invalid_action_name = "Users"
+      ARGV.push(invalid_action_name)
 
       Gen::Action.new.call(io)
-      message = "\e[31mThat's not a valid Action.  Example: lucky gen.action Users::Index\e[0m"
 
-      io.to_s.strip.should eq(message)
-    ensure
-      ARGV.pop
+      io.to_s.should contain("That's not a valid Action.")
     end
+  end
+end
+
+private def cleanup
+  ARGV.clear
+  FileUtils.rm_rf("./src/actions")
+end
+
+private def with_cleanup
+  begin
+    yield
+  ensure
+    cleanup
   end
 end
