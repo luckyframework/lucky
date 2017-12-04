@@ -30,6 +30,6 @@ module Lucky::NumberToCurrency
 
     number = "#{left}#{separator}#{right}"
 
-    format.gsub("%n", number).gsub("%u", unit)
+    text format.gsub("%n", number).gsub("%u", unit)
   end
 end
