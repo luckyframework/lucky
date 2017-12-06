@@ -1,5 +1,7 @@
 require "../../spec_helper"
 
+include CleanupHelper
+
 describe Gen::Action do
   it "generates a basic action" do
     with_cleanup do
@@ -52,15 +54,3 @@ describe Gen::Action do
   end
 end
 
-private def cleanup
-  ARGV.clear
-  FileUtils.rm_rf("./src/actions")
-end
-
-private def with_cleanup
-  begin
-    yield
-  ensure
-    cleanup
-  end
-end
