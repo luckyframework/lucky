@@ -14,6 +14,21 @@ describe Lucky::Params do
     dup_params.get(:from).should eq "form"
   end
 
+  it "works when parsing multipart params twice" do
+    request = build_multipart_request form_parts: {
+      "user" => {
+        "name" => "Paul",
+        "age" => "28"
+      }
+    }
+
+    params = Lucky::Params.new(request)
+    dup_params = Lucky::Params.new(request)
+
+    params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+    dup_params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+  end
+
   describe "all" do
     it "gives preference to body params if query param is also present" do
       request = build_request body: "from=form",
