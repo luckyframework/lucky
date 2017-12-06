@@ -15,10 +15,9 @@ module ContextHelper
     HTTP::Server::Context.new request, response
   end
 
-  private def build_multipart_request(
-    form_parts : Hash(String, String | Hash(String, String)) = {} of String => String,
-    file_parts : Hash(String, String | Hash(String, String)) = {} of String => String
-  )
+  alias Parts = Hash(String, String | Hash(String, String))
+
+  private def build_multipart_request(form_parts : Parts = {} of String => String, file_parts : Parts = {} of String => String)
     form_io, content_type = IO::Memory.new, ""
     HTTP::FormData.build(form_io) do |formdata|
       content_type = formdata.content_type
@@ -32,33 +31,25 @@ module ContextHelper
     build_request(method: "POST", body: form_io.to_s, content_type: content_type)
   end
 
-  private def multipart_form_part(
-    formdata : HTTP::FormData::Builder, name : String, value : String
-  )
+  private def multipart_form_part(formdata : HTTP::FormData::Builder, name : String, value : String)
     formdata.field(name, value)
   end
 
-  private def multipart_form_part(
-    formdata : HTTP::FormData::Builder, name : String, value : Hash(String, String)
-  )
+  private def multipart_form_part(formdata : HTTP::FormData::Builder, name : String, value : Hash(String, String))
     value.each do |key, nested_value|
       nested_name = name + ":" + key
       multipart_form_part(formdata, nested_name, nested_value)
     end
   end
 
-  private def multipart_file_part(
-    formdata : HTTP::FormData::Builder, name : String, value : String
-  )
+  private def multipart_file_part(formdata : HTTP::FormData::Builder, name : String, value : String)
     file_io = IO::Memory.new(value)
     metadata = HTTP::FormData::FileMetadata.new(filename: name)
     headers = HTTP::Headers{"Content-Type" => "text/plain"}
     formdata.file(name, file_io, metadata, headers)
   end
 
-  private def multipart_file_part(
-    formdata : HTTP::FormData::Builder, name : String, value : Hash(String, String)
-  )
+  private def multipart_file_part(formdata : HTTP::FormData::Builder, name : String, value : Hash(String, String))
     value.each do |key, nested_value|
       nested_name = name + ":" + key
       multipart_file_part(formdata, nested_name, nested_value)

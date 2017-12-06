@@ -116,11 +116,10 @@ class Lucky::Params
   @_multipart_files : Hash(String, Tempfile)?
 
   private def multipart_files : Hash(String, Tempfile)
-    @_multipart_files ||=  parse_multipart_request.last
+    @_multipart_files ||= parse_multipart_request.last
   end
 
-  @_parsed_multipart_request : Tuple(Hash(String, String),
-                                     Hash(String, Tempfile))?
+  @_parsed_multipart_request : Tuple(Hash(String, String), Hash(String, Tempfile))?
 
   private def parse_multipart_request
     @_parsed_multipart_request ||= begin
@@ -140,7 +139,7 @@ class Lucky::Params
           multipart_params[part.name] = part.body.gets_to_end
         end
       end
-      { multipart_params, multipart_files }
+      {multipart_params, multipart_files}
     end
   end
 
