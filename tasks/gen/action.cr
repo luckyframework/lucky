@@ -54,7 +54,7 @@ class Gen::Action < LuckyCli::Task
   end
 
   private def path_args
-    action_name.split("::").map(&.downcase)
+    action_name.split("::").map(&.underscore).map(&.downcase)
   end
 
   private def success_message
