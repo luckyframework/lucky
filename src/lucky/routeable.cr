@@ -100,6 +100,9 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+    {% for opt_param in OPTIONAL_PARAMS %}
+      {{ opt_param }} : String? = nil,
+    {% end %}
       )
       path = String.build do |path|
         {% for part in path_parts %}
@@ -114,6 +117,17 @@ module Lucky::Routeable
 
       is_root_path = path == ""
       path = "/" if is_root_path
+
+      query_params = {} of String => String
+      {% for opt_param in OPTIONAL_PARAMS %}
+        query_params["{{ opt_param }}"] = {{ opt_param }} unless {{ opt_param }}.nil?
+      {% end %}
+
+      unless query_params.empty?
+        path += "?"
+        path += HTTP::Params.encode(query_params)
+      end
+
       Lucky::RouteHelper.new {{ method }}, path
     end
 
