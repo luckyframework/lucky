@@ -120,11 +120,16 @@ module Lucky::Routeable
     OPTIONAL_PARAMS = [] of Symbol
   end
 
-  macro optional_param(param_name)
+  macro optional_param(param_name, default = nil)
     {% OPTIONAL_PARAMS << param_name %}
 
     def {{ param_name }} : String?
-      params.get(:{{ param_name }})
+      value = params.get(:{{ param_name }})
+      if value
+        value
+      else
+        {{ default }}
+      end
     end
   end
 end
