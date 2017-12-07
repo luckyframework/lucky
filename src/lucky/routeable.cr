@@ -124,12 +124,7 @@ module Lucky::Routeable
     {% OPTIONAL_PARAMS << param_name %}
 
     def {{ param_name }} : String?
-      value = params.get(:{{ param_name }})
-      if value
-        value
-      else
-        {{ default }}
-      end
+      params.get(:{{ param_name }}) || {{ default }}
     end
   end
 end
