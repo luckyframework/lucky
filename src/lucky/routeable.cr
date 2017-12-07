@@ -115,4 +115,16 @@ module Lucky::Routeable
       \{% raise "Use `route` instead of `with` if the action doesn't need params" %}
     end
   end
+
+  macro included
+    OPTIONAL_PARAMS = [] of Symbol
+  end
+
+  macro optional_param(param_name)
+    {% OPTIONAL_PARAMS << param_name %}
+
+    def {{ param_name }} : String?
+      params.get(:{{ param_name }})
+    end
+  end
 end

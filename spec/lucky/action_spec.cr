@@ -82,6 +82,14 @@ class PlainText::Index < Lucky::Action
   end
 end
 
+class OptionalParams::Index < Lucky::Action
+  optional_param page
+
+  action do
+    render_text "optional param: #{page}"
+  end
+end
+
 describe Lucky::Action do
   describe "routing" do
     it "creates URL helpers for the resourceful actions" do
@@ -144,6 +152,23 @@ describe Lucky::Action do
     it "can get params" do
       action = PlainText::Index.new(build_context(path: "/?q=test"), params)
       action.params.get(:q).should eq "test"
+    end
+  end
+
+  describe "optional params" do
+    it "is initialized to nil" do
+      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action.page.should eq nil
+    end
+
+    it "is fetched if present" do
+      action = OptionalParams::Index.new(build_context(path: "/?page=3"), params)
+      action.page.should eq "3"
+    end
+
+    it "can be used within the action" do
+      response = OptionalParams::Index.new(build_context(path: "/?page=3"), params).call
+      response.body.to_s.should eq "optional param: 3"
     end
   end
 end
