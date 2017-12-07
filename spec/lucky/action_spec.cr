@@ -176,6 +176,10 @@ describe Lucky::Action do
       action = OptionalParams::Index.new(build_context(path: ""), params)
       action.with_default.should eq "default"
     end
+
+    it "is added as optional to the route" do
+      OptionalParams::Index.path("7").should eq "/optional_params?page=7"
+    end
   end
 end
 

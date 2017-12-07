@@ -66,6 +66,9 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+    {% for opt_param in OPTIONAL_PARAMS %}
+      {{ opt_param }} : String? = nil,
+    {% end %}
       )
       path = String.build do |path|
         {% for part in path_parts %}
@@ -79,6 +82,19 @@ module Lucky::Routeable
       end
       is_root_path = path == ""
       path = "/" if is_root_path
+
+      {% unless OPTIONAL_PARAMS.empty? %}
+        path += "?"
+        {% i = 0 %}
+        {% for opt_param in OPTIONAL_PARAMS %}
+          {% if i > 0 %}
+            path += "&"
+          {% end %}
+          path += "{{ opt_param }}=#{{{ opt_param }}}"
+          {% i = i + 1 %}
+        {% end %}
+      {% end %}
+
       path
     end
 
@@ -118,6 +134,10 @@ module Lucky::Routeable
 
   macro included
     OPTIONAL_PARAMS = [] of Symbol
+
+    macro inherited
+      OPTIONAL_PARAMS = [] of Symbol
+    end
   end
 
   macro optional_param(param_name, default = nil)
