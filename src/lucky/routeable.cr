@@ -83,17 +83,15 @@ module Lucky::Routeable
       is_root_path = path == ""
       path = "/" if is_root_path
 
-      {% unless OPTIONAL_PARAMS.empty? %}
-        path += "?"
-        {% i = 0 %}
-        {% for opt_param in OPTIONAL_PARAMS %}
-          {% if i > 0 %}
-            path += "&"
-          {% end %}
-          path += "{{ opt_param }}=#{{{ opt_param }}}"
-          {% i = i + 1 %}
-        {% end %}
+      query_params = {} of String => String
+      {% for opt_param in OPTIONAL_PARAMS %}
+        query_params["{{ opt_param }}"] = {{ opt_param }} unless {{ opt_param }}.nil?
       {% end %}
+
+      unless query_params.empty?
+        path += "?"
+        path += HTTP::Params.encode(query_params)
+      end
 
       path
     end

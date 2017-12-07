@@ -177,8 +177,10 @@ describe Lucky::Action do
       action.with_default.should eq "default"
     end
 
-    it "is added as optional to the route" do
+    it "is added as optional argument to the route" do
       OptionalParams::Index.path("7").should eq "/optional_params?page=7"
+      OptionalParams::Index.path("/7").should eq "/optional_params?page=%2F7"
+      OptionalParams::Index.path("7", "other").should eq "/optional_params?page=7&with_default=other"
     end
   end
 end
