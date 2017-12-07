@@ -13,10 +13,16 @@ describe Gen::Model do
 
       File.read("./src/models/user.cr").
         should contain("class User < BaseModel")
+      io.to_s.should contain("user.cr")
+      io.to_s.should contain("./src/models")
       File.read("./src/forms/user_form.cr").
         should contain("class UserForm < User::BaseForm")
+      io.to_s.should contain("user_form.cr")
+      io.to_s.should contain("./src/forms")
       File.read("./src/queries/user_query.cr").
         should contain("class UserQuery < User::BaseQuery")
+      io.to_s.should contain("user_query.cr")
+      io.to_s.should contain("./src/queries")
     end
   end
 
