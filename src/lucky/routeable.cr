@@ -89,8 +89,7 @@ module Lucky::Routeable
       {% end %}
 
       unless query_params.empty?
-        path += "?"
-        path += HTTP::Params.encode(query_params)
+        path += "?#{HTTP::Params.encode(query_params)}"
       end
 
       path
@@ -124,8 +123,7 @@ module Lucky::Routeable
       {% end %}
 
       unless query_params.empty?
-        path += "?"
-        path += HTTP::Params.encode(query_params)
+        path += "?#{HTTP::Params.encode(query_params)}"
       end
 
       Lucky::RouteHelper.new {{ method }}, path
