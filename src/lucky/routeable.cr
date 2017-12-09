@@ -160,7 +160,7 @@ module Lucky::Routeable
     def {{ type_declaration.var }} : {{ type_declaration.type }}
       val = params.get(:{{ type_declaration.var.id }})
       if val.nil?
-        nil || {{ type_declaration.value || nil }}
+        {{ type_declaration.value || nil }}
       else
         {% if type_declaration.type.class_name == "Union" %}
           result = {{ type_declaration.type.types.first }}::LuckyHack.parse(val)
