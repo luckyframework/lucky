@@ -26,9 +26,10 @@ describe Lucky::SelectHelpers do
     HTML
   end
 
-  it "renders option" do
-    (view.options_for_select form.company_id, [{"Volvo", 2}]).to_s.should contain <<-HTML
+  it "renders options" do
+    (view.options_for_select form.company_id, [{"Volvo", 2}, {"BMW", 3}]).to_s.should contain <<-HTML
     <option value="2">Volvo</option>
+    <option value="3">BMW</option>
     HTML
   end
 
