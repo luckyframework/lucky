@@ -28,7 +28,7 @@ describe Lucky::SelectHelpers do
 
   it "renders option" do
     (view.options_for_select form.company_id, [{"Volvo", 2}]).to_s.should contain <<-HTML
-    <option value="2" selected="false">Volvo</option>
+    <option value="2">Volvo</option>
     HTML
   end
 
