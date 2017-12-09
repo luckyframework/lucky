@@ -170,7 +170,7 @@ module Lucky::Routeable
             nil
           end
         {% else %}
-          result = {{ type_declaration.type }}::LuckyHack.parse(val).value
+          result = {{ type_declaration.type }}::LuckyHack.parse(val)
           if result.is_a? {{ type_declaration.type }}::LuckyHack::SuccessfulCast
             result.value
           else
