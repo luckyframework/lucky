@@ -179,14 +179,12 @@ describe Lucky::Action do
 
     it "is added as optional argument to the path" do
       OptionalParams::Index.path(7).should eq "/optional_params?page=7"
-      OptionalParams::Index.path(7).should eq "/optional_params?page=%2F7"
-      OptionalParams::Index.path(7, "other").should eq "/optional_params?page=7&with_default=other"
+      OptionalParams::Index.path(7, "/other").should eq "/optional_params?page=7&with_default=%2Fother"
     end
 
     it "is added as optional argument to the route" do
       OptionalParams::Index.route(7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7")
-      OptionalParams::Index.route(7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=%2F7")
-      OptionalParams::Index.route(7, "other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=other")
+      OptionalParams::Index.route(7, "/other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=%2Fother")
     end
   end
 end

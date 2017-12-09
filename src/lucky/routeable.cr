@@ -82,18 +82,18 @@ module Lucky::Routeable
       end
       is_root_path = path == ""
       path = "/" if is_root_path
+
       query_params = {} of String => String
       {% for param in PARAM_DECLARATIONS %}
-        {% if param.type.class_name == "Union" %}
-          query_params["{{ param.var }}"] = {{ param.type.types.first }}::Lucky.parse({{ param.var }})
-        {% else %}
-          query_params["{{ param.var }}"] = {{ param.type }}::Lucky.parse({{ param.var }})
-        {% end %}
+        unless {{ param.var }} == {{ param.value || nil }}
+          query_params["{{ param.var }}"] = {{ param.var }}.to_s
+        end
       {% end %}
 
       unless query_params.empty?
         path += "?#{HTTP::Params.encode(query_params)}"
       end
+
       path
     end
 
@@ -118,6 +118,17 @@ module Lucky::Routeable
 
       is_root_path = path == ""
       path = "/" if is_root_path
+
+      query_params = {} of String => String
+      {% for param in PARAM_DECLARATIONS %}
+        unless {{ param.var }} == {{ param.value || nil }}
+          query_params["{{ param.var }}"] = {{ param.var }}.to_s
+        end
+      {% end %}
+
+      unless query_params.empty?
+        path += "?#{HTTP::Params.encode(query_params)}"
+      end
 
       Lucky::RouteHelper.new {{ method }}, path
     end
