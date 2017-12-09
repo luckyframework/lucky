@@ -155,7 +155,7 @@ module Lucky::Routeable
   end
 
   macro param(type_declaration)
-    {% PARAM_DECLARATIONS<< type_declaration %}
+    {% PARAM_DECLARATIONS << type_declaration %}
 
     def {{ type_declaration.var }} : String?
       params.get(:{{ type_declaration.var.id }}) || {{ type_declaration.value || nil }}
