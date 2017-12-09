@@ -1,20 +1,20 @@
 module Lucky::LinkHelpers
   def link(text, to : Lucky::RouteHelper, **html_options)
-    a text, merge_options(html_options, link_to_href(to))
+    a text, merge_link_options(html_options, link_to_href(to))
   end
 
   def link(text, to : Lucky::Action.class, **html_options)
-    a text, merge_options(html_options, link_to_href(to.route))
+    a text, merge_link_options(html_options, link_to_href(to.route))
   end
 
   def link(to : Lucky::RouteHelper, **html_options)
-    a merge_options(html_options, link_to_href(to)) do
+    a merge_link_options(html_options, link_to_href(to)) do
       yield
     end
   end
 
   def link(to : Lucky::Action.class, **html_options)
-    a merge_options(html_options, link_to_href(to.route)) do
+    a merge_link_options(html_options, link_to_href(to.route)) do
       yield
     end
   end
@@ -28,12 +28,21 @@ module Lucky::LinkHelpers
   end
 
   def link(text, to : String, **html_options)
-    a text, merge_options(html_options, {"href" => to})
+    a text, merge_link_options(html_options, {"href" => to})
   end
 
   def link(to : String, **html_options)
-    a merge_options(html_options, {"href" => to}) do
+    a merge_link_options(html_options, {"href" => to}) do
       yield
     end
+  end
+
+  private def merge_link_options(html_options, tag_attrs)
+    merged_options = merge_options(html_options, tag_attrs)
+    if (href = merged_options["href"]?) && (anchor = merged_options["anchor"]?)
+      merged_options.delete("anchor")
+      merged_options["href"] = "#{href}##{anchor.sub(/^#/, "")}"
+    end
+    merged_options
   end
 end
