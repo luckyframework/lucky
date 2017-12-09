@@ -85,9 +85,10 @@ end
 class OptionalParams::Index < Lucky::Action
   param page : Int32?
   param with_default : String? = "default"
+  param with_int_default : Int32? = 1
 
   action do
-    render_text "optional param: #{page}"
+    render_text "optional param: #{page} #{with_int_default}"
   end
 end
 
@@ -164,12 +165,12 @@ describe Lucky::Action do
 
     it "is fetched if present" do
       action = OptionalParams::Index.new(build_context(path: "/?page=3"), params)
-      action.page.should eq "3"
+      action.page.should eq 3
     end
 
     it "can be used within the action" do
       response = OptionalParams::Index.new(build_context(path: "/?page=3"), params).call
-      response.body.to_s.should eq "optional param: 3"
+      response.body.to_s.should eq "optional param: 3 1"
     end
 
     it "can specify a default value" do
