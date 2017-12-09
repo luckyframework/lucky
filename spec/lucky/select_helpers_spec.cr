@@ -9,10 +9,12 @@ private class TestPage
   def select(field)
     select_input field do
     end
+    self
   end
 
   def options(field, options)
     options_for_select(field, options)
+    self
   end
 
   def html
@@ -34,25 +36,21 @@ end
 
 describe Lucky::SelectHelpers do
   it "renders select" do
-    a_view = view
-    a_view.select(form.company_id)
-    a_view.html.to_s.should contain <<-HTML
+    view.select(form.company_id).html.to_s.should contain <<-HTML
     <select name="company:company_id"></select>
     HTML
   end
 
   it "renders options" do
-    a_view = view
-    a_view.options(form.company_id, [{"Volvo", 2}, {"BMW", 3}])
-    a_view.html.to_s.should contain <<-HTML
+    view.options(form.company_id, [{"Volvo", 2}, {"BMW", 3}])
+      .html.to_s.should contain <<-HTML
     <option value="2">Volvo</option><option value="3">BMW</option>
     HTML
   end
 
   it "renders selected option" do
-    a_view = view
-    a_view.options(form.company_id, [{"Volvo", 1}, {"BMW", 3}])
-    a_view.html.to_s.should contain <<-HTML
+    view.options(form.company_id, [{"Volvo", 1}, {"BMW", 3}])
+      .html.to_s.should contain <<-HTML
     <option value="1" selected="true">Volvo</option><option value="3">BMW</option>
     HTML
   end
