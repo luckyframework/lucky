@@ -83,8 +83,8 @@ class PlainText::Index < Lucky::Action
 end
 
 class OptionalParams::Index < Lucky::Action
-  optional_param page
-  optional_param with_default, default: "default"
+  param page : Int32?
+  param with_default : String? = "default"
 
   action do
     render_text "optional param: #{page}"
@@ -178,15 +178,15 @@ describe Lucky::Action do
     end
 
     it "is added as optional argument to the path" do
-      OptionalParams::Index.path("7").should eq "/optional_params?page=7"
-      OptionalParams::Index.path("/7").should eq "/optional_params?page=%2F7"
-      OptionalParams::Index.path("7", "other").should eq "/optional_params?page=7&with_default=other"
+      OptionalParams::Index.path(7).should eq "/optional_params?page=7"
+      OptionalParams::Index.path(7).should eq "/optional_params?page=%2F7"
+      OptionalParams::Index.path(7, "other").should eq "/optional_params?page=7&with_default=other"
     end
 
     it "is added as optional argument to the route" do
-      OptionalParams::Index.route("7").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7")
-      OptionalParams::Index.route("/7").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=%2F7")
-      OptionalParams::Index.route("7", "other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=other")
+      OptionalParams::Index.route(7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7")
+      OptionalParams::Index.route(7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=%2F7")
+      OptionalParams::Index.route(7, "other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=other")
     end
   end
 end

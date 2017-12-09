@@ -66,8 +66,8 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
-    {% for opt_param in OPTIONAL_PARAMS %}
-      {{ opt_param }} : String? = nil,
+    {% for param in PARAM_DECLARATIONS %}
+      {{ param }},
     {% end %}
       )
       path = String.build do |path|
@@ -82,16 +82,6 @@ module Lucky::Routeable
       end
       is_root_path = path == ""
       path = "/" if is_root_path
-
-      query_params = {} of String => String
-      {% for opt_param in OPTIONAL_PARAMS %}
-        query_params["{{ opt_param }}"] = {{ opt_param }} unless {{ opt_param }}.nil?
-      {% end %}
-
-      unless query_params.empty?
-        path += "?#{HTTP::Params.encode(query_params)}"
-      end
-
       path
     end
 
@@ -99,8 +89,8 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
-    {% for opt_param in OPTIONAL_PARAMS %}
-      {{ opt_param }} : String? = nil,
+    {% for param in PARAM_DECLARATIONS %}
+      {{ param }},
     {% end %}
       )
       path = String.build do |path|
@@ -116,15 +106,6 @@ module Lucky::Routeable
 
       is_root_path = path == ""
       path = "/" if is_root_path
-
-      query_params = {} of String => String
-      {% for opt_param in OPTIONAL_PARAMS %}
-        query_params["{{ opt_param }}"] = {{ opt_param }} unless {{ opt_param }}.nil?
-      {% end %}
-
-      unless query_params.empty?
-        path += "?#{HTTP::Params.encode(query_params)}"
-      end
 
       Lucky::RouteHelper.new {{ method }}, path
     end
@@ -143,18 +124,18 @@ module Lucky::Routeable
   end
 
   macro included
-    OPTIONAL_PARAMS = [] of Symbol
+    PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
 
     macro inherited
-      OPTIONAL_PARAMS = [] of Symbol
+      PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
     end
   end
 
-  macro optional_param(param_name, default = nil)
-    {% OPTIONAL_PARAMS << param_name %}
+  macro param(type_declaration)
+    {% PARAM_DECLARATIONS<< type_declaration %}
 
-    def {{ param_name }} : String?
-      params.get(:{{ param_name }}) || {{ default }}
+    def {{ type_declaration.var }} : String?
+      params.get(:{{ type_declaration.var.id }}) || {{ type_declaration.value || nil }}
     end
   end
 end
