@@ -174,7 +174,7 @@ module Lucky::Routeable
           if result.is_a? {{ type_declaration.type }}::LuckyHack::SuccessfulCast
             result.value
           else
-            raise "We're screwed here"
+            raise "Non-optional param \"{{ type_declaration.var.id }}\" couldn't be parsed to a \"{{ type_declaration.type }}\""
           end
       {% end %}
       end

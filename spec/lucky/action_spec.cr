@@ -188,6 +188,17 @@ describe Lucky::Action do
       OptionalParams::Index.route(7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7")
       OptionalParams::Index.route(7, "/other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=%2Fother")
     end
+
+    it "doesnt raise when we cannot parse the optional param into the desired type" do
+      response = OptionalParams::Index.new(build_context(path: "/?page=no_int"), params).call
+      response.body.to_s.should eq "optional param:  1 1337"
+    end
+
+    it "raises when we cannot parse the non-optional param into the desired type" do
+      expect_raises Exception, "Non-optional param \"with_int_never_nil\" couldn't be parsed to a \"Int32\"" do
+        OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=no_int"), params).call
+      end
+    end
   end
 end
 
