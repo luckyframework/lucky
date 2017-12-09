@@ -163,15 +163,15 @@ module Lucky::Routeable
         nil || {{ type_declaration.value || nil }}
       else
         {% if type_declaration.type.class_name == "Union" %}
-          result = {{ type_declaration.type.types.first }}::Lucky.parse(val)
-          if result.is_a? {{ type_declaration.type.types.first }}::Lucky::SuccessfulCast
+          result = {{ type_declaration.type.types.first }}::LuckyHack.parse(val)
+          if result.is_a? {{ type_declaration.type.types.first }}::LuckyHack::SuccessfulCast
             result.value
           else
             nil
           end
         {% else %}
-          result = {{ type_declaration.type }}::Lucky.parse(val).value
-          if result.is_a? {{ type_declaration.type }}::Lucky::SuccessfulCast
+          result = {{ type_declaration.type }}::LuckyHack.parse(val).value
+          if result.is_a? {{ type_declaration.type }}::LuckyHack::SuccessfulCast
             result.value
           else
             raise "We're screwed here"
@@ -183,7 +183,7 @@ module Lucky::Routeable
 end
 
 struct Int32
-  module Lucky
+  module LuckyHack
     def self.parse(value : String)
       SuccessfulCast(Int32).new value.to_i
     rescue ArgumentError
@@ -207,7 +207,7 @@ struct Int32
 end
 
 class String
-  module Lucky
+  module LuckyHack
     def self.parse(value : String)
       SuccessfulCast(String).new(value)
     end
