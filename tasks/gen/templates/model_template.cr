@@ -3,6 +3,8 @@ class Lucky::ModelTemplate < Teeplate::FileTree
   @pluralized_name : String
   @underscored_name : String
 
+  getter underscored_name
+
   directory "#{__DIR__}/model/"
 
   def initialize(@name : String)
