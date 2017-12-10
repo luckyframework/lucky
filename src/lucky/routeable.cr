@@ -158,30 +158,36 @@ module Lucky::Routeable
     {% PARAM_DECLARATIONS << type_declaration %}
 
     def {{ type_declaration.var }} : {{ type_declaration.type }}
-      val = params.get(:{{ type_declaration.var.id }})
-      if val.nil?
-        {{ type_declaration.value || nil }}
-      else
-        {% if type_declaration.type.class_name == "Union" %}
+      {% if type_declaration.type.class_name != "Union" %}
+        val = params.get(:{{ type_declaration.var.id }})
+        if val.nil?
+          return {{ type_declaration.value || nil }} ||
+            raise Lucky::Exceptions::MissingParam.new("{{ type_declaration.var.id }}")
+        end
+        result = {{ type_declaration.type }}::Lucky.parse(val)
+
+        if result.is_a? {{ type_declaration.type }}::Lucky::SuccessfulCast
+          return result.value
+        end
+
+        raise Lucky::Exceptions::InvalidParam.new(
+          "{{ type_declaration.var.id }}",
+          val.to_s,
+          "{{ type_declaration.type }}"
+        )
+      {% else %}
+        val = params.get(:{{ type_declaration.var.id }})
+        if val.nil?
+          {{ type_declaration.value || nil }}
+        else
           result = {{ type_declaration.type.types.first }}::Lucky.parse(val)
           if result.is_a? {{ type_declaration.type.types.first }}::Lucky::SuccessfulCast
             result.value
           else
             nil
           end
-        {% else %}
-          result = {{ type_declaration.type }}::Lucky.parse(val)
-          if result.is_a? {{ type_declaration.type }}::Lucky::SuccessfulCast
-            result.value
-          else
-            raise Lucky::Exceptions::InvalidParam.new(
-              "{{ type_declaration.var.id }}",
-              val.to_s,
-              "{{ type_declaration.type }}"
-            )
-          end
-        {% end %}
-      end
+        end
+      {% end %}
     end
   end
 end

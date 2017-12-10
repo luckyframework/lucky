@@ -82,6 +82,14 @@ class PlainText::Index < Lucky::Action
   end
 end
 
+class RequiredParams::Index < Lucky::Action
+  param required_page : Int32
+
+  action do
+    render_text "required param: #{required_page}"
+  end
+end
+
 class OptionalParams::Index < Lucky::Action
   param page : Int32?
   param with_default : String? = "default"
@@ -156,6 +164,16 @@ describe Lucky::Action do
       action = PlainText::Index.new(build_context(path: "/?q=test"), params)
       action.params.get(:q).should eq "test"
     end
+
+    it "can get manually defined required params" do
+      action = RequiredParams::Index.new(build_context(path: "/?required_page=1"), params)
+      action.required_page.should eq 1
+    end
+
+    it "raises for missing required params" do
+      action = RequiredParams::Index.new(build_context(path: ""), params)
+      expect_raises(Lucky::Exceptions::MissingParam) { action.required_page }
+    end
   end
 
   describe "optional params" do
@@ -177,6 +195,11 @@ describe Lucky::Action do
     it "can specify a default value" do
       action = OptionalParams::Index.new(build_context(path: ""), params)
       action.with_default.should eq "default"
+    end
+
+    it "overrides the default if present" do
+      action = OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=42"), params)
+      action.with_int_never_nil.should eq 42
     end
 
     it "is added as optional argument to the path" do
