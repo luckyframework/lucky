@@ -12,13 +12,17 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def display_success_messages
-    io.puts success_message("#{model_name}.cr", "./src/models/")
-    io.puts success_message("#{model_name}_form.cr", "./src/forms/")
-    io.puts success_message("#{model_name}_query.cr", "./src/queries/")
+    io.puts success_message("#{underscored_name}.cr", "./src/models/")
+    io.puts success_message("#{underscored_name}_form.cr", "./src/forms/")
+    io.puts success_message("#{underscored_name}_query.cr", "./src/queries/")
   end
 
   private def model_name
-    ARGV.first.downcase
+    ARGV.first
+  end
+
+  private def underscored_name
+    model_name.underscore
   end
 
   private def success_message(file, output_path)
