@@ -11,7 +11,7 @@ class Lucky::Params
   end
 
   def get!(key) : String
-    get(key) || raise "Missing parameter: #{key}"
+    get(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
   def get(key : String | Symbol) : String?
