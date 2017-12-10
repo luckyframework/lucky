@@ -176,7 +176,7 @@ module Lucky::Routeable
           else
             raise "Non-optional param \"{{ type_declaration.var.id }}\" couldn't be parsed to a \"{{ type_declaration.type }}\""
           end
-      {% end %}
+        {% end %}
       end
     end
   end
