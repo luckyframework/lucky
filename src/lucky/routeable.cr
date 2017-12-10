@@ -163,63 +163,21 @@ module Lucky::Routeable
         {{ type_declaration.value || nil }}
       else
         {% if type_declaration.type.class_name == "Union" %}
-          result = {{ type_declaration.type.types.first }}::LuckyHack.parse(val)
-          if result.is_a? {{ type_declaration.type.types.first }}::LuckyHack::SuccessfulCast
+          result = {{ type_declaration.type.types.first }}::Lucky.parse(val)
+          if result.is_a? {{ type_declaration.type.types.first }}::Lucky::SuccessfulCast
             result.value
           else
             nil
           end
         {% else %}
-          result = {{ type_declaration.type }}::LuckyHack.parse(val)
-          if result.is_a? {{ type_declaration.type }}::LuckyHack::SuccessfulCast
+          result = {{ type_declaration.type }}::Lucky.parse(val)
+          if result.is_a? {{ type_declaration.type }}::Lucky::SuccessfulCast
             result.value
           else
             raise "Non-optional param \"{{ type_declaration.var.id }}\" couldn't be parsed to a \"{{ type_declaration.type }}\""
           end
       {% end %}
       end
-    end
-  end
-end
-
-struct Int32
-  module LuckyHack
-    def self.parse(value : String)
-      SuccessfulCast(Int32).new value.to_i
-    rescue ArgumentError
-      FailedCast.new
-    end
-
-    def self.parse(value : Int32)
-      SuccessfulCast(Int32).new(value)
-    end
-
-    class SuccessfulCast(T)
-      getter :value
-
-      def initialize(@value : T)
-      end
-    end
-
-    class FailedCast
-    end
-  end
-end
-
-class String
-  module LuckyHack
-    def self.parse(value : String)
-      SuccessfulCast(String).new(value)
-    end
-
-    class SuccessfulCast(T)
-      getter :value
-
-      def initialize(@value : T)
-      end
-    end
-
-    class FailedCast
     end
   end
 end
