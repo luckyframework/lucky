@@ -8,7 +8,7 @@ module Lucky::Routeable
   {% end %}
 
   macro setup_call_method(body)
-    def call : Lucky::Response
+    def call
       callback_result = run_before_callbacks
 
       response = if callback_result.is_a?(Lucky::Response)
