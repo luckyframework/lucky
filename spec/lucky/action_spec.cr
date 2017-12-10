@@ -219,7 +219,7 @@ describe Lucky::Action do
 
     it "raises when we cannot parse the non-optional param into the desired type" do
       expect_raises Lucky::Exceptions::InvalidParam, "Non-optional param \"with_int_never_nil\" with value \"no_int\" couldn't be parsed to a \"Int32\"" do
-        OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=no_int"), params).call
+        OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=no_int"), params()).call
       end
     end
   end
