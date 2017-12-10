@@ -4,18 +4,16 @@ class Gen::Model < LuckyCli::Task
 
   def call(@io : IO = STDOUT)
     if ARGV.first?
-      render_templates
+      Lucky::ModelTemplate.new(model_name).render("./src/")
+      display_success_messages
     else
       io.puts "Model name is required. Example: lucky gen.model User".colorize(:red)
     end
   end
 
-  private def render_templates
-    Lucky::ModelTemplate.new(model_name).render("./src/models/")
+  private def display_success_messages
     io.puts success_message("#{model_name}.cr", "./src/models/")
-    Lucky::FormTemplate.new(model_name).render("./src/forms/")
     io.puts success_message("#{model_name}_form.cr", "./src/forms/")
-    Lucky::QueryTemplate.new(model_name).render("./src/queries/")
     io.puts success_message("#{model_name}_query.cr", "./src/queries/")
   end
 
