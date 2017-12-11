@@ -3,12 +3,26 @@ class Gen::Model < LuckyCli::Task
   getter io : IO = STDOUT
 
   def call(@io : IO = STDOUT)
-    if ARGV.first?
+    if valid?
       template.render("./src/")
       display_success_messages
     else
-      io.puts "Model name is required. Example: lucky gen.model User".colorize(:red)
+      io.puts @error.colorize(:red)
     end
+  end
+
+  private def valid?
+    model_name_present && model_name_is_camelcase
+  end
+
+  private def model_name_present
+    @error = "Model name is required. Example: lucky gen.model User"
+    ARGV.first?
+  end
+
+  private def model_name_is_camelcase
+    @error = "Model name should be camel case. Example: lucky gen.model ContactInfo"
+    model_name.camelcase == model_name
   end
 
   private def template

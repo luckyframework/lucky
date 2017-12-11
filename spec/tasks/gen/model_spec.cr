@@ -30,4 +30,15 @@ describe Gen::Model do
 
     io.to_s.should contain("Model name is required.")
   end
+
+  it "displays an error if arugment is not camelcase" do
+    with_cleanup do
+      io = IO::Memory.new
+      ARGV.push("invalid_name")
+
+      Gen::Model.new.call(io)
+
+      io.to_s.should contain("Model name should be camel case")
+    end
+  end
 end
