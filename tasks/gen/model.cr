@@ -16,13 +16,13 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def display_success_messages
-    io.puts success_message("#{underscored_name}.cr", "./src/models/")
-    io.puts success_message("#{underscored_name}_form.cr", "./src/forms/")
-    io.puts success_message("#{underscored_name}_query.cr", "./src/queries/")
+    io.puts success_message("./src/models/#{underscored_name}.cr")
+    io.puts success_message("./src/forms/#{underscored_name}_form.cr", "Form")
+    io.puts success_message("./src/queries/#{underscored_name}_query.cr", "Query")
   end
 
-  private def success_message(file, output_path)
-    "Done generating #{file.colorize(:green)} in #{output_path.colorize(:green)}"
+  private def success_message(filename, type = nil)
+    "Generated #{model_name.colorize(:green)}#{type} in #{filename.colorize(:green)}"
   end
 
   private def model_name

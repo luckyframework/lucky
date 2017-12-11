@@ -13,16 +13,13 @@ describe Gen::Model do
 
       File.read("./src/models/contact_info.cr").
         should contain("class ContactInfo < BaseModel")
-      io.to_s.should contain("contact_info.cr")
-      io.to_s.should contain("./src/models")
+      io.to_s.should contain("./src/models/contact_info.cr")
       File.read("./src/forms/contact_info_form.cr").
         should contain("class ContactInfoForm < ContactInfo::BaseForm")
-      io.to_s.should contain("contact_info_form.cr")
-      io.to_s.should contain("./src/forms")
+      io.to_s.should contain("./src/forms/contact_info_form.cr")
       File.read("./src/queries/contact_info_query.cr").
         should contain("class ContactInfoQuery < ContactInfo::BaseQuery")
-      io.to_s.should contain("contact_info_query.cr")
-      io.to_s.should contain("./src/queries")
+      io.to_s.should contain("./src/queries/contact_info_query.cr")
     end
   end
 
