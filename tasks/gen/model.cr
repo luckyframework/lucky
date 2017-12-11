@@ -12,10 +12,10 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def valid?
-    model_name_present && model_name_is_camelcase
+    model_name_is_present && model_name_is_camelcase
   end
 
-  private def model_name_present
+  private def model_name_is_present
     @error = "Model name is required. Example: lucky gen.model User"
     ARGV.first?
   end
