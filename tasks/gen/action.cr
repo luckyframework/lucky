@@ -5,7 +5,7 @@ class Lucky::ActionTemplate < Teeplate::FileTree
   @name : String
   @action : String
 
-  directory "#{__DIR__}/templates"
+  directory "#{__DIR__}/templates/action"
 
   def initialize(@name, @action)
   end
