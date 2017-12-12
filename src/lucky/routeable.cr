@@ -160,7 +160,7 @@ module Lucky::Routeable
     {% PARAM_DECLARATIONS << type_declaration %}
 
     def {{ type_declaration.var }} : {{ type_declaration.type }}
-      {% is_nilable_type = type_declaration.type.class_name == "Union" %}
+      {% is_nilable_type = type_declaration.type.is_a?(Union) %}
       {% type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
 
       val = params.get(:{{ type_declaration.var.id }})
