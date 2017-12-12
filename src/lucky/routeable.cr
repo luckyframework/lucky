@@ -158,36 +158,32 @@ module Lucky::Routeable
     {% PARAM_DECLARATIONS << type_declaration %}
 
     def {{ type_declaration.var }} : {{ type_declaration.type }}
-      {% if type_declaration.type.class_name != "Union" %}
-        val = params.get(:{{ type_declaration.var.id }})
-        if val.nil?
-          return {{ type_declaration.value || nil }} ||
+      {% is_nilable_type = type_declaration.type.class_name == "Union" %}
+      {% type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
+
+      val = params.get(:{{ type_declaration.var.id }})
+
+      if val.nil?
+        default_or_nil = {{ type_declaration.value || nil }}
+        {% if is_nilable_type %}
+          return default_or_nil
+        {% else %}
+          return default_or_nil ||
             raise Lucky::Exceptions::MissingParam.new("{{ type_declaration.var.id }}")
-        end
-        result = {{ type_declaration.type }}::Lucky.parse(val)
+        {% end %}
+      end
 
-        if result.is_a? {{ type_declaration.type }}::Lucky::SuccessfulCast
-          return result.value
-        end
+      result = {{ type }}::Lucky.parse(val)
 
+      if result.is_a? {{ type }}::Lucky::SuccessfulCast
+        result.value
+      else
         raise Lucky::Exceptions::InvalidParam.new(
-          "{{ type_declaration.var.id }}",
-          val.to_s,
-          "{{ type_declaration.type }}"
+          param_name: "{{ type_declaration.var.id }}",
+          param_value: val.to_s,
+          param_type: "{{ type }}"
         )
-      {% else %}
-        val = params.get(:{{ type_declaration.var.id }})
-        if val.nil?
-          {{ type_declaration.value || nil }}
-        else
-          result = {{ type_declaration.type.types.first }}::Lucky.parse(val)
-          if result.is_a? {{ type_declaration.type.types.first }}::Lucky::SuccessfulCast
-            result.value
-          else
-            nil
-          end
-        end
-      {% end %}
+      end
     end
   end
 end

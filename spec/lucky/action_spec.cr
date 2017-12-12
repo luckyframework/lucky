@@ -220,9 +220,10 @@ describe Lucky::Action do
       OptionalParams::Index.route(page: 7, with_default: "/other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=%2Fother")
     end
 
-    it "doesnt raise when we cannot parse the optional param into the desired type" do
-      response = OptionalParams::Index.new(build_context(path: "/?page=no_int"), params).call
-      response.body.to_s.should eq "optional param:  1 1337"
+    it "raises when the optional param cannot be parsed into the desired type" do
+      expect_raises Lucky::Exceptions::InvalidParam do
+        response = OptionalParams::Index.new(build_context(path: "/?page=no_int"), params).call
+      end
     end
 
     it "raises when we cannot parse the non-optional param into the desired type" do
