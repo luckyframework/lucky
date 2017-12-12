@@ -85,7 +85,8 @@ module Lucky::Routeable
 
       query_params = {} of String => String
       {% for param in PARAM_DECLARATIONS %}
-        unless {{ param.var }} == {{ param.value || nil }}
+        param_is_default_or_nil = {{ param.var }} == {{ param.value || nil }}
+        unless param_is_default_or_nil
           query_params["{{ param.var }}"] = {{ param.var }}.to_s
         end
       {% end %}
@@ -121,7 +122,8 @@ module Lucky::Routeable
 
       query_params = {} of String => String
       {% for param in PARAM_DECLARATIONS %}
-        unless {{ param.var }} == {{ param.value || nil }}
+        param_is_default_or_nil = {{ param.var }} == {{ param.value || nil }}
+        unless param_is_default_or_nil
           query_params["{{ param.var }}"] = {{ param.var }}.to_s
         end
       {% end %}
