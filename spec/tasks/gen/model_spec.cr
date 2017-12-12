@@ -31,7 +31,7 @@ describe Gen::Model do
     io.to_s.should contain("Model name is required.")
   end
 
-  it "displays an error if arugment is not camelcase" do
+  it "displays an error if argument is not camelcase" do
     with_cleanup do
       io = IO::Memory.new
       ARGV.push("invalid_name")

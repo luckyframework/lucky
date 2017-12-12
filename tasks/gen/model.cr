@@ -21,7 +21,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def model_name_is_camelcase
-    @error = "Model name should be camel case. Example: lucky gen.model ContactInfo"
+    @error = "Model name should be camel case. Example: lucky gen.model #{model_name.camelcase}"
     model_name.camelcase == model_name
   end
 
