@@ -222,7 +222,7 @@ describe Lucky::Action do
 
     it "raises when the optional param cannot be parsed into the desired type" do
       expect_raises Lucky::Exceptions::InvalidParam do
-        response = OptionalParams::Index.new(build_context(path: "/?page=no_int"), params).call
+        response = OptionalParams::Index.new(build_context(path: "/?page=no_int"), params()).call
       end
     end
 
