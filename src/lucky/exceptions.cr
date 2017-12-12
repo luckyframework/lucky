@@ -20,7 +20,7 @@ module Lucky
       end
 
       def message : String?
-        "Non-optional param \"#{param_name}\" with value \"#{param_value}\" couldn't be parsed to a \"#{param_type}\""
+        "Required param \"#{param_name}\" with value \"#{param_value}\" couldn't be parsed to a \"#{param_type}\""
       end
     end
 
