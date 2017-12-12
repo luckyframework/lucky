@@ -170,6 +170,14 @@ describe Lucky::Action do
       action.required_page.should eq 1
     end
 
+    it "adds named arguments to the path" do
+      RequiredParams::Index.path(required_page: 7).should eq "/required_params?required_page=7"
+    end
+
+    it "adds named arguments to the route" do
+      RequiredParams::Index.route(required_page: 7).should eq Lucky::RouteHelper.new(:get, "/required_params?required_page=7")
+    end
+
     it "raises for missing required params" do
       action = RequiredParams::Index.new(build_context(path: ""), params)
       expect_raises(Lucky::Exceptions::MissingParam) { action.required_page }
