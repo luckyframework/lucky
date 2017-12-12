@@ -43,7 +43,8 @@ module Lucky::Renderable
      #{@type} returned #{T}, but it must return a Lucky::Response.
 
      Try this...
-     ▸ Make sure to use a method like `render`, `redirect`, `json` at the end of your action.
+       ▸ Make sure to use a method like `render`, `redirect`, or `json` at the end of your action.
+       ▸ If you are using a conditional, make sure all branches return a Lucky::Response.
     ERROR %}
   end
 
