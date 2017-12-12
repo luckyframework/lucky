@@ -37,8 +37,14 @@ module Lucky::Renderable
     response.print
   end
 
-  private def handle_response(_response)
-    {% raise "You must return a Lucky::Response from #{@type}. You can do that by using methods such as `render`, `redirect`, `json`" %}
+  private def handle_response(_response : T) forall T
+    {% raise <<-ERROR
+
+     #{@type} returned #{T}, but it must return a Lucky::Response.
+
+     Try this...
+     ▸ Make sure to use a method like `render`, `redirect`, `json` at the end of your action.
+    ERROR %}
   end
 
   private def render_text(body)
