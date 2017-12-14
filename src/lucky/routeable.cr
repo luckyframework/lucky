@@ -103,12 +103,8 @@ module Lucky::Routeable
       Lucky::RouteHelper.new {{ method }}, path
     end
 
-    def self.with(**args)
-      route(**args)
-    end
-
-    def self.with(*args)
-      route(*args)
+    def self.with(*args, **named_args)
+      route(*args, **named_args)
     end
 
     def self.with
