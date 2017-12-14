@@ -66,6 +66,10 @@ module Lucky::Routeable
       route(*args, **named_args).path
     end
 
+    def self.url(*args, **named_args)
+      route(*args, **named_args).url
+    end
+
     def self.route(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
