@@ -66,6 +66,9 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+    {% for param in PARAM_DECLARATIONS %}
+      {{ param }},
+    {% end %}
       )
       path = String.build do |path|
         {% for part in path_parts %}
@@ -79,12 +82,28 @@ module Lucky::Routeable
       end
       is_root_path = path == ""
       path = "/" if is_root_path
+
+      query_params = {} of String => String
+      {% for param in PARAM_DECLARATIONS %}
+        param_is_default_or_nil = {{ param.var }} == {{ param.value || nil }}
+        unless param_is_default_or_nil
+          query_params["{{ param.var }}"] = {{ param.var }}.to_s
+        end
+      {% end %}
+
+      unless query_params.empty?
+        path += "?#{HTTP::Params.encode(query_params)}"
+      end
+
       path
     end
 
     def self.route(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
+    {% end %}
+    {% for param in PARAM_DECLARATIONS %}
+      {{ param }},
     {% end %}
       )
       path = String.build do |path|
@@ -100,6 +119,19 @@ module Lucky::Routeable
 
       is_root_path = path == ""
       path = "/" if is_root_path
+
+      query_params = {} of String => String
+      {% for param in PARAM_DECLARATIONS %}
+        param_is_default_or_nil = {{ param.var }} == {{ param.value || nil }}
+        unless param_is_default_or_nil
+          query_params["{{ param.var }}"] = {{ param.var }}.to_s
+        end
+      {% end %}
+
+      unless query_params.empty?
+        path += "?#{HTTP::Params.encode(query_params)}"
+      end
+
       Lucky::RouteHelper.new {{ method }}, path
     end
 
@@ -113,6 +145,47 @@ module Lucky::Routeable
 
     def self.with
       \{% raise "Use `route` instead of `with` if the action doesn't need params" %}
+    end
+  end
+
+  macro included
+    PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
+
+    macro inherited
+      PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
+    end
+  end
+
+  macro param(type_declaration)
+    {% PARAM_DECLARATIONS << type_declaration %}
+
+    def {{ type_declaration.var }} : {{ type_declaration.type }}
+      {% is_nilable_type = type_declaration.type.is_a?(Union) %}
+      {% type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
+
+      val = params.get(:{{ type_declaration.var.id }})
+
+      if val.nil?
+        default_or_nil = {{ type_declaration.value || nil }}
+        {% if is_nilable_type %}
+          return default_or_nil
+        {% else %}
+          return default_or_nil ||
+            raise Lucky::Exceptions::MissingParam.new("{{ type_declaration.var.id }}")
+        {% end %}
+      end
+
+      result = {{ type }}::Lucky.parse(val)
+
+      if result.is_a? {{ type }}::Lucky::SuccessfulCast
+        result.value
+      else
+        raise Lucky::Exceptions::InvalidParam.new(
+          param_name: "{{ type_declaration.var.id }}",
+          param_value: val.to_s,
+          param_type: "{{ type }}"
+        )
+      end
     end
   end
 end
