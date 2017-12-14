@@ -102,6 +102,11 @@ class OptionalParams::Index < Lucky::Action
 end
 
 describe Lucky::Action do
+  it "has a url helper" do
+    Lucky::RouteHelper.configure { settings.domain = "example.com" }
+    Tests::Index.url.should eq "example.com/tests"
+  end
+
   describe "routing" do
     it "creates URL helpers for the resourceful actions" do
       Tests::Index.path.should eq "/tests"
