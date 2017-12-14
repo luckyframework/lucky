@@ -62,40 +62,8 @@ module Lucky::Routeable
       {% end %}
     {% end %}
 
-    def self.path(
-    {% for param in path_params %}
-      {{ param.gsub(/:/, "").id }},
-    {% end %}
-    {% for param in PARAM_DECLARATIONS %}
-      {{ param }},
-    {% end %}
-      )
-      path = String.build do |path|
-        {% for part in path_parts %}
-          path << "/"
-          {% if part.starts_with?(":") %}
-            path << URI.escape({{ part.gsub(/:/, "").id }})
-          {% else %}
-            path << URI.escape({{ part }})
-          {% end %}
-        {% end %}
-      end
-      is_root_path = path == ""
-      path = "/" if is_root_path
-
-      query_params = {} of String => String
-      {% for param in PARAM_DECLARATIONS %}
-        param_is_default_or_nil = {{ param.var }} == {{ param.value || nil }}
-        unless param_is_default_or_nil
-          query_params["{{ param.var }}"] = {{ param.var }}.to_s
-        end
-      {% end %}
-
-      unless query_params.empty?
-        path += "?#{HTTP::Params.encode(query_params)}"
-      end
-
-      path
+    def self.path(*args, **named_args)
+      route(*args, **named_args).path
     end
 
     def self.route(
