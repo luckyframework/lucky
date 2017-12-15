@@ -8,7 +8,7 @@ class Lucky::ModelTemplate < Teeplate::FileTree
   directory "#{__DIR__}/model/"
 
   def initialize(@name : String)
-    @pluralized_name  = LuckyInflector::Inflector.pluralize(@name)
+    @pluralized_name = LuckyInflector::Inflector.pluralize(@name)
     @underscored_name = @name.underscore
   end
 end

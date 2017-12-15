@@ -9,7 +9,7 @@ module Lucky::SelectHelpers
 
   def options_for_select(field : LuckyRecord::AllowedField, select_options : Array(Tuple(String, SelectOption)), **html_options)
     select_options.each do |option_name, option_value|
-      attributes = { "value" => option_value.to_s }
+      attributes = {"value" => option_value.to_s}
 
       is_selected = option_value.to_s == field.param.to_s
       attributes["selected"] = "true" if is_selected

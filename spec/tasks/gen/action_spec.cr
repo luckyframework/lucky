@@ -11,8 +11,8 @@ describe Gen::Action do
 
       Gen::Action.new.call(io)
 
-      File.read("./src/actions/users/index.cr").
-        should contain(valid_action_name)
+      File.read("./src/actions/users/index.cr")
+          .should contain(valid_action_name)
       io.to_s.should contain(valid_action_name)
       io.to_s.should contain("/src/actions/users")
     end
@@ -26,8 +26,8 @@ describe Gen::Action do
 
       Gen::Action.new.call(io)
 
-      File.read("src/actions/users/announcements/index.cr").
-        should contain(valid_nested_action_name)
+      File.read("src/actions/users/announcements/index.cr")
+          .should contain(valid_nested_action_name)
       io.to_s.should contain(valid_nested_action_name)
       io.to_s.should contain("/src/actions/users/announcements")
     end
@@ -40,8 +40,8 @@ describe Gen::Action do
 
         Gen::Action.new.call(io)
 
-        File.read("src/actions/users/hosted_events.cr").
-          should contain(valid_camel_case_action_name)
+        File.read("src/actions/users/hosted_events.cr")
+            .should contain(valid_camel_case_action_name)
         io.to_s.should contain(valid_camel_case_action_name)
         io.to_s.should contain("/src/actions/users")
       end
@@ -68,4 +68,3 @@ describe Gen::Action do
     end
   end
 end
-

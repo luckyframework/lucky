@@ -59,7 +59,7 @@ describe Lucky::TextHelpers do
     end
 
     it "simple_formats without modifying the html options" do
-      html_options = { class: "foobar" }
+      html_options = {class: "foobar"}
       passed_html_options = html_options.dup
       view.simple_format("some text", **passed_html_options)
       passed_html_options.should eq html_options

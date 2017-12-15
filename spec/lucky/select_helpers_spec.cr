@@ -43,14 +43,14 @@ describe Lucky::SelectHelpers do
 
   it "renders options" do
     view.render_options(form.company_id, [{"Volvo", 2}, {"BMW", 3}])
-      .html.to_s.should eq <<-HTML
+        .html.to_s.should eq <<-HTML
     <option value="2">Volvo</option><option value="3">BMW</option>
     HTML
   end
 
   it "renders selected option" do
     view.render_options(form.company_id, [{"Volvo", 1}, {"BMW", 3}])
-      .html.to_s.should eq <<-HTML
+        .html.to_s.should eq <<-HTML
     <option value="1" selected="true">Volvo</option><option value="3">BMW</option>
     HTML
   end

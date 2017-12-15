@@ -19,11 +19,11 @@ module Lucky::TextHelpers
 
     length_with_room_for_omission = truncate_at - omission.size
     stop = \
-      if separator
-        text.rindex(separator, length_with_room_for_omission) || length_with_room_for_omission
-      else
-        length_with_room_for_omission
-      end
+       if separator
+         text.rindex(separator, length_with_room_for_omission) || length_with_room_for_omission
+       else
+         length_with_room_for_omission
+       end
 
     "#{text[0, stop]}#{omission}"
   end
@@ -82,7 +82,7 @@ module Lucky::TextHelpers
 
     first_part, second_part = text.split(phrase, 2)
 
-    prefix, first_part   = cut_excerpt_part(:first, first_part, separator, radius, omission)
+    prefix, first_part = cut_excerpt_part(:first, first_part, separator, radius, omission)
     postfix, second_part = cut_excerpt_part(:second, second_part, separator, radius, omission)
 
     affix = [first_part, separator, phrase, separator, second_part].join.strip
@@ -91,10 +91,10 @@ module Lucky::TextHelpers
 
   def pluralize(count : Int32 | String | Nil, singular : String, plural = nil)
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
-      singular
-    else
-      plural || LuckyInflector::Inflector.pluralize(singular)
-    end
+             singular
+           else
+             plural || LuckyInflector::Inflector.pluralize(singular)
+           end
 
     raw "#{count || 0} #{word}"
   end
@@ -128,7 +128,7 @@ module Lucky::TextHelpers
 
   private def normalize_values(values)
     string_values = Array(String).new
-    values.each{ |v| string_values << v.to_s }
+    values.each { |v| string_values << v.to_s }
     values = string_values
   end
 
@@ -163,7 +163,7 @@ module Lucky::TextHelpers
 
     def initialize(*values)
       string_values = Array(String).new
-      values.each{ |v| string_values << v.to_s }
+      values.each { |v| string_values << v.to_s }
       @values = string_values
       reset
     end
@@ -221,11 +221,11 @@ module Lucky::TextHelpers
     affix = part.size > radius ? omission : ""
 
     part = if part_position == :first
-      drop_index = [part.size - radius, 0].max
-      part[drop_index..-1]
-    else
-      part.first(radius)
-    end
+             drop_index = [part.size - radius, 0].max
+             part[drop_index..-1]
+           else
+             part.first(radius)
+           end
 
     return affix, part.join(separator)
   end
