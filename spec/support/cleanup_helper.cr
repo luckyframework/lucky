@@ -15,4 +15,3 @@ module CleanupHelper
     end
   end
 end
-

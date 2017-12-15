@@ -11,14 +11,14 @@ describe Gen::Model do
 
       Gen::Model.new.call(io)
 
-      File.read("./src/models/contact_info.cr").
-        should contain("class ContactInfo < BaseModel")
+      File.read("./src/models/contact_info.cr")
+          .should contain("class ContactInfo < BaseModel")
       io.to_s.should contain("./src/models/contact_info.cr")
-      File.read("./src/forms/contact_info_form.cr").
-        should contain("class ContactInfoForm < ContactInfo::BaseForm")
+      File.read("./src/forms/contact_info_form.cr")
+          .should contain("class ContactInfoForm < ContactInfo::BaseForm")
       io.to_s.should contain("./src/forms/contact_info_form.cr")
-      File.read("./src/queries/contact_info_query.cr").
-        should contain("class ContactInfoQuery < ContactInfo::BaseQuery")
+      File.read("./src/queries/contact_info_query.cr")
+          .should contain("class ContactInfoQuery < ContactInfo::BaseQuery")
       io.to_s.should contain("./src/queries/contact_info_query.cr")
     end
   end

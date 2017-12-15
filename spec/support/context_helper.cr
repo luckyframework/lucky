@@ -15,6 +15,12 @@ module ContextHelper
     HTTP::Server::Context.new request, response
   end
 
+  private def build_context_with_flash(flash : String)
+    build_context.tap do |context|
+      context.session[Lucky::Flash::Handler::PARAM_KEY] = flash
+    end
+  end
+
   private def params
     {} of String => String
   end
