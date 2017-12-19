@@ -19,13 +19,14 @@ module Lucky::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
-    log_html_render(context, view)
+    debug_message = log_message(view)
     body = view.perform_render.to_s
-    Lucky::Response.new(context, "text/html", body)
+    Lucky::Response.new(context, "text/html", body,
+                        debug_message: debug_message)
   end
 
-  private def log_html_render(context, view)
-    context.add_debug_message("Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}")
+  private def log_message(view)
+    "Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}"
   end
 
   def perform_action
@@ -34,18 +35,28 @@ module Lucky::Renderable
   end
 
   private def handle_response(response : Lucky::Response)
+    log_response(response)
     response.print
   end
 
   private def handle_response(_response : T) forall T
-    {% raise <<-ERROR
+    {%
+      raise <<-ERROR
 
-     #{@type} returned #{T}, but it must return a Lucky::Response.
+      #{@type} returned #{T}, but it must return a Lucky::Response.
 
-     Try this...
-       ▸ Make sure to use a method like `render`, `redirect`, or `json` at the end of your action.
-       ▸ If you are using a conditional, make sure all branches return a Lucky::Response.
-    ERROR %}
+      Try this...
+        ▸ Make sure to use a method like `render`, `redirect`, or `json` at the end of your action.
+        ▸ If you are using a conditional, make sure all branches return a Lucky::Response.
+      ERROR
+    %}
+  end
+
+  private def log_response(response)
+    debug_message = response.debug_message
+    if !debug_message.nil?
+      context.add_debug_message(debug_message)
+    end
   end
 
   private def render_text(body)
