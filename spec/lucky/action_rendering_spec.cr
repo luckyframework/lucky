@@ -52,9 +52,10 @@ end
 describe Lucky::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
-      body = Rendering::Index.new(build_context, params).call.body
+      response = Rendering::Index.new(build_context, params).call
 
-      body.should contain "Anything"
+      response.body.should contain "Anything"
+      response.debug_message.to_s.should contain "Rendering::IndexPage"
     end
   end
 
