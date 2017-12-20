@@ -19,10 +19,13 @@ module Lucky::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
-    debug_message = log_message(view)
     body = view.perform_render.to_s
-    Lucky::Response.new(context, "text/html", body,
-                        debug_message: debug_message)
+    Lucky::Response.new(
+      context,
+      "text/html",
+      body,
+      debug_message: log_message(view),
+    )
   end
 
   private def log_message(view)
