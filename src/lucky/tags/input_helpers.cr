@@ -5,12 +5,14 @@ module Lucky::InputHelpers
 
   def textarea(field : LuckyRecord::AllowedField, **html_options)
     textarea field.param.to_s, merge_options(html_options, {
-      "id" => input_id(field),
+      "id"   => input_id(field),
       "name" => input_name(field),
     })
   end
 
-  def checkbox(field : LuckyRecord::AllowedField, **html_options, unchecked_value : String? = nil)
+  def checkbox(field : LuckyRecord::AllowedField,
+               unchecked_value : String? = nil,
+               **html_options)
     hidden_value = unchecked_value || "0"
     generate_input(field, "hidden", {"id" => ""}, {"value" => hidden_value})
     generate_input(field, "checkbox", html_options)
@@ -56,7 +58,10 @@ module Lucky::InputHelpers
     generate_input(field, "range", html_options)
   end
 
-  private def generate_input(field, type, html_options, input_overrides = {} of String => String)
+  private def generate_input(field,
+                             type,
+                             html_options,
+                             input_overrides = {} of String => String)
     input_options = {
       "type"  => type,
       "id"    => input_id(field),
