@@ -16,5 +16,8 @@ jobs:
           name: "Install dependencies"
           command: crystal deps
       - run:
+          name: "Check formatting"
+          command: crystal tool format spec src --check
+      - run:
           name: "Running specs"
           command: crystal spec
