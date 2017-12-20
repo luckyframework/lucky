@@ -3,7 +3,11 @@ class Lucky::Response
 
   getter context, content_type, body, debug_message
 
-  def initialize(@context : HTTP::Server::Context, @content_type : String, @body : String, @status : Int32? = nil, @debug_message : String? = nil)
+  def initialize(@context : HTTP::Server::Context,
+                 @content_type : String,
+                 @body : String,
+                 @status : Int32? = nil,
+                 @debug_message : String? = nil)
   end
 
   def print
