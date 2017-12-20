@@ -55,7 +55,7 @@ module Lucky::Renderable
     %}
   end
 
-  private def log_response(response)
+  private def log_response(response : Lucky::Response)
     debug_message = response.debug_message
     if !debug_message.nil?
       context.add_debug_message(debug_message)
