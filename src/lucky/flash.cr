@@ -106,7 +106,7 @@ module Lucky
       end
 
       def []=(key : Symbol, value : String)
-        self.[key.to_s] = value
+        self[key.to_s] = value
       end
 
       def []=(key : String, value : String)
