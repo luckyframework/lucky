@@ -1,5 +1,3 @@
-require "tempfile"
-
 class Lucky::Params
   include LuckyRecord::Paramable
 
@@ -20,11 +18,11 @@ class Lucky::Params
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
-  def get_file!(key) : Tempfile
+  def get_file!(key) : Lucky::UploadedFile
     get_file(key) || raise "Missing file: #{key}"
   end
 
-  def get_file(key : String | Symbol) : Tempfile?
+  def get_file(key : String | Symbol) : Lucky::UploadedFile?
     multipart_files[key.to_s]?
   end
 
@@ -45,7 +43,7 @@ class Lucky::Params
     end
   end
 
-  def nested_file!(nested_key : String | Symbol) : Hash(String, Tempfile)
+  def nested_file!(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)
     nested_file_params = nested_file(nested_key)
     if nested_file_params.keys.empty?
       raise "No nested files for: #{nested_key}"
@@ -54,7 +52,7 @@ class Lucky::Params
     end
   end
 
-  def nested_file(nested_key : String | Symbol) : Hash(String, Tempfile)?
+  def nested_file(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?
     nested_file_params(nested_key.to_s)
   end
 
@@ -80,7 +78,7 @@ class Lucky::Params
     end
   end
 
-  def nested_file_params(nested_key : String) : Hash(String, Tempfile)
+  def nested_file_params(nested_key : String) : Hash(String, Lucky::UploadedFile)
     nested_key = "#{nested_key}:"
     multipart_files.to_h.reduce(empty_file_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
@@ -113,13 +111,13 @@ class Lucky::Params
     @_multipart_params ||= parse_multipart_request.first
   end
 
-  @_multipart_files : Hash(String, Tempfile)?
+  @_multipart_files : Hash(String, Lucky::UploadedFile)?
 
-  private def multipart_files : Hash(String, Tempfile)
+  private def multipart_files : Hash(String, Lucky::UploadedFile)
     @_multipart_files ||= parse_multipart_request.last
   end
 
-  @_parsed_multipart_request : Tuple(Hash(String, String), Hash(String, Tempfile))?
+  @_parsed_multipart_request : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))?
 
   private def parse_multipart_request
     @_parsed_multipart_request ||= parse_form_data
@@ -127,17 +125,14 @@ class Lucky::Params
 
   private def parse_form_data
     multipart_params = {} of String => String
-    multipart_files = {} of String => Tempfile
+    multipart_files = {} of String => Lucky::UploadedFile
     body_io = IO::Memory.new(body)
     boundary =
       HTTP::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
     HTTP::FormData.parse(body_io, boundary.to_s) do |part|
       case part.headers
       when .includes_word?("Content-Disposition", "filename")
-        part_file = Tempfile.open(part.name) do |tempfile|
-          IO.copy(part.body, tempfile)
-        end
-        multipart_files[part.name] = part_file
+        multipart_files[part.name] = Lucky::UploadedFile.new(part)
       else
         multipart_params[part.name] = part.body.gets_to_end
       end
@@ -180,7 +175,7 @@ class Lucky::Params
   end
 
   private def empty_file_params
-    {} of String => Tempfile
+    {} of String => Lucky::UploadedFile
   end
 
   private def query_params

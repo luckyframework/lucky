@@ -195,7 +195,7 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       file = params.get_file!(:welcome_file)
-      file.is_a?(Tempfile).should eq(true)
+      file.is_a?(Lucky::UploadedFile).should eq(true)
       File.read(file.path).should eq "welcome file contents"
     end
 
