@@ -122,25 +122,27 @@ class Lucky::Params
   @_parsed_multipart_request : Tuple(Hash(String, String), Hash(String, Tempfile))?
 
   private def parse_multipart_request
-    @_parsed_multipart_request ||= begin
-      multipart_params = {} of String => String
-      multipart_files = {} of String => Tempfile
-      body_io = IO::Memory.new(body)
-      boundary =
-        HTTP::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
-      HTTP::FormData.parse(body_io, boundary.to_s) do |part|
-        case part.headers
-        when .includes_word?("Content-Disposition", "filename")
-          part_file = Tempfile.open(part.name) do |tempfile|
-            IO.copy(part.body, tempfile)
-          end
-          multipart_files[part.name] = part_file
-        else
-          multipart_params[part.name] = part.body.gets_to_end
+    @_parsed_multipart_request ||= parse_form_data
+  end
+
+  private def parse_form_data
+    multipart_params = {} of String => String
+    multipart_files = {} of String => Tempfile
+    body_io = IO::Memory.new(body)
+    boundary =
+      HTTP::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
+    HTTP::FormData.parse(body_io, boundary.to_s) do |part|
+      case part.headers
+      when .includes_word?("Content-Disposition", "filename")
+        part_file = Tempfile.open(part.name) do |tempfile|
+          IO.copy(part.body, tempfile)
         end
+        multipart_files[part.name] = part_file
+      else
+        multipart_params[part.name] = part.body.gets_to_end
       end
-      {multipart_params, multipart_files}
     end
+    {multipart_params, multipart_files}
   end
 
   private def json?
