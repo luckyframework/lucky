@@ -11,8 +11,8 @@ describe Lucky::Params do
     params = Lucky::Params.new(request)
     dup_params = Lucky::Params.new(request)
 
-    params.get(:from).should eq "form"
-    dup_params.get(:from).should eq "form"
+    params.get(:from)
+    dup_params.get(:from)
   end
 
   it "works when parsing multipart params twice" do
@@ -26,8 +26,8 @@ describe Lucky::Params do
     params = Lucky::Params.new(request)
     dup_params = Lucky::Params.new(request)
 
-    params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
-    dup_params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+    params.nested(:user)
+    dup_params.nested(:user)
   end
 
   describe "all" do
@@ -95,7 +95,7 @@ describe Lucky::Params do
       params.get(:id).should eq "1"
     end
 
-    it "parses multipart params" do
+    it "parses params in multipart requests" do
       request = build_multipart_request form_parts: {"from" => "multipart"}
 
       params = Lucky::Params.new(request)
@@ -108,7 +108,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises do
+      expect_raises Exception, "Missing parameter: missing" do
         params.get!(:missing)
       end
     end
@@ -171,7 +171,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises do
+      expect_raises Exception, "No nested params for: missing" do
         params.nested!(:missing)
       end
     end
@@ -220,7 +220,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises do
+      expect_raises Exception, "Missing file: missing" do
         params.get_file!(:missing)
       end
     end
@@ -253,7 +253,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises do
+      expect_raises Exception, "No nested files for: missing" do
         params.nested_file!(:missing)
       end
     end
