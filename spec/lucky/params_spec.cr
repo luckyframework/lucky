@@ -1,6 +1,7 @@
 require "../spec_helper"
 
 include ContextHelper
+include MultipartHelper
 
 describe Lucky::Params do
   it "works when parsing params twice" do
