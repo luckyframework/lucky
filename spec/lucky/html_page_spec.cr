@@ -86,7 +86,7 @@ describe Lucky::HTMLPage do
 
   describe "HTML escaping" do
     it "escapes text" do
-      UnsafePage.new.render.to_s.should eq "&lt;script&gt;not safe&lt;/span&gt;"
+      UnsafePage.new(build_context).render.to_s.should eq "&lt;script&gt;not safe&lt;/span&gt;"
     end
 
     it "escapes HTML attributes" do
@@ -108,12 +108,12 @@ describe Lucky::HTMLPage do
 
   describe "can be used to render layouts" do
     it "renders layouts and needs" do
-      InnerPage.new(foo: "bar").render.to_s.should contain %(<title>A great title</title>)
-      InnerPage.new(foo: "bar").render.to_s.should contain %(<body>Inner textbar</body>)
+      InnerPage.new(build_context, foo: "bar").render.to_s.should contain %(<title>A great title</title>)
+      InnerPage.new(build_context, foo: "bar").render.to_s.should contain %(<body>Inner textbar</body>)
     end
   end
 end
 
 private def view
-  TestRender.new
+  TestRender.new(build_context)
 end

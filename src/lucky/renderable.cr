@@ -12,6 +12,7 @@ module Lucky::Renderable
 
   macro render_html_page(page_class, assigns)
     view = {{ page_class.id }}.new(
+      context: context,
       {% for key, value in assigns %}
         {{ key }}: {{ value }},
       {% end %}

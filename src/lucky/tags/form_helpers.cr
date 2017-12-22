@@ -1,7 +1,12 @@
 module Lucky::FormHelpers
+  Habitat.create do
+    setting include_csrf_tag : Bool = true
+  end
+
   def form_for(route : Lucky::RouteHelper, **html_options)
     form_options = {"action" => route.path, "method" => form_method(route)}
     form merge_options(html_options, form_options) do
+      csrf_hidden_input if settings.include_csrf_tag
       method_override_input(route)
       yield
     end

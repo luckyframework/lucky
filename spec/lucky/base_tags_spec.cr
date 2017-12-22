@@ -36,5 +36,5 @@ describe Lucky::BaseTags do
 end
 
 private def view
-  TestPage.new
+  TestPage.new(build_context)
 end
