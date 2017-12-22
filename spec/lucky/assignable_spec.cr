@@ -34,8 +34,8 @@ end
 
 describe "Assigns within multiple pages with the same name" do
   it "should only appear once in the initializer" do
-    PageOne.new title: "foo", name: "Paul", second: "second"
-    PageTwo.new title: "foo", name: "Paul"
-    PageThree.new name: "Paul", admin_name: "Pablo", title: "Admin"
+    PageOne.new build_context, title: "foo", name: "Paul", second: "second"
+    PageTwo.new build_context, title: "foo", name: "Paul"
+    PageThree.new build_context, name: "Paul", admin_name: "Pablo", title: "Admin"
   end
 end
