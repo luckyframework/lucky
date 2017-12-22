@@ -4,6 +4,6 @@ class Gen::SecretKey < LuckyCli::Task
   banner "Generate a new secret key"
 
   def call(io : IO = STDOUT)
-    io.puts SecureRandom.base64(32)
+    io.puts Random::Secure.base64(32)
   end
 end
