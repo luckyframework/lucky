@@ -21,7 +21,7 @@ class Lucky::Params
   def nested!(nested_key) : Hash(String, String)
     nested_params = nested(nested_key)
     if nested_params.keys.empty?
-      raise "No nested params for: #{nested_key}"
+      raise Lucky::Exceptions::MissingParam.new "No nested params for: #{nested_key}"
     else
       nested_params
     end

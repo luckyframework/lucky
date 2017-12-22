@@ -84,7 +84,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises do
+      expect_raises Lucky::Exceptions::MissingParam do
         params.get!(:missing)
       end
     end
@@ -134,7 +134,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises do
+      expect_raises Lucky::Exceptions::MissingParam do
         params.nested!(:missing)
       end
     end
