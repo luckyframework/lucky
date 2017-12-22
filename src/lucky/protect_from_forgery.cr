@@ -22,7 +22,7 @@ module Lucky::ProtectFromForgery
   end
 
   private def set_new_csrf_token
-    session[SESSION_KEY] = SecureRandom.urlsafe_base64(32)
+    session[SESSION_KEY] = Random::Secure.urlsafe_base64(32)
     continue
   end
 
