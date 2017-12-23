@@ -4,25 +4,25 @@ include ContextHelper
 
 class CustomRoutes::Index < Lucky::Action
   get "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
 class CustomRoutes::Put < Lucky::Action
   put "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
 class CustomRoutes::Post < Lucky::Action
   post "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
 class CustomRoutes::Delete < Lucky::Action
   delete "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
@@ -42,43 +42,43 @@ end
 
 class Tests::New < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Edit < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Show < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Delete < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Update < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Create < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class PlainText::Index < Lucky::Action
   action do
-    render_text "plain"
+    text "plain"
   end
 end
 
@@ -86,7 +86,7 @@ class RequiredParams::Index < Lucky::Action
   param required_page : Int32
 
   action do
-    render_text "required param: #{required_page}"
+    text "required param: #{required_page}"
   end
 end
 
@@ -97,7 +97,7 @@ class OptionalParams::Index < Lucky::Action
   param with_int_never_nil : Int32 = 1337
 
   action do
-    render_text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
+    text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
   end
 end
 

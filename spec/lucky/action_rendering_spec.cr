@@ -51,19 +51,19 @@ end
 
 class Rendering::Text::Index < Lucky::Action
   action do
-    render_text "Anything"
+    text "Anything"
   end
 end
 
 class Rendering::Text::WithStatus < Lucky::Action
   get "/foo" do
-    render_text "Anything", status: 201
+    text "Anything", status: 201
   end
 end
 
 class Rendering::Text::WithTypedStatus < Lucky::Action
   get "/foo" do
-    render_text "Anything", status: Status::Created
+    text "Anything", status: Status::Created
   end
 end
 

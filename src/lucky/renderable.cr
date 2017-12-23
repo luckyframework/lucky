@@ -62,11 +62,11 @@ module Lucky::Renderable
     end
   end
 
-  private def render_text(body, status : Int32? = nil)
+  private def text(body, status : Int32? = nil)
     Lucky::Response.new(context, "text/plain", body, status: status)
   end
 
-  private def render_text(body, status : Lucky::Action::Status)
+  private def text(body, status : Lucky::Action::Status)
     Lucky::Response.new(context, "text/plain", body, status: status.value)
   end
 

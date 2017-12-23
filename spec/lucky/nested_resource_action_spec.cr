@@ -2,13 +2,13 @@ require "../../spec_helper"
 
 class Projects::Tasks::Show < Lucky::Action
   nested_action do
-    render_text "plain"
+    text "plain"
   end
 end
 
 class Admin::Projects::Tasks::Show < Lucky::Action
   nested_action do
-    render_text "plain"
+    text "plain"
   end
 end
 

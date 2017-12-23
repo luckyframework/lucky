@@ -6,7 +6,7 @@ class Cookies::Index < Lucky::Action
   get "/cookies" do
     cookies["my_cookie"] = "cookie"
     session["my_session"] = "session"
-    render_text "#{cookies["my_cookie"]} - #{session["my_session"]}"
+    text "#{cookies["my_cookie"]} - #{session["my_session"]}"
   end
 end
 
