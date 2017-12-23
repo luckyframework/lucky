@@ -4,37 +4,37 @@ include RoutesHelper
 
 class Singular::New < Lucky::Action
   action singular: true do
-    render_text "test"
+    text "test"
   end
 end
 
 class Singular::Edit < Lucky::Action
   action singular: true do
-    render_text "test"
+    text "test"
   end
 end
 
 class Singular::Show < Lucky::Action
   action singular: true do
-    render_text "test"
+    text "test"
   end
 end
 
 class Singular::Delete < Lucky::Action
   action singular: true do
-    render_text "test"
+    text "test"
   end
 end
 
 class Singular::Update < Lucky::Action
   action singular: true do
-    render_text "test"
+    text "test"
   end
 end
 
 class Singular::Create < Lucky::Action
   action singular: true do
-    render_text "test"
+    text "test"
   end
 end
 

@@ -4,7 +4,7 @@ include ContextHelper
 
 class RedirectAction < Lucky::Action
   get "/redirect_test" do
-    render_text "does not matter"
+    text "does not matter"
   end
 end
 

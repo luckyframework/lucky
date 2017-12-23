@@ -1,11 +1,11 @@
 require "../../spec_helper"
 
 class LinkHelpers::Index < Lucky::Action
-  action { render_text "foo" }
+  action { text "foo" }
 end
 
 class LinkHelpers::Create < Lucky::Action
-  action { render_text "foo" }
+  action { text "foo" }
 end
 
 private class TestPage

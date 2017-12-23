@@ -2,7 +2,7 @@ require "../spec_helper"
 
 class RootAction < Lucky::Action
   get "/" do
-    render_text "Hello there"
+    text "Hello there"
   end
 end
 

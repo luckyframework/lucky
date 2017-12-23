@@ -6,7 +6,7 @@ class CallbackFromActionMacro::Index < Lucky::Action
   before set_before_cookie
 
   action do
-    render_text "Body"
+    text "Body"
   end
 
   def set_before_cookie
@@ -36,7 +36,7 @@ class Callbacks::Index < InheritableCallbacks
 
   get "/callbacks" do
     cookies["after"] = "This should be overwritten by the after ballback"
-    render_text "not_from_callback"
+    text "not_from_callback"
   end
 
   def set_second_before_cookie
@@ -55,7 +55,7 @@ class Callbacks::HaltedBefore < Lucky::Action
   before should_not_be_reached
 
   get "/before_callbacks" do
-    render_text "this should not be reached"
+    text "this should not be reached"
   end
 
   def redirect_me
@@ -73,7 +73,7 @@ class Callbacks::HaltedAfter < Lucky::Action
   after should_not_be_reached
 
   get "/after_callbacks" do
-    render_text "this should not be reached"
+    text "this should not be reached"
   end
 
   def redirect_me
