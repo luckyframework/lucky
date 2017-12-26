@@ -7,7 +7,7 @@ authors:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.7.0
+    branch: ps-crystal-0.24.1
   habitat:
     github: luckyframework/habitat
     version: "~> 0.2.0"
