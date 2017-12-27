@@ -42,12 +42,14 @@ end
 csrf_meta_tags
 ```
 
-* Remove `needs flash` from MainLayout
+* Remove `needs flash` from `MainLayout`
 
 ```crystal
 # Delete this line
 needs flash : Lucky::Flash::Store
 ```
+
+* Remove `expose flash` from `BrowserAction`
 
 * Change `Shared::FlashComponent` to get the flash from `@context`
 
