@@ -30,8 +30,19 @@ module Lucky
       def initialize(@param_name : String)
       end
 
-      def message : String?
+      def message : String
         "Missing parameter: #{param_name}"
+      end
+    end
+
+    class MissingNestedParam < Base
+      getter nested_key
+
+      def initialize(@nested_key : String | Symbol)
+      end
+
+      def message : String
+        "Missing nested params: #{nested_key}"
       end
     end
   end
