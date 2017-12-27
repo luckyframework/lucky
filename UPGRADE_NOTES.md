@@ -1,5 +1,14 @@
 ### Upgrading from 0.6 to 0.7
 
+* Update to Crystal v0.24.1. Lucky will fail on earlier versions
+
+```
+brew upgrade crystal-lang
+brew upgrade lucky
+```
+
+If you are on Linux, remove the existing Lucky binary and follow the Linux instructions in this section: https://luckyframework.org/guides/installing/#install-lucky
+
 * Update `shard.yml`
 
 ```yml
