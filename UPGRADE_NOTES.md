@@ -9,13 +9,16 @@ brew upgrade lucky
 
 If you are on Linux, remove the existing Lucky binary and follow the Linux instructions in this section: https://luckyframework.org/guides/installing/#install-lucky
 
-* Update `shard.yml`
+* Update dependencies in `shard.yml`
 
 ```yml
 dependencies:
   lucky:
     github: luckyframework/lucky
     version: "~> 0.7.0"
+  lucky_migrator:
+    github: luckyframework/lucky_migrator
+    version: ~> 0.4.0
 ```
 
 Then run `shards update`
