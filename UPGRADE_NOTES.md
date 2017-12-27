@@ -49,7 +49,15 @@ csrf_meta_tags
 needs flash : Lucky::Flash::Store
 ```
 
-* Remove `expose flash` from `BrowserAction`
+* Remove `expose flash` from `BrowserAction` and add forgery protection
+
+```crystal
+# src/actions/browser_action.cr
+abstract class BrowserAction < Lucky::Action
+  include Lucky::ProtectFromForgery
+end
+
+```
 
 * Change `Shared::FlashComponent` to get the flash from `@context`
 
