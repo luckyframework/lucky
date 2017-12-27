@@ -1,5 +1,16 @@
 ### Upgrading from 0.6 to 0.7
 
+* Update `shard.yml`
+
+```yml
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    version: "~> 0.7.0"
+```
+
+Then run `shards update`
+
 * Configure the domain to use for the RouteHelper:
 
 ```crystal
