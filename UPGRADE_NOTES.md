@@ -71,3 +71,10 @@ end
 # To:
 @context.flash.each
 ```
+
+* Add `*.dwarf` to the .gitignore
+
+```
+# Add to .gitignore
+*.dwarf
+```
