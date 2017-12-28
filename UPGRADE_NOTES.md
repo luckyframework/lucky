@@ -26,7 +26,7 @@ Then run `shards update`
 * Configure the domain to use for the RouteHelper:
 
 ```crystal
-# Add to src/config/route_helper.cr
+# Add to config/route_helper.cr
 Lucky::RouteHelper.configure do
   if Lucky::Env.production?
     # The APP_DOMAIN is something like https://myapp.com
