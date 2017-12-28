@@ -70,6 +70,10 @@ module Lucky::Renderable
     Lucky::Response.new(context, "text/plain", body, status: status.value)
   end
 
+  private def render_text(*args, **named_args)
+    text(*args, **named_args)
+  end
+
   private def head(status : Int32)
     Lucky::Response.new(context, content_type: "", body: "", status: status)
   end
