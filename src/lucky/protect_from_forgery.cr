@@ -5,7 +5,6 @@ module Lucky::ProtectFromForgery
 
   macro included
     before protect_from_forgery
-    after set_new_csrf_token
   end
 
   # :nodoc:
@@ -14,6 +13,7 @@ module Lucky::ProtectFromForgery
   end
 
   private def protect_from_forgery
+    set_session_csrf_token
     if request_does_not_require_protection? || valid_csrf_token?
       continue
     else
@@ -21,9 +21,8 @@ module Lucky::ProtectFromForgery
     end
   end
 
-  private def set_new_csrf_token
-    session[SESSION_KEY] = Random::Secure.urlsafe_base64(32)
-    continue
+  private def set_session_csrf_token
+    session[SESSION_KEY] ||= Random::Secure.urlsafe_base64(32)
   end
 
   private def request_does_not_require_protection?
