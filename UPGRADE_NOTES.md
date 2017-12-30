@@ -3,6 +3,7 @@
 * Update to Crystal v0.24.1. Lucky will fail on earlier versions
 
 ```
+brew update
 brew upgrade crystal-lang
 brew upgrade lucky
 ```
