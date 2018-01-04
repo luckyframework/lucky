@@ -15,8 +15,8 @@ dependencies:
     github: luckyframework/lucky_inflector
     version: "~> 0.1.1"
   lucky_record:
-    github: luckyframework/lucky_record
-    version: "~> 0.3.0"
+    github: hanneskaeufler/record
+    branch: hk-issue-187
   lucky_router:
     github: luckyframework/lucky_router
     version: "~> 0.2.0"
