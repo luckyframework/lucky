@@ -10,11 +10,11 @@ class Lucky::Params
   def initialize(@request, @route_params = {} of String => String)
   end
 
-  def get!(key) : String
-    get(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
+  def get(key) : String
+    get?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
-  def get(key : String | Symbol) : String?
+  def get?(key : String | Symbol) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
