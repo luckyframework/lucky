@@ -24,6 +24,10 @@ dependencies:
     github: jwaldrip/shell-table.cr
     version: "~> 0.9.2"
 
+development_dependencies:
+  ameba:
+    github: veelenga/ameba
+
 crystal: 0.24.1
 
 license: MIT

@@ -58,19 +58,15 @@ describe Lucky::ContentTypeHelpers do
 end
 
 private def set_content_type(content_type)
-  begin
-    FakeAction.content_type = content_type
-    yield
-  ensure
-    FakeAction.content_type = ""
-  end
+  FakeAction.content_type = content_type
+  yield
+ensure
+  FakeAction.content_type = ""
 end
 
 private def set_header(key, value)
-  begin
-    FakeAction.headers[key] = value
-    yield
-  ensure
-    FakeAction.headers = HTTP::Headers.new
-  end
+  FakeAction.headers[key] = value
+  yield
+ensure
+  FakeAction.headers = HTTP::Headers.new
 end

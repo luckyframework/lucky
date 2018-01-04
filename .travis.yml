@@ -4,3 +4,4 @@ install:
 script:
   - crystal spec
   - crystal tool format spec src --check
+  - bin/ameba

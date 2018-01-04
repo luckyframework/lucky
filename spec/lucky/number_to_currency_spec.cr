@@ -24,7 +24,7 @@ describe Lucky::NumberToCurrency do
 
     describe "options" do
       it "accepts precision" do
-        view.number_to_currency(29.929123, precision: 3).to_s.should eq(HTML.escape("$29.929"))
+        view.number_to_currency(29.929_123, precision: 3).to_s.should eq(HTML.escape("$29.929"))
       end
 
       it "accepts unit" do
@@ -36,11 +36,11 @@ describe Lucky::NumberToCurrency do
       end
 
       it "accepts delimiter" do
-        view.number_to_currency(1234567890.29, delimiter: "-").to_s.should eq(HTML.escape("$1-234-567-890.29"))
+        view.number_to_currency(1_234_567_890.29, delimiter: "-").to_s.should eq(HTML.escape("$1-234-567-890.29"))
       end
 
       it "accepts delimiter pattern" do
-        view.number_to_currency(1230000, delimiter_pattern: /(\d+?)(?=(\d\d)+(\d)(?!\d))/).to_s.should eq(HTML.escape("$12,30,000.00"))
+        view.number_to_currency(1_230_000, delimiter_pattern: /(\d+?)(?=(\d\d)+(\d)(?!\d))/).to_s.should eq(HTML.escape("$12,30,000.00"))
       end
 
       it "accepts format" do

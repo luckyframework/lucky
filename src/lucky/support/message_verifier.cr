@@ -11,15 +11,13 @@ module Lucky
     end
 
     def verified(signed_message : String)
-      begin
-        data, digest = signed_message.split("--")
-        if valid_message?(data, digest)
-          String.new(decode(data))
-        end
-      rescue argument_error : ArgumentError
-        return if argument_error.message =~ %r{invalid base64}
-        raise argument_error
+      data, digest = signed_message.split("--")
+      if valid_message?(data, digest)
+        String.new(decode(data))
       end
+    rescue argument_error : ArgumentError
+      return if argument_error.message =~ %r{invalid base64}
+      raise argument_error
     end
 
     def verify(signed_message) : String
