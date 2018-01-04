@@ -77,6 +77,7 @@ module Lucky::Routeable
     {% for param in PARAM_DECLARATIONS %}
       {{ param }},
     {% end %}
+    anchor : String? = nil
       )
       path = String.build do |path|
         {% for part in path_parts %}
@@ -102,6 +103,11 @@ module Lucky::Routeable
 
       unless query_params.empty?
         path += "?#{HTTP::Params.encode(query_params)}"
+      end
+
+      anchor.try do |value|
+        path += "#"
+        path += URI.escape(value)
       end
 
       Lucky::RouteHelper.new {{ method }}, path

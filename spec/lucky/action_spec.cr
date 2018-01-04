@@ -189,6 +189,12 @@ describe Lucky::Action do
     end
   end
 
+  it "can add anchors to routes (and escapes them)" do
+    Tests::Index.path(anchor: "#foo").should eq "/tests#%23foo"
+    Tests::Index.route(anchor: "#foo").path.should eq "/tests#%23foo"
+    Tests::Index.url(anchor: "#foo").ends_with?("/tests#%23foo").should be_true
+  end
+
   describe "optional params" do
     it "is initialized to nil" do
       action = OptionalParams::Index.new(build_context(path: ""), params)
