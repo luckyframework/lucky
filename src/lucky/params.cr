@@ -18,8 +18,8 @@ class Lucky::Params
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
-  def nested!(nested_key : String | Symbol) : Hash(String, String)
-    nested_params = nested(nested_key)
+  def nested(nested_key : String | Symbol) : Hash(String, String)
+    nested_params = nested?(nested_key)
     if nested_params.keys.empty?
       raise Lucky::Exceptions::MissingNestedParam.new nested_key
     else
@@ -27,7 +27,7 @@ class Lucky::Params
     end
   end
 
-  def nested(nested_key : String | Symbol) : Hash(String, String)
+  def nested?(nested_key : String | Symbol) : Hash(String, String)
     if json?
       nested_json_params(nested_key.to_s)
     else

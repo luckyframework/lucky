@@ -106,7 +106,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
+      params.nested?(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
     it "gets JSON nested params" do
@@ -116,7 +116,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+      params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
     it "gets nested params after unescaping" do
@@ -125,7 +125,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:user).should eq({"name" => "paul"})
+      params.nested?(:user).should eq({"name" => "paul"})
     end
 
     it "raises if nested params are missing" do
@@ -135,7 +135,7 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       expect_raises Lucky::Exceptions::MissingNestedParam do
-        params.nested!(:missing)
+        params.nested(:missing)
       end
     end
 
@@ -145,7 +145,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:missing).should eq({} of String => String)
+      params.nested?(:missing).should eq({} of String => String)
     end
   end
 end
