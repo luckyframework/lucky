@@ -10,8 +10,8 @@ describe Lucky::Params do
     params = Lucky::Params.new(request)
     dup_params = Lucky::Params.new(request)
 
-    params.get(:from).should eq "form"
-    dup_params.get(:from).should eq "form"
+    params.get?(:from).should eq "form"
+    dup_params.get?(:from).should eq "form"
   end
 
   describe "all" do
@@ -22,7 +22,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.get(:from).should eq "form"
+      params.get?(:from).should eq "form"
     end
   end
 
@@ -34,7 +34,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request, route_params)
 
-      params.get(:id).should eq "from_route"
+      params.get?(:id).should eq "from_route"
     end
   end
 
@@ -45,8 +45,8 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.get(:page).should eq "1"
-      params.get(:foo).should eq "bar"
+      params.get?(:page).should eq "1"
+      params.get?(:foo).should eq "bar"
     end
 
     it "parses JSON params" do
@@ -55,8 +55,8 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.get(:page).should eq "1"
-      params.get(:foo).should eq "bar"
+      params.get?(:page).should eq "1"
+      params.get?(:foo).should eq "bar"
     end
 
     it "handles empty JSON body" do
@@ -66,7 +66,7 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       # Should not raise
-      params.get(:anything)
+      params.get?(:anything)
     end
 
     it "parses query params" do
@@ -75,8 +75,8 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.get(:page).should eq "1"
-      params.get(:id).should eq "1"
+      params.get?(:page).should eq "1"
+      params.get?(:id).should eq "1"
     end
 
     it "raises if missing a param and using get! version" do
@@ -85,7 +85,7 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       expect_raises Lucky::Exceptions::MissingParam do
-        params.get!(:missing)
+        params.get(:missing)
       end
     end
 
@@ -94,7 +94,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.get(:missing).should be_nil
+      params.get?(:missing).should be_nil
     end
   end
 
@@ -106,7 +106,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
+      params.nested?(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
     it "gets JSON nested params" do
@@ -116,7 +116,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+      params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
     it "gets nested params after unescaping" do
@@ -125,7 +125,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:user).should eq({"name" => "paul"})
+      params.nested?(:user).should eq({"name" => "paul"})
     end
 
     it "raises if nested params are missing" do
@@ -135,7 +135,7 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       expect_raises Lucky::Exceptions::MissingNestedParam do
-        params.nested!(:missing)
+        params.nested(:missing)
       end
     end
 
@@ -145,7 +145,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested(:missing).should eq({} of String => String)
+      params.nested?(:missing).should eq({} of String => String)
     end
   end
 end

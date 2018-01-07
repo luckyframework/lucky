@@ -57,7 +57,7 @@ module Lucky::Routeable
       {% if part.starts_with?(":") %}
         {% part = part.gsub(/:/, "").id %}
         def {{ part }}
-          params.get!(:{{ part }})
+          params.get(:{{ part }})
         end
       {% end %}
     {% end %}
@@ -137,7 +137,7 @@ module Lucky::Routeable
       {% is_nilable_type = type_declaration.type.is_a?(Union) %}
       {% type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
 
-      val = params.get(:{{ type_declaration.var.id }})
+      val = params.get?(:{{ type_declaration.var.id }})
 
       if val.nil?
         default_or_nil = {{ type_declaration.value || nil }}

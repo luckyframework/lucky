@@ -38,7 +38,7 @@ module Lucky::ProtectFromForgery
   end
 
   private def user_provided_token : String?
-    params.get(PARAM_KEY) || headers[SESSION_KEY]?
+    params.get?(PARAM_KEY) || headers[SESSION_KEY]?
   end
 
   def forbid_access_because_of_bad_token : Lucky::Response
