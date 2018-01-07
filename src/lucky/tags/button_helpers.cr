@@ -2,15 +2,15 @@ require "./link_helpers"
 
 module Lucky::ButtonHelpers
   include Lucky::LinkHelpers
-  EMPTY_HTML_ATTRS = {} of String => String
+  EMPTY_HTML_ATTRS  = {} of String => String
   DEFAULT_TYPE_ATTR = {"type" => "submit"}
-  VALID_TYPES = ["submit", "reset", "button"]
+  VALID_TYPES       = ["submit", "reset", "button"]
 
   def button(
-      content : Lucky::AllowedInTags | String? = "",
-      options = EMPTY_HTML_ATTRS,
-      **other_options
-    )
+    content : Lucky::AllowedInTags | String? = "",
+    options = EMPTY_HTML_ATTRS,
+    **other_options
+  )
     merged_options = merge_options(merge_options(other_options, options), DEFAULT_TYPE_ATTR)
     button_tag(merged_options) do
       text content
