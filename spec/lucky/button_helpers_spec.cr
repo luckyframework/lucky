@@ -49,14 +49,14 @@ end
 
 describe Lucky::ButtonHelpers do
   it "renders a button tag" do
-    view.get_route.to_s.should contain %(<a href="/button_helpers">Test</a>)
-    view.non_get_route.to_s.should contain %(<a href="/button_helpers" data-method="post">Test</a>)
+    view.get_route.to_s.should contain %(<button href="/button_helpers">Test</button>)
+    view.non_get_route.to_s.should contain %(<button href="/button_helpers" data-method="post">Test</button>)
     view
       .non_get_route_with_options
       .to_s
-      .should contain %(<a href="/button_helpers" data-method="post" something-custom="foo">Test</a>)
-    view.string_path.to_s.should contain %(<a href="/foos">Test</a>)
-    view.string_path_with_options.to_s.should contain %(<a href="/foos" data-method="post">Test</a>)
+      .should contain %(<button href="/button_helpers" data-method="post" something-custom="foo">Test</button>)
+    view.string_path.to_s.should contain %(<button href="/foos">Test</button>)
+    view.string_path_with_options.to_s.should contain %(<button href="/foos" data-method="post">Test</button>)
   end
 
   it "renders a link tag with an action" do
@@ -71,13 +71,13 @@ describe Lucky::ButtonHelpers do
     HTML
   end
 
-  it "renders a link tag with a block" do
+  it "renders a button tag with a block" do
     view.string_path_with_block.to_s.should contain <<-HTML
-    <a href="/foo">Hello</a>
+    <button href="/foo">Hello</button>
     HTML
 
     view.get_route_with_block.to_s.should contain <<-HTML
-    <a href="/button_helpers">Hello</a>
+    <button href="/button_helpers">Hello</button>
     HTML
   end
 end
