@@ -5,6 +5,7 @@ abstract class Lucky::ErrorAction
   include Lucky::Renderable
   include Lucky::Redirectable
   include Lucky::ContentTypeHelpers
+  include Lucky::Exposeable
 
   getter context
 
