@@ -8,7 +8,7 @@ module Lucky::Routeable
   {% end %}
 
   macro setup_call_method(body)
-    def call : Lucky::Response
+    def call
       callback_result = run_before_callbacks
 
       response = if callback_result.is_a?(Lucky::Response)
@@ -57,35 +57,27 @@ module Lucky::Routeable
       {% if part.starts_with?(":") %}
         {% part = part.gsub(/:/, "").id %}
         def {{ part }}
-          params.get!(:{{ part }})
+          params.get(:{{ part }})
         end
       {% end %}
     {% end %}
 
-    def self.path(
-    {% for param in path_params %}
-      {{ param.gsub(/:/, "").id }},
-    {% end %}
-      )
-      path = String.build do |path|
-        {% for part in path_parts %}
-          path << "/"
-          {% if part.starts_with?(":") %}
-            path << URI.escape({{ part.gsub(/:/, "").id }})
-          {% else %}
-            path << URI.escape({{ part }})
-          {% end %}
-        {% end %}
-      end
-      is_root_path = path == ""
-      path = "/" if is_root_path
-      path
+    def self.path(*args, **named_args)
+      route(*args, **named_args).path
+    end
+
+    def self.url(*args, **named_args)
+      route(*args, **named_args).url
     end
 
     def self.route(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+    {% for param in PARAM_DECLARATIONS %}
+      {{ param }},
+    {% end %}
+    anchor : String? = nil
       )
       path = String.build do |path|
         {% for part in path_parts %}
@@ -100,19 +92,74 @@ module Lucky::Routeable
 
       is_root_path = path == ""
       path = "/" if is_root_path
+
+      query_params = {} of String => String
+      {% for param in PARAM_DECLARATIONS %}
+        param_is_default_or_nil = {{ param.var }} == {{ param.value || nil }}
+        unless param_is_default_or_nil
+          query_params["{{ param.var }}"] = {{ param.var }}.to_s
+        end
+      {% end %}
+
+      unless query_params.empty?
+        path += "?#{HTTP::Params.encode(query_params)}"
+      end
+
+      anchor.try do |value|
+        path += "#"
+        path += URI.escape(value)
+      end
+
       Lucky::RouteHelper.new {{ method }}, path
     end
 
-    def self.with(**args)
-      route(**args)
-    end
-
-    def self.with(*args)
-      route(*args)
+    def self.with(*args, **named_args)
+      route(*args, **named_args)
     end
 
     def self.with
       \{% raise "Use `route` instead of `with` if the action doesn't need params" %}
+    end
+  end
+
+  macro included
+    PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
+
+    macro inherited
+      PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
+    end
+  end
+
+  macro param(type_declaration)
+    {% PARAM_DECLARATIONS << type_declaration %}
+
+    def {{ type_declaration.var }} : {{ type_declaration.type }}
+      {% is_nilable_type = type_declaration.type.is_a?(Union) %}
+      {% type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
+
+      val = params.get?(:{{ type_declaration.var.id }})
+
+      if val.nil?
+        default_or_nil = {{ type_declaration.value || nil }}
+        {% if is_nilable_type %}
+          return default_or_nil
+        {% else %}
+          return default_or_nil ||
+            raise Lucky::Exceptions::MissingParam.new("{{ type_declaration.var.id }}")
+        {% end %}
+      end
+
+      result = {{ type }}::Lucky.parse(val)
+
+      if result.is_a? {{ type }}::Lucky::SuccessfulCast
+        result.value
+      else
+        raise Lucky::Exceptions::InvalidParam.new(
+          param_name: "{{ type_declaration.var.id }}",
+          param_value: val.to_s,
+          param_type: "{{ type }}"
+        )
+      end
     end
   end
 end

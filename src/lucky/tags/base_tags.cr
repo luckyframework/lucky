@@ -1,5 +1,5 @@
 module Lucky::BaseTags
-  TAGS             = %i(a b body div em small fieldset h1 h2 h3 h4 h5 h6 head html i label li ol option s script span strong table tbody td textarea thead th title tr u ul form footer header article aside bdi details dialog figcaption figure main mark menuitem meter nav progress rp rt ruby section summary time wbr option)
+  TAGS             = %i(a address article aside b bdi body code details dialog div em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header html i label li main mark menuitem meter nav ol option option pre progress rp rt ruby s script section small span strong summary table tbody td textarea th thead time title tr u ul wbr)
   RENAMED_TAGS     = {"para": "p", "select_tag": "select"}
   EMPTY_TAGS       = %i(img br input meta)
   EMPTY_HTML_ATTRS = {} of String => String
@@ -7,7 +7,11 @@ module Lucky::BaseTags
   @view = IO::Memory.new
 
   macro generate_tag_methods(method_name, tag)
-    def {{method_name.id}}(content : String? = "", options = EMPTY_HTML_ATTRS, **other_options)
+    def {{method_name.id}}(
+        content : Lucky::AllowedInTags | String? = "",
+        options = EMPTY_HTML_ATTRS,
+        **other_options
+      )
       merged_options = merge_options(other_options, options)
       {{method_name.id}}(merged_options) do
         text content

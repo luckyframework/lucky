@@ -14,6 +14,10 @@ Lucky::Server.configure do
   settings.port = 8080
 end
 
+Lucky::RouteHelper.configure do
+  settings.domain = "luckyframework.org"
+end
+
 LuckyRecord::Repo.configure do
   settings.url = "Not used yet"
 end

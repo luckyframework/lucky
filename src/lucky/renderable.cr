@@ -12,6 +12,7 @@ module Lucky::Renderable
 
   macro render_html_page(page_class, assigns)
     view = {{ page_class.id }}.new(
+      context: context,
       {% for key, value in assigns %}
         {{ key }}: {{ value }},
       {% end %}
@@ -19,13 +20,17 @@ module Lucky::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
-    log_html_render(context, view)
     body = view.perform_render.to_s
-    Lucky::Response.new(context, "text/html", body)
+    Lucky::Response.new(
+      context,
+      "text/html",
+      body,
+      debug_message: log_message(view),
+    )
   end
 
-  private def log_html_render(context, view)
-    context.add_debug_message("Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}")
+  private def log_message(view)
+    "Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}"
   end
 
   def perform_action
@@ -34,11 +39,39 @@ module Lucky::Renderable
   end
 
   private def handle_response(response : Lucky::Response)
+    log_response(response)
     response.print
   end
 
-  private def render_text(body)
-    Lucky::Response.new(context, "text/plain", body)
+  private def handle_response(_response : T) forall T
+    {%
+      raise <<-ERROR
+
+      #{@type} returned #{T}, but it must return a Lucky::Response.
+
+      Try this...
+        ▸ Make sure to use a method like `render`, `redirect`, or `json` at the end of your action.
+        ▸ If you are using a conditional, make sure all branches return a Lucky::Response.
+      ERROR
+    %}
+  end
+
+  private def log_response(response : Lucky::Response)
+    response.debug_message.try do |message|
+      context.add_debug_message(message)
+    end
+  end
+
+  private def text(body, status : Int32? = nil)
+    Lucky::Response.new(context, "text/plain", body, status: status)
+  end
+
+  private def text(body, status : Lucky::Action::Status)
+    Lucky::Response.new(context, "text/plain", body, status: status.value)
+  end
+
+  private def render_text(*args, **named_args)
+    text(*args, **named_args)
   end
 
   private def head(status : Int32)

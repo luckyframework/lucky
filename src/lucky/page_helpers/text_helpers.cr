@@ -19,11 +19,11 @@ module Lucky::TextHelpers
 
     length_with_room_for_omission = truncate_at - omission.size
     stop = \
-      if separator
-        text.rindex(separator, length_with_room_for_omission) || length_with_room_for_omission
-      else
-        length_with_room_for_omission
-      end
+       if separator
+         text.rindex(separator, length_with_room_for_omission) || length_with_room_for_omission
+       else
+         length_with_room_for_omission
+       end
 
     "#{text[0, stop]}#{omission}"
   end
@@ -82,7 +82,7 @@ module Lucky::TextHelpers
 
     first_part, second_part = text.split(phrase, 2)
 
-    prefix, first_part   = cut_excerpt_part(:first, first_part, separator, radius, omission)
+    prefix, first_part = cut_excerpt_part(:first, first_part, separator, radius, omission)
     postfix, second_part = cut_excerpt_part(:second, second_part, separator, radius, omission)
 
     affix = [first_part, separator, phrase, separator, second_part].join.strip
@@ -91,10 +91,10 @@ module Lucky::TextHelpers
 
   def pluralize(count : Int32 | String | Nil, singular : String, plural = nil)
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
-      singular
-    else
-      plural || LuckyInflector::Inflector.pluralize(singular)
-    end
+             singular
+           else
+             plural || LuckyInflector::Inflector.pluralize(singular)
+           end
 
     raw "#{count || 0} #{word}"
   end
@@ -126,9 +126,57 @@ module Lucky::TextHelpers
     end
   end
 
+  # Creates a comma-separated sentence from the provided `Enumerable` *list*
+  # and appends it to the view.
+  #
+  # #### Options:
+  #
+  # The following options allow you to specify how the sentence is constructed:
+  #   - *word_connector* - A string used to join the elements in *list*s
+  # containing three or more elements (Default is ", ")
+  #   - *two_word_connector* - A string used to join the elements in *list*s
+  # containing exactly two elements (Default is " and ")
+  #   - *last_word_connector* - A string used to join the last element in
+  # *list*s containing three or more elements (Default is ", and ")
+  #
+  # #### Examples:
+  #
+  #     to_sentence([] of String)            # => ""
+  #     to_sentence([1])                     # => "1"
+  #     to_sentence(["one", "two"])          # => "one and two"
+  #     to_sentence({"one", "two", "three"}) # => "one, two, and three"
+  #
+  #     to_sentence(["one", "two", "three"], word_connector: " + ")
+  #     # => one + two, and three
+  #
+  #     to_sentence(Set{"a", "z"}, two_word_connector: " to ")
+  #     # => a to z
+  #
+  #     to_sentence(1..3, last_word_connector: ", or ")
+  #     # => 1, 2, or 3
+  #
+  # NOTE: By default `#to_sentence` will include a
+  # [serial comma](https://en.wikipedia.org/wiki/Serial_comma). This can be
+  # overriden like so:
+  #
+  #     to_sentence(["one", "two", "three"], last_word_connector: " and ")
+  #     # => one, two and thre
+  def to_sentence(list : Enumerable,
+                  word_connector : String = ", ",
+                  two_word_connector : String = " and ",
+                  last_word_connector : String = ", and ")
+    list = list.to_a
+
+    if list.size < 3
+      return text list.join(two_word_connector)
+    end
+
+    text "#{list[0..-2].join(word_connector)}#{last_word_connector}#{list.last}"
+  end
+
   private def normalize_values(values)
     string_values = Array(String).new
-    values.each{ |v| string_values << v.to_s }
+    values.each { |v| string_values << v.to_s }
     values = string_values
   end
 
@@ -163,7 +211,7 @@ module Lucky::TextHelpers
 
     def initialize(*values)
       string_values = Array(String).new
-      values.each{ |v| string_values << v.to_s }
+      values.each { |v| string_values << v.to_s }
       @values = string_values
       reset
     end
@@ -221,11 +269,11 @@ module Lucky::TextHelpers
     affix = part.size > radius ? omission : ""
 
     part = if part_position == :first
-      drop_index = [part.size - radius, 0].max
-      part[drop_index..-1]
-    else
-      part.first(radius)
-    end
+             drop_index = [part.size - radius, 0].max
+             part[drop_index..-1]
+           else
+             part.first(radius)
+           end
 
     return affix, part.join(separator)
   end

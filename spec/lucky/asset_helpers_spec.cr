@@ -1,7 +1,19 @@
 require "../spec_helper"
 
+module Shared::ComponentWithAsset
+  def asset_inside_component
+    asset("images/logo.png")
+  end
+
+  def dynamic_asset_inside_component
+    interpolated = "logo"
+    dynamic_asset("images/#{interpolated}.png")
+  end
+end
+
 private class TestPage
   include Lucky::AssetHelpers
+  include Shared::ComponentWithAsset
 
   def asset_path
     asset("images/logo.png")
@@ -26,11 +38,19 @@ describe Lucky::AssetHelpers do
     it "works when included in another class" do
       TestPage.new.asset_path.should eq "/images/logo-with-hash.png"
     end
+
+    it "works when used from an included module" do
+      TestPage.new.asset_inside_component.should eq "/images/logo-with-hash.png"
+    end
   end
 
   describe "dynamic asset helper" do
     it "returns the fingerprinted path" do
       TestPage.new.dynamic_asset_path.should eq "/images/logo-with-hash.png"
+    end
+
+    it "works inside included module" do
+      TestPage.new.dynamic_asset_inside_component.should eq "/images/logo-with-hash.png"
     end
 
     it "raises a helpful error" do

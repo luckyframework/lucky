@@ -5,14 +5,11 @@ module CleanupHelper
   end
 
   private def with_cleanup
-    begin
-      Dir.mkdir("./tmp")
-      Dir.cd("./tmp")
-      yield
-    ensure
-      Dir.cd("..")
-      cleanup
-    end
+    Dir.mkdir("./tmp")
+    Dir.cd("./tmp")
+    yield
+  ensure
+    Dir.cd("..")
+    cleanup
   end
 end
-

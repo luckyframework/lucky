@@ -24,14 +24,14 @@ module Sentry
 
     private def build_app_processes
       @build_commands.map do |command|
-        Process.run(command, shell: true, output: true, error: true)
+        Process.run(command, shell: true, output: STDOUT, error: STDERR)
       end
     end
 
     private def create_app_processes
       @app_processes.clear
       result = @run_commands.each do |command|
-        @app_processes << Process.new(command, shell: false, output: true, error: true)
+        @app_processes << Process.new(command, shell: false, output: STDOUT, error: STDERR)
       end
 
       self.successful_compilations += 1
@@ -45,8 +45,8 @@ module Sentry
     private def start_browsersync
       spawn do
         Process.run "yarn run browser-sync start -c bs-config.js --port #{browsersync_port} -p #{proxy}",
-          output: true,
-          error: true,
+          output: STDOUT,
+          error: STDERR,
           shell: true
       end
     end
@@ -57,8 +57,8 @@ module Sentry
 
     private def reload_browsersync
       Process.run "yarn run browser-sync reload --port #{browsersync_port}",
-        output: true,
-        error: true,
+        output: STDOUT,
+        error: STDERR,
         shell: true
     end
 

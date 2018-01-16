@@ -15,6 +15,9 @@ module Lucky::HTMLPage
   include Lucky::NumberToCurrency
   include Lucky::TextHelpers
   include Lucky::TimeHelpers
+  include Lucky::ForgeryProtectionHelpers
+
+  needs context : HTTP::Server::Context
 
   macro setup_initializer_hook
     macro finished

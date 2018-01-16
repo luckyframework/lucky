@@ -176,7 +176,7 @@ private def form
 end
 
 private def view
-  TestPage.new
+  TestPage.new(build_context)
 end
 
 private def have_unchecked_value(value)

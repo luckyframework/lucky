@@ -10,32 +10,32 @@ class Lucky::Params
   def initialize(@request, @route_params = {} of String => String)
   end
 
-  def get!(key) : String
-    get(key) || raise "Missing parameter: #{key}"
+  def get(key) : String
+    get?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
-  def get(key : String | Symbol) : String?
+  def get?(key : String | Symbol) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
-  def get_file!(key) : Lucky::UploadedFile
-    get_file(key) || raise "Missing file: #{key}"
+  def get_file(key) : Lucky::UploadedFile
+    get_file?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
-  def get_file(key : String | Symbol) : Lucky::UploadedFile?
+  def get_file?(key : String | Symbol) : Lucky::UploadedFile?
     multipart_files[key.to_s]?
   end
 
-  def nested!(nested_key) : Hash(String, String)
-    nested_params = nested(nested_key)
+  def nested(nested_key : String | Symbol) : Hash(String, String)
+    nested_params = nested?(nested_key)
     if nested_params.keys.empty?
-      raise "No nested params for: #{nested_key}"
+      raise Lucky::Exceptions::MissingNestedParam.new nested_key
     else
       nested_params
     end
   end
 
-  def nested(nested_key : String | Symbol) : Hash(String, String)
+  def nested?(nested_key : String | Symbol) : Hash(String, String)
     if json?
       nested_json_params(nested_key.to_s)
     else
@@ -43,16 +43,16 @@ class Lucky::Params
     end
   end
 
-  def nested_file!(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)
-    nested_file_params = nested_file(nested_key)
+  def nested_file(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)
+    nested_file_params = nested_file?(nested_key)
     if nested_file_params.keys.empty?
-      raise "No nested files for: #{nested_key}"
+      raise Lucky::Exceptions::MissingNestedParam.new nested_key
     else
       nested_file_params
     end
   end
 
-  def nested_file(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?
+  def nested_file?(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?
     nested_file_params(nested_key.to_s)
   end
 

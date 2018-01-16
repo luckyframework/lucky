@@ -1,11 +1,11 @@
 require "../../spec_helper"
 
 class LinkHelpers::Index < Lucky::Action
-  action { render_text "foo" }
+  action { text "foo" }
 end
 
 class LinkHelpers::Create < Lucky::Action
-  action { render_text "foo" }
+  action { text "foo" }
 end
 
 private class TestPage
@@ -45,6 +45,14 @@ private class TestPage
       text "Hello"
     end
   end
+
+  def get_route_without_text
+    link to: LinkHelpers::Index
+  end
+
+  def string_path_without_text
+    link to: "/foo"
+  end
 end
 
 describe Lucky::LinkHelpers do
@@ -80,8 +88,18 @@ describe Lucky::LinkHelpers do
     <a href="/link_helpers">Hello</a>
     HTML
   end
+
+  it "renders a link tag without text" do
+    view.string_path_without_text.to_s.should contain <<-HTML
+    <a href="/foo"></a>
+    HTML
+
+    view.get_route_without_text.to_s.should contain <<-HTML
+    <a href="/link_helpers"></a>
+    HTML
+  end
 end
 
 private def view
-  TestPage.new
+  TestPage.new(build_context)
 end

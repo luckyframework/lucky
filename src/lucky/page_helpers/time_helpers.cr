@@ -15,7 +15,7 @@ module Lucky::TimeHelpers
     distance_of_time_in_words(from, Time.now)
   end
 
-  private def distance_in_days(distance : Int32)
+  private def distance_in_days(distance : Int)
     case distance
     when 1...29   then distance == 1 ? "a day" : "#{distance} days"
     when 30...60  then "about a month"

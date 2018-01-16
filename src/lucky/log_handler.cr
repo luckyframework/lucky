@@ -14,18 +14,38 @@ class Lucky::LogHandler
     time = Time.now
     call_next(context)
     elapsed = Time.now - time
-    elapsed_text = elapsed_text(elapsed)
 
     if !context.hide_from_logs?
-      @io.puts "#{context.request.method} #{context.response.status_code} #{context.request.resource.colorize(:green)}#{timestamp(time)} (#{elapsed_text})"
+      log_request(context, time, elapsed)
     end
     {% if !flag?(:release) %}
       log_debug_messages(context)
     {% end %}
   rescue e
+    log_exception(context, time, e)
+    raise e
+  end
+
+  private def log_request(context, time, elapsed)
+    @io.puts "#{context.request.method} #{colored_status_code(context.response.status_code)} #{context.request.resource}#{timestamp(time)} (#{elapsed_text(elapsed)})"
+  end
+
+  private def log_exception(context, time, e)
     @io.puts "#{context.request.method} #{context.request.resource}#{timestamp(time)} - Unhandled exception:"
     e.inspect_with_backtrace(@io)
-    raise e
+  end
+
+  private def colored_status_code(status_code)
+    case status_code
+    when 200..399
+      "#{status_code.colorize(:green)}"
+    when 400..499
+      "#{status_code.colorize(:yellow)}"
+    when 500..599
+      "#{status_code.colorize(:red)}"
+    else
+      "#{status_code}"
+    end
   end
 
   private def log_debug_messages(context)

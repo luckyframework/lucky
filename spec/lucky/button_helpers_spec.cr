@@ -1,11 +1,11 @@
 require "../../spec_helper"
 
 class ButtonHelpers::Index < Lucky::Action
-  action { render_text "foo" }
+  action { text "foo" }
 end
 
 class ButtonHelpers::Create < Lucky::Action
-  action { render_text "foo" }
+  action { text "foo" }
 end
 
 private class TestPage
@@ -83,5 +83,5 @@ describe Lucky::ButtonHelpers do
 end
 
 private def view
-  TestPage.new
+  TestPage.new(build_context)
 end

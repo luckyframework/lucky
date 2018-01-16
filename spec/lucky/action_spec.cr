@@ -4,25 +4,25 @@ include ContextHelper
 
 class CustomRoutes::Index < Lucky::Action
   get "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
 class CustomRoutes::Put < Lucky::Action
   put "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
 class CustomRoutes::Post < Lucky::Action
   post "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
 class CustomRoutes::Delete < Lucky::Action
   delete "/so_custom" do
-    render_text "test"
+    text "test"
   end
 end
 
@@ -42,47 +42,71 @@ end
 
 class Tests::New < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Edit < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Show < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Delete < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Update < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class Tests::Create < Lucky::Action
   action do
-    render_text "test"
+    text "test"
   end
 end
 
 class PlainText::Index < Lucky::Action
   action do
-    render_text "plain"
+    text "plain"
+  end
+end
+
+class RequiredParams::Index < Lucky::Action
+  param required_page : Int32
+
+  action do
+    text "required param: #{required_page}"
+  end
+end
+
+class OptionalParams::Index < Lucky::Action
+  param page : Int32?
+  param with_default : String? = "default"
+  param with_int_default : Int32? = 1
+  param with_int_never_nil : Int32 = 1337
+
+  action do
+    text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
   end
 end
 
 describe Lucky::Action do
+  it "has a url helper" do
+    Lucky::RouteHelper.configure { settings.domain = "example.com" }
+    Tests::Index.url.should eq "example.com/tests"
+  end
+
   describe "routing" do
     it "creates URL helpers for the resourceful actions" do
       Tests::Index.path.should eq "/tests"
@@ -144,6 +168,79 @@ describe Lucky::Action do
     it "can get params" do
       action = PlainText::Index.new(build_context(path: "/?q=test"), params)
       action.params.get(:q).should eq "test"
+    end
+
+    it "can get manually defined required params" do
+      action = RequiredParams::Index.new(build_context(path: "/?required_page=1"), params)
+      action.required_page.should eq 1
+    end
+
+    it "adds named arguments to the path" do
+      RequiredParams::Index.path(required_page: 7).should eq "/required_params?required_page=7"
+    end
+
+    it "adds named arguments to the route" do
+      RequiredParams::Index.route(required_page: 7).should eq Lucky::RouteHelper.new(:get, "/required_params?required_page=7")
+    end
+
+    it "raises for missing required params" do
+      action = RequiredParams::Index.new(build_context(path: ""), params)
+      expect_raises(Lucky::Exceptions::MissingParam) { action.required_page }
+    end
+  end
+
+  it "can add anchors to routes (and escapes them)" do
+    Tests::Index.path(anchor: "#foo").should eq "/tests#%23foo"
+    Tests::Index.route(anchor: "#foo").path.should eq "/tests#%23foo"
+    Tests::Index.url(anchor: "#foo").ends_with?("/tests#%23foo").should be_true
+  end
+
+  describe "optional params" do
+    it "is initialized to nil" do
+      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action.page.should eq nil
+    end
+
+    it "is fetched if present" do
+      action = OptionalParams::Index.new(build_context(path: "/?page=3"), params)
+      action.page.should eq 3
+    end
+
+    it "can be used within the action" do
+      response = OptionalParams::Index.new(build_context(path: "/?page=3"), params).call
+      response.body.to_s.should eq "optional param: 3 1 1337"
+    end
+
+    it "can specify a default value" do
+      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action.with_default.should eq "default"
+    end
+
+    it "overrides the default if present" do
+      action = OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=42"), params)
+      action.with_int_never_nil.should eq 42
+    end
+
+    it "is added as optional argument to the path" do
+      OptionalParams::Index.path(page: 7).should eq "/optional_params?page=7"
+      OptionalParams::Index.path(page: 7, with_default: "/other").should eq "/optional_params?page=7&with_default=%2Fother"
+    end
+
+    it "is added as optional argument to the route" do
+      OptionalParams::Index.route(page: 7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7")
+      OptionalParams::Index.route(page: 7, with_default: "/other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=%2Fother")
+    end
+
+    it "raises when the optional param cannot be parsed into the desired type" do
+      expect_raises Lucky::Exceptions::InvalidParam do
+        response = OptionalParams::Index.new(build_context(path: "/?page=no_int"), params()).call
+      end
+    end
+
+    it "raises when we cannot parse the non-optional param into the desired type" do
+      expect_raises Lucky::Exceptions::InvalidParam, "Required param \"with_int_never_nil\" with value \"no_int\" couldn't be parsed to a \"Int32\"" do
+        OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=no_int"), params()).call
+      end
     end
   end
 end

@@ -18,7 +18,7 @@ class HTTP::Server::Context
   end
 
   def flash
-    @flash ||= Lucky::Flash.from_session(session.fetch(Lucky::Flash::Handler::PARAM_KEY, "{}"))
+    @flash ||= Lucky::Flash.from_session(session)
   end
 
   def add_debug_message(message : String)

@@ -1,8 +1,6 @@
 class Lucky::WelcomePage
   include Lucky::HTMLPage
 
-  needs flash : Lucky::Flash::Store
-
   def render
     html_doctype
     html lang: "en" do

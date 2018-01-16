@@ -49,12 +49,31 @@ class Rendering::HeadOnly::WithTypedStatus < Lucky::Action
   end
 end
 
+class Rendering::Text::Index < Lucky::Action
+  action do
+    text "Anything"
+  end
+end
+
+class Rendering::Text::WithStatus < Lucky::Action
+  get "/foo" do
+    text "Anything", status: 201
+  end
+end
+
+class Rendering::Text::WithTypedStatus < Lucky::Action
+  get "/foo" do
+    text "Anything", status: Status::Created
+  end
+end
+
 describe Lucky::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
-      body = Rendering::Index.new(build_context, params).call.body
+      response = Rendering::Index.new(build_context, params).call
 
-      body.should contain "Anything"
+      response.body.should contain "Anything"
+      response.debug_message.to_s.should contain "Rendering::IndexPage"
     end
   end
 
@@ -77,5 +96,19 @@ describe Lucky::Action do
 
     response = Rendering::HeadOnly::WithTypedStatus.new(build_context, params).call
     response.status.should eq 204
+  end
+
+  it "renders text" do
+    response = Rendering::Text::Index.new(build_context, params).call
+    response.body.should eq "Anything"
+    response.status.should eq 200
+
+    response = Rendering::Text::WithStatus.new(build_context, params).call
+    response.body.should eq "Anything"
+    response.status.should eq 201
+
+    response = Rendering::Text::WithTypedStatus.new(build_context, params).call
+    response.body.should eq "Anything"
+    response.status.should eq 201
   end
 end

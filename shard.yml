@@ -1,5 +1,5 @@
 name: lucky
-version: 0.6.3
+version: 0.7.4
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -7,15 +7,16 @@ authors:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.7.0
+    version: "~> 0.8.0"
   habitat:
     github: luckyframework/habitat
     version: "~> 0.2.0"
   lucky_inflector:
     github: luckyframework/lucky_inflector
+    version: "~> 0.1.1"
   lucky_record:
     github: luckyframework/lucky_record
-    version: "~> 0.3.0"
+    branch: master
   lucky_router:
     github: luckyframework/lucky_router
     version: "~> 0.2.0"
@@ -23,6 +24,10 @@ dependencies:
     github: jwaldrip/shell-table.cr
     version: "~> 0.9.2"
 
-crystal: 0.20.3
+development_dependencies:
+  ameba:
+    github: veelenga/ameba
+
+crystal: 0.24.1
 
 license: MIT

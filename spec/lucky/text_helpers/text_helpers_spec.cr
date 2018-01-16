@@ -8,5 +8,5 @@ class TextHelperTestPage
 end
 
 def view
-  TextHelperTestPage.new
+  TextHelperTestPage.new(build_context)
 end
