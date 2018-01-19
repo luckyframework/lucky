@@ -13,6 +13,8 @@ describe Gen::Model do
 
       File.read("./src/models/contact_info.cr")
           .should contain("class ContactInfo < BaseModel")
+      File.read("./src/models/contact_info.cr")
+          .should contain("table :contact_infos")
       io.to_s.should contain("./src/models/contact_info.cr")
       File.read("./src/forms/contact_info_form.cr")
           .should contain("class ContactInfoForm < ContactInfo::BaseForm")
