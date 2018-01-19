@@ -40,6 +40,13 @@ private class TestPage
     label_for form.first_name, "My Label", class: "best-label"
   end
 
+  def label_with_block
+    label_for form.first_name do
+      strong "Have a thought?"
+      text "Post here for others to see:"
+    end
+  end
+
   private def form
     TestForm.new
   end
@@ -61,6 +68,10 @@ describe Lucky::LabelHelpers do
 
     view.label_with_custom_text_and_options.to_s.should contain <<-HTML
     <label for="user_first_name" class="best-label">My Label</label>
+    HTML
+
+    view.label_with_block.to_s.should contain <<-HTML
+    <label for="user_first_name"><strong>Have a thought?</strong>Post here for others to see:</label>
     HTML
   end
 end
