@@ -13,4 +13,10 @@ module Lucky::LabelHelpers
       merge_options(html_options, {"for" => input_id(field)})
     )
   end
+
+  def label_for(field : LuckyRecord::AllowedField, **html_options)
+    label(merge_options(html_options, {"for" => input_id(field)})) do
+      yield
+    end
+  end
 end
