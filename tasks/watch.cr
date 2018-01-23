@@ -1,10 +1,12 @@
 require "lucky_cli"
 require "option_parser"
 require "colorize"
+require "yaml"
 
 # Based on the sentry shard with some modifications to outut and build process.
 module Sentry
-  FILE_TIMESTAMPS = {} of String => String # {file => timestamp}
+  FILE_TIMESTAMPS    = {} of String => String # {file => timestamp}
+  YAML_SETTINGS_PATH = "./config/watch.yml"
 
   class ProcessRunner
     include LuckyCli::TextHelpers
@@ -52,7 +54,27 @@ module Sentry
     end
 
     private def proxy
-      "http://#{Lucky::Server.settings.host}:#{Lucky::Server.settings.port}"
+      "http://#{host}:#{port}"
+    end
+
+    private def host : String
+      settings["host"].as_s
+    end
+
+    private def port : Int32
+      settings["port"].as_i
+    end
+
+    private def settings
+      YAML.parse(yaml_settings_file)
+    end
+
+    private def yaml_settings_file
+      if File.exists?(YAML_SETTINGS_PATH)
+        File.read YAML_SETTINGS_PATH
+      else
+        raise "Expected config file for the watcher at #{YAML_SETTINGS_PATH}"
+      end
     end
 
     private def reload_browsersync
