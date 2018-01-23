@@ -4,6 +4,10 @@ version: 0.7.4
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
+targets:
+  watch:
+    main: src/precompiled_tasks/watch.cr
+
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
@@ -27,6 +31,13 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
+
+scripts:
+  postinstall: |
+    shards build
+    mkdir -p ../../bin/lucky
+    rm -f $(pwd)/../../bin/lucky/watch
+    ln -s $(pwd)/bin/watch $(pwd)/../../bin/lucky/watch
 
 crystal: 0.24.1
 
