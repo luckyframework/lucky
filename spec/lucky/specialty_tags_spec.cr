@@ -39,6 +39,12 @@ describe Lucky::SpecialtyTags do
     <meta charset="utf-8">
     HTML
   end
+
+  it "renders responsive meta tag" do
+    view.responsive_meta_tag.to_s.should contain <<-HTML
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    HTML
+  end
 end
 
 private def view

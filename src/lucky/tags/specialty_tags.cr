@@ -18,6 +18,10 @@ module Lucky::SpecialtyTags
     raw %(<meta charset="utf-8">)
   end
 
+  def responsive_meta_tag
+    raw %(<meta name="viewport" content="width=device-width, initial-scale=1">)
+  end
+
   def raw(string : String)
     @view << string
   end
