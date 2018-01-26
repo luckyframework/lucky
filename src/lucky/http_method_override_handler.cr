@@ -16,6 +16,6 @@ class Lucky::HttpMethodOverrideHandler
   end
 
   private def overridden_http_method(context)
-    Lucky::Params.new(context.request).get(:_method).try(&.upcase)
+    Lucky::Params.new(context.request).get?(:_method).try(&.upcase)
   end
 end
