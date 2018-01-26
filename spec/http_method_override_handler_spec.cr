@@ -17,11 +17,19 @@ describe Lucky::HttpMethodOverrideHandler do
     it "leaves as-is when GET with overriden method" do
       should_handle "GET", overridden_method: "delete", and_return: "GET"
     end
+
+    it "works when there is no overridden method" do
+      should_handle "GET", overridden_method: nil, and_return: "GET"
+    end
   end
 end
 
 private def should_handle(original_method, overridden_method, and_return expected_method)
-  request = build_request original_method, body: "_method=#{overridden_method}"
+  request = if overridden_method
+              build_request original_method, body: "_method=#{overridden_method}"
+            else
+              build_request original_method
+            end
   handler = Lucky::HttpMethodOverrideHandler.new.call(build_context(request: request))
   request.method.should eq expected_method
 end
