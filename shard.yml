@@ -7,6 +7,12 @@ authors:
 targets:
   watch:
     main: src/precompiled_tasks/watch.cr
+  model:
+    main: src/precompiled_tasks/gen/model.cr
+  action:
+    main: src/precompiled_tasks/gen/action.cr
+  secret_key:
+    main: src/precompiled_tasks/gen/secret_key.cr
 
 dependencies:
   lucky_cli:
@@ -37,7 +43,13 @@ scripts:
     shards build
     mkdir -p ../../bin/lucky
     rm -f $(pwd)/../../bin/lucky/watch
-    ln -s $(pwd)/bin/watch $(pwd)/../../bin/lucky/watch
+    rm -f $(pwd)/../../bin/lucky/model
+    rm -f $(pwd)/../../bin/lucky/action
+    rm -f $(pwd)/../../bin/lucky/secret_key
+    cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/action $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/model $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/
 
 crystal: 0.24.1
 
