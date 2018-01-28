@@ -1,3 +1,5 @@
+require "lucky_cli"
+require "teeplate"
 require "colorize"
 require "file_utils"
 

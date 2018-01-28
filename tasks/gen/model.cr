@@ -1,3 +1,8 @@
+require "lucky_cli"
+require "teeplate"
+require "./templates/model_template"
+require "lucky_inflector"
+
 class Gen::Model < LuckyCli::Task
   banner "Generate a model, query, and form"
   getter io : IO = STDOUT
