@@ -42,14 +42,15 @@ scripts:
   postinstall: |
     shards build
     mkdir -p ../../bin/lucky
+    mkdir -p ../../bin/lucky/gen
     rm -f $(pwd)/../../bin/lucky/watch
     rm -f $(pwd)/../../bin/lucky/model
     rm -f $(pwd)/../../bin/lucky/action
     rm -f $(pwd)/../../bin/lucky/secret_key
     cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
-    cp $(pwd)/bin/action $(pwd)/../../bin/lucky/
-    cp $(pwd)/bin/model $(pwd)/../../bin/lucky/
-    cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/action $(pwd)/../../bin/lucky/gen/
+    cp $(pwd)/bin/model $(pwd)/../../bin/lucky/gen/
+    cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/gen/
 
 crystal: 0.24.1
 
