@@ -2,11 +2,12 @@ require "lucky_cli"
 require "option_parser"
 require "colorize"
 require "yaml"
+require "../src/lucky/server_settings"
 
 # Based on the sentry shard with some modifications to outut and build process.
 module Sentry
-  FILE_TIMESTAMPS    = {} of String => String # {file => timestamp}
-  YAML_SETTINGS_PATH = "./config/watch.yml"
+  FILE_TIMESTAMPS  = {} of String => String # {file => timestamp}
+  BROWSERSYNC_PORT = 3001
 
   class ProcessRunner
     include LuckyCli::TextHelpers
@@ -46,46 +47,26 @@ module Sentry
 
     private def start_browsersync
       spawn do
-        Process.run "yarn run browser-sync start -c bs-config.js --port #{browsersync_port} -p #{proxy}",
+        Process.run "RUNNING_IN_BROWSERSYNC=true yarn run browser-sync start #{browsersync_options}",
           output: STDOUT,
           error: STDERR,
           shell: true
       end
     end
 
+    private def browsersync_options
+      "-c bs-config.js --port #{BROWSERSYNC_PORT} -p #{proxy}"
+    end
+
     private def proxy
-      "http://#{host}:#{port}"
-    end
-
-    private def host : String
-      settings["host"].as_s
-    end
-
-    private def port : Int32
-      settings["port"].as_i
-    end
-
-    private def settings
-      YAML.parse(yaml_settings_file)
-    end
-
-    private def yaml_settings_file
-      if File.exists?(YAML_SETTINGS_PATH)
-        File.read YAML_SETTINGS_PATH
-      else
-        raise "Expected config file for the watcher at #{YAML_SETTINGS_PATH}"
-      end
+      "http://#{Lucky::ServerSettings.host}:#{Lucky::ServerSettings.port}"
     end
 
     private def reload_browsersync
-      Process.run "yarn run browser-sync reload --port #{browsersync_port}",
+      Process.run "yarn run browser-sync reload --port #{BROWSERSYNC_PORT}",
         output: STDOUT,
         error: STDERR,
         shell: true
-    end
-
-    private def browsersync_port
-      3001
     end
 
     private def get_timestamp(file : String)
