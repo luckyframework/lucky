@@ -90,6 +90,15 @@ post.comments # Must preload comments
 post = PostQuery.new.preload_comments.find(id)
 post.comments
 ```
+* Rename `field` to `column` in your models. For example
+
+```crystal
+class Post < BaseModel
+  table :posts do
+    column title : String # was "field title : String" previously
+  end
+end
+```
 
 * Optionally include `responsive_meta_tag` in `MainLayout`
 
