@@ -3,7 +3,6 @@ require "./page_helpers/**"
 
 module Lucky::HTMLPage
   include Lucky::BaseTags
-  include Lucky::ButtonHelpers
   include Lucky::LinkHelpers
   include Lucky::FormHelpers
   include Lucky::LabelHelpers
