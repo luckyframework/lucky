@@ -121,7 +121,7 @@ More info at https://luckyframework.org/guides/saving-with-forms/#passing-data-w
 
 * Trap int in src/server.cr
 
-Add this to your `src/server.cr` before `server.list`
+Add this to your `src/server.cr` before `server.listen`
 
 ```crystal
 Signal::INT.trap do
