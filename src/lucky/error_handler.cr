@@ -1,3 +1,6 @@
+require "./error_action"
+require "./debug/debug_action"
+
 class Lucky::ErrorHandler
   include HTTP::Handler
 
@@ -14,19 +17,14 @@ class Lucky::ErrorHandler
     call_next(context)
   rescue error : Exception
     if settings.show_debug_output
-      print_debug_output(context, error)
+      status_code = 500
+      context.response.reset
+      context.response.status_code = status_code
+      Lucky::DebugAction.new(context).perform_action(error, status_code)
+      context
     else
       call_error_action(context, error)
     end
-  end
-
-  private def print_debug_output(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
-    context.response.reset
-    context.response.status_code = 500
-    context.response.content_type = "text/plain"
-    context.response.print("ERROR: ")
-    error.inspect_with_backtrace(context.response)
-    context
   end
 
   private def call_error_action(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context

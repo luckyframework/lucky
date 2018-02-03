@@ -1,4 +1,8 @@
-require "./*"
+require "./action_delegates"
+require "./renderable"
+require "./redirectable"
+require "./content_type_helpers"
+require "./exposable"
 
 abstract class Lucky::ErrorAction
   include Lucky::ActionDelegates
