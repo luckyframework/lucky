@@ -119,6 +119,8 @@ UserForm.create!(name: "Jane")
 
 More info at https://luckyframework.org/guides/saving-with-forms/#passing-data-without-route-params
 
+* Change calls to `form.save_succeeded?` to `form.saved?`
+
 * Trap int in src/server.cr
 
 Add this to your `src/server.cr` before `server.list`
