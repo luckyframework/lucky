@@ -24,6 +24,7 @@ describe Lucky::BaseTags do
     view.para(42).to_s.should contain "<p>42</p>"
     view.para(MySpecialClass.new).to_s.should contain "<p>it works</p>"
     view.para(1_i64).to_s.should contain "<p>1</p>"
+    view.hr.to_s.should contain "<hr/>"
   end
 
   describe "#style" do
