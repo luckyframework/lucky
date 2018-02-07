@@ -52,6 +52,12 @@ module Lucky::HTMLPage
     {% raise "Lucky now looks for a regular `def render` method. Please use that instead of `render do/end`" %}
   end
 
+  macro render_if_defined(method_name)
+    if self.responds_to?(:{{ method_name.id }})
+      self.{{ method_name.id }}()
+    end
+  end
+
   def perform_render : IO::Memory
     render
     @view
