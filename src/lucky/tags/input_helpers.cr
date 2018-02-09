@@ -26,6 +26,10 @@ module Lucky::InputHelpers
     generate_input(field, "email", html_options)
   end
 
+  def file_input(field : LuckyRecord::AllowedField, **html_options)
+    generate_input(field, "file", html_options)
+  end
+
   def color_input(field : LuckyRecord::AllowedField, **html_options)
     generate_input(field, "color", html_options)
   end
