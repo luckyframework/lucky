@@ -1,0 +1,65 @@
+require "lucky_cli"
+require "teeplate"
+require "colorize"
+require "file_utils"
+
+class Lucky::PageTemplate < Teeplate::FileTree
+  @page_filename : String
+  @page_class : String
+
+  directory "#{__DIR__}/templates/page"
+
+  def initialize(@page_filename, @page_class)
+  end
+end
+
+class Gen::Page < LuckyCli::Task
+  banner "Generate a new page"
+
+  def call(io : IO = STDOUT)
+    if error
+      io.puts error.colorize(:red)
+    else
+      Lucky::PageTemplate.new(page_filename, page_class).render(output_path)
+      io.puts success_message
+    end
+  end
+
+  private def error
+    missing_name_error || invalid_page_format_error
+  end
+
+  private def missing_name_error
+    if ARGV.first?.nil?
+      "Page name is required."
+    end
+  end
+
+  private def invalid_page_format_error
+    if !page_class.includes?("::") || !page_class.ends_with?("Page")
+      "That's not a valid Page. Example: lucky gen.page Users::IndexPage"
+    end
+  end
+
+  private def page_class
+    ARGV.first
+  end
+
+  private def page_filename
+    page_class.split("::").last.underscore.downcase
+  end
+
+  private def output_path
+    page_parts = page_class.split("::")
+    page_parts.pop
+    "./src/pages/#{page_parts.map(&.underscore).map(&.downcase).join("/")}"
+  end
+
+  private def output_path_with_filename
+    output_path + "/" + page_filename + ".cr"
+  end
+
+  private def success_message
+    "Done generating #{page_class.colorize(:green)} in #{output_path_with_filename.colorize(:green)}"
+  end
+end
