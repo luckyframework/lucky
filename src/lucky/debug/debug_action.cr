@@ -113,6 +113,8 @@ class Lucky::DebugAction
               }
             }
             setupClickListeners();
+            hideAllLines();
+            showLinesWithClasses(['app']);
           }())
         JS
       end
