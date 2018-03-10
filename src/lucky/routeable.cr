@@ -126,8 +126,16 @@ module Lucky::Routeable
     PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
 
     macro inherited
-      PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
+      inherit_param_declarations
     end
+  end
+
+  macro inherit_param_declarations
+    PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
+
+    \{% for param_declaration in @type.ancestors.first.constant :PARAM_DECLARATIONS %}
+      \{% PARAM_DECLARATIONS << param_declaration %}
+    \{% end %}
   end
 
   macro param(type_declaration)

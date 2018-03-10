@@ -90,6 +90,16 @@ class RequiredParams::Index < Lucky::Action
   end
 end
 
+abstract class BaseActionWithParams < Lucky::Action
+  param inherit_me : String
+end
+
+class InheritedParams::Index < BaseActionWithParams
+  action do
+    text "inherited param: #{inherit_me}"
+  end
+end
+
 class OptionalParams::Index < Lucky::Action
   param page : Int32?
   param with_default : String? = "default"
@@ -186,6 +196,10 @@ describe Lucky::Action do
     it "raises for missing required params" do
       action = RequiredParams::Index.new(build_context(path: ""), params)
       expect_raises(Lucky::Exceptions::MissingParam) { action.required_page }
+    end
+
+    it "can inherit params" do
+      InheritedParams::Index.path(inherit_me: "inherited").should eq "/inherited_params?inherit_me=inherited"
     end
   end
 
