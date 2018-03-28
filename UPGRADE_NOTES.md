@@ -177,6 +177,14 @@ The error handling action now supports more errors and renders better output.
 Copy the contents of the linked file to `src/actions/errors/show.cr`
 https://github.com/luckyframework/lucky_cli/blob/a25472cc7461b1803735d086e57a632f92f93a1c/src/web_app_skeleton/src/actions/errors/show.cr
 
+* Require serializers
+
+Adding the following to `src/app.cr`.
+
+```crystal
+require "./serializers/**"
+```
+
 ### Upgrading from 0.6 to 0.7
 
 * Update to Crystal v0.24.1. Lucky will fail on earlier versions
