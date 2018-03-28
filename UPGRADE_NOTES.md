@@ -179,7 +179,7 @@ https://github.com/luckyframework/lucky_cli/blob/a25472cc7461b1803735d086e57a632
 
 * Require serializers
 
-Adding the following to `src/app.cr`.
+Add the following to `src/app.cr`.
 
 ```crystal
 require "./serializers/**"
