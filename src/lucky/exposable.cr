@@ -78,6 +78,33 @@ module Lucky::Exposeable
   #   end
   # end
   # ```
+  #
+  # ## Exposing private methods
+  #
+  # Also useful is the ability to make a private method available:
+  #
+  # ```
+  # class Messages::Show < BrowserAction
+  #   expose message
+  #
+  #   action do
+  #     render ShowPage
+  #   end
+  #
+  #   private def message
+  #     MessageQuery.find(id)
+  #   end
+  # end
+  # ```
+  #
+  # Using `expose` here will pass `message` to the `ShowPage`, while keeping the
+  # method private. Without `expose` the action would look like this:
+  #
+  # ```
+  # action do
+  #   render ShowPage, message: message
+  # end
+  # ```
   macro expose(method_name)
     {% EXPOSURES << method_name.id %}
   end
