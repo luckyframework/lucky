@@ -40,7 +40,7 @@ module Lucky::HTMLPage
     {% if !@type.abstract? %}
       def initialize(
         {% for var, type in ASSIGNS %}
-          @{{ var }} : {{ type }},
+          {% if var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }},
         {% end %}
         )
       end
