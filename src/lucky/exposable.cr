@@ -15,6 +15,69 @@ module Lucky::Exposeable
     \{% end %}
   end
 
+  # Sends the result of a method to the page as if it was passed as an argument.
+  #
+  # Imagine having data that is used by many actions across your app, such
+  # as the current user. It can get tedious to pass that data for every action.
+  # The `expose` macro will make sure that whatever data you need is passed
+  # automatically.
+  #
+  # Here's what things might look like without `expose`:
+  #
+  # ```
+  # class BrowserAction
+  #   def current_user
+  #     # some way to find the current user
+  #   end
+  # end
+  # ```
+  #
+  # Each action must pass `current_user` manually. Note that each action
+  # inherits from `BrowserAction` and therefore has access to `current_user`:
+  #
+  # ```
+  # class Messages::Index < BrowserAction
+  #   action do
+  #     render IndexPage, current_user: current_user
+  #   end
+  # end
+  #
+  # class Messages::New < BrowserAction
+  #   action do
+  #     render NewPage, current_user: current_user
+  #   end
+  # end
+  # ```
+  #
+  # Passing `current_user: current_user` every time gets pretty old. Enter
+  # `expose`:
+  #
+  # ```
+  # class BrowserAction
+  #   expose current_user
+  #
+  #   def current_user
+  #     # some way to find the current user
+  #   end
+  # end
+  # ```
+  #
+  # Now our actions are much nicer, especially when we start to have multiple
+  # arguments for each action:
+  #
+  # ```
+  # class Messages::Index < BrowserAction
+  #   action do
+  #     render IndexPage
+  #   end
+  # end
+  #
+  # class Messages::New < BrowserAction
+  #   action do
+  #     render NewPage
+  #   end
+  # end
+  # ```
   macro expose(method_name)
     {% EXPOSURES << method_name.id %}
   end
