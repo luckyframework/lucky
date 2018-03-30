@@ -1,6 +1,5 @@
 # These helpers check HTTP headers to determine "content type". Most check the
-# Content-Type header, check other information, such as the `X-Requested-With`
-# header.
+# Content-Type header, but some check other headers, such as `X-Requested-With`.
 module Lucky::ContentTypeHelpers
   abstract def content_type : String
   abstract def headers : HTTP::Headers
