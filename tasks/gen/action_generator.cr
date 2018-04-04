@@ -1,24 +1,27 @@
-require "lucky_cli"
-require "teeplate"
 require "colorize"
 require "file_utils"
 
 class Lucky::ActionTemplate < Teeplate::FileTree
   @name : String
   @action : String
+  @inherit_from : String
 
   directory "#{__DIR__}/templates/action"
 
-  def initialize(@name, @action)
+  def initialize(@name, @action, @inherit_from)
   end
 end
 
-class Gen::Action < LuckyCli::Task
+class Gen::ActionGenerator < LuckyCli::Task
   banner "Generate a new action"
 
-  def call(io : IO = STDOUT)
+  def call
+
+  end
+
+  private def render_action_template(io, inherit_from : String)
     if valid?
-      Lucky::ActionTemplate.new(action_name, action).render(output_path)
+      Lucky::ActionTemplate.new(action_name, action, inherit_from).render(output_path)
       io.puts success_message
     else
       io.puts @error.colorize(:red)
