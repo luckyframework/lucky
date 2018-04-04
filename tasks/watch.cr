@@ -16,7 +16,7 @@ module Sentry
     getter app_processes = [] of Process
     property successful_compilations
     property app_built
-    property reload_browser
+    property? reload_browser
 
     @app_built : Bool = false
     @successful_compilations : Int32 = 0
@@ -41,12 +41,16 @@ module Sentry
       end
 
       self.successful_compilations += 1
-      if @reload_browser
-        if successful_compilations == 1
-          start_browsersync
-        else
-          reload_browsersync
-        end
+      if reload_browser?
+        reload_or_start_browser_sync
+      end
+    end
+
+    private def reload_or_start_browser_sync
+      if successful_compilations == 1
+        start_browsersync
+      else
+        reload_browsersync
       end
     end
 
