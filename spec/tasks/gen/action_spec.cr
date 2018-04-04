@@ -20,6 +20,23 @@ describe Gen::Action do
     end
   end
 
+  it "generates a basic api action" do
+    with_cleanup do
+      io = IO::Memory.new
+      valid_action_name = "Users::Index"
+      ARGV.push(valid_action_name)
+
+      Gen::Action::Api.new.call(io)
+
+      index_action = File.read("./src/actions/users/index.cr")
+      index_action.should contain(valid_action_name)
+      index_action.should contain("< ApiAction")
+
+      io.to_s.should contain(valid_action_name)
+      io.to_s.should contain("/src/actions/users")
+    end
+  end
+
   it "generates a nested api action" do
     with_cleanup do
       io = IO::Memory.new
