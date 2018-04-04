@@ -16,7 +16,6 @@ class Gen::ActionGenerator < LuckyCli::Task
   banner "Generate a new action"
 
   def call
-
   end
 
   private def render_action_template(io, inherit_from : String)
