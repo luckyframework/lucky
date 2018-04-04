@@ -3,6 +3,7 @@ require "option_parser"
 require "colorize"
 require "yaml"
 require "../src/lucky/server_settings"
+require "option_parser"
 
 # Based on the sentry shard with some modifications to outut and build process.
 module Sentry
@@ -15,11 +16,13 @@ module Sentry
     getter app_processes = [] of Process
     property successful_compilations
     property app_built
+    property? reload_browser
 
     @app_built : Bool = false
     @successful_compilations : Int32 = 0
 
     def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String))
+      parse_options
       @build_commands = build_commands
       @run_commands = run_commands
       @files = files
@@ -38,6 +41,12 @@ module Sentry
       end
 
       self.successful_compilations += 1
+      if reload_browser?
+        reload_or_start_browser_sync
+      end
+    end
+
+    private def reload_or_start_browser_sync
       if successful_compilations == 1
         start_browsersync
       else
@@ -148,6 +157,19 @@ class Watch < LuckyCli::Task
     loop do
       process_runner.scan_files
       sleep 0.1
+    end
+  end
+
+  private def parse_options
+    OptionParser.parse! do |parser|
+      parser.banner = "Usage: lucky watch [arguments]"
+      parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
+        @reload_browser = true
+      }
+      parser.on("-h", "--help", "Help here") {
+        puts parser
+        exit(0)
+      }
     end
   end
 end
