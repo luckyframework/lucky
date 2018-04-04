@@ -8,9 +8,8 @@ describe Gen::Action do
       valid_action_name = "Users::Index"
       io = generate valid_action_name, Gen::Action::Browser
 
-      index_action = File.read("./src/actions/users/index.cr")
-      index_action.should contain(valid_action_name)
-      index_action.should contain("< BrowserAction")
+      filename = "./src/actions/users/index.cr"
+      should_have_generated "#{valid_action_name} < BrowserAction", inside: filename
 
       io.to_s.should contain(valid_action_name)
       io.to_s.should contain("/src/actions/users")
@@ -22,9 +21,8 @@ describe Gen::Action do
       valid_action_name = "Users::Index"
       io = generate valid_action_name, Gen::Action::Api
 
-      index_action = File.read("./src/actions/users/index.cr")
-      index_action.should contain(valid_action_name)
-      index_action.should contain("< ApiAction")
+      filename = "./src/actions/users/index.cr"
+      should_have_generated "#{valid_action_name} < ApiAction", inside: filename
 
       io.to_s.should contain(valid_action_name)
       io.to_s.should contain("/src/actions/users")
@@ -36,9 +34,8 @@ describe Gen::Action do
       valid_nested_action_name = "Users::Announcements::Index"
       io = generate valid_nested_action_name, Gen::Action::Browser
 
-      index_action = File.read("src/actions/users/announcements/index.cr")
-      index_action.should contain(valid_nested_action_name)
-      index_action.should contain("< BrowserAction")
+      filename = "src/actions/users/announcements/index.cr"
+      should_have_generated "#{valid_nested_action_name} < BrowserAction", inside: filename
 
       io.to_s.should contain(valid_nested_action_name)
       io.to_s.should contain("/src/actions/users/announcements")
@@ -48,9 +45,8 @@ describe Gen::Action do
       valid_nested_action_name = "Users::Announcements::Index"
       io = generate valid_nested_action_name, Gen::Action::Api
 
-      index_action = File.read("src/actions/users/announcements/index.cr")
-      index_action.should contain(valid_nested_action_name)
-      index_action.should contain("< ApiAction")
+      filename = "src/actions/users/announcements/index.cr"
+      should_have_generated "#{valid_nested_action_name} < ApiAction", inside: filename
 
       io.to_s.should contain(valid_nested_action_name)
       io.to_s.should contain("/src/actions/users/announcements")
@@ -61,8 +57,7 @@ describe Gen::Action do
         valid_camel_case_action_name = "Users::HostedEvents"
         io = generate valid_camel_case_action_name, Gen::Action::Browser
 
-        File.read("src/actions/users/hosted_events.cr")
-            .should contain(valid_camel_case_action_name)
+        should_have_generated valid_camel_case_action_name, inside: "src/actions/users/hosted_events.cr"
         io.to_s.should contain(valid_camel_case_action_name)
         io.to_s.should contain("/src/actions/users")
       end
@@ -89,4 +84,8 @@ private def generate(name, generator : Class)
   io = IO::Memory.new
   generator.new.call(io)
   io
+end
+
+private def should_have_generated(text, inside)
+  File.read(inside).should contain(text)
 end
