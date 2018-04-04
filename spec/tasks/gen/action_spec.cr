@@ -37,7 +37,22 @@ describe Gen::Action do
     end
   end
 
-  it "generates a nested api action" do
+  it "generates nested browser and api actions" do
+    with_cleanup do
+      io = IO::Memory.new
+      valid_nested_action_name = "Users::Announcements::Index"
+      ARGV.push(valid_nested_action_name)
+
+      Gen::Action::Browser.new.call(io)
+
+      index_action = File.read("src/actions/users/announcements/index.cr")
+      index_action.should contain(valid_nested_action_name)
+      index_action.should contain("< BrowserAction")
+
+      io.to_s.should contain(valid_nested_action_name)
+      io.to_s.should contain("/src/actions/users/announcements")
+    end
+
     with_cleanup do
       io = IO::Memory.new
       valid_nested_action_name = "Users::Announcements::Index"
