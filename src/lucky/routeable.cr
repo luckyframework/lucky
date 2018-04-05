@@ -33,6 +33,33 @@ module Lucky::Routeable
     setup_call_method({{ yield }})
   end
 
+  # Define a route that responds to the appropriate HTTP request automatically
+  #
+  # A route needs a few pieces of information to be created:
+  #
+  # * The HTTP method, like `GET`, `POST`, `DELETE`, etc.
+  # * The path, such as `/users/:id`
+  # * The class to route to, like `Users::Show`
+  #
+  # The `action` method will try to determine these pieces of information based
+  # the class name. After it knows the class, Lucky will transform the full
+  # class name to figure out the path, i.e. removing the `::` separators and
+  # adding underscores. The method is found via the last part of the class name:
+  #
+  # * `Index` -> `GET`
+  # * `Show` -> `GET`
+  # * `New` -> `GET`
+  # * `Create` -> `POST`
+  # * `Edit` -> `GET`
+  # * `Update` -> `PUT`
+  # * `Delete` -> `DELETE`
+  #
+  # If you are using a non-restful action name you should use the `get`, `put`,
+  # `post`, or `delete` methods. Otherwise you will see an error like this:
+  #
+  # ```text
+  # Could not infer route for User::ImageUploads
+  # ```
   macro action(singular = false)
     infer_route(singular: {{ singular }})
 
