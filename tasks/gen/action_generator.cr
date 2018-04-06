@@ -12,12 +12,7 @@ class Lucky::ActionTemplate < Teeplate::FileTree
   end
 end
 
-class Gen::ActionGenerator < LuckyCli::Task
-  banner "Generate a new action"
-
-  def call
-  end
-
+module Gen::ActionGenerator
   private def render_action_template(io, inherit_from : String)
     if valid?
       Lucky::ActionTemplate.new(action_name, action, inherit_from).render(output_path)
