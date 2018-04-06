@@ -1,5 +1,17 @@
 module Lucky::Routeable
   {% for http_method in [:get, :put, :post, :delete] %}
+    # Define a route that responds to a {{ http_method.id.upcase }} request
+    #
+    # Use these methods if you are not using a restful route or a custom path.
+    # For example:
+    # ```
+    # class Profile::ImageUpload
+    #   {{ http_method.id }} "/profile/image/:id" do
+    #     # action code here
+    #   end
+    # end
+    # ```
+    # will respond to an `HTTP {{ http_method.id.upcase }}` request.
     macro {{ http_method.id }}(path)
       add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
 
