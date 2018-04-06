@@ -1,4 +1,4 @@
-class <%= @name %> < BrowserAction
+class <%= @name %> < <%= @inherit_from %>
   action do
     text "Render something in <%= @name %>"
   end
