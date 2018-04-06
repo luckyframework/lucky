@@ -39,6 +39,21 @@ module Lucky::Routeable
     end
   end
 
+  # Define a nested route that responds to the appropriate HTTP request
+  # automatically
+  #
+  # This works similarly to `action` but it will provide multiple parameters.
+  # For example:
+  # ```
+  # class Posts::Comments::Show
+  #   nested_action do
+  #     render_text "Post: #{post_id}, Comment: #{id}"
+  #   end
+  # end
+  # ```
+  #
+  # **Note:** The `singular` option will likely be removed soon. Try `get`,
+  # `post`, `put`, and `delete` with a custom path instead.
   macro nested_action(singular = false)
     infer_nested_route(singular: {{ singular }})
 
