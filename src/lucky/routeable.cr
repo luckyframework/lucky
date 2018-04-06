@@ -1,3 +1,4 @@
+# Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routeable
   {% for http_method in [:get, :put, :post, :delete] %}
     # Define a route that responds to a {{ http_method.id.upcase }} request
