@@ -13,6 +13,7 @@ module Lucky::Routeable
     #   end
     # end
     # ```
+    #
     # will respond to an `HTTP {{ http_method.id.upcase }}` request.
     #
     # **See also** our guides for more information and examples:
@@ -50,6 +51,7 @@ module Lucky::Routeable
   #
   # This works similarly to `action` but it will provide multiple parameters.
   # For example:
+  #
   # ```
   # class Posts::Comments::Show
   #   nested_action do
