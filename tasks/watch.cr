@@ -16,13 +16,12 @@ module Sentry
     getter app_processes = [] of Process
     property successful_compilations
     property app_built
-    property? reload_browser
+    property? reload_browser : Bool = false
 
     @app_built : Bool = false
     @successful_compilations : Int32 = 0
 
     def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String))
-      parse_options
       @build_commands = build_commands
       @run_commands = run_commands
       @files = files
@@ -142,6 +141,8 @@ class Watch < LuckyCli::Task
   banner "Start and recompile project when files change"
 
   def call
+    parse_options
+
     build_commands = ["crystal build ./src/server.cr"]
     run_commands = ["./server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
