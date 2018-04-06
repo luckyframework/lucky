@@ -192,6 +192,30 @@ module Lucky::Routeable
     \{% end %}
   end
 
+  # Access a query parameter
+  #
+  # This will allow any action to accept and access query parameters. By
+  # default query parameters are ignored, but adding a `param` will make them
+  # available:
+  # ```
+  # class Posts::Index < BrowserAction
+  #   param page : Int32 = 1
+  #
+  #   action do
+  #     render_text "Posts - Page #{page}"
+  #   end
+  # end
+  # ```
+  #
+  # Visiting `/posts?page=10` would render the following:
+  #
+  # ```text
+  # Posts - Page 10
+  # ```
+  #
+  # Additionally, these parameters are typed. The path `/posts?page=ten` will
+  # raise a `Lucky::Exceptions::InvalidParam` error because `ten` is a string
+  # not an Int32.
   macro param(type_declaration)
     {% PARAM_DECLARATIONS << type_declaration %}
 
