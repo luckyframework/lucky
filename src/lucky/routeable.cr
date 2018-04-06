@@ -19,6 +19,7 @@ module Lucky::Routeable
     end
   {% end %}
 
+  # :nodoc:
   macro setup_call_method(body)
     def call
       callback_result = run_before_callbacks
@@ -93,14 +94,17 @@ module Lucky::Routeable
     setup_call_method({{ yield }})
   end
 
+  # :nodoc:
   macro infer_nested_route(singular = false)
     infer_route(has_parent: true, singular: singular)
   end
 
+  # :nodoc:
   macro infer_route(has_parent = false, singular = false)
     {{ run "../run_macros/infer_route", @type.name, has_parent, singular }}
   end
 
+  # :nodoc:
   macro add_route(method, path, action)
     Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
 
@@ -184,6 +188,7 @@ module Lucky::Routeable
     end
   end
 
+  # :nodoc:
   macro inherit_param_declarations
     PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
 
