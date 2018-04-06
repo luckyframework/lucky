@@ -14,6 +14,9 @@ module Lucky::Routeable
     # end
     # ```
     # will respond to an `HTTP {{ http_method.id.upcase }}` request.
+    #
+    # **See also** our guides for more information and examples:
+    # * [Routing](https://luckyframework.org/guides/actions-and-routing/#routing)
     macro {{ http_method.id }}(path)
       add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
 
