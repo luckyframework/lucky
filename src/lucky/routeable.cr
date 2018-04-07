@@ -72,7 +72,17 @@ module Lucky::Routeable
 
   # Define a route that responds to the appropriate HTTP request automatically
   #
-  # A route needs a few pieces of information to be created:
+  # ```
+  # class Posts::Show
+  #   action do
+  #     render_text "Post: #{id}"
+  #   end
+  # end
+  # ```
+  #
+  # This action responds to the `/posts/:id` path.
+  #
+  # Each route needs a few pieces of information to be created:
   #
   # * The HTTP method, like `GET`, `POST`, `DELETE`, etc.
   # * The path, such as `/users/:id`
@@ -97,6 +107,10 @@ module Lucky::Routeable
   # ```text
   # Could not infer route for User::ImageUploads
   # ```
+  #
+  # **See also** our guides for more information and examples:
+  # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes)
+  # * [Examples of automatically generated routes](https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes)
   macro action(singular = false)
     infer_route(singular: {{ singular }})
 
