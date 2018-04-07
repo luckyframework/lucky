@@ -60,6 +60,8 @@ module Lucky::Routeable
   # end
   # ```
   #
+  # This action responds to the `/posts/:post_id/comments/:id` path.
+  #
   # **Note:** The `singular` option will likely be removed soon. Try `get`,
   # `post`, `put`, and `delete` with a custom path instead.
   macro nested_action(singular = false)
