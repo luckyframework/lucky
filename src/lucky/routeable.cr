@@ -220,11 +220,10 @@ module Lucky::Routeable
     \{% end %}
   end
 
-  # Access a query parameter
+  # Access additional parameter
   #
-  # This will allow any action to accept and access query parameters. By
-  # default query parameters are ignored, but adding a `param` will make them
-  # available:
+  # When a query parameter or POST data is passed to an action, it is stored in the params object. But accessing it from the params object isn't type safe. Enter `param`. It checks the given param's type and makes it easily available inside the action.
+  #
   # ```
   # class Posts::Index < BrowserAction
   #   param page : Int32 = 1
@@ -235,15 +234,31 @@ module Lucky::Routeable
   # end
   # ```
   #
-  # Visiting `/posts?page=10` would render the following:
+  # Visiting `/posts?page=10` would render the above action like this:
   #
   # ```text
   # Posts - Page 10
   # ```
   #
-  # Additionally, these parameters are typed. The path `/posts?page=ten` will
-  # raise a `Lucky::Exceptions::InvalidParam` error because `ten` is a string
-  # not an Int32.
+  # This works behind the scenes by creating a `page` method in the action to access the parameter.
+  #
+  # These parameters are also typed. The path `/posts?page=ten` will raise a `Lucky::Exceptions::InvalidParam` error because `ten` is a String not an Int32.
+  #
+  # Additionally, if the param is non-optional it will raise the
+  # `Lucky::Exceptions::MissingParam` error.
+  #
+  # ```
+  # class UserConfirmations::New
+  #   param token : String # this param is required!
+  #
+  #   action do
+  #     # confirm the user with their `token`
+  #   end
+  # end
+  # ```
+  #
+  # When visiting this page, the path _must_ contain the token parameter:
+  # `/user_confirmations?token=abc123`
   macro param(type_declaration)
     {% PARAM_DECLARATIONS << type_declaration %}
 
