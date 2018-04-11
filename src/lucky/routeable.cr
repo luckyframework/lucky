@@ -220,32 +220,45 @@ module Lucky::Routeable
     \{% end %}
   end
 
-  # Access additional parameter
+  # Access query and POST parameters
   #
-  # When a query parameter or POST data is passed to an action, it is stored in the params object. But accessing it from the params object isn't type safe. Enter `param`. It checks the given param's type and makes it easily available inside the action.
+  # When a query parameter or POST data is passed to an action, it is stored in
+  # the params object. But accessing the param directly from the params object
+  # isn't type safe. Enter `param`. It checks the given param's type and makes
+  # it easily available inside the action.
   #
   # ```
   # class Posts::Index < BrowserAction
-  #   param page : Int32 = 1
+  #   param page : Int32?
   #
   #   action do
-  #     render_text "Posts - Page #{page}"
+  #     render_text "Posts - Page #{page || 1}"
   #   end
   # end
   # ```
   #
-  # Visiting `/posts?page=10` would render the above action like this:
+  # To generate a link with a param, use the `with` method:
+  # `Posts::Index.with(10).path` which will generate `/posts?page=10`. Visiting
+  # that path would render the above action like this:
   #
   # ```text
   # Posts - Page 10
   # ```
   #
-  # This works behind the scenes by creating a `page` method in the action to access the parameter.
+  # This works behind the scenes by creating a `page` method in the action to
+  # access the parameter.
   #
-  # These parameters are also typed. The path `/posts?page=ten` will raise a `Lucky::Exceptions::InvalidParam` error because `ten` is a String not an Int32.
+  # **Note:** Params can also have a default, but then their routes will not
+  # include the parameter in the query string. Using the `with(10)` method for a
+  # param like this:
+  # `param page : Int32 = 1` will only generate `/posts`.
+  #
+  # These parameters are also typed. The path `/posts?page=ten` will raise a
+  # `Lucky::Exceptions::InvalidParam` error because `ten` is a String not an
+  # Int32.
   #
   # Additionally, if the param is non-optional it will raise the
-  # `Lucky::Exceptions::MissingParam` error.
+  # `Lucky::Exceptions::MissingParam` error if the required param is absent:
   #
   # ```
   # class UserConfirmations::New
