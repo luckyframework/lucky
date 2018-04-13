@@ -1,5 +1,23 @@
+# Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routeable
   {% for http_method in [:get, :put, :post, :delete] %}
+    # Define a route that responds to a {{ http_method.id.upcase }} request
+    #
+    # Use these methods if you need a custom path or are using a non-restful
+    # route. For example:
+    #
+    # ```
+    # class Profile::ImageUpload
+    #   {{ http_method.id }} "/profile/image/:id" do
+    #     # action code here
+    #   end
+    # end
+    # ```
+    #
+    # will respond to an `HTTP {{ http_method.id.upcase }}` request.
+    #
+    # **See also** our guides for more information and examples:
+    # * [Routing](https://luckyframework.org/guides/actions-and-routing/#routing)
     macro {{ http_method.id }}(path)
       add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
 
@@ -7,6 +25,7 @@ module Lucky::Routeable
     end
   {% end %}
 
+  # :nodoc:
   macro setup_call_method(body)
     def call
       callback_result = run_before_callbacks
@@ -27,26 +46,88 @@ module Lucky::Routeable
     end
   end
 
+  # Define a nested route that responds to the appropriate HTTP request
+  # automatically
+  #
+  # This works similarly to `action` but it will provide multiple parameters.
+  # For example:
+  #
+  # ```
+  # class Posts::Comments::Show
+  #   nested_action do
+  #     render_text "Post: #{post_id}, Comment: #{id}"
+  #   end
+  # end
+  # ```
+  #
+  # This action responds to the `/posts/:post_id/comments/:id` path.
+  #
+  # **Note:** The `singular` option will likely be removed soon. Try `get`,
+  # `post`, `put`, and `delete` with a custom path instead.
   macro nested_action(singular = false)
     infer_nested_route(singular: {{ singular }})
 
     setup_call_method({{ yield }})
   end
 
+  # Define a route that responds to the appropriate HTTP request automatically
+  #
+  # ```
+  # class Posts::Show
+  #   action do
+  #     render_text "Post: #{id}"
+  #   end
+  # end
+  # ```
+  #
+  # This action responds to the `/posts/:id` path.
+  #
+  # Each route needs a few pieces of information to be created:
+  #
+  # * The HTTP method, like `GET`, `POST`, `DELETE`, etc.
+  # * The path, such as `/users/:id`
+  # * The class to route to, like `Users::Show`
+  #
+  # The `action` method will try to determine these pieces of information based
+  # the class name. After it knows the class, Lucky will transform the full
+  # class name to figure out the path, i.e. removing the `::` separators and
+  # adding underscores. The method is found via the last part of the class name:
+  #
+  # * `Index` -> `GET`
+  # * `Show` -> `GET`
+  # * `New` -> `GET`
+  # * `Create` -> `POST`
+  # * `Edit` -> `GET`
+  # * `Update` -> `PUT`
+  # * `Delete` -> `DELETE`
+  #
+  # If you are using a non-restful action name you should use the `get`, `put`,
+  # `post`, or `delete` methods. Otherwise you will see an error like this:
+  #
+  # ```text
+  # Could not infer route for User::ImageUploads
+  # ```
+  #
+  # **See also** our guides for more information and examples:
+  # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes)
+  # * [Examples of automatically generated routes](https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes)
   macro action(singular = false)
     infer_route(singular: {{ singular }})
 
     setup_call_method({{ yield }})
   end
 
+  # :nodoc:
   macro infer_nested_route(singular = false)
     infer_route(has_parent: true, singular: singular)
   end
 
+  # :nodoc:
   macro infer_route(has_parent = false, singular = false)
     {{ run "../run_macros/infer_route", @type.name, has_parent, singular }}
   end
 
+  # :nodoc:
   macro add_route(method, path, action)
     Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
 
@@ -130,6 +211,7 @@ module Lucky::Routeable
     end
   end
 
+  # :nodoc:
   macro inherit_param_declarations
     PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
 
@@ -138,6 +220,58 @@ module Lucky::Routeable
     \{% end %}
   end
 
+  # Access query and POST parameters
+  #
+  # When a query parameter or POST data is passed to an action, it is stored in
+  # the params object. But accessing the param directly from the params object
+  # isn't type safe. Enter `param`. It checks the given param's type and makes
+  # it easily available inside the action.
+  #
+  # ```
+  # class Posts::Index < BrowserAction
+  #   param page : Int32?
+  #
+  #   action do
+  #     render_text "Posts - Page #{page || 1}"
+  #   end
+  # end
+  # ```
+  #
+  # To generate a link with a param, use the `with` method:
+  # `Posts::Index.with(10).path` which will generate `/posts?page=10`. Visiting
+  # that path would render the above action like this:
+  #
+  # ```text
+  # Posts - Page 10
+  # ```
+  #
+  # This works behind the scenes by creating a `page` method in the action to
+  # access the parameter.
+  #
+  # **Note:** Params can also have a default, but then their routes will not
+  # include the parameter in the query string. Using the `with(10)` method for a
+  # param like this:
+  # `param page : Int32 = 1` will only generate `/posts`.
+  #
+  # These parameters are also typed. The path `/posts?page=ten` will raise a
+  # `Lucky::Exceptions::InvalidParam` error because `ten` is a String not an
+  # Int32.
+  #
+  # Additionally, if the param is non-optional it will raise the
+  # `Lucky::Exceptions::MissingParam` error if the required param is absent:
+  #
+  # ```
+  # class UserConfirmations::New
+  #   param token : String # this param is required!
+  #
+  #   action do
+  #     # confirm the user with their `token`
+  #   end
+  # end
+  # ```
+  #
+  # When visiting this page, the path _must_ contain the token parameter:
+  # `/user_confirmations?token=abc123`
   macro param(type_declaration)
     {% PARAM_DECLARATIONS << type_declaration %}
 
