@@ -1,3 +1,6 @@
+require "lucky_cli"
+require "./action_generator"
+
 class Gen::Action::Api < LuckyCli::Task
   include Gen::ActionGenerator
 
