@@ -1,12 +1,13 @@
 require "colorize"
 require "file_utils"
+require "teeplate"
 
 class Lucky::ActionTemplate < Teeplate::FileTree
   @name : String
   @action : String
   @inherit_from : String
 
-  directory "#{__DIR__}/templates/action"
+  directory "#{__DIR__}/../templates/action"
 
   def initialize(@name, @action, @inherit_from)
   end
