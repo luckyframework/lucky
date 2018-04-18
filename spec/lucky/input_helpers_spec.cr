@@ -14,7 +14,7 @@ class InputTestForm
       value: "",
       form_name: "user"
     )
-    LuckyRecord::AllowedField.new(field)
+    LuckyRecord::FillableField.new(field)
   end
 end
 
