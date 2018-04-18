@@ -30,7 +30,7 @@ class SomeFormWithCompany
       value: "",
       form_name: "company"
     )
-    LuckyRecord::AllowedField.new(field)
+    LuckyRecord::FillableField.new(field)
   end
 end
 

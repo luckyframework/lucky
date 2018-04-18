@@ -3,14 +3,14 @@ module Lucky::InputHelpers
     input merge_options(html_options, {"type" => "submit", "value" => text})
   end
 
-  def textarea(field : LuckyRecord::AllowedField, **html_options)
+  def textarea(field : LuckyRecord::FillableField, **html_options)
     textarea field.param.to_s, merge_options(html_options, {
       "id"   => input_id(field),
       "name" => input_name(field),
     })
   end
 
-  def checkbox(field : LuckyRecord::AllowedField,
+  def checkbox(field : LuckyRecord::FillableField,
                unchecked_value : String? = nil,
                **html_options)
     hidden_value = unchecked_value || "0"
@@ -18,47 +18,47 @@ module Lucky::InputHelpers
     generate_input(field, "checkbox", html_options)
   end
 
-  def text_input(field : LuckyRecord::AllowedField, **html_options)
+  def text_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "text", html_options)
   end
 
-  def email_input(field : LuckyRecord::AllowedField, **html_options)
+  def email_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "email", html_options)
   end
 
-  def file_input(field : LuckyRecord::AllowedField, **html_options)
+  def file_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "file", html_options)
   end
 
-  def color_input(field : LuckyRecord::AllowedField, **html_options)
+  def color_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "color", html_options)
   end
 
-  def hidden_input(field : LuckyRecord::AllowedField, **html_options)
+  def hidden_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "hidden", html_options)
   end
 
-  def number_input(field : LuckyRecord::AllowedField, **html_options)
+  def number_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "number", html_options)
   end
 
-  def telephone_input(field : LuckyRecord::AllowedField, **html_options)
+  def telephone_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "telephone", html_options)
   end
 
-  def url_input(field : LuckyRecord::AllowedField, **html_options)
+  def url_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "url", html_options)
   end
 
-  def search_input(field : LuckyRecord::AllowedField, **html_options)
+  def search_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "search", html_options)
   end
 
-  def password_input(field : LuckyRecord::AllowedField, **html_options)
+  def password_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "password", html_options, {"value" => ""})
   end
 
-  def range_input(field : LuckyRecord::AllowedField, **html_options)
+  def range_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "range", html_options)
   end
 
