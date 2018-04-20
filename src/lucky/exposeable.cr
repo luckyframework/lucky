@@ -114,6 +114,9 @@ module Lucky::Exposeable
     {% EXPOSURES << method_name.id %}
   end
 
+  # Removes the exposed method. Raises if method was not already exposed.
+  #
+  # Call this so that a previously exposed method will not be exposed.
   macro unexpose(*method_names)
     {% for method_name in method_names %}
       {% if EXPOSURES.includes?(method_name.id) %}
@@ -126,6 +129,9 @@ module Lucky::Exposeable
     {% end %}
   end
 
+  # Removes the exposed method if it was exposed, otherwise does nothing.
+  #
+  # Call this so that a previously exposed method will not be exposed.
   macro unexpose_if_exposed(*method_names)
     {% for method_name in method_names %}
       {% UNEXPOSED << method_name.id %}
