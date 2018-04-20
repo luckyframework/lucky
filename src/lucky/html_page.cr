@@ -1,5 +1,6 @@
 require "./tags/**"
 require "./page_helpers/**"
+require "./mount_component"
 
 module Lucky::HTMLPage
   include Lucky::BaseTags
@@ -15,6 +16,7 @@ module Lucky::HTMLPage
   include Lucky::TextHelpers
   include Lucky::TimeHelpers
   include Lucky::ForgeryProtectionHelpers
+  include Lucky::MountComponent
 
   needs context : HTTP::Server::Context
 
