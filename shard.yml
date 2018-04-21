@@ -45,14 +45,7 @@ development_dependencies:
 scripts:
   postinstall: |
     shards build
-    mkdir -p ../../bin/lucky
-    mkdir -p ../../bin/lucky/gen
     mkdir -p ../../bin/lucky/gen/action
-    rm -f $(pwd)/../../bin/lucky/watch
-    rm -f $(pwd)/../../bin/lucky/model
-    rm -f $(pwd)/../../bin/lucky/action
-    rm -f $(pwd)/../../bin/lucky/page
-    rm -f $(pwd)/../../bin/lucky/secret_key
     cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
     cp $(pwd)/bin/action.browser $(pwd)/../../bin/lucky/gen/action/browser
     cp $(pwd)/bin/action.api $(pwd)/../../bin/lucky/gen/action/api
