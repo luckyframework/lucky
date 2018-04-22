@@ -156,7 +156,9 @@ module Lucky::Routeable
       {{ param.gsub(/:/, "").id }},
     {% end %}
     {% for param in PARAM_DECLARATIONS %}
-      {{ param }},
+      {% is_nilable_type = param.type.is_a?(Union) && param.type.types.last.id == Nil.id %}
+      {% no_default = !param.value && param.value != false %}
+      {{ param }}{% if is_nilable_type && no_default %} = nil{% end %},
     {% end %}
     anchor : String? = nil
       )
@@ -176,7 +178,12 @@ module Lucky::Routeable
 
       query_params = {} of String => String
       {% for param in PARAM_DECLARATIONS %}
-        param_is_default_or_nil = {{ param.var }} == {{ param.value || nil }}
+        {% if param.value == false %}
+          {% default_value = false %}
+        {% else %}
+          {% default_value = param.value || nil %}
+        {% end %}
+        param_is_default_or_nil = {{ param.var }} == {{ default_value }}
         unless param_is_default_or_nil
           query_params["{{ param.var }}"] = {{ param.var }}.to_s
         end
