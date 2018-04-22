@@ -105,6 +105,8 @@ class OptionalParams::Index < Lucky::Action
   param with_default : String? = "default"
   param with_int_default : Int32? = 1
   param with_int_never_nil : Int32 = 1337
+  # This is to test that the default value of 'false' is not treated as 'nil'
+  param bool_with_false_default : Bool? = false
 
   action do
     text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
@@ -210,6 +212,11 @@ describe Lucky::Action do
   end
 
   describe "optional params" do
+    it "are not required in the route helper" do
+      path = OptionalParams::Index.path
+      path.should eq("/optional_params")
+    end
+
     it "is initialized to nil" do
       action = OptionalParams::Index.new(build_context(path: ""), params)
       action.page.should eq nil
