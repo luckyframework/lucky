@@ -1,4 +1,47 @@
 module Lucky::Renderable
+  # Create a page for an action to display
+  #
+  # `render` takes two arguments, a `page_class` and data to send to the page.
+  # The `page_class` is automatically extracted from the action. For example,
+  # the `Users::Index` action is converted into `Users::IndexPage`. You can
+  # also pass a page class directly if you need to. For example the
+  # `Users::Search` action can render the `Users::IndexPage`:
+  #
+  # ```crystal
+  # class Users::Search < BrowserAction
+  #   action do
+  #     # search for users
+  #
+  #     render Users::IndexPage, users: user_search_results
+  #   end
+  # end
+  # ```
+  #
+  # The second argument to `render` is used to pass data to the page. Each
+  # key/value pair must match up with the `needs` declarations for the page.
+  # For example, if we have a page like this:
+  #
+  # ```crystal
+  # class Users::IndexPage < MainLayout
+  #   needs users : UserQuery
+  #
+  #   def content
+  #     @users.each do |user|
+  #       # ...
+  #     end
+  #   end
+  # end
+  # ```
+  #
+  # Our action must use pass a `users` key to the `render` method like this:
+  #
+  # ```crystal
+  # class Users::Index < BrowserAction
+  #   action do
+  #     render users: UserQuery.new
+  #   end
+  # end
+  # ```
   macro render(page_class = nil, **assigns)
     render_html_page(
       {{ page_class || "#{@type.name}Page".id }},
@@ -10,6 +53,7 @@ module Lucky::Renderable
     )
   end
 
+  # :nodoc:
   macro render_html_page(page_class, assigns)
     view = {{ page_class.id }}.new(
       context: context,
@@ -34,6 +78,7 @@ module Lucky::Renderable
     "Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}"
   end
 
+  # :nodoc:
   def perform_action
     response = call
     handle_response(response)
