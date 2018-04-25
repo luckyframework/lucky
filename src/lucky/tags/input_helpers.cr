@@ -1,4 +1,28 @@
 module Lucky::InputHelpers
+  # class LuckyRecord::FillableField
+  #   @name = :name
+  # end
+
+  # # Would also allow you to set some default html_options
+  # # It *should* also append CSS class names (not override) -- I think
+  # # See how simple_form does it for feedback
+  # def text_input(**html_options)
+  #   input_proc do |fillable_field|
+  #     text_input(fillable_field, **html_options)
+  #   end
+  # end
+
+  # def input_proc(&block : LuckyRecord::FillableField -> Nil)
+  #   block
+  # end
+
+  # def text_input(field : LuckyRecord::FillableField, **html_options)
+  #   p field
+  #   p html_options
+  # end
+
+  # text_input(autofocus: "true").call(LuckyRecord::FillableField.new)
+
   macro error_message_for_unallowed_field
     {% raise <<-ERROR
       The field is not fillable.
