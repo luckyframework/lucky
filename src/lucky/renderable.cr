@@ -1,25 +1,9 @@
 module Lucky::Renderable
-  # Create a page for an action to display
+  # Render a page and pass it data
   #
-  # `render` takes two arguments, a `page_class` and data to send to the page.
-  # The `page_class` is automatically extracted from the action. For example,
-  # the `Users::Index` action is converted into `Users::IndexPage`. You can
-  # also pass a page class directly if you need to. For example the
-  # `Users::Search` action can render the `Users::IndexPage`:
-  #
-  # ```crystal
-  # class Users::Search < BrowserAction
-  #   action do
-  #     # search for users
-  #
-  #     render Users::IndexPage, users: user_search_results
-  #   end
-  # end
-  # ```
-  #
-  # The second argument to `render` is used to pass data to the page. Each
-  # key/value pair must match up with the `needs` declarations for the page.
-  # For example, if we have a page like this:
+  # `render` is used to pass data to a page as a hash. Each key/value pair must
+  # match up with each `needs` declarations for that page. For example, if we
+  # have a page like this:
   #
   # ```crystal
   # class Users::IndexPage < MainLayout
@@ -39,6 +23,23 @@ module Lucky::Renderable
   # class Users::Index < BrowserAction
   #   action do
   #     render users: UserQuery.new
+  #   end
+  # end
+  # ```
+  #
+  # Note also that each peice of data is merged with any `expose` declarations:
+  #
+  # ```crystal
+  # class Users::Index < BrowserAction
+  #   expose current_user
+  #
+  #   action do
+  #     # page recieves users AND current_user
+  #     render users: UserQuery.new
+  #   end
+  #
+  #   private def current_user
+  #     # ...
   #   end
   # end
   # ```
