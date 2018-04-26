@@ -17,7 +17,7 @@ module Lucky::Renderable
   # end
   # ```
   #
-  # Our action must use pass a `users` key to the `render` method like this:
+  # Our action must pass a `users` key to the `render` method like this:
   #
   # ```crystal
   # class Users::Index < BrowserAction
@@ -34,8 +34,8 @@ module Lucky::Renderable
   #   expose current_user
   #
   #   action do
-  #     # page recieves users AND current_user
-  #     render users: UserQuery.new
+  #     # Users::IndexPage receives users AND current_user
+  #     render IndexPage users: UserQuery.new
   #   end
   #
   #   private def current_user
