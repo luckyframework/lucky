@@ -1,4 +1,48 @@
 module Lucky::Renderable
+  # Render a page and pass it data
+  #
+  # `render` is used to pass data to a page. Each key/value pair must match up
+  # with each `needs` declarations for that page. For example, if we have a
+  # page like this:
+  #
+  # ```crystal
+  # class Users::IndexPage < MainLayout
+  #   needs users : UserQuery
+  #
+  #   def content
+  #     @users.each do |user|
+  #       # ...
+  #     end
+  #   end
+  # end
+  # ```
+  #
+  # Our action must use pass a `users` key to the `render` method like this:
+  #
+  # ```crystal
+  # class Users::Index < BrowserAction
+  #   action do
+  #     render users: UserQuery.new
+  #   end
+  # end
+  # ```
+  #
+  # Note also that each piece of data is merged with any `expose` declarations:
+  #
+  # ```crystal
+  # class Users::Index < BrowserAction
+  #   expose current_user
+  #
+  #   action do
+  #     # page recieves users AND current_user
+  #     render users: UserQuery.new
+  #   end
+  #
+  #   private def current_user
+  #     # ...
+  #   end
+  # end
+  # ```
   macro render(page_class = nil, **assigns)
     render_html_page(
       {{ page_class || "#{@type.name}Page".id }},
@@ -10,6 +54,7 @@ module Lucky::Renderable
     )
   end
 
+  # :nodoc:
   macro render_html_page(page_class, assigns)
     view = {{ page_class.id }}.new(
       context: context,
@@ -34,6 +79,7 @@ module Lucky::Renderable
     "Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}"
   end
 
+  # :nodoc:
   def perform_action
     response = call
     handle_response(response)
