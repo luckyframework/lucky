@@ -4,7 +4,7 @@ module Lucky::ServerSettings
   extend self
 
   def host : String
-    settings["host"].as_s
+    ENV["HOST"]? || settings["host"].as_s
   end
 
   def port : Int32
