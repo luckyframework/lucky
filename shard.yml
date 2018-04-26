@@ -15,6 +15,8 @@ targets:
     main: src/precompiled_tasks/gen/action/api.cr
   page:
     main: src/precompiled_tasks/gen/page.cr
+  component:
+    main: src/precompiled_tasks/gen/component.cr
   secret_key:
     main: src/precompiled_tasks/gen/secret_key.cr
 
@@ -51,6 +53,7 @@ scripts:
     cp $(pwd)/bin/action.api $(pwd)/../../bin/lucky/gen/action/api
     cp $(pwd)/bin/model $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/page $(pwd)/../../bin/lucky/gen/
+    cp $(pwd)/bin/component $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/gen/
 
 crystal: 0.24.1
