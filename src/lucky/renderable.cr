@@ -1,9 +1,9 @@
 module Lucky::Renderable
   # Render a page and pass it data
   #
-  # `render` is used to pass data to a page as a hash. Each key/value pair must
-  # match up with each `needs` declarations for that page. For example, if we
-  # have a page like this:
+  # `render` is used to pass data to a page. Each key/value pair must match up
+  # with each `needs` declarations for that page. For example, if we have a
+  # page like this:
   #
   # ```crystal
   # class Users::IndexPage < MainLayout
@@ -27,7 +27,7 @@ module Lucky::Renderable
   # end
   # ```
   #
-  # Note also that each peice of data is merged with any `expose` declarations:
+  # Note also that each piece of data is merged with any `expose` declarations:
   #
   # ```crystal
   # class Users::Index < BrowserAction
