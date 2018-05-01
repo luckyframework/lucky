@@ -4,28 +4,84 @@ class Lucky::Params
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
 
+  # :nodoc:
   getter :request
+  # :nodoc:
   getter :route_params
 
+  # Create a new params object
+  #
+  # The params object is initialized with an `HTTP::Request` and a hash of
+  # params. The request object has many optional parameters. See Crystal's
+  # [HTTP::Request](https://crystal-lang.org/api/latest/HTTP/Request.html)
+  # class for more details.
+  #
+  # ```crystal
+  # request = HTTP::Request.new("GET", "/")
+  # route_params = {"token" => "123"}
+  #
+  # Lucky::Params.new(request, route_params)
+  # ```
   def initialize(@request, @route_params = {} of String => String)
   end
 
+  # Retrive a value from the params hash, raise if key is absent
+  #
+  # If no key is found a `Lucky::Exceptions::MissingParam` will be raised:
+  #
+  # ```crystal
+  # params.get("page")    # 1 : String
+  # params.get("missing") # Missing parameter: missing
+  # ```
   def get(key) : String
     get?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
+  # Retrive a value from the params hash, return nil if key is absent
+  #
+  # ```crystal
+  # params.get?("page")    # 1 : (String | Nil)
+  # params.get?("missing") # nil : (String | Nil)
+  # ```
   def get?(key : String | Symbol) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
+  # Retrive a file from the params hash, raise if key is absent
+  #
+  # If no key is found a `Lucky::Exceptions::MissingParam` will be raised:
+  #
+  # ```crystal
+  # params.get("avatar_file") # Lucky::UploadedFile
+  # params.get("missing")     # Missing parameter: missing
+  # ```
   def get_file(key) : Lucky::UploadedFile
     get_file?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
+  # Retrive a file from the params hash, return nil if key is absent
+  #
+  # ```crystal
+  # params.get("avatar_file") # (Lucky::UploadedFile | Nil)
+  # params.get("missing")     # nil
+  # ```
   def get_file?(key : String | Symbol) : Lucky::UploadedFile?
     multipart_files[key.to_s]?
   end
 
+  # Retrive a nested value from the params
+  #
+  # Nested params often appear in JSON requests or Form submissions. If no key
+  # is found a `Lucky::Exceptions::MissingParam` will be raised:
+  #
+  # ```crystal
+  # body = "user:name=Alesia&user:age=35&page=1"
+  # request = HTTP::Request.new("POST", "/", body: body)
+  # params = Lucky::Params.new(request)
+  #
+  # params.nested("user")    # {"name" => "Alesia", "age" => "35"}
+  # params.nested("missing") # Missing parameter: missing
+  # ```
   def nested(nested_key : String | Symbol) : Hash(String, String)
     nested_params = nested?(nested_key)
     if nested_params.keys.empty?
@@ -35,6 +91,19 @@ class Lucky::Params
     end
   end
 
+  # Retrive a nested value from the params
+  #
+  # Nested params often appear in JSON requests or Form submissions. If no key
+  # is found an empty hash will be returned:
+  #
+  # ```crystal
+  # body = "user:name=Alesia&user:age=35&page=1"
+  # request = HTTP::Request.new("POST", "/", body: body)
+  # params = Lucky::Params.new(request)
+  #
+  # params.nested("user")    # {"name" => "Alesia", "age" => "35"}
+  # params.nested("missing") # {}
+  # ```
   def nested?(nested_key : String | Symbol) : Hash(String, String)
     if json?
       nested_json_params(nested_key.to_s)
@@ -43,6 +112,15 @@ class Lucky::Params
     end
   end
 
+  # Retrive a nested file from the params
+  #
+  # Nested params often appear in JSON requests or Form submissions. If no key
+  # is found a `Lucky::Exceptions::MissingParam` will be raised:
+  #
+  # ```crystal
+  # params.nested_file?("file")    # Lucky::UploadedFile
+  # params.nested_file?("missing") # {}
+  # ```
   def nested_file(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)
     nested_file_params = nested_file?(nested_key)
     if nested_file_params.keys.empty?
@@ -52,6 +130,15 @@ class Lucky::Params
     end
   end
 
+  # Retrive a nested file from the params
+  #
+  # Nested params often appear in JSON requests or Form submissions. If no key
+  # is found an empty hash will be returned:
+  #
+  # ```crystal
+  # params.nested_file("file")    # Lucky::UploadedFile
+  # params.nested_file("missing") # Missing parameter: missing
+  # ```
   def nested_file?(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?
     nested_file_params(nested_key.to_s)
   end
