@@ -27,6 +27,14 @@ describe Lucky::BaseTags do
     view.hr.to_s.should contain "<hr/>"
   end
 
+  it "renders nested video with source tags and proper attributes" do
+    view do
+      video(autoplay: "autoplay", loop: "loop", poster: "https://luckyframework.org/nothing.png") do
+        source(src: "https://luckyframework.org/nothing.mp4", type: "video/mp4")
+      end
+    end.to_s.should contain %{<video autoplay="autoplay" loop="loop" poster="https://luckyframework.org/nothing.png"><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"/></video>}
+  end
+
   describe "#style" do
     it "renders a style tag" do
       view.style("body { font-size: 2em; }").to_s.should contain <<-HTML
@@ -38,4 +46,8 @@ end
 
 private def view
   TestPage.new(build_context)
+end
+
+private def view
+  with TestPage.new(build_context) yield
 end
