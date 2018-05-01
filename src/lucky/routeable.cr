@@ -19,6 +19,10 @@ module Lucky::Routeable
     # **See also** our guides for more information and examples:
     # * [Routing](https://luckyframework.org/guides/actions-and-routing/#routing)
     macro {{ http_method.id }}(path)
+      \{% unless path.starts_with?("/") %}
+        \{% path.raise "Path must start with a slash. Example: '/" + path + "'" %}
+      \{% end %}
+
       add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
 
       setup_call_method(\{{ yield }})
