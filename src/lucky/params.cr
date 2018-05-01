@@ -143,7 +143,7 @@ class Lucky::Params
     nested_file_params(nested_key.to_s)
   end
 
-  def nested_json_params(nested_key : String) : Hash(String, String)
+  private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
 
     JSON::Any.new(parsed_json.as_h[nested_key]).each do |key, value|
@@ -153,7 +153,7 @@ class Lucky::Params
     nested_params
   end
 
-  def nested_form_params(nested_key : String) : Hash(String, String)
+  private def nested_form_params(nested_key : String) : Hash(String, String)
     nested_key = "#{nested_key}:"
     source = multipart? ? multipart_params : form_params
     source.to_h.reduce(empty_params) do |nested_params, (key, value)|
@@ -165,7 +165,7 @@ class Lucky::Params
     end
   end
 
-  def nested_file_params(nested_key : String) : Hash(String, Lucky::UploadedFile)
+  private def nested_file_params(nested_key : String) : Hash(String, Lucky::UploadedFile)
     nested_key = "#{nested_key}:"
     multipart_files.to_h.reduce(empty_file_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
