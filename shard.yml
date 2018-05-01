@@ -26,7 +26,7 @@ dependencies:
     version: "~> 0.9.0"
   habitat:
     github: luckyframework/habitat
-    version: "~> 0.2.0"
+    branch: master
   lucky_inflector:
     github: luckyframework/lucky_inflector
     version: "~> 0.1.1"
