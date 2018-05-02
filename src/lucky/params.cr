@@ -25,7 +25,7 @@ class Lucky::Params
   def initialize(@request, @route_params = {} of String => String)
   end
 
-  # Retrive a value from the params hash, raise if key is absent
+  # Retrieve a value from the params hash, raise if key is absent
   #
   # If no key is found a `Lucky::Exceptions::MissingParam` will be raised:
   #
@@ -37,7 +37,7 @@ class Lucky::Params
     get?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
-  # Retrive a value from the params hash, return nil if key is absent
+  # Retrieve a value from the params hash, return nil if key is absent
   #
   # ```crystal
   # params.get?("page")    # 1 : (String | Nil)
@@ -47,7 +47,7 @@ class Lucky::Params
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
-  # Retrive a file from the params hash, raise if key is absent
+  # Retrieve a file from the params hash, raise if key is absent
   #
   # If no key is found a `Lucky::Exceptions::MissingParam` will be raised:
   #
@@ -59,7 +59,7 @@ class Lucky::Params
     get_file?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
-  # Retrive a file from the params hash, return nil if key is absent
+  # Retrieve a file from the params hash, return nil if key is absent
   #
   # ```crystal
   # params.get("avatar_file") # (Lucky::UploadedFile | Nil)
@@ -69,7 +69,7 @@ class Lucky::Params
     multipart_files[key.to_s]?
   end
 
-  # Retrive a nested value from the params
+  # Retrieve a nested value from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found a `Lucky::Exceptions::MissingParam` will be raised:
@@ -91,7 +91,7 @@ class Lucky::Params
     end
   end
 
-  # Retrive a nested value from the params
+  # Retrieve a nested value from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found an empty hash will be returned:
@@ -112,7 +112,7 @@ class Lucky::Params
     end
   end
 
-  # Retrive a nested file from the params
+  # Retrieve a nested file from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found a `Lucky::Exceptions::MissingParam` will be raised:
@@ -130,7 +130,7 @@ class Lucky::Params
     end
   end
 
-  # Retrive a nested file from the params
+  # Retrieve a nested file from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found an empty hash will be returned:
