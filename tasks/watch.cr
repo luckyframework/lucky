@@ -16,12 +16,12 @@ module Sentry
     getter app_processes = [] of Process
     property successful_compilations
     property app_built
-    property? reload_browser : Bool = false
+    property? reload_browser
 
     @app_built : Bool = false
     @successful_compilations : Int32 = 0
 
-    def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String))
+    def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String), @reload_browser : Bool)
       @build_commands = build_commands
       @run_commands = run_commands
       @files = files
@@ -139,6 +139,7 @@ end
 
 class Watch < LuckyCli::Task
   banner "Start and recompile project when files change"
+  @reload_browser : Bool = false
 
   def call
     parse_options
@@ -150,7 +151,8 @@ class Watch < LuckyCli::Task
     process_runner = Sentry::ProcessRunner.new(
       files: files,
       build_commands: build_commands,
-      run_commands: run_commands
+      run_commands: run_commands,
+      reload_browser: @reload_browser
     )
 
     puts "Beginnning to watch your project"
