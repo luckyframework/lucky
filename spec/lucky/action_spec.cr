@@ -113,6 +113,16 @@ class OptionalParams::Index < Lucky::Action
   end
 end
 
+class ParamsWithDefaultParamsLast < Lucky::Action
+  param has_default : String = "default"
+  param has_default_2 : String | Int32 = "default"
+  param no_default : String
+
+  get "/args-with-defaults" do
+    text "doesn't matter"
+  end
+end
+
 describe Lucky::Action do
   it "has a url helper" do
     Lucky::RouteHelper.configure { settings.domain = "example.com" }
@@ -209,6 +219,12 @@ describe Lucky::Action do
     Tests::Index.path(anchor: "#foo").should eq "/tests#%23foo"
     Tests::Index.route(anchor: "#foo").path.should eq "/tests#%23foo"
     Tests::Index.url(anchor: "#foo").ends_with?("/tests#%23foo").should be_true
+  end
+
+  describe "params with defaults" do
+    it "are put at the end of the arg list so the program compiles" do
+      ParamsWithDefaultParamsLast.with(no_default: "Yay!")
+    end
   end
 
   describe "optional params" do
