@@ -115,7 +115,7 @@ end
 
 class ParamsWithDefaultParamsLast < Lucky::Action
   param has_default : String = "default"
-  param has_default_2 : String | Int32 = "default"
+  param has_nil_default : String?
   param no_default : String
 
   get "/args-with-defaults" do

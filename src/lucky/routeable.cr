@@ -159,9 +159,13 @@ module Lucky::Routeable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
-    # TODO: Make sure args with no default come first
-    {% params_with_defaults = PARAM_DECLARATIONS.select { |decl| decl.value } %}
-    {% params_without_defaults = PARAM_DECLARATIONS.reject { |decl| decl.value } %}
+
+    {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
+         decl.value || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
+       end %}
+    {% params_without_defaults = PARAM_DECLARATIONS.reject do |decl|
+         params_with_defaults.includes? decl
+       end %}
     {% for param in params_without_defaults + params_with_defaults %}
       {% is_nilable_type = param.type.is_a?(Union) && param.type.types.last.id == Nil.id %}
       {% no_default = !param.value && param.value != false %}
