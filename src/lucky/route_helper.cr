@@ -2,14 +2,14 @@ class Lucky::RouteHelper
   getter path, method
 
   Habitat.create do
-    setting domain : String
+    setting base_uri : String
   end
 
   def initialize(@method : Symbol, @path : String)
   end
 
   def url
-    settings.domain + path
+    settings.base_uri + path
   end
 
   def_equals @method, @path

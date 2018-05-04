@@ -15,7 +15,7 @@ Lucky::Server.configure do
 end
 
 Lucky::RouteHelper.configure do
-  settings.domain = "luckyframework.org"
+  settings.base_uri = "luckyframework.org"
 end
 
 LuckyRecord::Repo.configure do
