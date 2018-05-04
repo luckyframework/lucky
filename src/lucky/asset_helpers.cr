@@ -5,8 +5,9 @@ module Lucky::AssetHelpers
 
   macro asset(path)
     {% if path.is_a?(StringLiteral) %}
+      {% path = "/" + path %}
       {% if Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
-        {{ "/" + Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
+        {{ Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
       {% else %}
         {{ run "../run_macros/missing_asset", path }}
       {% end %}
@@ -35,9 +36,10 @@ module Lucky::AssetHelpers
   end
 
   def dynamic_asset(path)
+    path = "/#{path}"
     fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
     if fingerprinted_path
-      "/" + fingerprinted_path
+      fingerprinted_path
     else
       raise "Missing asset: #{path}"
     end
