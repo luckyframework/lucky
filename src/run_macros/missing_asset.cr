@@ -3,7 +3,7 @@ require "json"
 require "levenshtein"
 
 missing_asset = ARGV.first
-manifest_path = File.expand_path("./public/manifest.json")
+manifest_path = File.expand_path("./public/mix-manifest.json")
 manifest_file = File.read(manifest_path)
 manifest = JSON.parse(manifest_file)
 
