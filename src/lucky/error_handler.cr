@@ -30,6 +30,7 @@ class Lucky::ErrorHandler
   end
 
   private def call_error_action(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
+    context.response.status_code = 500
     action.new(context).perform_action(error)
     context
   end
