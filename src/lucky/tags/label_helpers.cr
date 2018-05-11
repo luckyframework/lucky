@@ -19,4 +19,13 @@ module Lucky::LabelHelpers
       yield
     end
   end
+
+  def label_for(field, **options)
+    Lucky::InputHelpers.error_message_for_unallowed_field
+  end
+
+  def label_for(field, **options)
+    Lucky::InputHelpers.error_message_for_unallowed_field
+    yield
+  end
 end

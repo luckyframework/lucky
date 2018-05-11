@@ -17,7 +17,7 @@ module Lucky::InputHelpers
 
   macro generate_helpful_error_for(input_method_name)
     def {{ input_method_name.id }}(field, **options)
-      error_message_for_unallowed_field
+      Lucky::InputHelpers.error_message_for_unallowed_field
     end
   end
 
