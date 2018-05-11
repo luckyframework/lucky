@@ -7,7 +7,7 @@ module Lucky
 
   # Raised when a route could not be found
   class RouteNotFoundError < Error
-    property context : HTTP::Server::Context
+    getter context
 
     def initialize(@context : HTTP::Server::Context)
       super "Could not find route matching #{@context.request.method} #{@context.request.path}"
