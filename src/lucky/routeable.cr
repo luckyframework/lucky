@@ -32,20 +32,20 @@ module Lucky::Routeable
   # :nodoc:
   macro setup_call_method(body)
     def call
-      callback_result = run_before_callbacks
+      %callback_result = run_before_callbacks
 
-      response = if callback_result.is_a?(Lucky::Response)
-        callback_result
+      %response = if %callback_result.is_a?(Lucky::Response)
+        %callback_result
       else
         {{ body }}
       end
 
-      callback_result = run_after_callbacks
+      %callback_result = run_after_callbacks
 
-      if callback_result.is_a?(Lucky::Response)
-        callback_result
+      if %callback_result.is_a?(Lucky::Response)
+        %callback_result
       else
-        response
+        %response
       end
     end
   end
