@@ -1,6 +1,7 @@
 require "../../spec_helper"
 
 include CleanupHelper
+include GeneratorHelper
 
 describe Gen::Action do
   it "generates a basic browser action" do

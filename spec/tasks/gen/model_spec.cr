@@ -1,6 +1,7 @@
 require "../../spec_helper"
 
 include CleanupHelper
+include GeneratorHelper
 
 describe Gen::Model do
   it "generates a model" do
@@ -11,17 +12,13 @@ describe Gen::Model do
 
       Gen::Model.new.call(io)
 
-      File.read("./src/models/contact_info.cr")
-          .should contain("class ContactInfo < BaseModel")
-      File.read("./src/models/contact_info.cr")
-          .should contain("table :contact_infos")
-      io.to_s.should contain("./src/models/contact_info.cr")
-      File.read("./src/forms/contact_info_form.cr")
-          .should contain("class ContactInfoForm < ContactInfo::BaseForm")
-      io.to_s.should contain("./src/forms/contact_info_form.cr")
-      File.read("./src/queries/contact_info_query.cr")
-          .should contain("class ContactInfoQuery < ContactInfo::BaseQuery")
-      io.to_s.should contain("./src/queries/contact_info_query.cr")
+      should_generate_migration named: "create_contact_info.cr"
+      should_create_files_with_contents io,
+        "./src/models/contact_info.cr": "table :contact_infos"
+      should_create_files_with_contents io,
+        "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
+        "./src/forms/contact_info_form.cr": "class ContactInfoForm < ContactInfo::BaseForm",
+        "./src/queries/contact_info_query.cr": "class ContactInfoQuery < ContactInfo::BaseQuery"
     end
   end
 
@@ -43,4 +40,8 @@ describe Gen::Model do
       io.to_s.should contain("Model name should be camel case")
     end
   end
+end
+
+private def should_generate_migration(named name : String)
+  Dir.new("./db/migrations").any?(&.ends_with?(name)).should be_true
 end

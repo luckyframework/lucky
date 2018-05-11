@@ -1,4 +1,7 @@
 require "spec"
+{% unless flag?("without-migrator") %}
+require "lucky_migrator"
+{% end %}
 require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
@@ -20,6 +23,10 @@ end
 
 LuckyRecord::Repo.configure do
   settings.url = "Not used yet"
+end
+
+LuckyMigrator::Runner.configure do
+  settings.database = "doesn't matter"
 end
 
 Lucky::ErrorHandler.configure do

@@ -1,6 +1,7 @@
 require "../../spec_helper"
 
 include CleanupHelper
+include GeneratorHelper
 
 describe Gen::Page do
   it "generates a page" do
@@ -11,10 +12,8 @@ describe Gen::Page do
 
       Gen::Page.new.call(io)
 
-      File.read("./src/pages/users/index_page.cr")
-          .should contain(valid_page_name)
-      io.to_s.should contain(valid_page_name)
-      io.to_s.should contain("/src/pages/users/index_page.cr")
+      should_create_files_with_contents io,
+        "./src/pages/users/index_page.cr": valid_page_name
     end
   end
 

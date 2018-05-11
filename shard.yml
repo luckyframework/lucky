@@ -43,6 +43,9 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
+  lucky_migrator:
+    github: luckyframework/migrator
+    branch: ps-allow-passing-name
 
 scripts:
   postinstall: |

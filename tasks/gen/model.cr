@@ -10,10 +10,17 @@ class Gen::Model < LuckyCli::Task
   def call(@io : IO = STDOUT)
     if valid?
       template.render("./src/")
+      create_migration(Gen::Migration)
       display_success_messages
     else
       io.puts @error.colorize(:red)
     end
+  end
+
+  macro create_migration(migration_task)
+    {% if migration_task.resolve? %}
+      Gen::Migration.new.call(name: "CreateContactInfo")
+    {% end %}
   end
 
   private def valid?

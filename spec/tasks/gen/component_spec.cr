@@ -1,6 +1,7 @@
 require "../../spec_helper"
 
 include CleanupHelper
+include GeneratorHelper
 
 describe Gen::Component do
   it "generates a component" do
@@ -11,10 +12,8 @@ describe Gen::Component do
 
       Gen::Component.new.call(io)
 
-      File.read("./src/components/users/row.cr")
-          .should contain(valid_name)
-      io.to_s.should contain(valid_name)
-      io.to_s.should contain("/src/components/users/row.cr")
+      should_create_files_with_contents io,
+        "./src/components/users/row.cr": valid_name
     end
   end
 
