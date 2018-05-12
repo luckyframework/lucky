@@ -34,13 +34,15 @@ Lucky versions.
 Feel free to leave inline comments on that commit if you have questions or
 want to leave tips for others.
 
-* Run `shards update`
-
-* Run `bin/setup` to run new migrations, Laravel Mix and seeds file
+* Move files in `src/pipes` to `src/actions/mixins`
 
 * Change `allow` to `fillable` in forms
 
 * Change `allow_virtual` to `virtual` in forms
+
+* Run `shards update`
+
+* Run `bin/setup` to run new migrations, Laravel Mix and seeds file
 
 ### Upgrading from 0.7 to 0.8
 
