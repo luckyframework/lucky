@@ -1,3 +1,3 @@
 module Lucky
-  VERSION = "0.9.0-rc1"
+  VERSION = "0.10.0-rc1"
 end
