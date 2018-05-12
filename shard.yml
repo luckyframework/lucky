@@ -45,7 +45,7 @@ development_dependencies:
     github: veelenga/ameba
   lucky_migrator:
     github: luckyframework/migrator
-    tag: v0.5.0-rc1
+    tag: v0.5.0-rc2
 
 scripts:
   postinstall: |

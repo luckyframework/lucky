@@ -19,8 +19,12 @@ class Gen::Model < LuckyCli::Task
 
   macro create_migration(migration_task)
     {% if migration_task.resolve? %}
-      Gen::Migration.new.call(name: "CreateContactInfo")
+      Gen::Migration.new.call(name: "Create#{pluralized_model_name}")
     {% end %}
+  end
+
+  private def pluralized_model_name
+    LuckyInflector::Inflector.pluralize(model_name)
   end
 
   private def valid?
