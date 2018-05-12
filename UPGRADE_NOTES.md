@@ -1,4 +1,4 @@
-### Upgrading from 0.8 to 0.10
+### Upgrading from 0.8 to 0.10 release candidate
 
 > Note: Lucky skipped version 0.9 so that Lucky and Lucky CLI are on the same version.
 
