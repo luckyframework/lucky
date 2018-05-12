@@ -1,4 +1,6 @@
-### Upgrading from 0.8 to 0.9
+### Upgrading from 0.8 to 0.10
+
+> Note: Lucky skipped version 0.9 so that Lucky and Lucky CLI are on the same version.
 
 * (Optional) Upgrade Lucky CLI
 
@@ -24,17 +26,21 @@ https://luckyframework.org/guides/installing/#install-lucky
 In previous upgrade guides (below) every change is listed individually. This was
 time consuming and error-prone. Now,
 you can view all changes file by file in:
-https://github.com/luckyframework/upgrade-diffs/commit/1ee884eb025daeede627c3b6a05fe78fde5229b4
+https://github.com/luckyframework/upgrade-diffs/commit/d3cd70bd4170469eb14a9b56cfa743e6f234124f
 
 This makes it so you never miss a change and makes it easier to release new
 Lucky versions.
 
-> Feel free to leave inline comments on that commit if you have questions or
-> want to leave tips for others.
+Feel free to leave inline comments on that commit if you have questions or
+want to leave tips for others.
 
 * Run `shards update`
 
 * Run `bin/setup` to run new migrations, Laravel Mix and seeds file
+
+* Change `allow` to `fillable` in forms
+
+* Change `allow_virtual` to `virtual` in forms
 
 ### Upgrading from 0.7 to 0.8
 
