@@ -12,7 +12,9 @@ describe Gen::Model do
 
       Gen::Model.new.call(io)
 
-      should_generate_migration named: "create_contact_info.cr"
+      {% unless flag?("without-migrator") %}
+        should_generate_migration named: "create_contact_infos.cr"
+      {% end %}
       should_create_files_with_contents io,
         "./src/models/contact_info.cr": "table :contact_infos"
       should_create_files_with_contents io,
