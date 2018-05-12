@@ -23,29 +23,29 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: "~> 0.9.0"
+    version: ~> 0.9.0
   habitat:
     github: luckyframework/habitat
-    branch: master
+    tag: v0.3.0-rc1
   lucky_inflector:
     github: luckyframework/lucky_inflector
-    version: "~> 0.1.1"
+    version: ~> 0.1.1
   lucky_record:
     github: luckyframework/lucky_record
-    branch: master
+    tag: v0.5.0-rc1
   lucky_router:
     github: luckyframework/lucky_router
-    version: "~> 0.2.0"
+    version: ~> 0.2.0
   shell-table:
     github: jwaldrip/shell-table.cr
-    version: "~> 0.9.2"
+    version: ~> 0.9.2
 
 development_dependencies:
   ameba:
     github: veelenga/ameba
   lucky_migrator:
     github: luckyframework/migrator
-    branch: ps-allow-passing-name
+    tag: v0.5.0-rc1
 
 scripts:
   postinstall: |
