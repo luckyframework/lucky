@@ -18,7 +18,7 @@ brew upgrade lucky --devel
 ```
 
 If you are on Linux, remove the existing Lucky binary and follow the Linux
-instructions in this section but replace the tag with _v0.10.0-rc1_:
+instructions in this section but replace the tag with _v0.10.0-rc2_:
 https://luckyframework.org/guides/installing/#install-lucky
 
 * View the upgrade diff and make changes to your app
