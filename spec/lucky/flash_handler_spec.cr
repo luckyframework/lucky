@@ -17,7 +17,7 @@ end
 
 private def call_flash_handler_with(context : HTTP::Server::Context)
   handler = Lucky::Flash::Handler.new
-  handler.next = ->(ctx : HTTP::Server::Context) {}
+  handler.next = ->(_ctx : HTTP::Server::Context) {}
   handler.call(context)
   yield context
 end

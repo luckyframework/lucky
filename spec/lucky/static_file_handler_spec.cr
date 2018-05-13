@@ -38,6 +38,6 @@ end
 
 private def call_file_handler_with(context : HTTP::Server::Context, &block)
   handler = Lucky::StaticFileHandler.new(public_dir: "/foo")
-  handler.next = ->(ctx : HTTP::Server::Context) { block.call }
+  handler.next = ->(_ctx : HTTP::Server::Context) { block.call }
   handler.call(context)
 end

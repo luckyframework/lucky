@@ -10,10 +10,9 @@ end
 
 describe Lucky::ProtectFromForgery do
   it "sets a CSRF token if none was set" do
-    original_token = "my_token"
     context = build_context(method: "GET")
 
-    response = ProtectedAction::Index.new(context, params).call
+    ProtectedAction::Index.new(context, params).call
 
     (context.session["X-CSRF-TOKEN"].not_nil!.size > 30).should be_true
   end

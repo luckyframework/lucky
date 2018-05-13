@@ -177,7 +177,7 @@ module Lucky::TextHelpers
   private def normalize_values(values)
     string_values = Array(String).new
     values.each { |v| string_values << v.to_s }
-    values = string_values
+    string_values
   end
 
   def cycle(values : Array, name = "default")
