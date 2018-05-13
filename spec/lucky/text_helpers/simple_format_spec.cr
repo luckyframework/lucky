@@ -27,7 +27,7 @@ end
 describe Lucky::TextHelpers do
   describe "simple_format" do
     it "simple_formats" do
-      result = view.simple_format("").to_s.should eq "<p></p>"
+      view.simple_format("").to_s.should eq "<p></p>"
 
       view.simple_format("crazy\r\n cross\r platform linebreaks").to_s.should eq "<p>crazy\n<br /> cross\n<br /> platform linebreaks</p>"
       view.simple_format("A paragraph\n\nand another one!").to_s.should eq "<p>A paragraph</p>\n\n<p>and another one!</p>"

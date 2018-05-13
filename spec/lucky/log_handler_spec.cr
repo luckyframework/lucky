@@ -91,6 +91,6 @@ end
 
 private def call_log_handler_with(io : IO, context : HTTP::Server::Context, &block)
   handler = Lucky::LogHandler.new(io)
-  handler.next = ->(ctx : HTTP::Server::Context) { block.call }
+  handler.next = ->(_ctx : HTTP::Server::Context) { block.call }
   handler.call(context)
 end

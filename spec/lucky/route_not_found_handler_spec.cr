@@ -9,7 +9,7 @@ describe Lucky::RouteNotFoundHandler do
 
     expect_raises(Lucky::RouteNotFoundError, "POST /foo/bar") do
       error_handler = Lucky::RouteNotFoundHandler.new
-      error_handler.next = ->(ctx : HTTP::Server::Context) {}
+      error_handler.next = ->(_ctx : HTTP::Server::Context) {}
       error_handler.call(context)
     end
   end

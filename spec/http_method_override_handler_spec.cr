@@ -30,6 +30,6 @@ private def should_handle(original_method, overridden_method, and_return expecte
             else
               build_request original_method
             end
-  handler = Lucky::HttpMethodOverrideHandler.new.call(build_context(request: request))
+  Lucky::HttpMethodOverrideHandler.new.call(build_context(request: request))
   request.method.should eq expected_method
 end

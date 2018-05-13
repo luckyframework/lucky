@@ -21,14 +21,14 @@ end
 describe Lucky::ErrorHandler do
   it "does nothing if no errors are raised" do
     error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
-    error_handler.next = ->(ctx : HTTP::Server::Context) {}
+    error_handler.next = ->(_ctx : HTTP::Server::Context) {}
 
     error_handler.call(build_context)
   end
 
   it "handles the error if there is a method for handling it" do
     error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
-    error_handler.next = ->(ctx : HTTP::Server::Context) { raise FakeError.new }
+    error_handler.next = ->(_ctx : HTTP::Server::Context) { raise FakeError.new }
 
     context = error_handler.call(build_context).as(HTTP::Server::Context)
 
@@ -38,7 +38,7 @@ describe Lucky::ErrorHandler do
 
   it "falls back to generic error handling if there are no custom error handlers" do
     error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
-    error_handler.next = ->(ctx : HTTP::Server::Context) { raise UnhandledError.new }
+    error_handler.next = ->(_ctx : HTTP::Server::Context) { raise UnhandledError.new }
 
     context = error_handler.call(build_context).as(HTTP::Server::Context)
 
@@ -54,7 +54,7 @@ describe Lucky::ErrorHandler do
         end
 
         error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
-        error_handler.next = ->(ctx : HTTP::Server::Context) { raise UnhandledError.new }
+        error_handler.next = ->(_ctx : HTTP::Server::Context) { raise UnhandledError.new }
 
         context = error_handler.call(build_context).as(HTTP::Server::Context)
 
