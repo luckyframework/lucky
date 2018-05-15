@@ -18,6 +18,10 @@ server = HTTP::Server.new("127.0.0.1", 8080, [
   Lucky::RouteHandler.new,
 ])
 
+Lucky::RouteHelper.configure do
+  settings.base_uri = "some_value"
+end
+
 LuckyRecord::Repo.configure do
   settings.url = ""
 end

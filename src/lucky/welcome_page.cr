@@ -1,6 +1,12 @@
 class Lucky::WelcomePage
   include Lucky::HTMLPage
 
+  macro render_auth_button(sign_in_action)
+    {% if sign_in_action.resolve? %}
+      a "View your new app", href: SignIns::New.path, class: "btn"
+    {% end %}
+  end
+
   def render
     html_doctype
     html lang: "en" do
@@ -16,6 +22,12 @@ class Lucky::WelcomePage
         div class: "container" do
           lucky_logo
           lucky_welcome_tagline
+          div class: "container__buttons" do
+            a "Check out the guides",
+              href: "https://luckyframework.org/guides",
+              class: "btn btn--blue"
+            render_auth_button(SignIns::New)
+          end
         end
       end
     end
@@ -45,6 +57,16 @@ class Lucky::WelcomePage
         text-align: center;
       }
 
+      .container__buttons {
+        float: left;
+        width: 100%;
+        margin-top: 70px
+      }
+
+      .container__buttons .btn:first-child {
+        margin-right: 15px;
+      }
+
       .lucky-logo {
         width: 100%
       }
@@ -55,6 +77,32 @@ class Lucky::WelcomePage
         font-size: 20px;
         color: #AAB5BF;
         letter-spacing: 3px;
+      }
+
+      .btn {
+        border-radius: 500px;
+        background: #20c17d;
+        text-transform: uppercase;
+        font-weight: bold;
+        height: 50px;
+        font-size: 14px;
+        color: #fff;
+        padding: 15px 30px;
+        text-decoration: none;
+        letter-spacing: 1px;
+      }
+
+      .btn:hover {
+        background: #199561;
+        color: #fff
+      }
+
+      .btn--blue {
+        background: #1C92B3
+      }
+
+      .btn--blue:hover {
+        background: #156e87
       }
     CSS
   end
