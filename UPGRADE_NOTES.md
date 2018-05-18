@@ -20,10 +20,7 @@ https://luckyframework.org/guides/installing/#install-lucky
 
 In previous upgrade guides (below) every change is listed individually. This was
 time consuming and error-prone. Now,
-you can view [all changes in this GitHub view](https://github.com/luckyframework/upgrade-diffs/compare/338b8152076f883580408731dd99f5a8f4429836...440bdd579f1af7c078dc9743f6d82efea57e0996).
-
-There is also an annotated version here that talks about the reasoning and what files can be skipped:
-https://github.com/luckyframework/upgrade-diffs/commit/d3cd70bd4170469eb14a9b56cfa743e6f234124f
+you can [view all changes in this GitHub commit](https://github.com/luckyframework/upgrade-diffs/commit/c279b0d0c0b9936301c5ea93fd25a549c9cd4c06).
 
 * Move files in `src/pipes` to `src/actions/mixins`
 
