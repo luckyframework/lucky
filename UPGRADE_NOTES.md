@@ -1,38 +1,29 @@
-### Upgrading from 0.8 to 0.10 release candidate
+### Upgrading from 0.8 to 0.10
 
 > Note: Lucky skipped version 0.9 so that Lucky and Lucky CLI are on the same version.
 
-* (Optional) Upgrade Lucky CLI
-
-> This is optional because the old CLI will work with the new version of Lucky.
-> Note that if you do not install the Lucky CLI release candidate, new projects
-> will still use the latest officially released Lucky, instead of the new
-> 0.9.0-rc1
+* Upgrade Lucky CLI
 
 On macOS:
 
 ```
 brew update
-brew upgrade crystal-lang
-brew upgrade lucky --devel
+brew upgrade crystal-lang # Make sure you're up-to-date
+brew upgrade lucky
 ```
 
 If you are on Linux, remove the existing Lucky binary and follow the Linux
-instructions in this section but replace the tag with _v0.10.0-rc2_:
+instructions in this section
 https://luckyframework.org/guides/installing/#install-lucky
 
 * View the upgrade diff and make changes to your app
 
 In previous upgrade guides (below) every change is listed individually. This was
 time consuming and error-prone. Now,
-you can view all changes file by file in:
+you can view [all changes in this GitHub view](https://github.com/luckyframework/upgrade-diffs/compare/338b8152076f883580408731dd99f5a8f4429836...440bdd579f1af7c078dc9743f6d82efea57e0996).
+
+There is also an annotated version here that talks about the reasoning and what files can be skipped:
 https://github.com/luckyframework/upgrade-diffs/commit/d3cd70bd4170469eb14a9b56cfa743e6f234124f
-
-This makes it so you never miss a change and makes it easier to release new
-Lucky versions.
-
-Feel free to leave inline comments on that commit if you have questions or
-want to leave tips for others.
 
 * Move files in `src/pipes` to `src/actions/mixins`
 
@@ -43,6 +34,9 @@ want to leave tips for others.
 * Run `shards update`
 
 * Run `bin/setup` to run new migrations, Laravel Mix and seeds file
+
+> If you have any problems or want to add extra details please open an issue or
+> Pull Request. Thank you!
 
 ### Upgrading from 0.7 to 0.8
 
