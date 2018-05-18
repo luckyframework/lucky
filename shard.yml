@@ -1,5 +1,5 @@
 name: lucky
-version: 0.10.0-rc2
+version: 0.10.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -23,16 +23,16 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    tag: v0.10.0-rc1
+    version: ~> 0.10.0
   habitat:
     github: luckyframework/habitat
-    tag: v0.3.0-rc1
+    version: ~> 0.3.0
   lucky_inflector:
     github: luckyframework/lucky_inflector
     version: ~> 0.1.1
   lucky_record:
     github: luckyframework/lucky_record
-    tag: v0.5.0-rc1
+    version: ~> 0.5.0
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
@@ -45,7 +45,7 @@ development_dependencies:
     github: veelenga/ameba
   lucky_migrator:
     github: luckyframework/migrator
-    tag: v0.5.0-rc2
+    version: ~> 0.5.0
 
 scripts:
   postinstall: |
