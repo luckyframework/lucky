@@ -16,7 +16,7 @@ module Lucky::InputHelpers
   end
 
   macro generate_helpful_error_for(input_method_name)
-    def {{ input_method_name.id }}(field, **options)
+    def {{ input_method_name.id }}(field : LuckyRecord::Field, **options)
       Lucky::InputHelpers.error_message_for_unallowed_field
     end
   end
@@ -34,11 +34,25 @@ module Lucky::InputHelpers
     })
   end
 
-  def checkbox(field : LuckyRecord::FillableField,
-               unchecked_value : String? = nil,
-               **html_options)
-    hidden_value = unchecked_value || "0"
-    generate_input(field, "hidden", {"id" => ""}, {"value" => hidden_value})
+  def checkbox(field : LuckyRecord::FillableField(T),
+               unchecked_value : String,
+               checked_value : String,
+               **html_options) forall T
+    if field.param == checked_value
+      html_options = merge_options(html_options, {"checked" => "true"})
+    end
+    html_options = merge_options(html_options, {"value" => checked_value})
+    generate_input(field, "hidden", {"id" => ""}, {"value" => unchecked_value})
+    generate_input(field, "checkbox", html_options)
+  end
+
+  def checkbox(field : LuckyRecord::FillableField(Bool?), **html_options)
+    unchecked_value = "false"
+    if field.value
+      html_options = merge_options(html_options, {"checked" => "true"})
+    end
+    html_options = merge_options(html_options, {"value" => "true"})
+    generate_input(field, "hidden", {"id" => ""}, {"value" => unchecked_value})
     generate_input(field, "checkbox", html_options)
   end
 

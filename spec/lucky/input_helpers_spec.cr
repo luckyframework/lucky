@@ -1,5 +1,7 @@
 require "../../spec_helper"
 
+include ContextHelper
+
 class TestUser
   def first_name
     "My Name"
@@ -12,6 +14,26 @@ class InputTestForm
       name: :first_name,
       param: "My name",
       value: "",
+      form_name: "user"
+    )
+    LuckyRecord::FillableField.new(field)
+  end
+
+  def eula(value : String)
+    field = LuckyRecord::Field(String?).new(
+      name: :eula,
+      param: nil,
+      value: value,
+      form_name: "user"
+    )
+    LuckyRecord::FillableField.new(field)
+  end
+
+  def admin(checked : Bool)
+    field = LuckyRecord::Field(Bool?).new(
+      name: :admin,
+      param: nil,
+      value: checked,
       form_name: "user"
     )
     LuckyRecord::FillableField.new(field)
@@ -36,18 +58,42 @@ describe Lucky::InputHelpers do
     HTML
   end
 
-  it "renders checkbox inputs" do
-    view.checkbox(form.first_name, value: "1").to_s.should contain <<-HTML
-    <input type="checkbox" id="user_first_name" name="user:first_name" value="1"/>
-    HTML
+  describe "checkbox inputs" do
+    it "works for non-booleans" do
+      checked_field = form.eula("yes")
+      view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
+      <input type="checkbox" id="user_eula" name="user:eula" value="yes" checked="true"/>
+      HTML
+      view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
+      <input type="hidden" id="" name="user:eula" value="no"/>
+      HTML
 
-    view.checkbox(form.first_name, value: "1", class: "cool").to_s.should contain <<-HTML
-    <input type="checkbox" id="user_first_name" name="user:first_name" value="1" class="cool"/>
-    HTML
+      checked_field = form.eula("no")
+      view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
+      <input type="checkbox" id="user_eula" name="user:eula" value="yes"/>
+      HTML
+      view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
+      <input type="hidden" id="" name="user:eula" value="no"/>
+      HTML
+    end
 
-    view.checkbox(form.first_name, value: "1").to_s.should have_unchecked_value("0")
+    it "sets checked and unchecked values for booleans automatically" do
+      false_field = form.admin(false)
+      view.checkbox(false_field).to_s.should contain <<-HTML
+      <input type="checkbox" id="user_admin" name="user:admin" value="true"/>
+      HTML
+      view.checkbox(false_field).to_s.should contain <<-HTML
+      <input type="hidden" id="" name="user:admin" value="false"/>
+      HTML
 
-    view.checkbox(form.first_name, unchecked_value: "not_accepted").to_s.should have_unchecked_value("not_accepted")
+      true_field = form.admin(true)
+      view.checkbox(true_field).to_s.should contain <<-HTML
+      <input type="checkbox" id="user_admin" name="user:admin" value="true" checked="true"/>
+      HTML
+      view.checkbox(true_field).to_s.should contain <<-HTML
+      <input type="hidden" id="" name="user:admin" value="false"/>
+      HTML
+    end
   end
 
   it "renders text inputs" do
