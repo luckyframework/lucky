@@ -46,8 +46,8 @@ module Lucky
       def self.from_session(session : Lucky::Session::AbstractStore) : Store
         json = JSON.parse session.fetch(Lucky::Flash::Handler::PARAM_KEY, "{}")
         new.tap do |flash|
-          json.each do |key, value|
-            flash.now[key.to_s] = value.to_s
+          json.as_h.each do |key, value|
+            flash.now[key] = value.to_s
           end
         end
       rescue e : JSON::ParseException
