@@ -12,7 +12,8 @@ module Lucky::InputHelpers
          might have an 'admin' flag on a User. If all fields were fillable,
          a malicious user could set the 'admin' flag to 'true' on any form.
 
-      ERROR %}
+      ERROR
+    %}
   end
 
   macro generate_helpful_error_for(input_method_name)

@@ -124,7 +124,8 @@ module Lucky::Exposeable
       {% else %}
         {% method_name.raise <<-ERROR
         Can't unexpose '#{method_name}' because it was not previously exposed. Check the exposure name or use 'unexpose_if_exposed #{method_name}' if the exposure may or may not exist
-        ERROR %}
+        ERROR
+        %}
       {% end %}
     {% end %}
   end
