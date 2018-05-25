@@ -30,9 +30,7 @@ module Lucky::ActionCallbacks
   # Run a method before an action starts
   #
   # Methods will run in the order that each `before` is defined. Also, each
-  # method must return a `Lucky::Response` such as `redirect` or `render`, or
-  # call
-  # `continue`:
+  # method must call `redirect`, `render`, or `continue`:
   #
   # ```crystal
   # class Users::Destroy < BrowserAction
@@ -46,6 +44,8 @@ module Lucky::ActionCallbacks
   #   def check_if_signed_in
   #     if current_user.nil?
   #       redirect to: SignInPage
+  #     else
+  #       continue
   #     end
   #   end
   #
@@ -63,8 +63,8 @@ module Lucky::ActionCallbacks
   #
   # `after` isn't as common as `before` but can still be useful. One example
   # would be to log a successful transaction to analytics. Methods will run in
-  # the order that each `after` is defined. Also, each method must return a
-  # `Lucky::Response` such as `redirect` or `render`, or call `continue`:
+  # the order that each `after` is defined. Also, each method must call
+  # `redirect`, `render`, or `continue`
   #
   # ```crystal
   # class Purchases::Create < BrowserAction
