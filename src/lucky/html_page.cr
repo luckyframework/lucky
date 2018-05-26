@@ -4,6 +4,7 @@ require "./mount_component"
 
 module Lucky::HTMLPage
   include Lucky::BaseTags
+  include Lucky::CustomTags
   include Lucky::LinkHelpers
   include Lucky::FormHelpers
   include Lucky::LabelHelpers
