@@ -95,7 +95,7 @@ module Lucky::InputHelpers
   generate_helpful_error_for telephone_input
 
   def telephone_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "telephone", html_options)
+    generate_input(field, "tel", html_options)
   end
 
   generate_helpful_error_for url_input
