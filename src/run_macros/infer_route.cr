@@ -1,10 +1,10 @@
 require "lucky_inflector"
 
 class InferRoute
-  getter? nested_route, singular
+  getter? nested_route
   getter action_class_name
 
-  def initialize(@action_class_name : String, @nested_route : Bool, @singular : Bool = false)
+  def initialize(@action_class_name : String, @nested_route : Bool)
   end
 
   def generate_inferred_route
@@ -54,14 +54,6 @@ class InferRoute
   end
 
   private def resource_pieces
-    if singular?
-      singular_resource_pieces
-    else
-      plural_resource_pieces
-    end
-  end
-
-  private def plural_resource_pieces
     case action_name
     when "index", "create"
       [resource]
@@ -76,36 +68,8 @@ class InferRoute
     end
   end
 
-  private def singular_resource_pieces
-    case action_name
-    when "index"
-      puts(
-        <<-ERROR
-        Could not infer route for #{action_class_name}
-
-        Reason: Singular routes do not support an index action"
-        ERROR
-      )
-
-      raise "Invalid Index action for singular resource"
-    when "create", "show", "update", "delete"
-      [resource]
-    when "new"
-      [resource, "new"]
-    when "edit"
-      [resource, "edit"]
-    else
-      resource_error
-    end
-  end
-
   private def resource_error
-    examples =
-      if singular?
-        "Users::New # Show, New, Create, Edit, Update, or Delete"
-      else
-        "Users::Index # Index, Show, New, Create, Edit, Update, or Delete"
-      end
+    examples = "Users::Index # Index, Show, New, Create, Edit, Update, or Delete"
 
     puts(
       <<-ERROR
@@ -141,8 +105,7 @@ class InferRoute
 end
 
 nested_route = ARGV[1] == "true"
-singular = ARGV[2] == "true"
 
 puts InferRoute.new(
-  action_class_name: ARGV[0], nested_route: nested_route, singular: singular
+  action_class_name: ARGV[0], nested_route: nested_route
 ).generate_inferred_route
