@@ -27,7 +27,7 @@ module Lucky::ActionCallbacks
     \{% end %}
   end
 
-  # Run a method before an action starts
+  # Run a method before an action is called
   #
   # Methods will run in the order that each `before` is defined. Also, each
   # method must return a `Lucky::Response` like `redirect`, `render`, `json`,
@@ -72,7 +72,7 @@ module Lucky::ActionCallbacks
   # class Purchases::Create < BrowserAction
   #   after log_transaction
   #
-  #   action do
+  #   route do
   #     # purchase the product
   #   end
   #

@@ -53,19 +53,19 @@ module Lucky::Routeable
   # Define a nested route that responds to the appropriate HTTP request
   # automatically
   #
-  # This works similarly to `action` but it will provide multiple parameters.
+  # This works similarly to `route` but it will provide multiple parameters.
   # For example:
   #
   # ```
   # class Posts::Comments::Show
-  #   nested_action do
+  #   nested_route do
   #     render_text "Post: #{post_id}, Comment: #{id}"
   #   end
   # end
   # ```
   #
   # This action responds to the `/posts/:post_id/comments/:id` path.
-  macro nested_action
+  macro nested_route
     infer_nested_route
 
     setup_call_method({{ yield }})
@@ -75,7 +75,7 @@ module Lucky::Routeable
   #
   # ```
   # class Posts::Show
-  #   action do
+  #   route do
   #     render_text "Post: #{id}"
   #   end
   # end
@@ -89,7 +89,7 @@ module Lucky::Routeable
   # * The path, such as `/users/:id`
   # * The class to route to, like `Users::Show`
   #
-  # The `action` method will try to determine these pieces of information based
+  # The `route` method will try to determine these pieces of information based
   # the class name. After it knows the class, Lucky will transform the full
   # class name to figure out the path, i.e. removing the `::` separators and
   # adding underscores. The method is found via the last part of the class name:
@@ -112,7 +112,7 @@ module Lucky::Routeable
   # **See also** our guides for more information and examples:
   # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes)
   # * [Examples of automatically generated routes](https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes)
-  macro action
+  macro route
     infer_route
 
     setup_call_method({{ yield }})
@@ -214,7 +214,7 @@ module Lucky::Routeable
     end
 
     def self.with
-      \{% raise "Use `route` instead of `with` if the action doesn't need params" %}
+      \{% raise "Use `route` instead of `with` if the route doesn't need params" %}
     end
   end
 
@@ -246,7 +246,7 @@ module Lucky::Routeable
   # class Posts::Index < BrowserAction
   #   param page : Int32?
   #
-  #   action do
+  #   route do
   #     render_text "Posts - Page #{page || 1}"
   #   end
   # end
@@ -273,13 +273,14 @@ module Lucky::Routeable
   # Int32.
   #
   # Additionally, if the param is non-optional it will raise the
-  # `Lucky::Exceptions::MissingParam` error if the required param is absent:
+  # `Lucky::Exceptions::MissingParam` error if the required param is absent
+  # when making a request:
   #
   # ```
   # class UserConfirmations::New
   #   param token : String # this param is required!
   #
-  #   action do
+  #   route do
   #     # confirm the user with their `token`
   #   end
   # end

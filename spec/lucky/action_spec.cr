@@ -35,49 +35,49 @@ class Tests::IndexPage
 end
 
 class Tests::Index < Lucky::Action
-  action do
+  route do
     render
   end
 end
 
 class Tests::New < Lucky::Action
-  action do
+  route do
     text "test"
   end
 end
 
 class Tests::Edit < Lucky::Action
-  action do
+  route do
     text "test"
   end
 end
 
 class Tests::Show < Lucky::Action
-  action do
+  route do
     text "test"
   end
 end
 
 class Tests::Delete < Lucky::Action
-  action do
+  route do
     text "test"
   end
 end
 
 class Tests::Update < Lucky::Action
-  action do
+  route do
     text "test"
   end
 end
 
 class Tests::Create < Lucky::Action
-  action do
+  route do
     text "test"
   end
 end
 
 class PlainText::Index < Lucky::Action
-  action do
+  route do
     text "plain"
   end
 end
@@ -85,7 +85,7 @@ end
 class RequiredParams::Index < Lucky::Action
   param required_page : Int32
 
-  action do
+  route do
     text "required param: #{required_page}"
   end
 end
@@ -95,7 +95,7 @@ abstract class BaseActionWithParams < Lucky::Action
 end
 
 class InheritedParams::Index < BaseActionWithParams
-  action do
+  route do
     text "inherited param: #{inherit_me}"
   end
 end
@@ -108,7 +108,7 @@ class OptionalParams::Index < Lucky::Action
   # This is to test that the default value of 'false' is not treated as 'nil'
   param bool_with_false_default : Bool? = false
 
-  action do
+  route do
     text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
   end
 end
