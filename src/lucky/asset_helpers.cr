@@ -20,7 +20,8 @@ module Lucky::AssetHelpers
 
         ▸ Use the 'dynamic_asset' method instead
 
-      ERROR %}
+      ERROR
+      %}
     {% else %}
       {% raise <<-ERROR
       \n
@@ -31,7 +32,8 @@ module Lucky::AssetHelpers
         ▸ If you're using a variable, switch to a literal string
         ▸ If you can't use a literal string, use the 'dynamic_asset' method instead
 
-      ERROR %}
+      ERROR
+      %}
     {% end %}
   end
 
