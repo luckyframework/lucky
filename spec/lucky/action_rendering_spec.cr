@@ -14,13 +14,13 @@ class Rendering::IndexPage
 end
 
 class Rendering::Index < Lucky::Action
-  action do
+  route do
     render title: "Anything", arg2: "testing multiple args"
   end
 end
 
 class Rendering::JSON::Index < Lucky::Action
-  action do
+  route do
     json({name: "Paul"})
   end
 end
@@ -50,7 +50,7 @@ class Rendering::HeadOnly::WithTypedStatus < Lucky::Action
 end
 
 class Rendering::Text::Index < Lucky::Action
-  action do
+  route do
     text "Anything"
   end
 end

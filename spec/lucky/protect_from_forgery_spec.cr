@@ -5,7 +5,7 @@ include ContextHelper
 class ProtectedAction::Index < Lucky::Action
   include Lucky::ProtectFromForgery
 
-  action { text "Passed" }
+  route { text "Passed" }
 end
 
 describe Lucky::ProtectFromForgery do

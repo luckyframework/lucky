@@ -1,15 +1,15 @@
 require "../../spec_helper"
 
 class FormHelpers::Index < Lucky::Action
-  action { text "foo " }
+  route { text "foo " }
 end
 
 class FormHelpers::Update < Lucky::Action
-  action { text "foo " }
+  route { text "foo " }
 end
 
 class FormHelpers::Create < Lucky::Action
-  action { text "foo" }
+  route { text "foo" }
 end
 
 private class TestPage

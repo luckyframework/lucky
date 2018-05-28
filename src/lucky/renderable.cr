@@ -21,7 +21,7 @@ module Lucky::Renderable
   #
   # ```crystal
   # class Users::Index < BrowserAction
-  #   action do
+  #   route do
   #     render users: UserQuery.new
   #   end
   # end
@@ -33,7 +33,7 @@ module Lucky::Renderable
   # class Users::Index < BrowserAction
   #   expose current_user
   #
-  #   action do
+  #   route do
   #     # Users::IndexPage receives users AND current_user
   #     render IndexPage users: UserQuery.new
   #   end

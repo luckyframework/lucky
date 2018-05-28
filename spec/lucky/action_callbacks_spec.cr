@@ -5,7 +5,7 @@ include ContextHelper
 class CallbackFromActionMacro::Index < Lucky::Action
   before set_before_cookie
 
-  action do
+  route do
     text "Body"
   end
 
