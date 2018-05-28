@@ -4,8 +4,6 @@ module Lucky::BaseTags
   EMPTY_TAGS       = %i(img br hr input meta source)
   EMPTY_HTML_ATTRS = {} of String => String
 
-  @view = IO::Memory.new
-
   macro generate_tag_methods(method_name, tag)
     def {{method_name.id}}(
         content : Lucky::AllowedInTags | String? = "",
