@@ -65,11 +65,8 @@ module Lucky::Routeable
   # ```
   #
   # This action responds to the `/posts/:post_id/comments/:id` path.
-  #
-  # **Note:** The `singular` option will likely be removed soon. Try `get`,
-  # `post`, `put`, and `delete` with a custom path instead.
-  macro nested_action(singular = false)
-    infer_nested_route(singular: {{ singular }})
+  macro nested_action
+    infer_nested_route
 
     setup_call_method({{ yield }})
   end
@@ -115,20 +112,20 @@ module Lucky::Routeable
   # **See also** our guides for more information and examples:
   # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes)
   # * [Examples of automatically generated routes](https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes)
-  macro action(singular = false)
-    infer_route(singular: {{ singular }})
+  macro action
+    infer_route
 
     setup_call_method({{ yield }})
   end
 
   # :nodoc:
-  macro infer_nested_route(singular = false)
-    infer_route(has_parent: true, singular: singular)
+  macro infer_nested_route
+    infer_route(has_parent: true)
   end
 
   # :nodoc:
-  macro infer_route(has_parent = false, singular = false)
-    {{ run "../run_macros/infer_route", @type.name, has_parent, singular }}
+  macro infer_route(has_parent = false)
+    {{ run "../run_macros/infer_route", @type.name, has_parent }}
   end
 
   # :nodoc:
