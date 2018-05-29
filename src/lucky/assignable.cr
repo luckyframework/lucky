@@ -1,13 +1,13 @@
 module Lucky::Assignable
   macro needs(*type_declarations)
     {% for declaration in type_declarations %}
-      {% ASSIGNS[declaration.var] = declaration.type %}
+      {% ASSIGNS << declaration %}
     {% end %}
   end
 
   macro included
     SETTINGS = {} of Nil => Nil
-    ASSIGNS = {} of Nil => Nil
+    ASSIGNS = [] of Nil
 
     macro included
       inherit_page_settings
@@ -20,10 +20,10 @@ module Lucky::Assignable
 
   macro inherit_page_settings
     SETTINGS = {} of Nil => Nil
-    ASSIGNS = {} of Nil => Nil
+    ASSIGNS = [] of Nil
 
-    \{% for k, v in @type.ancestors.first.constant :ASSIGNS %}
-      \{% ASSIGNS[k] = v %}
+    \{% for declaration in @type.ancestors.first.constant :ASSIGNS %}
+      \{% ASSIGNS << declaration %}
     \{% end %}
 
     \{% for k, v in @type.ancestors.first.constant :SETTINGS %}

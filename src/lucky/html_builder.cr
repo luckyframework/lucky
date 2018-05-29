@@ -42,8 +42,11 @@ module Lucky::HTMLBuilder
   macro generate_needy_initializer
     {% if !@type.abstract? %}
       def initialize(
-        {% for var, type in ASSIGNS %}
-          {% if var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }},
+        {% for declaration in ASSIGNS %}
+          {% var = declaration.var %}
+          {% type = declaration.type %}
+          {% has_default = declaration.value || declaration.value == nil %}
+          {% if var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ declaration.value }}{% end %},
         {% end %}
         )
       end
