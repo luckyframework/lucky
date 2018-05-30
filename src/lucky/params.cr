@@ -143,6 +143,20 @@ class Lucky::Params
     nested_file_params(nested_key.to_s)
   end
 
+  def to_h
+    hash = {} of String => String | Hash(String, String)
+    params = (query_params.any? ? query_params : body_params)
+    params.to_h.map do |key, value|
+      matches = key.split(':')
+      if matches.size > 1
+        hash[matches[0]] = nested(matches[0])
+      else
+        hash[key] = value.as(String)
+      end
+    end
+    hash
+  end
+
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
 
@@ -183,6 +197,16 @@ class Lucky::Params
       multipart_params[key]?
     else
       form_params[key]?
+    end
+  end
+
+  private def body_params
+    if json?
+      parsed_json.as_h
+    elsif multipart?
+      multipart_params
+    else
+      form_params
     end
   end
 
