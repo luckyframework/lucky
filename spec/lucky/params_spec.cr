@@ -126,7 +126,6 @@ describe Lucky::Params do
     it "gets form encoded nested params" do
       request = build_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1",
         content_type: "application/x-www-form-urlencoded"
-      request.query = "from=query"
 
       params = Lucky::Params.new(request)
 
@@ -154,6 +153,13 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+    end
+
+    it "gets query nested params" do
+      request = build_request body: "", content_type: ""
+      request.query = "filter:query=pizza&sort=desc"
+      params = Lucky::Params.new(request)
+      params.nested?("filter").should eq({"query" => "pizza"})
     end
 
     it "gets nested params after unescaping" do
