@@ -62,6 +62,7 @@ module Lucky::Redirectable
   # ```crystal
   # redirect to: "/users", status: Status::MovedPermanently
   # ```
+  # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
   def redirect(to path : String, status : Lucky::Action::Status = Lucky::Action::Status::Found)
     redirect(path, status.value)
   end
