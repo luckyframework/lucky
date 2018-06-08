@@ -5,12 +5,11 @@ module Lucky::AssetHelpers
 
   macro asset(path)
     {% if path.is_a?(StringLiteral) %}
-      {% path = "/" + path %}
       {% if Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
         {{ Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
       {% else %}
-        {% p Lucky::AssetHelpers::ASSET_MANIFEST %}
-        {{ run "../run_macros/missing_asset", path }}
+        {% asset_paths = Lucky::AssetHelpers::ASSET_MANIFEST.keys.join(",") %}
+        {{ run "../run_macros/missing_asset", path, asset_paths }}
       {% end %}
     {% elsif path.is_a?(StringInterpolation) %}
       {% raise <<-ERROR
@@ -37,7 +36,6 @@ module Lucky::AssetHelpers
   end
 
   def dynamic_asset(path)
-    path = "/#{path}"
     fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
     if fingerprinted_path
       fingerprinted_path

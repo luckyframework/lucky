@@ -62,7 +62,7 @@ describe Lucky::AssetHelpers do
     end
 
     it "raises a helpful error" do
-      expect_raises Exception, "Missing asset: /woops!.png" do
+      expect_raises Exception, "Missing asset: woops!.png" do
         TestPage.new.missing_dynamic_asset_path
       end
     end
