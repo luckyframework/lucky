@@ -36,7 +36,8 @@ class AssetManifestBuilder
     manifest = JSON.parse(manifest_file)
 
     manifest.each do |key, value|
-      puts %({% ASSET_MANIFEST["#{key.as_s}"] = "#{value.as_s}" %})
+      key = key.as_s.gsub(/^\/assets/, "")
+      puts %({% ASSET_MANIFEST["#{key}"] = "#{value.as_s}" %})
     end
   end
 

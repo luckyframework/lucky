@@ -9,6 +9,7 @@ module Lucky::AssetHelpers
       {% if Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
         {{ Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
       {% else %}
+        {% p Lucky::AssetHelpers::ASSET_MANIFEST %}
         {{ run "../run_macros/missing_asset", path }}
       {% end %}
     {% elsif path.is_a?(StringInterpolation) %}
