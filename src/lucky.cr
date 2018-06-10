@@ -1,6 +1,7 @@
 require "lucky_inflector"
 require "lucky_record"
 require "habitat"
+require "./lucky/quick_def"
 require "./charms/*"
 require "http/server"
 require "lucky_router"
