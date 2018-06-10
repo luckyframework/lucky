@@ -27,8 +27,7 @@ module Lucky::Redirectable
   # Redirect using a `Lucky::RouteHelper`
   #
   # ```crystal
-  # route = Lucky::RouteHelper.new(method: :get, path: "/users/1")
-  # redirect to: route, status: 301
+  # redirect to: Users::Show.with(user.id), status: 301
   # ```
   def redirect(to route : Lucky::RouteHelper, status = 302)
     redirect to: route.path, status: status
@@ -38,7 +37,6 @@ module Lucky::Redirectable
   #
   # ```crystal
   # redirect to: Users::Index
-  # redirect to: Users::Show.with(user.id), status: 301
   # ```
   def redirect(to action : Lucky::Action.class, status = 302)
     redirect to: action.route, status: status
