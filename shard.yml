@@ -9,6 +9,8 @@ targets:
     main: src/precompiled_tasks/watch.cr
   model:
     main: src/precompiled_tasks/gen/model.cr
+  action:
+    main: src/precompiled_tasks/gen/action/helpful_error.cr
   action.browser:
     main: src/precompiled_tasks/gen/action/browser.cr
   action.api:
@@ -54,6 +56,7 @@ scripts:
     cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
     cp $(pwd)/bin/action.browser $(pwd)/../../bin/lucky/gen/action/browser
     cp $(pwd)/bin/action.api $(pwd)/../../bin/lucky/gen/action/api
+    cp $(pwd)/bin/action $(pwd)/../../bin/lucky/gen/action
     cp $(pwd)/bin/model $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/page $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/component $(pwd)/../../bin/lucky/gen/
