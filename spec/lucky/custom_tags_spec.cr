@@ -10,19 +10,19 @@ end
 describe Lucky::CustomTags do
   it "renders tag in a variety of ways" do
     view.tag("foo-tag", "content")
-        .to_s.should contain "<foo-tag>content</foo-tag>"
+      .to_s.should contain "<foo-tag>content</foo-tag>"
     view.tag("foo-tag", 1)
-        .to_s.should contain "<foo-tag>1</foo-tag>"
+      .to_s.should contain "<foo-tag>1</foo-tag>"
     view.tag("foo-tag", "content", class: "my-class")
-        .to_s.should contain %(<foo-tag class="my-class">content</foo-tag>)
+      .to_s.should contain %(<foo-tag class="my-class">content</foo-tag>)
     view.tag("foo-tag", 1, class: "my-class")
-        .to_s.should contain %(<foo-tag class="my-class">1</foo-tag>)
+      .to_s.should contain %(<foo-tag class="my-class">1</foo-tag>)
     view.tag("foo-tag", "content", data_confirm: "true")
-        .to_s.should contain %(<foo-tag data-confirm="true">content</foo-tag>)
+      .to_s.should contain %(<foo-tag data-confirm="true">content</foo-tag>)
     view.tag("foo-tag")
-        .to_s.should contain "<foo-tag></foo-tag>"
+      .to_s.should contain "<foo-tag></foo-tag>"
     view.tag("foo-tag", class: "my-class")
-        .to_s.should contain %(<foo-tag class="my-class"></foo-tag>)
+      .to_s.should contain %(<foo-tag class="my-class"></foo-tag>)
 
     view.tap do |page|
       page.tag("foo-tag") do
