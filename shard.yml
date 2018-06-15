@@ -25,7 +25,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.10.0
+    branch: master
   habitat:
     github: luckyframework/habitat
     version: ~> 0.3.0
@@ -47,7 +47,7 @@ development_dependencies:
     github: veelenga/ameba
   lucky_migrator:
     github: luckyframework/migrator
-    version: ~> 0.5.0
+    branch: master
 
 scripts:
   postinstall: |
@@ -62,6 +62,6 @@ scripts:
     cp $(pwd)/bin/component $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/gen/
 
-crystal: 0.24.1
+crystal: 0.25
 
 license: MIT
