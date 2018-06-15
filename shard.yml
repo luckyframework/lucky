@@ -1,5 +1,7 @@
 name: lucky
-version: 0.10.0
+version: 0.11.0
+
+crystal: 0.25
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -25,7 +27,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    branch: master
+    version: ~> 0.6
   habitat:
     github: luckyframework/habitat
     version: ~> 0.3.0
@@ -34,7 +36,7 @@ dependencies:
     version: ~> 0.1.1
   lucky_record:
     github: luckyframework/lucky_record
-    branch: master
+    version: ~> 0.6
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
@@ -47,7 +49,6 @@ development_dependencies:
     github: veelenga/ameba
   lucky_migrator:
     github: luckyframework/migrator
-    branch: master
 
 scripts:
   postinstall: |
@@ -61,7 +62,5 @@ scripts:
     cp $(pwd)/bin/page $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/component $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/gen/
-
-crystal: 0.25
 
 license: MIT
