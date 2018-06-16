@@ -1,8 +1,6 @@
 ### Upgrading from 0.10 to 0.11
 
-- Upgrade Lucky CLI
-
-On macOS:
+- Upgrade Lucky CLI (macOS)
 
 ```
 brew update
@@ -10,13 +8,13 @@ brew upgrade crystal-lang # Make sure you're up-to-date
 brew upgrade lucky
 ```
 
-If you are on Linux:
+- Upgrade Lucky CLI (Linux)
 
-Remove the existing Lucky binary and follow the Linux
-instructions in this section
-https://luckyframework.org/guides/installing/#install-lucky
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/installing/#install-lucky
 
-Use your package manager to update Crystal to v0.25
+> Use your package manager to update Crystal to v0.25
 
 - Update `.crystal-version` to `0.25.0`
 
