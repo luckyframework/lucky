@@ -16,7 +16,11 @@ https://luckyframework.org/guides/installing/#install-lucky
 
 - Find all instances of `nested_action` and replace with `nested_route`
 
-- Find all instances of `action` and replace with `route`
+- Find all instances of `action` and replace with `route` in your actions
+
+  > To make it easier to only change the right thing, search for `action do` and
+  > replace with `route do`. This will make it fairly easy to find and replace
+  > across your whole project.
 
 - Move static assets from `static/assets` to `public/assets`
 
