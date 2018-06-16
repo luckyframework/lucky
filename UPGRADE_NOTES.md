@@ -14,6 +14,11 @@ If you are on Linux, remove the existing Lucky binary and follow the Linux
 instructions in this section
 https://luckyframework.org/guides/installing/#install-lucky
 
+- Update `lucky_flow` and `lucky_migrator` in `shard.yml`
+
+  - `lucky_flow` should now be `0.2`
+  - `lucky_migrator` should now be `0.6`
+
 - Remove any cached shards: rm -rf ~/.cache/shards
 
   > This is to address a bug in shards: https://github.com/crystal-lang/shards/issues/211
