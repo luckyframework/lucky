@@ -26,6 +26,11 @@ https://luckyframework.org/guides/installing/#install-lucky
 
 - Remove `/public` from `.gitignore`
 
+- Update `src/app.cr` lines:
+
+  - Remove host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L25
+  - Add `bind_tcp` with host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L50
+
 - Add these to `.gitignore`
 
   - `/public/mix-manifest.json`
