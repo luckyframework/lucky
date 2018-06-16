@@ -1,3 +1,45 @@
+### Upgrading from 0.10 to 0.11
+
+- Upgrade Lucky CLI
+
+On macOS:
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date
+brew upgrade lucky
+```
+
+If you are on Linux, remove the existing Lucky binary and follow the Linux
+instructions in this section
+https://luckyframework.org/guides/installing/#install-lucky
+
+- Find all instances of `nested_action` and replace with `nested_route`
+
+- Find all instances of `action` and replace with `route`
+
+- Move static assets from `static/assets` to `public/assets`
+
+- Move `static/js` to `src/js`
+
+- Move `static/css` to `src/css`
+
+- Remove `/public` from `.gitignore`
+
+- Add these to `.gitignore`
+
+  - `/public/mix-manifest.json`
+  - `/public/js`
+  - `/public/css`
+
+- Update webpack config to match this:
+
+- Calls to the `asset` method no longer require prefixing `/assets`. You may not
+  be using this. The compiler will complain and help you find the right asset if
+  you need to update this.
+
+https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/browser_app_skeleton/webpack.mix.js#L12-L37
+
 ### Upgrading from 0.8 to 0.10
 
 > Note: Lucky skipped version 0.9 so that Lucky and Lucky CLI are on the same version.
