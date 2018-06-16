@@ -14,6 +14,12 @@ If you are on Linux, remove the existing Lucky binary and follow the Linux
 instructions in this section
 https://luckyframework.org/guides/installing/#install-lucky
 
+- Remove any cached shards: rm -rf ~/.cache/shards
+
+  > This is to address a bug in shards: https://github.com/crystal-lang/shards/issues/211
+
+- Run `shards update`
+
 - Find all instances of `nested_action` and replace with `nested_route`
 
 - Find all instances of `action` and replace with `route` in your actions
