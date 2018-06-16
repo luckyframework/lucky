@@ -10,9 +10,15 @@ brew upgrade crystal-lang # Make sure you're up-to-date
 brew upgrade lucky
 ```
 
-If you are on Linux, remove the existing Lucky binary and follow the Linux
+If you are on Linux:
+
+Remove the existing Lucky binary and follow the Linux
 instructions in this section
 https://luckyframework.org/guides/installing/#install-lucky
+
+Use your package manager to update Crystal to v0.25
+
+- Update `.crystal-version` to `0.25.0`
 
 - Update `lucky_flow` and `lucky_migrator` in `shard.yml`
 
