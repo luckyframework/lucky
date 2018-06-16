@@ -30,24 +30,22 @@ https://luckyframework.org/guides/installing/#install-lucky
 
 - Remove `/public` from `.gitignore`
 
-- Update `src/app.cr` lines:
-
-  - Remove host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L25
-  - Add `bind_tcp` with host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L50
-
 - Add these to `.gitignore`
 
   - `/public/mix-manifest.json`
   - `/public/js`
   - `/public/css`
 
-- Update webpack config to match this:
+- Update `src/app.cr` lines:
+
+  - Remove host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L25
+  - Add `bind_tcp` with host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L50
+
+- Update webpack config to match this: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/browser_app_skeleton/webpack.mix.js#L12-L37
 
 - Calls to the `asset` method no longer require prefixing `/assets`. You may not
   be using this. The compiler will complain and help you find the right asset if
   you need to update this.
-
-https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/browser_app_skeleton/webpack.mix.js#L12-L37
 
 ### Upgrading from 0.8 to 0.10
 
