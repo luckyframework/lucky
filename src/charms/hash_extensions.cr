@@ -1,8 +1,9 @@
 class Hash
   # Return the **nillable** value of a hash key
   #
-  # This returns a nillable value stored in a hash. It works with either a
-  # String or Symbol as the key. Returns `nil` if the value doesn't exist:
+  # This returns a value stored in a hash. The key can be specified as a String
+  # or Symbol. Internally this works by converting Symbols to Strings. See the
+  # code below for an example. It returns `nil` if the value doesn't exist:
   #
   # ```crystal
   # hash = {"name" => "Karin"}
@@ -16,8 +17,10 @@ class Hash
 
   # Return the value of a hash key
   #
-  # This returns the value stored in a hash. It works with either a String or
-  # Symbol as the key. Throws a `KeyError` if the value doesn't exist:
+  # This returns a value stored in a hash. The key can be specified as a String
+  # or Symbol. Internally this works by converting Symbols to Strings. See the
+  # code below for an example. It throws a `KeyError` if the value doesn't
+  # exist:
   #
   # ```crystal
   # hash = {"name" => "Karin"}
