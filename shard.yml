@@ -7,6 +7,8 @@ authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
 targets:
+  exec:
+    main: src/precompiled_tasks/exec.cr
   watch:
     main: src/precompiled_tasks/watch.cr
   model:
@@ -43,6 +45,9 @@ dependencies:
   shell-table:
     github: jwaldrip/shell-table.cr
     version: ~> 0.9.2
+  cry:
+    github: paulcsmith/cry
+    tag: templating
 
 development_dependencies:
   ameba:
@@ -55,6 +60,7 @@ scripts:
     shards build
     mkdir -p ../../bin/lucky/gen/action
     cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/exec $(pwd)/../../bin/lucky/
     cp $(pwd)/bin/action.browser $(pwd)/../../bin/lucky/gen/action/browser
     cp $(pwd)/bin/action.api $(pwd)/../../bin/lucky/gen/action/api
     cp $(pwd)/bin/action $(pwd)/../../bin/lucky/gen/action

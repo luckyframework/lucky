@@ -2,6 +2,7 @@
 /libs/
 /lib/
 /bin/
+/tmp/
 /.shards/
 server
 
