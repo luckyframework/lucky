@@ -18,6 +18,10 @@ class Lucky::StaticFileHandler < HTTP::StaticFileHandler
     when ".js"           then "application/javascript"
     when ".svg"          then "image/svg+xml"
     when ".svgz"         then "image/svg+xml"
+    when ".eot"          then "application/vnd.ms-fontobject"
+    when ".ttf"          then "font/ttf"
+    when ".woff"         then "font/woff"
+    when ".woff2"        then "font/woff2"
     else                      "application/octet-stream"
     end
   end
