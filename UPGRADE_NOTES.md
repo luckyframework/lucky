@@ -18,6 +18,8 @@ brew upgrade lucky
 
 - Update `.crystal-version` to `0.25.0`
 
+- Change `crystal deps` to `shards install` in `bin/setup`
+
 - Update `lucky_flow` and `lucky_migrator` in `shard.yml`
 
   - `lucky_flow` should now be `0.2`
