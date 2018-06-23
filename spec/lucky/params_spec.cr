@@ -123,7 +123,7 @@ describe Lucky::Params do
   end
 
   describe "nested" do
-    it "gets form encoded nested params" do
+    it "gets nested form encoded params" do
       request = build_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1",
         content_type: "application/x-www-form-urlencoded"
 
@@ -132,7 +132,7 @@ describe Lucky::Params do
       params.nested?(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
-    it "gets JSON nested params" do
+    it "gets nested JSON params" do
       request = build_request body: {user: {name: "Paul", age: 28}}.to_json,
         content_type: "application/json"
       request.query = "from=query"
@@ -142,7 +142,7 @@ describe Lucky::Params do
       params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
-    it "gets multipart nested params" do
+    it "gets nested multipart params" do
       request = build_multipart_request form_parts: {
         "user" => {
           "name" => "Paul",
@@ -155,7 +155,7 @@ describe Lucky::Params do
       params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
-    it "gets query nested params" do
+    it "gets nested query params" do
       request = build_request body: "", content_type: ""
       request.query = "filter:query=pizza&sort=desc"
       params = Lucky::Params.new(request)
