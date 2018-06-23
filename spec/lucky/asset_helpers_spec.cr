@@ -19,6 +19,10 @@ private class TestPage
     asset("images/logo.png")
   end
 
+  def strips_prefixed_asset_path
+    asset("images/inside-assets-folder.png")
+  end
+
   def dynamic_asset_path
     interpolated = "logo"
     dynamic_asset("images/#{interpolated}.png")
@@ -42,6 +46,10 @@ describe Lucky::AssetHelpers do
     it "works when used from an included module" do
       TestPage.new.asset_inside_component.should eq "/images/logo-with-hash.png"
     end
+
+    it "strips the prefixed '/assets/ in path" do
+      TestPage.new.strips_prefixed_asset_path.should eq "/assets/images/inside-assets-folder.png"
+    end
   end
 
   describe "dynamic asset helper" do
@@ -54,7 +62,7 @@ describe Lucky::AssetHelpers do
     end
 
     it "raises a helpful error" do
-      expect_raises Exception, "Missing asset: /woops!.png" do
+      expect_raises Exception, "Missing asset: woops!.png" do
         TestPage.new.missing_dynamic_asset_path
       end
     end

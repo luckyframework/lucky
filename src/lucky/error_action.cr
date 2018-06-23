@@ -35,6 +35,7 @@ abstract class Lucky::ErrorAction
           # Could also be render, json, text, etc.
           head status: 500
         end
-      ERROR %}
+      ERROR
+    %}
   end
 end

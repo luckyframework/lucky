@@ -6,6 +6,7 @@ module Lucky::HelpfulParagraphError
       Instead try:
         * The `para` method if you want to use an HTML paragraph.
         * The `pp` method to pretty print information for debugging.
-      ERROR %}
+      ERROR
+    %}
   end
 end

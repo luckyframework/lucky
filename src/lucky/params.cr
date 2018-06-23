@@ -146,7 +146,7 @@ class Lucky::Params
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
 
-    JSON::Any.new(parsed_json.as_h[nested_key]).each do |key, value|
+    parsed_json.as_h[nested_key].as_h.each do |key, value|
       nested_params[key.to_s] = value.to_s
     end
 
