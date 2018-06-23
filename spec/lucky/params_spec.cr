@@ -162,6 +162,13 @@ describe Lucky::Params do
       params.nested?("filter").should eq({"query" => "pizza"})
     end
 
+    it "returns an empty hash when no nested is found" do
+      request = build_request body: "", content_type: ""
+      request.query = "a=1"
+      params = Lucky::Params.new(request)
+      params.nested?("a").empty?.should eq true
+    end
+
     it "gets nested params after unescaping" do
       request = build_request body: "user%3Aname=paul",
         content_type: "application/x-www-form-urlencoded"

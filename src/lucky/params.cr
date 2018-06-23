@@ -108,7 +108,17 @@ class Lucky::Params
     if json?
       nested_json_params(nested_key.to_s)
     else
-      query_params.any? ? nested_query_params(nested_key.to_s) : nested_form_params(nested_key.to_s)
+      found_form_params = nested_form_params(nested_key.to_s)
+      if found_form_params.any?
+        found_form_params
+      else
+        found_query_params = nested_query_params(nested_key.to_s)
+        if found_query_params.any?
+          found_query_params
+        else
+          {} of String => String
+        end
+      end
     end
   end
 
