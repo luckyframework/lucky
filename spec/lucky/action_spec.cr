@@ -107,6 +107,8 @@ class OptionalParams::Index < Lucky::Action
   param with_int_never_nil : Int32 = 1337
   # This is to test that the default value of 'false' is not treated as 'nil'
   param bool_with_false_default : Bool? = false
+  # This is to test that an explicit 'nil' can be assigned for nilable types
+  param nilable_with_explicit_nil : Int32? = nil
 
   route do
     text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
@@ -251,6 +253,11 @@ describe Lucky::Action do
     it "can specify a default value" do
       action = OptionalParams::Index.new(build_context(path: ""), params)
       action.with_default.should eq "default"
+    end
+
+    it "can specify nil as the default value" do
+      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action.nilable_with_explicit_nil.should eq nil
     end
 
     it "overrides the default if present" do
