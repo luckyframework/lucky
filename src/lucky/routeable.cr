@@ -164,8 +164,8 @@ module Lucky::Routeable
          params_with_defaults.includes? decl
        end %}
     {% for param in params_without_defaults + params_with_defaults %}
-      {% is_nilable_type = param.type.is_a?(Union) && param.type.types.last.id == Nil.id %}
-      {% no_default = !param.value && param.value != false %}
+      {% is_nilable_type = param.type.is_a?(Union) %}
+      {% no_default = !param.value && param.value != false && param.value != nil %}
       {{ param }}{% if is_nilable_type && no_default %} = nil{% end %},
     {% end %}
     anchor : String? = nil
