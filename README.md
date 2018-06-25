@@ -24,7 +24,7 @@ Keep up to date by following [@luckyframework](https://twitter.com/luckyframewor
 
 You need to make sure to install the Crystal dependencies.
 
-1. Run `crystal deps`
+1. Run `shards install`
 1. Run `crystal spec` from the project root.
 
 ## Contributing
