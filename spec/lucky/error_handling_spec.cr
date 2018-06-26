@@ -47,7 +47,7 @@ describe Lucky::ErrorHandler do
   end
 
   context "when configured to show debug output" do
-    it "prints debug output instead of calling the error action" do
+    it "calls Lucky DebugAction instead of calling the error action" do
       begin
         Lucky::ErrorHandler.configure do
           settings.show_debug_output = true
@@ -58,7 +58,7 @@ describe Lucky::ErrorHandler do
 
         context = error_handler.call(build_context).as(HTTP::Server::Context)
 
-        context.response.headers["Content-Type"].should eq("text/plain")
+        context.response.headers["Content-Type"].should eq("text/html")
         context.response.status_code.should eq(500)
       ensure
         Lucky::ErrorHandler.configure do
