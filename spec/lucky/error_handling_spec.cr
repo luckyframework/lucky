@@ -58,7 +58,7 @@ describe Lucky::ErrorHandler do
 
         context = error_handler.call(build_context).as(HTTP::Server::Context)
 
-        context.response.headers["Content-Type"].should eq("text/plain")
+        context.response.headers["Content-Type"].should eq("text/html")
         context.response.status_code.should eq(500)
       ensure
         Lucky::ErrorHandler.configure do

@@ -1,5 +1,6 @@
 require "lucky_inflector"
 require "lucky_record"
+require "exception_page"
 require "habitat"
 require "cry"
 require "./lucky/quick_def"
