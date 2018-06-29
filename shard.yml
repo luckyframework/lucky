@@ -48,6 +48,9 @@ dependencies:
   cry:
     github: paulcsmith/cry
     tag: templating
+  exception_page:
+    github: crystal-loot/exception_page
+    version: ~> 0.1.0
 
 development_dependencies:
   ameba:
