@@ -142,6 +142,16 @@ describe Lucky::Params do
       params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
+    it "gets nested JSON params mixed with query params" do
+      request = build_request body: {user: {name: "Bunyan", age: 102}}.to_json,
+        content_type: "application/json"
+      request.query = "user:active=true"
+      
+      params = Lucky::Params.new(request)
+
+      params.nested?(:user).should eq({"name" => "Bunyan", "age" => "102", "active" => "true"})
+    end
+
     it "gets nested multipart params" do
       request = build_multipart_request form_parts: {
         "user" => {
