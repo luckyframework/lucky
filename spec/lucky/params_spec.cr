@@ -166,10 +166,10 @@ describe Lucky::Params do
     end
 
     it "gets nested query params" do
-      request = build_request body: "", content_type: ""
+      request = build_request body: "filter:toppings=left_beef&filter:type=none", content_type: ""
       request.query = "filter:query=pizza&sort=desc"
       params = Lucky::Params.new(request)
-      params.nested?("filter").should eq({"query" => "pizza"})
+      params.nested?("filter").should eq({"type" => "none", "query" => "pizza", "toppings" => "left_beef"})
     end
 
     it "returns an empty hash when no nested is found" do
