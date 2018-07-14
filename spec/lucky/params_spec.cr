@@ -146,7 +146,7 @@ describe Lucky::Params do
       request = build_request body: {user: {name: "Bunyan", age: 102}}.to_json,
         content_type: "application/json"
       request.query = "user:active=true"
-      
+
       params = Lucky::Params.new(request)
 
       params.nested?(:user).should eq({"name" => "Bunyan", "age" => "102", "active" => "true"})
