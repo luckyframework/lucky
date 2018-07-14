@@ -23,9 +23,8 @@ class Lucky::ErrorHandler
   private def print_debug_output(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
     context.response.reset
     context.response.status_code = 500
-    context.response.content_type = "text/plain"
-    context.response.print("ERROR: ")
-    error.inspect_with_backtrace(context.response)
+    context.response.content_type = "text/html"
+    context.response.print Lucky::ExceptionPage.for_runtime_exception(context, error)
     context
   end
 
