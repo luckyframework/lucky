@@ -2,9 +2,13 @@ require "colorize"
 
 class Lucky::LogHandler
   include HTTP::Handler
+  alias LogProc = ::Proc(Lucky::LogHandler, HTTP::Server::Context, Time, Time::Span, String)
 
   Habitat.create do
     setting show_timestamps : Bool
+    setting request_formatter : LogProc = ->(handler : Lucky::LogHandler, context : HTTP::Server::Context, time : Time, elapsed : Time::Span) {
+      "#{context.request.method} #{handler.colored_status_code(context.response.status_code)} #{context.request.resource}#{handler.timestamp(time)} (#{handler.elapsed_text(elapsed)})"
+    }
   end
 
   def initialize(@io : IO = STDOUT)
@@ -27,7 +31,7 @@ class Lucky::LogHandler
   end
 
   private def log_request(context, time, elapsed)
-    @io.puts "#{context.request.method} #{colored_status_code(context.response.status_code)} #{context.request.resource}#{timestamp(time)} (#{elapsed_text(elapsed)})"
+    @io.puts settings.request_formatter.call(self, context, time, elapsed)
   end
 
   private def log_exception(context, time, e)
@@ -35,7 +39,7 @@ class Lucky::LogHandler
     e.inspect_with_backtrace(@io)
   end
 
-  private def colored_status_code(status_code)
+  def colored_status_code(status_code)
     case status_code
     when 200..399
       "#{status_code.colorize(:green)}"
@@ -54,7 +58,7 @@ class Lucky::LogHandler
     end
   end
 
-  private def elapsed_text(elapsed)
+  def elapsed_text(elapsed)
     minutes = elapsed.total_minutes
     return "#{minutes.round(2)}m" if minutes >= 1
 
@@ -67,7 +71,7 @@ class Lucky::LogHandler
     "#{(millis * 1000).round(2)}µs"
   end
 
-  private def timestamp(time)
+  def timestamp(time)
     if settings.show_timestamps
       " #{Time::Format::ISO_8601_DATE_TIME.format(time || Time.now)}"
     else
