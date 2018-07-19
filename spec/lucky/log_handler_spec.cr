@@ -72,6 +72,31 @@ describe Lucky::LogHandler do
     end
   end
 
+  context "when configured to be disabled" do
+    it "logs timestamp" do
+      begin
+        Lucky::LogHandler.configure do
+          settings.enabled = false
+        end
+
+        io = IO::Memory.new
+        called = false
+        log_io = IO::Memory.new
+        context = build_context_with_io(io)
+
+        call_log_handler_with(log_io, context) { called = true }
+
+        log_output = log_io.to_s
+        log_output.should eq ""
+        called.should be_true
+      ensure
+        Lucky::LogHandler.configure do
+          settings.show_timestamps = false
+        end
+      end
+    end
+  end
+
   context "when context is configured to be hidden from logs" do
     it "does not log anything" do
       io = IO::Memory.new
