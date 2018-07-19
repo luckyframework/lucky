@@ -5,6 +5,7 @@ class Lucky::LogHandler
 
   Habitat.create do
     setting show_timestamps : Bool
+    setting enabled : Bool = true
   end
 
   def initialize(@io : IO = STDOUT)
