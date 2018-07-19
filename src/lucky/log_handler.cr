@@ -12,6 +12,10 @@ class Lucky::LogHandler
   end
 
   def call(context)
+    unless settings.enabled
+      return
+    end
+
     time = Time.now
     call_next(context)
     elapsed = Time.now - time
