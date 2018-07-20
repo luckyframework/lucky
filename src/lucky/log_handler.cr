@@ -16,7 +16,7 @@ class Lucky::LogHandler
       time = Time.now
       call_next(context)
       elapsed = Time.now - time
-  
+
       if !context.hide_from_logs?
         log_request(context, time, elapsed)
       end
