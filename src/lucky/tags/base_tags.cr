@@ -75,6 +75,14 @@ module Lucky::BaseTags
     end
   end
 
+  private def build_boolean_attrs(options)
+    String.build do |attrs|
+      options.each do |value|
+        attrs << " " << LuckyInflector::Inflector.dasherize(value.to_s)
+      end
+    end
+  end
+
   private def merge_options(html_options, tag_attrs)
     options = {} of String => String
     tag_attrs.each do |key, value|
@@ -82,7 +90,7 @@ module Lucky::BaseTags
     end
 
     html_options.each do |key, value|
-      options[key.to_s] = value
+      options[key.to_s] = value.as(String)
     end
 
     options
