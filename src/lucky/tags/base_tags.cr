@@ -90,6 +90,7 @@ module Lucky::BaseTags
     end
 
     html_options.each do |key, value|
+      next if key == :boolean_attrs
       options[key.to_s] = value.as(String)
     end
 

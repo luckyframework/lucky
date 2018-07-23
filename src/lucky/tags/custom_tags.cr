@@ -29,9 +29,10 @@ module Lucky::CustomTags
   end
 
   def tag(name : String, options = EMPTY_HTML_ATTRS, **other_options, &block)
+    bool_attrs = other_options[:boolean_attrs]?.to_s
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
-    @view << "<#{name}" << tag_attrs << ">"
+    @view << "<#{name}" << tag_attrs << bool_attrs << ">"
     yield
     @view << "</#{name}>"
   end
