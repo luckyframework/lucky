@@ -1,6 +1,6 @@
 # Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routeable
-  {% for http_method in [:get, :put, :post, :delete] %}
+  {% for http_method in [:get, :put, :post, :patch, :trace, :delete] %}
     # Define a route that responds to a {{ http_method.id.upcase }} request
     #
     # Use these methods if you need a custom path or are using a non-restful
