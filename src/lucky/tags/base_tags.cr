@@ -30,7 +30,15 @@ module Lucky::BaseTags
       end
     end
 
-    def {{method_name.id}}(boolean_attrs : String = "", options = EMPTY_HTML_ATTRS, **other_options, &block)
+    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block)
+      merged_options = merge_options(other_options, options)
+      tag_attrs = build_tag_attrs(merged_options)
+      @view << "<{{tag.id}}" << tag_attrs << ">"
+      yield
+      @view << "</{{tag.id}}>"
+    end
+
+    def {{method_name.id}}(boolean_attrs : String, options = EMPTY_HTML_ATTRS, **other_options, &block)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
       @view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
