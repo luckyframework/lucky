@@ -7,11 +7,24 @@ module Lucky::CustomTags
     options = EMPTY_HTML_ATTRS,
     **other_options
   )
-    bool_attrs, other_options = extract_boolean_attrs(other_options)
-    bool_attrs = build_boolean_attrs(bool_attrs.as(Array))
     merged_options = merge_options(other_options, options)
 
-    tag(name, merged_options, boolean_attrs: bool_attrs) do
+    tag(name, merged_options) do
+      text content
+    end
+  end
+
+  def tag(
+    name : String,
+    content : Lucky::AllowedInTags | String? = "",
+    options = EMPTY_HTML_ATTRS,
+    attrs : Array(Symbol) = [] of Symbol,
+    **other_options
+  )
+    bool_attrs = build_boolean_attrs(attrs)
+    merged_options = merge_options(other_options, options)
+
+    tag(name, bool_attrs, merged_options) do
       text content
     end
   end
@@ -28,27 +41,19 @@ module Lucky::CustomTags
     end
   end
 
-  def tag(name : String, options = EMPTY_HTML_ATTRS, **other_options, &block)
-    bool_attrs = other_options[:boolean_attrs]?.to_s
+  def tag(name : String, boolean_attrs : String, options = EMPTY_HTML_ATTRS, **other_options, &block)
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
-    @view << "<#{name}" << tag_attrs << bool_attrs << ">"
+    @view << "<#{name}" << tag_attrs << boolean_attrs << ">"
     yield
     @view << "</#{name}>"
   end
 
-  # `options` is a NamedTuple that may or may not contain `attrs: []`
-  # returns Tuple(Array(Symbol), Hash(Symbol, String))
-  private def extract_boolean_attrs(options)
-    hash = options.to_h
-    bool_attrs = hash[:attrs]? || [] of Symbol
-    other_options = hash.reject { |key, _| key == :attrs }
-    return {bool_attrs, other_options}
-  end
-
-  private def extract_boolean_attrs(options = NamedTuple.new)
-    bool_attrs = [] of Symbol
-    other_options = {} of Symbol => String
-    return {bool_attrs, other_options}
+  def tag(name : String, options = EMPTY_HTML_ATTRS, **other_options, &block)
+    merged_options = merge_options(other_options, options)
+    tag_attrs = build_tag_attrs(merged_options)
+    @view << "<#{name}" << tag_attrs << ">"
+    yield
+    @view << "</#{name}>"
   end
 end
