@@ -8,13 +8,12 @@ end
 
 class TestForm
   def first_name
-    field = LuckyRecord::Field(String).new(
+    LuckyRecord::Field(String).new(
       name: :first_name,
       param: "",
       value: "",
       form_name: "user"
-    )
-    LuckyRecord::FillableField.new(field)
+    ).fillable
   end
 end
 
