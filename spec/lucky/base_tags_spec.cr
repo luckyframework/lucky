@@ -1,4 +1,5 @@
-require "../../spec_helper"
+require "../spec_helper"
+include ContextHelper
 
 private class TestPage
   include Lucky::HTMLPage
@@ -33,6 +34,10 @@ describe Lucky::BaseTags do
         source(src: "https://luckyframework.org/nothing.mp4", type: "video/mp4")
       end
     end.to_s.should contain %{<video autoplay="autoplay" loop="loop" poster="https://luckyframework.org/nothing.png"><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"/></video>}
+  end
+
+  it "renders a button with a disabled boolean attribute" do
+    view.button("text", attrs: [:disabled]).to_s.should contain "<button disabled>text</button>"
   end
 
   describe "#style" do

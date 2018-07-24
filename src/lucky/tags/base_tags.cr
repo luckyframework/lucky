@@ -8,10 +8,12 @@ module Lucky::BaseTags
     def {{method_name.id}}(
         content : Lucky::AllowedInTags | String? = "",
         options = EMPTY_HTML_ATTRS,
+        attrs : Array(Symbol) = [] of Symbol,
         **other_options
       )
+      bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
-      {{method_name.id}}(merged_options) do
+      {{method_name.id}}(bool_attrs, merged_options) do
         text content
       end
     end
@@ -28,10 +30,10 @@ module Lucky::BaseTags
       end
     end
 
-    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block)
+    def {{method_name.id}}(boolean_attrs : String = "", options = EMPTY_HTML_ATTRS, **other_options, &block)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      @view << "<{{tag.id}}" << tag_attrs << ">"
+      @view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
       yield
       @view << "</{{tag.id}}>"
     end
