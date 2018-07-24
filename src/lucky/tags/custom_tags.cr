@@ -48,6 +48,7 @@ module Lucky::CustomTags
 
   private def extract_boolean_attrs(options = NamedTuple.new)
     bool_attrs = [] of Symbol
-    return {bool_attrs, options} 
+    other_options = {} of Symbol => String
+    return {bool_attrs, other_options}
   end
 end
