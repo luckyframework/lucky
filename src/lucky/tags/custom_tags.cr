@@ -45,4 +45,9 @@ module Lucky::CustomTags
     other_options = hash.reject { |key, _| key == :attrs }
     return {bool_attrs, other_options}
   end
+
+  private def extract_boolean_attrs(options = NamedTuple.new)
+    bool_attrs = [] of Symbol
+    return {bool_attrs, options} 
+  end
 end
