@@ -53,9 +53,14 @@ module Lucky::BaseTags
     end
 
     def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options)
+      {{tag.id}}([] of Symbol, options, **other_options)
+    end
+
+    def {{tag.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options)
+      bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      @view << %(<{{tag.id}}#{tag_attrs}/>)
+      @view << %(<{{tag.id}}#{tag_attrs}#{bool_attrs}/>)
     end
   {% end %}
 

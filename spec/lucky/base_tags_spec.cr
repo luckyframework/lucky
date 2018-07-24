@@ -40,6 +40,10 @@ describe Lucky::BaseTags do
     view.button("text", attrs: [:disabled]).to_s.should contain "<button disabled>text</button>"
   end
 
+  it "renders an input with autofocus boolean attribute" do
+    view.input(attrs: [:autofocus], type: "text").to_s.should contain %{<input type="text" autofocus/>}
+  end
+
   describe "#style" do
     it "renders a style tag" do
       view.style("body { font-size: 2em; }").to_s.should contain <<-HTML
