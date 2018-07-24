@@ -24,13 +24,12 @@ end
 
 class SomeFormWithCompany
   def company_id
-    field = LuckyRecord::Field(String).new(
+    LuckyRecord::Field(String).new(
       name: :company_id,
       param: "1",
       value: "",
       form_name: "company"
-    )
-    LuckyRecord::FillableField.new(field)
+    ).fillable
   end
 end
 

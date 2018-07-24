@@ -10,33 +10,30 @@ end
 
 class InputTestForm
   def first_name
-    field = LuckyRecord::Field(String).new(
+    LuckyRecord::Field(String).new(
       name: :first_name,
       param: "My name",
       value: "",
       form_name: "user"
-    )
-    LuckyRecord::FillableField.new(field)
+    ).fillable
   end
 
   def eula(value : String)
-    field = LuckyRecord::Field(String?).new(
+    LuckyRecord::Field(String?).new(
       name: :eula,
       param: nil,
       value: value,
       form_name: "user"
-    )
-    LuckyRecord::FillableField.new(field)
+    ).fillable
   end
 
   def admin(checked : Bool)
-    field = LuckyRecord::Field(Bool?).new(
+    LuckyRecord::Field(Bool?).new(
       name: :admin,
       param: nil,
       value: checked,
       form_name: "user"
-    )
-    LuckyRecord::FillableField.new(field)
+    ).fillable
   end
 end
 
