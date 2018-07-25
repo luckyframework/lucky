@@ -38,6 +38,12 @@ class CustomRoutes::Delete < Lucky::Action
   end
 end
 
+class CustomRoutes::Match < Lucky::Action
+  match :options, "/so_custom" do
+    text "test"
+  end
+end
+
 class Tests::IndexPage
   include Lucky::HTMLPage
 
@@ -185,6 +191,7 @@ describe Lucky::Action do
       assert_route_added? Lucky::Route.new :patch, "/so_custom", CustomRoutes::Patch
       assert_route_added? Lucky::Route.new :trace, "/so_custom", CustomRoutes::Trace
       assert_route_added? Lucky::Route.new :delete, "/so_custom", CustomRoutes::Delete
+      assert_route_added? Lucky::Route.new :options, "/so_custom", CustomRoutes::Match
     end
   end
 
