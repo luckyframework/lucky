@@ -76,7 +76,7 @@ module Lucky::InputHelpers
   def telephone_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "tel", html_options)
   end
-  
+
   def telephone_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
     generate_input(field, "tel", html_options, attrs: attrs)
   end
@@ -86,7 +86,7 @@ module Lucky::InputHelpers
   def password_input(field : LuckyRecord::FillableField, **html_options)
     generate_input(field, "password", html_options, {"value" => ""})
   end
-  
+
   def password_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
     generate_input(field, "password", html_options, {"value" => ""}, attrs)
   end
