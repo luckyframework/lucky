@@ -19,15 +19,38 @@ module Lucky::Routeable
     # **See also** our guides for more information and examples:
     # * [Routing](https://luckyframework.org/guides/actions-and-routing/#routing)
     macro {{ http_method.id }}(path)
-      \{% unless path.starts_with?("/") %}
-        \{% path.raise "Path must start with a slash. Example: '/" + path + "'" %}
-      \{% end %}
-
-      add_route :{{ http_method.id }}, \{{ path }}, \{{ @type.name.id }}
-
-      setup_call_method(\{{ yield }})
+      match(:{{ http_method.id }}, \{{ path }}) do
+        \{{ yield }}
+      end
     end
   {% end %}
+
+  # Define a route with a custom HTTP method.
+  #
+  # Use this method if you need to match a route with a custom HTTP method (verb).
+  # For example:
+  #
+  # ```
+  # class Profile::Show
+  #   match :options, "/profile" do
+  #     # action code here
+  #   end
+  # end
+  #
+  # Will respond to an `HTTP OPTIONS` request.
+  macro match(method, path)
+    {% unless path.starts_with?("/") %}
+      {% path.raise "Path must start with a slash. Example: '/#{path}'" %}
+    {% end %}
+
+    {% unless method == method.downcase %}
+      {% method.raise "HTTP methods should be lower-case symbols. Use #{method.downcase} instead of #{method}." %}
+    {% end %}
+
+    add_route({{method}}, {{path}}, {{ @type.name.id }})
+
+    setup_call_method({{ yield }})
+  end
 
   # :nodoc:
   macro setup_call_method(body)
