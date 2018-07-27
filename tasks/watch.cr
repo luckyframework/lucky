@@ -64,7 +64,7 @@ module Sentry
       if File.executable?(`which lsof`.chomp)
         io = IO::Memory.new
         Process.run("lsof -i :#{BROWSERSYNC_PORT}", output: io, error: STDERR, shell: true)
-        raise Sentry::BrowserSyncPortInUseError unless io.to_s.empty?
+        raise Sentry::BrowserSyncPortInUseError.new unless io.to_s.empty?
       end
     end
 
