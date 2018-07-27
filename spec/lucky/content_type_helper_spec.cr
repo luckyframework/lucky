@@ -64,10 +64,6 @@ describe Lucky::ContentTypeHelpers do
     set_content_type "text/plain; charset=UTF8" do
       FakeAction.new.plain?.should be_true
     end
-
-    set_content_type "plain/text" do
-      FakeAction.new.plain?.should be_false
-    end
   end
 end
 
