@@ -7,7 +7,7 @@ class Lucky::WelcomePage
 
   macro render_auth_button(sign_in_action)
     {% if sign_in_action.resolve? %}
-      a "View your new app", href: {{ sign_in_action}}.path, class: "btn"
+      a "View your new app", href: {{ sign_in_action }}.path, class: "btn"
     {% end %}
   end
 
