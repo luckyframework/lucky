@@ -10,6 +10,8 @@ module Sentry
   FILE_TIMESTAMPS  = {} of String => String # {file => timestamp}
   BROWSERSYNC_PORT = 3001
 
+  class BrowserSyncPortInUseError < Exception; end
+
   class ProcessRunner
     include LuckyCli::TextHelpers
 
@@ -41,15 +43,28 @@ module Sentry
 
       self.successful_compilations += 1
       if reload_browser?
-        reload_or_start_browser_sync
+        begin
+          reload_or_start_browser_sync
+        rescue Sentry::BrowserSyncPortInUseError
+          puts "Another process is currently using the BrowserSync port #{BROWSERSYNC_PORT}".colorize(:red)
+        end
       end
     end
 
     private def reload_or_start_browser_sync
       if successful_compilations == 1
+        check_browsersync_port_availability
         start_browsersync
       else
         reload_browsersync
+      end
+    end
+
+    private def check_browsersync_port_availability
+      if File.executable?(`which lsof`.chomp)
+        io = IO::Memory.new
+        Process.run("lsof -i :#{BROWSERSYNC_PORT}", output: io, error: STDERR, shell: true)
+        raise Sentry::BrowserSyncPortInUseError unless io.to_s.empty?
       end
     end
 
