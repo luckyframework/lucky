@@ -10,8 +10,6 @@ module Sentry
   FILE_TIMESTAMPS  = {} of String => String # {file => timestamp}
   BROWSERSYNC_PORT = 3001
 
-  class BrowserSyncPortInUseError < Exception; end
-
   class ProcessRunner
     include LuckyCli::TextHelpers
 
@@ -43,29 +41,42 @@ module Sentry
 
       self.successful_compilations += 1
       if reload_browser?
-        begin
-          reload_or_start_browser_sync
-        rescue Sentry::BrowserSyncPortInUseError
-          puts "Another process is currently using the BrowserSync port #{BROWSERSYNC_PORT}".colorize(:red)
-        end
+        reload_or_start_browser_sync
       end
     end
 
     private def reload_or_start_browser_sync
       if successful_compilations == 1
-        check_browsersync_port_availability
-        start_browsersync
+        if browsersync_port_is_available?
+          start_browsersync
+        else
+          print_browsersync_port_taken_error
+        end
       else
         reload_browsersync
       end
     end
 
-    private def check_browsersync_port_availability
+    private def browsersync_port_is_available?
       if File.executable?(`which lsof`.chomp)
         io = IO::Memory.new
         Process.run("lsof -i :#{BROWSERSYNC_PORT}", output: io, error: STDERR, shell: true)
-        raise Sentry::BrowserSyncPortInUseError.new unless io.to_s.empty?
+        return io.to_s.empty?
       end
+      # TODO: use a fallback method of detecting active port maybe `netstat -abn`?
+      true
+    end
+
+    private def print_browsersync_port_taken_error
+      io = IO::Memory.new
+      Process.run("ps -p `lsof -ti :#{BROWSERSYNC_PORT}` -o command", output: io, error: STDERR, shell: true)
+      puts "There was a problem starting browsersync. Port #{BROWSERSYNC_PORT} is in use.".colorize(:red)
+      puts <<-ERROR
+
+      Try closing these programs...
+
+        #{io.to_s}
+      ERROR
     end
 
     private def start_browsersync
