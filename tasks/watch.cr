@@ -57,14 +57,14 @@ module Sentry
       end
     end
 
-    private def browsersync_port_is_available?
+    private def browsersync_port_is_available? : Bool
       if File.executable?(`which lsof`.chomp)
         io = IO::Memory.new
         Process.run("lsof -i :#{BROWSERSYNC_PORT}", output: io, error: STDERR, shell: true)
-        return io.to_s.empty?
+        io.to_s.empty?
+      else
+        true
       end
-      # TODO: use a fallback method of detecting active port maybe `netstat -abn`?
-      true
     end
 
     private def print_browsersync_port_taken_error
