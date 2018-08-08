@@ -1,0 +1,19 @@
+class <%= pluralized_resource %>::IndexPage < MainLayout
+  needs <%= pluralized_resource.underscore %> : <%= query_class %>
+  quick_def page_title, "All"
+
+  def content
+    h1 "All"
+    render_<%= pluralized_resource.underscore %>
+  end
+
+  def render_<%= pluralized_resource.underscore %>
+    ul do
+      @<%= pluralized_resource.underscore %>.each do |<%= underscored_resource %>|
+        li do
+          link <%= underscored_resource %>.<%= columns.first.name %>, <%= pluralized_resource %>::Show.with(<%= underscored_resource %>)
+        end
+      end
+    end
+  end
+end

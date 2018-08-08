@@ -19,6 +19,8 @@ targets:
     main: src/precompiled_tasks/gen/action/browser.cr
   action.api:
     main: src/precompiled_tasks/gen/action/api.cr
+  resource.browser:
+    main: src/precompiled_tasks/gen/resource/browser.cr
   page:
     main: src/precompiled_tasks/gen/page.cr
   component:
@@ -38,6 +40,9 @@ dependencies:
     version: ~> 0.1.1
   lucky_record:
     github: luckyframework/lucky_record
+    branch: master
+  lucky_migrator:
+    github: luckyframework/lucky_migrator
     branch: master
   lucky_router:
     github: luckyframework/lucky_router
@@ -64,6 +69,7 @@ scripts:
     mkdir -p ../../bin/lucky/gen/action
     cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
     cp $(pwd)/bin/exec $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/resource.browser $(pwd)/../../bin/lucky/gen/resource/browser
     cp $(pwd)/bin/action.browser $(pwd)/../../bin/lucky/gen/action/browser
     cp $(pwd)/bin/action.api $(pwd)/../../bin/lucky/gen/action/api
     cp $(pwd)/bin/action $(pwd)/../../bin/lucky/gen/action

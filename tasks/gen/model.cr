@@ -1,5 +1,6 @@
 require "lucky_cli"
 require "teeplate"
+require "lucky_migrator"
 require "./templates/model_template"
 require "lucky_inflector"
 
@@ -10,17 +11,15 @@ class Gen::Model < LuckyCli::Task
   def call(@io : IO = STDOUT)
     if valid?
       template.render("./src/")
-      create_migration(Gen::Migration)
+      create_migration
       display_success_messages
     else
       io.puts @error.colorize(:red)
     end
   end
 
-  macro create_migration(migration_task)
-    {% if migration_task.resolve? %}
-      Gen::Migration.new.call(name: "Create#{pluralized_model_name}")
-    {% end %}
+  macro create_migration
+    LuckyMigrator::MigrationGenerator.new("Create#{pluralized_model_name}").generate
   end
 
   private def pluralized_model_name

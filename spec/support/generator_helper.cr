@@ -5,4 +5,8 @@ module GeneratorHelper
       io.to_s.should contain(file_location.to_s)
     end
   end
+
+  private def should_generate_migration(named name : String)
+    Dir.new("./db/migrations").any?(&.ends_with?(name)).should be_true
+  end
 end
