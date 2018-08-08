@@ -12,9 +12,7 @@ describe Gen::Model do
 
       Gen::Model.new.call(io)
 
-      {% unless flag?("without-migrator") %}
-        should_generate_migration named: "create_contact_infos.cr"
-      {% end %}
+      should_generate_migration named: "create_contact_infos.cr"
       should_create_files_with_contents io,
         "./src/models/contact_info.cr": "table :contact_infos"
       should_create_files_with_contents io,
@@ -42,8 +40,4 @@ describe Gen::Model do
       io.to_s.should contain("Model name should be camel case")
     end
   end
-end
-
-private def should_generate_migration(named name : String)
-  Dir.new("./db/migrations").any?(&.ends_with?(name)).should be_true
 end

@@ -1,0 +1,14 @@
+class <%= pluralized_resource %>::Update < BrowserAction
+  route do
+    <%= underscored_resource %> = <%= query_class %>.find(id)
+    <%= form_class %>.update(<%= underscored_resource %>, params) do |form, <%= underscored_resource %>|
+      if form.saved?
+        flash.success = "The record has been updated"
+        redirect Show.with(<%= underscored_resource %>.id)
+      else
+        flash.danger = "It looks like the form is not valid"
+        render EditPage, form: form, <%= underscored_resource %>: <%= underscored_resource %>
+      end
+    end
+  end
+end
