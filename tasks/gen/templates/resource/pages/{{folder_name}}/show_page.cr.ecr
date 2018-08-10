@@ -10,10 +10,10 @@ class <%= pluralized_resource %>::ShowPage < MainLayout
 
   def render_actions
     section do
-      link "Edit", <%= pluralized_resource %>::Edit.with(<%= underscored_resource %>.id)
+      link "Edit", <%= pluralized_resource %>::Edit.with(@<%= underscored_resource %>.id)
       text " | "
       link "Delete",
-        <%= pluralized_resource %>::Delete.with(<%= underscored_resource %>.id),
+        <%= pluralized_resource %>::Delete.with(@<%= underscored_resource %>.id),
         data_confirm: "Are you sure?"
     end
   end
