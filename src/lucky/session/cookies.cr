@@ -1,4 +1,4 @@
-require "./support/**"
+require "../support/**"
 
 # Defines a better cookie store for the request
 # The cookies being read are the ones received along with the request,
