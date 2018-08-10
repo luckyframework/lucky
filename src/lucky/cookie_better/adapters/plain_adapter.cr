@@ -5,9 +5,18 @@ class Lucky::Adapters::PlainAdapter
     to response : HTTP::Server::Response
   ) : Void
     response.cookies[key] = cookies.to_json
+    add_cookies_to_response(response)
+  end
+
+  private def add_cookies_to_response(response : HTTP::Server::Response)
     response.cookies.add_response_headers(response.headers)
   end
 
-  def read(request : HTTP::Server::Request) : Lucky::CookieJar
+  def read(key : String, from request : HTTP::Request) : Lucky::CookieJar
+    Lucky::CookieJar.new.tap do |cookie_jar|
+      JSON.parse(request.cookies[key].value).as_h.each do |key, value|
+        cookie_jar.set key, value.to_s
+      end
+    end
   end
 end
