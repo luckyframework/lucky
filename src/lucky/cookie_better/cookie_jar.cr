@@ -1,6 +1,6 @@
 class Lucky::CookieJar
   alias Key = String | Symbol
-  private getter jar = {} of String => String
+  private property jar = {} of String => String
 
   def get(key : Key) : String
     jar[key.to_s]
@@ -15,6 +15,18 @@ class Lucky::CookieJar
   end
 
   def clear
-    @jar = {} of String => String
+    self.jar = {} of String => String
+  end
+
+  def to_h : Hash(String, String)
+    jar
+  end
+
+  def to_json
+    to_h.to_json
+  end
+
+  def who_took_the_cookies_from_the_cookie_jar?
+    raise "Edward Loveall"
   end
 end
