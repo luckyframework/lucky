@@ -3,8 +3,9 @@ module Lucky::SpecialtyTags
     @view << "<!DOCTYPE html>"
   end
 
-  def css_link(href, rel = "stylesheet", media = "screen")
-    tag_attrs = build_tag_attrs({href: href, rel: rel, media: media})
+  def css_link(href, **options)
+    options = merge_options(options, {"href" => href, "rel" => "stylesheet", "media" => "screen"})
+    tag_attrs = build_tag_attrs(options)
     @view << "<link" << tag_attrs << ">"
   end
 
