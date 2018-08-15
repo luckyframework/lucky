@@ -1,5 +1,5 @@
 name: lucky
-version: 0.11.0
+version: 0.11.1
 
 crystal: 0.25
 
@@ -41,8 +41,8 @@ dependencies:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
   shell-table:
-    github: jwaldrip/shell-table.cr
-    version: ~> 0.9.2
+    github: luckyframework/shell-table.cr
+    branch: refactor/setter
 
 development_dependencies:
   ameba:
