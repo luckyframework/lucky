@@ -1,12 +1,15 @@
 [![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)](http://luckyframework.org)
 
-Lucky is a web application framework that:
-
 * Catches bugs you didn't know you had
 * Runs incredibly quickly with low memory usage
 * Helps you spend more time on code instead of debugging and writing tests.
 
 Learn more about [what makes Lucky special](https://luckyframework.org/why-lucky/).
+
+## Coming from Rails?
+
+* [Ruby on Rails to Lucky on Crystal: Blazing fast, fewer bugs, and even more fun.
+](https://hackernoon.com/ruby-on-rails-to-lucky-on-crystal-blazing-fast-fewer-bugs-and-even-more-fun-104010913fec)
 
 ## Try Lucky
 
