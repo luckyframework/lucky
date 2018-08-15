@@ -4,23 +4,21 @@ module Lucky::SpecialtyTags
   end
 
   def css_link(href, **options)
-    options = merge_options(options, {"href" => href, "rel" => "stylesheet", "media" => "screen"})
-    tag_attrs = build_tag_attrs(options)
-    @view << "<link" << tag_attrs << ">"
+    options = {href: href, rel: "stylesheet", media: "screen"}.merge(options)
+    tag "link", **options
   end
 
   def js_link(src, **options)
-    options = merge_options(options, {"src" => src})
-    tag_attrs = build_tag_attrs(options)
-    @view << "<script" << tag_attrs << "></script>"
+    options = {src: src}.merge(options)
+    tag "script", **options
   end
 
   def utf8_charset
-    raw %(<meta charset="utf-8">)
+    meta charset: "utf-8"
   end
 
   def responsive_meta_tag
-    raw %(<meta name="viewport" content="width=device-width, initial-scale=1">)
+    meta name: "viewport", content: "width=device-width", initial_scale: "1"
   end
 
   def raw(string : String)
