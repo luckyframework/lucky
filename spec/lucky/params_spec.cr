@@ -142,6 +142,16 @@ describe Lucky::Params do
       params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
+    it "gets empty JSON params when nested key is missing" do
+      request = build_request body: "{}",
+        content_type: "application/json"
+      request.query = "from=query"
+
+      params = Lucky::Params.new(request)
+
+      params.nested?(:user).should eq({} of String => JSON::Any)
+    end
+
     it "gets nested JSON params mixed with query params" do
       request = build_request body: {user: {name: "Bunyan", age: 102}}.to_json,
         content_type: "application/json"
