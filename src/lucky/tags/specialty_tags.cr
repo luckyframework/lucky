@@ -18,7 +18,7 @@ module Lucky::SpecialtyTags
   end
 
   def responsive_meta_tag
-    meta name: "viewport", content: "width=device-width", initial_scale: "1"
+    meta name: "viewport", content: "width=device-width, initial-scale=1"
   end
 
   def raw(string : String)

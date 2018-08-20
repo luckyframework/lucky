@@ -47,11 +47,11 @@ end
 describe Lucky::InputHelpers do
   it "renders submit input" do
     view.submit("Save").to_s.should contain <<-HTML
-    <input type="submit" value="Save"/>
+    <input type="submit" value="Save">
     HTML
 
     view.submit("Save", class: "cool").to_s.should contain <<-HTML
-    <input type="submit" value="Save" class="cool"/>
+    <input type="submit" value="Save" class="cool">
     HTML
   end
 
@@ -59,147 +59,147 @@ describe Lucky::InputHelpers do
     it "works for non-booleans" do
       checked_field = form.eula("yes")
       view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
-      <input type="checkbox" id="user_eula" name="user:eula" value="yes" checked="true"/>
+      <input type="checkbox" id="user_eula" name="user:eula" value="yes" checked="true">
       HTML
       view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
-      <input type="hidden" id="" name="user:eula" value="no"/>
+      <input type="hidden" id="" name="user:eula" value="no">
       HTML
 
       checked_field = form.eula("no")
       view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
-      <input type="checkbox" id="user_eula" name="user:eula" value="yes"/>
+      <input type="checkbox" id="user_eula" name="user:eula" value="yes">
       HTML
       view.checkbox(checked_field, checked_value: "yes", unchecked_value: "no").to_s.should contain <<-HTML
-      <input type="hidden" id="" name="user:eula" value="no"/>
+      <input type="hidden" id="" name="user:eula" value="no">
       HTML
     end
 
     it "sets checked and unchecked values for booleans automatically" do
       false_field = form.admin(false)
       view.checkbox(false_field).to_s.should contain <<-HTML
-      <input type="checkbox" id="user_admin" name="user:admin" value="true"/>
+      <input type="checkbox" id="user_admin" name="user:admin" value="true">
       HTML
       view.checkbox(false_field).to_s.should contain <<-HTML
-      <input type="hidden" id="" name="user:admin" value="false"/>
+      <input type="hidden" id="" name="user:admin" value="false">
       HTML
 
       true_field = form.admin(true)
       view.checkbox(true_field).to_s.should contain <<-HTML
-      <input type="checkbox" id="user_admin" name="user:admin" value="true" checked="true"/>
+      <input type="checkbox" id="user_admin" name="user:admin" value="true" checked="true">
       HTML
       view.checkbox(true_field).to_s.should contain <<-HTML
-      <input type="hidden" id="" name="user:admin" value="false"/>
+      <input type="hidden" id="" name="user:admin" value="false">
       HTML
     end
   end
 
   it "renders text inputs" do
     view.text_input(form.first_name).to_s.should contain <<-HTML
-    <input type="text" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="text" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.text_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="text" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="text" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders email inputs" do
     view.email_input(form.first_name).to_s.should contain <<-HTML
-    <input type="email" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="email" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.email_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="email" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="email" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders file inputs" do
     view.file_input(form.first_name).to_s.should contain <<-HTML
-    <input type="file" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="file" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.file_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="file" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="file" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders color inputs" do
     view.color_input(form.first_name).to_s.should contain <<-HTML
-    <input type="color" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="color" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.color_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="color" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="color" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders hidden inputs" do
     view.hidden_input(form.first_name).to_s.should contain <<-HTML
-    <input type="hidden" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="hidden" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.hidden_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="hidden" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="hidden" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders number inputs" do
     view.number_input(form.first_name).to_s.should contain <<-HTML
-    <input type="number" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="number" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.number_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="number" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="number" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders telephone inputs" do
     view.telephone_input(form.first_name).to_s.should contain <<-HTML
-    <input type="tel" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="tel" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.telephone_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="tel" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="tel" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders url inputs" do
     view.url_input(form.first_name).to_s.should contain <<-HTML
-    <input type="url" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="url" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.url_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="url" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="url" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders search inputs" do
     view.search_input(form.first_name).to_s.should contain <<-HTML
-    <input type="search" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="search" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.search_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="search" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="search" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
   it "renders password inputs" do
     view.password_input(form.first_name).to_s.should contain <<-HTML
-    <input type="password" id="user_first_name" name="user:first_name" value=""/>
+    <input type="password" id="user_first_name" name="user:first_name" value="">
     HTML
 
     view.password_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="password" id="user_first_name" name="user:first_name" value="" class="cool"/>
+    <input type="password" id="user_first_name" name="user:first_name" value="" class="cool">
     HTML
   end
 
   it "renders range inputs" do
     view.range_input(form.first_name).to_s.should contain <<-HTML
-    <input type="range" id="user_first_name" name="user:first_name" value="My name"/>
+    <input type="range" id="user_first_name" name="user:first_name" value="My name">
     HTML
 
     view.range_input(form.first_name, class: "cool").to_s.should contain <<-HTML
-    <input type="range" id="user_first_name" name="user:first_name" value="My name" class="cool"/>
+    <input type="range" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
   end
 
@@ -224,6 +224,6 @@ end
 
 private def have_unchecked_value(value)
   contain <<-HTML
-  <input type="hidden" id="" name="user:first_name" value="#{value}"/>
+  <input type="hidden" id="" name="user:first_name" value="#{value}">
   HTML
 end

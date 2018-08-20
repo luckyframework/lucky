@@ -15,7 +15,7 @@ describe Lucky::ForgeryProtectionHelpers do
     context.session[Lucky::ProtectFromForgery::SESSION_KEY] = "my_token"
 
     view(context).csrf_hidden_input.to_s.should contain <<-HTML
-    <input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token"/>
+    <input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token">
     HTML
   end
 
@@ -28,10 +28,10 @@ describe Lucky::ForgeryProtectionHelpers do
     rendered = page.perform_render.to_s
 
     rendered.should contain <<-HTML
-    <meta name="csrf-param" content="#{Lucky::ProtectFromForgery::PARAM_KEY}"/>
+    <meta name="csrf-param" content="#{Lucky::ProtectFromForgery::PARAM_KEY}">
     HTML
     rendered.should contain <<-HTML
-    <meta name="csrf-token" content="my_token"/>
+    <meta name="csrf-token" content="my_token">
     HTML
   end
 end
