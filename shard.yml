@@ -48,8 +48,8 @@ dependencies:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
   shell-table:
-    github: jwaldrip/shell-table.cr
-    version: ~> 0.9.2
+    github: luckyframework/shell-table.cr
+    branch: refactor/setter
   cry:
     github: paulcsmith/cry
     tag: templating
