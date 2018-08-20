@@ -282,7 +282,7 @@ module Lucky::TextHelpers
     return Array(String).new if text.blank?
 
     text.to_s.gsub(/\r\n?/, "\n").split(/\n\n+/).map do |t|
-      t.gsub(/([^\n]\n)(?=[^\n])/, "\\1<br />") || t
+      t.gsub(/([^\n]\n)(?=[^\n])/, "\\1<br >") || t
     end
   end
 end
