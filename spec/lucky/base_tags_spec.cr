@@ -25,7 +25,7 @@ describe Lucky::BaseTags do
     view.para(42).to_s.should contain "<p>42</p>"
     view.para(MySpecialClass.new).to_s.should contain "<p>it works</p>"
     view.para(1_i64).to_s.should contain "<p>1</p>"
-    view.hr.to_s.should contain "<hr/>"
+    view.hr.to_s.should contain "<hr>"
   end
 
   it "renders nested video with source tags and proper attributes" do
@@ -33,7 +33,7 @@ describe Lucky::BaseTags do
       video(autoplay: "autoplay", loop: "loop", poster: "https://luckyframework.org/nothing.png") do
         source(src: "https://luckyframework.org/nothing.mp4", type: "video/mp4")
       end
-    end.to_s.should contain %{<video autoplay="autoplay" loop="loop" poster="https://luckyframework.org/nothing.png"><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"/></video>}
+    end.to_s.should contain %{<video autoplay="autoplay" loop="loop" poster="https://luckyframework.org/nothing.png"><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"></video>}
   end
 
   it "renders a button with a disabled boolean attribute" do

@@ -145,8 +145,9 @@ class Lucky::Params
 
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
+    nested_key_json = parsed_json.as_h[nested_key]? || JSON.parse("{}")
 
-    parsed_json.as_h[nested_key].as_h.each do |key, value|
+    nested_key_json.as_h.each do |key, value|
       nested_params[key.to_s] = value.to_s
     end
 

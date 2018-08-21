@@ -55,6 +55,16 @@ describe Lucky::ContentTypeHelpers do
       FakeAction.new.xml?.should be_false
     end
   end
+
+  it "works for plain text" do
+    set_content_type "text/plain" do
+      FakeAction.new.plain?.should be_true
+    end
+
+    set_content_type "text/plain; charset=UTF8" do
+      FakeAction.new.plain?.should be_true
+    end
+  end
 end
 
 private def set_content_type(content_type)
