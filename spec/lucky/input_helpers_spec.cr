@@ -103,7 +103,7 @@ describe Lucky::InputHelpers do
     HTML
 
     view.text_input(form.first_name, attrs: [:required]).to_s.should contain <<-HTML
-    <input type="text" id="user_first_name" name="user:first_name" value="My name" required/>
+    <input type="text" id="user_first_name" name="user:first_name" value="My name" required>
     HTML
   end
 

@@ -41,7 +41,7 @@ describe Lucky::BaseTags do
   end
 
   it "renders an input with autofocus boolean attribute" do
-    view.input(attrs: [:autofocus], type: "text").to_s.should contain %{<input type="text" autofocus/>}
+    view.input(attrs: [:autofocus], type: "text").to_s.should contain %{<input type="text" autofocus>}
   end
 
   describe "#style" do
