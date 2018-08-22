@@ -1,8 +1,74 @@
+### Upgrading from 0.10 to 0.11
+
+- Upgrade Lucky CLI (macOS)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/installing/#install-lucky
+
+> Use your package manager to update Crystal to v0.25
+
+- Update `.crystal-version` to `0.25.0`
+
+- Change `crystal deps` to `shards install` in `bin/setup`
+
+- Update `lucky_flow` and `lucky_migrator` in `shard.yml`
+
+  - `lucky_flow` should now be `0.2`
+  - `lucky_migrator` should now be `0.6`
+
+- Remove any cached shards: rm -rf ~/.cache/shards
+
+  > This is to address a bug in shards: https://github.com/crystal-lang/shards/issues/211
+
+- Run `shards update`
+
+- Find all instances of `nested_action` and replace with `nested_route`
+
+- Find all instances of `action` and replace with `route` in your actions
+
+  > To make it easier to only change the right thing, search for `action do` and
+  > replace with `route do`. This will make it fairly easy to find and replace
+  > across your whole project.
+
+- Move static assets from `static/assets` to `public/assets`
+
+- Move `static/js` to `src/js`
+
+- Move `static/css` to `src/css`
+
+- Remove `/public` from `.gitignore`
+
+- Add these to `.gitignore`
+
+  - `/public/mix-manifest.json`
+  - `/public/js`
+  - `/public/css`
+
+- Update `src/app.cr` lines:
+
+  - Remove host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L25
+  - Add `bind_tcp` with host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L50
+
+- Update webpack config to match this: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/browser_app_skeleton/webpack.mix.js#L12-L37
+
+- Calls to the `asset` method no longer require prefixing `/assets`. You may not
+  be using this. The compiler will complain and help you find the right asset if
+  you need to update this.
+
 ### Upgrading from 0.8 to 0.10
 
 > Note: Lucky skipped version 0.9 so that Lucky and Lucky CLI are on the same version.
 
-* Upgrade Lucky CLI
+- Upgrade Lucky CLI
 
 On macOS:
 
@@ -16,28 +82,31 @@ If you are on Linux, remove the existing Lucky binary and follow the Linux
 instructions in this section
 https://luckyframework.org/guides/installing/#install-lucky
 
-* View the upgrade diff and make changes to your app
+- View the upgrade diff and make changes to your app
 
 In previous upgrade guides (below) every change is listed individually. This was
 time consuming and error-prone. Now,
 you can [view all changes in this GitHub commit](https://github.com/luckyframework/upgrade-diffs/commit/c279b0d0c0b9936301c5ea93fd25a549c9cd4c06).
 
-* Move files in `src/pipes` to `src/actions/mixins`
+- Ensure node version is at least 6.0 `node -v`. Install a newer version if
+  yours is older.
 
-* Change `allow` to `fillable` in forms
+- Move files in `src/pipes` to `src/actions/mixins`
 
-* Change `allow_virtual` to `virtual` in forms
+- Change `allow` to `fillable` in forms
 
-* Run `shards update`
+- Change `allow_virtual` to `virtual` in forms
 
-* Run `bin/setup` to run new migrations, Laravel Mix and seeds file
+- Run `shards update`
+
+- Run `bin/setup` to run new migrations, Laravel Mix and seeds file
 
 > If you have any problems or want to add extra details please open an issue or
 > Pull Request. Thank you!
 
 ### Upgrading from 0.7 to 0.8
 
-* Upgrade Lucky CLI
+- Upgrade Lucky CLI
 
 On macOS:
 
@@ -51,7 +120,7 @@ If you are on Linux, remove the existing Lucky binary and follow the Linux
 instructions in this section:
 https://luckyframework.org/guides/installing/#install-lucky
 
-* Update dependencies in `shard.yml`
+- Update dependencies in `shard.yml`
 
 ```yml
 dependencies:
@@ -65,7 +134,7 @@ dependencies:
 
 Then run `shards update`
 
-* Update `config/server.cr`
+- Update `config/server.cr`
 
 You can probably copy this as-is, but if you have made customizations to your
 `config/server.cr` then you'll need to customize this:
@@ -94,7 +163,7 @@ private def raise_missing_secret_key_in_production
 end
 ```
 
-* Add `config/watch.yml`
+- Add `config/watch.yml`
 
 This is used by the watcher so it knows what port the server is running on.
 
@@ -103,7 +172,7 @@ host: 0.0.0.0
 port: 5000
 ```
 
-* Update `config/database.cr`
+- Update `config/database.cr`
 
 Put this inside of the `LuckyRecord::Repo.configure do` block:
 
@@ -114,7 +183,7 @@ settings.lazy_load_enabled = Lucky::Env.production?
 
 See a full example here: https://github.com/luckyframework/lucky_cli/blob/a25472cc7461b1803735d086e57a632f92f93a1c/src/web_app_skeleton/config/database.cr.ecr
 
-* You will need to preload associations now:
+- You will need to preload associations now:
 
 This will make N+1 queries a thing of the past.
 
@@ -128,7 +197,7 @@ post = PostQuery.new.preload_comments.find(id)
 post.comments
 ```
 
-* Rename `field` to `column` in your models. For example
+- Rename `field` to `column` in your models. For example
 
 ```crystal
 class Post < BaseModel
@@ -138,23 +207,23 @@ class Post < BaseModel
 end
 ```
 
-* Optionally include `responsive_meta_tag` in `MainLayout`
+- Optionally include `responsive_meta_tag` in `MainLayout`
 
 You can include this in `head` to make your app layout responsive.
 
-* Change `abstract def inner` to `abstract def content` in `MainLayout`
+- Change `abstract def inner` to `abstract def content` in `MainLayout`
 
-* Change method call to `inner` to `content` in the render method of `MainLayout`
+- Change method call to `inner` to `content` in the render method of `MainLayout`
 
-* Change instances of `def inner` to `def content` in Pages
+- Change instances of `def inner` to `def content` in Pages
 
-* Change form `needs` to use `on: :create`
+- Change form `needs` to use `on: :create`
 
 `needs` in forms should now use `on: :save` if you want the old behavior.
 
 See https://luckyframework.org/guides/saving-with-forms/#passing-extra-data-to-forms for more info
 
-* Must pass extra params using `create` or `update`
+- Must pass extra params using `create` or `update`
 
 You can no longer pass params to `Form#new`. You must pass them in the
 `create` or `update`.
@@ -166,9 +235,9 @@ UserForm.create!(name: "Jane")
 
 More info at https://luckyframework.org/guides/saving-with-forms/#passing-data-without-route-params
 
-* Change calls from `form.save_succeeded?` to `form.saved?`
+- Change calls from `form.save_succeeded?` to `form.saved?`
 
-* Trap int in src/server.cr
+- Trap int in src/server.cr
 
 Add this to your `src/server.cr` before `server.listen`
 
@@ -178,19 +247,19 @@ Signal::INT.trap do
 end
 ```
 
-* Add `bin/lucky/` to `.gitignore`
+- Add `bin/lucky/` to `.gitignore`
 
 ```
 # Add to .gitignore
 bin/lucky/
 ```
 
-* Add nice HTML error page
+- Add nice HTML error page
 
 Copy contents of the linked file to `src/pages/errors/show_page.cr`
 https://github.com/luckyframework/lucky_cli/blob/a25472cc7461b1803735d086e57a632f92f93a1c/src/web_app_skeleton/src/pages/errors/show_page.cr
 
-* Add default `Error::ShowSerializer`
+- Add default `Error::ShowSerializer`
 
 This is used for serializering errors to JSON. Add this to
 `src/serializers/errors/show_serializer.cr`
@@ -208,14 +277,14 @@ class Errors::ShowSerializer < Lucky::Serializer
 end
 ```
 
-* Update `Errors::Show` action
+- Update `Errors::Show` action
 
 The error handling action now supports more errors and renders better output.
 
 Copy the contents of the linked file to `src/actions/errors/show.cr`
 https://github.com/luckyframework/lucky_cli/blob/a25472cc7461b1803735d086e57a632f92f93a1c/src/web_app_skeleton/src/actions/errors/show.cr
 
-* Require serializers
+- Require serializers
 
 Add the following to `src/app.cr`.
 
@@ -225,7 +294,7 @@ require "./serializers/**"
 
 ### Upgrading from 0.6 to 0.7
 
-* Update to Crystal v0.24.1. Lucky will fail on earlier versions
+- Update to Crystal v0.24.1. Lucky will fail on earlier versions
 
 ```
 brew update
@@ -235,7 +304,7 @@ brew upgrade lucky
 
 If you are on Linux, remove the existing Lucky binary and follow the Linux instructions in this section: https://luckyframework.org/guides/installing/#install-lucky
 
-* Update dependencies in `shard.yml`
+- Update dependencies in `shard.yml`
 
 ```yml
 dependencies:
@@ -249,7 +318,7 @@ dependencies:
 
 Then run `shards update`
 
-* Configure the domain to use for the RouteHelper:
+- Configure the domain to use for the RouteHelper:
 
 ```crystal
 # Add to config/route_helper.cr
@@ -263,7 +332,7 @@ Lucky::RouteHelper.configure do
 end
 ```
 
-* Add `csrf_meta_tags` to your `MainLayout`
+- Add `csrf_meta_tags` to your `MainLayout`
 
 ```crystal
 # src/pages/main_layout.cr
@@ -271,14 +340,14 @@ end
 csrf_meta_tags
 ```
 
-* Remove `needs flash` from `MainLayout`
+- Remove `needs flash` from `MainLayout`
 
 ```crystal
 # Delete this line
 needs flash : Lucky::Flash::Store
 ```
 
-* Remove `expose flash` from `BrowserAction` and add forgery protection
+- Remove `expose flash` from `BrowserAction` and add forgery protection
 
 ```crystal
 # src/actions/browser_action.cr
@@ -287,7 +356,7 @@ abstract class BrowserAction < Lucky::Action
 end
 ```
 
-* Change `Shared::FlashComponent` to get the flash from `@context`
+- Change `Shared::FlashComponent` to get the flash from `@context`
 
 ```crystal
 # src/components/shared/flash_component.cr
@@ -297,7 +366,7 @@ end
 @context.flash.each
 ```
 
-* Add `*.dwarf` to the .gitignore
+- Add `*.dwarf` to the .gitignore
 
 ```
 # Add to .gitignore

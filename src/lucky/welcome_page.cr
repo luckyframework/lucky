@@ -1,9 +1,13 @@
 class Lucky::WelcomePage
   include Lucky::HTMLPage
 
+  # Accept a context and all other exposed data
+  def initialize(@context : HTTP::Server::Context, *args, **named_args)
+  end
+
   macro render_auth_button(sign_in_action)
     {% if sign_in_action.resolve? %}
-      a "View your new app", href: SignIns::New.path, class: "btn"
+      a "View your new app", href: {{ sign_in_action }}.path, class: "btn"
     {% end %}
   end
 
@@ -34,7 +38,7 @@ class Lucky::WelcomePage
   end
 
   def lucky_logo
-    raw %(<img src="#{lucky_logo_data_uri}" class="lucky-logo"/>)
+    raw %(<img src="#{lucky_logo_data_uri}" class="lucky-logo">)
   end
 
   def lucky_welcome_tagline

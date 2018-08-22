@@ -1,0 +1,5 @@
+class <%= pluralized_resource %>::Show < BrowserAction
+  route do
+    render ShowPage, <%= underscored_resource %>: <%= query_class %>.find(id)
+  end
+end

@@ -29,15 +29,15 @@ describe Lucky::TextHelpers do
     it "simple_formats" do
       view.simple_format("").to_s.should eq "<p></p>"
 
-      view.simple_format("crazy\r\n cross\r platform linebreaks").to_s.should eq "<p>crazy\n<br /> cross\n<br /> platform linebreaks</p>"
+      view.simple_format("crazy\r\n cross\r platform linebreaks").to_s.should eq "<p>crazy\n<br > cross\n<br > platform linebreaks</p>"
       view.simple_format("A paragraph\n\nand another one!").to_s.should eq "<p>A paragraph</p>\n\n<p>and another one!</p>"
-      view.simple_format("A paragraph\n With a newline").to_s.should eq "<p>A paragraph\n<br /> With a newline</p>"
+      view.simple_format("A paragraph\n With a newline").to_s.should eq "<p>A paragraph\n<br > With a newline</p>"
 
       text = "A\nB\nC\nD"
-      view.simple_format(text).to_s.should eq "<p>A\n<br />B\n<br />C\n<br />D</p>"
+      view.simple_format(text).to_s.should eq "<p>A\n<br >B\n<br >C\n<br >D</p>"
 
       text = "A\r\n  \nB\n\n\r\n\t\nC\nD"
-      view.simple_format(text).to_s.should eq "<p>A\n<br />  \n<br />B</p>\n\n<p>\t\n<br />C\n<br />D</p>"
+      view.simple_format(text).to_s.should eq "<p>A\n<br >  \n<br >B</p>\n\n<p>\t\n<br >C\n<br >D</p>"
 
       view.simple_format("This is a classy test", class: "test").to_s.should eq "<p class=\"test\">This is a classy test</p>"
       view.simple_format("para 1\n\npara 2", class: "test").to_s.should eq %Q(<p class="test">para 1</p>\n\n<p class="test">para 2</p>)

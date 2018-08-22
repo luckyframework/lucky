@@ -20,8 +20,26 @@ class CustomRoutes::Post < Lucky::Action
   end
 end
 
+class CustomRoutes::Patch < Lucky::Action
+  patch "/so_custom" do
+    text "test"
+  end
+end
+
+class CustomRoutes::Trace < Lucky::Action
+  trace "/so_custom" do
+    text "test"
+  end
+end
+
 class CustomRoutes::Delete < Lucky::Action
   delete "/so_custom" do
+    text "test"
+  end
+end
+
+class CustomRoutes::Match < Lucky::Action
+  match :options, "/so_custom" do
     text "test"
   end
 end
@@ -107,6 +125,8 @@ class OptionalParams::Index < Lucky::Action
   param with_int_never_nil : Int32 = 1337
   # This is to test that the default value of 'false' is not treated as 'nil'
   param bool_with_false_default : Bool? = false
+  # This is to test that an explicit 'nil' can be assigned for nilable types
+  param nilable_with_explicit_nil : Int32? = nil
 
   route do
     text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
@@ -168,7 +188,10 @@ describe Lucky::Action do
       assert_route_added? Lucky::Route.new :get, "/so_custom", CustomRoutes::Index
       assert_route_added? Lucky::Route.new :put, "/so_custom", CustomRoutes::Put
       assert_route_added? Lucky::Route.new :post, "/so_custom", CustomRoutes::Post
+      assert_route_added? Lucky::Route.new :patch, "/so_custom", CustomRoutes::Patch
+      assert_route_added? Lucky::Route.new :trace, "/so_custom", CustomRoutes::Trace
       assert_route_added? Lucky::Route.new :delete, "/so_custom", CustomRoutes::Delete
+      assert_route_added? Lucky::Route.new :options, "/so_custom", CustomRoutes::Match
     end
   end
 
@@ -251,6 +274,11 @@ describe Lucky::Action do
     it "can specify a default value" do
       action = OptionalParams::Index.new(build_context(path: ""), params)
       action.with_default.should eq "default"
+    end
+
+    it "can specify nil as the default value" do
+      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action.nilable_with_explicit_nil.should eq nil
     end
 
     it "overrides the default if present" do

@@ -106,9 +106,9 @@ class Lucky::Params
   # ```
   def nested?(nested_key : String | Symbol) : Hash(String, String)
     if json?
-      nested_json_params(nested_key.to_s)
+      nested_json_params(nested_key.to_s).merge(nested_query_params(nested_key.to_s))
     else
-      nested_form_params(nested_key.to_s)
+      nested_form_params(nested_key.to_s).merge(nested_query_params(nested_key.to_s))
     end
   end
 
@@ -159,8 +159,9 @@ class Lucky::Params
 
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
+    nested_key_json = parsed_json.as_h[nested_key]? || JSON.parse("{}")
 
-    JSON::Any.new(parsed_json.as_h[nested_key]).each do |key, value|
+    nested_key_json.as_h.each do |key, value|
       nested_params[key.to_s] = value.to_s
     end
 
@@ -171,6 +172,17 @@ class Lucky::Params
     nested_key = "#{nested_key}:"
     source = multipart? ? multipart_params : form_params
     source.to_h.reduce(empty_params) do |nested_params, (key, value)|
+      if key.starts_with? nested_key
+        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+      end
+
+      nested_params
+    end
+  end
+
+  private def nested_query_params(nested_key : String) : Hash(String, String)
+    nested_key = "#{nested_key}:"
+    query_params.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
         nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
       end

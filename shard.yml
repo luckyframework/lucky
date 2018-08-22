@@ -1,18 +1,26 @@
 name: lucky
-version: 0.10.0
+version: 0.11.0
+
+crystal: 0.25
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
 targets:
+  exec:
+    main: src/precompiled_tasks/exec.cr
   watch:
     main: src/precompiled_tasks/watch.cr
   model:
     main: src/precompiled_tasks/gen/model.cr
+  action:
+    main: src/precompiled_tasks/gen/action/helpful_error.cr
   action.browser:
     main: src/precompiled_tasks/gen/action/browser.cr
   action.api:
     main: src/precompiled_tasks/gen/action/api.cr
+  resource.browser:
+    main: src/precompiled_tasks/gen/resource/browser.cr
   page:
     main: src/precompiled_tasks/gen/page.cr
   component:
@@ -23,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.10.0
+    version: ~> 0.6
   habitat:
     github: luckyframework/habitat
     version: ~> 0.3.0
@@ -32,33 +40,40 @@ dependencies:
     version: ~> 0.1.1
   lucky_record:
     github: luckyframework/lucky_record
-    version: ~> 0.5.0
+    branch: master
+  lucky_migrator:
+    github: luckyframework/lucky_migrator
+    branch: master
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
   shell-table:
-    github: jwaldrip/shell-table.cr
-    version: ~> 0.9.2
+    github: luckyframework/shell-table.cr
+    branch: refactor/setter
+  cry:
+    github: paulcsmith/cry
+    tag: templating
+  exception_page:
+    github: crystal-loot/exception_page
+    version: ~> 0.1.0
 
 development_dependencies:
   ameba:
     github: veelenga/ameba
-  lucky_migrator:
-    github: luckyframework/migrator
-    version: ~> 0.5.0
 
 scripts:
   postinstall: |
     shards build
     mkdir -p ../../bin/lucky/gen/action
     cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/exec $(pwd)/../../bin/lucky/
+    cp $(pwd)/bin/resource.browser $(pwd)/../../bin/lucky/gen/resource/browser
     cp $(pwd)/bin/action.browser $(pwd)/../../bin/lucky/gen/action/browser
     cp $(pwd)/bin/action.api $(pwd)/../../bin/lucky/gen/action/api
+    cp $(pwd)/bin/action $(pwd)/../../bin/lucky/gen/action
     cp $(pwd)/bin/model $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/page $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/component $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/gen/
-
-crystal: 0.24.1
 
 license: MIT

@@ -123,17 +123,16 @@ describe Lucky::Params do
   end
 
   describe "nested" do
-    it "gets form encoded nested params" do
+    it "gets nested form encoded params" do
       request = build_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1",
         content_type: "application/x-www-form-urlencoded"
-      request.query = "from=query"
 
       params = Lucky::Params.new(request)
 
       params.nested?(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
 
-    it "gets JSON nested params" do
+    it "gets nested JSON params" do
       request = build_request body: {user: {name: "Paul", age: 28}}.to_json,
         content_type: "application/json"
       request.query = "from=query"
@@ -143,7 +142,27 @@ describe Lucky::Params do
       params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
-    it "gets multipart nested params" do
+    it "gets empty JSON params when nested key is missing" do
+      request = build_request body: "{}",
+        content_type: "application/json"
+      request.query = "from=query"
+
+      params = Lucky::Params.new(request)
+
+      params.nested?(:user).should eq({} of String => JSON::Any)
+    end
+
+    it "gets nested JSON params mixed with query params" do
+      request = build_request body: {user: {name: "Bunyan", age: 102}}.to_json,
+        content_type: "application/json"
+      request.query = "user:active=true"
+
+      params = Lucky::Params.new(request)
+
+      params.nested?(:user).should eq({"name" => "Bunyan", "age" => "102", "active" => "true"})
+    end
+
+    it "gets nested multipart params" do
       request = build_multipart_request form_parts: {
         "user" => {
           "name" => "Paul",
@@ -154,6 +173,20 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
+    end
+
+    it "gets nested query params" do
+      request = build_request body: "filter:toppings=left_beef&filter:type=none", content_type: ""
+      request.query = "filter:query=pizza&sort=desc"
+      params = Lucky::Params.new(request)
+      params.nested?("filter").should eq({"type" => "none", "query" => "pizza", "toppings" => "left_beef"})
+    end
+
+    it "returns an empty hash when no nested is found" do
+      request = build_request body: "", content_type: ""
+      request.query = "a=1"
+      params = Lucky::Params.new(request)
+      params.nested?("a").empty?.should eq true
     end
 
     it "gets nested params after unescaping" do

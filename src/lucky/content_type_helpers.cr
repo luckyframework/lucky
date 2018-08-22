@@ -33,6 +33,14 @@ module Lucky::ContentTypeHelpers
     ["application/xml", "application/xhtml+xml"].includes? content_type
   end
 
+  # Check if the request is plain text
+  #
+  # This tests if the Content-Type header is `text/plain` or
+  # with the optional character set per W3 RFC1341 7.1
+  def plain?
+    content_type == "text/plain" || content_type.downcase.starts_with?("text/plain; charset=")
+  end
+
   private def content_type : String
     headers["Content-Type"]? || ""
   end

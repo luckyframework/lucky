@@ -1,10 +1,8 @@
 language: crystal
 install:
-  - crystal deps
+  - shards install
 script:
   - crystal spec
-  # Make sure everything works even without LuckyMigrator
-  - crystal spec -D without-migrator
   - crystal tool format spec src --check
   - shards build
   - bin/ameba

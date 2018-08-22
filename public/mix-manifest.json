@@ -1,3 +1,5 @@
 {
-  "/images/logo.png": "/images/logo-with-hash.png"
+  "/images/logo.png": "/images/logo-with-hash.png",
+  "/assets/images/inside-assets-folder.png":
+    "/assets/images/inside-assets-folder.png"
 }

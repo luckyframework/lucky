@@ -1,0 +1,8 @@
+class <%= pluralized_resource %>::Edit < BrowserAction
+  route do
+    <%= underscored_resource %> = <%= query_class %>.find(id)
+    render EditPage,
+      form: <%= form_class %>.new(<%= underscored_resource %>),
+      <%= underscored_resource %>: <%= underscored_resource %>
+  end
+end
