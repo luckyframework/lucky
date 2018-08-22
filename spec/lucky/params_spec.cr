@@ -301,13 +301,12 @@ describe Lucky::Params do
   end
 
   describe "to_h" do
-    # TODO: Uncomment once #491 is fixed
-    #it "returns a hash for query_params" do
-    #  request = build_request body: "", content_type: ""
-    #  request.query = "filter:name=trombone&page=1&per=50"
-    #  params = Lucky::Params.new(request).to_h
-    #  params.should eq({"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"})
-    #end
+    it "returns a hash for query_params" do
+      request = build_request body: "", content_type: ""
+      request.query = "filter:name=trombone&page=1&per=50"
+      params = Lucky::Params.new(request).to_h
+      params.should eq({"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"})
+    end
 
     it "returns a hash for body_params" do
       request = build_request body: "filter%3Aname=tuba&page=1&per=50",
