@@ -3,6 +3,12 @@ require "http/server"
 
 include ContextHelper
 
+class EmojiLogFormatter < Lucky::LogFormatters::Base
+  def format(context, time, elapsed) : String
+    "🐵 #{context.request.method} - BOOM"
+  end 
+end
+
 describe Lucky::LogHandler do
   it "logs" do
     io = IO::Memory.new
@@ -91,7 +97,7 @@ describe Lucky::LogHandler do
         called.should be_true
       ensure
         Lucky::LogHandler.configure do
-          settings.show_timestamps = false
+          settings.enabled = true
         end
       end
     end
@@ -110,6 +116,30 @@ describe Lucky::LogHandler do
       log_output = log_io.to_s
       log_output.should eq("")
       called.should be_true
+    end
+  end
+
+  context "when configured with custom log formatter" do
+    it "logs emoji" do
+      begin
+        Lucky::LogHandler.configure do
+          settings.log_formatter = EmojiLogFormatter.new
+        end
+
+        called = false
+        log_io = IO::Memory.new
+        context = build_context("PATCH")
+
+        call_log_handler_with(log_io, context) { called = true }
+
+        log_output = log_io.to_s.chomp
+        log_output.should eq "🐵 PATCH - BOOM"
+        called.should be_true
+      ensure
+        Lucky::LogHandler.configure do
+          settings.log_formatter = DefaultLogFormatter.new
+        end
+      end
     end
   end
 end
