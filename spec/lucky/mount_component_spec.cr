@@ -31,26 +31,10 @@ private class ComplexTestComponent < BaseComponent
 end
 
 private class ComponentWithBlock < BaseComponent
-  alias RenderableProc = Proc(String, Nil)
   needs name : String
-  needs block : RenderableProc
 
   def render
-    @block.call(@name)
-  end
-end
-
-private class ComponentWithOptionalBlock < BaseComponent
-  alias RenderableProc = Proc(Nil)
-  needs block : RenderableProc? = nil
-
-  def render
-    block = @block
-    if block
-      block.call
-    else
-      text "No block given"
-    end
+    yield @name
   end
 end
 
@@ -68,10 +52,6 @@ private class TestMountPage
     mount ComponentWithBlock, name: "joe" do |name|
       text name.upcase
     end
-    mount ComponentWithOptionalBlock
-    mount ComponentWithOptionalBlock do
-      text "Added a block"
-    end
     @view
   end
 end
@@ -86,7 +66,5 @@ describe "mounting a component to a page" do
     contents.should contain("/images/logo-with-hash.png")
     contents.should contain("JOE")
     contents.should contain("JANE")
-    contents.should contain("No block given")
-    contents.should contain("Added a block")
   end
 end

@@ -47,10 +47,36 @@ module Sentry
 
     private def reload_or_start_browser_sync
       if successful_compilations == 1
-        start_browsersync
+        if browsersync_port_is_available?
+          start_browsersync
+        else
+          print_browsersync_port_taken_error
+        end
       else
         reload_browsersync
       end
+    end
+
+    private def browsersync_port_is_available? : Bool
+      if File.executable?(`which lsof`.chomp)
+        io = IO::Memory.new
+        Process.run("lsof -i :#{BROWSERSYNC_PORT}", output: io, error: STDERR, shell: true)
+        io.to_s.empty?
+      else
+        true
+      end
+    end
+
+    private def print_browsersync_port_taken_error
+      io = IO::Memory.new
+      Process.run("ps -p `lsof -ti :#{BROWSERSYNC_PORT}` -o command", output: io, error: STDERR, shell: true)
+      puts "There was a problem starting browsersync. Port #{BROWSERSYNC_PORT} is in use.".colorize(:red)
+      puts <<-ERROR
+
+      Try closing these programs...
+
+        #{io.to_s}
+      ERROR
     end
 
     private def start_browsersync

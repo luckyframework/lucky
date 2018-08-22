@@ -1,6 +1,5 @@
 module CleanupHelper
   private def cleanup
-    ARGV.clear
     FileUtils.rm_rf("./tmp")
   end
 

@@ -1,0 +1,19 @@
+class <%= pluralized_resource %>::NewPage < MainLayout
+  needs form : <%= form_class %>
+  quick_def page_title, "New"
+
+  def content
+    h1 "New"
+    render_<%= underscored_resource %>_form(@form)
+  end
+
+  def render_<%= underscored_resource %>_form(f)
+    form_for <%= pluralized_resource %>::Create do
+      <%- columns.each_with_index do |column, index| -%>
+      field(f.<%= column.name %>) { |i| text_input i<% if index == 0 %>, autofocus: "true"<% end %> }
+      <%- end -%>
+
+      submit "Save", data_disable_with: "Saving..."
+    end
+  end
+end

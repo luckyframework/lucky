@@ -1,0 +1,7 @@
+class <%= pluralized_resource %>::Delete < BrowserAction
+  route do
+    <%= query_class %>.find(id).delete
+    flash.success = "Deleted the record"
+    redirect Index
+  end
+end

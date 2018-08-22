@@ -47,7 +47,7 @@ describe Lucky::FormHelpers do
   it "renders a form tag" do
     without_csrf_protection do
       view.inferred_put_form.to_s.should contain <<-HTML
-      <form action="/form_helpers/fake_id" method="post"><input type="hidden" name="_method" value="put"/>foo</form>
+      <form action="/form_helpers/fake_id" method="post"><input type="hidden" name="_method" value="put">foo</form>
       HTML
 
       view.inferred_post_form.to_s.should contain <<-HTML
@@ -81,7 +81,7 @@ describe Lucky::FormHelpers do
     form = view(context_with_csrf).form_for(FormHelpers::Index) { }
 
     form.to_s.should contain <<-HTML
-    <form action="/form_helpers" method="get"><input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token"/></form>
+    <form action="/form_helpers" method="get"><input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token"></form>
     HTML
   end
 end

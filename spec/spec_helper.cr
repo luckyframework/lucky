@@ -1,10 +1,11 @@
 require "spec"
-{% unless flag?("without-migrator") %}
-require "lucky_migrator"
-{% end %}
 require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
+
+Spec.before_each do
+  ARGV.clear
+end
 
 Lucky::Session::Store.configure do
   settings.key = "test_app"
@@ -25,15 +26,9 @@ LuckyRecord::Repo.configure do
   settings.url = "Not used yet"
 end
 
-macro configure_migrator(lucky_migrator)
-  {% if lucky_migrator.resolve? %}
-    LuckyMigrator::Runner.configure do
-      settings.database = "doesn't matter"
-    end
-  {% end %}
+LuckyMigrator::Runner.configure do
+  settings.database = "doesn't matter"
 end
-
-configure_migrator(LuckyMigrator)
 
 Lucky::ErrorHandler.configure do
   settings.show_debug_output = false

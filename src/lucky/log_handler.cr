@@ -9,22 +9,27 @@ class Lucky::LogHandler
     setting request_formatter : LogProc = ->(handler : Lucky::LogHandler, context : HTTP::Server::Context, time : Time, elapsed : Time::Span) {
       "#{context.request.method} #{handler.colored_status_code(context.response.status_code)} #{context.request.resource}#{handler.timestamp(time)} (#{handler.elapsed_text(elapsed)})"
     }
+    setting enabled : Bool = true
   end
 
   def initialize(@io : IO = STDOUT)
   end
 
   def call(context)
-    time = Time.now
-    call_next(context)
-    elapsed = Time.now - time
+    if settings.enabled
+      time = Time.now
+      call_next(context)
+      elapsed = Time.now - time
 
-    if !context.hide_from_logs?
-      log_request(context, time, elapsed)
+      if !context.hide_from_logs?
+        log_request(context, time, elapsed)
+      end
+      {% if !flag?(:release) %}
+        log_debug_messages(context)
+      {% end %}
+    else
+      call_next context
     end
-    {% if !flag?(:release) %}
-      log_debug_messages(context)
-    {% end %}
   rescue e
     log_exception(context, time, e)
     raise e
@@ -54,7 +59,7 @@ class Lucky::LogHandler
 
   private def log_debug_messages(context)
     context.debug_messages.each do |message|
-      @io.puts "  #{"▸".colorize(:cyan)} #{message}"
+      @io.puts "  #{"▸".colorize(:green)} #{message}"
     end
   end
 
