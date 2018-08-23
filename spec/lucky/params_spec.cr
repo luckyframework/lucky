@@ -316,6 +316,13 @@ describe Lucky::Params do
       params.should eq({"filter" => {"name" => "tuba"}, "page" => "1", "per" => "50"})
     end
 
+    it "returns a hash for multipart_params" do
+      request = build_multipart_request form_parts: {"filter" => {"name" => "baritone"}}
+
+      params = Lucky::Params.new(request).to_h
+      params.should eq({"filter" => {"name" => "baritone"}})
+    end
+
     it "returns a hash for json_params" do 
       request = build_request body: {filter: {name: "euphonium"}, page: "1", per: "50"}.to_json,
         content_type: "application/json"
