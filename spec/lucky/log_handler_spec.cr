@@ -54,11 +54,7 @@ describe Lucky::LogHandler do
 
   context "when configured to log timestamps" do
     it "logs timestamp" do
-      begin
-        Lucky::LogHandler.configure do
-          settings.show_timestamps = true
-        end
-
+      Lucky::LogHandler.temp_config(show_timestamps: true) do
         io = IO::Memory.new
         called = false
         log_io = IO::Memory.new
@@ -70,21 +66,13 @@ describe Lucky::LogHandler do
         log_output.should contain("GET")
         log_output.should match(/#{Time.now.to_s("%Y-%m-%d")}/)
         called.should be_true
-      ensure
-        Lucky::LogHandler.configure do
-          settings.show_timestamps = false
-        end
       end
     end
   end
 
   context "when configured to be disabled" do
     it "logs timestamp" do
-      begin
-        Lucky::LogHandler.configure do
-          settings.enabled = false
-        end
-
+      Lucky::LogHandler.temp_config(enabled: false) do
         io = IO::Memory.new
         called = false
         log_io = IO::Memory.new
@@ -95,10 +83,6 @@ describe Lucky::LogHandler do
         log_output = log_io.to_s
         log_output.should eq ""
         called.should be_true
-      ensure
-        Lucky::LogHandler.configure do
-          settings.enabled = true
-        end
       end
     end
   end
@@ -121,11 +105,7 @@ describe Lucky::LogHandler do
 
   context "when configured with custom log formatter" do
     it "logs emoji" do
-      begin
-        Lucky::LogHandler.configure do
-          settings.log_formatter = EmojiLogFormatter.new
-        end
-
+      Lucky::LogHandler.temp_config(log_formatter: EmojiLogFormatter.new) do
         called = false
         log_io = IO::Memory.new
         context = build_context("PATCH")
@@ -135,10 +115,6 @@ describe Lucky::LogHandler do
         log_output = log_io.to_s.chomp
         log_output.should eq "🐵 PATCH - BOOM"
         called.should be_true
-      ensure
-        Lucky::LogHandler.configure do
-          settings.log_formatter = DefaultLogFormatter.new
-        end
       end
     end
   end
