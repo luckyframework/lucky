@@ -323,7 +323,7 @@ describe Lucky::Params do
       params.should eq({"filter" => {"name" => "baritone"}})
     end
 
-    it "returns a hash for json_params" do 
+    it "returns a hash for json_params" do
       request = build_request body: {filter: {name: "euphonium"}}.to_json,
         content_type: "application/json"
       request.query = "page=1&per=50"

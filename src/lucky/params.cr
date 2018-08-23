@@ -148,7 +148,7 @@ class Lucky::Params
   # ```crystal
   # request.query = "filter:name=trombone&page=1&per=50"
   # params = Lucky::Params.new(request)
-  # params.to_h  # {"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"}
+  # params.to_h # {"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"}
   # ```
   def to_h
     if json?
