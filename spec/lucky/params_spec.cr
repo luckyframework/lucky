@@ -299,4 +299,37 @@ describe Lucky::Params do
       params.nested_file?(:missing).should eq({} of String => Tempfile)
     end
   end
+
+  describe "to_h" do
+    it "returns a hash for query_params" do
+      request = build_request body: "", content_type: ""
+      request.query = "filter:name=trombone&page=1&per=50"
+      params = Lucky::Params.new(request).to_h
+      params.should eq({"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"})
+    end
+
+    it "returns a hash for body_params" do
+      request = build_request body: "filter%3Aname=tuba&page=1&per=50",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request).to_h
+      params.should eq({"filter" => {"name" => "tuba"}, "page" => "1", "per" => "50"})
+    end
+
+    it "returns a hash for multipart_params" do
+      request = build_multipart_request form_parts: {"filter" => {"name" => "baritone"}}
+
+      params = Lucky::Params.new(request).to_h
+      params.should eq({"filter" => {"name" => "baritone"}})
+    end
+
+    it "returns a hash for json_params" do
+      request = build_request body: {filter: {name: "euphonium"}}.to_json,
+        content_type: "application/json"
+      request.query = "page=1&per=50"
+
+      params = Lucky::Params.new(request).to_h
+      params.should eq({"filter" => {"name" => "euphonium"}, "page" => "1", "per" => "50"})
+    end
+  end
 end
