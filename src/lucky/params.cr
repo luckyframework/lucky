@@ -152,7 +152,7 @@ class Lucky::Params
   # ```
   def to_h
     if json?
-      parsed_json.as_h
+      parsed_json.as_h.merge(query_params.to_h)
     else
       hash = {} of String => String | Hash(String, String)
       params = body_params.to_h.merge(query_params.to_h)
