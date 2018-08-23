@@ -144,7 +144,7 @@ end
   param to a route, Lucky will let you know at compile-time.
 - Since we defined `column nickname : String?` as nilable, Lucky would fail
   to compile the page if you just did `text user.nickname` since it disallows
-  printing `nil`. So instead we add a fallback `"Ni Nickname"`. **No more
+  printing `nil`. So instead we add a fallback `"No Nickname"`. **No more
   accidentally printing empty text in HTML!**
 
 ## Testing
