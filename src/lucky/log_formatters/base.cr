@@ -15,11 +15,7 @@ abstract class Lucky::LogFormatters::Base
   end
 
   private def timestamp(time)
-    if Lucky::LogHandler.settings.show_timestamps
-      " #{Time::Format::ISO_8601_DATE_TIME.format(time || Time.now)}"
-    else
-      ""
-    end
+    Lucky::LogHandler.timestamp(time)
   end
 
   private def elapsed_text(elapsed)

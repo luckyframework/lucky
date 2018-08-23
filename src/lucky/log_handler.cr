@@ -38,7 +38,7 @@ class Lucky::LogHandler
   end
 
   private def log_exception(context, time, e)
-    @io.puts "#{context.request.method} #{context.request.resource}#{timestamp(time)} - Unhandled exception:"
+    @io.puts "#{context.request.method} #{context.request.resource}#{LogHandler.timestamp(time)} - Unhandled exception:"
     e.inspect_with_backtrace(@io)
   end
 
@@ -48,7 +48,7 @@ class Lucky::LogHandler
     end
   end
 
-  private def timestamp(time)
+  def self.timestamp(time)
     if settings.show_timestamps
       " #{Time::Format::ISO_8601_DATE_TIME.format(time || Time.now)}"
     else
