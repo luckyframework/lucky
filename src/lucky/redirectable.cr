@@ -52,7 +52,7 @@ module Lucky::Redirectable
     context.response.headers.add "Location", path
     context.response.headers.add "Turbolinks-Location", path
     context.response.status_code = status
-    Lucky::Response.new(context, "", "")
+    Lucky::TextResponse.new(context, "", "")
   end
 
   # Redirect using a `String` and a `Status` value

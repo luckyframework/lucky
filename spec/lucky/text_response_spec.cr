@@ -2,12 +2,12 @@ require "../spec_helper"
 
 include ContextHelper
 
-describe Lucky::Response do
+describe Lucky::TextResponse do
   describe "#print" do
     it "uses the default status if none is set" do
       context = build_context
       print_response(context, status: nil)
-      context.response.status_code.should eq Lucky::Response::DEFAULT_STATUS
+      context.response.status_code.should eq Lucky::TextResponse::DEFAULT_STATUS
     end
 
     it "uses the passed in status" do
@@ -16,7 +16,7 @@ describe Lucky::Response do
       context.response.status_code.should eq 300
     end
 
-    it "uses the response status if it's set, and Lucky::Response status is nil" do
+    it "uses the response status if it's set, and Lucky::TextResponse status is nil" do
       context = build_context
       context.response.status_code = 300
       print_response(context, status: nil)
@@ -26,5 +26,5 @@ describe Lucky::Response do
 end
 
 private def print_response(context : HTTP::Server::Context, status : Int32?)
-  Lucky::Response.new(context, "", "", status: status).print
+  Lucky::TextResponse.new(context, "", "", status: status).print
 end

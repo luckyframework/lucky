@@ -67,7 +67,7 @@ module Lucky::Renderable
       {% end %}
     )
     body = view.perform_render.to_s
-    Lucky::Response.new(
+    Lucky::TextResponse.new(
       context,
       "text/html",
       body,
@@ -97,11 +97,11 @@ module Lucky::Renderable
   end
 
   private def text(body, status : Int32? = nil)
-    Lucky::Response.new(context, "text/plain", body, status: status)
+    Lucky::TextResponse.new(context, "text/plain", body, status: status)
   end
 
   private def text(body, status : Lucky::Action::Status)
-    Lucky::Response.new(context, "text/plain", body, status: status.value)
+    Lucky::TextResponse.new(context, "text/plain", body, status: status.value)
   end
 
   private def render_text(*args, **named_args)
@@ -109,7 +109,7 @@ module Lucky::Renderable
   end
 
   private def head(status : Int32)
-    Lucky::Response.new(context, content_type: "", body: "", status: status)
+    Lucky::TextResponse.new(context, content_type: "", body: "", status: status)
   end
 
   private def head(status : Lucky::Action::Status)
@@ -117,7 +117,7 @@ module Lucky::Renderable
   end
 
   private def json(body, status : Int32? = nil)
-    Lucky::Response.new(context, "application/json", body.to_json, status)
+    Lucky::TextResponse.new(context, "application/json", body.to_json, status)
   end
 
   private def json(body, status : Lucky::Action::Status = nil)
