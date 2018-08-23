@@ -3,10 +3,10 @@ require "http/server"
 
 include ContextHelper
 
-class EmojiLogFormatter < Lucky::LogFormatters::Base
+private class EmojiLogFormatter < Lucky::LogFormatters::Base
   def format(context, time, elapsed) : String
     "🐵 #{context.request.method} - BOOM"
-  end 
+  end
 end
 
 describe Lucky::LogHandler do

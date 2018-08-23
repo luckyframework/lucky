@@ -6,7 +6,7 @@ class Lucky::LogHandler
 
   Habitat.create do
     setting show_timestamps : Bool
-    setting log_formatter : LogFormatters::Base = DefaultLogFormatter.new 
+    setting log_formatter : LogFormatters::Base = DefaultLogFormatter.new
     setting enabled : Bool = true
   end
 
