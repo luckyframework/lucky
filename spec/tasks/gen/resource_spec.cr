@@ -26,6 +26,7 @@ describe Gen::Action do
         "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
         "./src/forms/user_form.cr": "class UserForm < User::BaseForm"
       should_generate_migration named: "create_users.cr"
+      io.to_s.should contain "at: #{"/users".colorize.green}"
     end
   end
 

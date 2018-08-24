@@ -16,6 +16,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   def call(@io : IO = STDOUT)
     validate!
     generate_resource
+    display_path_to_resource
   rescue e : InvalidOption
     io.puts e.message.colorize.red
   end
@@ -35,6 +36,14 @@ class Gen::Resource::Browser < LuckyCli::Task
       rollback_contents: rollback_contents
     ).generate
     display_success_messages
+  end
+
+  private def display_path_to_resource
+    io.puts "\nView list of #{pluralized_resource} in your browser at: #{path_to_resource.colorize.green}"
+  end
+
+  private def path_to_resource
+    "/" + pluralized_resource.underscore
   end
 
   private def migrate_contents : String
