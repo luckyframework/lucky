@@ -50,7 +50,7 @@ class Lucky::WelcomePage
       body {
         background-color: #002748;
         color: #fff;
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
         border-top: 3px solid #9EFF66;
       }
 
@@ -64,11 +64,11 @@ class Lucky::WelcomePage
       .container__buttons {
         float: left;
         width: 100%;
-        margin-top: 70px
+        margin: 70px 0;
       }
 
       .container__buttons .btn:first-child {
-        margin-right: 15px;
+        margin-right: 20px;
       }
 
       .lucky-logo {
@@ -84,8 +84,10 @@ class Lucky::WelcomePage
       }
 
       .btn {
+        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        display: inline-block;
         border-radius: 500px;
-        background: #20c17d;
         text-transform: uppercase;
         font-weight: bold;
         height: 50px;
@@ -94,25 +96,30 @@ class Lucky::WelcomePage
         padding: 15px 30px;
         text-decoration: none;
         letter-spacing: 1px;
+        display: inline-block;
+        transition: 0.1s ease-in-out all;
+        box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.2);
+        background: #20c17d;
+        background-image: linear-gradient(-180deg, #3de69f 0%, #22c37f 100%);
+        transform: scale(1);
       }
 
       .btn:hover {
-        background: #199561;
-        color: #fff
+        transform: scale(1.03);
+        box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.3);
       }
 
       .btn--blue {
-        background: #1C92B3
+        box-shadow: none;
+        background: #1c92b3;
+        background-image: linear-gradient(-180deg, #47c4ff 0%, #2ba4ec 100%)
       }
 
-      .btn--blue:hover {
-        background: #156e87
-      }
     CSS
   end
 
   def load_lato_font
-    css_link "https://fonts.googleapis.com/css?family=Lato"
+    css_link "https://fonts.googleapis.com/css?family=Lato:400,900"
   end
 
   def normalize_styles

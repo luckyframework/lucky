@@ -11,7 +11,7 @@ Lucky::Session::Store.configure do
   settings.secret = "super-secret"
 end
 
-server = HTTP::Server.new("127.0.0.1", 8080, [
+server = HTTP::Server.new([
   Lucky::LogHandler.new,
   Lucky::ErrorHandler.new(action: ErrorAction),
   Lucky::Flash::Handler.new,
@@ -47,5 +47,4 @@ Habitat.raise_if_missing_settings!
 
 puts "Listening on http://127.0.0.1:8080...".colorize(:green)
 
-# TODO: Make sure finishe macro works for rendering
-server.listen
+server.listen(8080)
