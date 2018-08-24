@@ -2,6 +2,14 @@ class Lucky::CookieJar
   alias Key = String | Symbol
   private property jar = {} of String => String
 
+  def []=(key, value)
+    {% raise "[]= is gone, please use .set(key, value) instead" %}
+  end
+
+  def [](key)
+    {% raise "[] is gone, please use .get(key) instead" %}
+  end
+
   def get(key : Key) : String
     jar[key.to_s]
   end

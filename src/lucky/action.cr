@@ -16,6 +16,7 @@ abstract class Lucky::Action
   include Lucky::ParamHelpers
   include Lucky::ActionCallbacks
   include Lucky::Redirectable
+  include Lucky::ActionCookies
 
   enum Status
     Continue                      = 100

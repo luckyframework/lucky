@@ -4,9 +4,8 @@ include ContextHelper
 
 class Cookies::Index < Lucky::Action
   get "/cookies" do
-    cookies["my_cookie"] = "cookie"
-    session["my_session"] = "session"
-    text "#{cookies["my_cookie"]} - #{session["my_session"]}"
+    cookies.set :my_cookie, "cookie"
+    text "#{cookies.get(:my_cookie)}"
   end
 end
 
@@ -15,9 +14,7 @@ describe Lucky::Action do
     it "can set and read cookies" do
       response = Cookies::Index.new(build_context, params).call
 
-      response.context.cookies["my_cookie"].should eq "cookie"
-      response.context.session["my_session"].should eq "session"
-      response.body.should eq "cookie - session"
+      response.body.should eq "cookie"
     end
   end
 end
