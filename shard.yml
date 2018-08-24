@@ -41,9 +41,6 @@ dependencies:
   lucky_record:
     github: luckyframework/lucky_record
     branch: master
-  lucky_migrator:
-    github: luckyframework/lucky_migrator
-    branch: master
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
