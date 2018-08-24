@@ -26,10 +26,6 @@ LuckyRecord::Repo.configure do
   settings.url = "Not used yet"
 end
 
-LuckyMigrator::Runner.configure do
-  settings.database = "doesn't matter"
-end
-
 Lucky::ErrorHandler.configure do
   settings.show_debug_output = false
 end

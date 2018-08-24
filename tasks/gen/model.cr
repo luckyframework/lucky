@@ -1,6 +1,6 @@
 require "lucky_cli"
 require "teeplate"
-require "lucky_migrator"
+require "lucky_record"
 require "./templates/model_template"
 require "lucky_inflector"
 
@@ -18,8 +18,8 @@ class Gen::Model < LuckyCli::Task
     end
   end
 
-  macro create_migration
-    LuckyMigrator::MigrationGenerator.new("Create#{pluralized_model_name}").generate
+  def create_migration
+    LuckyRecord::Migrator::MigrationGenerator.new("Create#{pluralized_model_name}").generate
   end
 
   private def pluralized_model_name

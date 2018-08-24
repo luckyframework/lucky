@@ -1,7 +1,7 @@
 require "lucky_cli"
 require "teeplate"
 require "lucky_inflector"
-require "lucky_migrator"
+require "lucky_record"
 
 class Gen::Resource::Browser < LuckyCli::Task
   banner "Generate a resource (model, form, query, actions, and pages)"
@@ -29,7 +29,7 @@ class Gen::Resource::Browser < LuckyCli::Task
 
   private def generate_resource
     Lucky::ResourceTemplate.new(resource_name, columns).render("./src/")
-    LuckyMigrator::MigrationGenerator.new(
+    LuckyRecord::Migrator::MigrationGenerator.new(
       "Create" + pluralized_resource,
       migrate_contents: migrate_contents,
       rollback_contents: rollback_contents
