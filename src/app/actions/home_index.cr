@@ -1,6 +1,6 @@
-class SignIns::New < Lucky::Action
-  get "/sign-in" do
-    text "Sign in form goes here"
+class SignUps::New < Lucky::Action
+  get "/sign-up" do
+    text "Sign up form goes here"
   end
 end
 
