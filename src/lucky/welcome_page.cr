@@ -1,13 +1,15 @@
 class Lucky::WelcomePage
   include Lucky::HTMLPage
 
+  SIGN_UP_ACTION = SignUps::New
+
   # Accept a context and all other exposed data
   def initialize(@context : HTTP::Server::Context, *args, **named_args)
   end
 
-  macro render_auth_button(sign_in_action)
-    {% if sign_in_action.resolve? %}
-      a "View your new app", href: {{ sign_in_action }}.path, class: "btn"
+  macro render_auth_button
+    {% if SIGN_UP_ACTION.resolve? %}
+      a "View your new app", href: {{ SIGN_UP_ACTION }}.path, class: "btn"
     {% end %}
   end
 
@@ -25,13 +27,8 @@ class Lucky::WelcomePage
       body do
         div class: "container" do
           lucky_logo
-          lucky_welcome_tagline
-          div class: "container__buttons" do
-            a "Check out the guides",
-              href: "https://luckyframework.org/guides",
-              class: "btn btn--blue"
-            render_auth_button(SignIns::New)
-          end
+          render_buttons
+          render_help
         end
       end
     end
@@ -41,12 +38,87 @@ class Lucky::WelcomePage
     raw %(<img src="#{lucky_logo_data_uri}" class="lucky-logo">)
   end
 
-  def lucky_welcome_tagline
-    h1 "Today is a great day to build an app", class: "hero-tagline"
+  def render_buttons
+    div class: "container__buttons" do
+      a "Check out the guides",
+        href: "https://luckyframework.org/guides",
+        class: "btn btn--blue"
+      render_auth_button
+    end
+  end
+
+  def render_help
+    h1 "Not sure where to start? Here are some ideas:", class: "headline"
+
+    table class: "help-table" do
+      tbody do
+        tr do
+          td "Change what this page renders", class: "left-column"
+          td class: "right-column" do
+            code "src/actions/home/index.cr", class: "code"
+          end
+        end
+        tr do
+          td "Generate a model, set of actions, and HTML", class: "left-column"
+          td class: "right-column" do
+            code "lucky gen.resource.browser Post title:String", class: "code"
+          end
+        end
+        tr do
+          td "Ask for ideas in our chatroom", class: "left-column"
+          td class: "right-column" do
+            link gitter_url, to: gitter_url, target: "_blank"
+          end
+        end
+      end
+    end
+  end
+
+  def gitter_url
+    "https://gitter.im/luckyframework/Lobby"
   end
 
   def welcome_page_styles
     style <<-CSS
+      .code {
+        font-family: Menlo, "Roboto Mono", "Courier New", monospace;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        padding: 3px 6px;
+      }
+
+      .help-table {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 17px;
+      }
+
+      .help-table td {
+        padding: 10px 0;
+      }
+
+      .help-table a {
+        color: #3de69f;
+      }
+
+      .left-column {
+        text-align: right;
+        width: 50%;
+      }
+
+      .left-column:after {
+        content: '→';
+        margin: 0 5px;
+        font-weight: bold;
+        opacity: 0.6;
+      }
+
+      .right-column {
+        text-align: left;
+        width: 50%;
+      }
+
       body {
         background-color: #002748;
         color: #fff;
@@ -56,15 +128,13 @@ class Lucky::WelcomePage
 
       .container {
         margin: 0 auto;
-        max-width: 750px;
-        margin-top: 150px;
+        max-width: 1024px;
+        margin-top: 50px;
         text-align: center;
       }
 
       .container__buttons {
-        float: left;
         width: 100%;
-        margin: 70px 0;
       }
 
       .container__buttons .btn:first-child {
@@ -72,15 +142,16 @@ class Lucky::WelcomePage
       }
 
       .lucky-logo {
-        width: 100%
+        max-width: 750px;
+        margin-bottom: 40px;
       }
 
-      .hero-tagline {
+      .headline {
         font-weight: 400;
-        text-transform: uppercase;
         font-size: 20px;
         color: #AAB5BF;
-        letter-spacing: 3px;
+        margin-top: 90px;
+        margin-bottom: 30px;
       }
 
       .btn {
