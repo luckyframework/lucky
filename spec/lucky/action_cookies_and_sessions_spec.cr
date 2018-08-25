@@ -4,8 +4,8 @@ include ContextHelper
 
 class Cookies::Index < Lucky::Action
   get "/cookies" do
-    cookies.set :my_cookie, "cookie"
-    text "#{cookies.get(:my_cookie)}"
+    better_cookies.set :my_cookie, "cookie"
+    text "#{better_cookies.get(:my_cookie)}"
   end
 end
 
