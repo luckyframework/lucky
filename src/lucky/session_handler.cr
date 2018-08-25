@@ -4,6 +4,13 @@ class Lucky::SessionHandler
   def call(context : HTTP::Server::Context)
     call_next(context)
 
+    adapter = Lucky::Adapters::PlainAdapter.new
+    adapter.write(
+      key: Lucky::SessionConfig.settings.key,
+      cookies: context.better_cookies,
+      to: context.response
+    )
+
     if context.session.changed?
       context.session.set_session
       context.cookies.write(context.response.headers)

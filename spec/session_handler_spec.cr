@@ -28,4 +28,13 @@ describe Lucky::SessionHandler do
       end
     end
   end
+
+  it "sets a cookie" do
+    context = build_context
+    context.better_cookies.set(:email, "test@example.com")
+
+    Lucky::SessionHandler.new.call(context)
+
+    context.response.headers.has_key?("Set-Cookie").should be_true
+  end
 end

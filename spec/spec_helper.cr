@@ -12,7 +12,11 @@ Lucky::Session::Store.configure do |settings|
   settings.secret = "super-secret"
 end
 
-Lucky::Server.configure do |settings|
+Lucky::SessionConfig.configure do
+  settings.key = "app_session"
+end
+
+Lucky::Server.configure do
   settings.secret_key_base = "super-secret"
   settings.host = "0.0.0.0"
   settings.port = 8080
