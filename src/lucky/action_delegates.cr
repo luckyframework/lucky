@@ -1,5 +1,5 @@
 module Lucky::ActionDelegates
   macro included
-    delegate flash, session, response, request, to: context
+    delegate flash, better_cookies, session, response, request, to: context
   end
 end

@@ -10,7 +10,7 @@ class CallbackFromActionMacro::Index < Lucky::Action
   end
 
   def set_before_cookie
-    cookies["before"] = "before"
+    better_cookies.set("before", "before")
     continue
   end
 end
@@ -20,12 +20,12 @@ abstract class InheritableCallbacks < Lucky::Action
   after overwrite_after_cookie
 
   def set_before_cookie
-    cookies["before"] = "before"
+    better_cookies.set("before", "before")
     continue
   end
 
   def overwrite_after_cookie
-    cookies["after"] = "after"
+    better_cookies.set("after", "after")
     continue
   end
 end
@@ -43,17 +43,17 @@ class Callbacks::Index < InheritableCallbacks
   after set_second_after_cookie
 
   get "/callbacks" do
-    cookies["after"] = "This should be overwritten by the after ballback"
+    better_cookies.set("after", "This should be overwritten by the after ballback")
     text "not_from_callback"
   end
 
   def set_second_before_cookie
-    cookies["second_before"] = "second_before"
+    better_cookies.set("second_before", "second_before")
     continue
   end
 
   def set_second_after_cookie
-    cookies["second_after"] = "second_after"
+    better_cookies.set("second_after", "second_after")
     continue
   end
 end
@@ -71,7 +71,7 @@ class Callbacks::HaltedBefore < Lucky::Action
   end
 
   def should_not_be_reached
-    cookies["before"] = "nope"
+    better_cookies.set("before", "nope")
     continue
   end
 end
@@ -89,7 +89,7 @@ class Callbacks::HaltedAfter < Lucky::Action
   end
 
   def should_not_be_reached
-    cookies["after"] = "nope"
+    better_cookies.set("after", "nope")
     continue
   end
 end
@@ -131,7 +131,7 @@ end
 describe Lucky::Action do
   it "works with actions that use the `action` macro" do
     response = CallbackFromActionMacro::Index.new(build_context, params).call
-    response.context.cookies["before"].should eq "before"
+    response.context.better_cookies.get("before").should eq "before"
   end
 
   it "can skip callbacks" do
@@ -145,15 +145,10 @@ describe Lucky::Action do
       response = Callbacks::Index.new(build_context, params).call
 
       response.body.should eq "not_from_callback"
-      response.context.cookies["before"].should eq "before"
-      response.context.cookies["second_before"].should eq "second_before"
-      response.context.cookies["after"].should eq "after"
-      response.context.cookies["second_after"].should eq "second_after"
-      debug_messages = response.context.debug_messages
-      debug_messages[0].should contain("before")
-      debug_messages[1].should contain("second_before")
-      debug_messages[2].should contain("after")
-      debug_messages[2].should contain("moverwrite_after_cookie")
+      response.context.better_cookies.get("before").should eq "before"
+      response.context.better_cookies.get("second_before").should eq "second_before"
+      response.context.better_cookies.get("after").should eq "after"
+      response.context.better_cookies.get("second_after").should eq "second_after"
     end
 
     it "halts before callbacks if a Lucky::Response is returned" do
@@ -162,10 +157,7 @@ describe Lucky::Action do
       response.body.should eq ""
       response.context.response.status_code.should eq 302
       response.context.response.headers["Location"].should eq "/redirected_in_before"
-      response.context.cookies["before"].should be_nil
-      debug_message = response.context.debug_messages.last
-      debug_message.should contain("Stopped")
-      debug_message.should contain("redirect_me")
+      response.context.better_cookies.get?("before").should be_nil
     end
 
     it "halts after callbacks if a Lucky::Response is returned" do
@@ -174,10 +166,7 @@ describe Lucky::Action do
       response.body.should eq ""
       response.context.response.status_code.should eq 302
       response.context.response.headers["Location"].should eq "/redirected_in_after"
-      response.context.cookies["after"].should be_nil
-      debug_message = response.context.debug_messages.last
-      debug_message.should contain("Stopped")
-      debug_message.should contain("redirect_me")
+      response.context.better_cookies.get?("after").should be_nil
     end
 
     it "renders the callbacks in the order they were defined" do
