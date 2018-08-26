@@ -17,7 +17,7 @@ Lucky::SessionConfig.configure do
 end
 
 Lucky::Server.configure do
-  settings.secret_key_base = "super-secret"
+  settings.secret_key_base = Random::Secure.base64(32)
   settings.host = "0.0.0.0"
   settings.port = 8080
 end
