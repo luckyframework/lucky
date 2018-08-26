@@ -2,9 +2,16 @@ class Lucky::SessionHandler
   include HTTP::Handler
 
   def call(context : HTTP::Server::Context)
+    adapter = Lucky::Adapters::PlainAdapter.new
+    if context.request.headers["Cookie"]?
+      context.better_cookies = adapter.read(
+        key: Lucky::SessionConfig.settings.key,
+        from: context.request
+      )
+    end
+    
     call_next(context)
 
-    adapter = Lucky::Adapters::PlainAdapter.new
     adapter.write(
       key: Lucky::SessionConfig.settings.key,
       cookies: context.better_cookies,

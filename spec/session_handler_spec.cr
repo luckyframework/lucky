@@ -37,4 +37,18 @@ describe Lucky::SessionHandler do
 
     context.response.headers.has_key?("Set-Cookie").should be_true
   end
+  
+  it "persists the cookies across multiple requests" do
+    context_1 = build_context
+    context_1.better_cookies.set(:email, "test@example.com")
+    Lucky::SessionHandler.new.call(context_1)
+
+    request = build_request
+    cookie_header = context_1.response.headers["Set-Cookie"]
+    request.headers.add("Cookie", cookie_header)
+    context_2 = build_context("/", request: request)
+    Lucky::SessionHandler.new.call(context_2)
+
+    context_2.better_cookies.get(:email).should eq "test@example.com"
+  end
 end
