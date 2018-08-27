@@ -1,21 +1,22 @@
 class Lucky::Adapters::PlainAdapter
   def write(
-    key : String,
     cookies : Lucky::CookieJar,
     to response : HTTP::Server::Response
   ) : Void
-    response.cookies[key] = cookies.to_json
-    add_cookies_to_response(response)
+    cookies.to_h.each do |key, value|
+      response.cookies << HTTP::Cookie.new(name: key, value: value)
+    end
+    add_cookies_to(response)
   end
 
-  private def add_cookies_to_response(response : HTTP::Server::Response)
+  private def add_cookies_to(response : HTTP::Server::Response)
     response.cookies.add_response_headers(response.headers)
   end
 
-  def read(key : String, from request : HTTP::Request) : Lucky::CookieJar
+  def read(from request : HTTP::Request) : Lucky::CookieJar
     Lucky::CookieJar.new.tap do |cookie_jar|
-      JSON.parse(request.cookies[key].value).as_h.each do |key, value|
-        cookie_jar.set key, value.to_s
+      request.cookies.each do |cookie|
+        cookie_jar.set(cookie.name, cookie.value)
       end
     end
   end

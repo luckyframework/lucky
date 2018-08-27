@@ -5,7 +5,6 @@ class Lucky::SessionHandler
     adapter = Lucky::Adapters::PlainAdapter.new
     if context.request.headers["Cookie"]?
       context.better_cookies = adapter.read(
-        key: Lucky::SessionConfig.settings.key,
         from: context.request
       )
     end
@@ -13,7 +12,6 @@ class Lucky::SessionHandler
     call_next(context)
 
     adapter.write(
-      key: Lucky::SessionConfig.settings.key,
       cookies: context.better_cookies,
       to: context.response
     )
