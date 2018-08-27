@@ -12,8 +12,8 @@ Lucky::Session::Store.configure do |settings|
   settings.secret = "super-secret"
 end
 
-Lucky::SessionConfig.configure do
-  settings.key = "app_session"
+Lucky::SessionStore.configure do
+  settings.key = "_app_session"
 end
 
 Lucky::Server.configure do
