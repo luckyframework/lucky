@@ -96,6 +96,22 @@ module Lucky::Renderable
     end
   end
 
+  private def file(path,
+                   content_type : String? = nil,
+                   disposition : String = "attachment",
+                   filename : String? = nil,
+                   status : Int32? = nil)
+    Lucky::FileResponse.new(context, path, content_type, disposition, filename, status)
+  end
+
+  private def file(path,
+                   content_type : String? = nil,
+                   disposition : String = "attachment",
+                   filename : String? = nil,
+                   status : Lucky::Action::Status = Lucky::Action::Status::OK)
+    file(path, content_type, disposition, filename, status.value)
+  end
+
   private def text(body, status : Int32? = nil)
     Lucky::TextResponse.new(context, "text/plain", body, status: status)
   end
