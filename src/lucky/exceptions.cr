@@ -36,13 +36,24 @@ module Lucky
     end
 
     class MissingNestedParam < Base
-      getter nested_key
+      getter :nested_key
 
       def initialize(@nested_key : String | Symbol)
       end
 
       def message : String
         "Missing nested params: #{nested_key}"
+      end
+    end
+
+    class MissingFile < Base
+      getter :path
+
+      def initialize(@path : String)
+      end
+
+      def message : String
+        "Cannot read file #{path}"
       end
     end
   end
