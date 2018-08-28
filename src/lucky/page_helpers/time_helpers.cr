@@ -35,7 +35,7 @@ module Lucky::TimeHelpers
 
   private def distance_in_minutes(distance : Int32) : String
     case distance
-    when      1 then "a minute"
+    when 1      then "a minute"
     when 2...45 then "#{distance} minutes"
     else
       "about an hour"
