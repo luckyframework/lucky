@@ -140,7 +140,7 @@ You can probably copy this as-is, but if you have made customizations to your
 `config/server.cr` then you'll need to customize this:
 
 ```crystal
-Lucky::Server.configure do
+Lucky::Server.configure do |settings|
   if Lucky::Env.production?
     settings.secret_key_base = secret_key_from_env
     settings.host = "0.0.0.0"
@@ -174,7 +174,7 @@ port: 5000
 
 - Update `config/database.cr`
 
-Put this inside of the `LuckyRecord::Repo.configure do` block:
+Put this inside of the `LuckyRecord::Repo.configure do |settings|` block:
 
 ```
 # In development and test, raise an error if you forget to preload associations
@@ -322,7 +322,7 @@ Then run `shards update`
 
 ```crystal
 # Add to config/route_helper.cr
-Lucky::RouteHelper.configure do
+Lucky::RouteHelper.configure do |settings|
   if Lucky::Env.production?
     # The APP_DOMAIN is something like https://myapp.com
     settings.domain = ENV.fetch("APP_DOMAIN")

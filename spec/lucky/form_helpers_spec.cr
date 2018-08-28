@@ -87,10 +87,9 @@ describe Lucky::FormHelpers do
 end
 
 private def without_csrf_protection
-  Lucky::FormHelpers.configure { settings.include_csrf_tag = false }
-  yield
-ensure
-  Lucky::FormHelpers.configure { settings.include_csrf_tag = true }
+  Lucky::FormHelpers.temp_config(include_csrf_tag: false) do
+    yield
+  end
 end
 
 private def view(context : HTTP::Server::Context = build_context)
