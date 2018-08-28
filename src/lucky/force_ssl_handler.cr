@@ -15,7 +15,7 @@
 #
 # ```
 # # Usually in config/force_ssl_handler.cr
-# Lucky::ForceSSLHandler.configure do
+# Lucky::ForceSSLHandler.configure do |settings|
 #   settings.redirect_status = 303
 #   settings.enabled = false
 # end

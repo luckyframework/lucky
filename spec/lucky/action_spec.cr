@@ -145,8 +145,9 @@ end
 
 describe Lucky::Action do
   it "has a url helper" do
-    Lucky::RouteHelper.configure { settings.base_uri = "example.com" }
-    Tests::Index.url.should eq "example.com/tests"
+    Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+      Tests::Index.url.should eq "example.com/tests"
+    end
   end
 
   describe "routing" do
