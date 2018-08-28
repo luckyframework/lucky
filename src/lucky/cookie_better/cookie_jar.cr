@@ -1,4 +1,9 @@
 class Lucky::CookieJar < Lucky::AbstractStore
+  Habitat.create do
+    setting key : String
+  end
+
+  
   def to_json
     to_h.to_json
   end
