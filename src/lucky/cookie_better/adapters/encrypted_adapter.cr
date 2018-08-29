@@ -10,6 +10,7 @@ class Lucky::Adapters::EncryptedAdapter
   end
 
   def read(key : String, from request : HTTP::Request) : Lucky::CookieJar
+    return Lucky::CookieJar.new if !request.cookies[key]?
     Lucky::CookieJar.new.tap do |cookie_jar|
       decoded = Base64.decode(request.cookies[key].value)
       decrypted = encryptor.decrypt(decoded)
