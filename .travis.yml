@@ -1,6 +1,12 @@
 language: crystal
+crystal:
+  - latest
+  - nightly
 install:
   - shards install
+matrix:
+  allow_failures:
+    - crystal: nightly
 script:
   - crystal spec
   - crystal tool format spec src --check
