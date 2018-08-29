@@ -94,13 +94,12 @@ private def print_file_response(context : HTTP::Server::Context,
                                 disposition : String = "attachment",
                                 filename : String? = nil,
                                 status : Int32? = nil)
-
   response = Lucky::FileResponse.new(context,
-                                     fixture_file(file),
-                                     content_type,
-                                     disposition: disposition,
-                                     filename: filename,
-                                     status: status)
+    fixture_file(file),
+    content_type,
+    disposition: disposition,
+    filename: filename,
+    status: status)
   response.print
 end
 
