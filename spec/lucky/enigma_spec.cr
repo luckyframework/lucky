@@ -28,7 +28,7 @@ describe "Encrypting config with Enigma" do
 end
 
 private def setup_enigma(key)
-  Enigma::Setup.new(key: key).call
+  Enigma::Setup.new.call(key)
 end
 
 private def should_have_set_key(key)
