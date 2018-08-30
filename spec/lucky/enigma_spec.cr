@@ -17,7 +17,7 @@ describe "Encrypting config with Enigma" do
       should_run_successfully "git add -A"
       should_run_successfully "git commit -m 'Initial commit'"
 
-      setup_enigma
+      setup_enigma(key: "123abc")
 
       should_have_set_key
       should_be_setup_to_encrypt("config/encrypted")
@@ -27,11 +27,16 @@ describe "Encrypting config with Enigma" do
   end
 end
 
-private def should_have_set_key
+private def setup_enigma(key)
+  Enigma::Setup.new(key: key).call
+end
+
+private def should_have_set_key("123abc")
   should_run_successfully("git config lucky.enigma.key") # Should check for a specific value
 end
 
 private def should_be_setup_to_encrypt(folder)
+
 end
 
 private def should_encrypt_file(path)
