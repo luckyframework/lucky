@@ -19,7 +19,7 @@ describe "Encrypting config with Enigma" do
 
       setup_enigma(key: "123abc")
 
-      should_have_set_key
+      should_have_set_key("123abc")
       should_be_setup_to_encrypt("config/encrypted")
       should_encrypt_file("config/encrypted/encrypt-me")
       should_not_encrypt("leave-me-alone")
@@ -31,12 +31,11 @@ private def setup_enigma(key)
   Enigma::Setup.new(key: key).call
 end
 
-private def should_have_set_key("123abc")
+private def should_have_set_key(key)
   should_run_successfully("git config lucky.enigma.key") # Should check for a specific value
 end
 
 private def should_be_setup_to_encrypt(folder)
-
 end
 
 private def should_encrypt_file(path)
