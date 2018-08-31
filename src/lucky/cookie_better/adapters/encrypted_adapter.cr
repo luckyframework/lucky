@@ -1,11 +1,14 @@
 class Lucky::Adapters::EncryptedAdapter
+  ONE_YEAR = 1.year.from_now
+
   def write(
     key : String,
     cookies : Lucky::CookieJar,
     to response : HTTP::Server::Response
   )
     encrypted_cookie = encryptor.encrypt(cookies.to_json)
-    response.cookies[key] = Base64.strict_encode(encrypted_cookie)
+    cookie = HTTP::Cookie.new(name: key, value: Base64.strict_encode(encrypted_cookie), expires: ONE_YEAR)
+    response.cookies[key] = cookie
     add_cookies_to_response(response)
   end
 
