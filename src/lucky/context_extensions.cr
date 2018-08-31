@@ -5,6 +5,7 @@ class HTTP::Server::Context
   setter session : Lucky::Session::AbstractStore?
   setter cookies : Lucky::Cookies::Store?
   setter better_cookies : Lucky::CookieJar?
+  setter better_session : Lucky::CookieJar?
   setter flash : Lucky::Flash::Store?
 
   getter debug_messages : Array(String) = [] of String
@@ -16,9 +17,12 @@ class HTTP::Server::Context
       from: request
     )
   end
-  
+
   def better_session
-    @better_session ||= Lucky::Session.from(cookies: better_cookies)
+    @better_session ||= Lucky::Adapters::EncryptedAdapter.new.read(
+      key: Lucky::SessionStore.settings.key,
+      from: request
+    )
   end
 
   def cookies

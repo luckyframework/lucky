@@ -9,6 +9,11 @@ class Lucky::SessionHandler
       cookies: context.better_cookies,
       to: context.response
     )
+    Lucky::Adapters::EncryptedAdapter.new.write(
+      key: Lucky::SessionStore.settings.key,
+      cookies: context.better_session,
+      to: context.response
+    )
 
     if context.session.changed?
       context.session.set_session
