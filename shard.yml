@@ -27,6 +27,12 @@ targets:
     main: src/precompiled_tasks/gen/component.cr
   secret_key:
     main: src/precompiled_tasks/gen/secret_key.cr
+  clean:
+    main: src/precompiled_tasks/enigma/clean.cr
+  smudge:
+    main: src/precompiled_tasks/enigma/smudge.cr
+  textconv:
+    main: src/precompiled_tasks/enigma/textconv.cr
 
 dependencies:
   lucky_cli:
@@ -62,6 +68,7 @@ scripts:
   postinstall: |
     shards build
     mkdir -p ../../bin/lucky/gen/action
+    mkdir -p ../../bin/lucky/enigma
     cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
     cp $(pwd)/bin/exec $(pwd)/../../bin/lucky/
     cp $(pwd)/bin/resource.browser $(pwd)/../../bin/lucky/gen/resource/browser
@@ -72,5 +79,8 @@ scripts:
     cp $(pwd)/bin/page $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/component $(pwd)/../../bin/lucky/gen/
     cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/gen/
+    cp $(pwd)/bin/clean $(pwd)/../../bin/lucky/enigma/clean
+    cp $(pwd)/bin/smudge $(pwd)/../../bin/lucky/enigma/smudge
+    cp $(pwd)/bin/textconv $(pwd)/../../bin/lucky/enigma/textconv
 
 license: MIT

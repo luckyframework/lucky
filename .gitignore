@@ -3,7 +3,9 @@
 /lib/
 /bin/
 /tmp/
+/log/
 /.shards/
+failure
 server
 
 # Libraries don't need dependency lock
