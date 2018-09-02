@@ -10,10 +10,11 @@ module Lucky::Session
           super(key.to_s, value.to_s)
         end
       end
+      ""
     end
 
     def [](key)
-      fetch(key.to_s, nil)
+      fetch(key.to_s, nil) || ""
     end
 
     def delete(key)
