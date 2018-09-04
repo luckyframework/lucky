@@ -19,6 +19,27 @@ describe Lucky::BetterCookies::Adapters::Encrypted do
       cookies.get(:b).should eq("another cookie value")
     end
   end
+
+  describe ".write" do
+    it "adds the Set-Cookie response header" do
+      response = HTTP::Server::Response.new(IO::Memory.new)
+      cookies = Lucky::CookieJar.new
+      cookies.set(:a, "a_value")
+      
+      Lucky::BetterCookies::Adapters::Encrypted.write(
+        cookie_jar: cookies,
+        to: response
+      )
+
+      response_cookies = HTTP::Cookies.from_headers(response.headers)
+      encoded = response_cookies.first.value
+      decoded = Base64.decode(encoded)
+      decrypted = String.new(encryptor.decrypt(decoded))
+
+      response.headers["Set-Cookie"].should contain("a=")
+      decrypted.should eq("a_value")
+    end
+  end
 end
 
 private def encryptor
