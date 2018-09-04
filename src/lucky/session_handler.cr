@@ -4,14 +4,12 @@ class Lucky::SessionHandler
   def call(context : HTTP::Server::Context)
     call_next(context)
 
-    Lucky::BetterCookies::Adapters::Encrypted.new.write(
-      key: Lucky::CookieJar.settings.key,
-      cookies: context.better_cookies,
+    Lucky::BetterCookies::Adapters::Encrypted.write(
+      cookie_jar: context.better_cookies,
       to: context.response
     )
-    Lucky::BetterCookies::Adapters::Encrypted.new.write(
-      key: Lucky::SessionStore.settings.key,
-      cookies: context.better_session,
+    Lucky::BetterCookies::Adapters::Encrypted.write(
+      cookie_jar: context.better_session,
       to: context.response
     )
 

@@ -12,15 +12,13 @@ class HTTP::Server::Context
   property? hide_from_logs : Bool = false
 
   def better_cookies
-    @better_cookies ||= Lucky::BetterCookies::Adapters::Encrypted.new.read(
-      key: Lucky::CookieJar.settings.key,
+    @better_cookies ||= Lucky::BetterCookies::Adapters::Encrypted.read(
       from: request
     )
   end
 
   def better_session
-    @better_session ||= Lucky::BetterCookies::Adapters::Encrypted.new.read(
-      key: Lucky::SessionStore.settings.key,
+    @better_session ||= Lucky::BetterCookies::Adapters::Encrypted.read(
       from: request
     )
   end
