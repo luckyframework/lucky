@@ -16,10 +16,6 @@ Lucky::SessionStore.configure do |settings|
   settings.key = "_app_session"
 end
 
-Lucky::CookieJar.configure do |settings|
-  settings.key = "_app_cookies"
-end
-
 Lucky::Server.configure do |settings|
   settings.secret_key_base = Random::Secure.base64(32)
   settings.host = "0.0.0.0"
