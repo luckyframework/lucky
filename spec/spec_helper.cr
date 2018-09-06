@@ -12,7 +12,7 @@ Lucky::Session::Store.configure do |settings|
   settings.secret = "super-secret"
 end
 
-Lucky::SessionStore.configure do |settings|
+Lucky::SessionCookie.configure do |settings|
   settings.key = "_app_session"
 end
 
