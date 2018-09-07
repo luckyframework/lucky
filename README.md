@@ -1,15 +1,14 @@
 [![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)](http://luckyframework.org)
 
-* Catches bugs you didn't know you had
-* Runs incredibly quickly with low memory usage
-* Helps you spend more time on code instead of debugging and writing tests.
+The goal: prevent bugs, forget about most performance issues, and spend more
+time on code instead of debugging and fixing tests.
 
-Learn more about [what makes Lucky special](https://luckyframework.org/why-lucky/).
+In summary, make writing stunning web applications fast, fun, and easy.
 
 ## Coming from Rails?
 
-* [Ruby on Rails to Lucky on Crystal: Blazing fast, fewer bugs, and even more fun.
-](https://hackernoon.com/ruby-on-rails-to-lucky-on-crystal-blazing-fast-fewer-bugs-and-even-more-fun-104010913fec)
+- [Ruby on Rails to Lucky on Crystal: Blazing fast, fewer bugs, and even more fun.
+  ](https://hackernoon.com/ruby-on-rails-to-lucky-on-crystal-blazing-fast-fewer-bugs-and-even-more-fun-104010913fec)
 
 ## Try Lucky
 
@@ -19,9 +18,134 @@ make it easy to get started.
 Feel free to say hi or ask questions on our
 [chat room](https://gitter.im/luckyframework/Lobby).
 
-## Lucky is growing quickly
+## Keep up-to-date
 
 Keep up to date by following [@luckyframework](https://twitter.com/luckyframework) on Twitter.
+
+## What's it look like?
+
+### JSON endpoint:
+
+```crystal
+class Api::Users::Show < ApiAction
+  route do
+    json user_json
+  end
+
+  private def user_json
+    user = UserQuery.find(id)
+    {name: user.name, email: user.email}
+  end
+end
+```
+
+- `route` sets up a route for `"/api/users/:id"` automatically.
+- If you want you can set up custom routes like `get "sign_in"` for non REST routes.
+- An `id` method is generated because there is an `id` route parameter.
+- Use `json` to render JSON. [Extract
+  serializers](https://luckyframework.org/guides/writing-json-apis/#respond-with-json)
+  for reusable JSON responses.
+
+### Database models
+
+```crystal
+# Set up the model
+class User < BaseModel
+  table :users do
+    column last_active_at : Time
+    column last_name : String
+    column nickname : String?
+  end
+end
+```
+
+- Sets up the columns that you’d like to use, along with their types
+- You can add `?` to the type when the column can be `nil` . Crystal will then
+  help you remember not to call methods on it that won't work.
+- Lucky will set up presence validations for required fields
+  (`last_active_at` and `last_name` since they are not marked as nilable).
+
+### Querying the database
+
+```crystal
+# Add some methods to help query the database
+class UserQuery < User::BaseQuery
+  def recently_active
+    last_active_at.gt(1.week.ago)
+  end
+
+  def sorted_by_last_name
+    last_name.lower.desc_order
+  end
+end
+
+# Query the database
+UserQuery.new.recently_active.sorted_by_last_name
+```
+
+- `User::BaseQuery` is automatically generated when you define a model. Inherit
+  from it to customize queries.
+- Set up named scopes with instance methods.
+- Lucky sets up methods for all the columns so that if you mistype a column
+  name it will tell you at compile-time.
+- Use the `lower` method on a `String` column to make sure Postgres sorts
+  everything in lowercase.
+- Use `gt` to get users last active greater than 1 week ago. Lucky has lots
+  of powerful abstractions for creating complex queries, and type specific
+  methods (like `lower`).
+
+### Rendering HTML:
+
+```crystal
+class Users::Index < BrowserAction
+  route do
+    users = UserQuery.new.sorted_by_last_name
+    render IndexPage, users: users
+  end
+end
+
+class Users::IndexPage < MainLayout
+  needs users : UserQuery
+
+  def content
+    render_new_user_button
+    render_user_list
+  end
+
+  private def render_new_user_button
+    link "New User", to: Users::New
+  end
+
+  private def render_user_list
+    ul class: "user-list" do
+      @users.each do |user|
+        li do
+          link user.name, to: Users::Show.with(user.id)
+          text " - "
+          text user.nickname || "No Nickname"
+        end
+      end
+    end
+  end
+end
+```
+
+- `needs users : UserQuery` tells the compiler that it must be passed users
+  of the type `UserQuery`.
+- If you forget to pass something that a page needs, it will let you know at
+  compile time. **Fewer bugs and faster debugging**.
+- Write tags with Crystal methods. Tags are automatically closed and
+  whitespace is removed.
+- Easily extract named methods since pages are made of regular classes and
+  methods. **This makes your HTML pages incredibly easy to read.**
+- Link to other pages with ease. Just use the action name: `Users::New`. Pass
+  params using `with`: `Users::Show.with(user.id)`. No more trying to remember path
+  helpers and whether the helper is pluralized or not - If you forget to pass a
+  param to a route, Lucky will let you know at compile-time.
+- Since we defined `column nickname : String?` as nilable, Lucky would fail
+  to compile the page if you just did `text user.nickname` since it disallows
+  printing `nil`. So instead we add a fallback `"No Nickname"`. **No more
+  accidentally printing empty text in HTML!**
 
 ## Testing
 
@@ -44,11 +168,11 @@ You need to make sure to install the Crystal dependencies.
 
 ## Thanks & attributions
 
-* SessionHandler, CookieHandler and FlashHandler are based on [Amber](https://github.com/amberframework/amber). Thank you to the Amber team!
-* Thanks to Rails for inspiring many of the ideas that are easy to take for
+- SessionHandler, CookieHandler and FlashHandler are based on [Amber](https://github.com/amberframework/amber). Thank you to the Amber team!
+- Thanks to Rails for inspiring many of the ideas that are easy to take for
   granted. Convention over configuration, removing boilerplate, and most
   importantly - focusing on developer happiness.
-* Thanks to Phoenix, Ecto and Elixir for inspiring LuckyRecord's forms,
+- Thanks to Phoenix, Ecto and Elixir for inspiring LuckyRecord's forms,
   Lucky's single base actions and pipes, and focusing on helpful error
   messages.
-* `lucky watch` based heavily on [Sentry](https://github.com/samueleaton/sentry). Thanks [@samueleaton](https://github.com/samueleaton)!
+- `lucky watch` based heavily on [Sentry](https://github.com/samueleaton/sentry). Thanks [@samueleaton](https://github.com/samueleaton)!

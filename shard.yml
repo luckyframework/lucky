@@ -34,15 +34,12 @@ dependencies:
     version: ~> 0.6
   habitat:
     github: luckyframework/habitat
-    version: ~> 0.3.0
+    version: ~> 0.4.0
   lucky_inflector:
     github: luckyframework/lucky_inflector
     version: ~> 0.1.1
   lucky_record:
     github: luckyframework/lucky_record
-    branch: master
-  lucky_migrator:
-    github: luckyframework/lucky_migrator
     branch: master
   lucky_router:
     github: luckyframework/lucky_router

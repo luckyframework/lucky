@@ -4,8 +4,7 @@ include ContextHelper
 
 describe Lucky::StaticFileHandler do
   it "hides static files from logs" do
-    begin
-      Lucky::StaticFileHandler.configure { settings.hide_from_logs = true }
+    Lucky::StaticFileHandler.temp_config(hide_from_logs: true) do
       context = build_context
       context.hide_from_logs?.should be_false
       called = false
@@ -14,14 +13,11 @@ describe Lucky::StaticFileHandler do
 
       called.should be_true
       context.hide_from_logs?.should be_true
-    ensure
-      Lucky::StaticFileHandler.configure { settings.hide_from_logs = true }
     end
   end
 
   it "shows static files in logs" do
-    begin
-      Lucky::StaticFileHandler.configure { settings.hide_from_logs = false }
+    Lucky::StaticFileHandler.temp_config(hide_from_logs: false) do
       context = build_context
       context.hide_from_logs?.should be_false
       called = false
@@ -30,8 +26,6 @@ describe Lucky::StaticFileHandler do
 
       called.should be_true
       context.hide_from_logs?.should be_false
-    ensure
-      Lucky::StaticFileHandler.configure { settings.hide_from_logs = true }
     end
   end
 end

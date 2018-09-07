@@ -67,6 +67,41 @@ class Rendering::Text::WithTypedStatus < Lucky::Action
   end
 end
 
+class Rendering::File < Lucky::Action
+  get "/file" do
+    file "spec/fixtures/lucky_logo.png"
+  end
+end
+
+class Rendering::File::Inline < Lucky::Action
+  get "/foo" do
+    file "spec/fixtures/lucky_logo.png", disposition: "inline"
+  end
+end
+
+class Rendering::File::CustomFilename < Lucky::Action
+  get "/foo" do
+    file "spec/fixtures/lucky_logo.png",
+      disposition: "attachment",
+      filename: "custom.png"
+  end
+end
+
+class Rendering::File::CustomContentType < Lucky::Action
+  get "/foo" do
+    file "spec/fixtures/plain_text",
+      disposition: "attachment",
+      filename: "custom.html",
+      content_type: "text/html"
+  end
+end
+
+class Rendering::File::Missing < Lucky::Action
+  get "/foo" do
+    file "new_file_who_dis"
+  end
+end
+
 describe Lucky::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
@@ -110,5 +145,25 @@ describe Lucky::Action do
     response = Rendering::Text::WithTypedStatus.new(build_context, params).call
     response.body.should eq "Anything"
     response.status.should eq 201
+  end
+
+  it "renders files" do
+    response = Rendering::File.new(build_context, params).call
+    response.status.should eq 200
+    response.disposition.should eq "attachment"
+    response.content_type.should eq "image/png"
+
+    response = Rendering::File::Inline.new(build_context, params).call
+    response.status.should eq 200
+    response.disposition.should eq "inline"
+    response.content_type.should eq "image/png"
+
+    response = Rendering::File::CustomFilename.new(build_context, params).call
+    response.status.should eq 200
+    response.disposition.should eq %(attachment; filename="custom.png")
+
+    response = Rendering::File::CustomContentType.new(build_context, params).call
+    response.status.should eq 200
+    response.content_type.should eq "text/html"
   end
 end
