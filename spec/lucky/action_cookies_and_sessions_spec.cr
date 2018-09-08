@@ -17,6 +17,14 @@ class PreCookies::Index < Lucky::Action
   end
 end
 
+class FlashCookies::Index < Lucky::Action
+  get "/flash" do
+    flash.success = "You did it!"
+
+    text "#{flash.success}"
+  end
+end
+
 describe Lucky::Action do
   describe "reading set cookies and sessions" do
     it "can set and read cookies" do
@@ -31,6 +39,14 @@ describe Lucky::Action do
       response = PreCookies::Index.new(build_context, params).call
 
       response.body.should eq ""
+    end
+  end
+  
+  describe "setting and reading the flash" do
+    it "will initialize the cookies object and not crash" do
+      response = FlashCookies::Index.new(build_context, params).call
+
+      response.body.should eq "You did it!"
     end
   end
 end
