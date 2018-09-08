@@ -5,7 +5,7 @@ class HTTP::Server::Context
   setter session : Lucky::Session::AbstractStore?
   setter cookies : Lucky::Cookies::Store?
   setter better_cookies : Lucky::CookieJar?
-  setter better_session : Lucky::CookieJar?
+  setter better_session : Lucky::SessionCookie?
   setter flash : Lucky::Flash::Store?
 
   getter debug_messages : Array(String) = [] of String

@@ -10,7 +10,7 @@ describe Lucky::SessionHandler do
     Lucky::SessionHandler.new.call(context)
 
     context.response.headers.has_key?("Set-Cookie").should be_true
-    context.response.headers["Set-Cookie"].should contain("_app_cookies")
+    context.response.headers["Set-Cookie"].should contain("email=")
   end
 
   it "persists the cookies across multiple requests" do
@@ -21,7 +21,7 @@ describe Lucky::SessionHandler do
     request = build_request
     cookie_header = context_1.response.cookies.map do |cookie|
       cookie.to_cookie_header
-    end.join("; ")
+    end.join(", ")
     request.headers.add("Cookie", cookie_header)
     context_2 = build_context("/", request: request)
     Lucky::SessionHandler.new.call(context_2)
