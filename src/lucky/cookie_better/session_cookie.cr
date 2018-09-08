@@ -6,22 +6,22 @@ class Lucky::SessionCookie
   alias Key = String | Symbol
   private property store = {} of String => String
 
-  def initialize(cookie : HTTP::Cookie? = nil)
-    cookie ||= HTTP::Cookie.new("dummy", "{}")
-    JSON.parse(cookie.value).as_h.each do |key, value|
+  def initialize(cookie : Lucky::MaybeCookie = Lucky::NullCookie.new)
+    value = cookie.value || "{}"
+    JSON.parse(value).as_h.each do |key, value|
       @store[key] = value.to_s
     end
   end
 
-  def set(key : Key, value : String)
+  def set(key : Key, value : String) : String
     store[key.to_s] = value
   end
 
-  def get(key : Key)
+  def get(key : Key) : String
     store[key.to_s]
   end
 
-  def get?(key : Key)
+  def get?(key : Key) : String?
     store[key.to_s]?
   end
 

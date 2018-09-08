@@ -19,12 +19,16 @@ class Lucky::CookieJar
     store[key.to_s]
   end
 
-  def get?(key : Key) : HTTP::Cookie?
-    store[key.to_s]?
+  def get?(key : Key) : Lucky::MaybeCookie
+    store[key.to_s]? || Lucky::NullCookie.new
   end
 
   def set(key : Key, value : String) : HTTP::Cookie
     store[key.to_s] = HTTP::Cookie.new(key.to_s, value)
+  end
+
+  def clear
+    @store = HTTP::Cookies.new
   end
 
   def who_took_the_cookies_from_the_cookie_jar?

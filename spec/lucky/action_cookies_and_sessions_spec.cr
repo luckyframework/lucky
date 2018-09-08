@@ -13,7 +13,7 @@ end
 
 class PreCookies::Index < Lucky::Action
   get "/pre_cookies" do
-    text "#{better_cookies.get?(:my_cookie)}"
+    text "#{better_cookies.get?(:my_cookie).value}"
   end
 end
 
