@@ -15,8 +15,8 @@ describe Lucky::BetterCookies::Processors::Encryptor do
 
       cookies = Lucky::BetterCookies::Processors::Encryptor.read(from: request)
 
-      cookies[:a].value.should eq("some cookie value")
-      cookies[:b].value.should eq("another cookie value")
+      cookies.get(:a).value.should eq("some cookie value")
+      cookies.get(:b).value.should eq("another cookie value")
     end
   end
 
@@ -24,7 +24,7 @@ describe Lucky::BetterCookies::Processors::Encryptor do
     it "encrypts cookies Set-Cookie response header" do
       response = HTTP::Server::Response.new(IO::Memory.new)
       cookies = Lucky::CookieJar.new
-      cookies[:a] = "a_value"
+      cookies.set(:a, "a_value")
       
       Lucky::BetterCookies::Processors::Encryptor.write(
         cookie_jar: cookies,

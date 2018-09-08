@@ -15,19 +15,18 @@ class Lucky::BetterCookies::Processors::Encryptor
       request.cookies.each do |cookie|
         decoded = Base64.decode(cookie.value)
         decrypted_value = String.new(encryptor.decrypt(decoded))
-        cookies[cookie.name] = decrypted_value
+        cookies.set(cookie.name, decrypted_value)
       end
     end
   end
 
   def write(cookie_jar : Lucky::CookieJar, to response : HTTP::Server::Response)
-    cookies = HTTP::Cookies.new
     cookie_jar.to_h.each do |key, cookie|
       encrypted = encryptor.encrypt(cookie.value)
       encoded = Base64.strict_encode(encrypted)
-      cookies[key] = encoded
+      response.cookies[key] = encoded
     end
-    cookies.add_response_headers(response.headers)
+    response.cookies.add_response_headers(response.headers)
   end
 
   private def encryptor

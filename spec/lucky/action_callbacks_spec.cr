@@ -131,7 +131,7 @@ end
 describe Lucky::Action do
   it "works with actions that use the `action` macro" do
     response = CallbackFromActionMacro::Index.new(build_context, params).call
-    response.context.better_cookies.get("before").should eq "before"
+    response.context.better_cookies.get("before").value.should eq "before"
   end
 
   it "can skip callbacks" do
@@ -145,10 +145,10 @@ describe Lucky::Action do
       response = Callbacks::Index.new(build_context, params).call
 
       response.body.should eq "not_from_callback"
-      response.context.better_cookies.get("before").should eq "before"
-      response.context.better_cookies.get("second_before").should eq "second_before"
-      response.context.better_cookies.get("after").should eq "after"
-      response.context.better_cookies.get("second_after").should eq "second_after"
+      response.context.better_cookies.get("before").value.should eq "before"
+      response.context.better_cookies.get("second_before").value.should eq "second_before"
+      response.context.better_cookies.get("after").value.should eq "after"
+      response.context.better_cookies.get("second_after").value.should eq "second_after"
     end
 
     it "halts before callbacks if a Lucky::Response is returned" do

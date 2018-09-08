@@ -26,7 +26,7 @@ describe Lucky::SessionHandler do
     context_2 = build_context("/", request: request)
     Lucky::SessionHandler.new.call(context_2)
 
-    context_2.better_cookies.get(:email).should eq "test@example.com"
+    context_2.better_cookies.get(:email).value.should eq "test@example.com"
   end
 
   it "sets a session" do
