@@ -16,7 +16,7 @@ describe Lucky::Request do
     it "authenticates users with authorization token" do
       test_user = TestUser.new
       request = Lucky::Request.new
-  
+
       request.get("/", as: test_user)
       request.headers["Authorization"].should eq test_user.generate_token
     end
@@ -25,7 +25,7 @@ describe Lucky::Request do
   describe "#post" do
     it "parses body into query params" do
       request = Lucky::Request.new
-      request.post("/", { "first" => "value", "second" => "value"})
+      request.post("/", {"first" => "value", "second" => "value"})
       request.query_params.should eq "first=value&second=value"
     end
   end
@@ -33,7 +33,7 @@ describe Lucky::Request do
   describe "#put" do
     it "parses body into query params" do
       request = Lucky::Request.new
-      request.put("/", { "first" => "value", "second" => "value"})
+      request.put("/", {"first" => "value", "second" => "value"})
       request.query_params.should eq "first=value&second=value"
     end
   end
