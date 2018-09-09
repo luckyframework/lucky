@@ -1,10 +1,17 @@
 require "http/client"
 
 class Lucky::Request
+  getter! url
+  getter! headers
+  getter! query_params
   getter! response
+
+  @url : String? = nil
+  @headers : HTTP::Headers? = nil
+  @query_params : String? = nil
   @response : HTTP::Client::Response? = nil
 
-  def get(path : String, as user : Authentic::PasswordAuthenticatable? = nil, headers : HTTP::Headers? = nil)
+  def get(path : String, as user = nil, headers : HTTP::Headers? = nil)
     if user
       headers ||= HTTP::Headers.new
       headers.add "Authorization", user.generate_token
@@ -13,7 +20,7 @@ class Lucky::Request
     request("GET", path, nil, headers)
   end
 
-  def put(path : String, body : Hash(String, String), as user : Authentic::PasswordAuthenticatable? = nil, headers : HTTP::Headers? = nil)
+  def put(path : String, body : Hash(String, String), as user = nil, headers : HTTP::Headers? = nil)
     if user
       headers ||= HTTP::Headers.new
       headers.add "Authorization", user.generate_token
@@ -22,7 +29,7 @@ class Lucky::Request
     request("PUT", path, body, headers)
   end
 
-  def post(path : String, body : Hash(String, String), as user : Authentic::PasswordAuthenticatable? = nil, headers : HTTP::Headers? = nil)
+  def post(path : String, body : Hash(String, String), as user = nil, headers : HTTP::Headers? = nil)
     if user
       headers ||= HTTP::Headers.new
       headers.add "Authorization", user.generate_token
@@ -31,7 +38,7 @@ class Lucky::Request
     request("POST", path, body, headers)
   end
 
-  def delete(path : String, as user : Authentic::PasswordAuthenticatable? = nil, headers : HTTP::Headers? = nil)
+  def delete(path : String, as user = nil, headers : HTTP::Headers? = nil)
     if user
       headers ||= HTTP::Headers.new
       headers.add "Authorization", user.generate_token
@@ -57,10 +64,11 @@ class Lucky::Request
   end
 
   private def request(method : String, path : String, body : Hash(String, String)? = nil, headers : HTTP::Headers? = nil)
-    url = Lucky::RouteHelper.settings.base_uri + path
-    body = body ? hash_to_params(body) : nil
+    @url = Lucky::RouteHelper.settings.base_uri + path
+    @headers = headers
+    @query_params = body ? hash_to_params(body) : nil
 
-    @response = HTTP::Client.exec(method, url: url, body: body, headers: headers)
+    @response = HTTP::Client.exec(method, url: url, body: @query_params, headers: headers)
   end
 
   private def hash_to_params(body : Hash(String, String))
