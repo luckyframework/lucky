@@ -35,7 +35,7 @@ describe Lucky::FlashStore do
 
   describe "#each" do
     it "returns the list of key/value pairs" do
-      flash_store = build_flash_store({
+      flash_store = build_flash_store(next: {
         "some_key"  => "some_value",
         "other_key" => "other_value",
       })
@@ -48,20 +48,66 @@ describe Lucky::FlashStore do
     end
   end
 
+  describe "#all" do
+    it "prefers values from @next over @now" do
+      next_hash = { "name" => "Paul" }
+      now_hash = { "name" => "Edward" }
+      flash_store = build_flash_store(now: now_hash, next: next_hash)
+
+      flash_store.get("name").should eq("Paul")
+    end
+  end
+
+  describe "#set" do
+    it "sets values from symbols and strings" do
+      flash_store = build_flash_store
+
+      flash_store.set(:name, "Paul")
+      flash_store.set("dungeons", "dragons")
+
+      flash_store.get("name").should eq("Paul")
+      flash_store.get("dungeons").should eq("dragons")
+    end
+  end
+
+  describe "#get" do
+    it "retrives values from both @now and @next" do
+      next_hash = { "baker" => "Paul" }
+      now_hash = { "cookie theif" => "Edward" }
+      flash_store = build_flash_store(now: now_hash, next: next_hash)
+
+      flash_store.get("baker").should eq("Paul")
+      flash_store.get("cookie theif").should eq("Edward")
+    end
+
+    it "retrives for both symbols and strings" do
+      hash = { "baker" => "Paul", "theif" => "Edward" }
+      flash_store = build_flash_store(now: hash)
+
+      flash_store.get("baker").should eq("Paul")
+      flash_store.get(:theif).should eq("Edward")
+    end
+  end
+
   describe "#to_json" do
     it "returns JSON for just the next requests flash messages" do
-      flash_store = Lucky::FlashStore.new
-      flash_store.set(:name, "Paul")
-      expected_json = { name: "Paul" }.to_json
+      now_hash = { not: :present }
+      next_hash = { name: "Paul" }
+      flash_store = build_flash_store(now: now_hash, next: next_hash)
 
-      flash_store.to_json.should eq(expected_json)
+      flash_store.to_json.should eq(next_hash.to_json)
     end
   end
 end
 
-private def build_flash_store(flash : Hash(String, String))
-  Lucky::FlashStore.new.tap do |flash_store|
-    flash.each do |key, value|
+private def build_flash_store(
+  now = {} of String => String,
+  next next_hash = {} of String => String,
+)
+  session = Lucky::SessionCookie.new
+  session.set(Lucky::FlashStore::SESSION_KEY, now.to_json)
+  Lucky::FlashStore.from_session(session).tap do |flash_store|
+    next_hash.each do |key, value|
       flash_store.set(key, value)
     end
   end
