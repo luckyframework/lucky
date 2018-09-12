@@ -2,22 +2,32 @@ require "../../spec_helper"
 
 include ContextHelper
 
-describe Lucky::Flash::Handler do
-  it "persists only the messages for the next request" do
+describe Lucky::FlashHandler do
+  it "writes the flash to the session" do
     context = build_context
-    context.flash.now[:just_for_this_request] = "now"
-    context.flash[:for_next_request] = "next"
+    context.flash.success = "Yay!"
+    flash_json = { success: "Yay!" }.to_json
 
-    call_flash_handler_with(context) do |new_context|
-      expected_json = {for_next_request: "next"}.to_json
-      new_context.session[Lucky::Flash::Handler::PARAM_KEY].should eq(expected_json)
-    end
+    Lucky::FlashHandler.new.call(context)
+
+    context.
+      better_session.
+      get(Lucky::FlashStore::SESSION_KEY).should eq(flash_json)
   end
-end
 
-private def call_flash_handler_with(context : HTTP::Server::Context)
-  handler = Lucky::Flash::Handler.new
-  handler.next = ->(_ctx : HTTP::Server::Context) {}
-  handler.call(context)
-  yield context
+  it "only keeps the flash for one request" do
+    context1 = build_context
+    first_json = { success: "Yay!" }.to_json
+    context1.better_session.set(Lucky::FlashStore::SESSION_KEY, first_json)
+
+    context1.flash.success.should eq("Yay!")
+
+    Lucky::FlashHandler.new.call(context1)
+
+    next_json = context1.better_session.get(Lucky::FlashStore::SESSION_KEY)
+    context2 = build_context
+    context2.better_session.set(Lucky::FlashStore::SESSION_KEY, next_json)
+
+    context2.flash.success.should eq("")
+  end
 end

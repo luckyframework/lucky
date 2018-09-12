@@ -6,7 +6,7 @@ class HTTP::Server::Context
   setter cookies : Lucky::Cookies::Store?
   setter better_cookies : Lucky::CookieJar?
   setter better_session : Lucky::SessionCookie?
-  setter flash : Lucky::Flash::Store?
+  setter flash : Lucky::FlashStore?
 
   getter debug_messages : Array(String) = [] of String
   property? hide_from_logs : Bool = false
@@ -33,7 +33,7 @@ class HTTP::Server::Context
   end
 
   def flash
-    @flash ||= Lucky::Flash.from_session(session)
+    @flash ||= Lucky::FlashStore.from_session(better_session)
   end
 
   def add_debug_message(message : String)
