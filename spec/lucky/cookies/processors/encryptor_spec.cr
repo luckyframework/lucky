@@ -25,7 +25,7 @@ describe Lucky::BetterCookies::Processors::Encryptor do
       response = HTTP::Server::Response.new(IO::Memory.new)
       cookies = Lucky::CookieJar.new
       cookies.set(:a, "a_value")
-      
+
       Lucky::BetterCookies::Processors::Encryptor.write(
         cookie_jar: cookies,
         to: response

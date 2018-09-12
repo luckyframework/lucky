@@ -2,7 +2,7 @@ class Lucky::BetterCookies::Processors::Encryptor
   def self.read(from request : HTTP::Request)
     new.read(from: request)
   end
-  
+
   def self.write(
     cookie_jar : Lucky::CookieJar,
     to response : HTTP::Server::Response
@@ -21,10 +21,11 @@ class Lucky::BetterCookies::Processors::Encryptor
   end
 
   def write(cookie_jar : Lucky::CookieJar, to response : HTTP::Server::Response)
-    cookie_jar.to_h.each do |key, cookie|
+    cookie_jar.each do |cookie|
       encrypted = encryptor.encrypt(cookie.value)
       encoded = Base64.strict_encode(encrypted)
-      response.cookies[key] = encoded
+      cookie.value = encoded
+      response.cookies[cookie.name] = cookie
     end
     response.cookies.add_response_headers(response.headers)
   end
