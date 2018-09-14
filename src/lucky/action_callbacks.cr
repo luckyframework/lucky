@@ -100,7 +100,10 @@ module Lucky::ActionCallbacks
       #   end
 
       if callback_result.is_a?(Lucky::Response)
+        Lucky::ActionCallbacks.log_stopped_callback(context,"{{ callback_method.id }}")
         return callback_result
+      else
+        Lucky::ActionCallbacks.log_continued_callback(context,"{{ callback_method.id }}")
       end
     {% end %}
   end
@@ -120,9 +123,30 @@ module Lucky::ActionCallbacks
       #   end
 
       if callback_result.is_a?(Lucky::Response)
+        Lucky::ActionCallbacks.log_stopped_callback(context,"{{ callback_method.id }}")
         return callback_result
+      else
+        Lucky::ActionCallbacks.log_continued_callback(context,"{{ callback_method.id }}")
       end
     {% end %}
+  end
+
+  # :nodoc:
+  def self.log_stopped_callback(
+    context : HTTP::Server::Context,
+    callback_method_name : String
+  ) : Void
+    callback_method_with_color = callback_method_name.colorize(HTTP::Server::Context::DEBUG_COLOR)
+    context.add_debug_message("Stopped at #{callback_method_with_color}")
+  end
+
+  # :nodoc:
+  def self.log_continued_callback(
+    context : HTTP::Server::Context,
+    callback_method_name : String
+  ) : Void
+    callback_method_with_color = callback_method_name.colorize(HTTP::Server::Context::DEBUG_COLOR)
+    context.add_debug_message("Ran #{callback_method_with_color}")
   end
 
   # :nodoc:
