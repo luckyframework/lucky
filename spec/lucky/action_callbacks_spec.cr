@@ -30,6 +30,14 @@ abstract class InheritableCallbacks < Lucky::Action
   end
 end
 
+class Callbacks::Skipped < InheritableCallbacks
+  skip set_before_cookie, overwrite_after_cookie
+
+  get "/skipped-callbacks" do
+    text "Body"
+  end
+end
+
 class Callbacks::Index < InheritableCallbacks
   before set_second_before_cookie
   after set_second_after_cookie
@@ -124,6 +132,12 @@ describe Lucky::Action do
   it "works with actions that use the `action` macro" do
     response = CallbackFromActionMacro::Index.new(build_context, params).call
     response.context.cookies["before"].should eq "before"
+  end
+
+  it "can skip callbacks" do
+    response = Callbacks::Skipped.new(build_context, params).call
+    response.context.cookies["before"].should eq(nil)
+    response.context.cookies["after"].should eq(nil)
   end
 
   describe "handles before callbacks" do
