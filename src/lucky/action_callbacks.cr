@@ -3,14 +3,35 @@ module Lucky::ActionCallbacks
   class Continue
   end
 
+  # Skips before or after callbacks
+  #
+  # ```
+  # skip require_sign_in, require_organization
+  # ```
+  macro skip(*callbacks)
+    {% for callback in callbacks %}
+      {% if BEFORE_CALLBACKS.includes?(callback.id) || AFTER_CALLBACKS.includes?(callback.id) %}
+        {% SKIPPED_CALLBACKS << callback.id %}
+      {% else %}
+        {% callback.raise <<-ERROR.lines.join(" ")
+        Can't skip '#{callback}' because the callback is not used.
+        Check the spelling of the callback that you are trying to skip.
+        ERROR
+        %}
+      {% end %}
+    {% end %}
+  end
+
   # :nodoc:
   macro included
     AFTER_CALLBACKS = [] of Symbol
     BEFORE_CALLBACKS = [] of Symbol
+    SKIPPED_CALLBACKS = [] of Symbol
 
     macro inherited
       AFTER_CALLBACKS = [] of Symbol
       BEFORE_CALLBACKS = [] of Symbol
+      SKIPPED_CALLBACKS = [] of Symbol
 
       inherit_callbacks
     end
@@ -24,6 +45,10 @@ module Lucky::ActionCallbacks
 
     \{% for v in @type.ancestors.first.constant :AFTER_CALLBACKS %}
       \{% AFTER_CALLBACKS << v %}
+    \{% end %}
+
+    \{% for v in @type.ancestors.first.constant :SKIPPED_CALLBACKS %}
+      \{% SKIPPED_CALLBACKS << v %}
     \{% end %}
   end
 
@@ -88,7 +113,9 @@ module Lucky::ActionCallbacks
 
   # :nodoc:
   macro run_before_callbacks
-    {% for callback_method in BEFORE_CALLBACKS %}
+    {% callbacks = BEFORE_CALLBACKS.reject { |callback| SKIPPED_CALLBACKS.includes?(callback) } %}
+
+    {% for callback_method in callbacks %}
       callback_result = {{ callback_method }}
       ensure_callbacks_return_response_or_continue(callback_result)
       # Callback {{ callback_method }} should return a Lucky::Response or Lucky::ActionCallbacks::Continue
@@ -110,7 +137,9 @@ module Lucky::ActionCallbacks
 
   # :nodoc:
   macro run_after_callbacks
-    {% for callback_method in AFTER_CALLBACKS %}
+    {% callbacks = AFTER_CALLBACKS.reject { |callback| SKIPPED_CALLBACKS.includes?(callback) } %}
+
+    {% for callback_method in callbacks %}
       callback_result = {{ callback_method }}
 
       ensure_callbacks_return_response_or_continue(callback_result)
