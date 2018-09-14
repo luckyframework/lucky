@@ -9,4 +9,6 @@ class Lucky::NullCookie
   getter extension : Nil = nil
 end
 
-alias Lucky::MaybeCookie = HTTP::Cookie | Lucky::NullCookie
+module Lucky
+  alias MaybeCookie = HTTP::Cookie | NullCookie
+end
