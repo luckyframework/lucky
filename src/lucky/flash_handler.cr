@@ -4,6 +4,6 @@ class Lucky::FlashHandler
   def call(context)
     call_next(context)
   ensure
-    context.better_session.set(Lucky::FlashStore::SESSION_KEY, context.flash.to_json)
+    context.session.set(Lucky::FlashStore::SESSION_KEY, context.flash.to_json)
   end
 end

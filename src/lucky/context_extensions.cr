@@ -1,39 +1,27 @@
-require "./session/**"
-
 class HTTP::Server::Context
   DEBUG_COLOR = :green
-  setter session : Lucky::Session::AbstractStore?
-  setter cookies : Lucky::Cookies::Store?
-  setter better_cookies : Lucky::CookieJar?
-  setter better_session : Lucky::SessionCookie?
+  setter cookies : Lucky::CookieJar?
+  setter session : Lucky::SessionCookie?
   setter flash : Lucky::FlashStore?
 
   getter debug_messages : Array(String) = [] of String
   property? hide_from_logs : Bool = false
 
-  def better_cookies
-    @better_cookies ||= Lucky::BetterCookies::Processors::Encryptor.read(
+  def cookies
+    @cookies ||= Lucky::BetterCookies::Processors::Encryptor.read(
       from: request
     )
   end
 
-  def better_session
-    @better_session ||= begin
-      cookie = better_cookies.get?(Lucky::SessionCookie.settings.key)
+  def session
+    @session ||= begin
+      cookie = cookies.get?(Lucky::SessionCookie.settings.key)
       Lucky::SessionCookie.new(cookie)
     end
   end
 
-  def cookies
-    @cookies ||= Lucky::Cookies::Store.build(request, Lucky::Server.settings.secret_key_base)
-  end
-
-  def session
-    @session ||= Lucky::Session::Store.new(cookies).build
-  end
-
   def flash
-    @flash ||= Lucky::FlashStore.from_session(better_session)
+    @flash ||= Lucky::FlashStore.from_session(session)
   end
 
   def add_debug_message(message : String)

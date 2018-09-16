@@ -7,11 +7,6 @@ Spec.before_each do
   ARGV.clear
 end
 
-Lucky::Session::Store.configure do |settings|
-  settings.key = "test_app"
-  settings.secret = "super-secret"
-end
-
 Lucky::SessionCookie.configure do |settings|
   settings.key = "_app_session"
 end

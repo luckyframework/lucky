@@ -4,15 +4,10 @@ class Lucky::SessionHandler
   def call(context : HTTP::Server::Context)
     call_next(context)
 
-    context.better_cookies.set(Lucky::SessionCookie.settings.key, context.better_session.to_json)
+    context.cookies.set(Lucky::SessionCookie.settings.key, context.session.to_json)
     Lucky::BetterCookies::Processors::Encryptor.write(
-      cookie_jar: context.better_cookies,
+      cookie_jar: context.cookies,
       to: context.response
     )
-
-    if context.session.changed?
-      context.session.set_session
-      context.cookies.write(context.response.headers)
-    end
   end
 end

@@ -7,7 +7,7 @@ describe Lucky::FlashStore do
     it "creates a flash store from the json in a session" do
       context = build_context_with_flash({"some_key" => "some_value"}.to_json)
 
-      flash_store = Lucky::FlashStore.from_session context.better_session
+      flash_store = Lucky::FlashStore.from_session context.session
 
       flash_store.get("some_key").should eq "some_value"
     end
@@ -15,7 +15,7 @@ describe Lucky::FlashStore do
     it "returns an empty flash store if json is invalid" do
       context = build_context_with_flash("not_valid_json=invalid")
 
-      flash_store = Lucky::FlashStore.from_session context.better_session
+      flash_store = Lucky::FlashStore.from_session context.session
 
       flash_store.get?("some_key").should be_nil
     end

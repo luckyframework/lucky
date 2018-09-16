@@ -5,7 +5,7 @@ include ContextHelper
 describe Lucky::SessionHandler do
   it "sets a cookie" do
     context = build_context
-    context.better_cookies.set(:email, "test@example.com")
+    context.cookies.set(:email, "test@example.com")
 
     Lucky::SessionHandler.new.call(context)
 
@@ -15,7 +15,7 @@ describe Lucky::SessionHandler do
 
   it "ensures the cookie has a far-future expiration date" do
     context = build_context
-    context.better_cookies.set(:email, "test@example.com")
+    context.cookies.set(:email, "test@example.com")
 
     Lucky::SessionHandler.new.call(context)
 
@@ -35,7 +35,7 @@ describe Lucky::SessionHandler do
 
   it "persists the cookies across multiple requests" do
     context_1 = build_context
-    context_1.better_cookies.set(:email, "test@example.com")
+    context_1.cookies.set(:email, "test@example.com")
     Lucky::SessionHandler.new.call(context_1)
 
     request = build_request
@@ -45,12 +45,12 @@ describe Lucky::SessionHandler do
     request.headers.add("Cookie", cookie_header)
     context_2 = build_context("/", request: request)
 
-    context_2.better_cookies.get(:email).value.should eq "test@example.com"
+    context_2.cookies.get(:email).value.should eq "test@example.com"
   end
 
   it "sets a session" do
     context = build_context
-    context.better_session.set(:email, "test@example.com")
+    context.session.set(:email, "test@example.com")
 
     Lucky::SessionHandler.new.call(context)
 
@@ -60,7 +60,7 @@ describe Lucky::SessionHandler do
 
   it "persists the session across multiple requests" do
     context_1 = build_context
-    context_1.better_session.set(:email, "test@example.com")
+    context_1.session.set(:email, "test@example.com")
     Lucky::SessionHandler.new.call(context_1)
 
     request = build_request
@@ -71,7 +71,7 @@ describe Lucky::SessionHandler do
     context_2 = build_context("/", request: request)
     Lucky::SessionHandler.new.call(context_2)
 
-    context_2.better_session.get(:email).should eq("test@example.com")
+    context_2.session.get(:email).should eq("test@example.com")
   end
 end
 

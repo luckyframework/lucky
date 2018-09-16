@@ -1,3 +1,5 @@
+require "../../support/message_encryptor"
+
 class Lucky::BetterCookies::Processors::Encryptor
   def self.read(from request : HTTP::Request)
     new.read(from: request)
@@ -30,7 +32,7 @@ class Lucky::BetterCookies::Processors::Encryptor
     response.cookies.add_response_headers(response.headers)
   end
 
-  private def encryptor
+  private def encryptor : Lucky::MessageEncryptor
     @encryptor ||= Lucky::MessageEncryptor.
       new(Lucky::Server.settings.secret_key_base)
   end

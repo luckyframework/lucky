@@ -4,16 +4,16 @@ include ContextHelper
 
 class Cookies::Index < Lucky::Action
   get "/cookies" do
-    better_cookies.set :my_cookie, "cookie"
-    better_session.set :my_session, "session"    
+    cookies.set :my_cookie, "cookie"
+    session.set :my_session, "session"
 
-    text "#{better_cookies.get(:my_cookie).value} - #{better_session.get(:my_session)}"
+    text "#{cookies.get(:my_cookie).value} - #{session.get(:my_session)}"
   end
 end
 
 class PreCookies::Index < Lucky::Action
   get "/pre_cookies" do
-    text "#{better_cookies.get?(:my_cookie).value}"
+    text "#{cookies.get?(:my_cookie).value}"
   end
 end
 
@@ -41,7 +41,7 @@ describe Lucky::Action do
       response.body.should eq ""
     end
   end
-  
+
   describe "setting and reading the flash" do
     it "will initialize the cookies object and not crash" do
       response = FlashCookies::Index.new(build_context, params).call
