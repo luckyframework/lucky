@@ -4,14 +4,14 @@ describe HTTP::Cookie do
   describe "#domain" do
     it "can chain and set values" do
       time = Time.now
-      cookie = test_cookie.
-        name("session_id").
-        value("1").
-        path("/cookies").
-        expires(time).
-        domain("luckyframework.org").
-        secure(true).
-        http_only(true)
+      cookie = test_cookie
+        .name("session_id")
+        .value("1")
+        .path("/cookies")
+        .expires(time)
+        .domain("luckyframework.org")
+        .secure(true)
+        .http_only(true)
 
       cookie.should be_a(HTTP::Cookie)
       cookie.name.should eq("session_id")

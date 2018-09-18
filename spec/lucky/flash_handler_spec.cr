@@ -6,7 +6,7 @@ describe Lucky::FlashHandler do
   it "writes the flash to the session" do
     context = build_context
     context.flash.success = "Yay!"
-    flash_json = { success: "Yay!" }.to_json
+    flash_json = {success: "Yay!"}.to_json
 
     Lucky::FlashHandler.new.call(context)
 
@@ -15,7 +15,7 @@ describe Lucky::FlashHandler do
 
   it "only keeps the flash for one request" do
     context1 = build_context
-    first_json = { success: "Yay!" }.to_json
+    first_json = {success: "Yay!"}.to_json
     context1.session.set(Lucky::FlashStore::SESSION_KEY, first_json)
 
     context1.flash.success.should eq("Yay!")

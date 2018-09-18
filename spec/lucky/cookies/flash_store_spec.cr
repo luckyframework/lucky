@@ -50,8 +50,8 @@ describe Lucky::FlashStore do
 
   describe "#all" do
     it "prefers values from @next over @now" do
-      next_hash = { "name" => "Paul" }
-      now_hash = { "name" => "Edward" }
+      next_hash = {"name" => "Paul"}
+      now_hash = {"name" => "Edward"}
       flash_store = build_flash_store(now: now_hash, next: next_hash)
 
       flash_store.get("name").should eq("Paul")
@@ -72,8 +72,8 @@ describe Lucky::FlashStore do
 
   describe "#get" do
     it "retrives values from both @now and @next" do
-      next_hash = { "baker" => "Paul" }
-      now_hash = { "cookie theif" => "Edward" }
+      next_hash = {"baker" => "Paul"}
+      now_hash = {"cookie theif" => "Edward"}
       flash_store = build_flash_store(now: now_hash, next: next_hash)
 
       flash_store.get("baker").should eq("Paul")
@@ -81,7 +81,7 @@ describe Lucky::FlashStore do
     end
 
     it "retrives for both symbols and strings" do
-      hash = { "baker" => "Paul", "theif" => "Edward" }
+      hash = {"baker" => "Paul", "theif" => "Edward"}
       flash_store = build_flash_store(now: hash)
 
       flash_store.get("baker").should eq("Paul")
@@ -91,8 +91,8 @@ describe Lucky::FlashStore do
 
   describe "#to_json" do
     it "returns JSON for just the next requests flash messages" do
-      now_hash = { not: :present }
-      next_hash = { name: "Paul" }
+      now_hash = {not: :present}
+      next_hash = {name: "Paul"}
       flash_store = build_flash_store(now: now_hash, next: next_hash)
 
       flash_store.to_json.should eq(next_hash.to_json)
@@ -102,7 +102,7 @@ end
 
 private def build_flash_store(
   now = {} of String => String,
-  next next_hash = {} of String => String,
+  next next_hash = {} of String => String
 )
   session = Lucky::SessionCookie.new
   session.set(Lucky::FlashStore::SESSION_KEY, now.to_json)

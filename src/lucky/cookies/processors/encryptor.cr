@@ -32,7 +32,7 @@ class Lucky::BetterCookies::Processors::Encryptor
   end
 
   private def encryptor : Lucky::MessageEncryptor
-    @encryptor ||= Lucky::MessageEncryptor.
-      new(Lucky::Server.settings.secret_key_base)
+    @encryptor ||= Lucky::MessageEncryptor
+      .new(Lucky::Server.settings.secret_key_base)
   end
 end
