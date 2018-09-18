@@ -1,6 +1,7 @@
 class Lucky::CookieJar
   alias Key = String | Symbol
   private property store : HTTP::Cookies
+  @changed = false
   EXPIRATION = 1.year.from_now
 
   delegate to_h, to: @store
@@ -25,7 +26,12 @@ class Lucky::CookieJar
   end
 
   def set(key : Key, value : String) : HTTP::Cookie
+    @changed = true
     store[key.to_s] = HTTP::Cookie.new(key.to_s, value, expires: EXPIRATION)
+  end
+
+  def changed?
+    @changed
   end
 
   def each(&block : HTTP::Cookie ->)

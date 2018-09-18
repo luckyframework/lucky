@@ -5,6 +5,7 @@ class Lucky::SessionCookie
 
   alias Key = String | Symbol
   private property store = {} of String => String
+  @changed = false
 
   def initialize(cookie : Lucky::MaybeCookie = Lucky::NullCookie.new)
     value = cookie.value || "{}"
@@ -13,16 +14,21 @@ class Lucky::SessionCookie
     end
   end
 
-  def set(key : Key, value : String) : String
-    store[key.to_s] = value
-  end
-
   def get(key : Key) : String
     store[key.to_s]
   end
 
   def get?(key : Key) : String?
     store[key.to_s]?
+  end
+
+  def set(key : Key, value : String) : String
+    @changed = true
+    store[key.to_s] = value
+  end
+
+  def changed?
+    @changed
   end
 
   def clear

@@ -13,13 +13,12 @@ class Lucky::BetterCookies::Processors::Encryptor
   end
 
   def read(from request : HTTP::Request) : Lucky::CookieJar
-    Lucky::CookieJar.new.tap do |cookies|
-      request.cookies.each do |cookie|
-        decoded = Base64.decode(cookie.value)
-        decrypted_value = String.new(encryptor.decrypt(decoded))
-        cookies.set(cookie.name, decrypted_value)
-      end
+    request.cookies.each do |cookie|
+      decoded = Base64.decode(cookie.value)
+      decrypted_value = String.new(encryptor.decrypt(decoded))
+      cookie.value = decrypted_value
     end
+    Lucky::CookieJar.new(request.cookies)
   end
 
   def write(cookie_jar : Lucky::CookieJar, to response : HTTP::Server::Response)
