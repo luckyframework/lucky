@@ -13,26 +13,6 @@ describe Lucky::SessionHandler do
     context.response.headers["Set-Cookie"].should contain("email=")
   end
 
-  it "ensures the cookie has a far-future expiration date" do
-    context = build_context
-    context.cookies.set(:email, "test@example.com")
-
-    Lucky::SessionHandler.new.call(context)
-
-    cookies = HTTP::Cookies.from_headers(context.response.headers)
-    cookies.each do |cookie|
-      cookie.value = decrypt_cookie_value(cookie)
-    end
-
-    expiration = cookies["email"].expires.not_nil!
-    # dirty hack because I can't get a time mocking lib to work
-    # this works when I test just this file but not in the full suite
-    # my guess is because the time set in the cookie jar is a constant that
-    # is set at compile time, which ends taking more than 1 second to compile
-    # 1 minute difference for a year seems reasonable for now
-    expiration.should be_close(1.year.from_now, 1.minute)
-  end
-
   it "persists the cookies across multiple requests" do
     context_1 = build_context
     context_1.cookies.set(:email, "test@example.com")

@@ -27,7 +27,12 @@ class Lucky::CookieJar
 
   def set(key : Key, value : String) : HTTP::Cookie
     @changed = true
-    store[key.to_s] = HTTP::Cookie.new(key.to_s, value, expires: EXPIRATION)
+    store[key.to_s] = HTTP::Cookie.new(
+      key.to_s,
+      value,
+      expires: EXPIRATION,
+      http_only: true,
+    )
   end
 
   def changed?
