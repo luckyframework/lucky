@@ -136,8 +136,8 @@ describe Lucky::Action do
 
   it "can skip callbacks" do
     response = Callbacks::Skipped.new(build_context, params).call
-    response.context.cookies["before"].should eq(nil)
-    response.context.cookies["after"].should eq(nil)
+    response.context.cookies.get?("before").value.should be_nil
+    response.context.cookies.get?("after").value.should be_nil
   end
 
   describe "handles before callbacks" do
