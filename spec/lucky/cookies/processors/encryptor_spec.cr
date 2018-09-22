@@ -2,7 +2,7 @@ require "../../../spec_helper"
 
 include ContextHelper
 
-describe Lucky::BetterCookies::Processors::Encryptor do
+describe Lucky::Cookies::Processors::Encryptor do
   describe ".read" do
     it "returns a decrypted CookieJar" do
       a_value = encryptor.encrypt("some cookie value")
@@ -13,7 +13,7 @@ describe Lucky::BetterCookies::Processors::Encryptor do
       request.headers.add("Cookie", "a=#{a_value};")
       request.headers.add("Cookie", "b=#{b_value};")
 
-      cookies = Lucky::BetterCookies::Processors::Encryptor.read(from: request)
+      cookies = Lucky::Cookies::Processors::Encryptor.read(from: request)
 
       cookies.get(:a).value.should eq("some cookie value")
       cookies.get(:b).value.should eq("another cookie value")
@@ -26,7 +26,7 @@ describe Lucky::BetterCookies::Processors::Encryptor do
       cookies = Lucky::CookieJar.new
       cookies.set(:a, "a_value")
 
-      Lucky::BetterCookies::Processors::Encryptor.write(
+      Lucky::Cookies::Processors::Encryptor.write(
         cookie_jar: cookies,
         to: response
       )

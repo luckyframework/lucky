@@ -8,7 +8,7 @@ class HTTP::Server::Context
   property? hide_from_logs : Bool = false
 
   def cookies
-    @cookies ||= Lucky::BetterCookies::Processors::Encryptor.read(
+    @cookies ||= Lucky::Cookies::Processors::Encryptor.read(
       from: request
     )
   end

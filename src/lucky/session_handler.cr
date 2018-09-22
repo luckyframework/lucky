@@ -19,7 +19,7 @@ class Lucky::SessionHandler
 
   private def write_cookies(context : HTTP::Server::Context)
     return if !context.cookies.changed?
-    Lucky::BetterCookies::Processors::Encryptor.write(
+    Lucky::Cookies::Processors::Encryptor.write(
       cookie_jar: context.cookies,
       to: context.response
     )

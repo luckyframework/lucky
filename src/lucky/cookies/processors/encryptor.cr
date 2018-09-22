@@ -1,6 +1,6 @@
 require "../../support/message_encryptor"
 
-class Lucky::BetterCookies::Processors::Encryptor
+class Lucky::Cookies::Processors::Encryptor
   def self.read(from request : HTTP::Request)
     new.read(from: request)
   end
