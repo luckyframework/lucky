@@ -8,8 +8,8 @@ class Lucky::SessionCookie
   @changed = false
 
   def initialize(cookie : Lucky::MaybeCookie = Lucky::NullCookie.new)
-    value = cookie.value || "{}"
-    JSON.parse(value).as_h.each do |key, value|
+    contents = cookie.value || "{}"
+    JSON.parse(contents).as_h.each do |key, value|
       @store[key] = value.to_s
     end
   end
