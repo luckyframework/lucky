@@ -145,6 +145,11 @@ describe Lucky::Action do
       response = Callbacks::Index.new(build_context, params).call
 
       response.body.should eq "not_from_callback"
+      debug_messages = response.context.debug_messages
+      debug_messages[0].should contain("before")
+      debug_messages[1].should contain("second_before")
+      debug_messages[2].should contain("after")
+      debug_messages[2].should contain("moverwrite_after_cookie")
       response.context.cookies.get("before").value.should eq "before"
       response.context.cookies.get("second_before").value.should eq "second_before"
       response.context.cookies.get("after").value.should eq "after"
@@ -157,6 +162,9 @@ describe Lucky::Action do
       response.body.should eq ""
       response.context.response.status_code.should eq 302
       response.context.response.headers["Location"].should eq "/redirected_in_before"
+      debug_message = response.context.debug_messages.last
+      debug_message.should contain("Stopped")
+      debug_message.should contain("redirect_me")
       response.context.cookies.get?("before").value.should be_nil
     end
 
@@ -167,6 +175,9 @@ describe Lucky::Action do
       response.context.response.status_code.should eq 302
       response.context.response.headers["Location"].should eq "/redirected_in_after"
       response.context.cookies.get?("after").value.should be_nil
+      debug_message = response.context.debug_messages.last
+      debug_message.should contain("Stopped")
+      debug_message.should contain("redirect_me")
     end
 
     it "renders the callbacks in the order they were defined" do
