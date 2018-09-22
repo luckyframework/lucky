@@ -77,6 +77,15 @@ describe Lucky::SessionHandler do
     context.response.headers["Set-Cookie"].should contain("color")
     context.response.headers["Set-Cookie"].should_not contain("_app_session")
   end
+
+  it "raises an error if the cookies are > 4096 bytes" do
+    context = build_context
+    context.cookies.set(:key, String.new(Bytes.new(size: 4094)))
+
+    expect_raises(Lucky::Exceptions::CookieOverflow) do
+      Lucky::SessionHandler.new.call(context)
+    end
+  end
 end
 
 private def decrypt_cookie_value(cookie : HTTP::Cookie) : String

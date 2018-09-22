@@ -2,7 +2,8 @@ class Lucky::CookieJar
   alias Key = String | Symbol
   private property store : HTTP::Cookies
   @changed = false
-  EXPIRATION = 1.year.from_now
+  EXPIRATION      = 1.year.from_now
+  MAX_COOKIE_SIZE = 4096
 
   delegate to_h, to: @store
 
