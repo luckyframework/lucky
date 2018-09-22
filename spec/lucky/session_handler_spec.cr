@@ -86,6 +86,27 @@ describe Lucky::SessionHandler do
       Lucky::SessionHandler.new.call(context)
     end
   end
+
+  it "writes all the proper headers when a cookie is set" do
+    context = build_context
+    context
+      .cookies
+      .set(:yo, "lo")
+      .path("/awesome")
+      .expires(Time.new(2000, 1, 1))
+      .domain("luckyframework.org")
+      .secure(true)
+      .http_only(true)
+
+    Lucky::SessionHandler.new.call(context)
+
+    header = context.response.headers["Set-Cookie"]
+    header.should contain("path=/awesome")
+    header.should contain("expires=Sat, 01 Jan 2000")
+    header.should contain("domain=luckyframework.org")
+    header.should contain("Secure")
+    header.should contain("HttpOnly")
+  end
 end
 
 private def decrypt_cookie_value(cookie : HTTP::Cookie) : String
