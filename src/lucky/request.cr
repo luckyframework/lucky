@@ -12,39 +12,19 @@ class Lucky::Request
   @response : HTTP::Client::Response? = nil
 
   def get(path : String, as user = nil, headers : HTTP::Headers? = nil)
-    if user
-      headers ||= HTTP::Headers.new
-      headers.add "Authorization", user.generate_token
-    end
-
-    request("GET", path, nil, headers)
+    request("GET", path, nil, headers, as: user)
   end
 
   def put(path : String, body : Hash(String, String), as user = nil, headers : HTTP::Headers? = nil)
-    if user
-      headers ||= HTTP::Headers.new
-      headers.add "Authorization", user.generate_token
-    end
-
-    request("PUT", path, body, headers)
+    request("PUT", path, body, headers, as: user)
   end
 
   def post(path : String, body : Hash(String, String), as user = nil, headers : HTTP::Headers? = nil)
-    if user
-      headers ||= HTTP::Headers.new
-      headers.add "Authorization", user.generate_token
-    end
-
-    request("POST", path, body, headers)
+    request("POST", path, body, headers, as: user)
   end
 
   def delete(path : String, as user = nil, headers : HTTP::Headers? = nil)
-    if user
-      headers ||= HTTP::Headers.new
-      headers.add "Authorization", user.generate_token
-    end
-
-    request("DELETE", path, nil, headers)
+    request("DELETE", path, nil, headers, as: user)
   end
 
   def response
@@ -63,7 +43,12 @@ class Lucky::Request
     JSON.parse(response_body)
   end
 
-  private def request(method : String, path : String, body : Hash(String, String)? = nil, headers : HTTP::Headers? = nil)
+  private def request(method : String, path : String, body : Hash(String, String)? = nil, headers : HTTP::Headers? = nil, as user = nil)
+    if user
+      headers ||= HTTP::Headers.new
+      headers.add "Authorization", user.generate_token
+    end
+
     @url = Lucky::RouteHelper.settings.base_uri + path
     @headers = headers
     @query_params = body ? hash_to_params(body) : nil
