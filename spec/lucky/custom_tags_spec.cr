@@ -36,6 +36,10 @@ describe Lucky::CustomTags do
       end.to_s.should contain %(<foo-tag class="my-class">content</foo-tag>)
     end
   end
+
+  it "has a method for empty tags" do
+    view.empty_tag("br").to_s.should eq "<br>"
+  end
 end
 
 private def view
