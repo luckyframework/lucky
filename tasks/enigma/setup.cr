@@ -3,10 +3,10 @@ class Enigma::Setup < LuckyCli::Task
   GIT_CONFIG_PATH_TO_KEY = "lucky.enigma.key"
   GIT_CONFIG             = {
     "filter.enigma.clean"    => "./bin/clean %f",
-    "filter.engima.smudge"   => "./bin/smudge",
-    "diff.enigma.textconv"   => "./bin/textconv",
+    "filter.enigma.smudge"   => "./bin/smudge",
     "filter.enigma.required" => "true",
-    # "diff.enigma.binary"     => "true",
+    "diff.enigma.textconv"   => "./bin/textconv",
+    "diff.enigma.binary"     => "true",
 
     # To prevent these unnecessary merge conflicts, Git can be told to run a
     # virtual check-out and check-in of all three stages of a file when

@@ -15,6 +15,7 @@ describe "Encrypting config with Enigma" do
       Dir.cd "enigma-test"
       FileUtils.cp_r("../../../bin", "bin")
       FileUtils.mkdir_p "config/encrypted"
+      File.write ".gitignore", "/log/"
       File.write "leave-me-alone", "stays raw"
       File.write "config/encrypted/encrypt-me", "gets encrypted"
       setup_enigma(key: "123abc")
@@ -38,6 +39,10 @@ describe "Encrypting config with Enigma" do
         "config/encrypted/encrypt-me",
         decrypted_contents: "gets encrypted and more",
         encrypted_in_git: "U2FsdGVkX1+NehDpj3cKcdrEGtN1j568TaDHVLy4PLzBEr0iO4RT+PVrYbSd2Ajj\n")
+
+      should_run_successfully "git checkout master"
+      # `git checkout master`
+      puts File.read("log/enigma")
 
       # should_run_successfully "git checkout master"
       # should_encrypt_file("config/encrypted/encrypt-me", decrypted_contents: "gets encrypted")
