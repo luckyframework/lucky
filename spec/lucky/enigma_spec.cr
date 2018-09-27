@@ -41,12 +41,11 @@ describe "Encrypting config with Enigma" do
         encrypted_in_git: "U2FsdGVkX1+NehDpj3cKcdrEGtN1j568TaDHVLy4PLzBEr0iO4RT+PVrYbSd2Ajj\n")
 
       should_run_successfully "git checkout master"
-      # `git checkout master`
-      puts File.read("log/enigma")
-
-      # should_run_successfully "git checkout master"
-      # should_encrypt_file("config/encrypted/encrypt-me", decrypted_contents: "gets encrypted")
-      # should_not_encrypt("leave-me-alone", contents: "stays raw")
+      should_encrypt_file(
+        "config/encrypted/encrypt-me",
+        decrypted_contents: "gets encrypted\n",
+        encrypted_in_git: "U2FsdGVkX19vbGeSXJy1Ce4D7Wpu3rt1891279E0/Ug=\n")
+      should_not_encrypt("leave-me-alone", contents: "stays raw")
     end
   end
 end
