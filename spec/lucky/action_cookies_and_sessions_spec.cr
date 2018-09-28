@@ -34,7 +34,7 @@ describe Lucky::Action do
     end
   end
 
-  describe "reading a cookie valie that isn't there" do
+  describe "reading a cookie value that isn't there" do
     it "will initialize the cookies object and not crash" do
       response = PreCookies::Index.new(build_context, params).call
 
