@@ -12,9 +12,10 @@ class Lucky::FlashStore
   end
 
   def from_session(session : Lucky::SessionCookie) : Lucky::FlashStore
-    json = session.get?(SESSION_KEY) || "{}"
-    JSON.parse(json).as_h.each do |key, value|
-      @now[key.to_s] = value.to_s
+    session.get?(SESSION_KEY).try do |json|
+      JSON.parse(json).as_h.each do |key, value|
+        @now[key.to_s] = value.to_s
+      end
     end
     self
   rescue e : JSON::ParseException
