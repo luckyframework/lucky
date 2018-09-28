@@ -33,6 +33,8 @@ targets:
     main: src/precompiled_tasks/enigma/smudge.cr
   textconv:
     main: src/precompiled_tasks/enigma/textconv.cr
+  enigma.uninstall:
+    main: src/precompiled_tasks/enigma/uninstall.cr
 
 dependencies:
   lucky_cli:

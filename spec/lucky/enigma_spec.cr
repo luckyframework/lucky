@@ -46,6 +46,10 @@ describe "Encrypting config with Enigma" do
         decrypted_contents: "gets encrypted\n",
         encrypted_in_git: "U2FsdGVkX19vbGeSXJy1Ce4D7Wpu3rt1891279E0/Ug=\n")
       should_not_encrypt("leave-me-alone", contents: "stays raw")
+
+      # Uninstall process
+      should_run_successfully "./bin/enigma.uninstall"
+      File.read(".gitattributes").should eq ""
     end
   end
 end
