@@ -2,8 +2,11 @@ class Lucky::CookieJar
   alias Key = String | Symbol
   private property store : HTTP::Cookies
   @changed = false
-  EXPIRATION      = 1.year.from_now
   MAX_COOKIE_SIZE = 4096
+
+  Habitat.create do
+    setting expiration : Time::Span | Time::MonthSpan
+  end
 
   delegate to_h, to: @store
 
@@ -31,7 +34,7 @@ class Lucky::CookieJar
     store[key.to_s] = HTTP::Cookie.new(
       key.to_s,
       value,
-      expires: EXPIRATION,
+      expires: settings.expiration.from_now,
       http_only: true,
     )
   end
