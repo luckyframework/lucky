@@ -33,6 +33,14 @@ describe Lucky::FlashStore do
     flash_store.success.should eq("Success")
   end
 
+  it "has nillable shortcuts" do
+    flash_store = Lucky::FlashStore.new
+
+    flash_store.failure?.should be_nil
+    flash_store.info?.should be_nil
+    flash_store.success?.should be_nil
+  end
+
   describe "#each" do
     it "returns the list of key/value pairs" do
       flash_store = build_flash_store(next: {
