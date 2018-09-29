@@ -12,7 +12,7 @@ Lucky::SessionCookie.configure do |settings|
 end
 
 Lucky::CookieJar.configure do |settings|
-  settings.expiration = 1.year
+  settings.default_expiration = 1.year
 end
 
 Lucky::Server.configure do |settings|

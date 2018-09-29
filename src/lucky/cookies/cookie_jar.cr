@@ -5,7 +5,7 @@ class Lucky::CookieJar
   MAX_COOKIE_SIZE = 4096
 
   Habitat.create do
-    setting expiration : Time::Span | Time::MonthSpan
+    setting default_expiration : Time::Span | Time::MonthSpan
   end
 
   delegate to_h, to: @store
@@ -34,7 +34,7 @@ class Lucky::CookieJar
     store[key.to_s] = HTTP::Cookie.new(
       key.to_s,
       value,
-      expires: settings.expiration.from_now,
+      expires: settings.default_expiration.from_now,
       http_only: true,
     )
   end
