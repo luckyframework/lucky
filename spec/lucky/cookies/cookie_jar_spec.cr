@@ -54,6 +54,20 @@ describe Lucky::CookieJar do
     end
   end
 
+  describe "expire" do
+    it "exipres the cookie" do
+      jar = Lucky::CookieJar.new
+
+      jar.set(:rules, "no fighting!")
+
+      jar.get?(:rules).expired?.should_not be_true
+
+      jar.expire(:rules)
+
+      jar.get?(:rules).expired?.should be_true
+    end
+  end
+
   describe "#clear" do
     it "sets the jar to an empty hash" do
       jar = Lucky::CookieJar.new

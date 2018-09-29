@@ -28,6 +28,11 @@ class Lucky::SessionCookie
     store[key.to_s] = value
   end
 
+  def unset(key : Key)
+    @changed = true
+    store.delete(key.to_s)
+  end
+
   def changed?
     @changed
   end

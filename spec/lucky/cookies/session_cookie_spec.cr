@@ -13,6 +13,17 @@ describe Lucky::SessionCookie do
     store.get(:string_key).should eq("string key")
   end
 
+  describe "#unset" do
+    it "removes the key and value from the session" do
+      store = Lucky::SessionCookie.new
+      store.set(:best_number, "over 9000")
+
+      store.unset(:best_number)
+
+      store.get?(:best_number).should be_nil
+    end
+  end
+
   describe "#clear" do
     it "sets the store to an empty hash" do
       store = Lucky::SessionCookie.new

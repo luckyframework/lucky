@@ -7,6 +7,10 @@ class Lucky::NullCookie
   getter secure = false
   getter http_only = false
   getter extension : Nil = nil
+
+  def expired?
+    true
+  end
 end
 
 module Lucky

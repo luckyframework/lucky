@@ -39,6 +39,11 @@ class Lucky::CookieJar
     )
   end
 
+  def expire(key : Key)
+    @changed = true
+    store[key.to_s].expires(1.second.ago)
+  end
+
   def changed?
     @changed
   end
