@@ -30,6 +30,8 @@ describe Lucky::Action do
     it "can set and read cookies" do
       response = Cookies::Index.new(build_context, params).call
 
+      response.context.cookies.get("my_cookie").value.should eq("cookie")
+      response.context.session.get("my_session").should eq("session")
       response.body.should eq "cookie - session"
     end
   end
