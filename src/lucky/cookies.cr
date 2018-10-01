@@ -38,6 +38,15 @@ module Lucky
         @delete_cookies = {} of String => HTTP::Cookie
       end
 
+      # Extracts the cookie from the headers and sets it to
+      # ```
+      # cookies[cookie.name]
+      # ```
+      # Returns the hash of cookies
+      #
+      # ```
+      # Cookies::Store.from_headers(headers) #=> {}
+      # ```
       def self.from_headers(headers)
         cookies = {} of String => HTTP::Cookie
         if values = headers.get?("Cookie")
