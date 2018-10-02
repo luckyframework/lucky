@@ -13,6 +13,7 @@ class Lucky::WelcomePage
     {% end %}
   end
 
+  # Renders the Welcome Page
   def render
     html_doctype
     html lang: "en" do
@@ -34,10 +35,12 @@ class Lucky::WelcomePage
     end
   end
 
+  # Renders the Lucky Framework logo
   def lucky_logo
     raw %(<img src="#{lucky_logo_data_uri}" class="lucky-logo">)
   end
 
+  #  Renders buttons that link to the official guide and to the "View your new app page"
   def render_buttons
     div class: "container__buttons" do
       a "Check out the guides",
@@ -47,6 +50,7 @@ class Lucky::WelcomePage
     end
   end
 
+  # Renders help text and links
   def render_help
     h1 "Not sure where to start? Here are some ideas:", class: "headline"
 
@@ -74,10 +78,16 @@ class Lucky::WelcomePage
     end
   end
 
+  # Returns the gitter url as a string
+  #
+  #```
+  # gitter_url #=> String
+  #```
   def gitter_url
     "https://gitter.im/luckyframework/Lobby"
   end
 
+  # Returns the CSS styling of the Welcome Page as a string
   def welcome_page_styles
     style <<-CSS
       .code {
