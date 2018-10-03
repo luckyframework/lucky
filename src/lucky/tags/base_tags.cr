@@ -8,10 +8,12 @@ module Lucky::BaseTags
     def {{method_name.id}}(
         content : Lucky::AllowedInTags | String? = "",
         options = EMPTY_HTML_ATTRS,
+        attrs : Array(Symbol) = [] of Symbol,
         **other_options
       )
+      bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
-      {{method_name.id}}(merged_options) do
+      {{method_name.id}}(bool_attrs, merged_options) do
         text content
       end
     end
@@ -35,6 +37,14 @@ module Lucky::BaseTags
       yield
       @view << "</{{tag.id}}>"
     end
+
+    def {{method_name.id}}(boolean_attrs : String, options = EMPTY_HTML_ATTRS, **other_options, &block)
+      merged_options = merge_options(other_options, options)
+      tag_attrs = build_tag_attrs(merged_options)
+      @view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
+      yield
+      @view << "</{{tag.id}}>"
+    end
   end
 
   {% for tag in TAGS %}
@@ -51,9 +61,14 @@ module Lucky::BaseTags
     end
 
     def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options)
+      {{tag.id}}([] of Symbol, options, **other_options)
+    end
+
+    def {{tag.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options)
+      bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      @view << %(<{{tag.id}}#{tag_attrs}>)
+      @view << %(<{{tag.id}}#{tag_attrs}#{bool_attrs}>)
     end
   {% end %}
 
@@ -75,6 +90,14 @@ module Lucky::BaseTags
     end
   end
 
+  private def build_boolean_attrs(options)
+    String.build do |attrs|
+      options.each do |value|
+        attrs << " " << LuckyInflector::Inflector.dasherize(value.to_s)
+      end
+    end
+  end
+
   private def merge_options(html_options, tag_attrs)
     options = {} of String => String
     tag_attrs.each do |key, value|
@@ -82,7 +105,8 @@ module Lucky::BaseTags
     end
 
     html_options.each do |key, value|
-      options[key.to_s] = value
+      next if key == :boolean_attrs
+      options[key.to_s] = value.as(String)
     end
 
     options
