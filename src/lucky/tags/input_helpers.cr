@@ -59,15 +59,15 @@ module Lucky::InputHelpers
 
   generate_helpful_error_for checkbox
 
-  {% for f in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
-    generate_helpful_error_for {{f.id}}_input
+  {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
+    generate_helpful_error_for {{input_type.id}}_input
 
-    def {{f.id}}_input(field : LuckyRecord::FillableField, **html_options)
-      generate_input(field, {{f}}, html_options)
+    def {{input_type.id}}_input(field : LuckyRecord::FillableField, **html_options)
+      generate_input(field, {{input_type}}, html_options)
     end
 
-    def {{f.id}}_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
-      generate_input(field, {{f}}, html_options, attrs: attrs)
+    def {{input_type.id}}_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
+      generate_input(field, {{input_type}}, html_options, attrs: attrs)
     end
   {% end %}
 
