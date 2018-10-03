@@ -15,11 +15,11 @@ describe Lucky::SpecialtyTags do
   end
 
   it "renders css link tag" do
-    view.css_link("app.css").to_s.should contain <<-HTML
+    view.css_link("app.css").to_s.should eq <<-HTML
     <link href="app.css" rel="stylesheet" media="screen">
     HTML
 
-    view.css_link("app.css", rel: "preload", media: "print").to_s.should contain <<-HTML
+    view.css_link("app.css", rel: "preload", media: "print").to_s.should eq <<-HTML
     <link href="app.css" rel="preload" media="print">
     HTML
   end

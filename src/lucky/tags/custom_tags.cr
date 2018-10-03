@@ -32,4 +32,12 @@ module Lucky::CustomTags
     yield
     @view << "</#{name}>"
   end
+
+  # Outputs a custom tag with no tag closing.
+  # `empty_tag("br")` => `<br>`
+  def empty_tag(name : String, options = EMPTY_HTML_ATTRS, **other_options)
+    merged_options = merge_options(other_options, options)
+    tag_attrs = build_tag_attrs(merged_options)
+    @view << "<#{name}" << tag_attrs << ">"
+  end
 end

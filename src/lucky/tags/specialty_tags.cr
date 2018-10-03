@@ -5,7 +5,7 @@ module Lucky::SpecialtyTags
 
   def css_link(href, **options)
     options = {href: href, rel: "stylesheet", media: "screen"}.merge(options)
-    tag "link", **options
+    empty_tag "link", **options
   end
 
   def js_link(src, **options)
