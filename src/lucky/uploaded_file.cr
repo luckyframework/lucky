@@ -1,5 +1,6 @@
 require "tempfile"
 
+# This class represents and uploaded file from a form
 class Lucky::UploadedFile
   getter name : String
   getter tempfile : Tempfile
@@ -22,7 +23,7 @@ class Lucky::UploadedFile
   #
   #```
   #uploaded_file_object.path #=> String
-  #``` 
+  #```
   def path
     @tempfile.path
   end
