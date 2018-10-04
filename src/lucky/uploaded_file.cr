@@ -21,9 +21,9 @@ class Lucky::UploadedFile
 
   # Returns the path of the tempfile as a String
   #
-  #```
-  #uploaded_file_object.path #=> String
-  #```
+  # ```
+  # uploaded_file_object.path # => String
+  # ```
   def path
     @tempfile.path
   end
