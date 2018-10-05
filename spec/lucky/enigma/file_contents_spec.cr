@@ -10,8 +10,7 @@ describe Enigma::FileContents do
   it "decrypt" do
     contents = Enigma::FileContents.new(
       %(U2FsdGVkX1/tauNboD98GxCNpe+xstYioqLwxgHYkeM=),
-      key: "123abc"
-    ).decrypt
+      key: "123abc").decrypt
 
     contents.should eq "my-string"
   end

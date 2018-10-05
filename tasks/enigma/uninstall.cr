@@ -3,16 +3,15 @@ require "./encrypted_files"
 require "./setup"
 
 class Enigma::Uninstall < LuckyCli::Task
+  GIT_ATTRIBUTES = ".gitattributes"
+
   banner "Uninstall Enigma"
 
   # TODO: Only uninstall if it was installed previously
   def call
     remove_enigma_from_gitattributes
     remove_enigma_git_config
-    run "touch config/encrypted/encrypt-me"
-
     force_checkout
-
     puts "Uninstalled Enigma"
   end
 
@@ -35,7 +34,7 @@ class Enigma::Uninstall < LuckyCli::Task
   end
 
   private def remove_enigma_from_gitattributes
-    current_gitattributes = File.read(".gitattributes")
+    current_gitattributes = File.read(GIT_ATTRIBUTES)
     lines_without_enigma = [] of String
 
     current_gitattributes.each_line do |line|
@@ -44,7 +43,8 @@ class Enigma::Uninstall < LuckyCli::Task
       end
     end
 
-    File.write(".gitattributes", lines_without_enigma.join("\n"))
+    FileUtils.rm(GIT_ATTRIBUTES)
+    File.write(GIT_ATTRIBUTES, lines_without_enigma.join("\n"))
   end
 
   private def remove_enigma_git_config
