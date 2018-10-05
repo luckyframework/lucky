@@ -19,7 +19,7 @@ class Lucky::FlashStore
     end
     self
   rescue e : JSON::ParseException
-    self.class.new
+    raise Lucky::Exceptions::InvalidFlashJSON.new(session.get?(SESSION_KEY))
   end
 
   private def all

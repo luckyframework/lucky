@@ -12,12 +12,18 @@ describe Lucky::FlashStore do
       flash_store.get("some_key").should eq "some_value"
     end
 
-    it "returns an empty flash store if json is invalid" do
+    it "raises an error when flash JSON is invalid" do
       context = build_context_with_flash("not_valid_json=invalid")
+      message = <<-MESSAGE
+      The flash messages (stored as JSON) failed to parse in a JSON parser.
+      Here's what it tries to parse:
 
-      flash_store = Lucky::FlashStore.from_session context.session
+      not_valid_json=invalid
+      MESSAGE
 
-      flash_store.get?("some_key").should be_nil
+      expect_raises(Lucky::Exceptions::InvalidFlashJSON, message) do
+        Lucky::FlashStore.from_session context.session
+      end
     end
   end
 
