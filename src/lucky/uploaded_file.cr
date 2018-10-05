@@ -1,12 +1,13 @@
 require "tempfile"
 
-# This class represents and uploaded file from a form
+# This class represents an uploaded file from a form
 class Lucky::UploadedFile
   getter name : String
   getter tempfile : Tempfile
   getter metadata : HTTP::FormData::FileMetadata
 
   # Creates an UploadedFile using a HTTP::FormData::Part.
+  #
   # The new file will be assigned the **name** of the
   # provided HTTP::FormData::Part and the **tempfile** will
   # be assigned the body of the HTTP::FormData::Part
