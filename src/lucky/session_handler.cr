@@ -10,19 +10,21 @@ class Lucky::SessionHandler
   end
 
   private def write_session(context : HTTP::Server::Context)
-    return if !context.session.changed?
-    context.cookies.set(
-      Lucky::SessionCookie.settings.key,
-      context.session.to_json
-    )
+    if context.session.changed?
+      context.cookies.set(
+        Lucky::SessionCookie.settings.key,
+        context.session.to_json
+      )
+    end
   end
 
   private def write_cookies(context : HTTP::Server::Context)
-    return if !context.cookies.changed?
-    Lucky::Cookies::Processors::Encryptor.write(
-      cookie_jar: context.cookies,
-      to: context.response
-    )
+    if context.cookies.changed?
+      Lucky::Cookies::Processors::Encryptor.write(
+        cookie_jar: context.cookies,
+        to: context.response
+      )
+    end
   end
 
   private def check_cookie_size(context : HTTP::Server::Context)
