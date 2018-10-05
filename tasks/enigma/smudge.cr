@@ -1,5 +1,5 @@
 require "lucky_cli"
-require "./file"
+require "./file_contents"
 require "./log"
 
 class Enigma::Smudge < LuckyCli::Task
@@ -11,6 +11,6 @@ class Enigma::Smudge < LuckyCli::Task
     log "------ Attempting to smudge with args: #{ARGV.inspect}"
     contents = STDIN.gets_to_end.to_s.chomp
     log "------ Smudge/decrypting: #{contents}"
-    STDOUT.puts Enigma::File.new(contents).decrypt
+    STDOUT.puts Enigma::FileContents.new(contents).decrypt
   end
 end

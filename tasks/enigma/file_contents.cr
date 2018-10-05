@@ -1,7 +1,7 @@
 require "./setup"
 require "openssl/hmac"
 
-class Enigma::File
+class Enigma::FileContents
   CIPHER = "-aes-256-cbc"
   private getter contents, key
 
@@ -25,7 +25,7 @@ class Enigma::File
   def decrypt : String
     if encrypted?
       FileUtils.mkdir_p "tmp"
-      ::File.write "tmp/enigma_contents", contents + "\n"
+      File.write "tmp/enigma_contents", contents + "\n"
       command = %(openssl enc #{CIPHER} -d -pass pass:'#{key}' -a -in tmp/enigma_contents)
       result = run command, input_content: ""
       result
@@ -51,7 +51,7 @@ class Enigma::File
     if result.success?
       output.to_s.chomp
     else
-      ::File.write "failure", "#{Time.now} - Failed to run #{command}"
+      File.write "failure", "#{Time.now} - Failed to run #{command}"
       raise "Failed to run OpenSSL command. Exited with: #{result.exit_code}"
     end
   end

@@ -1,4 +1,5 @@
 require "lucky_cli"
+require "./encrypted_files"
 require "./setup"
 
 class Enigma::Uninstall < LuckyCli::Task
@@ -8,8 +9,29 @@ class Enigma::Uninstall < LuckyCli::Task
   def call
     remove_enigma_from_gitattributes
     remove_enigma_git_config
+    run "touch config/encrypted/encrypt-me"
+
+    force_checkout
 
     puts "Uninstalled Enigma"
+  end
+
+  private def force_checkout
+    # Pretty much always do this I guess
+    # this would normally delete uncommitted changes in the working directory,
+    # but we already made sure the repo was clean during the safety checks
+
+    # local encrypted_files=$(git ls-crypt)
+    # cd "$REPO" || die 1 'could not change into the "%s" directory' "$REPO"
+    # IFS=$'\n'
+    # for file in $encrypted_files; do
+    # 	rm "$file"
+    # 	git checkout --force HEAD -- "$file" > /dev/null
+    # done
+    # unset IFS
+    Enigma::EncryptedFiles.paths.each do |path|
+      run %(git checkout --force HEAD -- #{path} > /dev/null)
+    end
   end
 
   private def remove_enigma_from_gitattributes

@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe "Enigma::File" do
+describe Enigma::FileContents do
   it "encrypts" do
     contents = Enigma::FileContents.new("my-string", key: "123abc").encrypt
 

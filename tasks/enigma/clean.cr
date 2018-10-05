@@ -1,5 +1,5 @@
 require "lucky_cli"
-require "./file"
+require "./file_contents"
 require "./log"
 
 # https://www.juandebravo.com/2017/12/02/git-filter-smudge-and-clean
@@ -14,7 +14,7 @@ class Enigma::Clean < LuckyCli::Task
     if filename
       contents = STDIN.gets_to_end.to_s.chomp
       log "filename given (#{filename}) so encrypting/cleaning contents: #{contents}"
-      STDOUT.puts Enigma::File.new(contents).encrypt
+      STDOUT.puts Enigma::FileContents.new(contents).encrypt
     else
       log "no filename given for clean"
     end

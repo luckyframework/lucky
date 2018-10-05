@@ -1,5 +1,5 @@
 require "lucky_cli"
-require "./file"
+require "./file_contents"
 require "./log"
 
 class Enigma::Textconv < LuckyCli::Task
@@ -10,8 +10,8 @@ class Enigma::Textconv < LuckyCli::Task
     log "------ Textconv"
     if filename = ARGV.first?
       log "Textconv for #{filename}"
-      contents = ::File.read(filename)
-      puts Enigma::File.new(contents).decrypt
+      contents = File.read(filename)
+      puts Enigma::FileContents.new(contents).decrypt
     else
       log "No file for textconv"
     end

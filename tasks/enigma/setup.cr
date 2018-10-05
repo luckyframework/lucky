@@ -38,7 +38,7 @@ class Enigma::Setup < LuckyCli::Task
   private def tell_git_to_encrypt(path : String)
     # TODO Only add top line
     # config/encrypted/* filter=crypt diff=crypt
-    ::File.write ".gitattributes", <<-TEXT
+    File.write ".gitattributes", <<-TEXT
     #{path} filter=enigma diff=enigma
 
     TEXT

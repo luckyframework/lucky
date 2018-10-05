@@ -50,6 +50,9 @@ describe "Encrypting config with Enigma" do
       # Uninstall process
       should_run_successfully "./bin/enigma.uninstall"
       File.read(".gitattributes").should eq ""
+      # Should show decrypted version as uncommitted
+      `git status`.should contain("config/encrypted/encrypt-me")
+      File.read("config/encrypted/encrypt-me").should eq("U2FsdGVkX19vbGeSXJy1Ce4D7Wpu3rt1891279E0/Ug=\n")
     end
   end
 end
