@@ -118,7 +118,7 @@ private def build_flash_store(
   now = {} of String => String,
   next next_hash = {} of String => String
 )
-  session = Lucky::SessionCookie.new
+  session = Lucky::SessionCookie.new(HTTP::Cookie.new("_app_session", "{}"))
   session.set(Lucky::FlashStore::SESSION_KEY, now.to_json)
   Lucky::FlashStore.from_session(session).tap do |flash_store|
     next_hash.each do |key, value|

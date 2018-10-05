@@ -7,7 +7,7 @@ class Lucky::SessionCookie
   private property store = {} of String => String
   @changed = false
 
-  def initialize(cookie : Lucky::MaybeCookie = Lucky::NullCookie.new)
+  def initialize(cookie : HTTP::Cookie)
     cookie.value.try do |contents|
       JSON.parse(contents).as_h.each do |key, value|
         @store[key] = value.to_s

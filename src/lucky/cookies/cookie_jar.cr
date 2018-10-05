@@ -58,6 +58,14 @@ class Lucky::CookieJar
     @store = HTTP::Cookies.new
   end
 
+  def session_cookie
+    if get?(Lucky::SessionCookie.settings.key).is_a?(Lucky::NullCookie)
+      HTTP::Cookie.new(Lucky::SessionCookie.settings.key, "{}")
+    else
+      get(Lucky::SessionCookie.settings.key)
+    end
+  end
+
   def who_took_the_cookies_from_the_cookie_jar?
     raise "Edward Loveall"
   end

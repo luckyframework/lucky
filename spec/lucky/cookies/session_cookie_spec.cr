@@ -2,7 +2,7 @@ require "../../spec_helper"
 
 describe Lucky::SessionCookie do
   it "gets and sets with indifferent access" do
-    store = Lucky::SessionCookie.new
+    store = Lucky::SessionCookie.new(session_cookie)
 
     store.set(:symbol_key, "symbol key")
     store.set("string_key", "string key")
@@ -15,7 +15,7 @@ describe Lucky::SessionCookie do
 
   describe "#unset" do
     it "removes the key and value from the session" do
-      store = Lucky::SessionCookie.new
+      store = Lucky::SessionCookie.new(session_cookie)
       store.set(:best_number, "over 9000")
 
       store.unset(:best_number)
@@ -26,7 +26,7 @@ describe Lucky::SessionCookie do
 
   describe "#clear" do
     it "sets the store to an empty hash" do
-      store = Lucky::SessionCookie.new
+      store = Lucky::SessionCookie.new(session_cookie)
       store.set(:name, "Edward")
 
       store.clear
@@ -37,7 +37,7 @@ describe Lucky::SessionCookie do
 
   describe "#changed?" do
     it "returns true if the session has been set" do
-      store = Lucky::SessionCookie.new
+      store = Lucky::SessionCookie.new(session_cookie)
 
       store.changed?.should be_false
 
@@ -46,4 +46,8 @@ describe Lucky::SessionCookie do
       store.changed?.should be_true
     end
   end
+end
+
+private def session_cookie
+  HTTP::Cookie.new("_app_session", "{}")
 end

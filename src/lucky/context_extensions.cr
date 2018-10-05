@@ -15,8 +15,7 @@ class HTTP::Server::Context
 
   def session
     @session ||= begin
-      cookie = cookies.get?(Lucky::SessionCookie.settings.key)
-      Lucky::SessionCookie.new(cookie)
+      Lucky::SessionCookie.new(cookies.session_cookie)
     end
   end
 
