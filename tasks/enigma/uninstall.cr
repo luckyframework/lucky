@@ -9,9 +9,9 @@ class Enigma::Uninstall < LuckyCli::Task
 
   # TODO: Only uninstall if it was installed previously
   def call
-    remove_enigma_from_gitattributes
     remove_enigma_git_config
     force_checkout
+    remove_enigma_from_gitattributes
     puts "Uninstalled Enigma"
   end
 
@@ -43,7 +43,6 @@ class Enigma::Uninstall < LuckyCli::Task
       end
     end
 
-    FileUtils.rm(GIT_ATTRIBUTES)
     File.write(GIT_ATTRIBUTES, lines_without_enigma.join("\n"))
   end
 
