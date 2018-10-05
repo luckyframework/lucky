@@ -5,10 +5,8 @@ include ContextHelper
 describe Lucky::Cookies::Processors::Encryptor do
   describe ".read" do
     it "returns a decrypted CookieJar" do
-      a_value = encryptor.encrypt("some cookie value")
-      a_value = Base64.strict_encode(a_value)
-      b_value = encryptor.encrypt("another cookie value")
-      b_value = Base64.strict_encode(b_value)
+      a_value = encrypt("some cookie value")
+      b_value = encrypt("another cookie value")
       request = build_request
       request.headers.add("Cookie", "a=#{a_value};")
       request.headers.add("Cookie", "b=#{b_value};")
@@ -44,4 +42,8 @@ end
 
 private def encryptor
   Lucky::MessageEncryptor.new(Lucky::Server.settings.secret_key_base)
+end
+
+private def encrypt(value : String)
+  Base64.strict_encode(encryptor.encrypt(value))
 end

@@ -79,7 +79,7 @@ describe Lucky::FlashStore do
   end
 
   describe "#get" do
-    it "retrives values from both @now and @next" do
+    it "retrieves values from both @now and @next" do
       next_hash = {"baker" => "Paul"}
       now_hash = {"cookie theif" => "Edward"}
       flash_store = build_flash_store(now: now_hash, next: next_hash)
@@ -88,7 +88,7 @@ describe Lucky::FlashStore do
       flash_store.get("cookie theif").should eq("Edward")
     end
 
-    it "retrives for both symbols and strings" do
+    it "retrieves for both symbols and strings" do
       hash = {"baker" => "Paul", "theif" => "Edward"}
       flash_store = build_flash_store(now: hash)
 
