@@ -1,0 +1,8 @@
+#! /bin/bash
+
+printf "\nRunning 'crystal spec'\n\n"
+crystal spec
+printf "\nRunning 'shards build'\n\n"
+shards build
+printf "\nRunning 'crystal tool format src'\n\n"
+crystal tool format src
