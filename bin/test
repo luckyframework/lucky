@@ -4,5 +4,5 @@ printf "\nRunning 'crystal spec'\n\n"
 crystal spec
 printf "\nRunning 'shards build'\n\n"
 shards build
-printf "\nRunning 'crystal tool format src'\n\n"
-crystal tool format src
+printf "\nRunning 'crystal tool format src spec'\n\n"
+crystal tool format src spec
