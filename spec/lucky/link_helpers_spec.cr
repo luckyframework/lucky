@@ -98,6 +98,16 @@ describe Lucky::LinkHelpers do
     <a href="/link_helpers"></a>
     HTML
   end
+
+  it "renders a link with a special data attribute" do
+    view.link(to: LinkHelpers::Index, "data-is-useless": true).to_s.should contain <<-HTML
+    <a href="/link_helpers" data-is-useless="true"></a>
+    HTML
+
+    view.link(to: LinkHelpers::Index, "data-num": 4).to_s.should contain <<-HTML
+    <a href="/link_helpers" data-num="4"></a>
+    HTML
+  end
 end
 
 private def view
