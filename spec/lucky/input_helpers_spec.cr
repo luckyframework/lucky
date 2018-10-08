@@ -185,6 +185,10 @@ describe Lucky::InputHelpers do
     view.search_input(form.first_name, class: "cool").to_s.should contain <<-HTML
     <input type="search" id="user_first_name" name="user:first_name" value="My name" class="cool">
     HTML
+
+    view.search_input(form.first_name, autofocus: true).to_s.should contain <<-HTML
+    <input type="search" id="user_first_name" name="user:first_name" value="My name" autofocus="true">
+    HTML
   end
 
   it "renders password inputs" do
@@ -214,6 +218,10 @@ describe Lucky::InputHelpers do
 
     view.textarea(form.first_name, class: "cool").to_s.should contain <<-HTML
     <textarea id="user_first_name" name="user:first_name" class="cool">My name</textarea>
+    HTML
+
+    view.textarea(form.first_name, rows: 5, cols: 15).to_s.should contain <<-HTML
+    <textarea id="user_first_name" name="user:first_name" rows="5" cols="15">My name</textarea>
     HTML
   end
 end
