@@ -12,6 +12,11 @@ class Enigma::Uninstall < LuckyCli::Task
     remove_enigma_git_config
     force_checkout
     remove_enigma_from_gitattributes
+
+    Enigma::EncryptedFiles.paths.each do |path|
+      run `touch #{path}`
+    end
+
     puts "Uninstalled Enigma"
   end
 

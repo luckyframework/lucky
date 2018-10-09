@@ -52,6 +52,7 @@ describe "Encrypting config with Enigma" do
       File.read(".gitattributes").should eq ""
       File.read("config/encrypted/encrypt-me").should eq("U2FsdGVkX19vbGeSXJy1Ce4D7Wpu3rt1891279E0/Ug=\n")
       # Should show decrypted version as uncommitted
+      `git status`.should contain(".gitattributes")
       `git status`.should contain("config/encrypted/encrypt-me")
     end
   end
