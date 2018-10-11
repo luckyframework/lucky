@@ -25,19 +25,18 @@ describe Lucky::TextResponse do
 
     it "prints no body with a head call" do
       context = build_context("HEAD")
-      print_response_with_body(context, "Body", "text/plain", nil)
+      print_response_with_body(context, "Body", status: nil)
       context.request.method.should eq "HEAD"
       context.request.body.to_s.should eq ""
       context.response.status_code.should eq 200
-      context.response.headers["Content-Type"].should eq "text/plain"
     end
   end
 end
 
 private def print_response(context : HTTP::Server::Context, status : Int32?)
-  print_response_with_body(context, "", "", status)
+  print_response_with_body(context, "", status)
 end
 
-private def print_response_with_body(context : HTTP::Server::Context, body : String = "", content_type : String = "", status : Int32? = nil)
-  Lucky::TextResponse.new(context, content_type, body, status: status).print
+private def print_response_with_body(context : HTTP::Server::Context, body : String, status : Int32?)
+  Lucky::TextResponse.new(context, "", body, status: status).print
 end
