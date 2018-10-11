@@ -43,7 +43,7 @@ dependencies:
     branch: master
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.2.0
+    branch: master
   shell-table:
     github: luckyframework/shell-table.cr
     branch: refactor/setter
