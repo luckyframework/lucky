@@ -56,5 +56,21 @@ module Lucky
         "Cannot read file #{path}"
       end
     end
+
+    class InvalidFlashJSON < Error
+      getter bad_json
+
+      def initialize(@bad_json : String?)
+      end
+
+      def message : String?
+        <<-MESSAGE
+        The flash messages (stored as JSON) failed to parse in a JSON parser.
+        Here's what it tries to parse:
+
+        #{bad_json}
+        MESSAGE
+      end
+    end
   end
 end

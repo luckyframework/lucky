@@ -5,7 +5,7 @@ class <%= pluralized_resource %>::Create < BrowserAction
         flash.success = "The record has been saved"
         redirect Show.with(<%= underscored_resource %>.id)
       else
-        flash.danger = "It looks like the form is not valid"
+        flash.failure = "It looks like the form is not valid"
         render NewPage, form: form
       end
     end

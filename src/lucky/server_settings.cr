@@ -1,3 +1,5 @@
+require "yaml"
+
 module Lucky::ServerSettings
   YAML_SETTINGS_PATH = "./config/watch.yml"
 
