@@ -6,7 +6,7 @@ module Lucky::BaseTags
 
   macro generate_tag_methods(method_name, tag)
     def {{method_name.id}}(
-        content : Lucky::AllowedInTags | String? = "",
+        content : Lucky::AllowedInTags | String = "",
         options = EMPTY_HTML_ATTRS,
         attrs : Array(Symbol) = [] of Symbol,
         **other_options
