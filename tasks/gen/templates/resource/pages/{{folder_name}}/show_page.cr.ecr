@@ -23,7 +23,7 @@ class <%= pluralized_resource %>::ShowPage < MainLayout
       <%- columns.each do |column| -%>
       li do
         text "<%= column.name %>: "
-        strong @<%= underscored_resource %>.<%= column.name %>
+        strong @<%= underscored_resource %>.<%= column.name %>.to_s
       end
       <%- end -%>
     end
