@@ -30,10 +30,12 @@ describe Lucky::BaseTags do
 
   it "renders nested video with source tags and proper attributes" do
     view do
-      video(autoplay: "autoplay", loop: "loop", poster: "https://luckyframework.org/nothing.png") do
+      video(attrs: [:autoplay, :controls, :loop], poster: "https://luckyframework.org/nothing.png") do
         source(src: "https://luckyframework.org/nothing.mp4", type: "video/mp4")
       end
-    end.to_s.should contain %{<video autoplay="autoplay" loop="loop" poster="https://luckyframework.org/nothing.png"><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"></video>}
+    end.to_s.should contain %{<video poster="https://luckyframework.org/nothing.png" autoplay controls loop><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"></video>}
+
+    view.video(id: "player", "data-stream": "https://luckyframework.org/demo.mp4").to_s.should eq %{<video id="player" data-stream="https://luckyframework.org/demo.mp4"></video>}
   end
 
   it "renders a button with a disabled boolean attribute" do
