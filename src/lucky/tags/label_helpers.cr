@@ -2,7 +2,7 @@ module Lucky::LabelHelpers
   def label_for(field : LuckyRecord::FillableField, **html_options)
     label_for(
       field,
-      LuckyInflector::Inflector.humanize(field.name.to_s),
+      Wordsmith::Inflector.humanize(field.name.to_s),
       **html_options
     )
   end

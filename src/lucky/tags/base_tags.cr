@@ -83,7 +83,7 @@ module Lucky::BaseTags
   private def build_tag_attrs(options)
     tag_attrs = String.build do |attrs|
       options.each do |key, value|
-        attrs << " " << LuckyInflector::Inflector.dasherize(key.to_s) << "=\""
+        attrs << " " << Wordsmith::Inflector.dasherize(key.to_s) << "=\""
         attrs << HTML.escape(value.to_s)
         attrs << "\""
       end
@@ -93,7 +93,7 @@ module Lucky::BaseTags
   private def build_boolean_attrs(options)
     String.build do |attrs|
       options.each do |value|
-        attrs << " " << LuckyInflector::Inflector.dasherize(value.to_s)
+        attrs << " " << Wordsmith::Inflector.dasherize(value.to_s)
       end
     end
   end

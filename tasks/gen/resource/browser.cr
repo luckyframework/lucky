@@ -1,6 +1,6 @@
 require "lucky_cli"
 require "teeplate"
-require "lucky_inflector"
+require "wordsmith"
 require "lucky_record"
 
 class Gen::Resource::Browser < LuckyCli::Task
@@ -82,7 +82,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def validate_name_is_singular!
-    singularized_name = LuckyInflector::Inflector.singularize(resource_name)
+    singularized_name = Wordsmith::Inflector.singularize(resource_name)
     if singularized_name != resource_name
       error "Resource must be singular. Example: lucky gen.resource.browser #{singularized_name}"
     end
@@ -147,11 +147,11 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def folder_name
-    LuckyInflector::Inflector.pluralize underscored_resource
+    Wordsmith::Inflector.pluralize underscored_resource
   end
 
   private def pluralized_resource
-    LuckyInflector::Inflector.pluralize resource_name
+    Wordsmith::Inflector.pluralize resource_name
   end
 
   private def success_message(class_name : String, filename : String) : Void
@@ -191,7 +191,7 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
   end
 
   private def pluralized_resource
-    LuckyInflector::Inflector.pluralize(resource)
+    Wordsmith::Inflector.pluralize(resource)
   end
 
   private def query_class
