@@ -9,6 +9,6 @@ class Lucky::ModelTemplate < Teeplate::FileTree
 
   def initialize(@name : String)
     @underscored_name = @name.underscore
-    @pluralized_name = LuckyInflector::Inflector.pluralize(@underscored_name)
+    @pluralized_name = Wordsmith::Inflector.pluralize(@underscored_name)
   end
 end

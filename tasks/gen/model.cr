@@ -2,7 +2,7 @@ require "lucky_cli"
 require "teeplate"
 require "lucky_record"
 require "./templates/model_template"
-require "lucky_inflector"
+require "wordsmith"
 
 class Gen::Model < LuckyCli::Task
   banner "Generate a model, query, and form"
@@ -23,7 +23,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def pluralized_model_name
-    LuckyInflector::Inflector.pluralize(model_name)
+    Wordsmith::Inflector.pluralize(model_name)
   end
 
   private def valid?

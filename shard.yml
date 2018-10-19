@@ -35,9 +35,9 @@ dependencies:
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.0
-  lucky_inflector:
-    github: luckyframework/lucky_inflector
-    version: ~> 0.1.1
+  wordsmith:
+    github: luckyframework/wordsmith
+    version: ~> 0.2
   lucky_record:
     github: luckyframework/lucky_record
     branch: master
