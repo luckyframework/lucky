@@ -1,7 +1,7 @@
 name: lucky
 version: 0.11.0
 
-crystal: 0.25
+crystal: 0.26
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
