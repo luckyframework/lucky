@@ -34,8 +34,18 @@ class Lucky::ErrorHandler
   end
 
   private def call_error_action(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
-    context.response.status_code = 500
+    status_code = status_code_by_error(error)
+    context.response.status_code = status_code
     action.new(context).perform_action(error)
     context
+  end
+
+  private def status_code_by_error(error : Exception)
+    case error
+    when Lucky::Exceptions::InvalidParam
+      Lucky::Action::Status::UnprocessableEntity.value
+    else
+      Lucky::Action::Status::InternalServerError.value
+    end
   end
 end

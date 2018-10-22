@@ -8,6 +8,9 @@ end
 private class UnhandledError < Exception
 end
 
+private class InvalidParam < Lucky::Exceptions::InvalidParam
+end
+
 private class FakeErrorAction < Lucky::ErrorAction
   def handle_error(error : FakeError)
     head status: 404
@@ -44,6 +47,21 @@ describe Lucky::ErrorHandler do
 
     context.response.headers["Content-Type"].should eq("text/plain")
     context.response.status_code.should eq(500)
+  end
+
+  it "returns a 422 status for InvalidParam exceptions" do
+    error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
+    error_handler.next = ->(_ctx : HTTP::Server::Context) {
+      raise InvalidParam.new(
+        param_name: "page",
+        param_value: "select%201+1",
+        param_type: "Int32")
+    }
+
+    context = error_handler.call(build_context).as(HTTP::Server::Context)
+
+    context.response.headers["Content-Type"].should eq("text/plain")
+    context.response.status_code.should eq(422)
   end
 
   context "when configured to show debug output" do
