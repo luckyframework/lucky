@@ -131,13 +131,13 @@ end
 describe Lucky::Action do
   it "works with actions that use the `action` macro" do
     response = CallbackFromActionMacro::Index.new(build_context, params).call
-    response.context.cookies.get("before").value.should eq "before"
+    response.context.cookies.get("before").should eq "before"
   end
 
   it "can skip callbacks" do
     response = Callbacks::Skipped.new(build_context, params).call
-    response.context.cookies.get?("before").value.should be_nil
-    response.context.cookies.get?("after").value.should be_nil
+    response.context.cookies.get?("before").should be_nil
+    response.context.cookies.get?("after").should be_nil
   end
 
   describe "handles before callbacks" do
@@ -150,10 +150,10 @@ describe Lucky::Action do
       debug_messages[1].should contain("second_before")
       debug_messages[2].should contain("after")
       debug_messages[2].should contain("moverwrite_after_cookie")
-      response.context.cookies.get("before").value.should eq "before"
-      response.context.cookies.get("second_before").value.should eq "second_before"
-      response.context.cookies.get("after").value.should eq "after"
-      response.context.cookies.get("second_after").value.should eq "second_after"
+      response.context.cookies.get("before").should eq "before"
+      response.context.cookies.get("second_before").should eq "second_before"
+      response.context.cookies.get("after").should eq "after"
+      response.context.cookies.get("second_after").should eq "second_after"
     end
 
     it "halts before callbacks if a Lucky::Response is returned" do
@@ -165,7 +165,7 @@ describe Lucky::Action do
       debug_message = response.context.debug_messages.last
       debug_message.should contain("Stopped")
       debug_message.should contain("redirect_me")
-      response.context.cookies.get?("before").value.should be_nil
+      response.context.cookies.get?("before").should be_nil
     end
 
     it "halts after callbacks if a Lucky::Response is returned" do
@@ -174,7 +174,7 @@ describe Lucky::Action do
       response.body.should eq ""
       response.context.response.status_code.should eq 302
       response.context.response.headers["Location"].should eq "/redirected_in_after"
-      response.context.cookies.get?("after").value.should be_nil
+      response.context.cookies.get?("after").should be_nil
       debug_message = response.context.debug_messages.last
       debug_message.should contain("Stopped")
       debug_message.should contain("redirect_me")

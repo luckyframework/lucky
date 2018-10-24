@@ -25,7 +25,7 @@ describe Lucky::SessionHandler do
     browser_request.headers.add("Cookie", cookie_header)
     context_2 = build_context("/", request: browser_request)
 
-    context_2.cookies.get(:email).value.should eq "test@example.com"
+    context_2.cookies.get(:email).should eq "test@example.com"
   end
 
   it "sets a session" do
@@ -52,30 +52,6 @@ describe Lucky::SessionHandler do
     Lucky::SessionHandler.new.call(context_2)
 
     context_2.session.get(:email).should eq("test@example.com")
-  end
-
-  it "does not write the cookies if the cookies haven't changed" do
-    encryped = encryptor.encrypt("red")
-    encoded = Base64.strict_encode(encryped)
-    pre_cookies = HTTP::Cookies.new
-    pre_cookies["color"] = encoded
-    request = build_request
-    pre_cookies.add_request_headers(request.headers)
-    context = build_context(request: request)
-
-    Lucky::SessionHandler.new.call(context)
-
-    context.response.headers["Set-Cookie"]?.should be_nil
-  end
-
-  it "does not write the session if the session hasn't changed" do
-    context = build_context
-    context.cookies.set(:color, "red")
-
-    Lucky::SessionHandler.new.call(context)
-
-    context.response.headers["Set-Cookie"].should contain("color")
-    context.response.headers["Set-Cookie"].should_not contain("_app_session")
   end
 
   it "raises an error if the cookies are > 4096 bytes" do
@@ -107,11 +83,6 @@ describe Lucky::SessionHandler do
     header.should contain("Secure")
     header.should contain("HttpOnly")
   end
-end
-
-private def decrypt_cookie_value(cookie : HTTP::Cookie) : String
-  decoded = Base64.decode(cookie.value)
-  String.new(encryptor.decrypt(decoded))
 end
 
 private def encryptor
