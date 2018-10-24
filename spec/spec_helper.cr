@@ -7,7 +7,7 @@ Spec.before_each do
   ARGV.clear
 end
 
-Lucky::SessionCookie.configure do |settings|
+Lucky::Session.configure do |settings|
   settings.key = "_app_session"
 end
 

@@ -7,11 +7,11 @@ class Lucky::FlashStore
   @now = {} of String => String
   @next = {} of String => String
 
-  def self.from_session(session : Lucky::SessionCookie) : Lucky::FlashStore
+  def self.from_session(session : Lucky::Session) : Lucky::FlashStore
     new.from_session(session)
   end
 
-  def from_session(session : Lucky::SessionCookie) : Lucky::FlashStore
+  def from_session(session : Lucky::Session) : Lucky::FlashStore
     session.get?(SESSION_KEY).try do |json|
       JSON.parse(json).as_h.each do |key, value|
         @now[key.to_s] = value.to_s

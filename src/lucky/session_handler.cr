@@ -9,25 +9,24 @@ class Lucky::SessionHandler
     check_cookie_size(context)
   end
 
-  private def write_session(context : HTTP::Server::Context)
-    if context.session.changed?
-      context.cookies.set(
-        Lucky::SessionCookie.settings.key,
-        context.session.to_json
-      )
-    end
+  private def write_session(context : HTTP::Server::Context) : Void
+    context.cookies.set(
+      Lucky::Session.settings.key,
+      context.session.to_json
+    )
   end
 
-  private def write_cookies(context : HTTP::Server::Context)
-    if context.cookies.changed?
-      Lucky::Cookies::Processors::Encryptor.write(
-        cookie_jar: context.cookies,
-        to: context.response
-      )
+  private def write_cookies(context : HTTP::Server::Context) : Void
+    response = context.response
+
+    context.cookies.raw.each do |cookie|
+      response.cookies[cookie.name] = cookie
     end
+
+    response.cookies.add_response_headers(response.headers)
   end
 
-  private def check_cookie_size(context : HTTP::Server::Context)
+  private def check_cookie_size(context : HTTP::Server::Context) : Void
     set_cookie_header = context.response.headers["Set-Cookie"]?
     if set_cookie_header && set_cookie_header.bytesize > Lucky::CookieJar::MAX_COOKIE_SIZE
       raise Lucky::Exceptions::CookieOverflow.new

@@ -7,13 +7,13 @@ class Cookies::Index < Lucky::Action
     cookies.set :my_cookie, "cookie"
     session.set :my_session, "session"
 
-    text "#{cookies.get(:my_cookie).value} - #{session.get(:my_session)}"
+    text "#{cookies.get(:my_cookie)} - #{session.get(:my_session)}"
   end
 end
 
 class PreCookies::Index < Lucky::Action
   get "/pre_cookies" do
-    text "#{cookies.get?(:my_cookie).value}"
+    text "#{cookies.get?(:my_cookie)}"
   end
 end
 
@@ -30,7 +30,7 @@ describe Lucky::Action do
     it "can set and read cookies" do
       response = Cookies::Index.new(build_context, params).call
 
-      response.context.cookies.get("my_cookie").value.should eq("cookie")
+      response.context.cookies.get("my_cookie").should eq("cookie")
       response.context.session.get("my_session").should eq("session")
       response.body.should eq "cookie - session"
     end
