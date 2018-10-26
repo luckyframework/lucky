@@ -93,7 +93,7 @@ describe Lucky::SessionHandler do
       .cookies
       .set(:yo, "lo")
       .path("/awesome")
-      .expires(Time.new(2000, 1, 1))
+      .expires(Time.utc(2000, 1, 1))
       .domain("luckyframework.org")
       .secure(true)
       .http_only(true)
