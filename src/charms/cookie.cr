@@ -1,15 +1,15 @@
 class HTTP::Cookie
-  def name(value : String)
+  def name(value : String) : HTTP::Cookie
     self.name = value
     self
   end
 
-  def value(string : String)
+  def value(string : String) : HTTP::Cookie
     self.value = string
     self
   end
 
-  def path(value : String)
+  def path(value : String) : HTTP::Cookie
     self.path = value
     self
   end
@@ -24,12 +24,16 @@ class HTTP::Cookie
     self
   end
 
-  def secure(value : Bool)
+  def permanent : HTTP::Cookie
+    expires(20.years.from_now)
+  end
+
+  def secure(value : Bool) : HTTP::Cookie
     self.secure = value
     self
   end
 
-  def http_only(value : Bool)
+  def http_only(value : Bool) : HTTP::Cookie
     self.http_only = value
     self
   end
