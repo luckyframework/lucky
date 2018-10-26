@@ -4,7 +4,7 @@ class Lucky::CookieJar
   private property cookies
 
   Habitat.create do
-    setting default_expiration : Time::Span | Time::MonthSpan = 1.year
+    setting on_set : (HTTP::Cookie -> HTTP::Cookie) | Nil
   end
 
   def self.from_request_cookies(cookies : HTTP::Cookies)
@@ -58,9 +58,10 @@ class Lucky::CookieJar
     cookies[key.to_s] = HTTP::Cookie.new(
       name: key.to_s,
       value: encrypt(value),
-      expires: settings.default_expiration.from_now,
       http_only: true,
-    )
+    ).tap do |cookie|
+      settings.on_set.try(&.call(cookie))
+    end
   end
 
   private def encrypt(raw_value : String) : String
