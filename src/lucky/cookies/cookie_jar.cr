@@ -56,9 +56,13 @@ class Lucky::CookieJar
   end
 
   def set(key : Key, value : String) : HTTP::Cookie
+    set_raw key, encrypt(value)
+  end
+
+  def set_raw(key : Key, value : String) : HTTP::Cookie
     cookies[key.to_s] = HTTP::Cookie.new(
       name: key.to_s,
-      value: encrypt(value),
+      value: value,
       http_only: true,
     ).tap do |cookie|
       settings.on_set.try(&.call(cookie))
@@ -76,7 +80,7 @@ class Lucky::CookieJar
 
   private def decrypt(cookie_value : String, cookie_name : String) : String
     if encrypted?(cookie_value)
-      base_64_encrypted_part = cookie_value.split("--").last
+      base_64_encrypted_part = cookie_value.lchop(ENCRYPTION_PREFIX)
       decoded = Base64.decode(base_64_encrypted_part)
       String.new(encryptor.decrypt(decoded))
     else
@@ -86,6 +90,7 @@ class Lucky::CookieJar
       You can access the raw value by using 'get_raw':
 
           cookies.get_raw(:#{cookie_name}).value
+
       ERROR
     end
   end
