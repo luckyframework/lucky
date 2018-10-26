@@ -7,7 +7,9 @@ describe Build::Release do
     with_cleanup do
       Dir.mkdir_p("./src")
       File.write "./src/server.cr", "puts 1"
-      Build::Release.new.call
+
+      Build::Release.new(IO::Memory.new).call
+
       File.exists?("./server").should be_true
     end
   end
@@ -16,7 +18,9 @@ describe Build::Release do
     with_cleanup do
       Dir.mkdir_p("./src")
       File.write "./src/server.cr", %({{ raise "this build will fail" }})
-      Build::Release.new.call
+
+      Build::Release.new(IO::Memory.new, error_io: IO::Memory.new).call
+
       File.exists?("./server").should be_false
     end
   end
