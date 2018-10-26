@@ -6,19 +6,21 @@ include GeneratorHelper
 describe Gen::Model do
   it "generates a model" do
     with_cleanup do
-      io = IO::Memory.new
-      model_name = "ContactInfo"
-      ARGV.push(model_name)
+      Gen::Migration.silence_output do
+        io = IO::Memory.new
+        model_name = "ContactInfo"
+        ARGV.push(model_name)
 
-      Gen::Model.new.call(io)
+        Gen::Model.new.call(io)
 
-      should_generate_migration named: "create_contact_infos.cr"
-      should_create_files_with_contents io,
-        "./src/models/contact_info.cr": "table :contact_infos"
-      should_create_files_with_contents io,
-        "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
-        "./src/forms/contact_info_form.cr": "class ContactInfoForm < ContactInfo::BaseForm",
-        "./src/queries/contact_info_query.cr": "class ContactInfoQuery < ContactInfo::BaseQuery"
+        should_generate_migration named: "create_contact_infos.cr"
+        should_create_files_with_contents io,
+          "./src/models/contact_info.cr": "table :contact_infos"
+        should_create_files_with_contents io,
+          "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
+          "./src/forms/contact_info_form.cr": "class ContactInfoForm < ContactInfo::BaseForm",
+          "./src/queries/contact_info_query.cr": "class ContactInfoQuery < ContactInfo::BaseQuery"
+      end
     end
   end
 

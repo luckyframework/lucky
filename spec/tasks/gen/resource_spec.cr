@@ -6,27 +6,29 @@ include GeneratorHelper
 describe Gen::Action do
   it "generates actions, model, form and query" do
     with_cleanup do
-      io = generate Gen::Resource::Browser, "User", "name:String"
+      Gen::Migration.silence_output do
+        io = generate Gen::Resource::Browser, "User", "name:String"
 
-      should_create_files_with_contents io,
-        "./src/actions/users/index.cr": "class Users::Index < BrowserAction",
-        "./src/actions/users/show.cr": "class Users::Show < BrowserAction",
-        "./src/actions/users/new.cr": "class Users::New < BrowserAction",
-        "./src/actions/users/create.cr": "class Users::Create < BrowserAction",
-        "./src/actions/users/edit.cr": "class Users::Edit < BrowserAction",
-        "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
-        "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
-      should_create_files_with_contents io,
-        "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
-        "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
-        "./src/pages/users/new_page.cr": "class Users::NewPage < MainLayout",
-        "./src/pages/users/edit_page.cr": "class Users::EditPage < MainLayout"
-      should_create_files_with_contents io,
-        "./src/models/user.cr": "class User < BaseModel",
-        "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
-        "./src/forms/user_form.cr": "class UserForm < User::BaseForm"
-      should_generate_migration named: "create_users.cr"
-      io.to_s.should contain "at: #{"/users".colorize.green}"
+        should_create_files_with_contents io,
+          "./src/actions/users/index.cr": "class Users::Index < BrowserAction",
+          "./src/actions/users/show.cr": "class Users::Show < BrowserAction",
+          "./src/actions/users/new.cr": "class Users::New < BrowserAction",
+          "./src/actions/users/create.cr": "class Users::Create < BrowserAction",
+          "./src/actions/users/edit.cr": "class Users::Edit < BrowserAction",
+          "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
+          "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
+        should_create_files_with_contents io,
+          "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
+          "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
+          "./src/pages/users/new_page.cr": "class Users::NewPage < MainLayout",
+          "./src/pages/users/edit_page.cr": "class Users::EditPage < MainLayout"
+        should_create_files_with_contents io,
+          "./src/models/user.cr": "class User < BaseModel",
+          "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
+          "./src/forms/user_form.cr": "class UserForm < User::BaseForm"
+        should_generate_migration named: "create_users.cr"
+        io.to_s.should contain "at: #{"/users".colorize.green}"
+      end
     end
   end
 
