@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 describe HTTP::Cookie do
-  describe "#domain" do
+  describe "setters" do
     it "can chain and set values" do
       time = Time.now
       cookie = test_cookie
@@ -21,6 +21,14 @@ describe HTTP::Cookie do
       cookie.domain.should eq("luckyframework.org")
       cookie.secure.should be_true
       cookie.http_only.should be_true
+    end
+  end
+
+  describe "#permanent" do
+    it "sets expiration 20 years from now" do
+      cookie = test_cookie.permanent
+
+      cookie.expires.not_nil!.should be_close(20.years.from_now, 1.minute)
     end
   end
 end
