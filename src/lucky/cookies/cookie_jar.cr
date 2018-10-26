@@ -53,6 +53,8 @@ class Lucky::CookieJar
     cookies[key.to_s]?.try do |cookie|
       decrypt(cookie.value, cookie.name)
     end
+  rescue OpenSSL::Cipher::Error
+    nil
   end
 
   def set(key : Key, value : String) : HTTP::Cookie
