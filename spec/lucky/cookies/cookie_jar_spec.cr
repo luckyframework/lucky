@@ -31,14 +31,19 @@ describe Lucky::CookieJar do
   end
 
   it "catches values with old or incorrect keys and returns nil" do
+    jar_with_old_secret = Lucky::CookieJar.empty_jar
+    Lucky::Server.temp_config(secret_key_base: "a" * 32) do
+      jar_with_old_secret.set(:name, "value")
+    end
+    value_encrypted_with_old_jar = jar_with_old_secret.get_raw(:name).value
     jar = Lucky::CookieJar.empty_jar
 
-    jar.set_raw(:name, "Jane")
+    jar.set_raw(:name, value_encrypted_with_old_jar)
 
     jar.get?(:name).should be_nil
   end
 
-  pending "raises helpful error if trying to read unencrypted values" do
+  it "raises helpful error if trying to read unencrypted values" do
     jar = Lucky::CookieJar.empty_jar
 
     jar.set_raw(:name, "Jane")
