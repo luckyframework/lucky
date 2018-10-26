@@ -29,45 +29,48 @@ describe Lucky::CookieJar do
   end
 
   describe "#set" do
-    it "sets a cookie's expiration date by default" do
-      Lucky::CookieJar.temp_config(default_expiration: 1.month) do
+    it "only sets the name, http_only, and value if no 'on_set' block is set" do
+      Lucky::CookieJar.temp_config(on_set: nil) do
         jar = Lucky::CookieJar.empty_jar
 
         jar.set(:message, "Help I'm trapped in a cookie jar")
 
-        # dirty hack because I can't get a time mocking lib to work
-        # this works when I test just this file but not in the full suite
-        # my guess is because the time set in the cookie jar is a constant that
-        # is set at compile time, which ends taking more than 1 second to compile
-        # 1 minute difference for a year seems reasonable for now
-        expiration = jar.get_raw(:message).expires.not_nil!
-        expiration.should be_close(1.month.from_now, 1.minute)
+        jar.get(:message).should eq("Help I'm trapped in a cookie jar")
+        message = jar.get_raw(:message)
+        message.http_only.should be_true
+        message.expires.should be_nil
+        message.path.should eq "/"
+        message.domain.should be_nil
+        message.secure.should be_false
       end
     end
 
-    it "can still override the expiration" do
-      jar = Lucky::CookieJar.empty_jar
+    it "calls 'on_set' block if set" do
+      time = 1.day.from_now
+      block = ->(new_cookie : HTTP::Cookie) {
+        new_cookie.expires(time)
+        new_cookie.domain("example.com")
+      }
 
-      jar.set(:occupation, "stealth vegetable").expires(3.days.from_now)
+      Lucky::CookieJar.temp_config(on_set: block) do
+        jar = Lucky::CookieJar.empty_jar
 
-      expiration = jar.get_raw(:occupation).expires.not_nil!
-      expiration.should be_close(3.days.from_now, 1.second)
+        jar.set(:message, "Help I'm trapped in a cookie jar")
+
+        message = jar.get_raw(:message)
+        message.expires.should eq(time)
+        message.domain.should eq("example.com")
+      end
     end
 
-    it "makes cookie HTTPOnly by default" do
+    it "returns a cookie so you can override cookie settings" do
+      time = 1.day.from_now
       jar = Lucky::CookieJar.empty_jar
 
-      jar.set(:music, "Get Lucky - Daft Punk")
-
-      jar.get_raw(:music).http_only.should be_true
-    end
-
-    it "can still override HTTPOnly" do
-      jar = Lucky::CookieJar.empty_jar
-
-      jar.set(:tabs_or_spaces, "stop it").http_only(false)
+      jar.set(:tabs_or_spaces, "stop it").http_only(false).expires(time)
 
       jar.get_raw(:tabs_or_spaces).http_only.should be_false
+      jar.get_raw(:tabs_or_spaces).expires.not_nil!.should eq(time)
     end
   end
 
@@ -75,9 +78,7 @@ describe Lucky::CookieJar do
     # https://stackoverflow.com/questions/5285940/correct-way-to-delete-cookies-server-side
     it "exipres the cookie and sets the value to an empty string" do
       jar = Lucky::CookieJar.empty_jar
-
       jar.set(:rules, "no fighting!")
-
       jar.get_raw(:rules).expired?.should_not be_true
 
       jar.delete(:rules)
