@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 describe Lucky::CookieJar do
-  it "gets and sets with indifferent access" do
+  it "sets and gets with indifferent access" do
     jar = Lucky::CookieJar.empty_jar
 
     jar.set(:symbol_key, "symbol key")
@@ -13,19 +13,39 @@ describe Lucky::CookieJar do
     jar.get(:string_key).should eq("string key")
   end
 
-  it "get_raw gets the raw HTTP::Cookie object with indifferent access" do
+  it "sets and gets raw HTTP::Cookie object with indifferent access" do
     value = "Nestle Tollhouse"
     jar = Lucky::CookieJar.empty_jar
 
-    jar.set(:cookie, value)
+    jar.set_raw(:cookie, value)
+    jar.set_raw(:symbol, "symbol value")
 
     jar.get_raw(:cookie).should be_a(HTTP::Cookie)
-    jar.get_raw(:cookie).value.should_not be_nil
-    jar.get_raw("cookie").value.should_not be_nil
-    jar.get_raw?(:cookie).not_nil!.value.should_not be_nil
-    jar.get_raw?("cookie").not_nil!.value.should_not be_nil
+    jar.get_raw("symbol").value.should eq("symbol value")
+    jar.get_raw(:cookie).value.should eq(value)
+    jar.get_raw("cookie").value.should eq(value)
+    jar.get_raw?(:cookie).not_nil!.value.should eq(value)
+    jar.get_raw?("cookie").not_nil!.value.should eq(value)
     jar.get_raw?(:missing).should be_nil
     jar.get_raw?("missing").should be_nil
+  end
+
+  it "catches values with old or incorrect keys and returns nil" do
+    jar = Lucky::CookieJar.empty_jar
+
+    jar.set_raw(:name, "Jane")
+
+    jar.get?(:name).should be_nil
+  end
+
+  pending "raises helpful error if trying to read unencrypted values" do
+    jar = Lucky::CookieJar.empty_jar
+
+    jar.set_raw(:name, "Jane")
+
+    expect_raises Exception, "cookies.get_raw(:name).value" do
+      jar.get?(:name)
+    end
   end
 
   describe "#set" do
