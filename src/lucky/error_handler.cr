@@ -40,12 +40,11 @@ class Lucky::ErrorHandler
     context
   end
 
+  private def status_code_by_error(error : Lucky::ErrorResponseCode)
+    error.default_response_status_code
+  end
+
   private def status_code_by_error(error : Exception)
-    case error
-    when Lucky::Exceptions::InvalidParam
-      Lucky::Action::Status::UnprocessableEntity.value
-    else
-      Lucky::Action::Status::InternalServerError.value
-    end
+    Lucky::Action::Status::InternalServerError.value
   end
 end
