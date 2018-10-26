@@ -1,5 +1,6 @@
 class Lucky::CookieJar
-  MAX_COOKIE_SIZE = 4096
+  MAX_COOKIE_SIZE   = 4096
+  ENCRYPTION_PREFIX = Base64.encode("lucky") + "--"
   alias Key = String | Symbol
   private property cookies
 
@@ -50,7 +51,7 @@ class Lucky::CookieJar
 
   def get?(key : Key) : String?
     cookies[key.to_s]?.try do |cookie|
-      decrypt(cookie.value)
+      decrypt(cookie.value, cookie.name)
     end
   end
 
@@ -66,12 +67,31 @@ class Lucky::CookieJar
 
   private def encrypt(raw_value : String) : String
     encrypted = encryptor.encrypt(raw_value)
-    Base64.strict_encode(encrypted)
+
+    String.build do |value|
+      value << ENCRYPTION_PREFIX
+      value << Base64.strict_encode(encrypted)
+    end
   end
 
-  private def decrypt(base_64_encoded_value : String) : String
-    decoded = Base64.decode(base_64_encoded_value)
-    String.new(encryptor.decrypt(decoded))
+  private def decrypt(cookie_value : String, cookie_name : String) : String
+    if encrypted?(cookie_value)
+      base_64_encrypted_part = cookie_value.split("--").last
+      decoded = Base64.decode(base_64_encrypted_part)
+      String.new(encryptor.decrypt(decoded))
+    else
+      raise <<-ERROR
+      It looks like this cookie's value is not encrypted by Lucky. This likely means the cookie was set by something other than Lucky, like a client side script.
+
+      You can access the raw value by using 'get_raw':
+
+          cookies.get_raw(:#{cookie_name}).value
+      ERROR
+    end
+  end
+
+  private def encrypted?(value : String) : Bool
+    value.starts_with?(ENCRYPTION_PREFIX)
   end
 
   @_encryptor : Lucky::MessageEncryptor?
