@@ -3,10 +3,10 @@ require "../../spec_helper"
 describe Lucky::Exec do
   it "runs the editor" do
     with_test_template do
-      Lucky::Exec.new.call(["-e", %(echo 'puts 555' >)])
+      Lucky::Exec.new.call(["-e", %(echo '5 + 5' >)])
 
       newest_code.should eq <<-CODE
-      puts 555
+      5 + 5
 
       CODE
     end
