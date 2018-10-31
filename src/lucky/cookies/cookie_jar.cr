@@ -27,6 +27,10 @@ class Lucky::CookieJar
     cookies
   end
 
+  macro destroy
+    {% raise "CookieJar#destroy has been renamed to CookieJar#clear to match Hash#clear" %}
+  end
+
   def clear : Void
     cookies.each do |cookie|
       delete cookie.name
