@@ -17,7 +17,7 @@ describe Lucky::CookieJar do
     value = "Nestle Tollhouse"
     jar = Lucky::CookieJar.empty_jar
 
-    jar.set_raw(:cookie, value)
+    jar.set_raw("cookie", value)
     jar.set_raw(:symbol, "symbol value")
 
     jar.get_raw(:cookie).should be_a(HTTP::Cookie)

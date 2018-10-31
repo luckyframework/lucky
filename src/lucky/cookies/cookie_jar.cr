@@ -1,11 +1,11 @@
 class Lucky::CookieJar
-  MAX_COOKIE_SIZE   = 4096
-  ENCRYPTION_PREFIX = Base64.encode("lucky") + "--"
+  MAX_COOKIE_SIZE         = 4096
+  LUCKY_ENCRYPTION_PREFIX = Base64.encode("lucky") + "--"
   alias Key = String | Symbol
   private property cookies
 
   Habitat.create do
-    setting on_set : (HTTP::Cookie -> HTTP::Cookie) | Nil
+    setting on_set : (HTTP::Cookie -> HTTP::Cookie)?
   end
 
   def self.from_request_cookies(cookies : HTTP::Cookies)
@@ -42,7 +42,7 @@ class Lucky::CookieJar
   end
 
   def get_raw(key : Key) : HTTP::Cookie
-    get_raw?(key) || raise "No cookie for '#{key}'"
+    get_raw?(key) || raise "No cookie with the key: #{key}"
   end
 
   def get_raw?(key : Key) : HTTP::Cookie?
@@ -79,14 +79,14 @@ class Lucky::CookieJar
     encrypted = encryptor.encrypt(raw_value)
 
     String.build do |value|
-      value << ENCRYPTION_PREFIX
+      value << LUCKY_ENCRYPTION_PREFIX
       value << Base64.strict_encode(encrypted)
     end
   end
 
   private def decrypt(cookie_value : String, cookie_name : String) : String
-    if encrypted?(cookie_value)
-      base_64_encrypted_part = cookie_value.lchop(ENCRYPTION_PREFIX)
+    if encrypted_with_lucky?(cookie_value)
+      base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
       decoded = Base64.decode(base_64_encrypted_part)
       String.new(encryptor.decrypt(decoded))
     else
@@ -101,8 +101,8 @@ class Lucky::CookieJar
     end
   end
 
-  private def encrypted?(value : String) : Bool
-    value.starts_with?(ENCRYPTION_PREFIX)
+  private def encrypted_with_lucky?(value : String) : Bool
+    value.starts_with?(LUCKY_ENCRYPTION_PREFIX)
   end
 
   @_encryptor : Lucky::MessageEncryptor?
