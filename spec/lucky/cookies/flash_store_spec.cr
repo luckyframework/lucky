@@ -112,6 +112,18 @@ describe Lucky::FlashStore do
       flash_store.to_json.should eq(next_hash.to_json)
     end
   end
+
+  describe "#clear" do
+    it "clears out all flash messages" do
+      now_hash = {not: :present}
+      next_hash = {name: "Paul"}
+      flash_store = build_flash_store(now: now_hash, next: next_hash)
+
+      flash_store.get(:name).should eq "Paul"
+      flash_store.clear
+      flash_store.get?(:name).should eq nil
+    end
+  end
 end
 
 private def build_flash_store(
