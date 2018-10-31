@@ -18,12 +18,16 @@ class Lucky::Session
     end
   end
 
-  macro destroy
+  def destroy
     {% raise "CookieJar#destroy has been renamed to CookieJar#clear to match Hash#clear" %}
   end
 
-  macro reset
+  def reset
     {% raise "use Session#clear to reset the session" %}
+  end
+
+  def unset(*args)
+    {% raise "use Session#delete instead of Session#unset" %}
   end
 
   def delete(key : Key) : String?
