@@ -27,8 +27,12 @@ class Lucky::CookieJar
     cookies
   end
 
-  macro destroy
+  def destroy
     {% raise "CookieJar#destroy has been renamed to CookieJar#clear to match Hash#clear" %}
+  end
+
+  def unset(*args)
+    {% raise "use CookieJar#delete instead of CookieJar#unset" %}
   end
 
   def clear : Void
