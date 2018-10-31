@@ -44,6 +44,11 @@ class Lucky::FlashStore
     @next.to_json
   end
 
+  def clear : Void
+    @now.clear
+    @next.clear
+  end
+
   def set(key : Key, value : String) : String
     @next[key.to_s] = value
   end
