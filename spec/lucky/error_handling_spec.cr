@@ -8,6 +8,14 @@ end
 private class UnhandledError < Exception
 end
 
+private class ShortAndStoutError < Exception
+  include Lucky::HttpRespondable
+
+  def http_error_code
+    418
+  end
+end
+
 private class InvalidParam < Lucky::Exceptions::InvalidParam
 end
 
@@ -62,6 +70,18 @@ describe Lucky::ErrorHandler do
 
     context.response.headers["Content-Type"].should eq("text/plain")
     context.response.status_code.should eq(422)
+  end
+
+  it "returns the defined status code if the raised exception defines one" do
+    error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
+    error_handler.next = ->(_ctx : HTTP::Server::Context) {
+      raise ShortAndStoutError.new("I'm a little teapot")
+    }
+
+    context = error_handler.call(build_context).as(HTTP::Server::Context)
+
+    context.response.headers["Content-Type"].should eq("text/plain")
+    context.response.status_code.should eq(418)
   end
 
   context "when configured to show debug output" do

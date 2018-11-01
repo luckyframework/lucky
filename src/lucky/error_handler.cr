@@ -40,8 +40,8 @@ class Lucky::ErrorHandler
     context
   end
 
-  private def status_code_by_error(error : Lucky::ErrorResponseCode)
-    error.default_response_status_code
+  private def status_code_by_error(error : Lucky::HttpRespondable)
+    error.http_error_code
   end
 
   private def status_code_by_error(error : Exception)
