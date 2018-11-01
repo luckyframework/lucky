@@ -14,6 +14,7 @@ module Lucky
     end
 
     class InvalidParam < Base
+      include Lucky::HttpRespondable
       getter :param_name, :param_value, :param_type
 
       def initialize(@param_name : String, @param_value : String, @param_type : String)
@@ -21,6 +22,10 @@ module Lucky
 
       def message : String?
         "Required param \"#{param_name}\" with value \"#{param_value}\" couldn't be parsed to a \"#{param_type}\""
+      end
+
+      def http_error_code
+        Lucky::Action::Status::UnprocessableEntity.value
       end
     end
 
