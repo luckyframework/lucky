@@ -296,7 +296,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.nested_file?(:missing).should eq({} of String => Tempfile)
+      params.nested_file?(:missing).should eq({} of String => File)
     end
   end
 
