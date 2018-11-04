@@ -1,7 +1,7 @@
 name: lucky
-version: 0.11.0
+version: 0.12.0-rc1
 
-crystal: 0.26
+crystal: 0.27
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.6
+    tag: v0.12.0-rc1
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.0
@@ -40,16 +40,16 @@ dependencies:
     version: ~> 0.2
   lucky_record:
     github: luckyframework/lucky_record
-    branch: master
+    tag: v0.7.0-rc1
   lucky_router:
     github: luckyframework/lucky_router
-    branch: master
+    version: ~> 0.2
   shell-table:
     github: luckyframework/shell-table.cr
     branch: refactor/setter
   cry:
     github: paulcsmith/cry
-    tag: templating
+    version: ~> 0.4
   exception_page:
     github: crystal-loot/exception_page
     version: ~> 0.1.0

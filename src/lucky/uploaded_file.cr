@@ -1,9 +1,7 @@
-require "tempfile"
-
 # This class represents an uploaded file from a form
 class Lucky::UploadedFile
   getter name : String
-  getter tempfile : Tempfile
+  getter tempfile : File
   getter metadata : HTTP::FormData::FileMetadata
 
   # Creates an UploadedFile using a HTTP::FormData::Part.
@@ -13,14 +11,14 @@ class Lucky::UploadedFile
   # be assigned the body of the HTTP::FormData::Part
   def initialize(part : HTTP::FormData::Part)
     @name = part.name
-    @tempfile = Tempfile.open(part.name) do |tempfile|
+    @tempfile = File.tempfile(part.name) do |tempfile|
       IO.copy(part.body, tempfile)
     end
     @metadata =
       HTTP::FormData.parse_content_disposition(part.headers["Content-Disposition"]).last
   end
 
-  # Returns the path of the tempfile as a String
+  # Returns the path of the File as a String
   #
   # ```
   # uploaded_file_object.path # => String
