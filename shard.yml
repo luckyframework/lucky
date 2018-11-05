@@ -1,5 +1,5 @@
 name: lucky
-version: 0.12.0-rc1
+version: 0.12.0
 
 crystal: 0.27
 
@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    tag: v0.12.0-rc1
+    version: ~> 0.12
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.0
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2
   lucky_record:
     github: luckyframework/lucky_record
-    tag: v0.7.0-rc1
+    version: ~> 0.7
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2
