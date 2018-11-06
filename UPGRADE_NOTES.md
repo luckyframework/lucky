@@ -1,3 +1,7 @@
+### Upgrading from 0.12 to the beta version on master
+
+- Add `Lucky::AssetHelpers.load_manifest` below `require "dependencies"` in `src/app.cr` for browser apps. Skip for API only apps.
+
 ### Upgrading from 0.11 to 0.12
 
 - Upgrade Lucky CLI (macOS)
