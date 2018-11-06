@@ -37,7 +37,7 @@ class AssetManifestBuilder
 
     manifest.as_h.each do |key, value|
       key = key.gsub(/^\//, "").gsub(/^assets\//, "")
-      puts %({% ASSET_MANIFEST["#{key}"] = "#{value.as_s}" %})
+      puts %({% ::Lucky::AssetHelpers::ASSET_MANIFEST["#{key}"] = "#{value.as_s}" %})
     end
   end
 
