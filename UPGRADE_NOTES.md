@@ -35,6 +35,8 @@ brew upgrade lucky
   - Change `Lucky::Session::Store.configure` to `Lucky::Session.configure do |settings|`
 
   - Change your session key because signing/encryption has changed. For example: add `_0_12_0` to the end of the key.
+  
+  - Remove `settings.secret = Lucky::Server.settings.secret_key_base`
 
 - If using `cookies[]` anywhere in your app, change the key you use. Lucky now signs and encrypts all cookies. Old cookies will not decrypt properly.
 
