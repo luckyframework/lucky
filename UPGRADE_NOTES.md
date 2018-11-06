@@ -1,3 +1,64 @@
+### Upgrading from 0.11 to 0.12
+
+- Upgrade Lucky CLI (macOS)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.27
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/installing/#install-lucky
+
+> Use your package manager to update Crystal to v0.27
+
+- In `db/migrations`, change `LuckyMigrator::Migration` -> `LuckyRecord::Migrator::Migration` for every migration
+
+- Remove `lucky_migrator` from `shard.yml`
+
+- Remove `lucky_migrator` from `src/dependencies`
+
+- Remove the `LuckyMigrator.configure` block from `config/database.cr`
+
+- Configuration now requires passing an argument. Find and replace `.configure do` with `.configure do |settings|` in all files in `config`
+
+- Update `config/session.cr`
+
+  - Change `Lucky::Session::Store.configure` to `Lucky::Session.configure do |settings|`
+
+  - Change your session key because signing/encryption has changed. For example: add `_0_12_0` to the end of the key.
+
+- If using `cookies[]` anywhere in your app, change the key you use. Lucky now signs and encrypts all cookies. Old cookies will not decrypt properly.
+
+- Change `session[]=` and `cookies[]=` to `session|cookies.set|get`
+
+- Change `session|cookies.destroy` to `session/cookies.clear`
+
+- `cookies.unset(:key)` and `delete.unset(:key)` should be `cookies|session.delete(:key)`
+
+- Remove `unexpose current_user` from `src/actions/home/index.cr`
+
+- `Query#count` has been renamed to `Query#select_count`. For example: `UserQuery.new.count` is now `UserQuery.new.select_count`
+
+- Change `flash.danger` to `flash.failure` in your actions.
+
+- Update `Lucky::Flash::Handler` to `Lucky::FlashHandler` in `src/app.cr`
+
+- Update shard versions in `shard.yml`:
+
+  - Lucky `~> 0.12`
+  - LuckyRecord `~> 0.7`
+  - Authentic `~> 0.2`
+  - LuckyFlow `~> 0.3`
+
+- Change `.crystal-version` to `0.27.0`
+
+- Run `shards update` to install the new shards
+
 ### Upgrading from 0.10 to 0.11
 
 - Upgrade Lucky CLI (macOS)
