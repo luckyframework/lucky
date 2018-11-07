@@ -7,14 +7,11 @@ module Lucky::AssetHelpers
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
-  macro raise_if_manifest_not_loaded!
+  macro asset(path)
     {% unless CONFIG[:has_loaded_manifest] %}
       {% raise "No manifest loaded. Call 'Lucky::AssetHelpers.load_manifest'" %}
     {% end %}
-  end
 
-  macro asset(path)
-    Lucky::AssetHelpers.raise_if_manifest_not_loaded!
     {% if path.is_a?(StringLiteral) %}
       {% if Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
         {{ Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
@@ -49,7 +46,6 @@ module Lucky::AssetHelpers
   end
 
   def dynamic_asset(path)
-    Lucky::AssetHelpers.raise_if_manifest_not_loaded!
     fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
     if fingerprinted_path
       fingerprinted_path
