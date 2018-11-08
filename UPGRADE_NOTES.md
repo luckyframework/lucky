@@ -54,6 +54,10 @@ brew upgrade lucky
 
 - Update `Lucky::Flash::Handler` to `Lucky::FlashHandler` in `src/app.cr`
 
+- Update usages of `Lucky::Response` to `Lucky::TextResponse`
+
+- Update usages of `LuckyInflector::Inflector` to `Wordsmith::Inflector`
+
 - Update shard versions in `shard.yml`:
 
   - Lucky `~> 0.12`
