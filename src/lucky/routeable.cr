@@ -175,6 +175,19 @@ module Lucky::Routeable
       route(*args, **named_args).url
     end
 
+    def self.url_without_query_params(
+    {% for param in path_params %}
+      {{ param.gsub(/:/, "").id }},
+    {% end %}
+    )
+      path = path_from_parts(
+        {% for param in path_params %}
+          {{ param.gsub(/:/, "").id }},
+        {% end %}
+      )
+      Lucky::RouteHelper.new({{ method }}, path).url
+    end
+
     def self.route(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
@@ -193,20 +206,11 @@ module Lucky::Routeable
     {% end %}
     anchor : String? = nil
       )
-      path = String.build do |path|
-        {% for part in path_parts %}
-          path << "/"
-          {% if part.starts_with?(":") %}
-            path << URI.escape({{ part.gsub(/:/, "").id }}.to_param)
-          {% else %}
-            path << URI.escape({{ part }})
-          {% end %}
+      path = path_from_parts(
+        {% for param in path_params %}
+          {{ param.gsub(/:/, "").id }},
         {% end %}
-      end
-
-      is_root_path = path == ""
-      path = "/" if is_root_path
-
+      )
       query_params = {} of String => String
       {% for param in PARAM_DECLARATIONS %}
         {% if param.value == false %}
@@ -219,7 +223,6 @@ module Lucky::Routeable
           query_params["{{ param.var }}"] = {{ param.var }}.to_s
         end
       {% end %}
-
       unless query_params.empty?
         path += "?#{HTTP::Params.encode(query_params)}"
       end
@@ -238,6 +241,27 @@ module Lucky::Routeable
 
     def self.with
       \{% raise "Use `route` instead of `with` if the route doesn't need params" %}
+    end
+
+    private def self.path_from_parts(
+        {% for param in path_params %}
+          {{ param.gsub(/:/, "").id }},
+        {% end %}
+    )
+      path = String.build do |path|
+        {% for part in path_parts %}
+          path << "/"
+          {% if part.starts_with?(":") %}
+            path << URI.escape({{ part.gsub(/:/, "").id }}.to_param)
+          {% else %}
+            path << URI.escape({{ part }})
+          {% end %}
+        {% end %}
+      end
+
+      is_root_path = path == ""
+      path = "/" if is_root_path
+      path
     end
   end
 
