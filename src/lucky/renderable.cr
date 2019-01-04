@@ -61,8 +61,7 @@ module Lucky::Renderable
       {% for key, value in assigns %}
         {{ key }}: {{ value }},
       {% end %}
-      {% exposed = EXPOSURES.reject { |exposure| UNEXPOSED.includes?(exposure) } %}
-      {% for key in exposed %}
+      {% for key in EXPOSURES %}
         {{ key }}: {{ key }},
       {% end %}
     )
