@@ -35,7 +35,7 @@ brew upgrade lucky
   - Change `Lucky::Session::Store.configure` to `Lucky::Session.configure do |settings|`
 
   - Change your session key because signing/encryption has changed. For example: add `_0_12_0` to the end of the key.
-  
+
   - Remove `settings.secret = Lucky::Server.settings.secret_key_base`
 
 - If using `cookies[]` anywhere in your app, change the key you use. Lucky now signs and encrypts all cookies. Old cookies will not decrypt properly.
@@ -57,6 +57,14 @@ brew upgrade lucky
 - Update usages of `Lucky::Response` to `Lucky::TextResponse`
 
 - Update usages of `LuckyInflector::Inflector` to `Wordsmith::Inflector`
+
+- Remove `config/session.cr` and copy [`config/cookies.cr`](https://github.com/luckyframework/lucky_cli/blob/baaeeb0b8c7a410625320af394437f8665442664/src/web_app_skeleton/config/cookies.cr.ecr)
+
+- Replace `config/email.cr` with [this one](https://github.com/luckyframework/lucky_cli/blob/baaeeb0b8c7a410625320af394437f8665442664/src/web_app_skeleton/config/email.cr).
+
+- Add this line to `spec_helper.cr` (around line 19) -> `LuckyRecord::Migrator::Runner.new.ensure_migrated!`
+
+- In `config/server.cr`, copy the new block starting at [`line 15`](https://github.com/luckyframework/lucky_cli/blob/baaeeb0b8c7a410625320af394437f8665442664/src/web_app_skeleton/config/server.cr.ecr#L15-L23).
 
 - Update shard versions in `shard.yml`:
 
