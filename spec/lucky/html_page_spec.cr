@@ -112,6 +112,10 @@ describe Lucky::HTMLPage do
       InnerPage.new(build_context, foo: "bar").render.to_s.should contain %(<body>Inner textbar</body>)
     end
   end
+
+  it "accepts extra arguments so pages are more flexible with exposures" do
+    InnerPage.new(build_context, foo: "bar", ignore_me: true)
+  end
 end
 
 private def view
