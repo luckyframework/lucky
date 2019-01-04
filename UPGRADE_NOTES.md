@@ -4,6 +4,8 @@
 
 - `Query#preload` with a query now includes the association name -> [`Query#preload_{{ assoc_name }}`](https://github.com/luckyframework/lucky_record/pull/307)
 
+- Remove `unexpose` and `unexpose_if_exposed` from your actions. Pages now ignore unused exposures.
+
 ### Upgrading from 0.11 to 0.12
 
 - Upgrade Lucky CLI (macOS)

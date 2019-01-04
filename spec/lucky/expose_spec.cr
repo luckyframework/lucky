@@ -66,19 +66,9 @@ class MultipleExposeAndAssignsPage
   end
 end
 
-class UnexposedAction < MultipleExposeAndAssigns
-  unexpose expose_one, expose_two
-  unexpose_if_exposed expose_three, something_that_was_not_exposed
-
-  get "/unexposed-action" do
-    render OnlyExposePage, name: "Bobby"
-  end
-end
-
 describe "exposures" do
   it "works without explicit assigns" do
     OnlyExpose.new(build_context, params).call
     MultipleExposeAndAssigns.new(build_context, params).call
-    UnexposedAction.new(build_context, params).call
   end
 end
