@@ -85,6 +85,16 @@ describe Lucky::Params do
       params.get?(:anything)
     end
 
+    it "handles JSON with charset directive in Content-Type header" do
+      request = build_request body: {page: 1, foo: "bar"}.to_json,
+        content_type: "application/json;charset=UTF-8"
+
+      params = Lucky::Params.new(request)
+
+      params.get?(:page).should eq "1"
+      params.get?(:foo).should eq "bar"
+    end
+
     it "parses query params" do
       request = build_request body: "", content_type: ""
       request.query = "page=1&id=1"
@@ -150,6 +160,15 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       params.nested?(:user).should eq({} of String => JSON::Any)
+    end
+
+    it "handles JSON with charset directive in Content-Type header" do
+      request = build_request body: {user: {name: "Paul", age: 28}}.to_json,
+        content_type: "application/json; charset=UTF-8"
+
+      params = Lucky::Params.new(request)
+
+      params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
 
     it "gets nested JSON params mixed with query params" do

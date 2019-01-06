@@ -276,7 +276,7 @@ class Lucky::Params
   end
 
   private def json?
-    content_type == "application/json"
+    content_type.try(&.match(/^application\/json/))
   end
 
   private def multipart?
