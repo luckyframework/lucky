@@ -7,25 +7,25 @@ authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
 targets:
-  exec:
+  lucky.exec:
     main: src/precompiled_tasks/exec.cr
-  watch:
+  lucky.watch:
     main: src/precompiled_tasks/watch.cr
-  model:
+  lucky.gen.model:
     main: src/precompiled_tasks/gen/model.cr
-  action:
+  lucky.gen.action:
     main: src/precompiled_tasks/gen/action/helpful_error.cr
-  action.browser:
+  lucky.gen.action.browser:
     main: src/precompiled_tasks/gen/action/browser.cr
-  action.api:
+  lucky.gen.action.api:
     main: src/precompiled_tasks/gen/action/api.cr
-  resource.browser:
+  lucky.gen.resource.browser:
     main: src/precompiled_tasks/gen/resource/browser.cr
-  page:
+  lucky.gen.page:
     main: src/precompiled_tasks/gen/page.cr
-  component:
+  lucky.gen.component:
     main: src/precompiled_tasks/gen/component.cr
-  secret_key:
+  lucky.secret_key:
     main: src/precompiled_tasks/gen/secret_key.cr
 
 dependencies:
@@ -59,18 +59,6 @@ development_dependencies:
     github: veelenga/ameba
 
 scripts:
-  postinstall: |
-    shards build
-    mkdir -p ../../bin/lucky/gen/action
-    cp $(pwd)/bin/watch $(pwd)/../../bin/lucky/
-    cp $(pwd)/bin/exec $(pwd)/../../bin/lucky/
-    cp $(pwd)/bin/resource.browser $(pwd)/../../bin/lucky/gen/resource/browser
-    cp $(pwd)/bin/action.browser $(pwd)/../../bin/lucky/gen/action/browser
-    cp $(pwd)/bin/action.api $(pwd)/../../bin/lucky/gen/action/api
-    cp $(pwd)/bin/action $(pwd)/../../bin/lucky/gen/action
-    cp $(pwd)/bin/model $(pwd)/../../bin/lucky/gen/
-    cp $(pwd)/bin/page $(pwd)/../../bin/lucky/gen/
-    cp $(pwd)/bin/component $(pwd)/../../bin/lucky/gen/
-    cp $(pwd)/bin/secret_key $(pwd)/../../bin/lucky/gen/
+  postinstall: shards build
 
 license: MIT
