@@ -64,4 +64,9 @@ module Lucky::Redirectable
   def redirect(to path : String, status : Lucky::Action::Status = Lucky::Action::Status::Found)
     redirect(path, status.value)
   end
+
+  # :nodoc:
+  def redirect(to page_instead_of_action : Lucky::HTMLPage.class, **unused_args)
+    {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
+  end
 end
