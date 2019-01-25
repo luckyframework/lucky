@@ -22,7 +22,7 @@ module Lucky::Renderable
   # ```crystal
   # class Users::Index < BrowserAction
   #   route do
-  #     render users: UserQuery.new
+  #     render IndexPage, users: UserQuery.new
   #   end
   # end
   # ```
@@ -44,14 +44,28 @@ module Lucky::Renderable
   # end
   # ```
   macro render(page_class = nil, **assigns)
+    validate_page_class!({{ page_class }})
+
     render_html_page(
-      {{ page_class || "#{@type.name}Page".id }},
+      {{ page_class = page_class || "#{@type.name}Page".id }},
       {% if assigns.empty? %}
         {} of String => String
       {% else %}
         {{ assigns }}
       {% end %}
     )
+  end
+
+  macro validate_page_class!(page_class)
+    {% if page_class && page_class.resolve? %}
+      {% ancestors = page_class.resolve.ancestors %}
+
+      {% if ancestors.includes?(Lucky::Action) %}
+        {% page_class.raise "You accidentally rendered an action (#{page_class}) instead of an HTMLPage in the #{@type.name} action. Did you mean #{page_class}Page?" %}
+      {% elsif !ancestors.includes?(Lucky::HTMLPage) %}
+        {% page_class.raise "Couldn't render #{page_class} in #{@type.name} because it is not an HTMLPage" %}
+      {% end %}
+    {% end %}
   end
 
   # :nodoc:
