@@ -14,7 +14,7 @@ class Lucky::PageTemplate < Teeplate::FileTree
 end
 
 class Gen::Page < LuckyCli::Task
-  banner "Generate a new page"
+  summary "Generate a new page"
 
   def call(io : IO = STDOUT)
     if error

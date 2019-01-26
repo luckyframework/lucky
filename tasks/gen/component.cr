@@ -14,7 +14,7 @@ class Lucky::ComponentTemplate < Teeplate::FileTree
 end
 
 class Gen::Component < LuckyCli::Task
-  banner "Generate a new component"
+  summary "Generate a new component"
 
   def call(io : IO = STDOUT)
     if error

@@ -5,7 +5,7 @@ require "lucky_cli"
 
 class Lucky::Exec < LuckyCli::Task
   name "exec"
-  banner "Execute code. Use this in place of a console/REPL"
+  summary "Execute code. Use this in place of a console/REPL"
 
   Habitat.create do
     setting editor : String = "vim"

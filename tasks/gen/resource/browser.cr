@@ -4,7 +4,7 @@ require "wordsmith"
 require "lucky_record"
 
 class Gen::Resource::Browser < LuckyCli::Task
-  banner "Generate a resource (model, form, query, actions, and pages)"
+  summary "Generate a resource (model, form, query, actions, and pages)"
   getter io : IO = STDOUT
 
   class InvalidOption < Exception

@@ -164,7 +164,7 @@ module Sentry
 end
 
 class Watch < LuckyCli::Task
-  banner "Start and recompile project when files change"
+  summary "Start and recompile project when files change"
   @reload_browser : Bool = false
 
   def call
