@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2
   lucky_record:
     github: luckyframework/lucky_record
-    version: ~> 0.7
+    branch: master
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2
