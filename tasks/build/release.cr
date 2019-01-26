@@ -4,7 +4,7 @@ require "colorize"
 class Build::Release < LuckyCli::Task
   include LuckyCli::TextHelpers
 
-  banner "Compile app for production"
+  summary "Compile app for production"
 
   def initialize(@io : IO = STDOUT, @error_io : IO = STDERR)
   end

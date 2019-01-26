@@ -3,7 +3,7 @@ require "colorize"
 require "shell-table"
 
 class Routes < LuckyCli::Task
-  banner "Show all the routes for the app"
+  summary "Show all the routes for the app"
 
   def call
     routes = Lucky::Router.routes.map do |route|

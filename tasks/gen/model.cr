@@ -5,7 +5,7 @@ require "./templates/model_template"
 require "wordsmith"
 
 class Gen::Model < LuckyCli::Task
-  banner "Generate a model, query, and form"
+  summary "Generate a model, query, and form"
   getter io : IO = STDOUT
 
   def call(@io : IO = STDOUT)
