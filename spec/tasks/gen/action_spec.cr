@@ -52,16 +52,16 @@ describe Gen::Action do
       io.to_s.should contain(valid_nested_action_name)
       io.to_s.should contain("/src/actions/users/announcements")
     end
+  end
 
-    it "snake cases filenames of a camel case action" do
-      with_cleanup do
-        valid_camel_case_action_name = "Users::HostedEvents"
-        io = generate valid_camel_case_action_name, Gen::Action::Browser
+  it "snake cases filenames of a camel case action" do
+    with_cleanup do
+      valid_camel_case_action_name = "Users::HostedEvents"
+      io = generate valid_camel_case_action_name, Gen::Action::Browser
 
-        should_have_generated valid_camel_case_action_name, inside: "src/actions/users/hosted_events.cr"
-        io.to_s.should contain(valid_camel_case_action_name)
-        io.to_s.should contain("/src/actions/users")
-      end
+      should_have_generated valid_camel_case_action_name, inside: "src/actions/users/hosted_events.cr"
+      io.to_s.should contain(valid_camel_case_action_name)
+      io.to_s.should contain("/src/actions/users")
     end
   end
 
