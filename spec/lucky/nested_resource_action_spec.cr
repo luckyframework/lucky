@@ -30,8 +30,8 @@ describe Lucky::Action do
     end
 
     it "adds routes to the router" do
-      assert_route_added? Lucky::Route.new :get, "/projects/:project_id/tasks/:id", Projects::Tasks::Show
-      assert_route_added? Lucky::Route.new :get, "/admin/projects/:project_id/tasks/:id", Admin::Projects::Tasks::Show
+      assert_route_added? Lucky::Route.new :get, "/projects/:project_id/tasks/:task_id", Projects::Tasks::Show
+      assert_route_added? Lucky::Route.new :get, "/admin/projects/:project_id/tasks/:task_id", Admin::Projects::Tasks::Show
     end
   end
 end

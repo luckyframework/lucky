@@ -82,12 +82,12 @@ module Lucky::Routeable
   # ```
   # class Posts::Comments::Show
   #   nested_route do
-  #     render_text "Post: #{post_id}, Comment: #{id}"
+  #     render_text "Post: #{post_id}, Comment: #{comment_id}"
   #   end
   # end
   # ```
   #
-  # This action responds to the `/posts/:post_id/comments/:id` path.
+  # This action responds to the `/posts/:post_id/comments/:comment_id` path.
   macro nested_route
     infer_nested_route
 
@@ -99,17 +99,17 @@ module Lucky::Routeable
   # ```
   # class Posts::Show
   #   route do
-  #     render_text "Post: #{id}"
+  #     render_text "Post: #{post_id}"
   #   end
   # end
   # ```
   #
-  # This action responds to the `/posts/:id` path.
+  # This action responds to the `/posts/:post_id` path.
   #
   # Each route needs a few pieces of information to be created:
   #
   # * The HTTP method, like `GET`, `POST`, `DELETE`, etc.
-  # * The path, such as `/users/:id`
+  # * The path, such as `/users/:user_id`
   # * The class to route to, like `Users::Show`
   #
   # The `route` method will try to determine these pieces of information based

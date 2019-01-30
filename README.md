@@ -33,15 +33,15 @@ class Api::Users::Show < ApiAction
   end
 
   private def user_json
-    user = UserQuery.find(id)
+    user = UserQuery.find(user_id)
     {name: user.name, email: user.email}
   end
 end
 ```
 
-- `route` sets up a route for `"/api/users/:id"` automatically.
+- `route` sets up a route for `"/api/users/:user_id"` automatically.
 - If you want you can set up custom routes like `get "sign_in"` for non REST routes.
-- An `id` method is generated because there is an `id` route parameter.
+- A `user_id` method is generated because there is a `user_id` route parameter.
 - Use `json` to render JSON. [Extract
   serializers](https://luckyframework.org/guides/writing-json-apis/#respond-with-json)
   for reusable JSON responses.

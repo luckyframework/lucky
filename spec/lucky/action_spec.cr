@@ -190,10 +190,10 @@ describe Lucky::Action do
     it "adds routes to the router" do
       assert_route_added? Lucky::Route.new :get, "/tests", Tests::Index
       assert_route_added? Lucky::Route.new :get, "/tests/new", Tests::New
-      assert_route_added? Lucky::Route.new :get, "/tests/:id/edit", Tests::Edit
-      assert_route_added? Lucky::Route.new :get, "/tests/:id", Tests::Show
-      assert_route_added? Lucky::Route.new :delete, "/tests/:id", Tests::Delete
-      assert_route_added? Lucky::Route.new :put, "/tests/:id", Tests::Update
+      assert_route_added? Lucky::Route.new :get, "/tests/:test_id/edit", Tests::Edit
+      assert_route_added? Lucky::Route.new :get, "/tests/:test_id", Tests::Show
+      assert_route_added? Lucky::Route.new :delete, "/tests/:test_id", Tests::Delete
+      assert_route_added? Lucky::Route.new :put, "/tests/:test_id", Tests::Update
       assert_route_added? Lucky::Route.new :post, "/tests", Tests::Create
     end
 
