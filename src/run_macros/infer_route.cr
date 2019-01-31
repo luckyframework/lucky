@@ -60,12 +60,16 @@ class InferRoute
     when "new"
       [resource, "new"]
     when "edit"
-      [resource, ":id", "edit"]
+      [resource, resource_id_param_name, "edit"]
     when "show", "update", "delete"
-      [resource, ":id"]
+      [resource, resource_id_param_name]
     else
       resource_error
     end
+  end
+
+  private def resource_id_param_name
+    ":#{Wordsmith::Inflector.singularize(resource)}_id"
   end
 
   private def resource_error

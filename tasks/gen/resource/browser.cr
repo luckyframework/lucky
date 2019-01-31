@@ -194,6 +194,10 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
     Wordsmith::Inflector.pluralize(resource)
   end
 
+  private def resource_id_method_name
+    "#{underscored_resource}_id"
+  end
+
   private def query_class
     "#{resource}Query"
   end

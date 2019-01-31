@@ -18,6 +18,11 @@ describe Gen::Action do
           "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
           "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
         should_create_files_with_contents io,
+          "./src/actions/users/show.cr": "render ShowPage, user: UserQuery.find(user_id)",
+          "./src/actions/users/edit.cr": "user = UserQuery.find(user_id)",
+          "./src/actions/users/update.cr": "user = UserQuery.find(user_id)",
+          "./src/actions/users/delete.cr": "UserQuery.find(user_id).delete"
+        should_create_files_with_contents io,
           "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
           "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
           "./src/pages/users/new_page.cr": "class Users::NewPage < MainLayout",
