@@ -319,6 +319,133 @@ describe Lucky::Params do
     end
   end
 
+  describe "many_nested" do
+    it "gets nested form encoded params" do
+      request = build_request body: "users[0]:name=paul&users[1]:twitter_handle=@paulamason&users[0]:twitter_handle=@paulsmith&users[1]:name=paula&something:else=1",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested?(:users).should eq([
+        {"name" => "paul", "twitter_handle" => "@paulsmith"},
+        {"twitter_handle" => "@paulamason", "name" => "paula"},
+      ])
+    end
+
+    it "gets nested JSON params" do
+      request = build_request(
+        body: {
+          users: [
+            {name: "Paul", age: 28},
+            {name: "Paula", age: 43},
+          ],
+        }.to_json,
+        content_type: "application/json"
+      )
+      request.query = "from=query"
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested?(:users).should eq([
+        {"name" => "Paul", "age" => "28"},
+        {"name" => "Paula", "age" => "43"},
+      ])
+    end
+
+    it "gets empty JSON params when nested key is missing" do
+      request = build_request body: "{}",
+        content_type: "application/json"
+      request.query = "from=query"
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested?(:users).should eq([] of Hash(String, String))
+    end
+
+    it "handles JSON with charset directive in Content-Type header" do
+      request = build_request body: {users: [{name: "Paul", age: 28}]}.to_json,
+        content_type: "application/json; charset=UTF-8"
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested?(:users).should eq([{"name" => "Paul", "age" => "28"}])
+    end
+
+    it "gets nested JSON params mixed with query params" do
+      request = build_request body: {users: [{name: "Bunyan", age: 102}]}.to_json,
+        content_type: "application/json"
+      request.query = "users[0]:active=true"
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested?(:users).should eq([
+        {"name" => "Bunyan", "age" => "102", "active" => "true"},
+      ])
+    end
+
+    it "gets nested multipart params" do
+      request = build_multipart_request form_parts: {
+        "users" => [
+          {"name" => "Paul", "age" => "28"},
+          {"name" => "Paula", "age" => "32"},
+        ],
+      }
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested(:users).should eq([
+        {"name" => "Paul", "age" => "28"},
+        {"name" => "Paula", "age" => "32"},
+      ])
+    end
+
+    it "gets nested query params" do
+      request = build_request body: "filters[0]:toppings=left_beef&filters[1]:type=none", content_type: ""
+      request.query = "filters[0]:query=pizza&sort=desc"
+      params = Lucky::Params.new(request)
+      params.many_nested?("filters").should eq([
+        {"query" => "pizza", "toppings" => "left_beef"},
+        {"type" => "none"},
+      ])
+    end
+
+    it "returns an empty array when no nested is found" do
+      request = build_request body: "", content_type: ""
+      request.query = "a=1"
+      params = Lucky::Params.new(request)
+      params.many_nested?("a").empty?.should eq true
+    end
+
+    it "gets nested params after unescaping" do
+      request = build_request body: "users%5B0%5D%3Aname=paul",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested?(:users).should eq([{"name" => "paul"}])
+    end
+
+    it "raises if nested params are missing" do
+      request = build_request body: "",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      expect_raises Lucky::Exceptions::MissingNestedParam do
+        params.many_nested(:missing)
+      end
+    end
+
+    it "returns empty array if nested_params are missing" do
+      request = build_request body: "",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.many_nested?(:missing).should eq([] of Hash(String, String))
+    end
+  end
+
   describe "to_h" do
     it "returns a hash for query_params" do
       request = build_request body: "", content_type: ""

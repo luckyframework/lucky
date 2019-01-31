@@ -143,6 +143,49 @@ class Lucky::Params
     nested_file_params(nested_key.to_s)
   end
 
+  # Retrieve nested values from the params
+  #
+  # Nested params often appear in JSON requests or Form submissions. If no key
+  # is found a `Lucky::Exceptions::MissingParam` will be raised:
+  #
+  # ```crystal
+  # body = "users[0]:name=Alesia&users[0]:age=35&users[1]:name=Bob&users[1]:age=40&page=1"
+  # request = HTTP::Request.new("POST", "/", body: body)
+  # params = Lucky::Params.new(request)
+  #
+  # params.many_nested("users")
+  # # [{"name" => "Alesia", "age" => "35"}, { "name" => "Bob", "age" => "40" }]
+  # params.many_nested("missing") # Missing parameter: missing
+  # ```
+  def many_nested(nested_key : String | Symbol) : Array(Hash(String, String))
+    nested_params = many_nested?(nested_key)
+    if nested_params.empty?
+      raise Lucky::Exceptions::MissingNestedParam.new nested_key
+    else
+      nested_params
+    end
+  end
+
+  # Retrieve nested values from the params
+  #
+  # Nested params often appear in JSON requests or Form submissions. If no key
+  # is found an empty array will be returned:
+  #
+  # ```crystal
+  # body = "users[0]:name=Alesia&users[0]:age=35&users[1]:name=Bob&users[1]:age=40&page=1"
+  # request = HTTP::Request.new("POST", "/", body: body)
+  # params = Lucky::Params.new(request)
+  #
+  # params.nested("users")
+  # # [{"name" => "Alesia", "age" => "35"}, { "name" => "Bob", "age" => "40" }]
+  # params.nested("missing") # []
+  # ```
+  def many_nested?(nested_key : String | Symbol) : Array(Hash(String, String))
+    zipped_many_nested_params(nested_key.to_s).map do |a, b|
+      (a || {} of String => String).merge(b || {} of String => String)
+    end
+  end
+
   # Converts the params in to a `Hash(String, String)`
   #
   # ```crystal
@@ -212,6 +255,68 @@ class Lucky::Params
 
       nested_params
     end
+  end
+
+  private def zipped_many_nested_params(nested_key : String)
+    body_params = many_nested_body_params(nested_key)
+    query_params = many_nested_query_params(nested_key)
+
+    if body_params.size > query_params.size
+      body_params.zip?(query_params)
+    else
+      query_params.zip?(body_params)
+    end
+  end
+
+  private def many_nested_body_params(nested_key : String) : Array(Hash(String, String))
+    if json?
+      many_nested_json_params(nested_key.to_s)
+    else
+      many_nested_form_params(nested_key.to_s)
+    end
+  end
+
+  private def many_nested_json_params(nested_key : String) : Array(Hash(String, String))
+    many_nested_params = [] of Hash(String, String)
+    nested_key_json = parsed_json.as_h[nested_key]? || JSON.parse("[]")
+
+    nested_key_json.as_a.each do |nested_values|
+      nested_params = {} of String => String
+      nested_values.as_h.each do |key, value|
+        nested_params[key.to_s] = value.to_s
+      end
+
+      many_nested_params << nested_params
+    end
+
+    many_nested_params
+  end
+
+  private def many_nested_form_params(nested_key : String) : Array(Hash(String, String))
+    source = multipart? ? multipart_params : form_params
+    many_nested_hash_params(source.to_h, nested_key)
+  end
+
+  private def many_nested_query_params(nested_key : String) : Array(Hash(String, String))
+    many_nested_hash_params(query_params.to_h, nested_key)
+  end
+
+  private def many_nested_hash_params(hash : Hash(String, String), nested_key : String) : Array(Hash(String, String))
+    nested_key = "#{nested_key}["
+    matcher = /^#{Regex.escape(nested_key)}(?<index>\d+)\]:(?<nested_key>.+)$/
+    many_nested_params = Hash(String, Hash(String, String)).new do |h, k|
+      h[k] ||= {} of String => String
+    end
+
+    hash.each do |key, value|
+      if key.starts_with? nested_key
+        key.match(matcher).try do |match|
+          many_nested_params[match["index"]][match["nested_key"]] = value
+        end
+      end
+    end
+
+    many_nested_params.values
   end
 
   private def body_param(key : String)
