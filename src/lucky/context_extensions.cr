@@ -1,24 +1,24 @@
-require "./session/**"
-
 class HTTP::Server::Context
   DEBUG_COLOR = :green
-  setter session : Lucky::Session::AbstractStore?
-  setter cookies : Lucky::Cookies::Store?
-  setter flash : Lucky::Flash::Store?
-
   getter debug_messages : Array(String) = [] of String
   property? hide_from_logs : Bool = false
 
+  @_cookies : Lucky::CookieJar?
+
   def cookies
-    @cookies ||= Lucky::Cookies::Store.build(request, Lucky::Server.settings.secret_key_base)
+    @_cookies ||= Lucky::CookieJar.from_request_cookies(request.cookies)
   end
+
+  @_session : Lucky::Session?
 
   def session
-    @session ||= Lucky::Session::Store.new(cookies).build
+    @_session ||= Lucky::Session.from_cookie_jar(cookies)
   end
 
+  @_flash : Lucky::FlashStore?
+
   def flash
-    @flash ||= Lucky::Flash.from_session(session)
+    @_flash ||= Lucky::FlashStore.from_session(session)
   end
 
   def add_debug_message(message : String)

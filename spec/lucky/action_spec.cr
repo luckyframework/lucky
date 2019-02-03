@@ -150,6 +150,20 @@ describe Lucky::Action do
     end
   end
 
+  describe ".url_without_query_params" do
+    it "returns url without declared non-nil query params" do
+      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+        RequiredParams::Index.url_without_query_params.should eq "example.com/required_params"
+      end
+    end
+
+    it "returns url with (required) path params" do
+      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+        Tests::Edit.url_without_query_params(1).should eq "example.com/tests/1/edit"
+      end
+    end
+  end
+
   describe "routing" do
     it "creates URL helpers for the resourceful actions" do
       Tests::Index.path.should eq "/tests"

@@ -5,9 +5,9 @@ class Lucky::ErrorHandler
     setting show_debug_output : Bool
   end
 
-  private getter action
+  private getter action, error_io
 
-  def initialize(@action : Lucky::ErrorAction.class)
+  def initialize(@action : Lucky::ErrorAction.class, @error_io : IO = STDERR)
   end
 
   def call(context : HTTP::Server::Context)
@@ -21,16 +21,30 @@ class Lucky::ErrorHandler
   end
 
   private def print_debug_output(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
+    error.inspect_with_backtrace(error_io)
+    render_exception_page(context, error)
+    context
+  end
+
+  private def render_exception_page(context, error)
     context.response.reset
     context.response.status_code = 500
     context.response.content_type = "text/html"
     context.response.print Lucky::ExceptionPage.for_runtime_exception(context, error)
-    context
   end
 
   private def call_error_action(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
-    context.response.status_code = 500
+    status_code = status_code_by_error(error)
+    context.response.status_code = status_code
     action.new(context).perform_action(error)
     context
+  end
+
+  private def status_code_by_error(error : Lucky::HttpRespondable)
+    error.http_error_code
+  end
+
+  private def status_code_by_error(error : Exception)
+    Lucky::Action::Status::InternalServerError.value
   end
 end

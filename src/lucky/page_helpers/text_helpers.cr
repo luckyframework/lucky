@@ -93,7 +93,7 @@ module Lucky::TextHelpers
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
              singular
            else
-             plural || LuckyInflector::Inflector.pluralize(singular)
+             plural || Wordsmith::Inflector.pluralize(singular)
            end
 
     raw "#{count || 0} #{word}"

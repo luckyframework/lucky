@@ -3,7 +3,8 @@ class <%= pluralized_resource %>::IndexPage < MainLayout
   quick_def page_title, "All"
 
   def content
-    h1 "All"
+    h1 "All <%= pluralized_resource %>"
+    link "New <%= resource %>", to: <%= pluralized_resource %>::New
     render_<%= pluralized_resource.underscore %>
   end
 

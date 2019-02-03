@@ -59,39 +59,17 @@ module Lucky::InputHelpers
 
   generate_helpful_error_for checkbox
 
-  def text_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "text", html_options)
-  end
+  {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
+    generate_helpful_error_for {{input_type.id}}_input
 
-  generate_helpful_error_for email_input
+    def {{input_type.id}}_input(field : LuckyRecord::FillableField, **html_options)
+      generate_input(field, {{input_type}}, html_options)
+    end
 
-  def email_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "email", html_options)
-  end
-
-  generate_helpful_error_for file_input
-
-  def file_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "file", html_options)
-  end
-
-  generate_helpful_error_for color_input
-
-  def color_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "color", html_options)
-  end
-
-  generate_helpful_error_for hidden_input
-
-  def hidden_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "hidden", html_options)
-  end
-
-  generate_helpful_error_for number_input
-
-  def number_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "number", html_options)
-  end
+    def {{input_type.id}}_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
+      generate_input(field, {{input_type}}, html_options, attrs: attrs)
+    end
+  {% end %}
 
   generate_helpful_error_for telephone_input
 
@@ -99,16 +77,8 @@ module Lucky::InputHelpers
     generate_input(field, "tel", html_options)
   end
 
-  generate_helpful_error_for url_input
-
-  def url_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "url", html_options)
-  end
-
-  generate_helpful_error_for search_input
-
-  def search_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "search", html_options)
+  def telephone_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
+    generate_input(field, "tel", html_options, attrs: attrs)
   end
 
   generate_helpful_error_for password_input
@@ -117,23 +87,22 @@ module Lucky::InputHelpers
     generate_input(field, "password", html_options, {"value" => ""})
   end
 
-  generate_helpful_error_for range_input
-
-  def range_input(field : LuckyRecord::FillableField, **html_options)
-    generate_input(field, "range", html_options)
+  def password_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
+    generate_input(field, "password", html_options, {"value" => ""}, attrs)
   end
 
   private def generate_input(field,
                              type,
                              html_options,
-                             input_overrides = {} of String => String)
+                             input_overrides = {} of String => String,
+                             attrs : Array(Symbol) = [] of Symbol)
     input_options = {
       "type"  => type,
       "id"    => input_id(field),
       "name"  => input_name(field),
       "value" => field.param.to_s,
     }.merge(input_overrides)
-    input merge_options(html_options, input_options)
+    input attrs, merge_options(html_options, input_options)
   end
 
   private def input_name(field)

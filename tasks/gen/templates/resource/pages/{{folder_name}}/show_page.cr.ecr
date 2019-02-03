@@ -4,6 +4,7 @@ class <%= pluralized_resource %>::ShowPage < MainLayout
 
   def content
     h1 @<%= underscored_resource %>.<%= columns.first.name %>
+    link "All <%= pluralized_resource %>", <%= pluralized_resource %>::Index
     render_actions
     render_<%= underscored_resource %>_fields
   end
@@ -23,7 +24,7 @@ class <%= pluralized_resource %>::ShowPage < MainLayout
       <%- columns.each do |column| -%>
       li do
         text "<%= column.name %>: "
-        strong @<%= underscored_resource %>.<%= column.name %>
+        strong @<%= underscored_resource %>.<%= column.name %>.to_s
       end
       <%- end -%>
     end

@@ -1,4 +1,5 @@
-require "../../spec_helper"
+require "../spec_helper"
+include ContextHelper
 
 private class TestPage
   include Lucky::HTMLPage
@@ -23,6 +24,8 @@ describe Lucky::CustomTags do
       .to_s.should contain "<foo-tag></foo-tag>"
     view.tag("foo-tag", class: "my-class")
       .to_s.should contain %(<foo-tag class="my-class"></foo-tag>)
+    view.tag("foo-tag", attrs: [:ng_strict_di], ng_app: "ngAppStrictDemo")
+      .to_s.should contain %(<foo-tag ng-app="ngAppStrictDemo" ng-strict-di></foo-tag>)
 
     view.tap do |page|
       page.tag("foo-tag") do
@@ -35,6 +38,10 @@ describe Lucky::CustomTags do
         page.text "content"
       end.to_s.should contain %(<foo-tag class="my-class">content</foo-tag>)
     end
+  end
+
+  it "has a method for empty tags" do
+    view.empty_tag("br").to_s.should eq "<br>"
   end
 end
 

@@ -6,7 +6,7 @@ class <%= pluralized_resource %>::Update < BrowserAction
         flash.success = "The record has been updated"
         redirect Show.with(<%= underscored_resource %>.id)
       else
-        flash.danger = "It looks like the form is not valid"
+        flash.failure = "It looks like the form is not valid"
         render EditPage, form: form, <%= underscored_resource %>: <%= underscored_resource %>
       end
     end

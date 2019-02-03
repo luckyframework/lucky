@@ -76,7 +76,7 @@ describe Lucky::FormHelpers do
 
   it "protects the form with a CSRF token" do
     context_with_csrf = build_context
-    context_with_csrf.session[Lucky::ProtectFromForgery::SESSION_KEY] = "my_token"
+    context_with_csrf.session.set(Lucky::ProtectFromForgery::SESSION_KEY, "my_token")
 
     form = view(context_with_csrf).form_for(FormHelpers::Index) { }
 

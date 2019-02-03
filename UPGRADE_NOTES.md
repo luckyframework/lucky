@@ -1,3 +1,86 @@
+### Upgrading from 0.12 to the beta version on master
+
+- Add `Lucky::AssetHelpers.load_manifest` below `require "dependencies"` in `src/app.cr` for browser apps. Skip for API only apps.
+
+- `Query#preload` with a query now includes the association name -> [`Query#preload_{{ assoc_name }}`](https://github.com/luckyframework/lucky_record/pull/307)
+
+- Remove `unexpose` and `unexpose_if_exposed` from your actions. Pages now ignore unused exposures.
+
+### Upgrading from 0.11 to 0.12
+
+- Upgrade Lucky CLI (macOS)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.27
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/installing/#install-lucky
+
+> Use your package manager to update Crystal to v0.27
+
+- In `db/migrations`, change `LuckyMigrator::Migration` -> `LuckyRecord::Migrator::Migration` for every migration
+
+- Remove `lucky_migrator` from `shard.yml`
+
+- Remove `lucky_migrator` from `src/dependencies`
+
+- Remove the `LuckyMigrator.configure` block from `config/database.cr`
+
+- Configuration now requires passing an argument. Find and replace `.configure do` with `.configure do |settings|` in all files in `config`
+
+- Update `config/session.cr`
+
+  - Change `Lucky::Session::Store.configure` to `Lucky::Session.configure do |settings|`
+
+  - Change your session key because signing/encryption has changed. For example: add `_0_12_0` to the end of the key.
+
+  - Remove `settings.secret = Lucky::Server.settings.secret_key_base`
+
+- If using `cookies[]` anywhere in your app, change the key you use. Lucky now signs and encrypts all cookies. Old cookies will not decrypt properly.
+
+- Change `session[]=` and `cookies[]=` to `session|cookies.set|get`
+
+- Change `session|cookies.destroy` to `session/cookies.clear`
+
+- `cookies.unset(:key)` and `delete.unset(:key)` should be `cookies|session.delete(:key)`
+
+- Remove `unexpose current_user` from `src/actions/home/index.cr`
+
+- `Query#count` has been renamed to `Query#select_count`. For example: `UserQuery.new.count` is now `UserQuery.new.select_count`
+
+- Change `flash.danger` to `flash.failure` in your actions.
+
+- Update `Lucky::Flash::Handler` to `Lucky::FlashHandler` in `src/app.cr`
+
+- Update usages of `Lucky::Response` to `Lucky::TextResponse`
+
+- Update usages of `LuckyInflector::Inflector` to `Wordsmith::Inflector`
+
+- Remove `config/session.cr` and copy [`config/cookies.cr`](https://github.com/luckyframework/lucky_cli/blob/baaeeb0b8c7a410625320af394437f8665442664/src/web_app_skeleton/config/cookies.cr.ecr)
+
+- Replace `config/email.cr` with [this one](https://github.com/luckyframework/lucky_cli/blob/baaeeb0b8c7a410625320af394437f8665442664/src/web_app_skeleton/config/email.cr).
+
+- Add this line to `spec_helper.cr` (around line 19) -> `LuckyRecord::Migrator::Runner.new.ensure_migrated!`
+
+- In `config/server.cr`, copy the new block starting at [`line 15`](https://github.com/luckyframework/lucky_cli/blob/baaeeb0b8c7a410625320af394437f8665442664/src/web_app_skeleton/config/server.cr.ecr#L15-L23).
+
+- Update shard versions in `shard.yml`:
+
+  - Lucky `~> 0.12`
+  - LuckyRecord `~> 0.7`
+  - Authentic `~> 0.2`
+  - LuckyFlow `~> 0.3`
+
+- Change `.crystal-version` to `0.27.0`
+
+- Run `shards update` to install the new shards
+
 ### Upgrading from 0.10 to 0.11
 
 - Upgrade Lucky CLI (macOS)

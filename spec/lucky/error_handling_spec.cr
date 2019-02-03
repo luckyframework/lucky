@@ -8,6 +8,17 @@ end
 private class UnhandledError < Exception
 end
 
+private class ShortAndStoutError < Exception
+  include Lucky::HttpRespondable
+
+  def http_error_code
+    418
+  end
+end
+
+private class InvalidParam < Lucky::Exceptions::InvalidParam
+end
+
 private class FakeErrorAction < Lucky::ErrorAction
   def handle_error(error : FakeError)
     head status: 404
@@ -46,24 +57,31 @@ describe Lucky::ErrorHandler do
     context.response.status_code.should eq(500)
   end
 
+  it "returns the defined status code if the raised exception defines one" do
+    error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
+    error_handler.next = ->(_ctx : HTTP::Server::Context) {
+      raise ShortAndStoutError.new("I'm a little teapot")
+    }
+
+    context = error_handler.call(build_context).as(HTTP::Server::Context)
+
+    context.response.headers["Content-Type"].should eq("text/plain")
+    context.response.status_code.should eq(418)
+  end
+
   context "when configured to show debug output" do
     it "prints debug output instead of calling the error action" do
-      begin
-        Lucky::ErrorHandler.configure do |settings|
-          settings.show_debug_output = true
-        end
-
-        error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
+      Lucky::ErrorHandler.temp_config(show_debug_output: true) do
+        fake_io = IO::Memory.new
+        error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction, error_io: fake_io)
         error_handler.next = ->(_ctx : HTTP::Server::Context) { raise UnhandledError.new }
 
         context = error_handler.call(build_context).as(HTTP::Server::Context)
 
         context.response.headers["Content-Type"].should eq("text/html")
         context.response.status_code.should eq(500)
-      ensure
-        Lucky::ErrorHandler.configure do |settings|
-          settings.show_debug_output = false
-        end
+        fake_io.to_s.should contain("UnhandledError")
+        fake_io.to_s.should contain("from spec/lucky/error_handling_spec.cr")
       end
     end
   end

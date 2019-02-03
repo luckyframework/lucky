@@ -1,9 +1,17 @@
 module Lucky::AssetHelpers
   ASSET_MANIFEST = {} of String => String
+  CONFIG         = {has_loaded_manifest: false}
 
-  {{ run "../run_macros/generate_asset_helpers" }}
+  macro load_manifest
+    {{ run "../run_macros/generate_asset_helpers" }}
+    {% CONFIG[:has_loaded_manifest] = true %}
+  end
 
   macro asset(path)
+    {% unless CONFIG[:has_loaded_manifest] %}
+      {% raise "No manifest loaded. Call 'Lucky::AssetHelpers.load_manifest'" %}
+    {% end %}
+
     {% if path.is_a?(StringLiteral) %}
       {% if Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
         {{ Lucky::AssetHelpers::ASSET_MANIFEST[path] }}

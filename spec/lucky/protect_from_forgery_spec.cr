@@ -14,12 +14,12 @@ describe Lucky::ProtectFromForgery do
 
     ProtectedAction::Index.new(context, params).call
 
-    (context.session["X-CSRF-TOKEN"].not_nil!.size > 30).should be_true
+    (context.session.get("X-CSRF-TOKEN").size > 30).should be_true
   end
 
   it "continues if the token in the parameter is correct" do
     context = build_context(method: "POST")
-    context.session["X-CSRF-TOKEN"] = "my_token"
+    context.session.set("X-CSRF-TOKEN", "my_token")
     params = {"_csrf" => "my_token"}
 
     response = ProtectedAction::Index.new(context, params).call
@@ -30,7 +30,7 @@ describe Lucky::ProtectFromForgery do
 
   it "continues if the token in the header is correct" do
     context = build_context(method: "POST")
-    context.session["X-CSRF-TOKEN"] = "my_token"
+    context.session.set("X-CSRF-TOKEN", "my_token")
     context.request.headers["X-CSRF-TOKEN"] = "my_token"
 
     response = ProtectedAction::Index.new(context, params).call
@@ -41,7 +41,7 @@ describe Lucky::ProtectFromForgery do
 
   it "halts with 403 if the header token is incorrect" do
     context = build_context(method: "POST")
-    context.session["X-CSRF-TOKEN"] = "my_token"
+    context.session.set("X-CSRF-TOKEN", "my_token")
     context.request.headers["X-CSRF-TOKEN"] = "incorrect"
 
     response = ProtectedAction::Index.new(context, params).call
@@ -52,7 +52,7 @@ describe Lucky::ProtectFromForgery do
 
   it "halts with 403 if the param token is incorrect" do
     context = build_context(method: "POST")
-    context.session["X-CSRF-TOKEN"] = "my_token"
+    context.session.set("X-CSRF-TOKEN", "my_token")
     params = {"_csrf" => "incorrect"}
 
     response = ProtectedAction::Index.new(context, params).call
@@ -63,7 +63,7 @@ describe Lucky::ProtectFromForgery do
 
   it "halts with 403 if there is no token" do
     context = build_context(method: "POST")
-    context.session["X-CSRF-TOKEN"] = "my_token"
+    context.session.set("X-CSRF-TOKEN", "my_token")
 
     response = ProtectedAction::Index.new(context, params).call
 

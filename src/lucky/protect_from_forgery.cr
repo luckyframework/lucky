@@ -9,7 +9,7 @@ module Lucky::ProtectFromForgery
 
   # :nodoc:
   def self.get_token(context : HTTP::Server::Context) : String
-    context.session[SESSION_KEY].to_s
+    context.session.get(SESSION_KEY)
   end
 
   private def protect_from_forgery
@@ -22,7 +22,8 @@ module Lucky::ProtectFromForgery
   end
 
   private def set_session_csrf_token
-    session[SESSION_KEY] ||= Random::Secure.urlsafe_base64(32)
+    session.get?(SESSION_KEY) ||
+      session.set(SESSION_KEY, Random::Secure.urlsafe_base64(32))
   end
 
   private def request_does_not_require_protection?
@@ -34,7 +35,7 @@ module Lucky::ProtectFromForgery
   end
 
   private def session_token : String
-    session[SESSION_KEY].to_s
+    session.get(SESSION_KEY)
   end
 
   private def user_provided_token : String?

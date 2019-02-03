@@ -3,17 +3,18 @@ require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
 
+Lucky::AssetHelpers.load_manifest
+
 Spec.before_each do
   ARGV.clear
 end
 
-Lucky::Session::Store.configure do |settings|
-  settings.key = "test_app"
-  settings.secret = "super-secret"
+Lucky::Session.configure do |settings|
+  settings.key = "_app_session"
 end
 
 Lucky::Server.configure do |settings|
-  settings.secret_key_base = "super-secret"
+  settings.secret_key_base = Random::Secure.base64(32)
   settings.host = "0.0.0.0"
   settings.port = 8080
 end

@@ -48,6 +48,7 @@ module Lucky::HTMLBuilder
           {% has_default = declaration.value || declaration.value == nil %}
           {% if var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ declaration.value }}{% end %},
         {% end %}
+        **unused_exposures
         )
       end
     {% end %}
