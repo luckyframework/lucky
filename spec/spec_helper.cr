@@ -23,7 +23,7 @@ Lucky::RouteHelper.configure do |settings|
   settings.base_uri = "luckyframework.org"
 end
 
-LuckyRecord::Repo.configure do |settings|
+Avram::Repo.configure do |settings|
   settings.url = "Not used yet"
 end
 

@@ -24,7 +24,7 @@ end
 
 class SomeFormWithCompany
   def company_id
-    LuckyRecord::Field(String).new(
+    Avram::Field(String).new(
       name: :company_id,
       param: "1",
       value: "",

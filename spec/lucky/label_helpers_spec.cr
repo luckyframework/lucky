@@ -8,7 +8,7 @@ end
 
 class TestForm
   def first_name
-    LuckyRecord::Field(String).new(
+    Avram::Field(String).new(
       name: :first_name,
       param: "",
       value: "",

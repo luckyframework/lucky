@@ -1,5 +1,5 @@
 require "wordsmith"
-require "lucky_record"
+require "avram"
 require "exception_page"
 require "habitat"
 require "cry"
