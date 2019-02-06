@@ -10,3 +10,5 @@
 
 - `unexpose` and `unexpose_if_exposed` have been removed because they are no
 longer necessary now that pages ignore unused exposures.
+
+- `is` in queries has been renamed to `eq`. For example: `UserQuery.new.name.not.is("Emily")` should now be `UserQuery.new.name.not.eq("Emily")`. If passing in something that could be `Nil`, one must use `nilable_eq` instead. [avram#46](https://github.com/luckyframework/avram/pull/46)
