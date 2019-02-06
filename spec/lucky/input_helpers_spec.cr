@@ -10,7 +10,7 @@ end
 
 class InputTestForm
   def first_name
-    LuckyRecord::Field(String).new(
+    Avram::Field(String).new(
       name: :first_name,
       param: "My name",
       value: "",
@@ -19,7 +19,7 @@ class InputTestForm
   end
 
   def eula(value : String)
-    LuckyRecord::Field(String?).new(
+    Avram::Field(String?).new(
       name: :eula,
       param: nil,
       value: value,
@@ -28,7 +28,7 @@ class InputTestForm
   end
 
   def admin(checked : Bool)
-    LuckyRecord::Field(Bool?).new(
+    Avram::Field(Bool?).new(
       name: :admin,
       param: nil,
       value: checked,

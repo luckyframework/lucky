@@ -1,6 +1,6 @@
 require "lucky_cli"
 require "teeplate"
-require "lucky_record"
+require "avram"
 require "./templates/model_template"
 require "wordsmith"
 
@@ -19,7 +19,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   def create_migration
-    LuckyRecord::Migrator::MigrationGenerator.new("Create#{pluralized_model_name}").generate
+    Avram::Migrator::MigrationGenerator.new("Create#{pluralized_model_name}").generate
   end
 
   private def pluralized_model_name

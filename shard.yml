@@ -38,8 +38,8 @@ dependencies:
   wordsmith:
     github: luckyframework/wordsmith
     version: ~> 0.2
-  lucky_record:
-    github: luckyframework/lucky_record
+  avram:
+    github: luckyframework/avram
     branch: master
   lucky_router:
     github: luckyframework/lucky_router

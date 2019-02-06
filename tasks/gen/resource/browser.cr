@@ -1,7 +1,7 @@
 require "lucky_cli"
 require "teeplate"
 require "wordsmith"
-require "lucky_record"
+require "avram"
 
 class Gen::Resource::Browser < LuckyCli::Task
   summary "Generate a resource (model, form, query, actions, and pages)"
@@ -31,7 +31,7 @@ class Gen::Resource::Browser < LuckyCli::Task
 
   private def generate_resource
     Lucky::ResourceTemplate.new(resource_name, columns).render("./src/")
-    LuckyRecord::Migrator::MigrationGenerator.new(
+    Avram::Migrator::MigrationGenerator.new(
       "Create" + pluralized_resource,
       migrate_contents: migrate_contents,
       rollback_contents: rollback_contents

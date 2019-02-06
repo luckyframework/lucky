@@ -17,7 +17,7 @@ module Lucky::InputHelpers
   end
 
   macro generate_helpful_error_for(input_method_name)
-    def {{ input_method_name.id }}(field : LuckyRecord::Field, **options)
+    def {{ input_method_name.id }}(field : Avram::Field, **options)
       Lucky::InputHelpers.error_message_for_unallowed_field
     end
   end
@@ -28,14 +28,14 @@ module Lucky::InputHelpers
 
   generate_helpful_error_for textarea
 
-  def textarea(field : LuckyRecord::FillableField, **html_options)
+  def textarea(field : Avram::FillableField, **html_options)
     textarea field.param.to_s, merge_options(html_options, {
       "id"   => input_id(field),
       "name" => input_name(field),
     })
   end
 
-  def checkbox(field : LuckyRecord::FillableField(T),
+  def checkbox(field : Avram::FillableField(T),
                unchecked_value : String,
                checked_value : String,
                **html_options) forall T
@@ -47,7 +47,7 @@ module Lucky::InputHelpers
     generate_input(field, "checkbox", html_options)
   end
 
-  def checkbox(field : LuckyRecord::FillableField(Bool?), **html_options)
+  def checkbox(field : Avram::FillableField(Bool?), **html_options)
     unchecked_value = "false"
     if field.value
       html_options = merge_options(html_options, {"checked" => "true"})
@@ -62,32 +62,32 @@ module Lucky::InputHelpers
   {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
     generate_helpful_error_for {{input_type.id}}_input
 
-    def {{input_type.id}}_input(field : LuckyRecord::FillableField, **html_options)
+    def {{input_type.id}}_input(field : Avram::FillableField, **html_options)
       generate_input(field, {{input_type}}, html_options)
     end
 
-    def {{input_type.id}}_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
+    def {{input_type.id}}_input(field : Avram::FillableField, attrs : Array(Symbol), **html_options)
       generate_input(field, {{input_type}}, html_options, attrs: attrs)
     end
   {% end %}
 
   generate_helpful_error_for telephone_input
 
-  def telephone_input(field : LuckyRecord::FillableField, **html_options)
+  def telephone_input(field : Avram::FillableField, **html_options)
     generate_input(field, "tel", html_options)
   end
 
-  def telephone_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
+  def telephone_input(field : Avram::FillableField, attrs : Array(Symbol), **html_options)
     generate_input(field, "tel", html_options, attrs: attrs)
   end
 
   generate_helpful_error_for password_input
 
-  def password_input(field : LuckyRecord::FillableField, **html_options)
+  def password_input(field : Avram::FillableField, **html_options)
     generate_input(field, "password", html_options, {"value" => ""})
   end
 
-  def password_input(field : LuckyRecord::FillableField, attrs : Array(Symbol), **html_options)
+  def password_input(field : Avram::FillableField, attrs : Array(Symbol), **html_options)
     generate_input(field, "password", html_options, {"value" => ""}, attrs)
   end
 
