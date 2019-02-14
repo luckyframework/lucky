@@ -1,14 +1,9 @@
-language: crystal
-crystal:
-  - latest
-  - nightly
+language: minimal
+services:
+  - docker
 install:
-  - shards install
-matrix:
-  allow_failures:
-    - crystal: nightly
+  - scripts/setup
 script:
-  - crystal spec
-  - crystal tool format spec src --check
-  - shards build
-  - bin/ameba
+  - scripts/test
+notifications:
+  email: false
