@@ -1,4 +1,4 @@
-### In master but no released (since v0.12)
+### In master but not released (since v0.12)
 
 - `App` in `src/app.cr` should now inherit from `Lucky::BaseApp`. See https://github.com/luckyframework/lucky_cli/pull/287/files for an example.
 
