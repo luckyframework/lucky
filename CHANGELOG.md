@@ -1,5 +1,7 @@
 ### In master but not released (since v0.12)
 
+- Move scripts from `bin` to `scripts`. Ignore all of `bin` directory in `.gitignore`. See https://github.com/luckyframework/lucky_cli/pull/288
+
 - `App` in `src/app.cr` should now inherit from `Lucky::BaseApp`. See https://github.com/luckyframework/lucky_cli/pull/287/files for an example.
 
 - Prefix id params with the resource name [#659](https://github.com/luckyframework/lucky/issues/659)
