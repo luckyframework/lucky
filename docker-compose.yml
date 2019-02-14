@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SHARDS_CACHE_PATH: /data/.shards
+    volumes:
+      - .:/data
+    command: sleep infinity
