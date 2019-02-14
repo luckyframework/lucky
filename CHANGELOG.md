@@ -1,5 +1,7 @@
 ### In master but no released (since v0.12)
 
+- `App` in `src/app.cr` should now inherit from `Lucky::BaseApp`. See https://github.com/luckyframework/lucky_cli/pull/287/files for an example.
+
 - Prefix id params with the resource name [#659](https://github.com/luckyframework/lucky/issues/659)
 
 - Added Action#url_without_query_params [#662](https://github.com/luckyframework/lucky/pull/662)
