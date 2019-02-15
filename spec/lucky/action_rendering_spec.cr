@@ -19,6 +19,12 @@ class Rendering::Index < Lucky::Action
   end
 end
 
+class Namespaced::Rendering::Index < Lucky::Action
+  route do
+    render ::Rendering::IndexPage, title: "Anything", arg2: "testing multiple args"
+  end
+end
+
 class Rendering::JSON::Index < Lucky::Action
   route do
     json({name: "Paul"})
@@ -110,6 +116,12 @@ describe Lucky::Action do
       response.body.should contain "Anything"
       response.debug_message.to_s.should contain "Rendering::IndexPage"
     end
+  end
+
+  # See issue https://github.com/luckyframework/lucky/issues/678
+  it "renders page classes when prefixed with ::" do
+    response = Namespaced::Rendering::Index.new(build_context, params).call
+    response.body.should contain "Anything"
   end
 
   it "renders JSON" do
