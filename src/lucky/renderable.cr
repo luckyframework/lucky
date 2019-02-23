@@ -89,7 +89,7 @@ module Lucky::Renderable
   end
 
   private def log_message(view)
-    "Rendered #{view.class.colorize(HTTP::Server::Context::DEBUG_COLOR)}"
+    "Rendered #{view.class.colorize.bold}"
   end
 
   # :nodoc:
@@ -105,7 +105,7 @@ module Lucky::Renderable
 
   private def log_response(response : Lucky::Response)
     response.debug_message.try do |message|
-      context.add_debug_message(message)
+      Lucky.logger.debug(message)
     end
   end
 

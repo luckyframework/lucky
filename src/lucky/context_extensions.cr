@@ -1,6 +1,4 @@
 class HTTP::Server::Context
-  DEBUG_COLOR = :green
-  getter debug_messages : Array(String) = [] of String
   property? hide_from_logs : Bool = false
 
   @_cookies : Lucky::CookieJar?
@@ -19,11 +17,5 @@ class HTTP::Server::Context
 
   def flash
     @_flash ||= Lucky::FlashStore.from_session(session)
-  end
-
-  def add_debug_message(message : String)
-    {% if !flag?(:release) %}
-      debug_messages << message
-    {% end %}
   end
 end

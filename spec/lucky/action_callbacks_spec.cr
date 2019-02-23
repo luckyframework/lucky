@@ -142,42 +142,48 @@ describe Lucky::Action do
 
   describe "handles before callbacks" do
     it "runs through all the callbacks if no Lucky::Response is returned" do
-      response = Callbacks::Index.new(build_context, params).call
+      with_log do |log_io|
+        response = Callbacks::Index.new(build_context, params).call
 
-      response.body.should eq "not_from_callback"
-      debug_messages = response.context.debug_messages
-      debug_messages[0].should contain("before")
-      debug_messages[1].should contain("second_before")
-      debug_messages[2].should contain("after")
-      debug_messages[2].should contain("moverwrite_after_cookie")
-      response.context.cookies.get("before").should eq "before"
-      response.context.cookies.get("second_before").should eq "second_before"
-      response.context.cookies.get("after").should eq "after"
-      response.context.cookies.get("second_after").should eq "second_after"
+        log = log_io.to_s
+        response.body.should eq "not_from_callback"
+        log.should contain("before")
+        log.should contain("second_before")
+        log.should contain("after")
+        log.should contain("moverwrite_after_cookie")
+        response.context.cookies.get("before").should eq "before"
+        response.context.cookies.get("second_before").should eq "second_before"
+        response.context.cookies.get("after").should eq "after"
+        response.context.cookies.get("second_after").should eq "second_after"
+      end
     end
 
     it "halts before callbacks if a Lucky::Response is returned" do
-      response = Callbacks::HaltedBefore.new(build_context, params).call
+      with_log do |log_io|
+        response = Callbacks::HaltedBefore.new(build_context, params).call
 
-      response.body.should eq ""
-      response.context.response.status_code.should eq 302
-      response.context.response.headers["Location"].should eq "/redirected_in_before"
-      debug_message = response.context.debug_messages.last
-      debug_message.should contain("Stopped")
-      debug_message.should contain("redirect_me")
-      response.context.cookies.get?("before").should be_nil
+        log = log_io.to_s
+        response.body.should eq ""
+        response.context.response.status_code.should eq 302
+        response.context.response.headers["Location"].should eq "/redirected_in_before"
+        log.should contain("Stopped by")
+        log.should contain("redirect_me")
+        response.context.cookies.get?("before").should be_nil
+      end
     end
 
     it "halts after callbacks if a Lucky::Response is returned" do
-      response = Callbacks::HaltedAfter.new(build_context, params).call
+      with_log do |log_io|
+        response = Callbacks::HaltedAfter.new(build_context, params).call
 
-      response.body.should eq ""
-      response.context.response.status_code.should eq 302
-      response.context.response.headers["Location"].should eq "/redirected_in_after"
-      response.context.cookies.get?("after").should be_nil
-      debug_message = response.context.debug_messages.last
-      debug_message.should contain("Stopped")
-      debug_message.should contain("redirect_me")
+        log = log_io.to_s
+        response.body.should eq ""
+        response.context.response.status_code.should eq 302
+        response.context.response.headers["Location"].should eq "/redirected_in_after"
+        response.context.cookies.get?("after").should be_nil
+        log.should contain("Stopped by")
+        log.should contain("redirect_me")
+      end
     end
 
     it "renders the callbacks in the order they were defined" do
@@ -190,5 +196,14 @@ describe Lucky::Action do
       action.callback_data[2].should eq("red")
       action.callback_data[3].should eq("yellow")
     end
+  end
+end
+
+private def with_log
+  log_io = IO::Memory.new
+  logger = Lucky::Logger.new(log_io, level: Logger::Severity::DEBUG)
+
+  Lucky.temp_config(logger: logger) do
+    yield log_io
   end
 end
