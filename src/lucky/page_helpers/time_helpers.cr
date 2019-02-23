@@ -18,7 +18,7 @@ module Lucky::TimeHelpers
   private def distance_in_days(distance : Int)
     case distance
     when 1...27   then distance == 1 ? "a day" : "#{distance} days"
-    when 28...60  then "about a month"
+    when 27...60  then "about a month"
     when 60...365 then "#{(distance / 30).round} months"
     when 365...730
       "about a year"

@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ContextHelper
+
 private class TestPage
   include Lucky::HTMLPage
   include Lucky::TimeHelpers
