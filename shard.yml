@@ -53,6 +53,9 @@ dependencies:
   exception_page:
     github: crystal-loot/exception_page
     version: ~> 0.1.0
+  dexter:
+    github: luckyframework/dexter
+    version: ~> 0.1
 
 development_dependencies:
   ameba:

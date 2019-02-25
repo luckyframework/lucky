@@ -11,7 +11,7 @@ Spec.before_each do
 end
 
 Lucky.configure do |settings|
-  settings.logger = Lucky::Logger.new(nil)
+  settings.logger = Dexter::Logger.new(nil)
 end
 
 Lucky::Session.configure do |settings|

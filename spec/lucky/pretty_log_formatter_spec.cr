@@ -56,11 +56,10 @@ describe Lucky::PrettyLogFormatter do
 end
 
 private def format(io, data : NamedTuple, severity = Logger::Severity::INFO)
-  Lucky::PrettyLogFormatter.new.format(
+  Lucky::PrettyLogFormatter.new(
     severity: severity,
     timestamp: Time.now,
     progname: "",
-    data: data,
     io: io
-  )
+  ).format(data)
 end
