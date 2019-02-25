@@ -1,4 +1,4 @@
-FROM crystallang/crystal:0.27.0
+FROM crystallang/crystal:0.27.2
 
 RUN apt-get update && \
   apt-get install -y libgconf-2-4 build-essential curl libreadline-dev libevent-dev libssl-dev libxml2-dev libyaml-dev libgmp-dev git  && \

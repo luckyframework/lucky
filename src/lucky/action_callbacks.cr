@@ -165,8 +165,7 @@ module Lucky::ActionCallbacks
     context : HTTP::Server::Context,
     callback_method_name : String
   ) : Void
-    callback_method_with_color = callback_method_name.colorize(HTTP::Server::Context::DEBUG_COLOR)
-    context.add_debug_message("Stopped at #{callback_method_with_color}")
+    Lucky.logger.warn({stopped_by: callback_method_name})
   end
 
   # :nodoc:
@@ -174,8 +173,7 @@ module Lucky::ActionCallbacks
     context : HTTP::Server::Context,
     callback_method_name : String
   ) : Void
-    callback_method_with_color = callback_method_name.colorize(HTTP::Server::Context::DEBUG_COLOR)
-    context.add_debug_message("Ran #{callback_method_with_color}")
+    Lucky.logger.debug({ran: callback_method_name})
   end
 
   # :nodoc:

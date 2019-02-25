@@ -1,4 +1,5 @@
 require "spec"
+require "mocks/spec"
 require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
@@ -7,6 +8,10 @@ Lucky::AssetHelpers.load_manifest
 
 Spec.before_each do
   ARGV.clear
+end
+
+Lucky.configure do |settings|
+  settings.logger = Lucky::Logger.new(nil)
 end
 
 Lucky::Session.configure do |settings|
@@ -32,7 +37,7 @@ Lucky::ErrorHandler.configure do |settings|
 end
 
 Lucky::LogHandler.configure do |settings|
-  settings.show_timestamps = false
+  settings.logger = Lucky.logger
 end
 
 Lucky::StaticFileHandler.configure do |settings|

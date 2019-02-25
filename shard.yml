@@ -34,7 +34,7 @@ dependencies:
     branch: master
   habitat:
     github: luckyframework/habitat
-    version: ~> 0.4.0
+    version: ~> 0.4
   wordsmith:
     github: luckyframework/wordsmith
     version: ~> 0.2
@@ -57,6 +57,9 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
+  mocks:
+    github: waterlink/mocks.cr
+    version: ~> 0.9
 
 scripts:
   postinstall: shards build

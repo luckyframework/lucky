@@ -14,3 +14,13 @@ require "./lucky/exceptions"
 require "./lucky/response"
 require "./lucky/cookies/*"
 require "./lucky/*"
+
+module Lucky
+  Habitat.create do
+    setting logger : Lucky::Logger
+  end
+
+  def self.logger
+    settings.logger
+  end
+end
