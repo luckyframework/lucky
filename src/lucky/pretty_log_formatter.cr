@@ -1,6 +1,4 @@
-require "./base_log_formatter"
-
-class Lucky::PrettyLogFormatter < Lucky::BaseLogFormatter
+struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
   private abstract class MessageFormatter
     class Continue; end
 
@@ -76,13 +74,7 @@ class Lucky::PrettyLogFormatter < Lucky::BaseLogFormatter
     AnyOtherDataFormatter,
   ]
 
-  def format(
-    severity : ::Logger::Severity,
-    timestamp : Time,
-    progname : String,
-    data : NamedTuple,
-    io : IO
-  ) : Void
+  def format(data : NamedTuple) : Void
     MESSAGE_FORMATTERS.each do |message_formatter|
       result = message_formatter.new(io, severity).format(data)
       break unless result.is_a?(MessageFormatter::Continue)

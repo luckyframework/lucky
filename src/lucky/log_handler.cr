@@ -6,7 +6,7 @@ class Lucky::LogHandler
   delegate logger, to: settings
 
   Habitat.create do
-    setting logger : Lucky::Logger
+    setting logger : Dexter::Logger
   end
 
   def call(context)

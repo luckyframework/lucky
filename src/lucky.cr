@@ -3,6 +3,7 @@ require "avram"
 require "exception_page"
 require "habitat"
 require "cry"
+require "dexter"
 require "./lucky/quick_def"
 require "./charms/*"
 require "http/server"
@@ -17,7 +18,7 @@ require "./lucky/*"
 
 module Lucky
   Habitat.create do
-    setting logger : Lucky::Logger
+    setting logger : Dexter::Logger
   end
 
   def self.logger

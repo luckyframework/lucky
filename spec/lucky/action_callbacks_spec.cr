@@ -150,7 +150,7 @@ describe Lucky::Action do
         log.should contain("before")
         log.should contain("second_before")
         log.should contain("after")
-        log.should contain("moverwrite_after_cookie")
+        log.should contain("overwrite_after_cookie")
         response.context.cookies.get("before").should eq "before"
         response.context.cookies.get("second_before").should eq "second_before"
         response.context.cookies.get("after").should eq "after"
@@ -166,7 +166,7 @@ describe Lucky::Action do
         response.body.should eq ""
         response.context.response.status_code.should eq 302
         response.context.response.headers["Location"].should eq "/redirected_in_before"
-        log.should contain("Stopped by")
+        log.should contain("stopped_by")
         log.should contain("redirect_me")
         response.context.cookies.get?("before").should be_nil
       end
@@ -181,7 +181,7 @@ describe Lucky::Action do
         response.context.response.status_code.should eq 302
         response.context.response.headers["Location"].should eq "/redirected_in_after"
         response.context.cookies.get?("after").should be_nil
-        log.should contain("Stopped by")
+        log.should contain("stopped_by")
         log.should contain("redirect_me")
       end
     end
@@ -201,7 +201,11 @@ end
 
 private def with_log
   log_io = IO::Memory.new
-  logger = Lucky::Logger.new(log_io, level: Logger::Severity::DEBUG)
+  logger = Dexter::Logger.new(
+    log_io,
+    level: Logger::Severity::DEBUG,
+    log_formatter: RawLogFormatter
+  )
 
   Lucky.temp_config(logger: logger) do
     yield log_io
