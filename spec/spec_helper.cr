@@ -36,10 +36,6 @@ Lucky::ErrorHandler.configure do |settings|
   settings.show_debug_output = false
 end
 
-Lucky::LogHandler.configure do |settings|
-  settings.logger = Lucky.logger
-end
-
 Lucky::StaticFileHandler.configure do |settings|
   settings.hide_from_logs = true
 end
