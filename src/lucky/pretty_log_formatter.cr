@@ -12,9 +12,7 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
     end
 
     private def add_arrow : Void
-      io << " "
-      io << arrow
-      io << " "
+      io << " #{arrow} "
     end
 
     private def arrow
@@ -33,19 +31,14 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
 
   private class RequestStartedFormatter < MessageFormatter
     def format(data : NamedTuple(method: String, path: String))
-      io << data[:method]
-      io << " "
-      io << data[:path].colorize.underline
+      io << "#{data[:method]} #{data[:path].colorize.underline}"
     end
   end
 
   private class RequestEndedFormatter < MessageFormatter
     def format(data : NamedTuple(status: Int32, duration: String))
-      io << "Sent "
-      io << Lucky::LoggerHelpers.colored_status_code(data[:status])
-      io << " ("
-      io << data[:duration]
-      io << ")"
+      colored_status_code = Lucky::LoggerHelpers.colored_status_code(data[:status])
+      io << "Sent #{colored_status_code} (#{data[:duration]}"
     end
   end
 
