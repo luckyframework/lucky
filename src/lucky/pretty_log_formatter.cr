@@ -38,7 +38,7 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
   private class RequestEndedFormatter < MessageFormatter
     def format(data : NamedTuple(status: Int32, duration: String))
       colored_status_code = Lucky::LoggerHelpers.colored_status_code(data[:status])
-      io << "Sent #{colored_status_code} (#{data[:duration]}"
+      io << "Sent #{colored_status_code} (#{data[:duration]})"
     end
   end
 
@@ -51,12 +51,28 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
   end
 
   private class AnyOtherDataFormatter < MessageFormatter
+    private property index = 0
+
     def format(data : NamedTuple)
       add_arrow
 
       io << data.map do |key, value|
-        "#{Wordsmith::Inflector.humanize(key)} #{value.colorize.bold}"
+        "#{Wordsmith::Inflector.humanize(key)} #{colored(value.to_s)}".tap do
+          self.index += 1
+        end
       end.join(". ")
+    end
+
+    private def colored(value : String)
+      if printing_first_value_of_warning?
+        value.colorize.bold.yellow
+      else
+        value.colorize.bold
+      end
+    end
+
+    private def printing_first_value_of_warning?
+      severity.value == Logger::Severity::WARN.value && index.zero?
     end
   end
 
