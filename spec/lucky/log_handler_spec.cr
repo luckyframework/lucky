@@ -46,7 +46,7 @@ end
 
 private def call_log_handler_with(io : IO, context : HTTP::Server::Context, &block)
   logger = Dexter::Logger.new(io, log_formatter: Lucky::PrettyLogFormatter)
-  Lucky::LogHandler.temp_config(logger: logger) do
+  Lucky.temp_config(logger: logger) do
     handler = Lucky::LogHandler.new
     handler.next = ->(_ctx : HTTP::Server::Context) { block.call }
     handler.call(context)

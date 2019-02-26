@@ -3,11 +3,7 @@ require "colorize"
 class Lucky::LogHandler
   include HTTP::Handler
 
-  delegate logger, to: settings
-
-  Habitat.create do
-    setting logger : Dexter::Logger
-  end
+  delegate logger, to: Lucky
 
   def call(context)
     time = Time.now
