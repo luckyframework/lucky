@@ -109,7 +109,7 @@ module Sentry
 
     def start_app
       stop_all_processes
-      puts "compiling..."
+      puts "Compiling..."
       start_all_processes
     end
 
@@ -123,6 +123,7 @@ module Sentry
       if build_app_processes.all? &.success?
         self.app_built = true
         create_app_processes()
+        puts "Done."
       elsif !app_built
         print_error_message
       end
@@ -135,7 +136,7 @@ module Sentry
 
         Try this...
 
-          #{green_arrow} If you haven't done it already, run #{"bin/setup".colorize(:green)}
+          #{green_arrow} If you haven't done it already, run #{"script/setup".colorize(:green)}
           #{green_arrow} Run #{"shards install".colorize(:green)} to ensure dependencies are installed
           #{green_arrow} Ask for help in #{"https://gitter.im/luckyframework/Lobby".colorize(:green)}
         ERROR
