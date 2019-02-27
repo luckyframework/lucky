@@ -1,4 +1,4 @@
-### In master but not released (since v0.12)
+### Changes since v0.12
 
 - Use [`Dexter`](https://github.com/luckyframework/dexter) as the logger. https://github.com/luckyframework/lucky_cli/pull/300 and https://github.com/luckyframework/lucky_cli/pull/299
 
