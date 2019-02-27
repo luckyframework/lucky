@@ -123,7 +123,7 @@ module Sentry
       if build_app_processes.all? &.success?
         self.app_built = true
         create_app_processes()
-        puts "Done."
+        puts "Done compiling"
       elsif !app_built
         print_error_message
       end
