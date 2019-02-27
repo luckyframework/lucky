@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    branch: master
+    version: ~> 0.13
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2
   avram:
     github: luckyframework/avram
-    branch: master
+    version: ~> 0.9
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2
@@ -60,9 +60,6 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
-  mocks:
-    github: waterlink/mocks.cr
-    version: ~> 0.9
 
 scripts:
   postinstall: shards build
