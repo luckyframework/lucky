@@ -1,5 +1,4 @@
 require "spec"
-require "mocks/spec"
 require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
