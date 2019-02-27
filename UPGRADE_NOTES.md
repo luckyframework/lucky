@@ -1,10 +1,122 @@
-### Upgrading from 0.12 to the beta version on master
+### Upgrading from 0.12 to 0.13
+
+- Upgrade Lucky CLI (macOS)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.27.2
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/installing/#install-lucky
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.13`
+  - LuckyFlow should be `~> 0.4`
+  - Authentic should be `~> 0.2`
+
+- Run `shards update`
+
+- Find and replace `LuckyRecord` with `Avram`
 
 - Add `Lucky::AssetHelpers.load_manifest` below `require "dependencies"` in `src/app.cr` for browser apps. Skip for API only apps.
 
 - `Query#preload` with a query now includes the association name -> [`Query#preload_{{ assoc_name }}`](https://github.com/luckyframework/lucky_record/pull/307)
 
-- Remove `unexpose` and `unexpose_if_exposed` from your actions. Pages now ignore unused exposures.
+- Remove `unexpose` and `unexpose_if_exposed` from your actions. Pages now
+  ignore unused exposures so these methods have been removed.
+
+- Change `require "lucky_record"` to `require "avram"` in `src/dependencies`
+
+- Rename `config/log_handler.cr` to `config/logger.cr`
+
+- Replace `config/logger.cr` with this:
+
+```crystal
+require "file_utils"
+
+logger =
+  if Lucky::Env.test?
+    # Logs to `tmp/test.log` so you can see what's happening without having
+    # a bunch of log output in your specs results.
+    FileUtils.mkdir("tmp")
+    Dexter::Logger.new(
+      io: File.new("tmp/test.log", mode: "w"),
+      level: Logger::Severity::DEBUG,
+      log_formatter: Lucky::PrettyLogFormatter
+    )
+  elsif Lucky::Env.production?
+    # This sets the log formatter to JSON so you can parse the logs with
+    # services like Logentries or Logstash.
+    #
+    # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+    Dexter::Logger.new(
+      io: STDOUT,
+      level: Logger::Severity::INFO,
+      log_formatter: Dexter::Formatters::JsonLogFormatter
+    )
+  else
+    # For development, log everything to STDOUT with the pretty formatter.
+    Dexter::Logger.new(
+      io: STDOUT,
+      level: Logger::Severity::DEBUG,
+      log_formatter: Lucky::PrettyLogFormatter
+    )
+  end
+
+Lucky.configure do |settings|
+  settings.logger = logger
+end
+
+Avram::Repo.configure do |settings|
+  settings.logger = logger
+end
+```
+
+- If using `is` in queries, rename the calls to `eq`
+
+- App in `src/app.cr` should now inherit from Lucky::BaseApp. TODO: Show example
+
+- Move `bin/setup` to `script/setup`
+
+- In your `README` replace `bin/setup` with `script/setup`
+
+- Replace `bin/lucky` in your `.gitignore` with just `/bin/`. Lucky projects
+  should now put bash scripts in `/script`. Binaries go in `/bin/` and are
+  ignored.
+- `id` in actions using `route` now have the underscored version of the
+  resource name prepended. You'll need to rename your `id` calls to
+  `<resource_name>_id`.
+
+```crystal
+# Example from v0.12
+class Users::Show < BrowserAction
+  route do
+    # Using the 'id' param
+    UserQuery.find(id)
+  end
+end
+
+# Would now be
+class Users::Show < BrowserAction
+  route do
+    # Now it is 'user_id'
+    UserQuery.find(user_id)
+  end
+end
+```
+
+- Make changes to [laravel.mix](https://github.com/luckyframework/lucky_cli/commit/88ad5af5b40f3a29c4abcb0581db505019d7003f#diff-cd19e42e70bfbcf2a12480b0b6b1f590)
+
+- Make changes to [package.json](https://github.com/luckyframework/lucky_cli/commit/88ad5af5b40f3a29c4abcb0581db505019d7003f#diff-73db280623fcd1a64ac1ab76c8700dbc)
+
+- Run `yarn install`
+
+And you should now be good to go!
 
 ### Upgrading from 0.11 to 0.12
 
