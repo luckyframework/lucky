@@ -38,6 +38,7 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
   private class RequestEndedFormatter < MessageFormatter
     def format(data : NamedTuple(status: Int32, duration: String))
       colored_status_code = Lucky::LoggerHelpers.colored_status_code(data[:status])
+      add_arrow
       io << "Sent #{colored_status_code} (#{data[:duration]})"
     end
   end

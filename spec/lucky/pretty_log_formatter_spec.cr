@@ -13,7 +13,7 @@ describe Lucky::PrettyLogFormatter do
       io = IO::Memory.new
       format(io, {status: 200, duration: "1.4ms"})
 
-      io.to_s.chomp.should start_with("Sent #{"200".colorize(:green)} (1.4ms)")
+      io.to_s.chomp.should start_with(" #{"▸".colorize.dim} Sent #{"200".colorize(:green)} (1.4ms)")
     end
   end
 
