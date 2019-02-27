@@ -3,6 +3,10 @@ require "colorize"
 class Lucky::LogHandler
   include HTTP::Handler
 
+  Habitat.create do
+    setting ignore_path : String = "/public"
+  end
+
   delegate logger, to: Lucky
 
   def call(context)
