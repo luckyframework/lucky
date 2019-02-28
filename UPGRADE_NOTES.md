@@ -81,7 +81,7 @@ end
 
 - If using `is` in queries, rename the calls to `eq`
 
-- App in `src/app.cr` should now inherit from Lucky::BaseApp. TODO: Show example
+- App in `src/app.cr` should now inherit from `Lucky::BaseApp`. See [the changes you need to make](https://github.com/luckyframework/lucky_cli/commit/7794306c55b8e00ded0d816def5cd62dc6fe4367).
 
 - Move `bin/setup` to `script/setup`
 
