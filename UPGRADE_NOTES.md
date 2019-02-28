@@ -10,6 +10,8 @@ brew upgrade lucky
 
 - Upgrade Lucky CLI (Linux)
 
+- Update `.crystal-version` to `0.27.2`
+
 > Remove the existing Lucky binary and follow the Linux
 > instructions in this section
 > https://luckyframework.org/guides/installing/#install-lucky
