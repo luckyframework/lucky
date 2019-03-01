@@ -62,10 +62,6 @@ development_dependencies:
     github: veelenga/ameba
 
 scripts:
-  postinstall: |
-    [ -z "$SKIP_LUCKY_TASK_PRECOMPILE" ] && \
-    shards build && \
-    mkdir -p ../../bin && \
-    cp -r $(pwd)/bin $(pwd)/../..
+  postinstall: scripts/precompile_tasks
 
 license: MIT
