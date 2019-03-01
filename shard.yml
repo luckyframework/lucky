@@ -62,6 +62,6 @@ development_dependencies:
     github: veelenga/ameba
 
 scripts:
-  postinstall: scripts/precompile_tasks
+  postinstall: script/precompile_tasks
 
 license: MIT

@@ -2,8 +2,8 @@ language: minimal
 services:
   - docker
 install:
-  - scripts/setup
+  - script/setup
 script:
-  - scripts/test
+  - script/test
 notifications:
   email: false
