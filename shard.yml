@@ -63,8 +63,9 @@ development_dependencies:
 
 scripts:
   postinstall: |
-    shards build
-    mkdir -p ../../bin
+    [ -z "$SKIP_LUCKY_TASK_PRECOMPILE" ] && \
+    shards build && \
+    mkdir -p ../../bin && \
     cp -r $(pwd)/bin $(pwd)/../..
 
 license: MIT
