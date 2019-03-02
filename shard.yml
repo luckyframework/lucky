@@ -60,6 +60,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
+    version: ~> 0.9
 
 scripts:
   postinstall: script/precompile_tasks
