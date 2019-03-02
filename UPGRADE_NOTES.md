@@ -19,7 +19,7 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Lucky should be `~> 0.13`
   - LuckyFlow should be `~> 0.4`
-  - Authentic should be `~> 0.2`
+  - Authentic should be `~> 0.3`
 
 - Run `shards update`
 
