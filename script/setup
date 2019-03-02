@@ -12,4 +12,4 @@ fi
 
 docker-compose build
 
-docker-compose run app shards install
+docker-compose run app shards update
