@@ -22,6 +22,8 @@ module Lucky::HTMLBuilder
   include Lucky::RenderIfDefined
   include Lucky::WithDefaults
 
+  abstract def view
+
   macro setup_initializer_hook
     macro finished
       generate_needy_initializer
@@ -57,6 +59,6 @@ module Lucky::HTMLBuilder
 
   def perform_render : IO::Memory
     render
-    @view
+    view
   end
 end

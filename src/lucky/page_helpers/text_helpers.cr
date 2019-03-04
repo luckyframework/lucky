@@ -6,7 +6,7 @@ module Lucky::TextHelpers
       content = truncate_text(text, length, omission, separator)
       raw (escape ? HTML.escape(content) : content)
       blk.call if !blk.nil? && text.size > length
-      @view
+      view
     end
   end
 
@@ -115,7 +115,7 @@ module Lucky::TextHelpers
       yield paragraph
       raw "\n\n" unless paragraph == paragraphs.last
     end
-    @view
+    view
   end
 
   def simple_format(text : String, **html_options)

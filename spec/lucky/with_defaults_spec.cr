@@ -24,7 +24,7 @@ private class TestWithDefaultsPage
       html.text_input replace_class: "replaced"
     end
 
-    @view
+    view
   end
 end
 

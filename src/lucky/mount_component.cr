@@ -1,10 +1,10 @@
 module Lucky::MountComponent
-  def mount(component, *args, **named_args)
-    component.new(@view, *args, **named_args).render
+  def mount(component : Lucky::BaseComponent)
+    component.view(view).render
   end
 
-  def mount(component, *args, **named_args)
-    component.new(@view, *args, **named_args).render do |*yield_args|
+  def mount(component : Lucky::BaseComponent)
+    component.view(view).render do |*yield_args|
       yield *yield_args
     end
   end

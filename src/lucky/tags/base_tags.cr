@@ -32,18 +32,18 @@ module Lucky::BaseTags
     def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      @view << "<{{tag.id}}" << tag_attrs << ">"
+      view << "<{{tag.id}}" << tag_attrs << ">"
       yield
-      @view << "</{{tag.id}}>"
+      view << "</{{tag.id}}>"
     end
 
     def {{method_name.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options, &block)
       boolean_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      @view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
+      view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
       yield
-      @view << "</{{tag.id}}>"
+      view << "</{{tag.id}}>"
     end
   end
 
@@ -57,7 +57,7 @@ module Lucky::BaseTags
 
   {% for tag in EMPTY_TAGS %}
     def {{tag.id}}
-      @view << %(<{{tag.id}}> )
+      view << %(<{{tag.id}}> )
     end
 
     def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options)
@@ -68,16 +68,16 @@ module Lucky::BaseTags
       bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      @view << %(<{{tag.id}}#{tag_attrs}#{bool_attrs}>)
+      view << %(<{{tag.id}}#{tag_attrs}#{bool_attrs}>)
     end
   {% end %}
 
   def text(content : String | Lucky::AllowedInTags)
-    @view << HTML.escape(content.to_s)
+    view << HTML.escape(content.to_s)
   end
 
   def style(styles : String)
-    @view << "<style>#{styles}</style>"
+    view << "<style>#{styles}</style>"
   end
 
   private def build_tag_attrs(options)
