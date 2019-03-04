@@ -202,7 +202,7 @@ class Lucky::WelcomePage
   end
 
   private def raw(string)
-    @view << string
+    view << string
   end
 
   private def lucky_logo_data_uri

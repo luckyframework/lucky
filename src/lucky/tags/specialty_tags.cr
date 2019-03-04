@@ -1,7 +1,7 @@
 module Lucky::SpecialtyTags
   # Generates an HTML5 doctype tag.
   def html_doctype
-    @view << "<!DOCTYPE html>"
+    view << "<!DOCTYPE html>"
   end
 
   # Generates a link tag for a stylesheet at the path *href*.
@@ -54,6 +54,6 @@ module Lucky::SpecialtyTags
   # this can leave one vulnerable to [cross-site scripting
   # attacks](https://en.wikipedia.org/wiki/Cross-site_scripting).
   def raw(string : String)
-    @view << string
+    view << string
   end
 end

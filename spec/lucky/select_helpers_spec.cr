@@ -18,7 +18,7 @@ private class TestPage
   end
 
   def html
-    @view
+    view
   end
 end
 

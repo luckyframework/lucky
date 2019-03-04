@@ -31,9 +31,9 @@ module Lucky::CustomTags
   def tag(name : String, boolean_attrs : String = "", options = EMPTY_HTML_ATTRS, **other_options, &block)
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
-    @view << "<#{name}" << tag_attrs << boolean_attrs << ">"
+    view << "<#{name}" << tag_attrs << boolean_attrs << ">"
     yield
-    @view << "</#{name}>"
+    view << "</#{name}>"
   end
 
   # Outputs a custom tag with no tag closing.
@@ -41,6 +41,6 @@ module Lucky::CustomTags
   def empty_tag(name : String, options = EMPTY_HTML_ATTRS, **other_options)
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
-    @view << "<#{name}" << tag_attrs << ">"
+    view << "<#{name}" << tag_attrs << ">"
   end
 end

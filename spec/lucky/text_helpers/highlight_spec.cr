@@ -3,7 +3,7 @@ require "./text_helpers_spec"
 class TextHelperTestPage
   def test_highlight
     highlight "This is a beautiful morning, but also a beautiful day", "beautiful" { |word|
-      # you can't use HTMLPage here since they append to @view rather than return in-place
+      # you can't use HTMLPage here since they append to 'view' rather than return in-place
       # the block highlight expects is passed to gsub which expects to get a string returned
       "<span data-highlight-word=\"#{word}\" data-color=\"yellow\" data-español=\"bello\">#{word}</span>"
     }
