@@ -69,20 +69,13 @@ describe Lucky::ErrorHandler do
     context.response.status_code.should eq(418)
   end
 
-  context "when configured to show debug output" do
-    it "prints debug output instead of calling the error action" do
-      Lucky::ErrorHandler.temp_config(show_debug_output: true) do
-        fake_io = IO::Memory.new
-        error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction, error_io: fake_io)
-        error_handler.next = ->(_ctx : HTTP::Server::Context) { raise UnhandledError.new }
-
-        context = error_handler.call(build_context).as(HTTP::Server::Context)
-
-        context.response.headers["Content-Type"].should eq("text/html")
-        context.response.status_code.should eq(500)
-        fake_io.to_s.should contain("UnhandledError")
-        fake_io.to_s.should contain("from spec/lucky/error_handling_spec.cr")
-      end
+  describe ".render_exception_page" do
+    it "returns a exception page as a response with a 500 status" do
+      context = build_context
+      error = Exception.new
+      response = Lucky::ErrorHandler.render_exception_page(context, error)
+      response.should be_a(Lucky::Response)
+      response.status.should eq(500)
     end
   end
 end
