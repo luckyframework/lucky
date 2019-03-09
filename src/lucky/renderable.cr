@@ -83,13 +83,8 @@ module Lucky::Renderable
     Lucky::TextResponse.new(
       context,
       "text/html",
-      body,
-      debug_message: log_message(view),
+      body
     )
-  end
-
-  private def log_message(view)
-    "Rendered #{view.class.colorize.bold}"
   end
 
   # :nodoc:

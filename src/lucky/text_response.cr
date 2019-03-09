@@ -1,13 +1,12 @@
 class Lucky::TextResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
-  getter context, content_type, body, debug_message
+  getter context, content_type, body
 
   def initialize(@context : HTTP::Server::Context,
                  @content_type : String,
                  @body : String,
-                 @status : Int32? = nil,
-                 @debug_message : String? = nil)
+                 @status : Int32? = nil)
   end
 
   def print

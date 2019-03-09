@@ -114,7 +114,6 @@ describe Lucky::Action do
       response = Rendering::Index.new(build_context, params).call
 
       response.body.should contain "Anything"
-      response.debug_message.to_s.should contain "Rendering::IndexPage"
     end
   end
 

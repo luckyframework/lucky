@@ -41,15 +41,14 @@
 class Lucky::FileResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
-  getter context, path, filename, debug_message, headers
+  getter context, path, filename, headers
 
   def initialize(@context : HTTP::Server::Context,
                  @path : String,
                  @content_type : String? = nil,
                  @disposition : String = "attachment",
                  @filename : String? = nil,
-                 @status : Int32? = nil,
-                 @debug_message : String? = nil)
+                 @status : Int32? = nil)
   end
 
   def print
