@@ -68,4 +68,14 @@ describe Lucky::ErrorHandler do
     context.response.headers["Content-Type"].should eq("text/plain")
     context.response.status_code.should eq(418)
   end
+
+  describe ".render_exception_page" do
+    it "returns a exception page as a response with a 500 status" do
+      context = build_context
+      error = Exception.new
+      response = Lucky::ErrorHandler.render_exception_page(context, error)
+      response.should be_a(Lucky::Response)
+      response.status.should eq(500)
+    end
+  end
 end
