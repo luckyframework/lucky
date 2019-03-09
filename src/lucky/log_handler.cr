@@ -15,21 +15,21 @@ class Lucky::LogHandler
     raise e
   end
 
-  private def log_request_start(context)
+  private def log_request_start(context) : Nil
     logger.info({
       method: context.request.method,
       path:   context.request.resource,
     })
   end
 
-  private def log_request_end(context, duration)
+  private def log_request_end(context, duration) : Nil
     logger.info({
       status:   context.response.status_code,
       duration: Lucky::LoggerHelpers.elapsed_text(duration),
     })
   end
 
-  private def log_exception(context, time, e)
+  private def log_exception(context, time, e) : Nil
     logger.error({unhandled_exception: e.inspect_with_backtrace})
   end
 end

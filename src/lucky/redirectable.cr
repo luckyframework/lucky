@@ -29,7 +29,7 @@ module Lucky::Redirectable
   # ```crystal
   # redirect to: Users::Show.with(user.id), status: 301
   # ```
-  def redirect(to route : Lucky::RouteHelper, status = 302)
+  def redirect(to route : Lucky::RouteHelper, status = 302) : Lucky::TextResponse
     redirect to: route.path, status: status
   end
 
@@ -38,7 +38,7 @@ module Lucky::Redirectable
   # ```crystal
   # redirect to: Users::Index
   # ```
-  def redirect(to action : Lucky::Action.class, status = 302)
+  def redirect(to action : Lucky::Action.class, status = 302) : Lucky::TextResponse
     redirect to: action.route, status: status
   end
 
@@ -48,7 +48,7 @@ module Lucky::Redirectable
   # redirect to: "/users"
   # redirect to: "/users/1", status: 301
   # ```
-  def redirect(to path : String, status = 302)
+  def redirect(to path : String, status = 302) : Lucky::TextResponse
     context.response.headers.add "Location", path
     context.response.headers.add "Turbolinks-Location", path
     context.response.status_code = status
@@ -61,7 +61,7 @@ module Lucky::Redirectable
   # redirect to: "/users", status: Status::MovedPermanently
   # ```
   # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
-  def redirect(to path : String, status : Lucky::Action::Status = Lucky::Action::Status::Found)
+  def redirect(to path : String, status : Lucky::Action::Status = Lucky::Action::Status::Found) : Lucky::TextResponse
     redirect(path, status.value)
   end
 

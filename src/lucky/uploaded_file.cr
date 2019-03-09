@@ -23,7 +23,7 @@ class Lucky::UploadedFile
   # ```
   # uploaded_file_object.path # => String
   # ```
-  def path
+  def path : String
     @tempfile.path
   end
 end

@@ -10,7 +10,7 @@ class Lucky::TextResponse < Lucky::Response
                  @debug_message : String? = nil)
   end
 
-  def print
+  def print : Nil
     context.response.content_type = content_type
     context.response.status_code = status
     context.response.print body

@@ -22,7 +22,7 @@ class Lucky::FlashStore
     raise Lucky::Exceptions::InvalidFlashJSON.new(session.get?(SESSION_KEY))
   end
 
-  private def all
+  private def all : Hash(String, String)
     @now.merge(@next)
   end
 
@@ -40,11 +40,11 @@ class Lucky::FlashStore
     end
   {% end %}
 
-  def to_json
+  def to_json : String
     @next.to_json
   end
 
-  def clear : Void
+  def clear : Nil
     @now.clear
     @next.clear
   end

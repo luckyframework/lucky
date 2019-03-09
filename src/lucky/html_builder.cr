@@ -57,7 +57,7 @@ module Lucky::HTMLBuilder
     {% end %}
   end
 
-  def perform_render : IO::Memory
+  def perform_render : IO
     render
     view
   end

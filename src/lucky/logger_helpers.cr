@@ -12,7 +12,7 @@ module Lucky::LoggerHelpers
     end
   end
 
-  def self.elapsed_text(elapsed : Time::Span)
+  def self.elapsed_text(elapsed : Time::Span) : String
     minutes = elapsed.total_minutes
     return "#{minutes.round(2)}m" if minutes >= 1
 

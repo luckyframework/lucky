@@ -3,7 +3,7 @@ require "./html_builder"
 abstract class Lucky::BaseComponent
   include Lucky::HTMLBuilder
 
-  private def view
+  private def view : IO
     @view || raise "No view was set. Use 'mount' or call 'render_to_string'."
   end
 

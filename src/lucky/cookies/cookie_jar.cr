@@ -8,11 +8,11 @@ class Lucky::CookieJar
     setting on_set : (HTTP::Cookie -> HTTP::Cookie)?
   end
 
-  def self.from_request_cookies(cookies : HTTP::Cookies)
+  def self.from_request_cookies(cookies : HTTP::Cookies) : Lucky::CookieJar
     new(cookies)
   end
 
-  def self.empty_jar
+  def self.empty_jar : Lucky::CookieJar
     new
   end
 
@@ -41,7 +41,7 @@ class Lucky::CookieJar
     end
   end
 
-  def delete(key : Key) : Void
+  def delete(key : Key) : Nil
     raw[key.to_s].try &.expires(1.year.ago).value("")
   end
 
@@ -115,7 +115,7 @@ class Lucky::CookieJar
     @_encryptor ||= Lucky::MessageEncryptor.new(secret_key)
   end
 
-  private def secret_key
+  private def secret_key : String
     Lucky::Server.settings.secret_key_base
   end
 end

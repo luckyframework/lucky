@@ -27,7 +27,7 @@ module Lucky
       decrypt(verifier.verify_raw(value))
     end
 
-    def encrypt(value)
+    def encrypt(value) : Slice
       cipher = OpenSSL::Cipher.new(@cipher_algorithm)
       cipher.encrypt
       cipher.key = @secret
@@ -43,7 +43,7 @@ module Lucky
       encrypted_data.to_slice
     end
 
-    def decrypt(value : Bytes)
+    def decrypt(value : Bytes) : Slice
       cipher = OpenSSL::Cipher.new(@cipher_algorithm)
       data = value[0, value.size - @block_size]
       iv = value[value.size - @block_size, @block_size]
