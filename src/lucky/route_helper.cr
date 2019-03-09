@@ -8,7 +8,7 @@ class Lucky::RouteHelper
   def initialize(@method : Symbol, @path : String)
   end
 
-  def url
+  def url : String
     settings.base_uri + path
   end
 

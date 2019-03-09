@@ -7,21 +7,21 @@ module Lucky::ContentTypeHelpers
   # Check if the request is JSON
   #
   # This tests if the Content-Type header is `application/json`
-  def json?
+  def json? : Bool
     content_type == "application/json"
   end
 
   # Check if the request is AJAX
   #
   # This tests if the X-Requested-With header is `XMLHttpRequest`
-  def ajax?
+  def ajax? : Bool
     headers["X-Requested-With"]? == "XMLHttpRequest"
   end
 
   # Check if the request is HTML
   #
   # This tests if the Content-Type header is `text/html`
-  def html?
+  def html? : Bool
     content_type == "text/html"
   end
 
@@ -29,7 +29,7 @@ module Lucky::ContentTypeHelpers
   #
   # This tests if the Content-Type header is `application/xml` or
   # `application/xhtml+xml`
-  def xml?
+  def xml? : Bool
     ["application/xml", "application/xhtml+xml"].includes? content_type
   end
 
@@ -37,7 +37,7 @@ module Lucky::ContentTypeHelpers
   #
   # This tests if the Content-Type header is `text/plain` or
   # with the optional character set per W3 RFC1341 7.1
-  def plain?
+  def plain? : Bool
     content_type == "text/plain" || content_type.downcase.starts_with?("text/plain; charset=")
   end
 

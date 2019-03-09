@@ -180,7 +180,7 @@ module Lucky::ActionCallbacks
   def ensure_callbacks_return_response_or_continue(callback_result : Lucky::Response | Lucky::ActionCallbacks::Continue)
   end
 
-  private def continue
+  private def continue : Lucky::ActionCallbacks::Continue
     Lucky::ActionCallbacks::Continue.new
   end
 end

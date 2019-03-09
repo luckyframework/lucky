@@ -161,17 +161,17 @@ module Lucky::Routeable
     {% for part in path_parts %}
       {% if part.starts_with?(":") %}
         {% part = part.gsub(/:/, "").id %}
-        def {{ part }}
+        def {{ part }} : String
           params.get(:{{ part }})
         end
       {% end %}
     {% end %}
 
-    def self.path(*args, **named_args)
+    def self.path(*args, **named_args) : String
       route(*args, **named_args).path
     end
 
-    def self.url(*args, **named_args)
+    def self.url(*args, **named_args) : String
       route(*args, **named_args).url
     end
 
@@ -205,7 +205,7 @@ module Lucky::Routeable
       {{ param }}{% if is_nilable_type && no_default %} = nil{% end %},
     {% end %}
     anchor : String? = nil
-      )
+      ) : Lucky::RouteHelper
       path = path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
@@ -235,7 +235,7 @@ module Lucky::Routeable
       Lucky::RouteHelper.new {{ method }}, path
     end
 
-    def self.with(*args, **named_args)
+    def self.with(*args, **named_args) : Lucky::RouteHelper
       route(*args, **named_args)
     end
 

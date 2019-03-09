@@ -44,7 +44,7 @@ class Lucky::ForceSSLHandler
     !!(context.request.headers["X-Forwarded-Proto"]? =~ /https/i)
   end
 
-  private def redirect_to_secure_version(context)
+  private def redirect_to_secure_version(context : HTTP::Server::Context)
     context.response.status_code = settings.redirect_status
     context.response.headers["Location"] =
       "https://#{context.request.host}#{context.request.resource}"

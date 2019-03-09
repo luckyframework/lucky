@@ -64,7 +64,7 @@ class Lucky::FileResponse < Lucky::Response
     @status || context.response.status_code || DEFAULT_STATUS
   end
 
-  private def set_response_headers
+  private def set_response_headers : Nil
     context.response.content_length = File.size(full_path)
     context.response.content_type = content_type
     context.response.headers["Accept-Ranges"] = "bytes"

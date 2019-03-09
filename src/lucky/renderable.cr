@@ -88,68 +88,68 @@ module Lucky::Renderable
     )
   end
 
-  private def log_message(view)
+  private def log_message(view) : String
     "Rendered #{view.class.colorize.bold}"
   end
 
   # :nodoc:
-  def perform_action
+  def perform_action : Nil
     response = call
     handle_response(response)
   end
 
-  private def handle_response(response : Lucky::Response)
+  private def handle_response(response : Lucky::Response) : Nil
     log_response(response)
     response.print
   end
 
-  private def log_response(response : Lucky::Response)
+  private def log_response(response : Lucky::Response) : Nil
     response.debug_message.try do |message|
       Lucky.logger.debug(message)
     end
   end
 
-  private def file(path,
+  private def file(path : String,
                    content_type : String? = nil,
                    disposition : String = "attachment",
                    filename : String? = nil,
-                   status : Int32? = nil)
+                   status : Int32? = nil) : Lucky::FileResponse
     Lucky::FileResponse.new(context, path, content_type, disposition, filename, status)
   end
 
-  private def file(path,
+  private def file(path : String,
                    content_type : String? = nil,
                    disposition : String = "attachment",
                    filename : String? = nil,
-                   status : Lucky::Action::Status = Lucky::Action::Status::OK)
+                   status : Lucky::Action::Status = Lucky::Action::Status::OK) : Lucky::FileResponse
     file(path, content_type, disposition, filename, status.value)
   end
 
-  private def text(body, status : Int32? = nil)
+  private def text(body : String, status : Int32? = nil) : Lucky::TextResponse
     Lucky::TextResponse.new(context, "text/plain", body, status: status)
   end
 
-  private def text(body, status : Lucky::Action::Status)
+  private def text(body : String, status : Lucky::Action::Status) : Lucky::TextResponse
     Lucky::TextResponse.new(context, "text/plain", body, status: status.value)
   end
 
-  private def render_text(*args, **named_args)
+  private def render_text(*args, **named_args) : Lucky::TextResponse
     text(*args, **named_args)
   end
 
-  private def head(status : Int32)
+  private def head(status : Int32) : Lucky::TextResponse
     Lucky::TextResponse.new(context, content_type: "", body: "", status: status)
   end
 
-  private def head(status : Lucky::Action::Status)
+  private def head(status : Lucky::Action::Status) : Lucky::TextResponse
     head(status.value)
   end
 
-  private def json(body, status : Int32? = nil)
+  private def json(body, status : Int32? = nil) : Lucky::TextResponse
     Lucky::TextResponse.new(context, "application/json", body.to_json, status)
   end
 
-  private def json(body, status : Lucky::Action::Status = nil)
+  private def json(body, status : Lucky::Action::Status = nil) : Lucky::TextResponse
     json(body, status.value)
   end
 end

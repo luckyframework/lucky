@@ -6,11 +6,11 @@ module Lucky
     def initialize(@secret : String, @digest = :sha1)
     end
 
-    def valid_message?(data, digest)
+    def valid_message?(data, digest) : Bool
       data.size > 0 && digest.size > 0 && Crypto::Subtle.constant_time_compare(digest, generate_digest(data))
     end
 
-    def verified(signed_message : String)
+    def verified(signed_message : String) : String?
       data, digest = signed_message.split("--")
       if valid_message?(data, digest)
         String.new(decode(data))
@@ -33,20 +33,20 @@ module Lucky
       end
     end
 
-    def generate(value : String | Bytes)
+    def generate(value : String | Bytes) : String
       data = encode(value)
       "#{data}--#{generate_digest(data)}"
     end
 
-    private def encode(data)
+    private def encode(data) : String
       ::Base64.strict_encode(data)
     end
 
-    private def decode(data)
+    private def decode(data) : String
       ::Base64.decode(data)
     end
 
-    private def generate_digest(data)
+    private def generate_digest(data) : String
       encode(OpenSSL::HMAC.digest(@digest, @secret, data))
     end
   end

@@ -9,28 +9,28 @@ abstract class Lucky::BaseApp
   end
 
   # :nodoc;
-  def base_uri
+  def base_uri : String
     "http://#{host}:#{port}"
   end
 
   # :nodoc;
-  def host
+  def host : String
     Lucky::Server.settings.host
   end
 
   # :nodoc;
-  def port
+  def port : Int32
     Lucky::Server.settings.port
   end
 
   # :nodoc;
-  def listen
+  def listen : Nil
     server.bind_tcp host, port
     server.listen
   end
 
   # :nodoc;
-  def close
+  def close : Nil
     server.close
   end
 end
