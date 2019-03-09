@@ -14,8 +14,8 @@ describe Lucky::BaseHTTPClient do
   describe "#get" do
     it "sends requests to correct uri (with the correct query params) and gives the right response" do
       TestServer.route("hello", "world")
-      Lucky::RouteHelper.temp_config(base_uri: "localhost") do
-        client = Lucky::BaseHTTPClient.new(port: 6226)
+      Lucky::Server.temp_config(host: "localhost", port: 6226) do
+        client = Lucky::BaseHTTPClient.new
         response = client.get("hello", params: HTTP::Params.new(raw_params: {"foo" => ["bar"]}))
 
         response.body.should eq "world"
@@ -30,8 +30,8 @@ describe Lucky::BaseHTTPClient do
   describe "#delete" do
     it "sends requests to correct uri (with the correct query params) and gives the right response" do
       TestServer.route("hello", "world")
-      Lucky::RouteHelper.temp_config(base_uri: "localhost") do
-        client = Lucky::BaseHTTPClient.new(port: 6226)
+      Lucky::Server.temp_config(host: "localhost", port: 6226) do
+        client = Lucky::BaseHTTPClient.new
         response = client.delete("hello")
 
         response.body.should eq "world"
@@ -44,8 +44,8 @@ describe Lucky::BaseHTTPClient do
     describe "\#{{method.id}}" do
       it "sends correct request to correct uri and gives the correct response" do
         TestServer.route("hello", "world")
-        Lucky::RouteHelper.temp_config(base_uri: "localhost") do
-          client = Lucky::BaseHTTPClient.new(port: 6226)
+        Lucky::Server.temp_config(host: "localhost", port: 6226) do
+          client = Lucky::BaseHTTPClient.new
           response = client.{{method.id}}(
             path: "hello",
             body: { "foo" => "bar" }
