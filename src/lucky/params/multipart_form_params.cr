@@ -1,4 +1,4 @@
-class Lucky::Params
+class Lucky::Params::MultipartFormParams
   include Avram::Paramable
 
   @request : HTTP::Request

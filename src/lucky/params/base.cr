@@ -1,39 +1,17 @@
-class Lucky::Params
+class Lucky::Params::Base
   include Avram::Paramable
+
+  alias ParamKey : ParamKeyj
 
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
 
-  # :nodoc:
-  getter :request
-  # :nodoc:
-  getter :route_params
-
-  # Create a new params object
-  #
-  # The params object is initialized with an `HTTP::Request` and a hash of
-  # params. The request object has many optional parameters. See Crystal's
-  # [HTTP::Request](https://crystal-lang.org/api/latest/HTTP/Request.html)
-  # class for more details.
-  #
-  # ```crystal
-  # request = HTTP::Request.new("GET", "/")
-  # route_params = {"token" => "123"}
-  #
-  # Lucky::Params.new(request, route_params)
-  # ```
   def initialize(@request, @route_params = {} of String => String)
   end
 
-  private def parser : Avra
-    if json?
-      JsonParams.new
-    elsif multipart?
-      MultipartFormParams.new
-    else
-      UrlEncodedFormParams.new
-    end
-  end
+  abstract def top_level_body_params(key : ParamKey) : Hash(String, String)
+  abstract def nested_body_params(key : ParamKey) : Hash(String, String)
+  abstract def nested_array_body_params(key : ParamKey) : Array(Hash(String, String))
 
   # Retrieve a value from the params hash, raise if key is absent
   #
@@ -43,7 +21,7 @@ class Lucky::Params
   # params.get("page")    # 1 : String
   # params.get("missing") # Missing parameter: missing
   # ```
-  def get(key) : String
+  def get(key : ParamKey) : String
     get?(key) || raise Lucky::Exceptions::MissingParam.new(key.to_s)
   end
 
@@ -53,7 +31,7 @@ class Lucky::Params
   # params.get?("page")    # 1 : (String | Nil)
   # params.get?("missing") # nil : (String | Nil)
   # ```
-  def get?(key : String | Symbol) : String?
+  def get?(key : ParamKey) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
@@ -75,7 +53,7 @@ class Lucky::Params
   # params.get("avatar_file") # (Lucky::UploadedFile | Nil)
   # params.get("missing")     # nil
   # ```
-  def get_file?(key : String | Symbol) : Lucky::UploadedFile?
+  def get_file?(key : ParamKey) : Lucky::UploadedFile?
     multipart_files[key.to_s]?
   end
 
@@ -92,7 +70,7 @@ class Lucky::Params
   # params.nested("user")    # {"name" => "Alesia", "age" => "35"}
   # params.nested("missing") # Missing parameter: missing
   # ```
-  def nested(nested_key : String | Symbol) : Hash(String, String)
+  def nested(nested_key : ParamKey) : Hash(String, String)
     nested_params = nested?(nested_key)
     if nested_params.keys.empty?
       raise Lucky::Exceptions::MissingNestedParam.new nested_key
@@ -114,7 +92,7 @@ class Lucky::Params
   # params.nested("user")    # {"name" => "Alesia", "age" => "35"}
   # params.nested("missing") # {}
   # ```
-  def nested?(nested_key : String | Symbol) : Hash(String, String)
+  def nested?(nested_key : ParamKey) : Hash(String, String)
     if json?
       nested_json_params(nested_key.to_s).merge(nested_query_params(nested_key.to_s))
     else
@@ -131,7 +109,7 @@ class Lucky::Params
   # params.nested_file?("file")    # Lucky::UploadedFile
   # params.nested_file?("missing") # {}
   # ```
-  def nested_file(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)
+  def nested_file(nested_key : ParamKey) : Hash(String, Lucky::UploadedFile)
     nested_file_params = nested_file?(nested_key)
     if nested_file_params.keys.empty?
       raise Lucky::Exceptions::MissingNestedParam.new nested_key
@@ -149,7 +127,7 @@ class Lucky::Params
   # params.nested_file("file")    # Lucky::UploadedFile
   # params.nested_file("missing") # Missing parameter: missing
   # ```
-  def nested_file?(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?
+  def nested_file?(nested_key : ParamKey) : Hash(String, Lucky::UploadedFile)?
     nested_file_params(nested_key.to_s)
   end
 
@@ -167,7 +145,7 @@ class Lucky::Params
   # # [{"name" => "Alesia", "age" => "35"}, { "name" => "Bob", "age" => "40" }]
   # params.many_nested("missing") # Missing parameter: missing
   # ```
-  def many_nested(nested_key : String | Symbol) : Array(Hash(String, String))
+  def many_nested(nested_key : ParamKey) : Array(Hash(String, String))
     nested_params = many_nested?(nested_key)
     if nested_params.empty?
       raise Lucky::Exceptions::MissingNestedParam.new nested_key
@@ -190,7 +168,7 @@ class Lucky::Params
   # # [{"name" => "Alesia", "age" => "35"}, { "name" => "Bob", "age" => "40" }]
   # params.nested("missing") # []
   # ```
-  def many_nested?(nested_key : String | Symbol) : Array(Hash(String, String))
+  def many_nested?(nested_key : ParamKey) : Array(Hash(String, String))
     zipped_many_nested_params(nested_key.to_s).map do |a, b|
       (a || {} of String => String).merge(b || {} of String => String)
     end
