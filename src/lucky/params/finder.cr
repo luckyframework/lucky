@@ -1,5 +1,18 @@
 require "./factory"
 
+  # Create a new params object
+  #
+  # The params object is initialized with an `HTTP::Request` and a hash of
+  # params. The request object has many optional parameters. See Crystal's
+  # [HTTP::Request](https://crystal-lang.org/api/latest/HTTP/Request.html)
+  # class for more details.
+  #
+  # ```crystal
+  # request = HTTP::Request.new("GET", "/")
+  # route_params = {"token" => "123"}
+  #
+  # Lucky::Params::Finder.new(request, route_params)
+  # ```
 class Lucky::Params::Finder
   include Avram::Paramable
 
@@ -11,9 +24,9 @@ class Lucky::Params::Finder
   def initialize(@request, @route_params = {} of String => String)
   end
 
-  abstract def top_level_body_params(key : ParamKey) : Hash(String, String)
-  abstract def nested_body_params(key : ParamKey) : Hash(String, String)
-  abstract def nested_array_body_params(key : ParamKey) : Array(Hash(String, String))
+  def body_params : Lucky::Params::BodyParams
+    Lucky::Params::FindBodyParamsForContentType.new(@request, @route_params).call
+  end
 
   # Retrieve a value from the params hash, raise if key is absent
   #
@@ -34,7 +47,7 @@ class Lucky::Params::Finder
   # params.get?("missing") # nil : (String | Nil)
   # ```
   def get?(key : ParamKey) : String?
-    route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
+    route_params[key.to_s]? || body_params(key.to_s) || query_params[key.to_s]?
   end
 
   # Retrieve a file from the params hash, raise if key is absent
