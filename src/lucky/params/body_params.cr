@@ -7,7 +7,7 @@ class Lucky::Params::BodyParams
   def initialize(@request, @route_params = {} of String => String)
   end
 
-  abstract def top_level_body_params(key : ParamKey) : Hash(String, String)
-  abstract def nested_body_params(key : ParamKey) : Hash(String, String)
-  abstract def nested_array_body_params(key : ParamKey) : Array(Hash(String, String))
+  abstract def value_at(key : ParamKey) : String?
+  abstract def hash_at(key : ParamKey) : Hash(String, String)?
+  abstract def array_at(key : ParamKey) : Array(Hash(String, String))?
 end

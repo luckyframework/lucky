@@ -47,7 +47,7 @@ class Lucky::Params::Finder
   # params.get?("missing") # nil : (String | Nil)
   # ```
   def get?(key : ParamKey) : String?
-    route_params[key.to_s]? || body_params(key.to_s) || query_params[key.to_s]?
+    route_params[key.to_s]? || body_params.value_at(key.to_s) || query_params[key.to_s]?
   end
 
   # Retrieve a file from the params hash, raise if key is absent
@@ -107,12 +107,8 @@ class Lucky::Params::Finder
   # params.nested("user")    # {"name" => "Alesia", "age" => "35"}
   # params.nested("missing") # {}
   # ```
-  def nested?(nested_key : ParamKey) : Hash(String, String)
-    if json?
-      nested_json_params(nested_key.to_s).merge(nested_query_params(nested_key.to_s))
-    else
-      nested_form_params(nested_key.to_s).merge(nested_query_params(nested_key.to_s))
-    end
+  def nested?(key : ParamKey) : Hash(String, String)
+    body_params.hash_at(key).merge(nested_query_params(key.to_s))
   end
 
   # Retrieve a nested file from the params
@@ -389,10 +385,6 @@ class Lucky::Params::Finder
 
   private def multipart?
     content_type.try(&.match(/^multipart\/form-data/))
-  end
-
-  private def content_type : String?
-    request.headers["Content-Type"]?
   end
 
   @_parsed_json : JSON::Any?

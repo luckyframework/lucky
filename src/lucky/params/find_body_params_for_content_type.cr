@@ -1,6 +1,9 @@
 require "./*"
 
-# This class returns a param objects based on the content type
+# Finds the right type of body params based on the request's content type.
+#
+# For example, the content type 'application/json' will return an object for
+# finding params in a JSON body.
 struct Lucky::Params::FindBodyParamsForContentType
   @request : HTTP::Request
   @route_params : Hash(String, String)
@@ -27,5 +30,9 @@ struct Lucky::Params::FindBodyParamsForContentType
 
   private def multipart? : Bool
     content_type.try(&.match(/^multipart\/form-data/))
+  end
+
+  private def content_type : String?
+    request.headers["Content-Type"]?
   end
 end
