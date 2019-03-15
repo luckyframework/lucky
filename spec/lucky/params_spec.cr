@@ -8,8 +8,8 @@ describe Lucky::Params do
     request = build_request body: "from=form",
       content_type: "application/x-www-form-urlencoded"
 
-    params = Lucky::Params.new(request)
-    dup_params = Lucky::Params.new(request)
+    params = Lucky::Params::Finder.new(request)
+    dup_params = Lucky::Params::Finder.new(request)
 
     params.get?(:from).should eq "form"
     dup_params.get?(:from).should eq "form"
@@ -23,8 +23,8 @@ describe Lucky::Params do
       },
     }
 
-    params = Lucky::Params.new(request)
-    dup_params = Lucky::Params.new(request)
+    params = Lucky::Params::Finder.new(request)
+    dup_params = Lucky::Params::Finder.new(request)
 
     params.nested?(:user)
     dup_params.nested?(:user)
@@ -36,7 +36,7 @@ describe Lucky::Params do
         content_type: "application/x-www-form-urlencoded"
       request.query = "from=query"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get?(:from).should eq "form"
     end
@@ -48,7 +48,7 @@ describe Lucky::Params do
         content_type: "application/x-www-form-urlencoded"
       route_params = {"id" => "from_route"}
 
-      params = Lucky::Params.new(request, route_params)
+      params = Lucky::Params::Finder.new(request, route_params)
 
       params.get?(:id).should eq "from_route"
     end
@@ -59,7 +59,7 @@ describe Lucky::Params do
       request = build_request body: "page=1&foo=bar",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get?(:page).should eq "1"
       params.get?(:foo).should eq "bar"
@@ -69,7 +69,7 @@ describe Lucky::Params do
       request = build_request body: {page: 1, foo: "bar"}.to_json,
         content_type: "application/json"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get?(:page).should eq "1"
       params.get?(:foo).should eq "bar"
@@ -79,7 +79,7 @@ describe Lucky::Params do
       request = build_request body: "",
         content_type: "application/json"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       # Should not raise
       params.get?(:anything)
@@ -89,7 +89,7 @@ describe Lucky::Params do
       request = build_request body: {page: 1, foo: "bar"}.to_json,
         content_type: "application/json;charset=UTF-8"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get?(:page).should eq "1"
       params.get?(:foo).should eq "bar"
@@ -99,7 +99,7 @@ describe Lucky::Params do
       request = build_request body: "", content_type: ""
       request.query = "page=1&id=1"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get?(:page).should eq "1"
       params.get?(:id).should eq "1"
@@ -108,7 +108,7 @@ describe Lucky::Params do
     it "parses params in multipart requests" do
       request = build_multipart_request form_parts: {"from" => "multipart"}
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get(:from).should eq "multipart"
     end
@@ -116,7 +116,7 @@ describe Lucky::Params do
     it "raises if missing a param and using get! version" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       expect_raises Lucky::Exceptions::MissingParam do
         params.get(:missing)
@@ -126,7 +126,7 @@ describe Lucky::Params do
     it "returns nil if using get version" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get?(:missing).should be_nil
     end
@@ -137,7 +137,7 @@ describe Lucky::Params do
       request = build_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested?(:user).should eq({"name" => "paul", "twitter_handle" => "@paulcsmith"})
     end
@@ -147,7 +147,7 @@ describe Lucky::Params do
         content_type: "application/json"
       request.query = "from=query"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
@@ -157,7 +157,7 @@ describe Lucky::Params do
         content_type: "application/json"
       request.query = "from=query"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested?(:user).should eq({} of String => JSON::Any)
     end
@@ -166,7 +166,7 @@ describe Lucky::Params do
       request = build_request body: {user: {name: "Paul", age: 28}}.to_json,
         content_type: "application/json; charset=UTF-8"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
     end
@@ -176,7 +176,7 @@ describe Lucky::Params do
         content_type: "application/json"
       request.query = "user:active=true"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested?(:user).should eq({"name" => "Bunyan", "age" => "102", "active" => "true"})
     end
@@ -189,7 +189,7 @@ describe Lucky::Params do
         },
       }
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested(:user).should eq({"name" => "Paul", "age" => "28"})
     end
@@ -197,14 +197,14 @@ describe Lucky::Params do
     it "gets nested query params" do
       request = build_request body: "filter:toppings=left_beef&filter:type=none", content_type: ""
       request.query = "filter:query=pizza&sort=desc"
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
       params.nested?("filter").should eq({"type" => "none", "query" => "pizza", "toppings" => "left_beef"})
     end
 
     it "returns an empty hash when no nested is found" do
       request = build_request body: "", content_type: ""
       request.query = "a=1"
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
       params.nested?("a").empty?.should eq true
     end
 
@@ -212,7 +212,7 @@ describe Lucky::Params do
       request = build_request body: "user%3Aname=paul",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested?(:user).should eq({"name" => "paul"})
     end
@@ -221,7 +221,7 @@ describe Lucky::Params do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       expect_raises Lucky::Exceptions::MissingNestedParam do
         params.nested(:missing)
@@ -232,7 +232,7 @@ describe Lucky::Params do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested?(:missing).should eq({} of String => String)
     end
@@ -244,7 +244,7 @@ describe Lucky::Params do
         "welcome_file" => "welcome file contents",
       }
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       file = params.get_file(:welcome_file)
       file.is_a?(Lucky::UploadedFile).should eq(true)
@@ -261,7 +261,7 @@ describe Lucky::Params do
         }
       )
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       file = params.get_file(:with)
       File.read(file.path).should eq "a file"
@@ -270,7 +270,7 @@ describe Lucky::Params do
     it "raises if missing a param and using get_file version" do
       request = build_multipart_request form_parts: {"this" => "that"}
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       expect_raises Lucky::Exceptions::MissingParam do
         params.get_file(:missing)
@@ -280,7 +280,7 @@ describe Lucky::Params do
     it "returns nil if using get_file? version" do
       request = build_multipart_request form_parts: {"this" => "that"}
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.get_file?(:missing).should be_nil
     end
@@ -294,7 +294,7 @@ describe Lucky::Params do
         },
       }
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       file = params.nested_file(:user)["avatar_file"]
       File.read(file.path).should eq "binary_image_content"
@@ -303,7 +303,7 @@ describe Lucky::Params do
     it "raises if nested files are missing and using nested_file! version" do
       request = build_multipart_request form_parts: {"this" => "that"}
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       expect_raises Lucky::Exceptions::MissingNestedParam do
         params.nested_file(:missing)
@@ -313,7 +313,7 @@ describe Lucky::Params do
     it "returns empty hash if nested files are missing and using nested_file? version" do
       request = build_multipart_request form_parts: {"this" => "that"}
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.nested_file?(:missing).should eq({} of String => File)
     end
@@ -324,7 +324,7 @@ describe Lucky::Params do
       request = build_request body: "users[0]:name=paul&users[1]:twitter_handle=@paulamason&users[0]:twitter_handle=@paulsmith&users[1]:name=paula&something:else=1",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested?(:users).should eq([
         {"name" => "paul", "twitter_handle" => "@paulsmith"},
@@ -344,7 +344,7 @@ describe Lucky::Params do
       )
       request.query = "from=query"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested?(:users).should eq([
         {"name" => "Paul", "age" => "28"},
@@ -357,7 +357,7 @@ describe Lucky::Params do
         content_type: "application/json"
       request.query = "from=query"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested?(:users).should eq([] of Hash(String, String))
     end
@@ -366,7 +366,7 @@ describe Lucky::Params do
       request = build_request body: {users: [{name: "Paul", age: 28}]}.to_json,
         content_type: "application/json; charset=UTF-8"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested?(:users).should eq([{"name" => "Paul", "age" => "28"}])
     end
@@ -376,7 +376,7 @@ describe Lucky::Params do
         content_type: "application/json"
       request.query = "users[0]:active=true"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested?(:users).should eq([
         {"name" => "Bunyan", "age" => "102", "active" => "true"},
@@ -391,7 +391,7 @@ describe Lucky::Params do
         ],
       }
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested(:users).should eq([
         {"name" => "Paul", "age" => "28"},
@@ -402,7 +402,7 @@ describe Lucky::Params do
     it "gets nested query params" do
       request = build_request body: "filters[0]:toppings=left_beef&filters[1]:type=none", content_type: ""
       request.query = "filters[0]:query=pizza&sort=desc"
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
       params.many_nested?("filters").should eq([
         {"query" => "pizza", "toppings" => "left_beef"},
         {"type" => "none"},
@@ -412,7 +412,7 @@ describe Lucky::Params do
     it "returns an empty array when no nested is found" do
       request = build_request body: "", content_type: ""
       request.query = "a=1"
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
       params.many_nested?("a").empty?.should eq true
     end
 
@@ -420,7 +420,7 @@ describe Lucky::Params do
       request = build_request body: "users%5B0%5D%3Aname=paul",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested?(:users).should eq([{"name" => "paul"}])
     end
@@ -429,7 +429,7 @@ describe Lucky::Params do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       expect_raises Lucky::Exceptions::MissingNestedParam do
         params.many_nested(:missing)
@@ -440,7 +440,7 @@ describe Lucky::Params do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request)
+      params = Lucky::Params::Finder.new(request)
 
       params.many_nested?(:missing).should eq([] of Hash(String, String))
     end
@@ -450,7 +450,7 @@ describe Lucky::Params do
     it "returns a hash for query_params" do
       request = build_request body: "", content_type: ""
       request.query = "filter:name=trombone&page=1&per=50"
-      params = Lucky::Params.new(request).to_h
+      params = Lucky::Params::Finder.new(request).to_h
       params.should eq({"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"})
     end
 
@@ -458,14 +458,14 @@ describe Lucky::Params do
       request = build_request body: "filter%3Aname=tuba&page=1&per=50",
         content_type: "application/x-www-form-urlencoded"
 
-      params = Lucky::Params.new(request).to_h
+      params = Lucky::Params::Finder.new(request).to_h
       params.should eq({"filter" => {"name" => "tuba"}, "page" => "1", "per" => "50"})
     end
 
     it "returns a hash for multipart_params" do
       request = build_multipart_request form_parts: {"filter" => {"name" => "baritone"}}
 
-      params = Lucky::Params.new(request).to_h
+      params = Lucky::Params::Finder.new(request).to_h
       params.should eq({"filter" => {"name" => "baritone"}})
     end
 
@@ -474,7 +474,7 @@ describe Lucky::Params do
         content_type: "application/json"
       request.query = "page=1&per=50"
 
-      params = Lucky::Params.new(request).to_h
+      params = Lucky::Params::Finder.new(request).to_h
       params.should eq({"filter" => {"name" => "euphonium"}, "page" => "1", "per" => "50"})
     end
   end

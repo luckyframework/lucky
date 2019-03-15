@@ -1,7 +1,9 @@
-class Lucky::Params::Base
+require "./factory"
+
+class Lucky::Params::Finder
   include Avram::Paramable
 
-  alias ParamKey : ParamKeyj
+  alias ParamKey : ParamKey
 
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
@@ -65,7 +67,7 @@ class Lucky::Params::Base
   # ```crystal
   # body = "user:name=Alesia&user:age=35&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
-  # params = Lucky::Params.new(request)
+  # params = Lucky::Params::Finder.new(request)
   #
   # params.nested("user")    # {"name" => "Alesia", "age" => "35"}
   # params.nested("missing") # Missing parameter: missing
@@ -87,7 +89,7 @@ class Lucky::Params::Base
   # ```crystal
   # body = "user:name=Alesia&user:age=35&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
-  # params = Lucky::Params.new(request)
+  # params = Lucky::Params::Finder.new(request)
   #
   # params.nested("user")    # {"name" => "Alesia", "age" => "35"}
   # params.nested("missing") # {}
@@ -139,7 +141,7 @@ class Lucky::Params::Base
   # ```crystal
   # body = "users[0]:name=Alesia&users[0]:age=35&users[1]:name=Bob&users[1]:age=40&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
-  # params = Lucky::Params.new(request)
+  # params = Lucky::Params::Finder.new(request)
   #
   # params.many_nested("users")
   # # [{"name" => "Alesia", "age" => "35"}, { "name" => "Bob", "age" => "40" }]
@@ -162,7 +164,7 @@ class Lucky::Params::Base
   # ```crystal
   # body = "users[0]:name=Alesia&users[0]:age=35&users[1]:name=Bob&users[1]:age=40&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
-  # params = Lucky::Params.new(request)
+  # params = Lucky::Params::Finder.new(request)
   #
   # params.nested("users")
   # # [{"name" => "Alesia", "age" => "35"}, { "name" => "Bob", "age" => "40" }]
@@ -178,7 +180,7 @@ class Lucky::Params::Base
   #
   # ```crystal
   # request.query = "filter:name=trombone&page=1&per=50"
-  # params = Lucky::Params.new(request)
+  # params = Lucky::Params::Finder.new(request)
   # params.to_h # {"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"}
   # ```
   def to_h
