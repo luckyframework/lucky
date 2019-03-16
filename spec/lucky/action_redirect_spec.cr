@@ -31,6 +31,10 @@ describe Lucky::Action do
     action = RedirectAction.new(build_context, params)
     action.redirect to: "/somewhere", status: Lucky::Action::Status::MovedPermanently
     should_redirect(action, to: "/somewhere", status: 301)
+
+    action = RedirectAction.new(build_context, params)
+    action.redirect to: "/somewhere", status: :moved_permanently
+    should_redirect(action, to: "/somewhere", status: 301)
   end
 end
 

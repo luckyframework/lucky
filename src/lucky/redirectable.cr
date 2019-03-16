@@ -42,19 +42,6 @@ module Lucky::Redirectable
     redirect to: action.route, status: status
   end
 
-  # Redirect using a `String`
-  #
-  # ```crystal
-  # redirect to: "/users"
-  # redirect to: "/users/1", status: 301
-  # ```
-  def redirect(to path : String, status = 302) : Lucky::TextResponse
-    context.response.headers.add "Location", path
-    context.response.headers.add "Turbolinks-Location", path
-    context.response.status_code = status
-    Lucky::TextResponse.new(context, "", "")
-  end
-
   # Redirect using a `String` and a `Status` value
   #
   # ```crystal
@@ -63,6 +50,19 @@ module Lucky::Redirectable
   # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
   def redirect(to path : String, status : Lucky::Action::Status = Lucky::Action::Status::Found) : Lucky::TextResponse
     redirect(path, status.value)
+  end
+
+  # Redirect using a `String`
+  #
+  # ```crystal
+  # redirect to: "/users"
+  # redirect to: "/users/1", status: 301
+  # ```
+  def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
+    context.response.headers.add "Location", path
+    context.response.headers.add "Turbolinks-Location", path
+    context.response.status_code = status
+    Lucky::TextResponse.new(context, "", "")
   end
 
   # :nodoc:
