@@ -43,6 +43,12 @@ class Rendering::JSON::WithTypedStatus < Lucky::Action
   end
 end
 
+class Rendering::JSON::WithSymbolStatus < Lucky::Action
+  get "/foo" do
+    json({name: "Paul"}, status: :created)
+  end
+end
+
 class Rendering::HeadOnly < Lucky::Action
   get "/foo" do
     head status: 204
@@ -52,6 +58,12 @@ end
 class Rendering::HeadOnly::WithTypedStatus < Lucky::Action
   get "/foo" do
     head status: Status::NoContent
+  end
+end
+
+class Rendering::HeadOnly::WithSymbolStatus < Lucky::Action
+  get "/foo" do
+    head status: :no_content
   end
 end
 
@@ -70,6 +82,12 @@ end
 class Rendering::Text::WithTypedStatus < Lucky::Action
   get "/foo" do
     text "Anything", status: Status::Created
+  end
+end
+
+class Rendering::Text::WithSymbolStatus < Lucky::Action
+  get "/foo" do
+    text "Anything", status: :created
   end
 end
 
@@ -134,6 +152,9 @@ describe Lucky::Action do
 
     status = Rendering::JSON::WithTypedStatus.new(build_context, params).call.status
     status.should eq 201
+
+    status = Rendering::JSON::WithSymbolStatus.new(build_context, params).call.status
+    status.should eq 201
   end
 
   it "renders head response with no body" do
@@ -142,6 +163,9 @@ describe Lucky::Action do
     response.status.should eq 204
 
     response = Rendering::HeadOnly::WithTypedStatus.new(build_context, params).call
+    response.status.should eq 204
+
+    response = Rendering::HeadOnly::WithSymbolStatus.new(build_context, params).call
     response.status.should eq 204
   end
 
@@ -155,6 +179,10 @@ describe Lucky::Action do
     response.status.should eq 201
 
     response = Rendering::Text::WithTypedStatus.new(build_context, params).call
+    response.body.should eq "Anything"
+    response.status.should eq 201
+
+    response = Rendering::Text::WithSymbolStatus.new(build_context, params).call
     response.body.should eq "Anything"
     response.status.should eq 201
   end
