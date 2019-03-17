@@ -46,6 +46,8 @@ module Lucky::Redirectable
   #
   # ```crystal
   # redirect to: "/users", status: Status::MovedPermanently
+  # # Symbols can be used in place of the enum. Crystal will convert these at compile time
+  # redirect to: "/users", status: :moved_permanently
   # ```
   # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
   def redirect(to path : String, status : Lucky::Action::Status) : Lucky::TextResponse
