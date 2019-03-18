@@ -1,19 +1,32 @@
 class Lucky::Router
-  INSTANCE = new
+  alias RouteMatch = LuckyRouter::Match(Lucky::Action.class) | Lucky::FallbackRoute | Nil
+  private class_property instance = new
 
   getter :routes
+  getter fallback : Lucky::FallbackRoute?
 
   def initialize
     @matcher = LuckyRouter::Matcher(Lucky::Action.class).new
     @routes = [] of Lucky::Route
+    @fallback = nil
   end
 
   def self.add(method, path, action) : Nil
-    INSTANCE.add(method, path, action)
+    instance.add(method, path, action)
+  end
+
+  def self.add_fallback(action) : Lucky::FallbackRoute
+    instance.add_fallback(action)
   end
 
   def self.routes : Array(Lucky::Route)
-    INSTANCE.routes
+    instance.routes
+  end
+
+  # :nodoc:
+  def self.reset! : Nil
+    @@instance = new
+    nil
   end
 
   def add(method, path, action) : Nil
@@ -22,15 +35,19 @@ class Lucky::Router
     @matcher.add(route.method.to_s, route.path, route.action)
   end
 
-  def find_action(method, path) : LuckyRouter::Match(Lucky::Action.class)?
-    @matcher.match method.to_s.downcase, path
+  def add_fallback(action) : Lucky::FallbackRoute
+    @fallback = Lucky::FallbackRoute.new(action)
   end
 
-  def self.find_action(method, path) : LuckyRouter::Match(Lucky::Action.class)?
-    INSTANCE.find_action(method, path)
+  def find_action(method, path) : RouteMatch
+    @matcher.match(method.to_s.downcase, path) || fallback
   end
 
-  def self.find_action(request) : LuckyRouter::Match(Lucky::Action.class)?
-    INSTANCE.find_action(request.method, request.path)
+  def self.find_action(method, path) : RouteMatch
+    instance.find_action(method, path)
+  end
+
+  def self.find_action(request) : RouteMatch
+    instance.find_action(request.method, request.path)
   end
 end
