@@ -1,7 +1,6 @@
 require "../../spec_helper"
 
 describe Lucky::Router do
-
   it "routes based on the method name and path" do
     Lucky::Router.reset!
     Lucky::Router.add :get, "/test", Lucky::Action
