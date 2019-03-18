@@ -2,9 +2,9 @@ require "../../spec_helper"
 
 describe Lucky::Router do
   # TODO: use this once there's a way to scope to just this block
-  #Spec.before_each do
+  # Spec.before_each do
   #  Lucky::Router.reset!
-  #end
+  # end
 
   it "routes based on the method name and path" do
     Lucky::Router.reset!
