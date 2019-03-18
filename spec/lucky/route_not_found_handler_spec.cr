@@ -20,12 +20,7 @@ describe Lucky::RouteNotFoundHandler do
     end
   end
 
-  it "takes an optional fallback action" do
-    context = build_context(path: "/non-existent")
-    context.request.method = "GET"
-
-    handler = Lucky::RouteNotFoundHandler.new(fallback: SampleFallbackAction::Index)
-    handler.next = ->(_ctx : HTTP::Server::Context) {}
-    handler.call(context)
+  it "has the fallback_action set from a fallback route" do
+    Lucky::RouteNotFoundHandler.fallback_action.should eq SampleFallbackAction::Index
   end
 end
