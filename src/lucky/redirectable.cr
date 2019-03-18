@@ -42,27 +42,30 @@ module Lucky::Redirectable
     redirect to: action.route, status: status
   end
 
-  # Redirect using a `String`
+  # Redirect to the given path, with a human friendly status
+  #
+  # ```crystal
+  # redirect to: "/users", status: Status::MovedPermanently
+  # # Symbols can be used in place of the enum. Crystal will convert these at compile time
+  # redirect to: "/users", status: :moved_permanently
+  # ```
+  # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
+  def redirect(to path : String, status : Lucky::Action::Status) : Lucky::TextResponse
+    redirect(path, status.value)
+  end
+
+  # Redirect to the given path, with an optional `Int32` status
   #
   # ```crystal
   # redirect to: "/users"
   # redirect to: "/users/1", status: 301
   # ```
-  def redirect(to path : String, status = 302) : Lucky::TextResponse
+  # Note: It's recommended to use the method above that accepts a human friendly version of the status
+  def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
     context.response.headers.add "Location", path
     context.response.headers.add "Turbolinks-Location", path
     context.response.status_code = status
     Lucky::TextResponse.new(context, "", "")
-  end
-
-  # Redirect using a `String` and a `Status` value
-  #
-  # ```crystal
-  # redirect to: "/users", status: Status::MovedPermanently
-  # ```
-  # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
-  def redirect(to path : String, status : Lucky::Action::Status = Lucky::Action::Status::Found) : Lucky::TextResponse
-    redirect(path, status.value)
   end
 
   # :nodoc:
