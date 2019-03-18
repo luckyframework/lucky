@@ -126,12 +126,6 @@ class Rendering::File::Missing < Lucky::Action
   end
 end
 
-class Rendering::FallbackRoute < Lucky::Action
-  fallback do
-    text "Hey, you found me!"
-  end
-end
-
 describe Lucky::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
@@ -211,11 +205,5 @@ describe Lucky::Action do
     response = Rendering::File::CustomContentType.new(build_context, params).call
     response.status.should eq 200
     response.content_type.should eq "text/html"
-  end
-
-  it "renders from a fallback" do
-    response = Rendering::FallbackRoute.new(build_context, params).call
-    response.body.should eq "Hey, you found me!"
-    response.status.should eq 200
   end
 end

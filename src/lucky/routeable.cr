@@ -1,7 +1,7 @@
 # Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routeable
   macro fallback
-    Lucky::Router.add_fallback({{ @type.name.id }})
+    Lucky::RouteNotFoundHandler.fallback_action = {{ @type.name.id }}
     setup_call_method({{ yield }})
   end
 
