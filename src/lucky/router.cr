@@ -17,12 +17,6 @@ class Lucky::Router
     instance.routes
   end
 
-  # :nodoc:
-  def self.reset! : Nil
-    @@instance = new
-    nil
-  end
-
   def add(method, path, action) : Nil
     route = Lucky::Route.new(method, path, action)
     @routes << route
