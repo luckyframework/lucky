@@ -33,7 +33,7 @@ module Lucky::BaseTags
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
       view << "<{{tag.id}}" << tag_attrs << ">"
-      yield
+      tag_content_check(yield)
       view << "</{{tag.id}}>"
     end
 
@@ -42,7 +42,7 @@ module Lucky::BaseTags
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
       view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
-      yield
+      tag_content_check(yield)
       view << "</{{tag.id}}>"
     end
   end
@@ -110,5 +110,11 @@ module Lucky::BaseTags
     end
 
     options
+  end
+
+  private def tag_content_check(content)
+    return if content.nil?
+    return content if typeof(content) == IO::Memory
+    raise Lucky::Exceptions::InvalidTagError.new(content.to_s)
   end
 end

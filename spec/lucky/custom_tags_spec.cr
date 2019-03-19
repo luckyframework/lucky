@@ -43,6 +43,19 @@ describe Lucky::CustomTags do
   it "has a method for empty tags" do
     view.empty_tag("br").to_s.should eq "<br>"
   end
+
+  it "raises an exception when passed something other than a tag" do
+    message = <<-MESSAGE
+    Returned "my string", but was expecting a tag to be used.
+
+    If you want to display the text, try this:
+
+      text "my string"
+    MESSAGE
+    expect_raises(Lucky::Exceptions::InvalidTagError, message) do
+      view.tag("foo-tag") { "my string" }
+    end
+  end
 end
 
 private def view
