@@ -1,6 +1,5 @@
 class Lucky::Router
-  alias RouteMatch = LuckyRouter::Match(Lucky::Action.class)
-  private class_property instance = new
+  INSTANCE = new
 
   getter :routes
 
@@ -10,11 +9,11 @@ class Lucky::Router
   end
 
   def self.add(method, path, action) : Nil
-    instance.add(method, path, action)
+    INSTANCE.add(method, path, action)
   end
 
   def self.routes : Array(Lucky::Route)
-    instance.routes
+    INSTANCE.routes
   end
 
   def add(method, path, action) : Nil
@@ -23,15 +22,15 @@ class Lucky::Router
     @matcher.add(route.method.to_s, route.path, route.action)
   end
 
-  def find_action(method, path) : RouteMatch?
-    @matcher.match(method.to_s.downcase, path)
+  def find_action(method, path) : LuckyRouter::Match(Lucky::Action.class)?
+    @matcher.match method.to_s.downcase, path
   end
 
-  def self.find_action(method, path) : RouteMatch?
-    instance.find_action(method, path)
+  def self.find_action(method, path) : LuckyRouter::Match(Lucky::Action.class)?
+    INSTANCE.find_action(method, path)
   end
 
-  def self.find_action(request) : RouteMatch?
-    instance.find_action(request.method, request.path)
+  def self.find_action(request) : LuckyRouter::Match(Lucky::Action.class)?
+    INSTANCE.find_action(request.method, request.path)
   end
 end
