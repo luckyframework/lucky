@@ -23,7 +23,9 @@ module Lucky::TagContentCheckable
 
       If you want to display text, try this:
 
-        text "my string"
+        div do
+          text "my string"
+        end
       MESSAGE
     %}
   end
