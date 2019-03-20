@@ -1,4 +1,5 @@
 module Lucky::CustomTags
+  include Lucky::CheckTagContent
   EMPTY_HTML_ATTRS = {} of String => String
 
   def tag(
@@ -32,7 +33,7 @@ module Lucky::CustomTags
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
     view << "<#{name}" << tag_attrs << boolean_attrs << ">"
-    yield
+    check_tag_content!(yield)
     view << "</#{name}>"
   end
 
