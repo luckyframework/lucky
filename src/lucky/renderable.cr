@@ -103,6 +103,23 @@ module Lucky::Renderable
     response.print
   end
 
+  private def handle_response(_response : T) forall T
+    {%
+      raise <<-ERROR
+
+
+      Your action returned #{T}
+
+      But it should return a Lucky::Response
+
+      Try this...
+
+        ▸ Use a method like render/redirect/json at the end of your action.
+        ▸ Ensure all conditionals (like if/else) return a response with render/redirect/json/etc.
+      ERROR
+    %}
+  end
+
   private def log_response(response : Lucky::Response) : Nil
     response.debug_message.try do |message|
       Lucky.logger.debug(message)
