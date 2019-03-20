@@ -77,20 +77,5 @@ module Lucky
         MESSAGE
       end
     end
-
-    class InvalidTagError < Base
-      def initialize(@invalid_string : String?)
-      end
-
-      def message : String?
-        <<-MESSAGE
-        Returned "#{@invalid_string}", but was expecting a tag to be used.
-
-        If you want to display the text, try this:
-
-          text "#{@invalid_string}"
-        MESSAGE
-      end
-    end
   end
 end
