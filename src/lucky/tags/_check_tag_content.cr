@@ -1,4 +1,4 @@
-module Lucky::TagContentCheckable
+module Lucky::CheckTagContent
   # If a tag has a nested tag (`IO`) or nil
   # then return that content.
   # ```
@@ -6,7 +6,7 @@ module Lucky::TagContentCheckable
   # div { div { } }
   # div { text "" }
   # ```
-  private def tag_content_check!(content : IO?)
+  private def check_tag_content!(content : IO?)
     content
   end
 
@@ -15,7 +15,7 @@ module Lucky::TagContentCheckable
   # ```
   # div { "this will fail" }
   # ```
-  private def tag_content_check!(content)
+  private def check_tag_content!(content)
     {%
       raise <<-MESSAGE
 
