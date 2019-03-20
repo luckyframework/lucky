@@ -46,21 +46,6 @@ describe Lucky::BaseTags do
     view.input(attrs: [:autofocus], type: "text").to_s.should contain %{<input type="text" autofocus>}
   end
 
-  it "raises an exception when passed something other than a tag" do
-    message = <<-MESSAGE
-    Returned "my string", but was expecting a tag to be used.
-
-    If you want to display the text, try this:
-
-      text "my string"
-    MESSAGE
-    expect_raises(Lucky::Exceptions::InvalidTagError, message) do
-      view do
-        div { "my string" }
-      end
-    end
-  end
-
   describe "#style" do
     it "renders a style tag" do
       view.style("body { font-size: 2em; }").to_s.should contain <<-HTML
