@@ -26,6 +26,7 @@ class Lucky::ForceSSLHandler
   Habitat.create do
     setting redirect_status : Int32 = Lucky::Action::Status::PermanentRedirect.value
     setting enabled : Bool = true
+    setting hsts : NamedTuple(max_age: Time::Span, include_subdomains: Bool)? = {max_age: 365.days, include_subdomains: true}
   end
 
   def call(context)
@@ -46,7 +47,18 @@ class Lucky::ForceSSLHandler
 
   private def redirect_to_secure_version(context : HTTP::Server::Context)
     context.response.status_code = settings.redirect_status
+    add_hsts_if_enabled(context)
     context.response.headers["Location"] =
       "https://#{context.request.host}#{context.request.resource}"
+  end
+
+  private def add_hsts_if_enabled(context : HTTP::Server::Context)
+    if !!settings.hsts
+      sts_value = String.build do |s|
+        s << "max-age=#{settings.hsts.not_nil![:max_age].total_seconds.to_i}"
+        s << "; includeSubDomains" if settings.hsts.not_nil![:include_subdomains]
+      end
+      context.response.headers["Strict-Transport-Security"] = sts_value
+    end
   end
 end
