@@ -1,20 +1,20 @@
 module Lucky::TagContentCheckable
   # If a tag has a nested tag (`IO`) or nil
   # then return that content.
-  #   ```
-  #     div { }
-  #     div { div { } }
-  #     div { text "" }
-  #   ```
+  # ```
+  # div { }
+  # div { div { } }
+  # div { text "" }
+  # ```
   private def tag_content_check!(content : IO?)
     content
   end
 
   # A tag can only have another tag or nil as a
   # nested value. Anything else should raise a compile-time error
-  #   ```
-  #     div { "this will fail" }
-  #   ```
+  # ```
+  # div { "this will fail" }
+  # ```
   private def tag_content_check!(content)
     {%
       raise <<-MESSAGE
