@@ -12,12 +12,15 @@
 
 # *Enabled* - The handler can be enabled/disabled. This is helpful for working
 # in a local development environment.
+
+# *HSTS* - Settings to configure HSTS header with max-age and includeSubDomains
 #
 # ```
 # # Usually in config/force_ssl_handler.cr
 # Lucky::ForceSSLHandler.configure do |settings|
 #   settings.redirect_status = 303
 #   settings.enabled = false
+#   settings.hsts = {max_age: 18.weeks, include_subdomains: false}
 # end
 # ```
 class Lucky::ForceSSLHandler
