@@ -39,4 +39,9 @@ Lucky::StaticFileHandler.configure do |settings|
   settings.hide_from_logs = true
 end
 
+Lucky::ForceSSLHandler.configure do |settings|
+  settings.enabled = true
+  settings.hsts = {max_age: 365.days, include_subdomains: true}
+end
+
 Habitat.raise_if_missing_settings!
