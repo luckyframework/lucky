@@ -22,11 +22,12 @@
 # ```
 class Lucky::ForceSSLHandler
   include HTTP::Handler
+  alias Hsts = NamedTuple(max_age: Time::Span, include_subdomains: Bool)
 
   Habitat.create do
     setting redirect_status : Int32 = Lucky::Action::Status::PermanentRedirect.value
     setting enabled : Bool = true
-    setting hsts : NamedTuple(max_age: Time::Span, include_subdomains: Bool)? = {max_age: 365.days, include_subdomains: true}
+    setting hsts : Hsts? = {max_age: 365.days, include_subdomains: true}
   end
 
   def call(context)
@@ -52,13 +53,14 @@ class Lucky::ForceSSLHandler
       "https://#{context.request.host}#{context.request.resource}"
   end
 
+  # Read more about [HSTS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
   private def add_hsts_if_enabled(context : HTTP::Server::Context)
-    if !!settings.hsts
-      sts_value = String.build do |s|
-        s << "max-age=#{settings.hsts.not_nil![:max_age].total_seconds.to_i}"
-        s << "; includeSubDomains" if settings.hsts.not_nil![:include_subdomains]
+    sts_value = settings.hsts.try do |hsts|
+      String.build do |s|
+        s << "max-age=#{hsts[:max_age].total_seconds.to_i}"
+        s << "; includeSubDomains" if hsts[:include_subdomains]
       end
-      context.response.headers["Strict-Transport-Security"] = sts_value
     end
+    context.response.headers["Strict-Transport-Security"] = sts_value if sts_value
   end
 end
