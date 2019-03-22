@@ -27,21 +27,28 @@ module Lucky
         before set_frame_guard_header
       end
 
-      abstract def frame_guard_options : NamedTuple(allow_from: String)
+      abstract def frame_guard_value : String
 
       private def set_frame_guard_header
-        context.response.headers["X-Frame-Options"] = frame_guard_value(frame_guard_options)
+        context.response.headers["X-Frame-Options"] = check_frame_guard_value!(frame_guard_value)
         continue
       end
 
-      private def frame_guard_value(options)
-        case options[:allow_from].downcase
-        when "same", "sameorigin"
-          "sameorigin"
-        when "nowhere", "deny"
-          "deny"
+      private def check_frame_guard_value!(value : String)
+        v = value.downcase
+        case v
+        when "sameorigin", "deny"
+          v
+        when /^https?:\/\/[0-9a-zA-Z_-]+\.?[0-9a-zA-Z_-].+$/
+          "allow-from #{v}"
         else
-          "allow-from #{options[:allow_from]}"
+          raise <<-MESSAGE
+
+          You set frame_guard_value to #{value}, but it must be one of these options:
+            - "sameorigin"
+            - "deny"
+            - A valid URL
+          MESSAGE
         end
       end
     end
