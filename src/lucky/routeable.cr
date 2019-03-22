@@ -1,5 +1,10 @@
 # Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routeable
+  macro fallback
+    Lucky::RouteNotFoundHandler.fallback_action = {{ @type.name.id }}
+    setup_call_method({{ yield }})
+  end
+
   {% for http_method in [:get, :put, :post, :patch, :trace, :delete] %}
     # Define a route that responds to a {{ http_method.id.upcase }} request
     #
