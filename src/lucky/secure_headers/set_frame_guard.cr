@@ -5,22 +5,22 @@ module Lucky
     # For more information, read up on [Clickjacking](https://en.wikipedia.org/wiki/Clickjacking).
     #
     # Include this module in the actions you want to add this to.
-    # A required method `frame_guard_options` must be defined`
+    # A required method `frame_guard_value` must be defined`
     # ```
     # class BrowserAction < Lucky::Action
     #   include Lucky::SecureHeaders::SetFrameGuard
     #
-    #   def frame_guard_options
-    #     {allow_from: "deny"}
+    #   def frame_guard_value
+    #     "deny"
     #   end
     # end
     # ```
     #
     # ### Options
-    # The `frame_guard_options` method must be defined and return `NamedTuple(allow_from: String)`
-    # The `allow_from` key can have one of 3 String values:
-    # - `"same"` or `"sameorigin"`
-    # - `"nowhere" or `"deny"`
+    # The `frame_guard_value` method must be defined and return a `String`
+    # It can have one of 3 String values:
+    # - `"sameorigin"`
+    # - `"deny"`
     # - a valid URL e.g. `"https://mysite.com"`
     module SetFrameGuard
       macro included
@@ -39,12 +39,13 @@ module Lucky
         case v
         when "sameorigin", "deny"
           v
-        when /^https?:\/\/[0-9a-zA-Z_-]+\.?[0-9a-zA-Z_-].+$/
+        when /^https?:\/\/\w+./
           "allow-from #{v}"
         else
           raise <<-MESSAGE
 
           You set frame_guard_value to #{value}, but it must be one of these options:
+
             - "sameorigin"
             - "deny"
             - A valid URL
