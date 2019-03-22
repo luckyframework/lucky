@@ -58,6 +58,14 @@ class XSSGuardRoutes::Index < Lucky::Action
   end
 end
 
+class SniffGuardRoutes::Index < Lucky::Action
+  include Lucky::SecureHeaders::SetSniffGuard
+
+  get "/so_custom" do
+    text "test"
+  end
+end
+
 describe Lucky::SecureHeaders do
   describe "SetFrameGuard" do
     it "sets the X-Frame-Options header with sameorigin" do
@@ -93,6 +101,13 @@ describe Lucky::SecureHeaders do
       request.headers["User-Agent"] = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)"
       route = XSSGuardRoutes::Index.new(build_context("/so_custom", request), params).call
       route.context.response.headers["X-XSS-Protection"].should eq "0"
+    end
+  end
+
+  describe "SetSniffGuard" do
+    it "sets the X-Content-Type-Options to nosniff" do
+      route = SniffGuardRoutes::Index.new(build_context, params).call
+      route.context.response.headers["X-Content-Type-Options"].should eq "nosniff"
     end
   end
 end
