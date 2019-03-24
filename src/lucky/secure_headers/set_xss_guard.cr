@@ -2,7 +2,7 @@ module Lucky
   module SecureHeaders
     # This module sets the HTTP header [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection).
     # It's job is responsible for telling the browser to not render a page if it detects cross-site scripting.
-    # For Internet Explorer browsers less than 9, it's recommended to disabled it. Read more on [Microsoft](https://blogs.msdn.microsoft.com/ieinternals/2011/01/31/controlling-the-xss-filter/).
+    # Lucky disables this header for Internet Explorer version < 9 for you as per recommendations. Read more on [Microsoft](https://blogs.msdn.microsoft.com/ieinternals/2011/01/31/controlling-the-xss-filter/).
     #
     # Include this module in the actions you want to add this to.
     # ```
