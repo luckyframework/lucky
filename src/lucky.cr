@@ -14,6 +14,7 @@ require "./lucky/http_respondable"
 require "./lucky/exceptions"
 require "./lucky/response"
 require "./lucky/cookies/*"
+require "./lucky/secure_headers/*"
 require "./lucky/*"
 
 module Lucky
