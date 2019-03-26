@@ -1,13 +1,17 @@
 require "json"
+require "yaml"
 require "colorize"
 
 class AssetManifestBuilder
-  MANIFEST_PATH = File.expand_path("./public/mix-manifest.json")
-  MAX_RETRIES   =   20
-  RETRY_AFTER   = 0.25
+  MANIFEST_PATH       = File.expand_path("./public/mix-manifest.json")
+  WATCH_PATH          = File.expand_path("./config/watch.yml")
+  MAX_RETRIES         =   20
+  DEFAULT_RETRY_AFTER = 0.25
 
   property retries
   @retries : Int32 = 0
+
+  @retry_interval : Float64? = nil
 
   def self.build_with_retry
     new.build_with_retry
@@ -21,10 +25,27 @@ class AssetManifestBuilder
     end
   end
 
+  private def retry_interval
+    @retry_interval ||= ->{
+      if watch_config_exists?
+        value = read_retry_interval || DEFAULT_RETRY_AFTER
+      else
+        value = DEFAULT_RETRY_AFTER
+      end
+      value / MAX_RETRIES
+    }.call
+  end
+
+  private def read_retry_interval
+    watch_file = File.read(WATCH_PATH)
+    seconds = YAML.parse(watch_file)["retry_seconds"]?
+    seconds ? seconds.to_s.to_f : nil
+  end
+
   private def retry_or_raise_error
     if retries < MAX_RETRIES
       self.retries += 1
-      sleep(RETRY_AFTER)
+      sleep(retry_interval)
       build_with_retry
     else
       raise_missing_manifest_error
@@ -43,6 +64,10 @@ class AssetManifestBuilder
 
   private def manifest_exists?
     File.exists?(MANIFEST_PATH)
+  end
+
+  private def watch_config_exists?
+    File.exists?(WATCH_PATH)
   end
 
   private def raise_missing_manifest_error
