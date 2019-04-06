@@ -43,6 +43,7 @@ module Sentry
       if reload_browser?
         reload_or_start_browser_sync
       end
+      print_running_at if successful_compilations == 1
     end
 
     private def reload_or_start_browser_sync
@@ -81,18 +82,48 @@ module Sentry
 
     private def start_browsersync
       spawn do
-        Process.run "RUNNING_IN_BROWSERSYNC=true yarn run browser-sync start #{browsersync_options}",
+        Process.run \
+          "RUNNING_IN_BROWSERSYNC=true yarn run browser-sync start #{browsersync_options}",
           output: STDOUT,
           error: STDERR,
           shell: true
       end
     end
 
-    private def browsersync_options
-      "-c bs-config.js --port #{BROWSERSYNC_PORT} -p #{proxy}"
+    private def print_running_at
+      STDOUT.puts ""
+      STDOUT.puts running_at_background
+      STDOUT.puts running_at_message.colorize.on_cyan.black
+      STDOUT.puts running_at_background
+      STDOUT.puts ""
     end
 
-    private def proxy
+    private def running_at_background
+      extra_space_for_emoji = 1
+      (" " * (running_at_message.size + extra_space_for_emoji)).colorize.on_cyan
+    end
+
+    private def running_at_message
+      "   🎉 Running at #{running_at}   "
+    end
+
+    private def running_at
+      if reload_browser?
+        browsersync_url
+      else
+        original_url
+      end
+    end
+
+    private def browsersync_options
+      "-c bs-config.js --port #{BROWSERSYNC_PORT} -p #{original_url}"
+    end
+
+    private def browsersync_url
+      "http://#{Lucky::ServerSettings.host}:#{BROWSERSYNC_PORT}"
+    end
+
+    private def original_url
       "http://#{Lucky::ServerSettings.host}:#{Lucky::ServerSettings.port}"
     end
 
