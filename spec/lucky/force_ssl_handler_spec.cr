@@ -54,23 +54,25 @@ describe Lucky::ForceSSLHandler do
       context.response.headers["Location"]?.should be_nil
     end
 
-    it "enables HSTS with 1 year max age and subdomains by default" do
+    it "allows setting Strict-Transport-Security" do
       context = build_context(path: "/path")
 
-      run_force_ssl_handler context
-
-      context.response.headers["Strict-Transport-Security"].should eq "max-age=31536000; includeSubDomains"
-    end
-
-    it "allows setting hsts max-age to 180 days with no subdomains" do
-      context = build_context(path: "/path")
-
-      Lucky::ForceSSLHandler.temp_config(hsts: {max_age: 180.days, include_subdomains: false}) do
+      with_strict_transport_security({max_age: 180.days, include_subdomains: false}) do
         run_force_ssl_handler context
+        context.response.headers["Strict-Transport-Security"].should eq "max-age=15552000"
       end
 
-      context.response.headers["Strict-Transport-Security"].should eq "max-age=15552000"
+      with_strict_transport_security({max_age: 180.days, include_subdomains: true}) do
+        run_force_ssl_handler context
+        context.response.headers["Strict-Transport-Security"].should eq "max-age=15552000; includeSubDomains"
+      end
     end
+  end
+end
+
+private def with_strict_transport_security(args)
+  Lucky::ForceSSLHandler.temp_config(strict_transport_security: args) do
+    yield
   end
 end
 

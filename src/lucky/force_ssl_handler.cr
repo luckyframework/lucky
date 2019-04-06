@@ -12,25 +12,24 @@
 
 # *Enabled* - The handler can be enabled/disabled. This is helpful for working
 # in a local development environment.
-
-# *HSTS* - Settings to configure HSTS header with max-age and includeSubDomains
+#
+# *Strict-Transport-Security* - Settings to configure the ['Strict-Transport-Security' header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
 #
 # ```
 # # Usually in config/force_ssl_handler.cr
 # Lucky::ForceSSLHandler.configure do |settings|
 #   settings.redirect_status = 303
 #   settings.enabled = false
-#   settings.hsts = {max_age: 18.weeks, include_subdomains: false}
+#   settings.strict_transport_security = {max_age: 1.year, include_subdomains: true}
 # end
 # ```
 class Lucky::ForceSSLHandler
   include HTTP::Handler
-  alias Hsts = NamedTuple(max_age: Time::Span, include_subdomains: Bool)
 
   Habitat.create do
     setting redirect_status : Int32 = Lucky::Action::Status::PermanentRedirect.value
     setting enabled : Bool
-    setting hsts : Hsts
+    setting strict_transport_security : NamedTuple(max_age: Time::Span, include_subdomains: Bool)?
   end
 
   def call(context)
@@ -51,17 +50,17 @@ class Lucky::ForceSSLHandler
 
   private def redirect_to_secure_version(context : HTTP::Server::Context)
     context.response.status_code = settings.redirect_status
-    add_hsts_if_enabled(context)
+    add_transport_header_if_enabled(context)
     context.response.headers["Location"] =
       "https://#{context.request.host}#{context.request.resource}"
   end
 
-  # Read more about [HSTS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
-  private def add_hsts_if_enabled(context : HTTP::Server::Context)
-    settings.hsts.try do |hsts|
+  # Read more about [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
+  private def add_transport_header_if_enabled(context : HTTP::Server::Context)
+    settings.strict_transport_security.try do |header|
       sts_value = String.build do |s|
-        s << "max-age=#{hsts[:max_age].total_seconds.to_i}"
-        s << "; includeSubDomains" if hsts[:include_subdomains]
+        s << "max-age=#{header[:max_age].total_seconds.to_i}"
+        s << "; includeSubDomains" if header[:include_subdomains]
       end
       context.response.headers["Strict-Transport-Security"] = sts_value
     end
