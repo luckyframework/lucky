@@ -31,7 +31,7 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
 
   private class RequestStartedFormatter < MessageFormatter
     def format(data : NamedTuple(method: String, path: String))
-      io << "#{data[:method]} #{data[:path].colorize.underline}"
+      io << "\n#{data[:method]} #{data[:path].colorize.underline}"
     end
   end
 

@@ -6,7 +6,7 @@ describe Lucky::PrettyLogFormatter do
       io = IO::Memory.new
       format(io, {method: "GET", path: "/foo"})
 
-      io.to_s.chomp.should start_with("GET #{"/foo".colorize.underline}")
+      io.to_s.chomp.should start_with("\nGET #{"/foo".colorize.underline}")
     end
 
     it "pretty formats data for the end of an HTTP request" do
