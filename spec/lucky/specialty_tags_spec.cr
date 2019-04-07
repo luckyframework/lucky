@@ -48,12 +48,12 @@ describe Lucky::SpecialtyTags do
     HTML
   end
 
-  it "renders proper space entity" do
-    view.space.to_s.should contain <<-HTML
+  it "renders proper non-breaking space entity" do
+    view.nbsp.to_s.should contain <<-HTML
     &nbsp;
     HTML
 
-    view.space(3).to_s.should contain <<-HTML
+    view.nbsp(3).to_s.should contain <<-HTML
     &nbsp;&nbsp;&nbsp;
     HTML
   end
