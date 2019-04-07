@@ -56,4 +56,22 @@ module Lucky::SpecialtyTags
   def raw(string : String)
     view << string
   end
+
+  # Generates an escaped HTML `&nbsp;` entity for the number of times specified
+  # by `how_many`. By default it generates 1 non-breaking space character.
+  #
+  # ```
+  # link "Home", to: Home::Index
+  # span do
+  #   nbsp
+  #   text "|"
+  #   nbsp
+  # end
+  # link "About", to: About::Index
+  # ```
+  # Would generate `<a href="/">Home</a><span>&nbsp;|&nbsp;</span><a href="/about">About</a>`
+  def nbsp(how_many : Int32 = 1)
+    how_many.times { raw("&nbsp;") }
+    view
+  end
 end

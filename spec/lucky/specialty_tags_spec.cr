@@ -1,5 +1,7 @@
 require "../../spec_helper"
 
+include ContextHelper
+
 private class TestPage
   include Lucky::HTMLPage
 
@@ -43,6 +45,16 @@ describe Lucky::SpecialtyTags do
   it "renders responsive meta tag" do
     view.responsive_meta_tag.to_s.should contain <<-HTML
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    HTML
+  end
+
+  it "renders proper non-breaking space entity" do
+    view.nbsp.to_s.should contain <<-HTML
+    &nbsp;
+    HTML
+
+    view.nbsp(3).to_s.should contain <<-HTML
+    &nbsp;&nbsp;&nbsp;
     HTML
   end
 end
