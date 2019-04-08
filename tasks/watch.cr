@@ -104,7 +104,7 @@ module Sentry
     end
 
     private def running_at_message
-      "   🎉 Running at #{running_at}   "
+      "   🎉 App running at #{running_at}   "
     end
 
     private def running_at
