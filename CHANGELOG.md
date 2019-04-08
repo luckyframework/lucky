@@ -1,3 +1,7 @@
+### Changes since v0.13
+
+- Change `Lucky::BaseApp` to `Lucky::BaseAppServer`
+
 ### Changes since v0.12
 
 - Use [`Dexter`](https://github.com/luckyframework/dexter) as the logger. https://github.com/luckyframework/lucky_cli/pull/300 and https://github.com/luckyframework/lucky_cli/pull/299

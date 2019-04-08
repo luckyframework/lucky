@@ -1,5 +1,5 @@
 # The Base class for creating an app server in Lucky
-abstract class Lucky::BaseApp
+abstract class Lucky::BaseAppServer
   private getter server
 
   abstract def middleware : Array(HTTP::Handler)
