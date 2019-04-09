@@ -10,5 +10,5 @@ Link to specific lines of code, or examples if you need to.
 * [ ] - An issue already exists detailing the issue/or feature request that this PR fixes
 * [ ] - All specs are formatted with `crystal tool format spec src`
 * [ ] - Inline documentation has been added and/or updated
-* [ ] - Lucky builds on docker with `./scripts/setup`
-* [ ] - All builds and specs pass on docker with `./scripts/test`
+* [ ] - Lucky builds on docker with `./script/setup`
+* [ ] - All builds and specs pass on docker with `./script/test`
