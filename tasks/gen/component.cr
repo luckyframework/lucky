@@ -36,8 +36,8 @@ class Gen::Component < LuckyCli::Task
   end
 
   private def invalid_format_error
-    if !component_class.includes?("::")
-      "Components must be namespaced. Example: lucky gen.component Users::Row"
+    if component_class.camelcase != component_class
+      "Component name should be camel case. Example: lucky gen.component #{component_class.camelcase}"
     end
   end
 

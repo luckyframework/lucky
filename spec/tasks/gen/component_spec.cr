@@ -25,15 +25,15 @@ describe Gen::Component do
     io.to_s.should contain("Component name is required.")
   end
 
-  it "displays an error if given only one class" do
+  it "displays an error if not given a class" do
     with_cleanup do
       io = IO::Memory.new
-      invalid_name = "Users"
-      ARGV.push(invalid_name)
+      invalid_component = "mycomponent"
+      ARGV.push(invalid_component)
 
       Gen::Component.new.call(io)
 
-      io.to_s.should contain("Components must be namespaced")
+      io.to_s.should contain("Component name should be camel case")
     end
   end
 end
