@@ -43,7 +43,12 @@ module Sentry
       if reload_browser?
         reload_or_start_browser_sync
       end
-      print_running_at if successful_compilations == 1
+      if successful_compilations == 1
+        spawn do
+          sleep(0.3)
+          print_running_at
+        end
+      end
     end
 
     private def reload_or_start_browser_sync
