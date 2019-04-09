@@ -3,6 +3,7 @@ class Lucky::CookieJar
   LUCKY_ENCRYPTION_PREFIX = Base64.encode("lucky") + "--"
   alias Key = String | Symbol
   private property cookies
+  private property set_cookies
 
   Habitat.create do
     setting on_set : (HTTP::Cookie -> HTTP::Cookie)?
@@ -18,13 +19,19 @@ class Lucky::CookieJar
 
   private def initialize
     @cookies = HTTP::Cookies.new
+    @set_cookies = HTTP::Cookies.new
   end
 
   private def initialize(@cookies : HTTP::Cookies)
+    @set_cookies = HTTP::Cookies.new
   end
 
   def raw : HTTP::Cookies
     cookies
+  end
+
+  def updated : HTTP::Cookies
+    set_cookies
   end
 
   def destroy
@@ -42,7 +49,10 @@ class Lucky::CookieJar
   end
 
   def delete(key : Key) : Nil
-    raw[key.to_s].try &.expires(1.year.ago).value("")
+    if cookie = cookies[key.to_s]
+      cookie.expires(1.year.ago).value("")
+      set_cookies[key.to_s] = cookie
+    end
   end
 
   def get_raw(key : Key) : HTTP::Cookie
@@ -70,13 +80,14 @@ class Lucky::CookieJar
   end
 
   def set_raw(key : Key, value : String) : HTTP::Cookie
-    cookies[key.to_s] = HTTP::Cookie.new(
+    raw_cookie = HTTP::Cookie.new(
       name: key.to_s,
       value: value,
       http_only: true,
     ).tap do |cookie|
       settings.on_set.try(&.call(cookie))
     end
+    cookies[key.to_s] = set_cookies[key.to_s] = raw_cookie
   end
 
   private def encrypt(raw_value : String) : String
