@@ -56,11 +56,20 @@ describe "components rendering" do
     contents.should contain("/images/logo-with-hash.png")
     contents.should contain("JANE")
     contents.should contain("Block without args")
+    contents.should_not contain("<!--")
   end
 
   it "renders to a string" do
     html = ComplexTestComponent.new(title: "passed_in_title").render_to_string
 
     html.should contain("passed_in_title")
+  end
+
+  it "prints a comment when configured to do so" do
+    Lucky::HTMLPage.temp_config(render_component_comments: true) do
+      contents = TestMountPage.new(build_context).render.to_s
+      contents.should contain("<!-- Rendered by ComplexTestComponent -->")
+      contents.should contain("<!-- Rendered by ComponentWithBlock -->")
+    end
   end
 end
