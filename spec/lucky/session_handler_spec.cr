@@ -28,6 +28,19 @@ describe Lucky::SessionHandler do
     context_2.cookies.get(:email).should eq "test@example.com"
   end
 
+  it "write to response only updated cookies" do
+    request = build_request
+    # set initial cookies via header
+    request.headers.add("Cookie", "cookie1=value1; cookie2=value2")
+    context = build_context("/", request: request)
+    context.cookies.set_raw(:cookie2, "updated2")
+
+    Lucky::SessionHandler.new.call(context)
+
+    context.response.headers["Set-Cookie"].should contain("cookie2=updated2")
+    context.response.headers["Set-Cookie"].should_not contain("cookie1")
+  end
+
   it "sets a session" do
     context = build_context
     context.session.set(:email, "test@example.com")

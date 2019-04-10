@@ -18,7 +18,7 @@ class Lucky::SessionHandler
   private def write_cookies(context : HTTP::Server::Context) : Void
     response = context.response
 
-    context.cookies.raw.each do |cookie|
+    context.cookies.updated.each do |cookie|
       response.cookies[cookie.name] = cookie
     end
 
