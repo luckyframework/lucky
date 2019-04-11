@@ -4,6 +4,7 @@ class Lucky::RouteNotFoundHandler
 
   def call(context)
     if has_fallback?(context)
+      Lucky.logger.debug("Handled by fallback in #{fallback_action.name.to_s.colorize.bold}")
       fallback_action.new(context, {} of String => String).perform_action
     else
       raise Lucky::RouteNotFoundError.new(context)
