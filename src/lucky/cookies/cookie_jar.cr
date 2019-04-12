@@ -87,6 +87,9 @@ class Lucky::CookieJar
     ).tap do |cookie|
       settings.on_set.try(&.call(cookie))
     end
+    if raw_cookie.to_set_cookie_header.bytesize > MAX_COOKIE_SIZE
+      raise Lucky::Exceptions::CookieOverflow.new("size of '#{key}' cookie is too big")
+    end
     cookies[key.to_s] = set_cookies[key.to_s] = raw_cookie
   end
 
