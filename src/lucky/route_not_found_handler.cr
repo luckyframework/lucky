@@ -1,3 +1,10 @@
+# This HTTP::Handler takes in the current `context`,
+# then checks to see if a `fallback_action` has been defined to render that action first.
+# If no fallback has been defined, then raise a `Lucky::RouteNotFoundError` exception.
+#
+# This handler should be used after the `Lucky::RouteHandler`.
+#
+# See `Lucky::Routeable.fallback` for implementing the `fallback_action`.
 class Lucky::RouteNotFoundHandler
   include HTTP::Handler
   class_property fallback_action : Lucky::Action.class | Nil
