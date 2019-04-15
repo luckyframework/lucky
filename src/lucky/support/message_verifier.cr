@@ -46,8 +46,8 @@ module Lucky
       ::Base64.decode(data)
     end
 
-    private def generate_digest(data)
-      encode(OpenSSL::HMAC.digest(@digest, @secret, data))
+    private def generate_digest(data) : String
+      encode(OpenSSL::HMAC.digest(OpenSSL::Algorithm.parse(@digest.to_s), @secret, data))
     end
   end
 end

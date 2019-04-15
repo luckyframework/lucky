@@ -367,8 +367,9 @@ class Lucky::Params
     multipart_params = {} of String => String
     multipart_files = {} of String => Lucky::UploadedFile
     body_io = IO::Memory.new(body)
-    boundary =
-      HTTP::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
+
+    boundary = MIME::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
+
     HTTP::FormData.parse(body_io, boundary.to_s) do |part|
       case part.headers
       when .includes_word?("Content-Disposition", "filename")
