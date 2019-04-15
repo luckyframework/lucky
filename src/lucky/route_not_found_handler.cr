@@ -1,6 +1,6 @@
 # This HTTP::Handler takes in the current `context`,
 # then checks to see if a `fallback_action` has been defined to render that action first.
-# If no fallback has been defined, then raise a `Lucky::RouteNotFoundError` exception.
+# If no fallback has been defined, then it will raise a `Lucky::RouteNotFoundError` exception.
 #
 # This handler should be used after the `Lucky::RouteHandler`.
 #
@@ -11,7 +11,7 @@ class Lucky::RouteNotFoundHandler
 
   def call(context)
     if has_fallback?(context)
-      Lucky.logger.debug("Handled by fallback in #{fallback_action.name.to_s.colorize.bold}")
+      Lucky.logger.debug(handled_by_fallback: fallback_action.name.to_s)
       fallback_action.new(context, {} of String => String).perform_action
     else
       raise Lucky::RouteNotFoundError.new(context)
