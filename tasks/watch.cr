@@ -207,8 +207,8 @@ class Watch < LuckyCli::Task
   def call
     parse_options
 
-    build_commands = ["crystal build ./src/server.cr"]
-    run_commands = ["./server"]
+    build_commands = ["crystal build ./src/start_server.cr"]
+    run_commands = ["./start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
     process_runner = Sentry::ProcessRunner.new(
