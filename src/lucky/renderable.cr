@@ -138,7 +138,7 @@ module Lucky::Renderable
                    content_type : String? = nil,
                    disposition : String = "attachment",
                    filename : String? = nil,
-                   status : Lucky::Action::Status = Lucky::Action::Status::OK) : Lucky::FileResponse
+                   status : HTTP::Status = HTTP::Status::OK) : Lucky::FileResponse
     file(path, content_type, disposition, filename, status.value)
   end
 
@@ -146,7 +146,7 @@ module Lucky::Renderable
     Lucky::TextResponse.new(context, "text/plain", body, status: status)
   end
 
-  private def text(body : String, status : Lucky::Action::Status) : Lucky::TextResponse
+  private def text(body : String, status : HTTP::Status) : Lucky::TextResponse
     Lucky::TextResponse.new(context, "text/plain", body, status: status.value)
   end
 
@@ -158,7 +158,7 @@ module Lucky::Renderable
     Lucky::TextResponse.new(context, content_type: "", body: "", status: status)
   end
 
-  private def head(status : Lucky::Action::Status) : Lucky::TextResponse
+  private def head(status : HTTP::Status) : Lucky::TextResponse
     head(status.value)
   end
 
@@ -166,7 +166,7 @@ module Lucky::Renderable
     Lucky::TextResponse.new(context, "application/json", body.to_json, status)
   end
 
-  private def json(body, status : Lucky::Action::Status = nil) : Lucky::TextResponse
+  private def json(body, status : HTTP::Status = nil) : Lucky::TextResponse
     json(body, status.value)
   end
 end

@@ -25,7 +25,7 @@ module Lucky
       end
 
       def http_error_code
-        Lucky::Action::Status::UnprocessableEntity.value
+        HTTP::Status::UNPROCESSABLE_ENTITY.value
       end
     end
 

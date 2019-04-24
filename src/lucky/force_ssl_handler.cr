@@ -27,7 +27,7 @@ class Lucky::ForceSSLHandler
   include HTTP::Handler
 
   Habitat.create do
-    setting redirect_status : Int32 = Lucky::Action::Status::PermanentRedirect.value
+    setting redirect_status : Int32 = HTTP::Status::PERMANENT_REDIRECT.value
     setting enabled : Bool
     setting strict_transport_security : NamedTuple(max_age: Time::Span, include_subdomains: Bool)?
   end
