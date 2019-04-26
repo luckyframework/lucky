@@ -12,7 +12,7 @@
 # * `filename` - default `nil`. When overridden and paired with
 #   `disposition: "attachment"` this will download file with the provided
 #   filename.
-# * status - `Int32` or `Lucky::Action::Status` - the HTTP status code to
+# * status - `Int32` - the HTTP status code to
 #   return with.
 #
 # Examples:

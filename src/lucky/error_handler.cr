@@ -38,6 +38,6 @@ class Lucky::ErrorHandler
   end
 
   private def status_code_by_error(error : Exception)
-    Lucky::Action::Status::InternalServerError.value
+    HTTP::Status::INTERNAL_SERVER_ERROR.value
   end
 end

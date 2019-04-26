@@ -43,6 +43,6 @@ module Lucky::ProtectFromForgery
   end
 
   def forbid_access_because_of_bad_token : Lucky::Response
-    head Lucky::Action::Status::Forbidden
+    head :forbidden
   end
 end
