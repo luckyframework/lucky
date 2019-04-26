@@ -16,7 +16,4 @@ abstract class Lucky::Action
   include Lucky::ParamHelpers
   include Lucky::ActionCallbacks
   include Lucky::Redirectable
-
-  # `Lucky::Action::Status` has been removed in favor of
-  # [HTTP::Status](https://crystal-lang.org/api/0.28.0/HTTP/Status.html)
 end

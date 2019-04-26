@@ -15,7 +15,7 @@
 # redirect to: Users::Index, status: 301
 #
 # # or use the built in enum value
-# redirect to: Users::Index, status: HTTP::Status::MOVED_PERMANENTLY
+# redirect to: Users::Index, status: :moved_permanently
 # ```
 #
 # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
@@ -45,8 +45,6 @@ module Lucky::Redirectable
   # Redirect to the given path, with a human friendly status
   #
   # ```crystal
-  # redirect to: "/users", status: HTTP::Status::MOVED_PERMANENTLY
-  # # Symbols can be used in place of the enum. Crystal will convert these at compile time
   # redirect to: "/users", status: :moved_permanently
   # ```
   # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
