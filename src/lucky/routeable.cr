@@ -160,16 +160,15 @@ module Lucky::Routeable
   macro add_route(method, path, action)
     Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
 
-    {% path_parts = path.split("/").reject(&.empty?) %}
-    {% path_params = path_parts.select(&.starts_with?(":")) %}
+    {% path_parts = path.split('/').reject(&.empty?) %}
+    # gets all the params in the path, and removes any file extensions that may be present
+    {% path_params = path_parts.select(&.starts_with?(':')).map(&.gsub(/\.\w+.+$/, "")) %}
 
-    {% for part in path_parts %}
-      {% if part.starts_with?(":") %}
-        {% part = part.gsub(/:/, "").id %}
-        def {{ part }} : String
-          params.get(:{{ part }})
-        end
-      {% end %}
+    {% for part in path_params %}
+      {% part = part.gsub(/:/, "") %}
+      def {{ part.id }} : String
+        params.get(:{{ part }})
+      end
     {% end %}
 
     def self.path(*args, **named_args) : String
