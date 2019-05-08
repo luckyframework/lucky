@@ -67,15 +67,6 @@ describe Lucky::SessionHandler do
     context_2.session.get(:email).should eq("test@example.com")
   end
 
-  it "raises an error if the cookies are > 4096 bytes" do
-    context = build_context
-    context.cookies.set(:key, String.new(Bytes.new(size: 4094)))
-
-    expect_raises(Lucky::Exceptions::CookieOverflow) do
-      Lucky::SessionHandler.new.call(context)
-    end
-  end
-
   it "writes all the proper headers when a cookie is set" do
     context = build_context
     context
