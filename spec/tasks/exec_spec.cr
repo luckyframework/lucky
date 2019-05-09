@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 describe Lucky::Exec do
   it "runs the editor" do

@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class Rendering::CustomPage
   include Lucky::HTMLPage
