@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class Admin::MultiWord::Users::Show < Lucky::Action
   route do

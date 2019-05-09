@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 describe Lucky::Router do
   it "routes based on the method name and path" do
