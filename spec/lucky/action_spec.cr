@@ -253,6 +253,18 @@ describe Lucky::Action do
     end
   end
 
+  describe "when route is called with a file extension" do
+    it "still matches and responds" do
+      response = Tests::Show.new(build_context(path: "/tests/1.html"), params).call
+      response.body.should eq "test"
+    end
+
+    it "can be called with any weird extension and still match" do
+      response = Tests::Show.new(build_context(path: "/tests/1.js.php.erb"), params).call
+      response.body.should eq "test"
+    end
+  end
+
   it "can add anchors to routes (and escapes them)" do
     Tests::Index.path(anchor: "#foo").should eq "/tests#%23foo"
     Tests::Index.route(anchor: "#foo").path.should eq "/tests#%23foo"
