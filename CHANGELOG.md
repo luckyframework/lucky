@@ -1,6 +1,7 @@
 ### Changes since v0.13
 
 - Change `Lucky::BaseApp` to `Lucky::BaseAppServer`
+- `time_ago_in_words` returns a `String` instead of an `text` element (IO)
 
 ### Changes since v0.12
 

@@ -1,17 +1,17 @@
 module Lucky::TimeHelpers
-  def distance_of_time_in_words(from : Time, to : Time) : IO
+  def distance_of_time_in_words(from : Time, to : Time) : String
     minutes = (to - from).minutes
     seconds = (to - from).seconds
     hours = (to - from).hours
     days = (to - from).days
 
-    return text distance_in_days(days) if days != 0
-    return text distance_in_hours(hours) if hours != 0
-    return text distance_in_minutes(minutes) if minutes != 0
-    text distance_in_seconds(seconds)
+    return distance_in_days(days) if days != 0
+    return distance_in_hours(hours) if hours != 0
+    return distance_in_minutes(minutes) if minutes != 0
+    distance_in_seconds(seconds)
   end
 
-  def time_ago_in_words(from : Time) : IO
+  def time_ago_in_words(from : Time) : String
     distance_of_time_in_words(from, Time.now)
   end
 
