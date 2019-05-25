@@ -96,14 +96,14 @@ module Lucky::TextHelpers
              plural || Wordsmith::Inflector.pluralize(singular)
            end
 
-    raw "#{count || 0} #{word}"
+    "#{count || 0} #{word}"
   end
 
   def word_wrap(text : String, line_width : Int32 = 80, break_sequence : String = "\n")
     text = text.split("\n").map do |line|
       line.size > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1#{break_sequence}").strip : line
     end
-    raw text.join(break_sequence)
+    text.join(break_sequence)
   end
 
   # Wraps text in whatever you'd like based on line breaks
@@ -199,10 +199,10 @@ module Lucky::TextHelpers
     list = list.to_a
 
     if list.size < 3
-      return text list.join(two_word_connector)
+      return list.join(two_word_connector)
     end
 
-    text "#{list[0..-2].join(word_connector)}#{last_word_connector}#{list.last}"
+    "#{list[0..-2].join(word_connector)}#{last_word_connector}#{list.last}"
   end
 
   private def normalize_values(values)
@@ -217,7 +217,7 @@ module Lucky::TextHelpers
     unless cycle && cycle.values == values
       cycle = set_cycle(name, Cycle.new(values))
     end
-    raw cycle.to_s
+    cycle.to_s
   end
 
   def cycle(*values, name : String = "default")
