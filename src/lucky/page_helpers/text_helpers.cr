@@ -1,6 +1,35 @@
 module Lucky::TextHelpers
   @@_cycles = Hash(String, Cycle).new
 
+  # Shortens text after a length point and inserts content afterward
+  #
+  # **Note: since this generates html, it cannot be used inside other tags.**
+  #
+  # This is ideal if you want an action associated with shortened text, like
+  # "Read more".
+  #
+  # * `length` (default: `30`) will control the maximum length of the text,
+  # including the `omission`.
+  # * `omission` (default: `...`) will insert itself at the end of the
+  # truncated text.
+  # * `separator` (default: nil) is where words are cut off. This is often
+  # overridden to break on word boundries by setting the separator to a space
+  # `" "`. Keep in mind this, may cause your text to be truncated before your
+  # `length` value if the `length` - `omission` is before the `separator`.
+  # * `escape` (default: false) weather or not to HTML escape the truncated
+  # string.
+  # * `blk` (default: nil) A block to run after the text has been truncated.
+  # Often used to add an action to read more text, like a "Read more" link.
+  #
+  # ```crystal
+  # truncate("Four score and seven years ago", length: 20) do
+  #   link "Read more", to: "#"
+  # end
+  # ```
+  # outputs:
+  # ```html
+  # "Four score and se...<a href="#">Read more</a>"
+  # ```
   def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil)
     if text
       content = truncate_text(text, length, omission, separator)
@@ -14,10 +43,24 @@ module Lucky::TextHelpers
     truncate(text, length, omission, separator, escape, blk: block)
   end
 
-  private def truncate_text(text : String, truncate_at : Int32, omission : String = "...", separator : String | Nil = nil)
-    return text unless text.size > truncate_at
+  # Shorten text after a length point.
+  #
+  # Unlike `truncate`, this method can be used inside of other tags because it
+  # returns a string. See `truncate` method for argument documentation.
+  #
+  # ```crystal
+  # link "#" do
+  #   text truncate_text("Four score and seven years ago", length: 27)
+  # end
+  # ```
+  # outputs:
+  # ```html
+  # <a href=\"#\">Four score and se...</a>
+  # ```
+  def truncate_text(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil) : String
+    return text unless text.size > length
 
-    length_with_room_for_omission = truncate_at - omission.size
+    length_with_room_for_omission = length - omission.size
     stop = \
        if separator
          text.rindex(separator, length_with_room_for_omission) || length_with_room_for_omission
@@ -105,7 +148,7 @@ module Lucky::TextHelpers
   #
   # ```crystal
   # lyrics = "We represent the Lolly pop Guild, The Lolly pop Guild"
-  # view.excerpt(text, phrase: "Guild", radius: 10)
+  # excerpt(text, phrase: "Guild", radius: 10)
   # ```
   # outputs:
   # ```html
