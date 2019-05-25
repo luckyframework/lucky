@@ -6,7 +6,7 @@ describe Lucky::TextHelpers do
       view.excerpt("This is a beautiful morning", "beautiful", radius: 5).to_s.should eq "...is a beautiful morn..."
       view.excerpt("This is a beautiful morning", "this", radius: 5).to_s.should eq "This is a..."
       view.excerpt("This is a beautiful morning", "morning", radius: 5).to_s.should eq "...iful morning"
-      view.excerpt("This is a beautiful morning", "day").should be_nil
+      view.excerpt("This is a beautiful morning", "day").should eq ""
     end
 
     it "excerpts with regex" do

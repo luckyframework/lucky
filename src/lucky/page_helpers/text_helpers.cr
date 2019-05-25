@@ -90,8 +90,31 @@ module Lucky::TextHelpers
     highlight(text, phrases, highlighter: block)
   end
 
-  def excerpt(text : String, phrase : Regex | String, separator : String = "", radius : Int32 = 100, omission : String = "...")
-    return "" if text.to_s.blank?
+  # Grab a window of longer string
+  #
+  # You'll need to specify a `phrase` to center on, either a Regex or a String.
+  #
+  # Optionally:
+  # * A `radius` (default: `100`) which controls how many units out from the
+  # `phrase` on either side the excerpt will be.
+  # * A `separator` (default `""`) which controls what the `radius` will count.
+  # The unit by default is any character, which means the default is 100
+  # character from the `phrase` in either direction. For example, an excerpt of # 10 words would use a `radius` of 10 and a `separator` of `" "`.
+  # * An `omission` string (default: `"..."`), which prepends and appends to
+  # the excerpt.
+  #
+  # ```crystal
+  # lyrics = "We represent the Lolly pop Guild, The Lolly pop Guild"
+  # view.excerpt(text, phrase: "Guild", radius: 10)
+  # ```
+  # outputs:
+  # ```html
+  # ...Lolly pop Guild, The Loll...
+  # ```
+  def excerpt(text : String, phrase : Regex | String, separator : String = "", radius : Int32 = 100, omission : String = "...") : String
+    if text.nil? || text.to_s.blank?
+      return ""
+    end
 
     case phrase
     when Regex
@@ -100,7 +123,7 @@ module Lucky::TextHelpers
       regex = /#{Regex.escape(phrase.to_s)}/i
     end
 
-    return unless matches = text.match(regex)
+    return "" unless matches = text.match(regex)
     phrase = matches[0]
 
     unless separator.empty?
@@ -118,7 +141,7 @@ module Lucky::TextHelpers
     postfix, second_part = cut_excerpt_part(:second, second_part, separator, radius, omission)
 
     affix = [first_part, separator, phrase, separator, second_part].join.strip
-    raw [prefix, affix, postfix].join
+    [prefix, affix, postfix].join
   end
 
   def pluralize(count : Int32 | String | Nil, singular : String, plural = nil)
