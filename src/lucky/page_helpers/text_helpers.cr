@@ -106,6 +106,24 @@ module Lucky::TextHelpers
     raw text.join(break_sequence)
   end
 
+  # Wraps text in whatever you'd like based on line breaks
+  #
+  # **Note: since this generates html, it cannot be used inside other tags.**
+  #
+  # ```crystal
+  # simple_format("foo\n\nbar\n\nbaz") do |paragraph|
+  #   text paragraph
+  #   hr
+  # end
+  # ```
+  # outputs:
+  # ```html
+  # foo<hr>
+  #
+  # bar<hr>
+  #
+  # baz<hr>
+  # ```
   def simple_format(text : String, &block : String -> _)
     paragraphs = split_paragraphs(text)
 
@@ -118,6 +136,19 @@ module Lucky::TextHelpers
     view
   end
 
+  # Wraps text in paragraphs based on line breaks
+  #
+  # ```crystal
+  # simple_format("foo\n\nbar\n\nbaz")
+  # ```
+  # outputs:
+  # ```html
+  # <p>foo</p>
+  #
+  # <p>bar</p>
+  #
+  # <p>baz</p>
+  # ```
   def simple_format(text : String, **html_options)
     simple_format(text) do |formatted_text|
       para(html_options) do
