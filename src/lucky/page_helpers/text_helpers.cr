@@ -28,22 +28,54 @@ module Lucky::TextHelpers
     "#{text[0, stop]}#{omission}"
   end
 
+  # Wrap phrases to make them stand out
+  #
+  # This will wrap all the phrases inside a piece of `text` specified by the
+  # `phrases` array. The default is to wrap each with the `<mark>` element.
+  # This can be customized with the `highlighter` argument.
+  #
+  # ```crystal
+  # highlight("Crystal is type-safe and compiled.", phrases: ["type-safe", "compiled"])
+  # ```
+  # outputs:
+  # ```html
+  # Crystal is <mark>type-safe</mark> and <mark>compiled</mark>.
+  # ```
+  #
+  # **With a custom highlighter**
+  #
+  # ```crystal
+  # highlight(
+  #   "You're such a nice and attractive person.",
+  #   phrases: ["nice", "attractive"],
+  #   highlighter: "<strong>\\1</strong>"
+  # )
+  # ```
+  # outputs:
+  # ```html
+  # You're such a <strong>nice</strong> and <strong>attractive</strong> person.
+  # ```
   def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
     if text.blank? || phrases.all?(&.to_s.blank?)
-      raw (text || "")
+      (text || "")
     else
       match = phrases.map do |p|
         p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
       end.join("|")
 
       if highlighter.is_a?(Proc)
-        raw text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
+        text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
       else
-        raw text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
+        text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
       end
     end
   end
 
+  # Highlight a single phrase
+  #
+  # Exactly the same as the `highlight` that takes multiple phrases, but with a
+  # singular `phrase` argument for readability.
+  # ```
   def highlight(text : String, phrases : Array(String | Regex), &block : String -> _)
     highlight(text, phrases, highlighter: block)
   end
