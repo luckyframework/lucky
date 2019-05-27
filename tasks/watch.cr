@@ -6,7 +6,7 @@ require "../src/lucky/server_settings"
 require "option_parser"
 
 # Based on the sentry shard with some modifications to outut and build process.
-module Sentry
+module LuckySentry
   FILE_TIMESTAMPS  = {} of String => String # {file => timestamp}
   BROWSERSYNC_PORT = 3001
 
@@ -211,7 +211,7 @@ class Watch < LuckyCli::Task
     run_commands = ["./start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
-    process_runner = Sentry::ProcessRunner.new(
+    process_runner = LuckySentry::ProcessRunner.new(
       files: files,
       build_commands: build_commands,
       run_commands: run_commands,

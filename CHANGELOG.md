@@ -1,3 +1,7 @@
+### Changes since v0.14
+
+- Change `Sentry` to `LuckySentry`
+
 ### Changes since v0.13
 
 - Change `Lucky::BaseApp` to `Lucky::BaseAppServer`
