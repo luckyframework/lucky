@@ -6,6 +6,15 @@ module Lucky::BaseTags
   EMPTY_HTML_ATTRS = {} of String => String
 
   macro generate_tag_methods(method_name, tag)
+    # Generates a `&lt;{{method_name.id}}&gt;&lt;/{{method_name.id}}&gt;` tag.
+    #
+    # * The *content* argument is either a `String`, or any type that has included `Lucky::AllowedInTags`. This is the content that goes inside of the tag.
+    # * The *options* argument is a `Hash(String, String)` of any HTML attribute that has a key/value like `class`, `id`, `type`, etc...
+    # * The *attrs* argument is an `Array(Symbol)` for specifying [Boolean Attributes](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes) such as `required`, `disabled`, `autofocus`, etc...
+    #
+    # ```
+    # {{method_name.id}}("Sample", {"class" => "cls-1 red"}, [:required]) #=> <{{method_name.id}} class="cls-1 red" required>Sample</{{method_name.id}}>
+    # ```
     def {{method_name.id}}(
         content : Lucky::AllowedInTags | String = "",
         options = EMPTY_HTML_ATTRS,
@@ -57,6 +66,7 @@ module Lucky::BaseTags
   {% end %}
 
   {% for tag in EMPTY_TAGS %}
+    # Generates a `&lt;{{tag.id}}&gt;` tag.
     def {{tag.id}}
       view << %(<{{tag.id}}> )
     end
@@ -65,6 +75,14 @@ module Lucky::BaseTags
       {{tag.id}}([] of Symbol, options, **other_options)
     end
 
+    # Generates a `&lt;{{tag.id}}&gt;` tag.
+    #
+    # * The *attrs* argument is an `Array(Symbol)` for specifying [Boolean Attributes](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes) such as `required`, `disabled`, `autofocus`, etc...
+    # * The *options* argument is a `Hash(String, String)` of any HTML attribute that has a key/value like `class`, `id`, `type`, etc...
+    #
+    # ```
+    # {{tag.id}}([:required], {"class" => "cls-1"}) #=> <{{tag.id}} class="cls-1" required>
+    # ```
     def {{tag.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options)
       bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
@@ -73,10 +91,21 @@ module Lucky::BaseTags
     end
   {% end %}
 
+  # Outputs *content* and escapes it.
+  #
+  # ```
+  # text("Hello") # => Hello
+  # text("<div>") # => &lt;div&gt;
+  # ```
   def text(content : String | Lucky::AllowedInTags)
     view << HTML.escape(content.to_s)
   end
 
+  # Generates a `&lt;style&gt;&lt;/style&gt;` block for adding inline CSS
+  #
+  # ```
+  # style("a { color: red; }") # => <style>a { color: red; }</style>
+  # ```
   def style(styles : String)
     view << "<style>#{styles}</style>"
   end
