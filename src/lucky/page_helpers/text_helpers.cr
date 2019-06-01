@@ -3,7 +3,8 @@ module Lucky::TextHelpers
 
   # Shortens text after a length point and inserts content afterward
   #
-  # **Note: since this generates html, it cannot be used inside other tags.**
+  # **Note: This method writes HTML directly to the page. It does not return a
+  # String.**
   #
   # This is ideal if you want an action associated with shortened text, like
   # "Read more".
@@ -30,23 +31,22 @@ module Lucky::TextHelpers
   # ```html
   # "Four score and se...<a href="#">Read more</a>"
   # ```
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil)
+  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil) : Nil
     if text
       content = truncate_text(text, length, omission, separator)
       raw (escape ? HTML.escape(content) : content)
       blk.call if !blk.nil? && text.size > length
-      view
     end
   end
 
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, &block : -> _)
+  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, &block : -> _) : Nil
     truncate(text, length, omission, separator, escape, blk: block)
   end
 
   # Shorten text after a length point.
   #
   # Unlike `truncate`, this method can be used inside of other tags because it
-  # returns a string. See `truncate` method for argument documentation.
+  # returns a String. See `truncate` method for argument documentation.
   #
   # ```crystal
   # link "#" do
@@ -98,7 +98,7 @@ module Lucky::TextHelpers
   # ```html
   # You're such a <strong>nice</strong> and <strong>attractive</strong> person.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
+  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>") : String
     if text.blank? || phrases.all?(&.to_s.blank?)
       (text || "")
     else
@@ -119,16 +119,16 @@ module Lucky::TextHelpers
   # Exactly the same as the `highlight` that takes multiple phrases, but with a
   # singular `phrase` argument for readability.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _)
+  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _) : String
     highlight(text, phrases, highlighter: block)
   end
 
-  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>")
+  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>") : String
     phrases = [phrase] of String | Regex
     highlight(text, phrases, highlighter: highlighter)
   end
 
-  def highlight(text : String, phrase : String | Regex, &block : String -> _)
+  def highlight(text : String, phrase : String | Regex, &block : String -> _) : String
     phrases = [phrase] of String | Regex
     highlight(text, phrases, highlighter: block)
   end
@@ -187,7 +187,7 @@ module Lucky::TextHelpers
     [prefix, affix, postfix].join
   end
 
-  def pluralize(count : Int32 | String | Nil, singular : String, plural = nil)
+  def pluralize(count : Int32 | String | Nil, singular : String, plural = nil) : String
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
              singular
            else
@@ -197,7 +197,7 @@ module Lucky::TextHelpers
     "#{count || 0} #{word}"
   end
 
-  def word_wrap(text : String, line_width : Int32 = 80, break_sequence : String = "\n")
+  def word_wrap(text : String, line_width : Int32 = 80, break_sequence : String = "\n") : String
     text = text.split("\n").map do |line|
       line.size > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1#{break_sequence}").strip : line
     end
@@ -206,7 +206,8 @@ module Lucky::TextHelpers
 
   # Wraps text in whatever you'd like based on line breaks
   #
-  # **Note: since this generates html, it cannot be used inside other tags.**
+  # **Note: This method writes HTML directly to the page. It does not return a
+  # String**
   #
   # ```crystal
   # simple_format("foo\n\nbar\n\nbaz") do |paragraph|
@@ -222,7 +223,7 @@ module Lucky::TextHelpers
   #
   # baz<hr>
   # ```
-  def simple_format(text : String, &block : String -> _)
+  def simple_format(text : String, &block : String -> _) : Nil
     paragraphs = split_paragraphs(text)
 
     paragraphs = [""] if paragraphs.empty?
@@ -247,7 +248,7 @@ module Lucky::TextHelpers
   #
   # <p>baz</p>
   # ```
-  def simple_format(text : String, **html_options)
+  def simple_format(text : String, **html_options) : Nil
     simple_format(text) do |formatted_text|
       para(html_options) do
         raw formatted_text
@@ -293,7 +294,7 @@ module Lucky::TextHelpers
   def to_sentence(list : Enumerable,
                   word_connector : String = ", ",
                   two_word_connector : String = " and ",
-                  last_word_connector : String = ", and ")
+                  last_word_connector : String = ", and ") : String
     list = list.to_a
 
     if list.size < 3
@@ -309,7 +310,7 @@ module Lucky::TextHelpers
     string_values
   end
 
-  def cycle(values : Array, name = "default")
+  def cycle(values : Array, name = "default") : String
     values = normalize_values(values)
     cycle = get_cycle(name)
     unless cycle && cycle.values == values
@@ -318,7 +319,7 @@ module Lucky::TextHelpers
     cycle.to_s
   end
 
-  def cycle(*values, name : String = "default")
+  def cycle(*values, name : String = "default") : String
     values = normalize_values(values)
     cycle(values, name: name)
   end

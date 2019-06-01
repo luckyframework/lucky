@@ -5,6 +5,7 @@ class TextHelperTestPage
   include Lucky::HTMLPage
 
   def render
+    view.to_s
   end
 end
 
