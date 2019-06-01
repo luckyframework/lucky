@@ -27,28 +27,35 @@ end
 describe Lucky::TextHelpers do
   describe "simple_format" do
     it "simple_formats" do
-      view.simple_format("").to_s.should eq "<p></p>"
+      view.tap(&.simple_format("")).render.should eq "<p></p>"
 
-      view.simple_format("crazy\r\n cross\r platform linebreaks").to_s.should eq "<p>crazy\n<br > cross\n<br > platform linebreaks</p>"
-      view.simple_format("A paragraph\n\nand another one!").to_s.should eq "<p>A paragraph</p>\n\n<p>and another one!</p>"
-      view.simple_format("A paragraph\n With a newline").to_s.should eq "<p>A paragraph\n<br > With a newline</p>"
+      view.tap(&.simple_format("crazy\r\n cross\r platform linebreaks")).render
+        .should eq "<p>crazy\n<br > cross\n<br > platform linebreaks</p>"
+      view.tap(&.simple_format("A paragraph\n\nand another one!")).render
+        .should eq "<p>A paragraph</p>\n\n<p>and another one!</p>"
+      view.tap(&.simple_format("A paragraph\n With a newline")).render
+        .should eq "<p>A paragraph\n<br > With a newline</p>"
 
-      text = "A\nB\nC\nD"
-      view.simple_format(text).to_s.should eq "<p>A\n<br >B\n<br >C\n<br >D</p>"
+      view.tap(&.simple_format("A\nB\nC\nD")).render
+        .should eq "<p>A\n<br >B\n<br >C\n<br >D</p>"
 
-      text = "A\r\n  \nB\n\n\r\n\t\nC\nD"
-      view.simple_format(text).to_s.should eq "<p>A\n<br >  \n<br >B</p>\n\n<p>\t\n<br >C\n<br >D</p>"
+      view.tap(&.simple_format("A\r\n  \nB\n\n\r\n\t\nC\nD")).render
+        .should eq "<p>A\n<br >  \n<br >B</p>\n\n<p>\t\n<br >C\n<br >D</p>"
 
-      view.simple_format("This is a classy test", class: "test").to_s.should eq "<p class=\"test\">This is a classy test</p>"
-      view.simple_format("para 1\n\npara 2", class: "test").to_s.should eq %Q(<p class="test">para 1</p>\n\n<p class="test">para 2</p>)
+      view.tap(&.simple_format("This is a classy test", class: "test")).render
+        .should eq "<p class=\"test\">This is a classy test</p>"
+      view.tap(&.simple_format("para 1\n\npara 2", class: "test")).render
+        .should eq %Q(<p class="test">para 1</p>\n\n<p class="test">para 2</p>)
     end
 
     it "simple_formats with custom wrapper" do
-      view.test_simple_format_with_div.to_s.should eq "<div></div>"
+      view.tap(&.test_simple_format_with_div).render.should eq "<div></div>"
     end
 
     it "simple_formats with custom wrapper and multi line breaks" do
-      view.test_simple_format_with_custom_wrapper_and_multi_line_breaks.to_s.should eq "<div>We want to put a wrapper...</div>\n\n<div>...right there.</div>"
+      view.tap(&.test_simple_format_with_custom_wrapper_and_multi_line_breaks)
+        .render
+        .should eq "<div>We want to put a wrapper...</div>\n\n<div>...right there.</div>"
     end
 
     it "simple_formats without changing the text passed" do
@@ -66,8 +73,10 @@ describe Lucky::TextHelpers do
     end
 
     it "should" do
-      view.test_simple_format_without_block.to_s.should eq "<p>my cool test</p>\n\n<p>is great</p>"
-      view.test_simple_format_with_block.to_s.should eq "<p class=\"this-is-a-custom-class\">my cool test</p>\n\n<p class=\"this-is-a-custom-class\">is great</p>"
+      view.tap(&.test_simple_format_without_block).render
+        .should eq "<p>my cool test</p>\n\n<p>is great</p>"
+      view.tap(&.test_simple_format_with_block).render
+        .should eq "<p class=\"this-is-a-custom-class\">my cool test</p>\n\n<p class=\"this-is-a-custom-class\">is great</p>"
     end
   end
 end

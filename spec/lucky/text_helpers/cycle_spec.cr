@@ -7,7 +7,7 @@ describe Lucky::TextHelpers do
 
   describe "cycle" do
     describe Lucky::TextHelpers::Cycle do
-      it "cycles" do
+      it "cycles when converted to a string" do
         value = Lucky::TextHelpers::Cycle.new("one", 2, "3")
         value.to_s.should eq "one"
         value.to_s.should eq "2"
@@ -21,38 +21,38 @@ describe Lucky::TextHelpers do
     end
 
     it "cycles" do
-      view.cycle("one", 2, "3").to_s.should eq "one"
-      view.cycle("one", 2, "3").to_s.should eq "2"
-      view.cycle("one", 2, "3").to_s.should eq "3"
-      view.cycle("one", 2, "3").to_s.should eq "one"
-      view.cycle("one", 2, "3").to_s.should eq "2"
-      view.cycle("one", 2, "3").to_s.should eq "3"
+      view.cycle("one", 2, "3").should eq "one"
+      view.cycle("one", 2, "3").should eq "2"
+      view.cycle("one", 2, "3").should eq "3"
+      view.cycle("one", 2, "3").should eq "one"
+      view.cycle("one", 2, "3").should eq "2"
+      view.cycle("one", 2, "3").should eq "3"
     end
 
     it "cycles with array" do
       array = [1, 2, 3]
-      view.cycle(array).to_s.should eq "1"
-      view.cycle(array).to_s.should eq "2"
-      view.cycle(array).to_s.should eq "3"
+      view.cycle(array).should eq "1"
+      view.cycle(array).should eq "2"
+      view.cycle(array).should eq "3"
     end
 
     it "cycle resets with new values" do
-      view.cycle("even", "odd").to_s.should eq "even"
-      view.cycle("even", "odd").to_s.should eq "odd"
-      view.cycle("even", "odd").to_s.should eq "even"
-      view.cycle(1, 2, 3).to_s.should eq "1"
-      view.cycle(1, 2, 3).to_s.should eq "2"
-      view.cycle(1, 2, 3).to_s.should eq "3"
-      view.cycle(1, 2, 3).to_s.should eq "1"
+      view.cycle("even", "odd").should eq "even"
+      view.cycle("even", "odd").should eq "odd"
+      view.cycle("even", "odd").should eq "even"
+      view.cycle(1, 2, 3).should eq "1"
+      view.cycle(1, 2, 3).should eq "2"
+      view.cycle(1, 2, 3).should eq "3"
+      view.cycle(1, 2, 3).should eq "1"
     end
 
     it "cycles named cycles" do
-      view.cycle(1, 2, 3, name: "numbers").to_s.should eq "1"
-      view.cycle("red", "blue", name: "colors").to_s.should eq "red"
-      view.cycle(1, 2, 3, name: "numbers").to_s.should eq "2"
-      view.cycle("red", "blue", name: "colors").to_s.should eq "blue"
-      view.cycle(1, 2, 3, name: "numbers").to_s.should eq "3"
-      view.cycle("red", "blue", name: "colors").to_s.should eq "red"
+      view.cycle(1, 2, 3, name: "numbers").should eq "1"
+      view.cycle("red", "blue", name: "colors").should eq "red"
+      view.cycle(1, 2, 3, name: "numbers").should eq "2"
+      view.cycle("red", "blue", name: "colors").should eq "blue"
+      view.cycle(1, 2, 3, name: "numbers").should eq "3"
+      view.cycle("red", "blue", name: "colors").should eq "red"
     end
 
     it "gets current cycle with default name" do
@@ -66,11 +66,11 @@ describe Lucky::TextHelpers do
 
     it "gets current cycle with named cycles" do
       view.cycle("red", "blue", name: "colors")
-      view.current_cycle("colors").to_s.should eq "red"
+      view.current_cycle("colors").should eq "red"
       view.cycle("red", "blue", name: "colors")
-      view.current_cycle("colors").to_s.should eq "blue"
+      view.current_cycle("colors").should eq "blue"
       view.cycle("red", "blue", name: "colors")
-      view.current_cycle("colors").to_s.should eq "red"
+      view.current_cycle("colors").should eq "red"
     end
 
     it "gets current cycle with no exceptions" do
@@ -90,16 +90,16 @@ describe Lucky::TextHelpers do
     end
 
     it "cycles with default named" do
-      view.cycle(1, 2, 3).to_s.should eq "1"
-      view.cycle(1, 2, 3, name: "default").to_s.should eq "2"
-      view.cycle(1, 2, 3).to_s.should eq "3"
+      view.cycle(1, 2, 3).should eq "1"
+      view.cycle(1, 2, 3, name: "default").should eq "2"
+      view.cycle(1, 2, 3).should eq "3"
     end
 
     it "resets cycle" do
-      view.cycle(1, 2, 3).to_s.should eq "1"
-      view.cycle(1, 2, 3).to_s.should eq "2"
+      view.cycle(1, 2, 3).should eq "1"
+      view.cycle(1, 2, 3).should eq "2"
       view.reset_cycle
-      view.cycle(1, 2, 3).to_s.should eq "1"
+      view.cycle(1, 2, 3).should eq "1"
     end
 
     it "resets unknown cycle" do
@@ -107,13 +107,13 @@ describe Lucky::TextHelpers do
     end
 
     it "resets named cycle" do
-      view.cycle(1, 2, 3, name: "numbers").to_s.should eq "1"
-      view.cycle("red", "blue", name: "colors").to_s.should eq "red"
+      view.cycle(1, 2, 3, name: "numbers").should eq "1"
+      view.cycle("red", "blue", name: "colors").should eq "red"
       view.reset_cycle("numbers")
-      view.cycle(1, 2, 3, name: "numbers").to_s.should eq "1"
-      view.cycle("red", "blue", name: "colors").to_s.should eq "blue"
-      view.cycle(1, 2, 3, name: "numbers").to_s.should eq "2"
-      view.cycle("red", "blue", name: "colors").to_s.should eq "red"
+      view.cycle(1, 2, 3, name: "numbers").should eq "1"
+      view.cycle("red", "blue", name: "colors").should eq "blue"
+      view.cycle(1, 2, 3, name: "numbers").should eq "2"
+      view.cycle("red", "blue", name: "colors").should eq "red"
     end
   end
 end
