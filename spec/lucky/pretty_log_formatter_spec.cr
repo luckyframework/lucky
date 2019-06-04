@@ -58,7 +58,7 @@ end
 private def format(io, data : NamedTuple, severity = Logger::Severity::INFO)
   Lucky::PrettyLogFormatter.new(
     severity: severity,
-    timestamp: Time.now,
+    timestamp: Time.utc,
     progname: "",
     io: io
   ).format(data)

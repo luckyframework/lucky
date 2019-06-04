@@ -10,7 +10,7 @@ end
 describe Lucky::TimeHelpers do
   describe "distance_of_time_in_words" do
     it "reports the approximate distance in time between two Time" do
-      from_time = Time.now
+      from_time = Time.local
       view.distance_of_time_in_words(from_time, from_time + 1.second).to_s.should eq "a second"
       view.distance_of_time_in_words(from_time, from_time + 10.seconds).to_s.should eq "10 seconds"
       view.distance_of_time_in_words(from_time, from_time + 1.minute).to_s.should eq "a minute"
@@ -32,7 +32,7 @@ describe Lucky::TimeHelpers do
 
   describe "time_ago_in_words" do
     it "returns the distance from now" do
-      view.time_ago_in_words(Time.now - 13.months).to_s.should eq "about a year"
+      view.time_ago_in_words(Time.local - 13.months).to_s.should eq "about a year"
     end
   end
 end
