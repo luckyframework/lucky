@@ -6,10 +6,10 @@ class Lucky::LogHandler
   delegate logger, to: Lucky
 
   def call(context)
-    time = Time.now
+    time = Time.utc
     log_request_start(context) unless context.hide_from_logs?
     call_next(context)
-    log_request_end(context, duration: Time.now - time) unless context.hide_from_logs?
+    log_request_end(context, duration: Time.utc - time) unless context.hide_from_logs?
   rescue e
     log_exception(context, time, e)
     raise e

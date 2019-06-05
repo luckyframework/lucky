@@ -12,7 +12,7 @@ module Lucky::TimeHelpers
   end
 
   def time_ago_in_words(from : Time) : String
-    distance_of_time_in_words(from, Time.now)
+    distance_of_time_in_words(from, Time.utc)
   end
 
   private def distance_in_days(distance : Int) : String
