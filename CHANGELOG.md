@@ -5,6 +5,7 @@
 ### Changes since v0.13
 
 - Change `Lucky::BaseApp` to `Lucky::BaseAppServer`
+- **Breaking change** - Many text helpers now return a `String` instead of appending to the view (`cycle`, `excerpt`, `highlight`, `pluralize`, `time_ago_in_words`, `to_sentence`, `word_wrap`) [#781](https://github.com/luckyframework/lucky/pull/781)
 
 ### Changes since v0.12
 
