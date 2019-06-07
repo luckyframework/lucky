@@ -3,5 +3,6 @@ class Lucky::Server
     setting secret_key_base : String
     setting host : String
     setting port : Int32
+    setting asset_host : String = ""
   end
 end
