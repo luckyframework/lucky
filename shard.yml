@@ -1,7 +1,7 @@
 name: lucky
 version: 0.13.3
 
-crystal: 0.27.2
+crystal: 0.29.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -60,7 +60,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
-    version: ~> 0.9.0
+    version: ~> 0.10.0
 
 scripts:
   postinstall: script/precompile_tasks
