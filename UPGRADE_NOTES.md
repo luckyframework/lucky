@@ -1,3 +1,40 @@
+### Upgrading from 0.14 to 0.15
+
+- Upgrade to crystal 0.29.0
+- Upgrade Lucky CLI (macOS)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.29.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+- Update `.crystal-version` to `0.29.0`
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#install-lucky
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.15`
+
+- Run `shards update`
+
+- Rename `src/server.cr` to `src/start_server.cr`. 
+- Update `src/{your app name}.cr` to require `./start_server`
+- Rename `src/dependencies.cr` to `src/shards.cr`
+- Move the `App` class to a new file in `src/app_server.cr`
+- Rename `App` to `AppServer` in your new `src/app_server.cr`
+- Update `src/app.cr` to require new `./app_server` file
+- Update `src/app.cr` to require new `./shards` file
+
+
+### Upgrading from 0.13 to 0.14
+
+- Upgrade to crystal 0.28.0
+
 ### Upgrading from 0.12 to 0.13
 
 - Upgrade Lucky CLI (macOS)
