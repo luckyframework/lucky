@@ -15,7 +15,7 @@ brew upgrade lucky
 
 > Remove the existing Lucky binary and follow the Linux
 > instructions in this section
-> https://luckyframework.org/guides/getting-started/installing#install-lucky
+> https://luckyframework.org/guides/getting-started/installing#on-linux
 
 - Update versions in `shard.yml`
   - Lucky should be `~> 0.15`
