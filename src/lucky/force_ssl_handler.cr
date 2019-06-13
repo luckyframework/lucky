@@ -29,7 +29,7 @@ class Lucky::ForceSSLHandler
   Habitat.create do
     setting redirect_status : Int32 = HTTP::Status::PERMANENT_REDIRECT.value
     setting enabled : Bool
-    setting strict_transport_security : NamedTuple(max_age: Time::Span, include_subdomains: Bool)?
+    setting strict_transport_security : NamedTuple(max_age: Time::Span | Time::MonthSpan, include_subdomains: Bool)?
   end
 
   def call(context)
@@ -59,10 +59,21 @@ class Lucky::ForceSSLHandler
   private def add_transport_header_if_enabled(context : HTTP::Server::Context)
     settings.strict_transport_security.try do |header|
       sts_value = String.build do |s|
-        s << "max-age=#{header[:max_age].total_seconds.to_i}"
+        max_age = ensure_time_span(header[:max_age])
+        s << "max-age=#{max_age.total_seconds.to_i}"
         s << "; includeSubDomains" if header[:include_subdomains]
       end
       context.response.headers["Strict-Transport-Security"] = sts_value
     end
+  end
+
+  private def ensure_time_span(span : Time::Span) : Time::Span
+    span
+  end
+
+  # 1.year returns a Time::MonthSpan. We need to convert it to a Time::Span
+  private def ensure_time_span(span : Time::MonthSpan) : Time::Span
+    months = span.value
+    (months * 30).days
   end
 end
