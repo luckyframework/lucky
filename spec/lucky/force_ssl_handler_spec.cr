@@ -66,6 +66,12 @@ describe Lucky::ForceSSLHandler do
         run_force_ssl_handler context
         context.response.headers["Strict-Transport-Security"].should eq "max-age=15552000; includeSubDomains"
       end
+
+      # Should work with Time::MonthSpan, which is returned when using 'year'
+      with_strict_transport_security({max_age: 1.year, include_subdomains: false}) do
+        run_force_ssl_handler context
+        context.response.headers["Strict-Transport-Security"].should eq "max-age=31104000"
+      end
     end
   end
 end
