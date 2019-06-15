@@ -126,7 +126,7 @@ class Gen::Resource::Browser < LuckyCli::Task
 
   private def display_success_messages
     success_message(resource_name, "./src/models/#{underscored_resource}.cr")
-    success_message(resource_name + "Form", "./src/forms/#{underscored_resource}_form.cr")
+    success_message("Save" + resource_name, "./src/operations/save_#{underscored_resource}.cr")
     success_message(resource_name + "Query", "./src/queries/#{underscored_resource}_query.cr")
     %w(index show new create edit update delete).each do |action|
       success_message(
@@ -178,13 +178,13 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
   directory "#{__DIR__}/../templates/resource"
 
   getter resource, columns
-  getter form_filename : String,
+  getter operation_filename : String,
     query_filename : String,
     underscored_resource : String,
     folder_name : String
 
   def initialize(@resource : String, @columns : Array(Lucky::GeneratedColumn))
-    @form_filename = form_class.underscore
+    @operation_filename = operation_class.underscore
     @query_filename = query_class.underscore
     @underscored_resource = @resource.underscore
     @folder_name = pluralized_resource.underscore
@@ -202,7 +202,7 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
     "#{resource}Query"
   end
 
-  private def form_class
-    "#{resource}Form"
+  private def operation_class
+    "Save#{resource}"
   end
 end
