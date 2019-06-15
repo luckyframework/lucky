@@ -18,7 +18,7 @@ describe Gen::Model do
           "./src/models/contact_info.cr": "table :contact_infos"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
-          "./src/forms/contact_info_form.cr": "class ContactInfoForm < ContactInfo::BaseForm",
+          "./src/forms/contact_info_form.cr": "class ContactInfoForm < ContactInfo::SaveOperation",
           "./src/queries/contact_info_query.cr": "class ContactInfoQuery < ContactInfo::BaseQuery"
       end
     end

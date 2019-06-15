@@ -30,7 +30,7 @@ describe Gen::Action do
         should_create_files_with_contents io,
           "./src/models/user.cr": "class User < BaseModel",
           "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
-          "./src/forms/user_form.cr": "class UserForm < User::BaseForm"
+          "./src/forms/user_form.cr": "class UserForm < User::SaveOperation"
         should_generate_migration named: "create_users.cr"
         io.to_s.should contain "at: #{"/users".colorize.green}"
       end
