@@ -13,7 +13,7 @@ module Lucky::NumberToCurrency
                          delimiter : String = DEFAULT_DELIMITER,
                          delimiter_pattern : Regex = DEFAULT_DELIMITER_REGEX,
                          format : String = DEFAULT_FORMAT,
-                         negative_format : String = DEFAULT_FORMAT)
+                         negative_format : String = DEFAULT_FORMAT) : String
     value = value.to_s
 
     if value.to_f.sign == -1
@@ -30,6 +30,6 @@ module Lucky::NumberToCurrency
 
     number = "#{left}#{separator}#{right}"
 
-    text format.gsub("%n", number).gsub("%u", unit)
+    format.gsub("%n", number).gsub("%u", unit)
   end
 end
