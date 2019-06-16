@@ -46,7 +46,7 @@ describe "with_defaults" do
 end
 
 private def name_field
-  Avram::FillableField(String).new(
+  Avram::PermittedAttribute(String).new(
     name: :name,
     param: "",
     value: "",
