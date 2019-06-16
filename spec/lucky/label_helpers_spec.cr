@@ -8,12 +8,12 @@ end
 
 class TestForm
   def first_name
-    Avram::Field(String).new(
+    Avram::PermittedAttribute(String).new(
       name: :first_name,
       param: "",
       value: "",
       form_name: "user"
-    ).fillable
+    )
   end
 end
 

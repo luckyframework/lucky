@@ -24,12 +24,12 @@ end
 
 class SomeFormWithCompany
   def company_id
-    Avram::Field(String).new(
+    Avram::PermittedAttribute(String).new(
       name: :company_id,
       param: "1",
       value: "",
       form_name: "company"
-    ).fillable
+    )
   end
 end
 
