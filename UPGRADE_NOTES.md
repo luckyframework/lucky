@@ -26,7 +26,7 @@ brew upgrade lucky
 - Update `src/{your app name}.cr` to require `./start_server`
 - Rename `src/dependencies.cr` to `src/shards.cr`
 - Move the `App` class to a new file in `src/app_server.cr`
-- Rename `App` to `AppServer` in your new `src/app_server.cr`
+- Rename `App` to `AppServer` and rename `Lucky::BaseApp` to `Lucky::BaseAppServer` in your new `src/app_server.cr`
 - Update `src/app.cr` to require new `./app_server` file
 - Update `src/app.cr` to require new `./shards` file
 
