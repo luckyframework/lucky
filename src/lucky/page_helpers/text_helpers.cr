@@ -32,11 +32,9 @@ module Lucky::TextHelpers
   # "Four score and se...<a href="#">Read more</a>"
   # ```
   def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil) : Nil
-    if text
-      content = truncate_text(text, length, omission, separator)
-      raw (escape ? HTML.escape(content) : content)
-      blk.call if !blk.nil? && text.size > length
-    end
+    content = truncate_text(text, length, omission, separator)
+    raw (escape ? HTML.escape(content) : content)
+    blk.call if !blk.nil? && text.size > length
   end
 
   def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, &block : -> _) : Nil
