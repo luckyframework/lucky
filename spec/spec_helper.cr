@@ -3,8 +3,6 @@ require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
 
-Lucky::AssetHelpers.load_manifest
-
 Spec.before_each do
   ARGV.clear
 end

@@ -24,8 +24,8 @@ private class TestPage
   end
 
   def dynamic_asset_path
-    interpolated = "logo"
-    dynamic_asset("images/#{interpolated}.png")
+    interpolated = "dynamic-asset"
+    dynamic_asset("#{interpolated}.png")
   end
 
   def missing_dynamic_asset_path
@@ -60,7 +60,7 @@ describe Lucky::AssetHelpers do
 
   describe "dynamic asset helper" do
     it "returns the fingerprinted path" do
-      TestPage.new.dynamic_asset_path.should eq "/images/logo-with-hash.png"
+      TestPage.new.dynamic_asset_path.should eq "/dynamic-asset.png"
     end
 
     it "works inside included module" do
@@ -75,7 +75,7 @@ describe Lucky::AssetHelpers do
 
     it "prepends the asset_host configuration option" do
       Lucky::Server.temp_config(asset_host: "https://production.com") do
-        TestPage.new.dynamic_asset_path.should eq "https://production.com/images/logo-with-hash.png"
+        TestPage.new.dynamic_asset_path.should eq "https://production.com/dynamic-asset.png"
       end
     end
   end

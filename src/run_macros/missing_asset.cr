@@ -1,9 +1,10 @@
 require "colorize"
 require "json"
 require "levenshtein"
+require "../lucky/asset_manifest"
 
 missing_asset = ARGV.first
-asset_paths = ARGV[1].split(",")
+asset_paths = Lucky::AssetManifest.non_fingerprinted_paths
 
 best_match = Levenshtein::Finder.find missing_asset, asset_paths, tolerance: 4
 
