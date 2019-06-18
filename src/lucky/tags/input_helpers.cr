@@ -19,7 +19,7 @@ module Lucky::InputHelpers
   end
 
   macro generate_helpful_error_for(input_method_name)
-    def {{ input_method_name.id }}(field : Avram::Field, **options)
+    def {{ input_method_name.id }}(field : Avram::Attribute, **options)
       Lucky::InputHelpers.error_message_for_unallowed_field
     end
   end
