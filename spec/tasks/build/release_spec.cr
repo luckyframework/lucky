@@ -10,7 +10,7 @@ describe Build::Release do
 
       Build::Release.new(IO::Memory.new).call
 
-      File.exists?("./server").should be_true
+      File.exists?("./start_server").should be_true
     end
   end
 
