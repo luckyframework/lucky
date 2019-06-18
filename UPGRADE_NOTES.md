@@ -22,7 +22,10 @@ brew upgrade lucky
 
 - Run `shards update`
 
-- Rename `src/server.cr` to `src/start_server.cr`. 
+- Rename `src/server.cr` to `src/start_server.cr`.
+- Edit `src/start_server.cr` by changing 
+    * `app` to `app_server` and `App` to `AppServer`.
+    * delete the line that starts with `puts "Listening on`
 - Update `src/{your app name}.cr` to require `./start_server`
 - Rename `src/dependencies.cr` to `src/shards.cr`
 - Move the `App` class to a new file in `src/app_server.cr`
