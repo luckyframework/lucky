@@ -76,6 +76,7 @@ module Lucky::TextHelpers
   # This can be customized with the `highlighter` argument.
   #
   # **Note: This method writes HTML directly to the page. It does not return a
+  # String**
   #
   # ```crystal
   # highlight("Crystal is type-safe and compiled.", phrases: ["type-safe", "compiled"])
