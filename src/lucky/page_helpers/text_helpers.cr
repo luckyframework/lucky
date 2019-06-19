@@ -75,6 +75,9 @@ module Lucky::TextHelpers
   # `phrases` array. The default is to wrap each with the `<mark>` element.
   # This can be customized with the `highlighter` argument.
   #
+  # **Note: This method writes HTML directly to the page. It does not return a
+  # String**
+  #
   # ```crystal
   # highlight("Crystal is type-safe and compiled.", phrases: ["type-safe", "compiled"])
   # ```
@@ -96,18 +99,18 @@ module Lucky::TextHelpers
   # ```html
   # You're such a <strong>nice</strong> and <strong>attractive</strong> person.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>") : String
+  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
     if text.blank? || phrases.all?(&.to_s.blank?)
-      (text || "")
+      raw (text || "")
     else
       match = phrases.map do |p|
         p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
       end.join("|")
 
       if highlighter.is_a?(Proc)
-        text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
+        raw text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
       else
-        text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
+        raw text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
       end
     end
   end
@@ -117,16 +120,16 @@ module Lucky::TextHelpers
   # Exactly the same as the `highlight` that takes multiple phrases, but with a
   # singular `phrase` argument for readability.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _) : String
+  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _)
     highlight(text, phrases, highlighter: block)
   end
 
-  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>") : String
+  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>")
     phrases = [phrase] of String | Regex
     highlight(text, phrases, highlighter: highlighter)
   end
 
-  def highlight(text : String, phrase : String | Regex, &block : String -> _) : String
+  def highlight(text : String, phrase : String | Regex, &block : String -> _)
     phrases = [phrase] of String | Regex
     highlight(text, phrases, highlighter: block)
   end
