@@ -1,5 +1,5 @@
 # These helper methods will write directly to the view.
-module Lucky::HTMLHelpers
+module Lucky::HTMLTextHelpers
   # Shortens text after a length point and inserts content afterward
   #
   # **Note: This method writes HTML directly to the page. It does not return a
