@@ -1,45 +1,6 @@
+# These helper methods will return a `String`.
 module Lucky::TextHelpers
   @@_cycles = Hash(String, Cycle).new
-
-  # Shortens text after a length point and inserts content afterward
-  #
-  # **Note: This method writes HTML directly to the page. It does not return a
-  # String.**
-  #
-  # This is ideal if you want an action associated with shortened text, like
-  # "Read more".
-  #
-  # * `length` (default: `30`) will control the maximum length of the text,
-  # including the `omission`.
-  # * `omission` (default: `...`) will insert itself at the end of the
-  # truncated text.
-  # * `separator` (default: nil) is where words are cut off. This is often
-  # overridden to break on word boundries by setting the separator to a space
-  # `" "`. Keep in mind this, may cause your text to be truncated before your
-  # `length` value if the `length` - `omission` is before the `separator`.
-  # * `escape` (default: false) weather or not to HTML escape the truncated
-  # string.
-  # * `blk` (default: nil) A block to run after the text has been truncated.
-  # Often used to add an action to read more text, like a "Read more" link.
-  #
-  # ```crystal
-  # truncate("Four score and seven years ago", length: 20) do
-  #   link "Read more", to: "#"
-  # end
-  # ```
-  # outputs:
-  # ```html
-  # "Four score and se...<a href="#">Read more</a>"
-  # ```
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil) : Nil
-    content = truncate_text(text, length, omission, separator)
-    raw (escape ? HTML.escape(content) : content)
-    blk.call if !blk.nil? && text.size > length
-  end
-
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, &block : -> _) : Nil
-    truncate(text, length, omission, separator, escape, blk: block)
-  end
 
   # Shorten text after a length point.
   #
@@ -67,71 +28,6 @@ module Lucky::TextHelpers
        end
 
     "#{text[0, stop]}#{omission}"
-  end
-
-  # Wrap phrases to make them stand out
-  #
-  # This will wrap all the phrases inside a piece of `text` specified by the
-  # `phrases` array. The default is to wrap each with the `<mark>` element.
-  # This can be customized with the `highlighter` argument.
-  #
-  # **Note: This method writes HTML directly to the page. It does not return a
-  # String**
-  #
-  # ```crystal
-  # highlight("Crystal is type-safe and compiled.", phrases: ["type-safe", "compiled"])
-  # ```
-  # outputs:
-  # ```html
-  # Crystal is <mark>type-safe</mark> and <mark>compiled</mark>.
-  # ```
-  #
-  # **With a custom highlighter**
-  #
-  # ```crystal
-  # highlight(
-  #   "You're such a nice and attractive person.",
-  #   phrases: ["nice", "attractive"],
-  #   highlighter: "<strong>\\1</strong>"
-  # )
-  # ```
-  # outputs:
-  # ```html
-  # You're such a <strong>nice</strong> and <strong>attractive</strong> person.
-  # ```
-  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
-    if text.blank? || phrases.all?(&.to_s.blank?)
-      raw (text || "")
-    else
-      match = phrases.map do |p|
-        p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
-      end.join("|")
-
-      if highlighter.is_a?(Proc)
-        raw text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
-      else
-        raw text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
-      end
-    end
-  end
-
-  # Highlight a single phrase
-  #
-  # Exactly the same as the `highlight` that takes multiple phrases, but with a
-  # singular `phrase` argument for readability.
-  # ```
-  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _)
-    highlight(text, phrases, highlighter: block)
-  end
-
-  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>")
-    phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: highlighter)
-  end
-
-  def highlight(text : String, phrase : String | Regex, &block : String -> _)
-    phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: block)
   end
 
   # Grab a window of longer string
@@ -188,6 +84,8 @@ module Lucky::TextHelpers
     [prefix, affix, postfix].join
   end
 
+  # It pluralizes `singular` unless `count` is 1. You can specify the `plural` option
+  # to override the chosen plural word.
   def pluralize(count : Int32 | String | Nil, singular : String, plural = nil) : String
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
              singular
@@ -203,58 +101,6 @@ module Lucky::TextHelpers
       line.size > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1#{break_sequence}").strip : line
     end
     text.join(break_sequence)
-  end
-
-  # Wraps text in whatever you'd like based on line breaks
-  #
-  # **Note: This method writes HTML directly to the page. It does not return a
-  # String**
-  #
-  # ```crystal
-  # simple_format("foo\n\nbar\n\nbaz") do |paragraph|
-  #   text paragraph
-  #   hr
-  # end
-  # ```
-  # outputs:
-  # ```html
-  # foo<hr>
-  #
-  # bar<hr>
-  #
-  # baz<hr>
-  # ```
-  def simple_format(text : String, &block : String -> _) : Nil
-    paragraphs = split_paragraphs(text)
-
-    paragraphs = [""] if paragraphs.empty?
-
-    paragraphs.each do |paragraph|
-      yield paragraph
-      raw "\n\n" unless paragraph == paragraphs.last
-    end
-    view
-  end
-
-  # Wraps text in paragraphs based on line breaks
-  #
-  # ```crystal
-  # simple_format("foo\n\nbar\n\nbaz")
-  # ```
-  # outputs:
-  # ```html
-  # <p>foo</p>
-  #
-  # <p>bar</p>
-  #
-  # <p>baz</p>
-  # ```
-  def simple_format(text : String, **html_options) : Nil
-    simple_format(text) do |formatted_text|
-      para(html_options) do
-        raw formatted_text
-      end
-    end
   end
 
   # Creates a comma-separated sentence from the provided `Enumerable` *list*
