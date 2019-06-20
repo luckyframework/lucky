@@ -14,18 +14,18 @@ end
 
 describe Lucky::RouteHandler do
   describe "when it finds the SampleAction" do
-    # TODO: https://github.com/luckyframework/lucky/issues/759
-    # it "renders the html request" do
-    #  output = IO::Memory.new
-    #  context = build_context_with_io(output, path: "/sample-action")
-    #  context.request.method = "GET"
+    it "renders the html request" do
+      output = IO::Memory.new
+      context = build_context_with_io(output, path: "/sample-action")
+      context.request.method = "GET"
+      context.request.headers["Accept"] = "text/html"
 
-    #  handler = Lucky::RouteHandler.new
-    #  handler.next = ->(_ctx : HTTP::Server::Context) {}
-    #  handler.call(context)
-    #  context.response.close
-    #  output.to_s.should contain "html test"
-    # end
+      handler = Lucky::RouteHandler.new
+      handler.next = ->(_ctx : HTTP::Server::Context) {}
+      handler.call(context)
+      context.response.close
+      output.to_s.should contain "html test"
+    end
 
     it "renders the html with a file extension" do
       output = IO::Memory.new
