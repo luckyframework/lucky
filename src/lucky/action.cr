@@ -9,7 +9,7 @@ abstract class Lucky::Action
   abstract def call
 
   include Lucky::ActionDelegates
-  include Lucky::ContentTypeHelpers
+  include Lucky::RequestTypeHelpers
   include Lucky::Exposeable
   include Lucky::Routeable
   include Lucky::Renderable
