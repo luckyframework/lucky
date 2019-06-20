@@ -3,7 +3,7 @@ require "../spec_helper"
 describe HTTP::Cookie do
   describe "setters" do
     it "can chain and set values" do
-      time = Time.now
+      time = Time.utc
       cookie = test_cookie
         .name("session_id")
         .value("1")

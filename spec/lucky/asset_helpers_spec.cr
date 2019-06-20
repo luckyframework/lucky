@@ -50,6 +50,12 @@ describe Lucky::AssetHelpers do
     it "strips the prefixed '/assets/ in path" do
       TestPage.new.strips_prefixed_asset_path.should eq "/assets/images/inside-assets-folder.png"
     end
+
+    it "prepends the asset_host configuration option" do
+      Lucky::Server.temp_config(asset_host: "https://production.com") do
+        TestPage.new.asset_path.should eq "https://production.com/images/logo-with-hash.png"
+      end
+    end
   end
 
   describe "dynamic asset helper" do
@@ -64,6 +70,12 @@ describe Lucky::AssetHelpers do
     it "raises a helpful error" do
       expect_raises Exception, "Missing asset: woops!.png" do
         TestPage.new.missing_dynamic_asset_path
+      end
+    end
+
+    it "prepends the asset_host configuration option" do
+      Lucky::Server.temp_config(asset_host: "https://production.com") do
+        TestPage.new.dynamic_asset_path.should eq "https://production.com/images/logo-with-hash.png"
       end
     end
   end

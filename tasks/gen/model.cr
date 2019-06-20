@@ -46,7 +46,7 @@ class Gen::Model < LuckyCli::Task
 
   private def display_success_messages
     io.puts success_message("./src/models/#{underscored_name}.cr")
-    io.puts success_message("./src/forms/#{underscored_name}_form.cr", "Form")
+    io.puts success_message("./src/operations/save_#{underscored_name}.cr", "Operation")
     io.puts success_message("./src/queries/#{underscored_name}_query.cr", "Query")
   end
 

@@ -1,5 +1,5 @@
 class <%= pluralized_resource %>::EditPage < MainLayout
-  needs form : <%= form_class %>
+  needs form : <%= operation_class %>
   needs <%= underscored_resource %> : <%= resource %>
   quick_def page_title, "Edit"
 

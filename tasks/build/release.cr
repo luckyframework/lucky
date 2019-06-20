@@ -10,12 +10,12 @@ class Build::Release < LuckyCli::Task
   end
 
   def call
-    command = "crystal build --release src/server.cr"
+    command = "crystal build --release src/start_server.cr"
 
     log "Building binary with '#{command}"
     process = Process.run(command, shell: true, output: @io, error: @error_io)
     if process.success?
-      log "Build succeeded - binary saved at './server'"
+      log "Build succeeded - binary saved at './start_server'"
     end
   end
 

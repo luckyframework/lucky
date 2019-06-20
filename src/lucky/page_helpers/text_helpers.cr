@@ -1,23 +1,25 @@
+# These helper methods will return a `String`.
 module Lucky::TextHelpers
   @@_cycles = Hash(String, Cycle).new
 
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil)
-    if text
-      content = truncate_text(text, length, omission, separator)
-      raw (escape ? HTML.escape(content) : content)
-      blk.call if !blk.nil? && text.size > length
-      view
-    end
-  end
+  # Shorten text after a length point.
+  #
+  # Unlike `truncate`, this method can be used inside of other tags because it
+  # returns a String. See `truncate` method for argument documentation.
+  #
+  # ```crystal
+  # link "#" do
+  #   text truncate_text("Four score and seven years ago", length: 27)
+  # end
+  # ```
+  # outputs:
+  # ```html
+  # <a href=\"#\">Four score and se...</a>
+  # ```
+  def truncate_text(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil) : String
+    return text unless text.size > length
 
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, &block : -> _)
-    truncate(text, length, omission, separator, escape, blk: block)
-  end
-
-  private def truncate_text(text : String, truncate_at : Int32, omission : String = "...", separator : String | Nil = nil)
-    return text unless text.size > truncate_at
-
-    length_with_room_for_omission = truncate_at - omission.size
+    length_with_room_for_omission = length - omission.size
     stop = \
        if separator
          text.rindex(separator, length_with_room_for_omission) || length_with_room_for_omission
@@ -28,38 +30,31 @@ module Lucky::TextHelpers
     "#{text[0, stop]}#{omission}"
   end
 
-  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
-    if text.blank? || phrases.all?(&.to_s.blank?)
-      raw (text || "")
-    else
-      match = phrases.map do |p|
-        p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
-      end.join("|")
-
-      if highlighter.is_a?(Proc)
-        raw text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)
-      else
-        raw text.gsub(/(#{match})(?![^<]*?>)/i, highlighter)
-      end
+  # Grab a window of longer string
+  #
+  # You'll need to specify a `phrase` to center on, either a Regex or a String.
+  #
+  # Optionally:
+  # * A `radius` (default: `100`) which controls how many units out from the
+  # `phrase` on either side the excerpt will be.
+  # * A `separator` (default `""`) which controls what the `radius` will count.
+  # The unit by default is any character, which means the default is 100
+  # character from the `phrase` in either direction. For example, an excerpt of # 10 words would use a `radius` of 10 and a `separator` of `" "`.
+  # * An `omission` string (default: `"..."`), which prepends and appends to
+  # the excerpt.
+  #
+  # ```crystal
+  # lyrics = "We represent the Lolly pop Guild, The Lolly pop Guild"
+  # excerpt(text, phrase: "Guild", radius: 10)
+  # ```
+  # outputs:
+  # ```html
+  # ...Lolly pop Guild, The Loll...
+  # ```
+  def excerpt(text : String, phrase : Regex | String, separator : String = "", radius : Int32 = 100, omission : String = "...") : String
+    if text.nil? || text.to_s.blank?
+      return ""
     end
-  end
-
-  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _)
-    highlight(text, phrases, highlighter: block)
-  end
-
-  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>")
-    phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: highlighter)
-  end
-
-  def highlight(text : String, phrase : String | Regex, &block : String -> _)
-    phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: block)
-  end
-
-  def excerpt(text : String, phrase : Regex | String, separator : String = "", radius : Int32 = 100, omission : String = "...")
-    return "" if text.to_s.blank?
 
     case phrase
     when Regex
@@ -68,7 +63,7 @@ module Lucky::TextHelpers
       regex = /#{Regex.escape(phrase.to_s)}/i
     end
 
-    return unless matches = text.match(regex)
+    return "" unless matches = text.match(regex)
     phrase = matches[0]
 
     unless separator.empty?
@@ -86,44 +81,26 @@ module Lucky::TextHelpers
     postfix, second_part = cut_excerpt_part(:second, second_part, separator, radius, omission)
 
     affix = [first_part, separator, phrase, separator, second_part].join.strip
-    raw [prefix, affix, postfix].join
+    [prefix, affix, postfix].join
   end
 
-  def pluralize(count : Int32 | String | Nil, singular : String, plural = nil)
+  # It pluralizes `singular` unless `count` is 1. You can specify the `plural` option
+  # to override the chosen plural word.
+  def pluralize(count : Int32 | String | Nil, singular : String, plural = nil) : String
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
              singular
            else
              plural || Wordsmith::Inflector.pluralize(singular)
            end
 
-    raw "#{count || 0} #{word}"
+    "#{count || 0} #{word}"
   end
 
-  def word_wrap(text : String, line_width : Int32 = 80, break_sequence : String = "\n")
+  def word_wrap(text : String, line_width : Int32 = 80, break_sequence : String = "\n") : String
     text = text.split("\n").map do |line|
       line.size > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1#{break_sequence}").strip : line
     end
-    raw text.join(break_sequence)
-  end
-
-  def simple_format(text : String, &block : String -> _)
-    paragraphs = split_paragraphs(text)
-
-    paragraphs = [""] if paragraphs.empty?
-
-    paragraphs.each do |paragraph|
-      yield paragraph
-      raw "\n\n" unless paragraph == paragraphs.last
-    end
-    view
-  end
-
-  def simple_format(text : String, **html_options)
-    simple_format(text) do |formatted_text|
-      para(html_options) do
-        raw formatted_text
-      end
-    end
+    text.join(break_sequence)
   end
 
   # Creates a comma-separated sentence from the provided `Enumerable` *list*
@@ -164,14 +141,14 @@ module Lucky::TextHelpers
   def to_sentence(list : Enumerable,
                   word_connector : String = ", ",
                   two_word_connector : String = " and ",
-                  last_word_connector : String = ", and ")
+                  last_word_connector : String = ", and ") : String
     list = list.to_a
 
     if list.size < 3
-      return text list.join(two_word_connector)
+      return list.join(two_word_connector)
     end
 
-    text "#{list[0..-2].join(word_connector)}#{last_word_connector}#{list.last}"
+    "#{list[0..-2].join(word_connector)}#{last_word_connector}#{list.last}"
   end
 
   private def normalize_values(values)
@@ -180,16 +157,16 @@ module Lucky::TextHelpers
     string_values
   end
 
-  def cycle(values : Array, name = "default")
+  def cycle(values : Array, name = "default") : String
     values = normalize_values(values)
     cycle = get_cycle(name)
     unless cycle && cycle.values == values
       cycle = set_cycle(name, Cycle.new(values))
     end
-    raw cycle.to_s
+    cycle.to_s
   end
 
-  def cycle(*values, name : String = "default")
+  def cycle(*values, name : String = "default") : String
     values = normalize_values(values)
     cycle(values, name: name)
   end

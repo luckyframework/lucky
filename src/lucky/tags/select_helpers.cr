@@ -1,13 +1,13 @@
 module Lucky::SelectHelpers
   alias SelectOption = (String | Int32 | Int64)
 
-  def select_input(field : Avram::FillableField, **html_options)
+  def select_input(field : Avram::PermittedAttribute, **html_options)
     select_tag merge_options(html_options, {"name" => input_name(field)}) do
       yield
     end
   end
 
-  def options_for_select(field : Avram::FillableField, select_options : Array(Tuple(String, SelectOption)), **html_options)
+  def options_for_select(field : Avram::PermittedAttribute, select_options : Array(Tuple(String, SelectOption)), **html_options)
     select_options.each do |option_name, option_value|
       attributes = {"value" => option_value.to_s}
 

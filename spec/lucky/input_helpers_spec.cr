@@ -10,30 +10,30 @@ end
 
 class InputTestForm
   def first_name
-    Avram::Field(String).new(
+    Avram::PermittedAttribute(String).new(
       name: :first_name,
       param: "My name",
       value: "",
       form_name: "user"
-    ).fillable
+    )
   end
 
   def eula(value : String)
-    Avram::Field(String?).new(
+    Avram::PermittedAttribute(String?).new(
       name: :eula,
       param: nil,
       value: value,
       form_name: "user"
-    ).fillable
+    )
   end
 
   def admin(checked : Bool)
-    Avram::Field(Bool?).new(
+    Avram::PermittedAttribute(Bool?).new(
       name: :admin,
       param: nil,
       value: checked,
       form_name: "user"
-    ).fillable
+    )
   end
 end
 

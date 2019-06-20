@@ -1,5 +1,5 @@
 class <%= pluralized_resource %>::New < BrowserAction
   route do
-    render NewPage, form: <%= form_class %>.new
+    render NewPage, form: <%= operation_class %>.new
   end
 end

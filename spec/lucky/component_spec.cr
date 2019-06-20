@@ -68,8 +68,10 @@ describe "components rendering" do
   it "prints a comment when configured to do so" do
     Lucky::HTMLPage.temp_config(render_component_comments: true) do
       contents = TestMountPage.new(build_context).render.to_s
-      contents.should contain("<!-- Rendered by ComplexTestComponent -->")
-      contents.should contain("<!-- Rendered by ComponentWithBlock -->")
+      contents.should contain("<!-- Started: ComplexTestComponent -->")
+      contents.should contain("<!-- Finished: ComplexTestComponent -->")
+      contents.should contain("<!-- Started: ComponentWithBlock -->")
+      contents.should contain("<!-- Finished: ComponentWithBlock -->")
     end
   end
 end
