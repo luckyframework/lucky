@@ -1,6 +1,4 @@
 class HTTP::Server::Context
-  property? hide_from_logs : Bool = false
-
   @_cookies : Lucky::CookieJar?
 
   def cookies : Lucky::CookieJar

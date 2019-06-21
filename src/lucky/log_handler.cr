@@ -3,13 +3,19 @@ require "colorize"
 class Lucky::LogHandler
   include HTTP::Handler
 
+  Habitat.create do
+    setting skip_if : Proc(HTTP::Server::Context, Bool)?
+  end
+
   delegate logger, to: Lucky
 
   def call(context)
     time = Time.utc
-    log_request_start(context) unless context.hide_from_logs?
+    should_skip = settings.skip_if.try &.call(context)
+
+    log_request_start(context) unless should_skip
     call_next(context)
-    log_request_end(context, duration: Time.utc - time) unless context.hide_from_logs?
+    log_request_end(context, duration: Time.utc - time) unless should_skip
   rescue e
     log_exception(context, time, e)
     raise e
