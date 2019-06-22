@@ -1,12 +1,11 @@
 require "http/server"
 
 class Lucky::StaticFileHandler < HTTP::StaticFileHandler
-  Habitat.create do
-    setting hide_from_logs : Bool
+  def call(context : HTTP::Server::Context)
+    super(context)
   end
 
-  def call(context : HTTP::Server::Context)
-    context.hide_from_logs = settings.hide_from_logs
-    super(context)
+  def self.configure(*args, **named_args, &block)
+    {% raise "All settings were removed from Lucky::StaticFileHandler. You can remove the Lucky::StaticFileHandler.configure block." %}
   end
 end

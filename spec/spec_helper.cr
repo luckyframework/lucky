@@ -35,10 +35,6 @@ Lucky::ErrorHandler.configure do |settings|
   settings.show_debug_output = false
 end
 
-Lucky::StaticFileHandler.configure do |settings|
-  settings.hide_from_logs = true
-end
-
 Lucky::ForceSSLHandler.configure do |settings|
   settings.enabled = true
 end
