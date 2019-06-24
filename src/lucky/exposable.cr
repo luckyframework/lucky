@@ -1,4 +1,4 @@
-module Lucky::Exposeable
+module Lucky::Exposable
   macro included
     EXPOSURES = [] of Symbol
 

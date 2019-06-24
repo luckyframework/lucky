@@ -1,3 +1,8 @@
+### Changes since v0.15
+
+- `Lucky::Exposeable` has been renamed to `Lucky::Exposable`
+- `Lucky::Routeable` has been renamed to `Lucky::Routable`
+
 ### v0.15 (2019-06-12)
 
 - Removed `Lucky::Action::Status`. Use Crystal's `HTTP::Status` enum. [#769](https://github.com/luckyframework/lucky/pull/769)
