@@ -19,20 +19,22 @@ module Lucky::Memoizable
   # The `memoize` method will raise a compile time exception if you forget to include
   # a return type for your method, or if your return type is a `Union`.
   macro memoize(method_def)
-    {% raise "Return type must not be a Union" if method_def.return_type.is_a?(Union) %}
-    {% raise "You must include a return type for memoize methods" if method_def.return_type.is_a?(Nop) %}
+    {% raise "Return type of memoize method must not be a Union" if method_def.return_type.is_a?(Union) %}
+    {% raise "You must define a return type for memoize methods" if method_def.return_type.is_a?(Nop) %}
+    {% raise "Memoize methods can not be defined with arguments" if method_def.args.size > 0 %}
 
     @__{{ method_def.name }} : {{ method_def.return_type }}? = nil
 
-    def _{{ method_def.name }}{% if method_def.args.size > 0 %}({{ method_def.args }}){% end %} : {{ method_def.return_type }}
+    # no cache
+    def _{{ method_def.name }} : {{ method_def.return_type }}
       {{ method_def.body }}
     end
 
-    def {{ method_def.name }}{% if method_def.args.size > 0 %}({{ method_def.args }}){% end %} : {{ method_def.return_type }}
+    # cache
+    def {{ method_def.name }} : {{ method_def.return_type }}
       @__{{ method_def.name }} ||= -> do
-        _{{ method_def.name }}{% if method_def.args.size > 0 %}({{ method_def.args }}){% end %}
+        _{{ method_def.name }}
       end.call.not_nil!
     end
-
   end
 end
