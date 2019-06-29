@@ -32,11 +32,18 @@ brew upgrade lucky
 - Rename `App` to `AppServer` and rename `Lucky::BaseApp` to `Lucky::BaseAppServer` in your new `src/app_server.cr`
 - Update `src/app.cr` to require new `./app_server` file
 - Update `src/app.cr` to require new `./shards` file
-
+- Replace usages of `Lucky::Action::Status::` with the respective crystal `HTTP::Status::`
 
 ### Upgrading from 0.13 to 0.14
 
 - Upgrade to crystal 0.28.0
+- Create new file `config/force_ssl_handler.cr` with the following content:
+
+```crystal
+Lucky::ForceSSLHandler.configure do |settings|
+  settings.enabled = Lucky::Env.production?
+end
+```
 
 ### Upgrading from 0.12 to 0.13
 
