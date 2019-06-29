@@ -39,10 +39,10 @@ brew upgrade lucky
 - Upgrade to crystal 0.28.0
 - Create new file `config/force_ssl_handler.cr` with the following content:
 
-```
+```crystal
 Lucky::ForceSSLHandler.configure do |settings|
-	  settings.enabled = Lucky::Env.production?
-	end
+  settings.enabled = Lucky::Env.production?
+end
 ```
 
 ### Upgrading from 0.12 to 0.13
