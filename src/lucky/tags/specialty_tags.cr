@@ -37,8 +37,9 @@ module Lucky::SpecialtyTags
   # See the [MDN's documentation on the meta
   # tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta) for
   # details.
-  def responsive_meta_tag
-    meta name: "viewport", content: "width=device-width, initial-scale=1"
+  def responsive_meta_tag(**options)
+    options = {width: "device-width", initial_scale: "1"}.merge(options)
+    meta name: "viewport", content: build_content_attr_value(options)
   end
 
   # Adds *string* directly to the rendered HTML with no escaping.
@@ -73,5 +74,15 @@ module Lucky::SpecialtyTags
   def nbsp(how_many : Int32 = 1)
     how_many.times { raw("&nbsp;") }
     view
+  end
+
+  private def build_content_attr_value(options)
+    String.build do |attrs|
+      options.each_with_index do |key, value, index|
+        attrs << ", " if index > 0
+        attrs << Wordsmith::Inflector.dasherize(key.to_s) << "="
+        attrs << value.to_s
+      end
+    end
   end
 end
