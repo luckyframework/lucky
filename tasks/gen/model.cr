@@ -5,7 +5,7 @@ require "./templates/model_template"
 require "wordsmith"
 
 class Gen::Model < LuckyCli::Task
-  summary "Generate a model, query, and form"
+  summary "Generate a model, query, and save operation"
   getter io : IO = STDOUT
 
   def call(@io : IO = STDOUT)
@@ -19,7 +19,24 @@ class Gen::Model < LuckyCli::Task
   end
 
   def create_migration
-    Avram::Migrator::MigrationGenerator.new("Create#{pluralized_model_name}").generate
+    Avram::Migrator::MigrationGenerator.new(
+      "Create#{pluralized_model_name}",
+      migrate_contents: migrate_contents,
+      rollback_contents: rollback_contents
+    ).generate
+  end
+
+  private def migrate_contents
+    String.build do |string|
+      string << "create table_for(#{model_name}) do\n"
+      string << "  primary_key id : Int64\n"
+      string << "  add_timestamps\n"
+      string << "end"
+    end
+  end
+
+  private def rollback_contents : String
+    "drop table_for(#{model_name})"
   end
 
   private def pluralized_model_name
