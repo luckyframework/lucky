@@ -49,7 +49,7 @@ class Gen::Resource::Browser < LuckyCli::Task
 
   private def migrate_contents : String
     String.build do |string|
-      string << "create :#{pluralized_resource.underscore} do\n"
+      string << "create table_for(#{resource_name}) do\n"
       columns.each do |column|
         string << "  add #{column.name} : #{column.type}\n"
       end
