@@ -6,7 +6,7 @@ class FrameGuardRoutes::WithSameorigin < Lucky::Action
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 
   def frame_guard_value
@@ -18,7 +18,7 @@ class FrameGuardRoutes::WithDeny < Lucky::Action
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 
   def frame_guard_value
@@ -30,7 +30,7 @@ class FrameGuardRoutes::WithURL < Lucky::Action
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 
   def frame_guard_value
@@ -42,7 +42,7 @@ class FrameGuardRoutes::WithBadValue < Lucky::Action
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 
   def frame_guard_value
@@ -54,7 +54,7 @@ class XSSGuardRoutes::Index < Lucky::Action
   include Lucky::SecureHeaders::SetXSSGuard
 
   get "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
@@ -62,7 +62,7 @@ class SniffGuardRoutes::Index < Lucky::Action
   include Lucky::SecureHeaders::SetSniffGuard
 
   get "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 

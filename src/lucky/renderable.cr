@@ -142,24 +142,25 @@ module Lucky::Renderable
     file(path, content_type, disposition, filename, status.value)
   end
 
-  private def send_response(body : String, content_type : String, status : Int32? = nil) : Lucky::TextResponse
+  private def send_text_response(body : String, content_type : String, status : Int32? = nil) : Lucky::TextResponse
     Lucky::TextResponse.new(context, content_type, body, status: status)
   end
 
-  private def text(body : String, status : Int32? = nil) : Lucky::TextResponse
-    send_response(body, "text/plain", status)
+  private def plain_text(body : String, status : Int32? = nil) : Lucky::TextResponse
+    send_text_response(body, "text/plain", status)
   end
 
-  private def text(body : String, status : HTTP::Status) : Lucky::TextResponse
-    text(body, status: status.value)
+  private def plain_text(body : String, status : HTTP::Status) : Lucky::TextResponse
+    plain_text(body, status: status.value)
   end
 
+  @[Deprecated("`render_text deprecated. Use `plain_text` instead")]
   private def render_text(*args, **named_args) : Lucky::TextResponse
-    text(*args, **named_args)
+    plain_text(*args, **named_args)
   end
 
   private def head(status : Int32) : Lucky::TextResponse
-    send_response(body: "", content_type: "", status: status)
+    send_text_response(body: "", content_type: "", status: status)
   end
 
   private def head(status : HTTP::Status) : Lucky::TextResponse
@@ -167,7 +168,7 @@ module Lucky::Renderable
   end
 
   private def json(body, status : Int32? = nil) : Lucky::TextResponse
-    send_response(body.to_json, "application/json", status)
+    send_text_response(body.to_json, "application/json", status)
   end
 
   private def json(body, status : HTTP::Status) : Lucky::TextResponse
@@ -175,10 +176,10 @@ module Lucky::Renderable
   end
 
   private def xml(body : String, status : Int32? = nil) : Lucky::TextResponse
-    send_response(body, "text/xml", status)
+    send_text_response(body, "text/xml", status)
   end
 
-  private def xml(body, status : HTTP::Status)
+  private def xml(body, status : HTTP::Status) : Lucky::TextResponse
     xml(body, status: status.value)
   end
 end

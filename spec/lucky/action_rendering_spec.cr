@@ -57,19 +57,19 @@ end
 
 class Rendering::Text::Index < Lucky::Action
   route do
-    text "Anything"
+    plain_text "Anything"
   end
 end
 
 class Rendering::Text::WithStatus < Lucky::Action
   get "/foo" do
-    text "Anything", status: 201
+    plain_text "Anything", status: 201
   end
 end
 
 class Rendering::Text::WithSymbolStatus < Lucky::Action
   get "/foo" do
-    text "Anything", status: :created
+    plain_text "Anything", status: :created
   end
 end
 

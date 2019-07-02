@@ -4,7 +4,7 @@ include ContextHelper
 
 private class TestAction < Lucky::Action
   get "/test/:param_1/:param_2" do
-    text "test"
+    plain_text "test"
   end
 end
 
