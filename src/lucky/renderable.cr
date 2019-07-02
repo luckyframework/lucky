@@ -142,12 +142,16 @@ module Lucky::Renderable
     file(path, content_type, disposition, filename, status.value)
   end
 
+  private def send_response(body : String, content_type : String, status : Int32? = nil) : Lucky::TextResponse
+    Lucky::TextResponse.new(context, content_type, body, status: status)
+  end
+
   private def text(body : String, status : Int32? = nil) : Lucky::TextResponse
-    Lucky::TextResponse.new(context, "text/plain", body, status: status)
+    send_response(body, "text/plain", status)
   end
 
   private def text(body : String, status : HTTP::Status) : Lucky::TextResponse
-    Lucky::TextResponse.new(context, "text/plain", body, status: status.value)
+    text(body, status: status.value)
   end
 
   private def render_text(*args, **named_args) : Lucky::TextResponse
@@ -155,7 +159,7 @@ module Lucky::Renderable
   end
 
   private def head(status : Int32) : Lucky::TextResponse
-    Lucky::TextResponse.new(context, content_type: "", body: "", status: status)
+    send_response(body: "", content_type: "", status: status)
   end
 
   private def head(status : HTTP::Status) : Lucky::TextResponse
@@ -163,10 +167,18 @@ module Lucky::Renderable
   end
 
   private def json(body, status : Int32? = nil) : Lucky::TextResponse
-    Lucky::TextResponse.new(context, "application/json", body.to_json, status)
+    send_response(body.to_json, "application/json", status)
   end
 
-  private def json(body, status : HTTP::Status = nil) : Lucky::TextResponse
-    json(body, status.value)
+  private def json(body, status : HTTP::Status) : Lucky::TextResponse
+    json(body, status: status.value)
+  end
+
+  private def xml(body : String, status : Int32? = nil) : Lucky::TextResponse
+    send_response(body, "text/xml", status)
+  end
+
+  private def xml(body, status : HTTP::Status)
+    xml(body, status: status.value)
   end
 end
