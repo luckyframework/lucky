@@ -19,7 +19,7 @@ private class ObjectWithMemoizedMethods
 end
 
 describe "memoizations" do
-  it "only calls the long_task once" do
+  it "only calls the method body once" do
     object = ObjectWithMemoizedMethods.new
 
     object.method_1.should eq "method_1"

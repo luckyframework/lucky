@@ -1,6 +1,5 @@
 module Lucky::Memoizable
-  # Caches the return value of the method. Helpful for expensive methods that are called
-  # more than once.
+  # Caches the return value of the method. Helpful for expensive methods that are called more than once.
   #
   # To memoize a method, prefix it with `memoize`:
   #
