@@ -24,6 +24,10 @@ private class TestWithDefaultsPage
       html.text_input replace_class: "replaced"
     end
 
+    with_defaults field: name_field do |html|
+      html.text_input append_class: "appended-without-default"
+    end
+
     view
   end
 end
@@ -42,6 +46,8 @@ describe "with_defaults" do
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="default appended classes">)
     contents
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="replaced">)
+    contents
+      .should contain %(<input type="text" id="user_name" name="user:name" value="" class="appended-without-default">)
   end
 end
 
