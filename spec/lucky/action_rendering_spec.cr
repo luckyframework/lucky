@@ -57,19 +57,37 @@ end
 
 class Rendering::Text::Index < Lucky::Action
   route do
-    text "Anything"
+    plain_text "Anything"
   end
 end
 
 class Rendering::Text::WithStatus < Lucky::Action
   get "/foo" do
-    text "Anything", status: 201
+    plain_text "Anything", status: 201
   end
 end
 
 class Rendering::Text::WithSymbolStatus < Lucky::Action
   get "/foo" do
-    text "Anything", status: :created
+    plain_text "Anything", status: :created
+  end
+end
+
+class Rendering::Xml::Index < Lucky::Action
+  get "/foo" do
+    xml "<anything />"
+  end
+end
+
+class Rendering::Xml::WithStatus < Lucky::Action
+  get "/foo" do
+    xml "<anything />", status: 418
+  end
+end
+
+class Rendering::Xml::WithSymbolStatus < Lucky::Action
+  get "/foo" do
+    xml "<anything />", status: :im_a_teapot
   end
 end
 
@@ -134,6 +152,18 @@ describe Lucky::Action do
 
     status = Rendering::JSON::WithSymbolStatus.new(build_context, params).call.status
     status.should eq 201
+  end
+
+  it "renders XML" do
+    response = Rendering::Xml::Index.new(build_context, params).call
+    response.body.should eq %(<anything />)
+    response.status.should eq 200
+
+    status = Rendering::Xml::WithStatus.new(build_context, params).call.status
+    status.should eq 418
+
+    status = Rendering::Xml::WithSymbolStatus.new(build_context, params).call.status
+    status.should eq 418
   end
 
   it "renders head response with no body" do

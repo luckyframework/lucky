@@ -2,7 +2,7 @@ require "../spec_helper"
 
 class Admin::MultiWord::Users::Show < Lucky::Action
   route do
-    text "plain"
+    plain_text "plain"
   end
 end
 

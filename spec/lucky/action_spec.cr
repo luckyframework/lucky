@@ -4,43 +4,43 @@ include ContextHelper
 
 class CustomRoutes::Index < Lucky::Action
   get "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
 class CustomRoutes::Put < Lucky::Action
   put "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
 class CustomRoutes::Post < Lucky::Action
   post "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
 class CustomRoutes::Patch < Lucky::Action
   patch "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
 class CustomRoutes::Trace < Lucky::Action
   trace "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
 class CustomRoutes::Delete < Lucky::Action
   delete "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
 class CustomRoutes::Match < Lucky::Action
   match :options, "/so_custom" do
-    text "test"
+    plain_text "test"
   end
 end
 
@@ -60,43 +60,43 @@ end
 
 class Tests::New < Lucky::Action
   route do
-    text "test"
+    plain_text "test"
   end
 end
 
 class Tests::Edit < Lucky::Action
   route do
-    text "test"
+    plain_text "test"
   end
 end
 
 class Tests::Show < Lucky::Action
   route do
-    text "test"
+    plain_text "test"
   end
 end
 
 class Tests::Delete < Lucky::Action
   route do
-    text "test"
+    plain_text "test"
   end
 end
 
 class Tests::Update < Lucky::Action
   route do
-    text "test"
+    plain_text "test"
   end
 end
 
 class Tests::Create < Lucky::Action
   route do
-    text "test"
+    plain_text "test"
   end
 end
 
 class PlainText::Index < Lucky::Action
   route do
-    text "plain"
+    plain_text "plain"
   end
 end
 
@@ -104,7 +104,7 @@ class RequiredParams::Index < Lucky::Action
   param required_page : Int32
 
   route do
-    text "required param: #{required_page}"
+    plain_text "required param: #{required_page}"
   end
 end
 
@@ -114,7 +114,7 @@ end
 
 class InheritedParams::Index < BaseActionWithParams
   route do
-    text "inherited param: #{inherit_me}"
+    plain_text "inherited param: #{inherit_me}"
   end
 end
 
@@ -129,7 +129,7 @@ class OptionalParams::Index < Lucky::Action
   param nilable_with_explicit_nil : Int32? = nil
 
   route do
-    text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
+    plain_text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
   end
 end
 
@@ -139,7 +139,7 @@ class ParamsWithDefaultParamsLast < Lucky::Action
   param no_default : String
 
   get "/args-with-defaults" do
-    text "doesn't matter"
+    plain_text "doesn't matter"
   end
 end
 

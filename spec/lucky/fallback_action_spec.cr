@@ -4,7 +4,7 @@ include ContextHelper
 
 class Rendering::FallbackRoute < Lucky::Action
   fallback do
-    text "Hey, you found me!"
+    plain_text "Hey, you found me!"
   end
 end
 

@@ -25,7 +25,7 @@ private class FakeErrorAction < Lucky::ErrorAction
   end
 
   def handle_error(error : Exception)
-    text "Oops"
+    plain_text "Oops"
   end
 end
 

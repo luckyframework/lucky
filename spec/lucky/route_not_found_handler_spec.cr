@@ -4,7 +4,7 @@ include ContextHelper
 
 class SampleFallbackAction::Index < Lucky::Action
   fallback do
-    text "Last chance"
+    plain_text "Last chance"
   end
 end
 
