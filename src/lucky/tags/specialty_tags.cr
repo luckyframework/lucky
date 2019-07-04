@@ -33,12 +33,13 @@ module Lucky::SpecialtyTags
   # Generates a meta tag telling browsers to render the page as wide as the
   # device screen/window and at an initial scale of 1.
   #
-  # Should only be used if the page is intended to be viewed on mobile devices.
-  # See the [MDN's documentation on the meta
-  # tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta) for
-  # details.
-  def responsive_meta_tag
-    meta name: "viewport", content: "width=device-width, initial-scale=1"
+  # Optional keyword arguments can be used to override these defaults, as well
+  # as specify additional properties. Please refer to [MDN's documentation on
+  # the viewport meta tag](https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag)
+  # for usage details.
+  def responsive_meta_tag(**options)
+    options = {width: "device-width", initial_scale: "1"}.merge(options)
+    meta name: "viewport", content: build_viewport_properties(options)
   end
 
   # Adds *string* directly to the rendered HTML with no escaping.
@@ -73,5 +74,15 @@ module Lucky::SpecialtyTags
   def nbsp(how_many : Int32 = 1)
     how_many.times { raw("&nbsp;") }
     view
+  end
+
+  private def build_viewport_properties(options)
+    String.build do |attrs|
+      options.each_with_index do |key, value, index|
+        attrs << ", " if index > 0
+        attrs << Wordsmith::Inflector.dasherize(key.to_s) << "="
+        attrs << value.to_s
+      end
+    end
   end
 end

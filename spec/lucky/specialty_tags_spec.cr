@@ -46,6 +46,14 @@ describe Lucky::SpecialtyTags do
     view.responsive_meta_tag.to_s.should contain <<-HTML
     <meta name="viewport" content="width=device-width, initial-scale=1">
     HTML
+
+    view.responsive_meta_tag(width: 600).to_s.should contain <<-HTML
+    <meta name="viewport" content="initial-scale=1, width=600">
+    HTML
+
+    view.responsive_meta_tag(height: 600).to_s.should contain <<-HTML
+    <meta name="viewport" content="width=device-width, initial-scale=1, height=600">
+    HTML
   end
 
   it "renders proper non-breaking space entity" do
