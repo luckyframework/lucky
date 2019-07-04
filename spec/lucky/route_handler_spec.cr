@@ -7,14 +7,14 @@ class SampleAction::Index < Lucky::Action
     if html?
       text "html test"
     else
-      text "not html"
+      text "something else"
     end
   end
 end
 
 describe Lucky::RouteHandler do
   describe "when it finds the SampleAction" do
-    it "renders the html request" do
+    it "uses the Accept header" do
       output = IO::Memory.new
       context = build_context_with_io(output, path: "/sample-action")
       context.request.method = "GET"
@@ -48,7 +48,7 @@ describe Lucky::RouteHandler do
       handler.next = ->(_ctx : HTTP::Server::Context) {}
       handler.call(context)
       context.response.close
-      output.to_s.should contain "not html"
+      output.to_s.should contain "something else"
     end
   end
 
@@ -80,7 +80,7 @@ describe Lucky::RouteHandler do
         handler.call(context)
         context.request.headers["Content-Type"].should eq "mealtime/🌮"
         context.response.close
-        output.to_s.should contain "not html"
+        output.to_s.should contain "something else"
       end
     end
   end

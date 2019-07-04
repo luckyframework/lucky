@@ -7,13 +7,13 @@ class Lucky::RouteHandler
 
   def call(context)
     original_path = context.request.path
-    format = get_extension(context.request.path)
-    context.request.path = context.request.path.gsub(format.to_s, "") if format
+    extension = get_extension(context.request.path)
+    context.request.path = context.request.path.gsub(extension[:format], "") if extension
     handler = Lucky::Router.find_action(context.request)
     if handler
-      if format && (content_type = MIME.from_extension?(format))
-        Lucky.logger.debug({path_extension: format, new_content_type: content_type})
-        context.request.headers["Content-Type"] = content_type
+      if extension
+        Lucky.logger.warn({path_extension: extension[:format], changed_content_type_to: extension[:type]})
+        context.request.headers["Content-Type"] = extension[:type]
       end
       Lucky.logger.debug({handled_by: handler.payload.to_s})
       handler.payload.new(context, handler.params).perform_action
@@ -23,14 +23,22 @@ class Lucky::RouteHandler
     end
   end
 
-  # Returns a file extension from a path and excludes query string
-  # `get_extension("/reports.xml.rss?page=1") #=> ".xml.rss"`
-  private def get_extension(path : String)
+  # Returns a `NamedTuple` with the file extension, and content type
+  # from the `path` excluding any query string. Returns `nil` if no extension is registered.
+  #
+  # `get_extension("/reports.xml.rss?page=1")
+  # => {format: ".xml.rss", type: "application/rss"}
+  private def get_extension(path : String) : NamedTuple(format: String, type: String)?
     extension_idx = path.index('.')
 
     if extension_idx
       query_idx = (path.index('?') || 0)
-      path[extension_idx..query_idx - 1]
+      extension = path[extension_idx..query_idx - 1]
+      if content_type = MIME.from_extension?(extension)
+        return {format: extension.to_s, type: content_type}
+      end
     end
+
+    nil
   end
 end

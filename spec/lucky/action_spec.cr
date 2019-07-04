@@ -254,13 +254,31 @@ describe Lucky::Action do
   end
 
   describe "when route is called with a file extension" do
-    it "still matches and responds" do
-      response = Tests::Show.new(build_context(path: "/tests/1.html"), params).call
+    it "still matches and responds when passed a standard extension" do
+      action = Tests::Show.new(build_context(path: "/tests/1.html"), {"test_id" => "1"})
+      action.test_id.should eq "1"
+      response = action.call
       response.body.should eq "test"
     end
 
     it "can be called with any weird extension and still match" do
-      response = Tests::Show.new(build_context(path: "/tests/1.js.php.erb"), params).call
+      action = Tests::Show.new(build_context(path: "/tests/1.js.php.erb"), {"test_id" => "1"})
+      action.test_id.should eq "1"
+      response = action.call
+      response.body.should eq "test"
+    end
+
+    it "doesn't overwrite query params" do
+      action = RequiredParams::Index.new(build_context(path: "/required_params.html?required_page=2"), params)
+      action.required_page.should eq 2
+      response = action.call
+      response.body.should eq "required param: 2"
+    end
+
+    it "ignores the extension if it's not a registered mime type" do
+      action = Tests::Show.new(build_context(path: "/tests/user@domain.com"), {"test_id" => "user@domain.com"})
+      action.test_id.should eq "user@domain.com"
+      response = action.call
       response.body.should eq "test"
     end
   end
