@@ -5,9 +5,9 @@ include ContextHelper
 class SampleAction::Index < Lucky::Action
   get "/sample-action" do
     if html?
-      text "html test"
+      plain_text "html test"
     else
-      text "something else"
+      plain_text "something else"
     end
   end
 end
