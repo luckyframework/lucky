@@ -15,7 +15,7 @@ describe Gen::Model do
 
         should_generate_migration named: "create_contact_infos.cr"
         should_create_files_with_contents io,
-          "./src/models/contact_info.cr": "table :contact_infos"
+          "./src/models/contact_info.cr": "table"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
           "./src/operations/save_contact_info.cr": "class SaveContactInfo < ContactInfo::SaveOperation",

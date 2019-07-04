@@ -7,13 +7,13 @@ class Cookies::Index < Lucky::Action
     cookies.set :my_cookie, "cookie"
     session.set :my_session, "session"
 
-    text "#{cookies.get(:my_cookie)} - #{session.get(:my_session)}"
+    plain_text "#{cookies.get(:my_cookie)} - #{session.get(:my_session)}"
   end
 end
 
 class PreCookies::Index < Lucky::Action
   get "/pre_cookies" do
-    text "#{cookies.get?(:my_cookie)}"
+    plain_text "#{cookies.get?(:my_cookie)}"
   end
 end
 
@@ -21,7 +21,7 @@ class FlashCookies::Index < Lucky::Action
   get "/flash" do
     flash.success = "You did it!"
 
-    text "#{flash.success}"
+    plain_text "#{flash.success}"
   end
 end
 
