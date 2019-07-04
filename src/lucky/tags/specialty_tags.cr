@@ -39,7 +39,7 @@ module Lucky::SpecialtyTags
   # details.
   def responsive_meta_tag(**options)
     options = {width: "device-width", initial_scale: "1"}.merge(options)
-    meta name: "viewport", content: build_content_attr_value(options)
+    meta name: "viewport", content: build_viewport_properties(options)
   end
 
   # Adds *string* directly to the rendered HTML with no escaping.
@@ -76,7 +76,7 @@ module Lucky::SpecialtyTags
     view
   end
 
-  private def build_content_attr_value(options)
+  private def build_viewport_properties(options)
     String.build do |attrs|
       options.each_with_index do |key, value, index|
         attrs << ", " if index > 0
