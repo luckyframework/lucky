@@ -4,7 +4,7 @@
 #
 # This handler should be used after the `Lucky::RouteHandler`.
 #
-# See `Lucky::Routeable.fallback` for implementing the `fallback_action`.
+# See `Lucky::Routable.fallback` for implementing the `fallback_action`.
 class Lucky::RouteNotFoundHandler
   include HTTP::Handler
   class_property fallback_action : Lucky::Action.class | Nil

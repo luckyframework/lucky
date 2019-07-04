@@ -1,3 +1,3 @@
 class <%= operation_class %> < <%= resource %>::SaveOperation
-  fillable <%= columns.map(&.name).join(", ") %>
+  permit_columns <%= columns.map(&.name).join(", ") %>
 end

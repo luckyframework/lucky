@@ -17,6 +17,19 @@ describe Lucky::LogHandler do
     called.should be_true
   end
 
+  it "skips logging if skip_if function returns true" do
+    Lucky::LogHandler.temp_config(skip_if: ->(context : HTTP::Server::Context) { true }) do
+      called = false
+      log_io = IO::Memory.new
+      context = build_context_with_io(log_io)
+
+      call_log_handler_with(log_io, context) { called = true }
+
+      log_io.to_s.should eq("")
+      called.should be_true
+    end
+  end
+
   it "logs errors" do
     log_io = IO::Memory.new
     context = build_context_with_io(log_io)
@@ -26,21 +39,6 @@ describe Lucky::LogHandler do
     end
     log_output = log_io.to_s
     log_output.should contain("an error")
-  end
-
-  context "when context is configured to be hidden from logs" do
-    it "does not log anything" do
-      called = false
-      log_io = IO::Memory.new
-      context = build_context_with_io(log_io)
-      context.hide_from_logs = true
-
-      call_log_handler_with(log_io, context) { called = true }
-
-      log_output = log_io.to_s
-      log_output.should eq("")
-      called.should be_true
-    end
   end
 end
 

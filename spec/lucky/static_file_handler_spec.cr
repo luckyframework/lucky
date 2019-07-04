@@ -3,30 +3,13 @@ require "../spec_helper"
 include ContextHelper
 
 describe Lucky::StaticFileHandler do
-  it "hides static files from logs" do
-    Lucky::StaticFileHandler.temp_config(hide_from_logs: true) do
-      context = build_context
-      context.hide_from_logs?.should be_false
-      called = false
-
-      call_file_handler_with(context) { called = true }
-
-      called.should be_true
-      context.hide_from_logs?.should be_true
-    end
-  end
-
   it "shows static files in logs" do
-    Lucky::StaticFileHandler.temp_config(hide_from_logs: false) do
-      context = build_context
-      context.hide_from_logs?.should be_false
-      called = false
+    context = build_context
+    called = false
 
-      call_file_handler_with(context) { called = true }
+    call_file_handler_with(context) { called = true }
 
-      called.should be_true
-      context.hide_from_logs?.should be_false
-    end
+    called.should be_true
   end
 end
 
