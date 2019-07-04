@@ -84,4 +84,22 @@ describe Lucky::RouteHandler do
       end
     end
   end
+
+  describe "when disabling mime lookup" do
+    it "works like it did before" do
+      Lucky::RouteHandler.temp_config(handle_extensions: false) do
+        output = IO::Memory.new
+        context = build_context_with_io(output, path: "/sample-action")
+        context.request.method = "GET"
+        context.request.headers["Accept"] = "text/html"
+
+        handler = Lucky::RouteHandler.new
+        handler.next = ->(_ctx : HTTP::Server::Context) {}
+        handler.call(context)
+        context.request.headers["Content-Type"]?.should eq nil
+        context.response.close
+        output.to_s.should contain "html test"
+      end
+    end
+  end
 end

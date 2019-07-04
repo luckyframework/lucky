@@ -2,10 +2,22 @@ class Lucky::RouteHandler
   include HTTP::Handler
 
   Habitat.create do
+    # A list of custom mime type extensions (e.g. {".lucky" => "application/lucky"}
     setting mime_extensions : Hash(String, String) = {} of String => String
+
+    # Set to `false` to skip mime handling. Reverts to old lookup method
+    setting handle_extensions : Bool = true
   end
 
   def call(context)
+    if RouteHandler.settings.handle_extensions
+      call_with_mime_lookup(context)
+    else
+      call_without_mime_lookup(context)
+    end
+  end
+
+  private def call_with_mime_lookup(context)
     original_path = context.request.path
     extension = get_extension(context.request.path)
     context.request.path = context.request.path.gsub(extension[:format], "") if extension
@@ -19,6 +31,16 @@ class Lucky::RouteHandler
       handler.payload.new(context, handler.params).perform_action
     else
       context.request.path = original_path
+      call_next(context)
+    end
+  end
+
+  private def call_without_mime_lookup(context)
+    handler = Lucky::Router.find_action(context.request)
+    if handler
+      Lucky.logger.debug({handled_by: handler.payload.to_s})
+      handler.payload.new(context, handler.params).perform_action
+    else
       call_next(context)
     end
   end
