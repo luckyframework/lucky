@@ -1,6 +1,6 @@
 require "../lucky/allowed_in_tags"
 
-struct Int64
+struct Int16
   include ::Lucky::AllowedInTags
 
   def to_param : String
