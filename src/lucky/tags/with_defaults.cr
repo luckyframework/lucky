@@ -87,13 +87,13 @@ module Lucky::WithDefaults
         {% end %}
       )
 
-      # If there is no default class and we want to append one, then
+      # If there is no default class and we want to append/replace one, then
       # the compiler blows up because the @named_args type is a Union. Where
       # one type has the 'class' key and the other doesn't.
       #
       # We fix that by making sure there is always a class key if we try to
-      # append a class.
-      {% if appended_class_arg %}
+      # append/replace a class.
+      {% if appended_class_arg || replace_class_arg %}
         args = args.merge(class: "")
       {% end %}
 
