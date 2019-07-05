@@ -61,7 +61,16 @@ module Lucky::WithDefaults
 
         {% appended_class_arg = call.named_args.find { |arg| arg.name == :append_class } %}
         {% if appended_class_arg %}
-          overridden_html_class = "#{@named_args[:class]?} #{{{ appended_class_arg.value }}}"
+          original_class = if klass = @named_args[:class]?
+            # Append an empty space if there is a default class that
+            # we are appending to
+            "#{klass} "
+          else
+            # Otherwise leave it empty
+            ""
+          end
+
+          overridden_html_class = "#{original_class}#{{{ appended_class_arg.value }}}"
         {% end %}
         {% named_args = named_args.reject { |arg| arg.name == :append_class } %}
 
@@ -77,6 +86,17 @@ module Lucky::WithDefaults
           {{ arg.name }}: {{ arg.value }},
         {% end %}
       )
+
+      # If there is no default class and we want to append one, then
+      # the compiler blows up because the @named_args type is a Union. Where
+      # one type has the 'class' key and the other doesn't.
+      #
+      # We fix that by making sure there is always a class key if we try to
+      # append a class.
+      {% if appended_class_arg %}
+        args = args.merge(class: "")
+      {% end %}
+
       if overridden_html_class
         args = args.merge(class: overridden_html_class)
       end
