@@ -108,10 +108,10 @@ module Lucky::InputHelpers
   end
 
   private def input_name(field)
-    "#{field.form_name}:#{field.name}"
+    "#{field.param_key}:#{field.name}"
   end
 
   private def input_id(field)
-    "#{field.form_name}_#{field.name}"
+    "#{field.param_key}_#{field.name}"
   end
 end

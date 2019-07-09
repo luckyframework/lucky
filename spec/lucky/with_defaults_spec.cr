@@ -63,6 +63,6 @@ private def name_field
     name: :name,
     param: "",
     value: "",
-    form_name: "user"
+    param_key: "user"
   )
 end

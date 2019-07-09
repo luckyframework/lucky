@@ -12,7 +12,7 @@ class TestForm
       name: :first_name,
       param: "",
       value: "",
-      form_name: "user"
+      param_key: "user"
     )
   end
 end

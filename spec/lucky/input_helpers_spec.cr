@@ -14,7 +14,7 @@ class InputTestForm
       name: :first_name,
       param: "My name",
       value: "",
-      form_name: "user"
+      param_key: "user"
     )
   end
 
@@ -23,7 +23,7 @@ class InputTestForm
       name: :eula,
       param: nil,
       value: value,
-      form_name: "user"
+      param_key: "user"
     )
   end
 
@@ -32,7 +32,7 @@ class InputTestForm
       name: :admin,
       param: nil,
       value: checked,
-      form_name: "user"
+      param_key: "user"
     )
   end
 end
