@@ -28,7 +28,7 @@ class SomeFormWithCompany
       name: :company_id,
       param: "1",
       value: "",
-      form_name: "company"
+      param_key: "company"
     )
   end
 end

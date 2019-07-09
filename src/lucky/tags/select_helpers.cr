@@ -19,6 +19,6 @@ module Lucky::SelectHelpers
   end
 
   private def input_name(field)
-    "#{field.form_name}:#{field.name}"
+    "#{field.param_key}:#{field.name}"
   end
 end
