@@ -27,8 +27,15 @@ Lucky::RouteHelper.configure do |settings|
   settings.base_uri = "luckyframework.org"
 end
 
-Avram::Repo.configure do |settings|
-  settings.url = "Not used yet"
+class UnusedDatabase < Avram::Database
+end
+
+UnusedDatabase.configure do |settings|
+  settings.url = "unused"
+end
+
+Avram.configure do |settings|
+  settings.database_to_migrate = UnusedDatabase
 end
 
 Lucky::ErrorHandler.configure do |settings|
