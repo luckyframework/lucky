@@ -11,7 +11,7 @@ end
 private class ShortAndStoutError < Exception
   include Lucky::HttpRespondable
 
-  def http_error_code
+  def http_error_code : Int32
     418
   end
 end
@@ -20,11 +20,11 @@ private class InvalidParam < Lucky::Exceptions::InvalidParam
 end
 
 private class FakeErrorAction < Lucky::ErrorAction
-  def handle_error(error : FakeError)
+  def handle_error(error : FakeError) : Lucky::Response
     head status: 404
   end
 
-  def handle_error(error : Exception)
+  def handle_error(error : Exception) : Lucky::Response
     plain_text "Oops"
   end
 end

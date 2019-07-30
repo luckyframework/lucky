@@ -30,7 +30,7 @@ abstract class Lucky::ErrorAction
       head, render, redirect, json, text, etc.
 
       Example:
-        def handle_error(error : Exception)
+        def handle_error(error : Exception) : Lucky::Response
           # Returns a Lucky::Response
           # Could also be render, json, text, etc.
           head status: 500

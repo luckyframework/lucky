@@ -9,7 +9,7 @@ class FrameGuardRoutes::WithSameorigin < Lucky::Action
     plain_text "test"
   end
 
-  def frame_guard_value
+  def frame_guard_value : String
     "sameorigin"
   end
 end
@@ -21,7 +21,7 @@ class FrameGuardRoutes::WithDeny < Lucky::Action
     plain_text "test"
   end
 
-  def frame_guard_value
+  def frame_guard_value : String
     "deny"
   end
 end
@@ -33,7 +33,7 @@ class FrameGuardRoutes::WithURL < Lucky::Action
     plain_text "test"
   end
 
-  def frame_guard_value
+  def frame_guard_value : String
     "https://tacotrucks.food"
   end
 end
@@ -45,7 +45,7 @@ class FrameGuardRoutes::WithBadValue < Lucky::Action
     plain_text "test"
   end
 
-  def frame_guard_value
+  def frame_guard_value : String
     "hax0rz"
   end
 end
