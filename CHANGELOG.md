@@ -1,7 +1,26 @@
 ### Changes since v0.15
 
-- `Lucky::Exposeable` has been renamed to `Lucky::Exposable`
-- `Lucky::Routeable` has been renamed to `Lucky::Routable`
+- Rename `Avram::BaseForm` to `Avram::SaveOperation` [see Avram](https://github.com/luckyframework/avram/pull/104)
+- Rename `Avram::Field` to `Avram::Attribute` [see Avram](https://github.com/luckyframework/avram/commit/d3503a161670077c1d7b14484382132ea3ab423d)
+- Update `number_to_currency` now returns `String` instead of writing to the view directly. [#809](https://github.com/luckyframework/lucky/pull/809)
+- Fixed bug in running `build.release` task.
+- Update mounted components render comments to show start and end of component. [#817](https://github.com/luckyframework/lucky/pull/817)
+- Revert returning `String` for `highlight` helper. [#818](https://github.com/luckyframework/lucky/pull/818)
+- Update text helpers that write to the view moved to their own module. [#820](https://github.com/luckyframework/lucky/pull/820)
+- Rename `fillable` to `permit_columns`. [see Avram]()
+- Added `skip_if` option to `LogHandler`. [#824](https://github.com/luckyframework/lucky/pull/824)
+- Rename `Lucky::Exposeable` to `Lucky::Exposable`. [#827](https://github.com/luckyframework/lucky/pull/827)
+- Rename `Lucky::Routeable` to `Lucky::Routable`. [#827](https://github.com/luckyframework/lucky/pull/827)
+- Added `memoize` macro. [#832](https://github.com/luckyframework/lucky/pull/832)
+- Added `table_for` macro. [see Avram](https://github.com/luckyframework/avram/pull/127)
+- Added `xml` render method for Actions. [#838](https://github.com/luckyframework/lucky/pull/838)
+- Rename `text` render action to `plain_text`. [#838](https://github.com/luckyframework/lucky/pull/838)
+- Update `responsive_meta_tag` to be flexible. [#835](https://github.com/luckyframework/lucky/pull/835)
+- Added `Int16#to_param` and `Int64#to_param`.
+- Fixed `append/replace_class` with no default. [#842](https://github.com/luckyframework/lucky/pull/842)
+- Added multi database support. [see Avram](https://github.com/luckyframework/avram/pull/136)
+- Rename `form_name` to `param_key`. [see Avram](https://github.com/luckyframework/avram/pull/140)
+- Fixed 3rd party shards versions. [#855](https://github.com/luckyframework/lucky/pull/855)
 
 ### v0.15 (2019-06-12)
 
