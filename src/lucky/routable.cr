@@ -234,7 +234,7 @@ module Lucky::Routable
 
       anchor.try do |value|
         path += "#"
-        path += URI.escape(value)
+        path += URI.encode_www_form(value)
       end
 
       Lucky::RouteHelper.new {{ method }}, path
@@ -257,9 +257,9 @@ module Lucky::Routable
         {% for part in path_parts %}
           path << "/"
           {% if part.starts_with?(":") %}
-            path << URI.escape({{ part.gsub(/:/, "").id }}.to_param)
+            path << URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param)
           {% else %}
-            path << URI.escape({{ part }})
+            path << URI.encode_www_form({{ part }})
           {% end %}
         {% end %}
       end
