@@ -19,13 +19,13 @@ module Lucky::TimeHelpers
     case distance
     when 1...27   then distance == 1 ? "a day" : "#{distance} days"
     when 27...60  then "about a month"
-    when 60...365 then "#{(distance / 30).round} months"
+    when 60...365 then "#{(distance / 30).round.to_i} months"
     when 365...730
       "about a year"
     when 730...1460
-      "over #{(distance / 365).round} years"
+      "over #{(distance / 365).round.to_i} years"
     else
-      "almost #{(distance / 365).round} years"
+      "almost #{(distance / 365).round.to_i} years"
     end
   end
 
