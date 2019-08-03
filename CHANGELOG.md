@@ -1,7 +1,11 @@
-### Changes since v0.15
+### Changes since v0.16
 
 - `Lucky::Exposeable` has been renamed to `Lucky::Exposable`
 - `Lucky::Routeable` has been renamed to `Lucky::Routable`
+
+### v0.16 (2019-08-03)
+
+- Crystal 0.30.0 support added
 
 ### v0.15 (2019-06-12)
 
