@@ -1,4 +1,55 @@
-### Upgrading from 0.14 to 0.15
+## Upgrading from 0.16 to 0.17
+
+- Ensure you've upgraded to crystal 0.30.0
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.30.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+- Update `.crystal-version` to `0.30.0`
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.17`
+- Run `shards update`
+
+### General updates
+- Rename: Action rendering method `text` to `plain_text`.
+- Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
+- Rename: `Avram::Repo` to `Avram::Database` in `config/database.cr`.
+
+### Updating queries
+- Rename: `Query.destroy_all` to `Query.truncate`.
+- Rename: all association query methods from the association name to `where_{association_name}`. (e.g. `UserQuery.new.posts` => `UserQuery.new.where_posts`)
+- Update: all association query methods no longer take a block. Pass the query in as an argument. (e.g. `UserQuery.new.posts { |post_query| }` => `UserQuery.new.where_posts(PostQuery.new)`)
+
+### Moving forms to operations
+- Rename: the `src/forms` directory to `src/operations`.
+- Rename: all `BaseForm` mentions to `SaveOperation` in `src/operations`. (e.g. `User::BaseForm` => `User::SaveOperation`)
+- Rename: `fillable` to `permit_columns`
+- Rename: form class names to new naming convention. (e.g. `class UserForm < User::SaveOperation` => `class SaveUser < User::SaveOperation`). This step is optional, but still recommended to avoid future confusion.
+- Rename: `Avram::VirtualForm` to `Avram::Operation`.
+- Rename: virtual form class names to new naming convention. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
+- Rename: `virtual` to `attribute`.
+- Update: all `SaveOperation` classes to call `before prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well. Also note that validations are no longer called by default, and any validations not in your current `prepare` method should be added in a `before do/end` block.
+- Rename: use of field `form_name` to attribute `param_key`.
+
+
+## Upgrading from 0.15 to 0.16
+
+- Upgrade to crystal 0.30.0
+
+No updates to Lucky itself are required. There may be Crystal 0.30.0 related changes you may need to make.
+
+## Upgrading from 0.14 to 0.15
 
 - Upgrade to crystal 0.29.0
 - Upgrade Lucky CLI (macOS)
@@ -34,7 +85,7 @@ brew upgrade lucky
 - Update `src/app.cr` to require new `./shards` file
 - Replace usages of `Lucky::Action::Status::` with the respective crystal `HTTP::Status::`
 
-### Upgrading from 0.13 to 0.14
+## Upgrading from 0.13 to 0.14
 
 - Upgrade to crystal 0.28.0
 - Create new file `config/force_ssl_handler.cr` with the following content:
@@ -45,7 +96,7 @@ Lucky::ForceSSLHandler.configure do |settings|
 end
 ```
 
-### Upgrading from 0.12 to 0.13
+## Upgrading from 0.12 to 0.13
 
 - Upgrade Lucky CLI (macOS)
 
@@ -167,7 +218,7 @@ end
 
 And you should now be good to go!
 
-### Upgrading from 0.11 to 0.12
+## Upgrading from 0.11 to 0.12
 
 - Upgrade Lucky CLI (macOS)
 
@@ -242,7 +293,7 @@ brew upgrade lucky
 
 - Run `shards update` to install the new shards
 
-### Upgrading from 0.10 to 0.11
+## Upgrading from 0.10 to 0.11
 
 - Upgrade Lucky CLI (macOS)
 
