@@ -24,7 +24,7 @@ brew upgrade lucky
 ### General updates
 - Rename: Action rendering method `text` to `plain_text`.
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
-- Update: `Lucky::StaticFileHandler` no longer has settings.
+- Delete: `config/static_file_handler.cr`. The `Lucky::StaticFileHandler` no longer has config settings.
 - Add: a new `Lucky::LogHandler` configure to `config/logger.cr`.
 ```
 Lucky::LogHandler.configure do |settings|
