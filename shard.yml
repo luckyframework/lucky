@@ -1,5 +1,5 @@
 name: lucky
-version: 0.15.1
+version: 0.17.0-rc1
 
 crystal: 0.30.0
 
@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.15.0
+    tag: v0.17.0-rc1
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.0
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    branch: master
+    tag: v0.11.0-rc1
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
@@ -55,7 +55,7 @@ dependencies:
     version: ~> 0.1.0
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.1.0
+    version: ~> 0.1.2
 
 development_dependencies:
   ameba:
