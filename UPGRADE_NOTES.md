@@ -24,12 +24,38 @@ brew upgrade lucky
 ### General updates
 - Rename: Action rendering method `text` to `plain_text`.
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
-- Rename: `Avram::Repo` to `Avram::Database` in `config/database.cr`.
+- Update: `Lucky::StaticFileHandler` no longer has settings.
+- Add: a new `Lucky::LogHandler` configure to `config/logger.cr`.
+```
+Lucky::LogHandler.configure do |settings|
+  # Skip logging static assets in development
+  if Lucky::Env.development?
+    settings.skip_if = ->(context : HTTP::Server::Context) {
+      context.request.method.downcase == "get" &&
+      context.request.resource.starts_with?(/\/css\/|\/js\/|\/assets\//)
+    }
+  end
+end
+```
+
+### Database updates
+- Add: a new `AppDatabase` class in `config/database.cr` that inherits from `Avram::Database`. (e.g. `class AppDatabase < Avram::Database`)
+- Rename: `Avram::Repo.configure` to `AppDatabase.configure` in `config/database.cr`.
+- Add: `Avram.configure` block.
+```
+Avram.configure do |settings|
+  settings.database_to_migrate = AppDatabase
+  # this is moved from your old `Avram::Repo.configure` block.
+  settings.lazy_load_enabled = Lucky::Env.production?
+end
+```
+- Move: the `settings.lazy_load_enabled` from `AppDatabase.configure` to `Avram.configure` block.
 
 ### Updating queries
-- Rename: `Query.destroy_all` to `Query.truncate`.
+- Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
 - Rename: all association query methods from the association name to `where_{association_name}`. (e.g. `UserQuery.new.posts` => `UserQuery.new.where_posts`)
 - Update: all association query methods no longer take a block. Pass the query in as an argument. (e.g. `UserQuery.new.posts { |post_query| }` => `UserQuery.new.where_posts(PostQuery.new)`)
+- Update: `where_{association_name}` methods no longer need to be preceeded by a `join_{assoc}`, unless you need a custom join (i.e. `left_join_{assoc}`). If you use a custom join, you will need to add the `auto_inner_join: false` option to your `where_{assoc}` method.
 
 ### Moving forms to operations
 - Rename: the `src/forms` directory to `src/operations`.
@@ -39,9 +65,7 @@ brew upgrade lucky
 - Rename: `Avram::VirtualForm` to `Avram::Operation`.
 - Rename: virtual form class names to new naming convention. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
 - Rename: `virtual` to `attribute`.
-- Update: all `SaveOperation` classes to call `before prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well. Also note that validations are no longer called by default, and any validations not in your current `prepare` method should be added in a `before do/end` block.
-- Rename: use of field `form_name` to attribute `param_key`.
-
+- Update: all `SaveOperation` classes to call `before_save prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well.
 
 ## Upgrading from 0.15 to 0.16
 
