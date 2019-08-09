@@ -28,56 +28,57 @@ brew upgrade lucky
 - Add: a new `Lucky::LogHandler` configure to the bottom of `config/logger.cr`.
 <details>
   <summary>config/logger.cr</summary>
-```crystal
-require "file_utils"
 
-logger =
-  if Lucky::Env.test?
-    # Logs to `tmp/test.log` so you can see what's happening without having
-    # a bunch of log output in your specs results.
-    FileUtils.mkdir_p("tmp")
-    Dexter::Logger.new(
-      io: File.new("tmp/test.log", mode: "w"),
-      level: Logger::Severity::DEBUG,
-      log_formatter: Lucky::PrettyLogFormatter
-    )
-  elsif Lucky::Env.production?
-    # This sets the log formatter to JSON so you can parse the logs with
-    # services like Logentries or Logstash.
-    #
-    # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
-    Dexter::Logger.new(
-      io: STDOUT,
-      level: Logger::Severity::INFO,
-      log_formatter: Dexter::Formatters::JsonLogFormatter
-    )
-  else
-    # For development, log everything to STDOUT with the pretty formatter.
-    Dexter::Logger.new(
-      io: STDOUT,
-      level: Logger::Severity::DEBUG,
-      log_formatter: Lucky::PrettyLogFormatter
-    )
+  ```crystal
+  require "file_utils"
+
+  logger =
+    if Lucky::Env.test?
+      # Logs to `tmp/test.log` so you can see what's happening without having
+      # a bunch of log output in your specs results.
+      FileUtils.mkdir_p("tmp")
+      Dexter::Logger.new(
+        io: File.new("tmp/test.log", mode: "w"),
+        level: Logger::Severity::DEBUG,
+        log_formatter: Lucky::PrettyLogFormatter
+      )
+    elsif Lucky::Env.production?
+      # This sets the log formatter to JSON so you can parse the logs with
+      # services like Logentries or Logstash.
+      #
+      # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+      Dexter::Logger.new(
+        io: STDOUT,
+        level: Logger::Severity::INFO,
+        log_formatter: Dexter::Formatters::JsonLogFormatter
+      )
+    else
+      # For development, log everything to STDOUT with the pretty formatter.
+      Dexter::Logger.new(
+        io: STDOUT,
+        level: Logger::Severity::DEBUG,
+        log_formatter: Lucky::PrettyLogFormatter
+      )
+    end
+
+  Lucky.configure do |settings|
+    settings.logger = logger
   end
 
-Lucky.configure do |settings|
-  settings.logger = logger
-end
-
-Lucky::LogHandler.configure do |settings|
-  # Skip logging static assets in development
-  if Lucky::Env.development?
-    settings.skip_if = ->(context : HTTP::Server::Context) {
-      context.request.method.downcase == "get" &&
-      context.request.resource.starts_with?(/\/css\/|\/js\/|\/assets\//)
-    }
+  Lucky::LogHandler.configure do |settings|
+    # Skip logging static assets in development
+    if Lucky::Env.development?
+      settings.skip_if = ->(context : HTTP::Server::Context) {
+        context.request.method.downcase == "get" &&
+        context.request.resource.starts_with?(/\/css\/|\/js\/|\/assets\//)
+      }
+    end
   end
-end
 
-Avram.configure do |settings|
-  settings.logger = logger
-end
-```
+  Avram.configure do |settings|
+    settings.logger = logger
+  end
+  ```
 </details>
 
 ### Database updates
@@ -91,31 +92,32 @@ end
 - Add: `Avram.configure` block.
 <details>
   <summary>config/database.cr</summary>
-```crystal
-database_name = "..."
 
-AppDatabase.configure do |settings|
-  if Lucky::Env.production?
-    settings.url = ENV.fetch("DATABASE_URL")
-  else
-    settings.url = ENV["DATABASE_URL"]? || Avram::PostgresURL.build(
-      database: database_name,
-      hostname: ENV["DB_HOST"]? || "localhost",
-      # Some common usernames are "postgres", "root", or your system username (run 'whoami')
-      username: ENV["DB_USERNAME"]? || "postgres",
-      # Some Postgres installations require no password. Use "" if that is the case.
-      password: ENV["DB_PASSWORD"]? || "postgres"
-    )
+  ```crystal
+  database_name = "..."
+
+  AppDatabase.configure do |settings|
+    if Lucky::Env.production?
+      settings.url = ENV.fetch("DATABASE_URL")
+    else
+      settings.url = ENV["DATABASE_URL"]? || Avram::PostgresURL.build(
+        database: database_name,
+        hostname: ENV["DB_HOST"]? || "localhost",
+        # Some common usernames are "postgres", "root", or your system username (run 'whoami')
+        username: ENV["DB_USERNAME"]? || "postgres",
+        # Some Postgres installations require no password. Use "" if that is the case.
+        password: ENV["DB_PASSWORD"]? || "postgres"
+      )
+    end
   end
-end
 
-Avram.configure do |settings|
-  settings.database_to_migrate = AppDatabase
+  Avram.configure do |settings|
+    settings.database_to_migrate = AppDatabase
 
-  # this is moved from your old `Avram::Repo.configure` block.
-  settings.lazy_load_enabled = Lucky::Env.production?
-end
-```
+    # this is moved from your old `Avram::Repo.configure` block.
+    settings.lazy_load_enabled = Lucky::Env.production?
+  end
+  ```
 </details>
 - Move: the `settings.lazy_load_enabled` from `AppDatabase.configure` to `Avram.configure` block.
 - Add: a `database` class method to `src/models/base_model.cr` that returns `AppDatabase`.
@@ -146,41 +148,42 @@ end
 - Update: all authentic classes and modules to use new operation setup.
 <details>
   <summary>Files in src/operations/</summary>
-```diff
-# src/operations/mixins/password_validations.cr
-module PasswordValidations
-+  macro included
-+    before_save run_password_validations
-+  end
-  #...
-end
+
+  ```diff
+  # src/operations/mixins/password_validations.cr
+  module PasswordValidations
+  +  macro included
+  +    before_save run_password_validations
+  +  end
+    #...
+  end
 
 
-# src/operations/request_password_reset.cr
-- class RequestPasswordReset < Avram::VirtualForm
-+ class RequestPasswordReset < Avram::Operation
-  #...
-end
+  # src/operations/request_password_reset.cr
+  - class RequestPasswordReset < Avram::VirtualForm
+  + class RequestPasswordReset < Avram::Operation
+    #...
+  end
 
 
-# src/operations/reset_password.cr
-- def prepare
--   run_password_validations
-+ before do
-    Authentic.copy_and_encrypt password, to: encrypted_password
+  # src/operations/reset_password.cr
+  - def prepare
+  -   run_password_validations
+  + before do
+      Authentic.copy_and_encrypt password, to: encrypted_password
 
 
-# src/operations/sign_user_in.cr
-- class SignUserIn < Avram::VirtualOperation
-+ class SignUserIn < Avram::Operation
+  # src/operations/sign_user_in.cr
+  - class SignUserIn < Avram::VirtualOperation
+  + class SignUserIn < Avram::Operation
 
 
-# src/operations/sign_user_up.cr
-- def prepare
-+ before_save do
-    validate_uniqueness_of email
--   run_password_validations
-```
+  # src/operations/sign_user_up.cr
+  - def prepare
+  + before_save do
+      validate_uniqueness_of email
+  -   run_password_validations
+  ```
 </details>
 
 ## Upgrading from 0.15 to 0.16
