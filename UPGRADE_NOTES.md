@@ -119,6 +119,7 @@ end
   end
   ```
 </details>
+
 - Move: the `settings.lazy_load_enabled` from `AppDatabase.configure` to `Avram.configure` block.
 - Add: a `database` class method to `src/models/base_model.cr` that returns `AppDatabase`.
 ```crystal
