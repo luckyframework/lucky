@@ -25,8 +25,45 @@ brew upgrade lucky
 - Rename: Action rendering method `text` to `plain_text`.
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
 - Delete: `config/static_file_handler.cr`. The `Lucky::StaticFileHandler` no longer has config settings.
-- Add: a new `Lucky::LogHandler` configure to `config/logger.cr`.
-```
+- Add: a new `Lucky::LogHandler` configure to the bottom of `config/logger.cr`.
+<details>
+  <summary>config/logger.cr</summary>
+```crystal
+require "file_utils"
+
+logger =
+  if Lucky::Env.test?
+    # Logs to `tmp/test.log` so you can see what's happening without having
+    # a bunch of log output in your specs results.
+    FileUtils.mkdir_p("tmp")
+    Dexter::Logger.new(
+      io: File.new("tmp/test.log", mode: "w"),
+      level: Logger::Severity::DEBUG,
+      log_formatter: Lucky::PrettyLogFormatter
+    )
+  elsif Lucky::Env.production?
+    # This sets the log formatter to JSON so you can parse the logs with
+    # services like Logentries or Logstash.
+    #
+    # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+    Dexter::Logger.new(
+      io: STDOUT,
+      level: Logger::Severity::INFO,
+      log_formatter: Dexter::Formatters::JsonLogFormatter
+    )
+  else
+    # For development, log everything to STDOUT with the pretty formatter.
+    Dexter::Logger.new(
+      io: STDOUT,
+      level: Logger::Severity::DEBUG,
+      log_formatter: Lucky::PrettyLogFormatter
+    )
+  end
+
+Lucky.configure do |settings|
+  settings.logger = logger
+end
+
 Lucky::LogHandler.configure do |settings|
   # Skip logging static assets in development
   if Lucky::Env.development?
@@ -36,20 +73,59 @@ Lucky::LogHandler.configure do |settings|
     }
   end
 end
+
+Avram.configure do |settings|
+  settings.logger = logger
+end
 ```
+</details>
 
 ### Database updates
-- Add: a new `AppDatabase` class in `config/database.cr` that inherits from `Avram::Database`. (e.g. `class AppDatabase < Avram::Database`)
+- Add: a new `AppDatabase` class in `src/app_database.cr` that inherits from `Avram::Database`.
+```crystal
+class AppDatabase < Avram::Database
+end
+```
+- Add: `require "./app_database"` to `src/app.cr` right below the `require "./shards"`.
 - Rename: `Avram::Repo.configure` to `AppDatabase.configure` in `config/database.cr`.
 - Add: `Avram.configure` block.
-```
+<details>
+  <summary>config/database.cr</summary>
+```crystal
+database_name = "..."
+
+AppDatabase.configure do |settings|
+  if Lucky::Env.production?
+    settings.url = ENV.fetch("DATABASE_URL")
+  else
+    settings.url = ENV["DATABASE_URL"]? || Avram::PostgresURL.build(
+      database: database_name,
+      hostname: ENV["DB_HOST"]? || "localhost",
+      # Some common usernames are "postgres", "root", or your system username (run 'whoami')
+      username: ENV["DB_USERNAME"]? || "postgres",
+      # Some Postgres installations require no password. Use "" if that is the case.
+      password: ENV["DB_PASSWORD"]? || "postgres"
+    )
+  end
+end
+
 Avram.configure do |settings|
   settings.database_to_migrate = AppDatabase
+
   # this is moved from your old `Avram::Repo.configure` block.
   settings.lazy_load_enabled = Lucky::Env.production?
 end
 ```
+</details>
 - Move: the `settings.lazy_load_enabled` from `AppDatabase.configure` to `Avram.configure` block.
+- Add: a `database` class method to `src/models/base_model.cr` that returns `AppDatabase`.
+```crystal
+abstract class BaseModel < Avram::Model
+  def self.database : Avram::Database.class
+    AppDatabase
+  end
+end
+```
 
 ### Updating queries
 - Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
@@ -59,13 +135,53 @@ end
 
 ### Moving forms to operations
 - Rename: the `src/forms` directory to `src/operations`.
-- Rename: all `BaseForm` mentions to `SaveOperation` in `src/operations`. (e.g. `User::BaseForm` => `User::SaveOperation`)
+- Rename: `BaseForm` to `SaveOperation` in `src/operations`. (e.g. `User::BaseForm` => `User::SaveOperation`)
 - Rename: `fillable` to `permit_columns`
 - Rename: form class names to new naming convention. (e.g. `class UserForm < User::SaveOperation` => `class SaveUser < User::SaveOperation`). This step is optional, but still recommended to avoid future confusion.
 - Rename: `Avram::VirtualForm` to `Avram::Operation`.
 - Rename: virtual form class names to new naming convention. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
 - Rename: `virtual` to `attribute`.
 - Update: all `SaveOperation` classes to call `before_save prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well.
+- Update: `FillableField` to `PermittedAttribute` in `src/components/shared/`. Check `field.cr` and `field_errors.cr`.
+- Update: all authentic classes and modules to use new operation setup.
+<details>
+  <summary>Files in src/operations/</summary>
+```diff
+# src/operations/mixins/password_validations.cr
+module PasswordValidations
++  macro included
++    before_save run_password_validations
++  end
+  #...
+end
+
+
+# src/operations/request_password_reset.cr
+- class RequestPasswordReset < Avram::VirtualForm
++ class RequestPasswordReset < Avram::Operation
+  #...
+end
+
+
+# src/operations/reset_password.cr
+- def prepare
+-   run_password_validations
++ before do
+    Authentic.copy_and_encrypt password, to: encrypted_password
+
+
+# src/operations/sign_user_in.cr
+- class SignUserIn < Avram::VirtualOperation
++ class SignUserIn < Avram::Operation
+
+
+# src/operations/sign_user_up.cr
+- def prepare
++ before_save do
+    validate_uniqueness_of email
+-   run_password_validations
+```
+</details>
 
 ## Upgrading from 0.15 to 0.16
 
