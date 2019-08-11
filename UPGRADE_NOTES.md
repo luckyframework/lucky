@@ -26,6 +26,7 @@ brew upgrade lucky
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
 - Delete: `config/static_file_handler.cr`. The `Lucky::StaticFileHandler` no longer has config settings.
 - Add: a new `Lucky::LogHandler` configure to the bottom of `config/logger.cr`.
+- Update: `Avram::Repo.configure` to `Avram.configure` in `config/logger.cr`.
 <details>
   <summary>config/logger.cr</summary>
 
@@ -138,6 +139,7 @@ end
 
 ### Moving forms to operations
 - Rename: the `src/forms` directory to `src/operations`.
+- Update: `require "./forms/mixins/**"` and `require "./forms/**"` to `require "./operations/mixins/**"` and `require "./operations/**"` respectively in `src/app.cr`
 - Rename: `BaseForm` to `SaveOperation` in `src/operations`. (e.g. `User::BaseForm` => `User::SaveOperation`)
 - Rename: `fillable` to `permit_columns`
 - Rename: form class names to new naming convention. (e.g. `class UserForm < User::SaveOperation` => `class SaveUser < User::SaveOperation`). This step is optional, but still recommended to avoid future confusion.
