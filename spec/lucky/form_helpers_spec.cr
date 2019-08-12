@@ -1,14 +1,14 @@
 require "../spec_helper"
 
-class FormHelpers::Index < Lucky::Action
+class FormHelpers::Index < TestAction
   route { plain_text "foo " }
 end
 
-class FormHelpers::Update < Lucky::Action
+class FormHelpers::Update < TestAction
   route { plain_text "foo " }
 end
 
-class FormHelpers::Create < Lucky::Action
+class FormHelpers::Create < TestAction
   route { plain_text "foo" }
 end
 

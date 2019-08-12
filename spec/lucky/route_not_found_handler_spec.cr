@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class SampleFallbackAction::Index < Lucky::Action
+class SampleFallbackAction::Index < TestAction
   fallback do
     plain_text "Last chance"
   end

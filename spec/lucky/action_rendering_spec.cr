@@ -13,97 +13,97 @@ class Rendering::IndexPage
   end
 end
 
-class Rendering::Index < Lucky::Action
+class Rendering::Index < TestAction
   route do
     render title: "Anything", arg2: "testing multiple args"
   end
 end
 
-class Namespaced::Rendering::Index < Lucky::Action
+class Namespaced::Rendering::Index < TestAction
   route do
     render ::Rendering::IndexPage, title: "Anything", arg2: "testing multiple args"
   end
 end
 
-class Rendering::JSON::Index < Lucky::Action
+class Rendering::JSON::Index < TestAction
   route do
     json({name: "Paul"})
   end
 end
 
-class Rendering::JSON::WithStatus < Lucky::Action
+class Rendering::JSON::WithStatus < TestAction
   get "/foo" do
     json({name: "Paul"}, status: 201)
   end
 end
 
-class Rendering::JSON::WithSymbolStatus < Lucky::Action
+class Rendering::JSON::WithSymbolStatus < TestAction
   get "/foo" do
     json({name: "Paul"}, status: :created)
   end
 end
 
-class Rendering::HeadOnly < Lucky::Action
+class Rendering::HeadOnly < TestAction
   get "/foo" do
     head status: 204
   end
 end
 
-class Rendering::HeadOnly::WithSymbolStatus < Lucky::Action
+class Rendering::HeadOnly::WithSymbolStatus < TestAction
   get "/foo" do
     head status: :no_content
   end
 end
 
-class Rendering::Text::Index < Lucky::Action
+class Rendering::Text::Index < TestAction
   route do
     plain_text "Anything"
   end
 end
 
-class Rendering::Text::WithStatus < Lucky::Action
+class Rendering::Text::WithStatus < TestAction
   get "/foo" do
     plain_text "Anything", status: 201
   end
 end
 
-class Rendering::Text::WithSymbolStatus < Lucky::Action
+class Rendering::Text::WithSymbolStatus < TestAction
   get "/foo" do
     plain_text "Anything", status: :created
   end
 end
 
-class Rendering::Xml::Index < Lucky::Action
+class Rendering::Xml::Index < TestAction
   get "/foo" do
     xml "<anything />"
   end
 end
 
-class Rendering::Xml::WithStatus < Lucky::Action
+class Rendering::Xml::WithStatus < TestAction
   get "/foo" do
     xml "<anything />", status: 418
   end
 end
 
-class Rendering::Xml::WithSymbolStatus < Lucky::Action
+class Rendering::Xml::WithSymbolStatus < TestAction
   get "/foo" do
     xml "<anything />", status: :im_a_teapot
   end
 end
 
-class Rendering::File < Lucky::Action
+class Rendering::File < TestAction
   get "/file" do
     file "spec/fixtures/lucky_logo.png"
   end
 end
 
-class Rendering::File::Inline < Lucky::Action
+class Rendering::File::Inline < TestAction
   get "/foo" do
     file "spec/fixtures/lucky_logo.png", disposition: "inline"
   end
 end
 
-class Rendering::File::CustomFilename < Lucky::Action
+class Rendering::File::CustomFilename < TestAction
   get "/foo" do
     file "spec/fixtures/lucky_logo.png",
       disposition: "attachment",
@@ -111,7 +111,7 @@ class Rendering::File::CustomFilename < Lucky::Action
   end
 end
 
-class Rendering::File::CustomContentType < Lucky::Action
+class Rendering::File::CustomContentType < TestAction
   get "/foo" do
     file "spec/fixtures/plain_text",
       disposition: "attachment",
@@ -120,7 +120,7 @@ class Rendering::File::CustomContentType < Lucky::Action
   end
 end
 
-class Rendering::File::Missing < Lucky::Action
+class Rendering::File::Missing < TestAction
   get "/foo" do
     file "new_file_who_dis"
   end

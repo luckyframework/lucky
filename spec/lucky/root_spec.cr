@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-class RootAction < Lucky::Action
+class RootAction < TestAction
   get "/" do
     plain_text "Hello there"
   end

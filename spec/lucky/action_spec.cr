@@ -2,43 +2,43 @@ require "../spec_helper"
 
 include ContextHelper
 
-class CustomRoutes::Index < Lucky::Action
+class CustomRoutes::Index < TestAction
   get "/so_custom" do
     plain_text "test"
   end
 end
 
-class CustomRoutes::Put < Lucky::Action
+class CustomRoutes::Put < TestAction
   put "/so_custom" do
     plain_text "test"
   end
 end
 
-class CustomRoutes::Post < Lucky::Action
+class CustomRoutes::Post < TestAction
   post "/so_custom" do
     plain_text "test"
   end
 end
 
-class CustomRoutes::Patch < Lucky::Action
+class CustomRoutes::Patch < TestAction
   patch "/so_custom" do
     plain_text "test"
   end
 end
 
-class CustomRoutes::Trace < Lucky::Action
+class CustomRoutes::Trace < TestAction
   trace "/so_custom" do
     plain_text "test"
   end
 end
 
-class CustomRoutes::Delete < Lucky::Action
+class CustomRoutes::Delete < TestAction
   delete "/so_custom" do
     plain_text "test"
   end
 end
 
-class CustomRoutes::Match < Lucky::Action
+class CustomRoutes::Match < TestAction
   match :options, "/so_custom" do
     plain_text "test"
   end
@@ -52,55 +52,55 @@ class Tests::IndexPage
   end
 end
 
-class Tests::Index < Lucky::Action
+class Tests::Index < TestAction
   route do
     render
   end
 end
 
-class Tests::New < Lucky::Action
+class Tests::New < TestAction
   route do
     plain_text "test"
   end
 end
 
-class Tests::Edit < Lucky::Action
+class Tests::Edit < TestAction
   route do
     plain_text "test"
   end
 end
 
-class Tests::Show < Lucky::Action
+class Tests::Show < TestAction
   route do
     plain_text "test"
   end
 end
 
-class Tests::Delete < Lucky::Action
+class Tests::Delete < TestAction
   route do
     plain_text "test"
   end
 end
 
-class Tests::Update < Lucky::Action
+class Tests::Update < TestAction
   route do
     plain_text "test"
   end
 end
 
-class Tests::Create < Lucky::Action
+class Tests::Create < TestAction
   route do
     plain_text "test"
   end
 end
 
-class PlainText::Index < Lucky::Action
+class PlainText::Index < TestAction
   route do
     plain_text "plain"
   end
 end
 
-class RequiredParams::Index < Lucky::Action
+class RequiredParams::Index < TestAction
   param required_page : Int32
 
   route do
@@ -108,7 +108,7 @@ class RequiredParams::Index < Lucky::Action
   end
 end
 
-abstract class BaseActionWithParams < Lucky::Action
+abstract class BaseActionWithParams < TestAction
   param inherit_me : String
 end
 
@@ -118,7 +118,7 @@ class InheritedParams::Index < BaseActionWithParams
   end
 end
 
-class OptionalParams::Index < Lucky::Action
+class OptionalParams::Index < TestAction
   param page : Int32?
   param with_default : String? = "default"
   param with_int_default : Int32? = 1
@@ -133,7 +133,7 @@ class OptionalParams::Index < Lucky::Action
   end
 end
 
-class ParamsWithDefaultParamsLast < Lucky::Action
+class ParamsWithDefaultParamsLast < TestAction
   param has_default : String = "default"
   param has_nil_default : String?
   param no_default : String

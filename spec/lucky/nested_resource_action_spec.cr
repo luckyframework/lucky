@@ -1,12 +1,12 @@
 require "../spec_helper"
 
-class Projects::Tasks::Show < Lucky::Action
+class Projects::Tasks::Show < TestAction
   nested_route do
     plain_text "plain"
   end
 end
 
-class Admin::Projects::Tasks::Show < Lucky::Action
+class Admin::Projects::Tasks::Show < TestAction
   nested_route do
     plain_text "plain"
   end

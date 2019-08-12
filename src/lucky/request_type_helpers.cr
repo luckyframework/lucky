@@ -1,57 +1,100 @@
-# These helpers check HTTP headers to determine "request type".
-# Generally the `Content-Type` header is checked, followed by
-# the `Accept` header, but some check other headers, such as `X-Requested-With`.
+# These helpers check HTTP headers to determine "request MIME type".
+#
+# Generally the `Accept` header is checked, but some check other headers, such as `X-Requested-With`.
 module Lucky::RequestTypeHelpers
-  abstract def request_type : String
-  abstract def headers : HTTP::Headers
+  include Lucky::Memoizable
+
+  private def default_format
+    {% raise <<-TEXT
+    Must set 'accepted_formats' or 'default_format' in #{@type} (or its parent class).
+
+    Example of 'accepted_formats' (recommended):
+
+      abstract class BrowserAction < Lucky::Action
+        accepted_formats [:html, :json], default: :html
+      end
+
+    Example of 'default_format':
+
+      class Errors::Show < Lucky::ErrorAction
+        default_format :html
+      end
+
+
+    TEXT
+    %}
+  end
+
+  # If Lucky doesn't find a format then default to the given format
+  #
+  # ```
+  # default_format :html
+  # ```
+  macro default_format(format)
+    {% unless format.is_a?(SymbolLiteral) %}
+      {% raise "The default format in #{@type} must be a Symbol. Instead got #{format}" %}
+    {% end %}
+
+    private def default_format : Symbol
+      {{ format }}
+    end
+  end
+
+  private def clients_desired_format : Symbol
+    context._clients_desired_format ||= determine_clients_desired_format
+  end
+
+  private def determine_clients_desired_format : Symbol
+    Lucky::MimeType.determine_clients_desired_format(request, default_format, self.class._accepted_formats) ||
+      raise Lucky::UnknownAcceptHeaderError.new(request)
+  end
+
+  # Check whether the request wants the passed in format
+  def accepts?(format : Symbol) : Bool
+    clients_desired_format == format
+  end
 
   # Check if the request is JSON
   #
   # This tests if the request type is `application/json`
   def json? : Bool
-    request_type == "application/json"
+    accepts?(:json)
   end
 
   # Check if the request is AJAX
   #
-  # This tests if the X-Requested-With header is `XMLHttpRequest`
+  # This tests if the `X-Requested-With` header is `XMLHttpRequest`
   def ajax? : Bool
-    headers["X-Requested-With"]? == "XMLHttpRequest"
+    accepts?(:ajax)
   end
 
   # Check if the request is HTML
   #
-  # This tests if the request type is `text/html`
+  # Browsers typically send vague Accept headers. Because of that this will return `true` when:
+  #
+  #  * The `accepted_formats` includes `:html`
+  #  * And the `Accept` header is the browser default. For example `text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
   def html? : Bool
-    request_type.starts_with? "text/html"
+    accepts?(:html)
   end
 
   # Check if the request is XML
   #
-  # This tests if the request type is `application/xml`,
-  # `application/xhtml+xml`
+  # This tests if the request type is `application/xml`
   def xml? : Bool
-    !!(request_type =~ /application\/(xhtml\+)?xml/)
+    accepts?(:xml)
   end
 
   # Check if the request is plain text
   #
-  # This tests if the request type is `text/plain` or
+  # This tests if the `Accept` header type is `text/plain` or
   # with the optional character set per W3 RFC1341 7.1
-  def plain? : Bool
-    request_type == "text/plain" || request_type.downcase.starts_with?("text/plain; charset=")
+  def plain_text? : Bool
+    accepts?(:plain_text)
   end
 
-  private def request_type : String
-    has_content_type = !(headers["Content-Type"]?.nil? || headers["Content-Type"]?.try(&.empty?))
-    has_accept = !(headers["Accept"]?.nil? || headers["Accept"]?.try(&.empty?))
-
-    return headers["Content-Type"] if has_content_type
-    return headers["Accept"] if has_accept
-    ""
-  end
-
-  private def headers : HTTP::Headers
-    request.headers
+  # :nodoc:
+  def plain?
+    {% raise "This method has been renamed to 'plain_text?'" %}
   end
 end

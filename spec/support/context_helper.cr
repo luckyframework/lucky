@@ -1,11 +1,13 @@
 module ContextHelper
-  private def build_request(method = "GET", body = "", content_type = "")
+  extend self
+
+  private def build_request(method = "GET", body = "", content_type = "") : HTTP::Request
     headers = HTTP::Headers.new
     headers.add("Content-Type", content_type)
     HTTP::Request.new(method, "/", body: body, headers: headers)
   end
 
-  private def build_context(path = "/", request = nil) : HTTP::Server::Context
+  def build_context(path = "/", request = nil) : HTTP::Server::Context
     build_context_with_io(IO::Memory.new, path: path, request: request)
   end
 

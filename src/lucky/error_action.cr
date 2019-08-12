@@ -12,6 +12,10 @@ abstract class Lucky::ErrorAction
   def initialize(@context : HTTP::Server::Context)
   end
 
+  # :nodoc:
+  # Accept all formats. ErrorAction should *always* work
+  class_getter _accepted_formats = [] of Symbol
+
   abstract def handle_error(error : Exception) : Lucky::Response
 
   def perform_action(error : Exception)

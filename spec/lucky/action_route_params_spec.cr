@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-private class TestAction < Lucky::Action
+private class TestAction < TestAction
   get "/test/:param_1/:param_2" do
     plain_text "test"
   end

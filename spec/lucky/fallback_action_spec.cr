@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class Rendering::FallbackRoute < Lucky::Action
+class Rendering::FallbackRoute < TestAction
   fallback do
     plain_text "Hey, you found me!"
   end

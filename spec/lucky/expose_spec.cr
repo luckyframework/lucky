@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class OnlyExpose < Lucky::Action
+class OnlyExpose < TestAction
   expose :name
 
   get "/expose" do
@@ -24,7 +24,7 @@ class OnlyExposePage
   end
 end
 
-abstract class BaseExposureAction < Lucky::Action
+abstract class BaseExposureAction < TestAction
   expose :expose_one
 
   def expose_one
