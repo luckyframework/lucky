@@ -144,11 +144,11 @@ end
 - Rename: `fillable` to `permit_columns`
 - Rename: form class names to new naming convention. (e.g. `class UserForm < User::SaveOperation` => `class SaveUser < User::SaveOperation`). This step is optional, but still recommended to avoid future confusion.
 - Rename: `Avram::VirtualForm` to `Avram::Operation`.
-- Rename: virtual form class names to new naming convention. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
+- Rename: virtual form class names to new naming convention NounVerb. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
 - Rename: `virtual` to `attribute`.
 - Update: all `SaveOperation` classes to call `before_save prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well.
 - Update: `FillableField` to `PermittedAttribute` in `src/components/shared/`. Check `field.cr` and `field_errors.cr`.
-- Update: all authentic classes and modules to use new operation setup.
+- Update: all authentic classes and modules to use new operation setup. This may require renaming some files to fit the `NounVerb` `noun_verb.cr` convention.
 <details>
   <summary>Files in src/operations/</summary>
 
@@ -176,12 +176,12 @@ end
       Authentic.copy_and_encrypt password, to: encrypted_password
 
 
-  # src/operations/sign_user_in.cr
-  - class SignUserIn < Avram::VirtualOperation
-  + class SignUserIn < Avram::Operation
+  # src/operations/sign_in_user.cr
+  - class SignInUser < Avram::VirtualOperation
+  + class SignInUser < Avram::Operation
 
 
-  # src/operations/sign_user_up.cr
+  # src/operations/sign_up_user.cr
   - def prepare
   + before_save do
       validate_uniqueness_of email
