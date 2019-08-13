@@ -81,6 +81,18 @@ brew upgrade lucky
   end
   ```
 </details>
+- Update: `script/setup` to include the new postgres checks.
+```diff
++ printf "\n▸ Checking that postgres is installed\n"
++ check_postgres | indent
++ printf "✔ Done\n" | indent
+
++ printf "\n▸ Verifying postgres connection\n"
++ lucky db.verify_connection | indent
+
+printf "\n▸ Setting up the database\n"
+lucky db.create | indent
+```
 
 ### Database updates
 - Add: a new `AppDatabase` class in `src/app_database.cr` that inherits from `Avram::Database`.
@@ -175,11 +187,11 @@ If you keep your primary keys as
 - Rename: `fillable` to `permit_columns`
 - Rename: form class names to new naming convention. (e.g. `class UserForm < User::SaveOperation` => `class SaveUser < User::SaveOperation`). This step is optional, but still recommended to avoid future confusion.
 - Rename: `Avram::VirtualForm` to `Avram::Operation`.
-- Rename: virtual form class names to new naming convention NounVerb. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
+- Rename: virtual form class names to new naming convention VerbNoun. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
 - Rename: `virtual` to `attribute`.
 - Update: all `SaveOperation` classes to call `before_save prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well.
 - Update: `FillableField` to `PermittedAttribute` in `src/components/shared/`. Check `field.cr` and `field_errors.cr`.
-- Update: all authentic classes and modules to use new operation setup. This may require renaming some files to fit the `NounVerb` `noun_verb.cr` convention.
+- Update: all authentic classes and modules to use new operation setup. This may require renaming some files to fit the `VerbNoun` `verb_noun.cr` convention.
 <details>
   <summary>Files in src/operations/</summary>
 
