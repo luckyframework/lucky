@@ -1,4 +1,4 @@
-### Changes since v0.15
+### Changes since v0.16
 
 - Rename: `Avram::BaseForm` to `Avram::SaveOperation` [see Avram](https://github.com/luckyframework/avram/pull/104)
 - Rename: `Avram::Field` to `Avram::Attribute` [see Avram](https://github.com/luckyframework/avram/commit/d3503a161670077c1d7b14484382132ea3ab423d)
@@ -38,7 +38,13 @@
 - Added: `db.rollback_to` task. [see Avram](https://github.com/luckyframework/avram/pull/133)
 - Added: `db.migrations.status` task. [see Avram](https://github.com/luckyframework/avram/pull/135)
 - Added: `db.verify_connection` task. [see Avram](https://github.com/luckyframework/avram/pull/167)
+- Fixed: calling `lucky -v` from a lucky project failed. [see CLI](https://github.com/luckyframework/lucky_cli/pull/387)
+- Update: name convention for operations to be `VerbNoun`. [see CLI](https://github.com/luckyframework/lucky_cli/pull/386)
+- Added: `change_type` macro for migrations. [see Avram](https://github.com/luckyframework/avram/pull/209)
 
+### v0.16 (2019-08-03)
+
+- Added: support for Crystal 0.30.0
 
 ### v0.15 (2019-06-12)
 
