@@ -130,6 +130,37 @@ abstract class BaseModel < Avram::Model
   end
 end
 ```
+- Update: `Avram::Repo` to `AppDatabase` in `spec/setup/clean_database.cr`.
+- Update: Any model that uses `UUID` for a primary key must use the new `primary_key` syntax.
+```crystal
+class User < BaseModel
+  # Before migration
+  table :users, primary_key_type: :uuid do
+    column email : String
+  end
+
+  # After migration
+  table :users do
+    primary_key id : UUID
+  end
+end
+```
+- Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You can use the `change_type` macro to migrate your primary keys to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
+```crystal
+class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
+  def migrate
+    alter table_for(User) do
+      change_type id : Int64
+    end
+    alter table_for(Post) do
+      change_type id : Int64
+    end
+  end
+end
+```
+
+If you keep your primary keys as 
+
 
 ### Updating queries
 - Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
