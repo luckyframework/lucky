@@ -157,6 +157,15 @@ class User < BaseModel
   end
 end
 ```
+- Update: models now have a `default_columns` macro that adds `primary_key id : Int64` and `timestamps`. This macro must be overriden if your tables use a different column type for your primary keys.
+```crystal
+abstract class BaseModel < Avram::Model
+  macro default_columns
+    primary_key id : Int32
+    timestamps
+  end
+end
+```
 - Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You can use the `change_type` macro to migrate your primary keys to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
 ```crystal
 class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
@@ -170,9 +179,6 @@ class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
   end
 end
 ```
-
-If you keep your primary keys as 
-
 
 ### Updating queries
 - Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
