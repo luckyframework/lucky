@@ -81,7 +81,9 @@ brew upgrade lucky
   end
   ```
 </details>
+
 - Update: `script/setup` to include the new postgres checks.
+
 ```diff
 + printf "\n▸ Checking that postgres is installed\n"
 + check_postgres | indent
@@ -96,10 +98,12 @@ lucky db.create | indent
 
 ### Database updates
 - Add: a new `AppDatabase` class in `src/app_database.cr` that inherits from `Avram::Database`.
+
 ```crystal
 class AppDatabase < Avram::Database
 end
 ```
+
 - Add: `require "./app_database"` to `src/app.cr` right below the `require "./shards"`.
 - Rename: `Avram::Repo.configure` to `AppDatabase.configure` in `config/database.cr`.
 - Add: `Avram.configure` block.
@@ -144,7 +148,7 @@ end
 ```
 - Update: `Avram::Repo` to `AppDatabase` in `spec/setup/clean_database.cr`.
 - Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You
-can use the `change_type` macro to migrate your primary keys and foreign keys
+can use the `change_type` macro to migrate your **primary keys and foreign keys**
 to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
 ```crystal
 class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
