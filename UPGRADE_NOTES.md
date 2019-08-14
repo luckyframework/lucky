@@ -143,21 +143,9 @@ abstract class BaseModel < Avram::Model
 end
 ```
 - Update: `Avram::Repo` to `AppDatabase` in `spec/setup/clean_database.cr`.
-- Update: Any model that uses `UUID` for a primary key must use the new `primary_key` syntax.
-```crystal
-class User < BaseModel
-  # 0.16 and earlier
-  table :users, primary_key_type: :uuid do
-    column email : String
-  end
-
-  # Now with 0.17
-  table :users do
-    primary_key id : UUID
-  end
-end
-```
-- Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You can use the `change_type` macro to migrate your primary keys to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
+- Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You
+can use the `change_type` macro to migrate your primary keys and foreign keys
+to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
 ```crystal
 class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
   def migrate
@@ -166,16 +154,36 @@ class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
     end
     alter table_for(Post) do
       change_type id : Int64
+      change_type user_id : Int64
     end
   end
 end
 ```
-- Update: models now have a `default_columns` macro that adds `primary_key id : Int64` and `timestamps`. This macro must be overriden if your tables use a different column type for your primary keys.
+- Update: models now default the primary key to `Int64`. This can be
+overriden if your tables uses a different column type for your primary keys,
+such as Int32 or UUID
+
 ```crystal
 abstract class BaseModel < Avram::Model
   macro default_columns
-    primary_key id : Int32
+    primary_key id : UUID
     timestamps
+  end
+end
+```
+
+This also means that any model that uses `UUID` for a primary key can remove the `primary_key_type` option
+
+```crystal
+class User < BaseModel
+  # 0.16 and earlier
+  table :users, primary_key_type: :uuid do
+    column email : String
+  end
+
+  # Now with 0.17 it will use the 'default_columns' from the 'BaseModel'
+  table :users do
+    column email : String
   end
 end
 ```
@@ -269,7 +277,7 @@ brew upgrade lucky
 - Run `shards update`
 
 - Rename `src/server.cr` to `src/start_server.cr`.
-- Edit `src/start_server.cr` by changing 
+- Edit `src/start_server.cr` by changing
     * `app` to `app_server` and `App` to `AppServer`.
     * delete the line that starts with `puts "Listening on`
 - Update `src/{your app name}.cr` to require `./start_server`
