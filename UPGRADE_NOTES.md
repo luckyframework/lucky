@@ -146,23 +146,14 @@ end
 - Update: Any model that uses `UUID` for a primary key must use the new `primary_key` syntax.
 ```crystal
 class User < BaseModel
-  # Before migration
+  # 0.16 and earlier
   table :users, primary_key_type: :uuid do
     column email : String
   end
 
-  # After migration
+  # Now with 0.17
   table :users do
     primary_key id : UUID
-  end
-end
-```
-- Update: models now have a `default_columns` macro that adds `primary_key id : Int64` and `timestamps`. This macro must be overriden if your tables use a different column type for your primary keys.
-```crystal
-abstract class BaseModel < Avram::Model
-  macro default_columns
-    primary_key id : Int32
-    timestamps
   end
 end
 ```
@@ -176,6 +167,15 @@ class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
     alter table_for(Post) do
       change_type id : Int64
     end
+  end
+end
+```
+- Update: models now have a `default_columns` macro that adds `primary_key id : Int64` and `timestamps`. This macro must be overriden if your tables use a different column type for your primary keys.
+```crystal
+abstract class BaseModel < Avram::Model
+  macro default_columns
+    primary_key id : Int32
+    timestamps
   end
 end
 ```
