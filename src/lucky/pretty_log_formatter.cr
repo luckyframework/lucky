@@ -84,7 +84,7 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
     AnyOtherDataFormatter,
   ]
 
-  def format(data : NamedTuple) : Void
+  def format(data : NamedTuple) : Nil
     MESSAGE_FORMATTERS.each do |message_formatter|
       result = message_formatter.new(io, severity).format(data)
       break unless result.is_a?(MessageFormatter::Continue)

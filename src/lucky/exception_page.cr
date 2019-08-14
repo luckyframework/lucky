@@ -1,5 +1,5 @@
 class Lucky::ExceptionPage < ExceptionPage
-  def styles
+  def styles : ExceptionPage::Styles
     Styles.new(accent: lucky_green)
   end
 
