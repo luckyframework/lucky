@@ -1,11 +1,11 @@
 ## Upgrading from 0.16 to 0.17
 
-- Ensure you've upgraded to crystal 0.30.0
+- Ensure you've upgraded to crystal 0.30.1
 - Upgrade Lucky CLI (homebrew)
 
 ```
 brew update
-brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.30.0
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.30.1
 brew upgrade lucky
 ```
 
