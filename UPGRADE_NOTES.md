@@ -1,4 +1,250 @@
-### Upgrading from 0.14 to 0.15
+## Upgrading from 0.16 to 0.17
+
+- Ensure you've upgraded to crystal 0.30.0
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.30.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+- Update `.crystal-version` to `0.30.0`
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.17`
+- Run `shards update`
+
+### General updates
+- Rename: Action rendering method `text` to `plain_text`.
+- Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
+- Delete: `config/static_file_handler.cr`. The `Lucky::StaticFileHandler` no longer has config settings.
+- Add: a new `Lucky::LogHandler` configure to the bottom of `config/logger.cr`.
+- Update: `Avram::Repo.configure` to `Avram.configure` in `config/logger.cr`.
+<details>
+  <summary>config/logger.cr</summary>
+
+  ```crystal
+  require "file_utils"
+
+  logger =
+    if Lucky::Env.test?
+      # Logs to `tmp/test.log` so you can see what's happening without having
+      # a bunch of log output in your specs results.
+      FileUtils.mkdir_p("tmp")
+      Dexter::Logger.new(
+        io: File.new("tmp/test.log", mode: "w"),
+        level: Logger::Severity::DEBUG,
+        log_formatter: Lucky::PrettyLogFormatter
+      )
+    elsif Lucky::Env.production?
+      # This sets the log formatter to JSON so you can parse the logs with
+      # services like Logentries or Logstash.
+      #
+      # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+      Dexter::Logger.new(
+        io: STDOUT,
+        level: Logger::Severity::INFO,
+        log_formatter: Dexter::Formatters::JsonLogFormatter
+      )
+    else
+      # For development, log everything to STDOUT with the pretty formatter.
+      Dexter::Logger.new(
+        io: STDOUT,
+        level: Logger::Severity::DEBUG,
+        log_formatter: Lucky::PrettyLogFormatter
+      )
+    end
+
+  Lucky.configure do |settings|
+    settings.logger = logger
+  end
+
+  Lucky::LogHandler.configure do |settings|
+    # Skip logging static assets in development
+    if Lucky::Env.development?
+      settings.skip_if = ->(context : HTTP::Server::Context) {
+        context.request.method.downcase == "get" &&
+        context.request.resource.starts_with?(/\/css\/|\/js\/|\/assets\//)
+      }
+    end
+  end
+
+  Avram.configure do |settings|
+    settings.logger = logger
+  end
+  ```
+</details>
+- Update: `script/setup` to include the new postgres checks.
+```diff
++ printf "\n▸ Checking that postgres is installed\n"
++ check_postgres | indent
++ printf "✔ Done\n" | indent
+
++ printf "\n▸ Verifying postgres connection\n"
++ lucky db.verify_connection | indent
+
+printf "\n▸ Setting up the database\n"
+lucky db.create | indent
+```
+
+### Database updates
+- Add: a new `AppDatabase` class in `src/app_database.cr` that inherits from `Avram::Database`.
+```crystal
+class AppDatabase < Avram::Database
+end
+```
+- Add: `require "./app_database"` to `src/app.cr` right below the `require "./shards"`.
+- Rename: `Avram::Repo.configure` to `AppDatabase.configure` in `config/database.cr`.
+- Add: `Avram.configure` block.
+<details>
+  <summary>config/database.cr</summary>
+
+  ```crystal
+  database_name = "..."
+
+  AppDatabase.configure do |settings|
+    if Lucky::Env.production?
+      settings.url = ENV.fetch("DATABASE_URL")
+    else
+      settings.url = ENV["DATABASE_URL"]? || Avram::PostgresURL.build(
+        database: database_name,
+        hostname: ENV["DB_HOST"]? || "localhost",
+        # Some common usernames are "postgres", "root", or your system username (run 'whoami')
+        username: ENV["DB_USERNAME"]? || "postgres",
+        # Some Postgres installations require no password. Use "" if that is the case.
+        password: ENV["DB_PASSWORD"]? || "postgres"
+      )
+    end
+  end
+
+  Avram.configure do |settings|
+    settings.database_to_migrate = AppDatabase
+
+    # this is moved from your old `Avram::Repo.configure` block.
+    settings.lazy_load_enabled = Lucky::Env.production?
+  end
+  ```
+</details>
+
+- Move: the `settings.lazy_load_enabled` from `AppDatabase.configure` to `Avram.configure` block.
+- Add: a `database` class method to `src/models/base_model.cr` that returns `AppDatabase`.
+```crystal
+abstract class BaseModel < Avram::Model
+  def self.database : Avram::Database.class
+    AppDatabase
+  end
+end
+```
+- Update: `Avram::Repo` to `AppDatabase` in `spec/setup/clean_database.cr`.
+- Update: Any model that uses `UUID` for a primary key must use the new `primary_key` syntax.
+```crystal
+class User < BaseModel
+  # 0.16 and earlier
+  table :users, primary_key_type: :uuid do
+    column email : String
+  end
+
+  # Now with 0.17
+  table :users do
+    primary_key id : UUID
+  end
+end
+```
+- Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You can use the `change_type` macro to migrate your primary keys to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
+```crystal
+class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
+  def migrate
+    alter table_for(User) do
+      change_type id : Int64
+    end
+    alter table_for(Post) do
+      change_type id : Int64
+    end
+  end
+end
+```
+- Update: models now have a `default_columns` macro that adds `primary_key id : Int64` and `timestamps`. This macro must be overriden if your tables use a different column type for your primary keys.
+```crystal
+abstract class BaseModel < Avram::Model
+  macro default_columns
+    primary_key id : Int32
+    timestamps
+  end
+end
+```
+
+### Updating queries
+- Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
+- Rename: all association query methods from the association name to `where_{association_name}`. (e.g. `UserQuery.new.posts` => `UserQuery.new.where_posts`)
+- Update: all association query methods no longer take a block. Pass the query in as an argument. (e.g. `UserQuery.new.posts { |post_query| }` => `UserQuery.new.where_posts(PostQuery.new)`)
+- Update: `where_{association_name}` methods no longer need to be preceeded by a `join_{assoc}`, unless you need a custom join (i.e. `left_join_{assoc}`). If you use a custom join, you will need to add the `auto_inner_join: false` option to your `where_{assoc}` method.
+
+### Moving forms to operations
+- Rename: the `src/forms` directory to `src/operations`.
+- Update: `require "./forms/mixins/**"` and `require "./forms/**"` to `require "./operations/mixins/**"` and `require "./operations/**"` respectively in `src/app.cr`
+- Rename: `BaseForm` to `SaveOperation` in `src/operations`. (e.g. `User::BaseForm` => `User::SaveOperation`)
+- Rename: `fillable` to `permit_columns`
+- Rename: form class names to new naming convention. (e.g. `class UserForm < User::SaveOperation` => `class SaveUser < User::SaveOperation`). This step is optional, but still recommended to avoid future confusion.
+- Rename: `Avram::VirtualForm` to `Avram::Operation`.
+- Rename: virtual form class names to new naming convention VerbNoun. (e.g. `class SignInForm < Avram::Operation` => `class SignInUser < Avram::Operation`).
+- Rename: `virtual` to `attribute`.
+- Update: all `SaveOperation` classes to call `before_save prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well.
+- Update: `FillableField` to `PermittedAttribute` in `src/components/shared/`. Check `field.cr` and `field_errors.cr`.
+- Update: all authentic classes and modules to use new operation setup. This may require renaming some files to fit the `VerbNoun` `verb_noun.cr` convention.
+<details>
+  <summary>Files in src/operations/</summary>
+
+  ```diff
+  # src/operations/mixins/password_validations.cr
+  module PasswordValidations
+  +  macro included
+  +    before_save run_password_validations
+  +  end
+    #...
+  end
+
+
+  # src/operations/request_password_reset.cr
+  - class RequestPasswordReset < Avram::VirtualForm
+  + class RequestPasswordReset < Avram::Operation
+    #...
+  end
+
+
+  # src/operations/reset_password.cr
+  - def prepare
+  -   run_password_validations
+  + before do
+      Authentic.copy_and_encrypt password, to: encrypted_password
+
+
+  # src/operations/sign_in_user.cr
+  - class SignInUser < Avram::VirtualOperation
+  + class SignInUser < Avram::Operation
+
+
+  # src/operations/sign_up_user.cr
+  - def prepare
+  + before_save do
+      validate_uniqueness_of email
+  -   run_password_validations
+  ```
+</details>
+
+## Upgrading from 0.15 to 0.16
+
+- Upgrade to crystal 0.30.0
+
+No updates to Lucky itself are required. There may be Crystal 0.30.0 related changes you may need to make.
+
+## Upgrading from 0.14 to 0.15
 
 - Upgrade to crystal 0.29.0
 - Upgrade Lucky CLI (macOS)
@@ -34,7 +280,7 @@ brew upgrade lucky
 - Update `src/app.cr` to require new `./shards` file
 - Replace usages of `Lucky::Action::Status::` with the respective crystal `HTTP::Status::`
 
-### Upgrading from 0.13 to 0.14
+## Upgrading from 0.13 to 0.14
 
 - Upgrade to crystal 0.28.0
 - Create new file `config/force_ssl_handler.cr` with the following content:
@@ -45,7 +291,7 @@ Lucky::ForceSSLHandler.configure do |settings|
 end
 ```
 
-### Upgrading from 0.12 to 0.13
+## Upgrading from 0.12 to 0.13
 
 - Upgrade Lucky CLI (macOS)
 
@@ -167,7 +413,7 @@ end
 
 And you should now be good to go!
 
-### Upgrading from 0.11 to 0.12
+## Upgrading from 0.11 to 0.12
 
 - Upgrade Lucky CLI (macOS)
 
@@ -242,7 +488,7 @@ brew upgrade lucky
 
 - Run `shards update` to install the new shards
 
-### Upgrading from 0.10 to 0.11
+## Upgrading from 0.10 to 0.11
 
 - Upgrade Lucky CLI (macOS)
 
