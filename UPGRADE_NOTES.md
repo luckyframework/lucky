@@ -147,6 +147,22 @@ abstract class BaseModel < Avram::Model
 end
 ```
 - Update: `Avram::Repo` to `AppDatabase` in `spec/setup/clean_database.cr`.
+- Avram no longer automatically adds a timestamp and primary key to migrations.
+  Add a primary key and timestamps to your old migrations.
+
+  > Also note that the syntax for a UUID has changed. You use
+  > `primary_key id : UUID` instead of an option on 'create'
+
+  ```crystal
+  def migrate
+    create :users do
+      # Add these to your 'create' statements in your migrations
+      primary_key id : Int64 # Or 'UUID' if using UUID
+      add_timestamps
+    end
+  end
+  ```
+
 - Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You
 can use the `change_type` macro to migrate your **primary keys and foreign keys**
 to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
