@@ -85,6 +85,7 @@ brew upgrade lucky
 - Update: `script/setup` to include the new postgres checks.
 
 ```diff
+# This must go *after* the 'shards install' step
 + printf "\n▸ Checking that postgres is installed\n"
 + check_postgres | indent
 + printf "✔ Done\n" | indent
