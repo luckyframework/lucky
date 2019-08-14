@@ -1,4 +1,4 @@
-### Changes since v0.16
+### Changes in v0.17
 
 - Rename: `Avram::BaseForm` to `Avram::SaveOperation` [see Avram](https://github.com/luckyframework/avram/pull/104)
 - Rename: `Avram::Field` to `Avram::Attribute` [see Avram](https://github.com/luckyframework/avram/commit/d3503a161670077c1d7b14484382132ea3ab423d)
