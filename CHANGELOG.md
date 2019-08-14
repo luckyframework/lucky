@@ -1,11 +1,50 @@
 ### Changes since v0.16
 
-- `Lucky::Exposeable` has been renamed to `Lucky::Exposable`
-- `Lucky::Routeable` has been renamed to `Lucky::Routable`
+- Rename: `Avram::BaseForm` to `Avram::SaveOperation` [see Avram](https://github.com/luckyframework/avram/pull/104)
+- Rename: `Avram::Field` to `Avram::Attribute` [see Avram](https://github.com/luckyframework/avram/commit/d3503a161670077c1d7b14484382132ea3ab423d)
+- Update: `number_to_currency` now returns `String` instead of writing to the view directly. [#809](https://github.com/luckyframework/lucky/pull/809)
+- Fixed: bug in running `build.release` task.
+- Update: mounted components render comments to show start and end of component. [#817](https://github.com/luckyframework/lucky/pull/817)
+- Revert: returning `String` for `highlight` helper. [#818](https://github.com/luckyframework/lucky/pull/818)
+- Update: text helpers that write to the view moved to their own module. [#820](https://github.com/luckyframework/lucky/pull/820)
+- Rename: `fillable` to `permit_columns`. [see Avram](https://github.com/luckyframework/avram/commit/b32b5a9b53688762e22c063ebad9f858cba636c0)
+- Added: `skip_if` option to `LogHandler`. [#824](https://github.com/luckyframework/lucky/pull/824)
+- Rename: `Lucky::Exposeable` to `Lucky::Exposable`. [#827](https://github.com/luckyframework/lucky/pull/827)
+- Rename: `Lucky::Routeable` to `Lucky::Routable`. [#827](https://github.com/luckyframework/lucky/pull/827)
+- Added: `memoize` macro. [#832](https://github.com/luckyframework/lucky/pull/832)
+- Added: `table_for` macro. [see Avram](https://github.com/luckyframework/avram/pull/127)
+- Added: `xml` render method for Actions. [#838](https://github.com/luckyframework/lucky/pull/838)
+- Rename: `text` render action to `plain_text`. [#838](https://github.com/luckyframework/lucky/pull/838)
+- Update: `responsive_meta_tag` to be flexible. [#835](https://github.com/luckyframework/lucky/pull/835)
+- Added: `Int16#to_param` and `Int64#to_param`.
+- Fixed: `append/replace_class` with no default. [#842](https://github.com/luckyframework/lucky/pull/842)
+- Added: multi database support. [see Avram](https://github.com/luckyframework/avram/pull/136)
+- Rename: `form_name` to `param_key`. [see Avram](https://github.com/luckyframework/avram/pull/140)
+- Fixed: 3rd party shards versions. [#855](https://github.com/luckyframework/lucky/pull/855)
+- Added: JSON support. [see Avram](https://github.com/luckyframework/avram/pull/108)
+- Update: calling `first` ensures proper order by. [see Avram](https://github.com/luckyframework/avram/pull/118)
+- Update: specifying primary keys is more explicit now. [see Avram](https://github.com/luckyframework/avram/commit/c6fe426a455fc1bf397d0b3b32069a97cd89d2df)
+- Added: custom primary key name support. [see Avram](https://github.com/luckyframework/avram/commit/a97c2b7dba359dda775bc587458a3d00571979e9)
+- Added: column and primary key support for `Int16`. [see Avram](https://github.com/luckyframework/avram/pull/131)
+- Rename: `Query.destroy_all` to `Query.truncate`. [see Avram](https://github.com/luckyframework/avram/pull/134)
+- Fixed: model inference with table names. [see Avram](https://github.com/luckyframework/avram/pull/144)
+- Rename: `virtual` to `attribute`. [see Avram](https://github.com/luckyframework/avram/pull/112)
+- Rename: `VirtualForm` to `Operation`. [see Avram](https://github.com/luckyframework/avram/commit/daaf55955c8131dea8533584720257ca444f23a7)
+- Added: support for `Array` fields. [see Avram](https://github.com/luckyframework/avram/pull/151)
+- Rename: association query methods now prefixed with `where_`. [see Avram](https://github.com/luckyframework/avram/commit/f298b8a2be2b0d9b753f33517093c72c261cd148)
+- Added: query method to bulk delete. [see Avram](https://github.com/luckyframework/avram/pull/169)
+- Update: association query methods no longer take a block. [see Avram](https://github.com/luckyframework/avram/commit/a8112f3b0abca05c06da0c3ba3f599dc6b06110b)
+- Added: support for polymorphic associations. [see Avram](https://github.com/luckyframework/avram/pull/165)
+- Added: `db.rollback_to` task. [see Avram](https://github.com/luckyframework/avram/pull/133)
+- Added: `db.migrations.status` task. [see Avram](https://github.com/luckyframework/avram/pull/135)
+- Added: `db.verify_connection` task. [see Avram](https://github.com/luckyframework/avram/pull/167)
+- Fixed: calling `lucky -v` from a lucky project failed. [see CLI](https://github.com/luckyframework/lucky_cli/pull/387)
+- Update: name convention for operations to be `VerbNoun`. [see CLI](https://github.com/luckyframework/lucky_cli/pull/386)
+- Added: `change_type` macro for migrations. [see Avram](https://github.com/luckyframework/avram/pull/209)
 
 ### v0.16 (2019-08-03)
 
-- Crystal 0.30.0 support added
+- Added: support for Crystal 0.30.0
 
 ### v0.15 (2019-06-12)
 
