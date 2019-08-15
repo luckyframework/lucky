@@ -21,6 +21,10 @@ brew upgrade lucky
   - Lucky should be `~> 0.17`
 - Run `shards update`
 
+### Example upgrade
+
+If you're not sure about an upgrade step, or simply want to look at an example, see the [lucky_bits upgrade](https://github.com/edwardloveall/lucky_bits/commit/47473a19084f1781062ce3767e3fbcf527c11e4d).
+
 ### General updates
 - Rename: Action rendering method `text` to `plain_text`.
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
