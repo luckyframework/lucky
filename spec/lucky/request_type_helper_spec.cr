@@ -2,77 +2,77 @@ require "../spec_helper"
 
 private class FakeAction
   include Lucky::RequestTypeHelpers
+  default_format :my_default_format
 
-  class_property headers : HTTP::Headers = HTTP::Headers.new
+  property context : HTTP::Server::Context = ContextHelper.build_context
+  class_property _accepted_formats = [] of Symbol
 
-  def headers
-    self.class.headers
-  end
+  delegate request, to: context
 end
 
 describe Lucky::RequestTypeHelpers do
-  it "works for JSON" do
-    set_header "Content-Type", "application/json" do
-      FakeAction.new.json?.should be_true
-    end
-
-    set_header "Content-Type", "not/json" do
-      FakeAction.new.json?.should be_false
+  it "determines the format from 'Accept' header correctly" do
+    Lucky::MimeType.accept_header_formats.each do |header, format|
+      override_accept_header header do |action|
+        action.accepts?(format).should be_true
+      end
     end
   end
 
-  it "works for HTML" do
-    set_header "Content-Type", "text/html" do
-      FakeAction.new.html?.should be_true
-    end
-
-    set_header "Content-Type", "not/html" do
-      FakeAction.new.html?.should be_false
-    end
-
-    set_header "Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" do
-      FakeAction.new.html?.should be_true
+  it "uses the default if no header is set" do
+    override_accept_header "" do |action|
+      action.accepts?(:my_default_format).should be_true
     end
   end
 
-  it "works for AJAX" do
-    set_header "X-Requested-With", "XMLHttpRequest" do
-      FakeAction.new.ajax?.should be_true
-    end
-
-    set_header "X-Requested-With", "not ajax" do
-      FakeAction.new.ajax?.should be_false
+  it "doesn't use the default if header is given" do
+    override_accept_header "application/json" do |action|
+      action.accepts?(:my_default_format).should be_false
     end
   end
 
-  it "works for XML" do
-    set_header "Content-Type", "application/xml" do
-      FakeAction.new.xml?.should be_true
-    end
-
-    set_header "Content-Type", "application/xhtml+xml" do
-      FakeAction.new.xml?.should be_true
-    end
-
-    set_header "Content-Type", "not/xml" do
-      FakeAction.new.xml?.should be_false
+  it "raises if the format is unknown" do
+    expect_raises Lucky::UnknownAcceptHeaderError do
+      override_accept_header "wut" do |action|
+        action.accepts?(:blow_up)
+      end
     end
   end
 
-  it "works for plain text" do
-    set_header "Content-Type", "text/plain" do
-      FakeAction.new.plain?.should be_true
-    end
+  it "checks if client accepts JSON" do
+    override_format :json, &.json?.should(be_true)
+    override_format :foo, &.json?.should(be_false)
+  end
 
-    set_header "Content-Type", "text/plain; charset=UTF8" do
-      FakeAction.new.plain?.should be_true
-    end
+  it "checks if client accepts HTML" do
+    override_format :html, &.html?.should(be_true)
+    override_format :foo, &.html?.should(be_false)
+  end
+
+  it "checks if client accepts AJAX" do
+    override_format :ajax, &.ajax?.should(be_true)
+    override_format :foo, &.ajax?.should(be_false)
+  end
+
+  it "checks if client accepts XML" do
+    override_format :xml, &.xml?.should(be_true)
+    override_format :foo, &.xml?.should(be_false)
+  end
+
+  it "checks if client accepts plain text" do
+    override_format :plain_text, &.plain_text?.should(be_true)
+    override_format :foo, &.plain_text?.should(be_false)
   end
 end
 
-private def set_header(key, value)
-  FakeAction.headers[key] = value
-  yield
-ensure
-  FakeAction.headers = HTTP::Headers.new
+private def override_format(format : Symbol?)
+  action = FakeAction.new
+  action.context._clients_desired_format = format
+  yield action
+end
+
+private def override_accept_header(accept_header : String)
+  action = FakeAction.new
+  action.context.request.headers["accept"] = accept_header
+  yield action
 end

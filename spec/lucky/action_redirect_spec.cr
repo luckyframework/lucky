@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class RedirectAction < Lucky::Action
+class RedirectAction < TestAction
   get "/redirect_test" do
     plain_text "does not matter"
   end

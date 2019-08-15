@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class FrameGuardRoutes::WithSameorigin < Lucky::Action
+class FrameGuardRoutes::WithSameorigin < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
@@ -14,7 +14,7 @@ class FrameGuardRoutes::WithSameorigin < Lucky::Action
   end
 end
 
-class FrameGuardRoutes::WithDeny < Lucky::Action
+class FrameGuardRoutes::WithDeny < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
@@ -26,7 +26,7 @@ class FrameGuardRoutes::WithDeny < Lucky::Action
   end
 end
 
-class FrameGuardRoutes::WithURL < Lucky::Action
+class FrameGuardRoutes::WithURL < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
@@ -38,7 +38,7 @@ class FrameGuardRoutes::WithURL < Lucky::Action
   end
 end
 
-class FrameGuardRoutes::WithBadValue < Lucky::Action
+class FrameGuardRoutes::WithBadValue < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
   get "/so_custom" do
@@ -50,7 +50,7 @@ class FrameGuardRoutes::WithBadValue < Lucky::Action
   end
 end
 
-class XSSGuardRoutes::Index < Lucky::Action
+class XSSGuardRoutes::Index < TestAction
   include Lucky::SecureHeaders::SetXSSGuard
 
   get "/so_custom" do
@@ -58,7 +58,7 @@ class XSSGuardRoutes::Index < Lucky::Action
   end
 end
 
-class SniffGuardRoutes::Index < Lucky::Action
+class SniffGuardRoutes::Index < TestAction
   include Lucky::SecureHeaders::SetSniffGuard
 
   get "/so_custom" do

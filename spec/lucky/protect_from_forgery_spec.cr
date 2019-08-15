@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class ProtectedAction::Index < Lucky::Action
+class ProtectedAction::Index < TestAction
   include Lucky::ProtectFromForgery
 
   route { plain_text "Passed" }

@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-class Admin::MultiWord::Users::Show < Lucky::Action
+class Admin::MultiWord::Users::Show < TestAction
   route do
     plain_text "plain"
   end

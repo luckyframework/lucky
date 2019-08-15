@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class Cookies::Index < Lucky::Action
+class Cookies::Index < TestAction
   get "/cookies" do
     cookies.set :my_cookie, "cookie"
     session.set :my_session, "session"
@@ -11,13 +11,13 @@ class Cookies::Index < Lucky::Action
   end
 end
 
-class PreCookies::Index < Lucky::Action
+class PreCookies::Index < TestAction
   get "/pre_cookies" do
     plain_text "#{cookies.get?(:my_cookie)}"
   end
 end
 
-class FlashCookies::Index < Lucky::Action
+class FlashCookies::Index < TestAction
   get "/flash" do
     flash.success = "You did it!"
 

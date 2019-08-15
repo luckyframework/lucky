@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class CallbackFromActionMacro::Index < Lucky::Action
+class CallbackFromActionMacro::Index < TestAction
   before set_before_cookie
 
   route do
@@ -15,7 +15,7 @@ class CallbackFromActionMacro::Index < Lucky::Action
   end
 end
 
-abstract class InheritableCallbacks < Lucky::Action
+abstract class InheritableCallbacks < TestAction
   before set_before_cookie
   after overwrite_after_cookie
 
@@ -58,7 +58,7 @@ class Callbacks::Index < InheritableCallbacks
   end
 end
 
-class Callbacks::HaltedBefore < Lucky::Action
+class Callbacks::HaltedBefore < TestAction
   before redirect_me
   before should_not_be_reached
 
@@ -76,7 +76,7 @@ class Callbacks::HaltedBefore < Lucky::Action
   end
 end
 
-class Callbacks::HaltedAfter < Lucky::Action
+class Callbacks::HaltedAfter < TestAction
   after redirect_me
   after should_not_be_reached
 
@@ -94,7 +94,7 @@ class Callbacks::HaltedAfter < Lucky::Action
   end
 end
 
-class Callbacks::OrderDependent < Lucky::Action
+class Callbacks::OrderDependent < TestAction
   getter callback_data
   @callback_data = [] of String
 
