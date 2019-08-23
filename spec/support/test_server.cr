@@ -6,9 +6,10 @@ class TestServer
 
   class_property routes : Hash(String, String) = {} of String => String
 
-  property last_request : HTTP::Request?
+  property! last_request : HTTP::Request?
+  getter port
 
-  def initialize(port : Int32)
+  def initialize(@port : Int32)
     @server = HTTP::Server.new do |context|
       last_request = context.request.dup
       last_request.body = last_request.body.try(&.peek)
