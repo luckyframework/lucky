@@ -403,6 +403,8 @@ class Lucky::Params
         JSON.parse(body)
       end
     end
+  rescue JSON::ParseException
+    raise Lucky::ParamParsingError.new(request)
   end
 
   private def body
