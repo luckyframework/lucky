@@ -22,12 +22,12 @@ describe Lucky::HttpMethodOverrideHandler do
       should_handle "GET", overridden_method: nil, and_return: "GET"
     end
 
-    it "fails if request body contains malformed json" do
+    it "continues if request body contains malformed json" do
       request = build_request "GET", body: "{ \"bad_json\": 123", content_type: "application/json"
 
-      expect_raises(JSON::ParseException) do
-        Lucky::HttpMethodOverrideHandler.new.call(build_context(request: request))
-      end
+      Lucky::HttpMethodOverrideHandler.new.call(build_context(request: request))
+
+      request.method.should eq "GET"
     end
   end
 end

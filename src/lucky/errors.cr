@@ -14,6 +14,14 @@ module Lucky
     end
   end
 
+  class ParamParsingError < Error
+    getter request
+
+    def initialize(@request : HTTP::Request)
+      super "Failed to parse the request parameters."
+    end
+  end
+
   class UnknownAcceptHeaderError < Error
     getter request
 

@@ -40,6 +40,18 @@ describe Lucky::Params do
 
       params.get?(:from).should eq "form"
     end
+
+    it "raises an exception if parsing fails" do
+      invalid_json = "//"
+      request = build_request body: invalid_json,
+        content_type: "application/json"
+
+      params = Lucky::Params.new(request)
+
+      expect_raises Lucky::ParamParsingError do
+        params.get?(:page).should eq "1"
+      end
+    end
   end
 
   describe "when route params are passed in" do
