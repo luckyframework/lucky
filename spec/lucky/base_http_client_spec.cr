@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-server = TestServer.new(6226)
+server = TestServer.new(test_server_port)
 
 spawn do
   server.listen
@@ -10,56 +10,122 @@ Spec.before_each do
   TestServer.reset
 end
 
+class HelloWorldAction < TestAction
+  post "/hello" do
+    plain_text "unused"
+  end
+end
+
+class MyClient < Lucky::BaseHTTPClient
+end
+
 describe Lucky::BaseHTTPClient do
-  describe "#get" do
-    it "sends requests to correct uri (with the correct query params) and gives the right response" do
-      TestServer.route("hello", "world")
-      Lucky::Server.temp_config(host: "localhost", port: 6226) do
-        client = Lucky::BaseHTTPClient.new
-        response = client.get("hello", params: HTTP::Params.new(raw_params: {"foo" => ["bar"]}))
+  describe "headers" do
+    it "sets headers and allows chaining" do
+      with_fake_server(path: "/hello", response_body: "world") do
+        MyClient.new
+          .headers(accept: "text/csv")
+          .headers(content_type: "application/json")
+          .headers("Foo": "bar")
+          .exec(HelloWorldAction)
 
-        response.body.should eq "world"
-
-        request = server.last_request.not_nil!
-        params = request.query.not_nil!
-        params.should eq HTTP::Params.encode({"foo" => "bar"})
+        request = server.last_request
+        request.headers["accept"].should eq("text/csv")
+        request.headers["content-type"].should eq("application/json")
+        request.headers["Foo"].should eq("bar")
       end
     end
   end
 
-  describe "#delete" do
-    it "sends requests to correct uri (with the correct query params) and gives the right response" do
-      TestServer.route("hello", "world")
-      Lucky::Server.temp_config(host: "localhost", port: 6226) do
-        client = Lucky::BaseHTTPClient.new
-        response = client.delete("hello")
+  describe "exec" do
+    describe "with Lucky::Action class" do
+      it "uses the method and path" do
+        with_fake_server(path: "/hello", response_body: "world") do
+          response = MyClient.new.exec(HelloWorldAction)
 
-        response.body.should eq "world"
-      end
-    end
-  end
-
-  {% for method in [:put, :patch, :post] %}
-
-    describe "\#{{method.id}}" do
-      it "sends correct request to correct uri and gives the correct response" do
-        TestServer.route("hello", "world")
-        Lucky::Server.temp_config(host: "localhost", port: 6226) do
-          client = Lucky::BaseHTTPClient.new
-          response = client.{{method.id}}(
-            path: "hello",
-            body: { "foo" => "bar" }
-          )
+          request = server.last_request
+          request.path.should eq "/hello"
+          request.method.should eq("POST")
+          request.body.not_nil!.gets_to_end.should eq("{}")
           response.body.should eq "world"
+        end
+      end
 
-          request = server.last_request.not_nil!
-          body = request.body.not_nil!
-          body.gets_to_end.should eq HTTP::Params.encode({ "foo" => "bar" })
+      it "allows passing params" do
+        with_fake_server(path: "/hello", response_body: "world") do
+          response = MyClient.new.exec(HelloWorldAction, foo: "bar")
+
+          request = server.last_request
+          request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
         end
       end
     end
 
+    describe "with a Lucky::RouteHelper" do
+      it "uses the method and path" do
+        with_fake_server(path: "/hello", response_body: "world") do
+          response = MyClient.new.exec(HelloWorldAction.route)
+
+          request = server.last_request
+          request.path.should eq "/hello"
+          request.method.should eq("POST")
+          request.body.not_nil!.gets_to_end.should eq("{}")
+          response.body.should eq "world"
+        end
+      end
+
+      it "allows passing params" do
+        with_fake_server(path: "/hello", response_body: "world") do
+          response = MyClient.new.exec(HelloWorldAction.route, foo: "bar")
+
+          request = server.last_request
+          request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        end
+      end
+    end
+  end
+
+  {% for method in [:put, :patch, :post, :delete, :get] %}
+    describe "\#{{method.id}}" do
+      it "sends correct request to correct uri and gives the correct response" do
+        with_fake_server(path: "hello", response_body: "world") do
+          response = MyClient.new.{{method.id}}(
+            path: "hello",
+            foo: "bar"
+          )
+
+          response.body.should eq "world"
+          request = server.last_request
+          request.method.should eq({{ method.id.stringify }}.upcase)
+          request.path.should eq "hello"
+          request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        end
+      end
+
+      it "works without params" do
+        with_fake_server(path: "hello", response_body: "world") do
+          response = MyClient.new.{{method.id}}(path: "hello")
+
+          response.body.should eq "world"
+          request = server.last_request
+          request.method.should eq({{ method.id.stringify }}.upcase)
+          request.path.should eq "hello"
+          request.body.not_nil!.gets_to_end.should eq("{}")
+        end
+      end
+    end
   {% end %}
+end
+
+private def with_fake_server(path : String, response_body : String)
+  TestServer.route(path: path, response_body: response_body)
+  Lucky::Server.temp_config(host: "localhost", port: test_server_port) do
+    yield
+  end
+end
+
+private def test_server_port
+  6226
 end
 
 at_exit do
