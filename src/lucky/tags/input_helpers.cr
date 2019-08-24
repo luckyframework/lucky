@@ -64,10 +64,23 @@ module Lucky::InputHelpers
   {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range", "time", "date"] %}
     generate_helpful_error_for {{input_type.id}}_input
 
+    # Returns a {{ input_type.id }} input field.
+    #
+    # ```
+    # {{input_type.id}}_input(attribute)
+    # # => <input type="{{input_type.id}}" id="param_key_attribute_name" name="param_key:attribute_name" value="" />
+    # ```
     def {{input_type.id}}_input(field : Avram::PermittedAttribute, **html_options)
       generate_input(field, {{input_type}}, html_options)
     end
 
+    # Similar to {{input_type.id}}_input; this allows for Boolean attributes
+    # through `attrs`.
+    #
+    # ```
+    # {{input_type.id}}_input(attribute, attrs: [:required])
+    # # => <input type="{{input_type.id}}" id="param_key_attribute_name" name="param_key:attribute_name" value="" required />
+    # ```
     def {{input_type.id}}_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
       generate_input(field, {{input_type}}, html_options, attrs: attrs)
     end
