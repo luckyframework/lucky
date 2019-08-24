@@ -35,6 +35,15 @@ class InputTestForm
       param_key: "user"
     )
   end
+
+  def joined_at
+    Avram::PermittedAttribute(Time?).new(
+      name: :joined_at,
+      param: nil,
+      value: nil,
+      param_key: "user"
+    )
+  end
 end
 
 private class TestPage
@@ -222,6 +231,26 @@ describe Lucky::InputHelpers do
 
     view.textarea(form.first_name, rows: 5, cols: 15).to_s.should contain <<-HTML
     <textarea id="user_first_name" name="user:first_name" rows="5" cols="15">My name</textarea>
+    HTML
+  end
+
+  it "renders time inputs" do
+    view.time_input(form.joined_at).to_s.should contain <<-HTML
+    <input type="time" id="user_joined_at" name="user:joined_at" value="">
+    HTML
+
+    view.time_input(form.joined_at, min: "09:00", max: "18:00").to_s.should contain <<-HTML
+    <input type="time" id="user_joined_at" name="user:joined_at" value="" min="09:00" max="18:00">
+    HTML
+  end
+
+  it "renders date inputs" do
+    view.date_input(form.joined_at).to_s.should contain <<-HTML
+    <input type="date" id="user_joined_at" name="user:joined_at" value="">
+    HTML
+
+    view.date_input(form.joined_at, min: "2019-01-01", max: "2019-12-31").to_s.should contain <<-HTML
+    <input type="date" id="user_joined_at" name="user:joined_at" value="" min="2019-01-01" max="2019-12-31">
     HTML
   end
 end

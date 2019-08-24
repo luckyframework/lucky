@@ -61,7 +61,7 @@ module Lucky::InputHelpers
 
   generate_helpful_error_for checkbox
 
-  {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
+  {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range", "time", "date"] %}
     generate_helpful_error_for {{input_type.id}}_input
 
     def {{input_type.id}}_input(field : Avram::PermittedAttribute, **html_options)
