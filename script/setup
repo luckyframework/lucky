@@ -1,8 +1,4 @@
-#! /bin/bash
-
-# Exit if any subcommand fails
-set -e
-set -o pipefail
+#!/bin/sh -eu
 
 if ! command -v docker-compose > /dev/null; then
     printf 'Docker and docker-compose are not installed.\n'
