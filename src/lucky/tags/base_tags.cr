@@ -1,6 +1,6 @@
 module Lucky::BaseTags
   include Lucky::CheckTagContent
-  TAGS             = %i(a address article aside b bdi body button code details dialog div dd dl dt em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header html i iframe label li main mark menuitem meter nav ol option option pre progress rp rt ruby s script section small span strong summary table tbody td textarea th thead time title tr u ul video wbr)
+  TAGS             = %i(a address article aside b bdi body button code details dialog div dd dl dt em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header html i iframe label li main mark menuitem meter nav ol option pre progress rp rt ruby s script section small span strong summary table tbody td textarea th thead time title tr u ul video wbr)
   RENAMED_TAGS     = {"para": "p", "select_tag": "select"}
   EMPTY_TAGS       = %i(img br hr input meta source)
   EMPTY_HTML_ATTRS = {} of String => String
