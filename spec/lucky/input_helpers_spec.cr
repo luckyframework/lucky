@@ -40,7 +40,7 @@ class InputTestForm
     Avram::PermittedAttribute(Time?).new(
       name: :joined_at,
       param: nil,
-      value: nil,
+      value: Time.utc(2016, 2, 15, 10, 20, 30),
       param_key: "user"
     )
   end
@@ -236,21 +236,29 @@ describe Lucky::InputHelpers do
 
   it "renders time inputs" do
     view.time_input(form.joined_at).to_s.should contain <<-HTML
-    <input type="time" id="user_joined_at" name="user:joined_at" value="">
+    <input type="time" id="user_joined_at" name="user:joined_at" value="10:20:30">
     HTML
 
     view.time_input(form.joined_at, min: "09:00", max: "18:00").to_s.should contain <<-HTML
-    <input type="time" id="user_joined_at" name="user:joined_at" value="" min="09:00" max="18:00">
+    <input type="time" id="user_joined_at" name="user:joined_at" value="10:20:30" min="09:00" max="18:00">
+    HTML
+
+    view.time_input(form.joined_at, attrs: [:required], min: "09:00", max: "18:00").to_s.should contain <<-HTML
+    <input type="time" id="user_joined_at" name="user:joined_at" value="10:20:30" min="09:00" max="18:00" required>
     HTML
   end
 
   it "renders date inputs" do
     view.date_input(form.joined_at).to_s.should contain <<-HTML
-    <input type="date" id="user_joined_at" name="user:joined_at" value="">
+    <input type="date" id="user_joined_at" name="user:joined_at" value="2016-02-15">
     HTML
 
     view.date_input(form.joined_at, min: "2019-01-01", max: "2019-12-31").to_s.should contain <<-HTML
-    <input type="date" id="user_joined_at" name="user:joined_at" value="" min="2019-01-01" max="2019-12-31">
+    <input type="date" id="user_joined_at" name="user:joined_at" value="2016-02-15" min="2019-01-01" max="2019-12-31">
+    HTML
+
+    view.date_input(form.joined_at, attrs: [:required], min: "2019-01-01", max: "2019-12-31").to_s.should contain <<-HTML
+    <input type="date" id="user_joined_at" name="user:joined_at" value="2016-02-15" min="2019-01-01" max="2019-12-31" required>
     HTML
   end
 end
