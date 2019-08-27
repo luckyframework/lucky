@@ -261,6 +261,20 @@ describe Lucky::InputHelpers do
     <input type="date" id="user_joined_at" name="user:joined_at" value="2016-02-15" min="2019-01-01" max="2019-12-31" required>
     HTML
   end
+
+  it "renders datetime-local inputs" do
+    view.datetime_input(form.joined_at).to_s.should contain <<-HTML
+    <input type="datetime-local" id="user_joined_at" name="user:joined_at" value="2016-02-15T10:20:30">
+    HTML
+
+    view.datetime_input(form.joined_at, min: "2019-01-01T00:00:00", max: "2019-12-31T23:59:59").to_s.should contain <<-HTML
+    <input type="datetime-local" id="user_joined_at" name="user:joined_at" value="2016-02-15T10:20:30" min="2019-01-01T00:00:00" max="2019-12-31T23:59:59">
+    HTML
+
+    view.datetime_input(form.joined_at, attrs: [:required], min: "2019-01-01T00:00:00", max: "2019-12-31T23:59:59").to_s.should contain <<-HTML
+    <input type="datetime-local" id="user_joined_at" name="user:joined_at" value="2016-02-15T10:20:30" min="2019-01-01T00:00:00" max="2019-12-31T23:59:59" required>
+    HTML
+  end
 end
 
 private def form

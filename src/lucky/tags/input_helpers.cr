@@ -130,6 +130,18 @@ module Lucky::InputHelpers
     generate_input(field, "date", html_options, input_overrides: {"value" => value}, attrs: attrs)
   end
 
+  generate_helpful_error_for datetime_input
+
+  def datetime_input(field : Avram::PermittedAttribute, **html_options)
+    value = field.value.try(&.to_s("%Y-%m-%dT%H:%M:%S")) || field.param.to_s
+    generate_input(field, "datetime-local", html_options, {"value" => value})
+  end
+
+  def datetime_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+    value = field.value.try(&.to_s("%Y-%m-%dT%H:%M:%S")) || field.param.to_s
+    generate_input(field, "datetime-local", html_options, input_overrides: {"value" => value}, attrs: attrs)
+  end
+
   private def generate_input(field,
                              type,
                              html_options,
