@@ -64,10 +64,23 @@ module Lucky::InputHelpers
   {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
     generate_helpful_error_for {{input_type.id}}_input
 
+    # Returns a {{ input_type.id }} input field.
+    #
+    # ```
+    # {{input_type.id}}_input(attribute)
+    # # => <input type="{{input_type.id}}" id="param_key_attribute_name" name="param_key:attribute_name" value="" />
+    # ```
     def {{input_type.id}}_input(field : Avram::PermittedAttribute, **html_options)
       generate_input(field, {{input_type}}, html_options)
     end
 
+    # Similar to {{input_type.id}}_input; this allows for Boolean attributes
+    # through `attrs`.
+    #
+    # ```
+    # {{input_type.id}}_input(attribute, attrs: [:required])
+    # # => <input type="{{input_type.id}}" id="param_key_attribute_name" name="param_key:attribute_name" value="" required />
+    # ```
     def {{input_type.id}}_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
       generate_input(field, {{input_type}}, html_options, attrs: attrs)
     end
@@ -91,6 +104,42 @@ module Lucky::InputHelpers
 
   def password_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
     generate_input(field, "password", html_options, {"value" => ""}, attrs)
+  end
+
+  generate_helpful_error_for time_input
+
+  def time_input(field : Avram::PermittedAttribute, **html_options)
+    value = field.value.try(&.to_s("%H:%M:%S")) || field.param.to_s
+    generate_input(field, "time", html_options, {"value" => value})
+  end
+
+  def time_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+    value = field.value.try(&.to_s("%H:%M:%S")) || field.param.to_s
+    generate_input(field, "time", html_options, input_overrides: {"value" => value}, attrs: attrs)
+  end
+
+  generate_helpful_error_for date_input
+
+  def date_input(field : Avram::PermittedAttribute, **html_options)
+    value = field.value.try(&.to_s("%Y-%m-%d")) || field.param.to_s
+    generate_input(field, "date", html_options, {"value" => value})
+  end
+
+  def date_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+    value = field.value.try(&.to_s("%Y-%m-%d")) || field.param.to_s
+    generate_input(field, "date", html_options, input_overrides: {"value" => value}, attrs: attrs)
+  end
+
+  generate_helpful_error_for datetime_input
+
+  def datetime_input(field : Avram::PermittedAttribute, **html_options)
+    value = field.value.try(&.to_s("%Y-%m-%dT%H:%M:%S")) || field.param.to_s
+    generate_input(field, "datetime-local", html_options, {"value" => value})
+  end
+
+  def datetime_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+    value = field.value.try(&.to_s("%Y-%m-%dT%H:%M:%S")) || field.param.to_s
+    generate_input(field, "datetime-local", html_options, input_overrides: {"value" => value}, attrs: attrs)
   end
 
   private def generate_input(field,

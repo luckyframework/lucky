@@ -35,6 +35,15 @@ class InputTestForm
       param_key: "user"
     )
   end
+
+  def joined_at
+    Avram::PermittedAttribute(Time?).new(
+      name: :joined_at,
+      param: nil,
+      value: Time.utc(2016, 2, 15, 10, 20, 30),
+      param_key: "user"
+    )
+  end
 end
 
 private class TestPage
@@ -222,6 +231,48 @@ describe Lucky::InputHelpers do
 
     view.textarea(form.first_name, rows: 5, cols: 15).to_s.should contain <<-HTML
     <textarea id="user_first_name" name="user:first_name" rows="5" cols="15">My name</textarea>
+    HTML
+  end
+
+  it "renders time inputs" do
+    view.time_input(form.joined_at).to_s.should contain <<-HTML
+    <input type="time" id="user_joined_at" name="user:joined_at" value="10:20:30">
+    HTML
+
+    view.time_input(form.joined_at, min: "09:00", max: "18:00").to_s.should contain <<-HTML
+    <input type="time" id="user_joined_at" name="user:joined_at" value="10:20:30" min="09:00" max="18:00">
+    HTML
+
+    view.time_input(form.joined_at, attrs: [:required], min: "09:00", max: "18:00").to_s.should contain <<-HTML
+    <input type="time" id="user_joined_at" name="user:joined_at" value="10:20:30" min="09:00" max="18:00" required>
+    HTML
+  end
+
+  it "renders date inputs" do
+    view.date_input(form.joined_at).to_s.should contain <<-HTML
+    <input type="date" id="user_joined_at" name="user:joined_at" value="2016-02-15">
+    HTML
+
+    view.date_input(form.joined_at, min: "2019-01-01", max: "2019-12-31").to_s.should contain <<-HTML
+    <input type="date" id="user_joined_at" name="user:joined_at" value="2016-02-15" min="2019-01-01" max="2019-12-31">
+    HTML
+
+    view.date_input(form.joined_at, attrs: [:required], min: "2019-01-01", max: "2019-12-31").to_s.should contain <<-HTML
+    <input type="date" id="user_joined_at" name="user:joined_at" value="2016-02-15" min="2019-01-01" max="2019-12-31" required>
+    HTML
+  end
+
+  it "renders datetime-local inputs" do
+    view.datetime_input(form.joined_at).to_s.should contain <<-HTML
+    <input type="datetime-local" id="user_joined_at" name="user:joined_at" value="2016-02-15T10:20:30">
+    HTML
+
+    view.datetime_input(form.joined_at, min: "2019-01-01T00:00:00", max: "2019-12-31T23:59:59").to_s.should contain <<-HTML
+    <input type="datetime-local" id="user_joined_at" name="user:joined_at" value="2016-02-15T10:20:30" min="2019-01-01T00:00:00" max="2019-12-31T23:59:59">
+    HTML
+
+    view.datetime_input(form.joined_at, attrs: [:required], min: "2019-01-01T00:00:00", max: "2019-12-31T23:59:59").to_s.should contain <<-HTML
+    <input type="datetime-local" id="user_joined_at" name="user:joined_at" value="2016-02-15T10:20:30" min="2019-01-01T00:00:00" max="2019-12-31T23:59:59" required>
     HTML
   end
 end
