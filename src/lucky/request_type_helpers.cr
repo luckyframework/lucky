@@ -10,11 +10,11 @@ module Lucky::RequestTypeHelpers
 
     Example of 'accepted_formats' (recommended):
 
-      abstract class BrowserAction < Lucky::Action
+      abstract class MyBaseAction < Lucky::Action
         accepted_formats [:html, :json], default: :html
       end
 
-    Example of 'default_format':
+    Example of 'default_format' (typically used only in Errors::Show):
 
       class Errors::Show < Lucky::ErrorAction
         default_format :html
