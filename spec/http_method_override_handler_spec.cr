@@ -9,7 +9,8 @@ describe Lucky::HttpMethodOverrideHandler do
       should_handle "POST", overridden_method: "", and_return: "POST"
     end
 
-    it "overrides when POST with overridden PUT or DELETE" do
+    it "overrides when POST with overridden PATCH, PUT or DELETE" do
+      should_handle "POST", overridden_method: "patch", and_return: "PATCH"
       should_handle "POST", overridden_method: "put", and_return: "PUT"
       should_handle "POST", overridden_method: "delete", and_return: "DELETE"
     end
