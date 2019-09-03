@@ -12,7 +12,7 @@ class Lucky::HttpMethodOverrideHandler
   end
 
   private def override_allowed?(context, http_method) : Bool
-    ["POST"].includes?(context.request.method) && ["PUT", "DELETE"].includes?(http_method)
+    ["POST"].includes?(context.request.method) && ["PATCH", "PUT", "DELETE"].includes?(http_method)
   end
 
   private def overridden_http_method(context) : String?
