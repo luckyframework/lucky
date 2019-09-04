@@ -5,6 +5,7 @@ describe Lucky::TextHelpers do
     it "pluralizes words" do
       view.pluralize(1, "count").should eq "1 count"
       view.pluralize(2, "count").should eq "2 counts"
+      view.pluralize(1000000000000, "count").should eq "1000000000000 counts"
       view.pluralize("1", "count").should eq "1 count"
       view.pluralize("2", "count").should eq "2 counts"
       view.pluralize("1,066", "count").should eq "1,066 counts"

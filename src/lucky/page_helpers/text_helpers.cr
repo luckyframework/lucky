@@ -86,7 +86,7 @@ module Lucky::TextHelpers
 
   # It pluralizes `singular` unless `count` is 1. You can specify the `plural` option
   # to override the chosen plural word.
-  def pluralize(count : Int32 | String | Nil, singular : String, plural = nil) : String
+  def pluralize(count : Int | String | Nil, singular : String, plural = nil) : String
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
              singular
            else
