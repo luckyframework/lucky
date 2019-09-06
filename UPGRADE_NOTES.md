@@ -271,6 +271,9 @@ end
   ```
 </details>
 
+- Update `sign_in_user.cr` to match [the new template](https://github.com/luckyframework/lucky_cli/blob/c45e1860751bba25a16120402f93e7537c0be5b5/src/base_authentication_app_skeleton/src/operations/sign_in_user.cr).
+- Rename the `FindAuthenticatable` mixin to `UserFromEmail`, again the Lucky CLI [template](https://github.com/luckyframework/lucky_cli/blob/c45e1860751bba25a16120402f93e7537c0be5b5/src/base_authentication_app_skeleton/src/operations/mixins/user_from_email.cr) is a helpful guide.
+
 ## Upgrading from 0.15 to 0.16
 
 - Upgrade to crystal 0.30.0
