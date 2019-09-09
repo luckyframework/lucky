@@ -12,7 +12,7 @@ abstract class Lucky::BaseHTTPClient
     @client = HTTP::Client.new(host, port: port)
   end
 
-  {% for method in [:get, :put, :patch, :post] %}
+  {% for method in [:get, :put, :patch, :post, :exec] %}
     def self.{{ method.id }}(*args, **named_args)
       new.{{ method.id }}(*args, **named_args)
     end
