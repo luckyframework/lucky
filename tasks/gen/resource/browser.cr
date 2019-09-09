@@ -50,8 +50,8 @@ class Gen::Resource::Browser < LuckyCli::Task
   private def migrate_contents : String
     String.build do |string|
       string << "create table_for(#{resource_name}) do\n"
-      string << "  primary_key id : Int64"
-      string << "  add_timestamps"
+      string << "  primary_key id : Int64\n"
+      string << "  add_timestamps\n"
       columns.each do |column|
         string << "  add #{column.name} : #{column.type}\n"
       end
