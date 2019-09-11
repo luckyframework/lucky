@@ -41,7 +41,22 @@ private class ActionWithUnrecognizedFormat < Lucky::Action
   property clients_desired_format : Symbol = :foo
 end
 
+private class ChildHtmlAction < ActionThatAcceptsHtml
+end
+
 describe Lucky::VerifyAcceptsFormat do
+  it "child inherits accepted_formats from parent" do
+    override_format ChildHtmlAction, :html do |action|
+      action.call.body.should eq("yay")
+    end
+
+    expect_raises Lucky::NotAcceptableError do
+      override_format ChildHtmlAction, :not_accepted do |action|
+        action.call
+      end
+    end
+  end
+
   it "lets the request through if the format is accepted" do
     override_format ActionThatAcceptsHtml, :html do |action|
       action.call.body.should eq("yay")

@@ -60,6 +60,9 @@ module Lucky::Routable
   # :nodoc:
   macro setup_call_method(body)
     def call
+      # Ensure clients_desired_format is cached by calling it
+      clients_desired_format
+
       %callback_result = run_before_callbacks
 
       %response = if %callback_result.is_a?(Lucky::Response)
