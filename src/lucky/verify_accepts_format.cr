@@ -3,8 +3,11 @@ module Lucky::VerifyAcceptsFormat
   abstract def clients_desired_format : Symbol
 
   macro included
-    class_property _accepted_formats = [] of Symbol
     before verify_accepted_format
+
+    def self._accepted_formats
+      [] of Symbol
+    end
   end
 
   # Set what formats the Action accepts.
@@ -56,7 +59,9 @@ module Lucky::VerifyAcceptsFormat
       {% formats.raise "#{@type} default format should be a symbol. Example: :html" %}
     {% end %}
 
-    self._accepted_formats = {{ formats }}
+    def self._accepted_formats
+      {{ formats }}
+    end
     default_format {{ default }}
   end
 
