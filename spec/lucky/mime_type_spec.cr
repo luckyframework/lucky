@@ -20,6 +20,11 @@ describe Lucky::MimeType do
       format.should eq(:json)
     end
 
+    it "returns the 'default_format' if the accept header accepts anything '*/*'" do
+      format = determine_format(default_format: :csv, "accept": "*/*")
+      format.should eq(:csv)
+    end
+
     it "returns :ajax if it is an AJAX request and no 'Accept' header is given" do
       format = determine_format("X-Requested-With": "XmlHttpRequest")
       format.should eq(:ajax)

@@ -66,9 +66,15 @@ class Lucky::MimeType
     end
 
     private def from_accept_header(accept : String) : Symbol?
-      Lucky::MimeType.accept_header_formats.find do |accept_header_substring, format|
-        accept.includes?(accept_header_substring)
-      end.try(&.[1])
+      # If the request accepts anything with no particular preference, return
+      # the default format
+      if accept == "*/*"
+        default_format
+      else
+        Lucky::MimeType.accept_header_formats.find do |accept_header_substring, format|
+          accept.includes?(accept_header_substring)
+        end.try(&.[1])
+      end
     end
 
     private def usable_accept_header? : Bool
