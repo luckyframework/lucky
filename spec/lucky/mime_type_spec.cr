@@ -20,7 +20,12 @@ describe Lucky::MimeType do
       format.should eq(:json)
     end
 
-    it "returns the 'default_format' if the accept header accepts anything '*/*'" do
+    it "returns 'nil' if there is a non-browser 'Accept' header, but Lucky doesn't understand it" do
+      format = determine_format("accept": "wut/is-this")
+      format.should be_nil
+    end
+
+    it "returns the 'default_format' if the 'Accept' header accepts anything '*/*'" do
       format = determine_format(default_format: :csv, "accept": "*/*")
       format.should eq(:csv)
     end
