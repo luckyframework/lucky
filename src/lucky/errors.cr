@@ -57,8 +57,8 @@ module Lucky
 
       Try this...
 
-        ▸ Add :#{format} to 'accepted_formats' in #{action_name}.
-        ▸ Make your request is using one of the accepted formats.
+        ▸ Add :#{format} to 'accepted_formats' in #{action_name} or its parent class.
+        ▸ Make your request using one of the accepted formats.
 
 
       TEXT
