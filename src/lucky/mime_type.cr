@@ -91,9 +91,10 @@ class Lucky::MimeType
       end
     end
 
-    # Browser typically send */* in their accept header
-    # This method checks for that so we can figure out if a browser is
-    # making the request.
+    # This checks if the "Accept" header is from a browser. Browsers typically
+    # include "*/*" along with other characters in the request's "Accept" header.
+    # This method handles those intricacies and determins if the header is from
+    # a browser.
     private def default_accept_header_that_browsers_send? : Bool
       accept = accept_header
 
