@@ -3,12 +3,6 @@ require "../spec_helper"
 include ContextHelper
 
 describe Lucky::MimeType do
-  describe "known_formats" do
-    it "returns :html even though there is no mapping" do
-      Lucky::MimeType.known_formats.should contain(:html)
-    end
-  end
-
   describe "determine_clients_desired_format" do
     it "returns the format for the 'Accept' header if it is an AJAX request" do
       format = determine_format("accept": "application/json", "X-Requested-With": "XmlHttpRequest")
