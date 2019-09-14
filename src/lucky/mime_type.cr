@@ -4,6 +4,7 @@ class Lucky::MimeType
   alias AcceptHeaderSubstring = String
   class_getter accept_header_formats = {} of AcceptHeaderSubstring => Format
 
+  register "text/html", :html
   register "application/json", :json
   register "text/json", :json
   register "application/jsonrequest", :json
@@ -25,7 +26,7 @@ class Lucky::MimeType
   end
 
   def self.known_formats : Array(Symbol)
-    (accept_header_formats.values + [:html]).uniq
+    accept_header_formats.values.uniq
   end
 
   def self.registered?(format : Symbol) : Bool
