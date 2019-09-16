@@ -12,12 +12,12 @@ private class InvalidParam < Lucky::Exceptions::InvalidParam
 end
 
 private class FakeErrorAction < Lucky::ErrorAction
-  def handle_error(error : FakeError) : Lucky::Response
+  def render(error : FakeError) : Lucky::Response
     head status: 404
   end
 
-  def handle_error(error : Exception) : Lucky::Response
-    plain_text "Oops"
+  def render(error : Exception) : Lucky::Response
+    plain_text "Oops", status: 500
   end
 end
 
@@ -29,7 +29,7 @@ describe Lucky::ErrorHandler do
     error_handler.call(build_context)
   end
 
-  it "handles the error with an overloaded 'handle_error' method if defined" do
+  it "handles the error with an overloaded 'render' method if defined" do
     error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
     error_handler.next = ->(_ctx : HTTP::Server::Context) { raise FakeError.new }
 
