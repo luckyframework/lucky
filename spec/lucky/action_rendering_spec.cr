@@ -15,13 +15,13 @@ end
 
 class Rendering::Index < TestAction
   route do
-    render title: "Anything", arg2: "testing multiple args"
+    html title: "Anything", arg2: "testing multiple args"
   end
 end
 
 class Namespaced::Rendering::Index < TestAction
   route do
-    render ::Rendering::IndexPage, title: "Anything", arg2: "testing multiple args"
+    html ::Rendering::IndexPage, title: "Anything", arg2: "testing multiple args"
   end
 end
 
