@@ -4,8 +4,11 @@ abstract class Lucky::ErrorAction
   include Lucky::ActionDelegates
   include Lucky::Renderable
   include Lucky::Redirectable
-  include Lucky::RequestTypeHelpers
   include Lucky::Exposable
+
+  macro inherited
+    include Lucky::RequestTypeHelpers
+  end
 
   getter context
 
@@ -19,8 +22,15 @@ abstract class Lucky::ErrorAction
   abstract def render(error : Exception) : Lucky::Response
 
   def perform_action(error : Exception)
+    # Always get the rendered error because it also includes the HTTP status.
+    # We need the HTTP status to use in the debug page.
     response = render(error)
     ensure_response_is_returned(response)
+
+    if html? && Lucky::ErrorHandler.settings.show_debug_output
+      response = render_exception_page(error, response.status)
+    end
+
     response.print
   end
 
@@ -43,5 +53,15 @@ abstract class Lucky::ErrorAction
         end
       ERROR
     %}
+  end
+
+  def render_exception_page(error : Exception, status : Int) : Lucky::Response
+    context.response.reset
+    Lucky::TextResponse.new(
+      context: context,
+      status: status,
+      content_type: "text/html",
+      body: Lucky::ExceptionPage.for_runtime_exception(context, error).to_s
+    )
   end
 end
