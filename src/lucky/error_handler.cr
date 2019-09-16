@@ -22,14 +22,4 @@ class Lucky::ErrorHandler
     action.new(context).perform_action(error)
     context
   end
-
-  def self.render_exception_page(context, error)
-    context.response.reset
-    Lucky::TextResponse.new(
-      context: context,
-      status: 500,
-      content_type: "text/html",
-      body: Lucky::ExceptionPage.for_runtime_exception(context, error).to_s
-    )
-  end
 end
