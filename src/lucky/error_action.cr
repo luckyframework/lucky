@@ -12,6 +12,20 @@ abstract class Lucky::ErrorAction
 
   getter context
 
+  def _dont_report
+    [] of Exception.class
+  end
+
+  macro dont_report(exception_classes)
+    {% if exception_classes.is_a?(ArrayLiteral) %}
+      def _dont_report
+        {{ exception_classes }} of Exception.class
+      end
+    {% else %}
+      {% exception_classes.raise "dont_report expects an array of Exception classes." %}
+    {% end %}
+  end
+
   def initialize(@context : HTTP::Server::Context)
   end
 
@@ -20,6 +34,7 @@ abstract class Lucky::ErrorAction
   class_getter _accepted_formats = [] of Symbol
 
   abstract def render(error : Exception) : Lucky::Response
+  abstract def report(error : Exception) : Nil
 
   def perform_action(error : Exception)
     # Always get the rendered error because it also includes the HTTP status.
@@ -32,6 +47,10 @@ abstract class Lucky::ErrorAction
     end
 
     response.print
+
+    if !_dont_report.includes?(error.class)
+      report(error)
+    end
   end
 
   private def ensure_response_is_returned(response : Lucky::Response) : Lucky::Response

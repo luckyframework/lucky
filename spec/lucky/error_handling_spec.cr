@@ -5,11 +5,20 @@ include ContextHelper
 private class CustomError < Exception
 end
 
+private class StealthError < Exception
+end
+
 private class UnhandledError < Exception
 end
 
-private class FakeErrorAction < Lucky::ErrorAction
+# Can't be private because if it is Crystal won't let us use temp_config
+class FakeErrorAction < Lucky::ErrorAction
   default_format :html
+  dont_report [StealthError]
+
+  Habitat.create do
+    setting output : IO = IO::Memory.new
+  end
 
   def render(error : CustomError) : Lucky::Response
     head status: 404
@@ -18,9 +27,33 @@ private class FakeErrorAction < Lucky::ErrorAction
   def render(error : Exception) : Lucky::Response
     plain_text "This is not a debug page", status: 500
   end
+
+  def report(error : Exception)
+    settings.output.print("Reported: #{error.class.name}")
+  end
 end
 
 describe "Error handling" do
+  describe "reporting" do
+    it "calls the report method on the error action" do
+      io = IO::Memory.new
+      FakeErrorAction.temp_config(output: io) do
+        handle_error(error: CustomError.new) do |_context, _output|
+          io.to_s.should eq("Reported: CustomError")
+        end
+      end
+    end
+
+    it "can skip reporting some errors" do
+      io = IO::Memory.new
+      FakeErrorAction.temp_config(output: io) do
+        handle_error(error: StealthError.new) do |_context, _output|
+          io.to_s.should eq("")
+        end
+      end
+    end
+  end
+
   describe "ErrorAction" do
     describe "show_debug_output setting is true" do
       it "renders debug output if request accepts HTML" do
