@@ -16,10 +16,10 @@ abstract class Lucky::ErrorAction
   # Accept all formats. ErrorAction should *always* work
   class_getter _accepted_formats = [] of Symbol
 
-  abstract def handle_error(error : Exception) : Lucky::Response
+  abstract def render(error : Exception) : Lucky::Response
 
   def perform_action(error : Exception)
-    response = handle_error(error)
+    response = render(error)
     ensure_response_is_returned(response)
     response.print
   end
@@ -30,11 +30,13 @@ abstract class Lucky::ErrorAction
 
   private def ensure_response_is_returned(response)
     {% raise <<-ERROR
-      You must return a Lucky::Response from handle_error. You can do that by using
-      head, render, redirect, json, text, etc.
+      You must return a Lucky::Response from 'render' in your error action.
+
+      You can do that by using head, render, redirect, json, text, etc.
 
       Example:
-        def handle_error(error : Exception) : Lucky::Response
+
+        def render(error : Exception) : Lucky::Response
           # Returns a Lucky::Response
           # Could also be render, json, text, etc.
           head status: 500
