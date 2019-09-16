@@ -56,10 +56,6 @@ module Lucky::Renderable
     )
   end
 
-  private def render(*args, **named_args)
-    {% raise "'render' in actions has been renamed to 'html'" %}
-  end
-
   macro validate_page_class!(page_class)
     {% if page_class && page_class.resolve? %}
       {% ancestors = page_class.resolve.ancestors %}
