@@ -3,11 +3,12 @@ class Lucky::ErrorHandler
 
   Habitat.create do
     setting show_debug_output : Bool
+    setting logger : ::Logger = Lucky.logger
   end
 
-  private getter action, error_io
+  private getter action
 
-  def initialize(@action : Lucky::ErrorAction.class, @error_io : IO = STDERR)
+  def initialize(@action : Lucky::ErrorAction.class)
   end
 
   def call(context : HTTP::Server::Context)
@@ -27,17 +28,8 @@ class Lucky::ErrorHandler
   end
 
   private def call_error_action(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
-    status_code = status_code_by_error(error)
-    context.response.status_code = status_code
+    settings.logger.error(exception: error.inspect_with_backtrace)
     action.new(context).perform_action(error)
     context
-  end
-
-  private def status_code_by_error(error : Lucky::HttpRespondable)
-    error.http_error_code
-  end
-
-  private def status_code_by_error(error : Exception)
-    HTTP::Status::INTERNAL_SERVER_ERROR.value
   end
 end
