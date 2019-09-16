@@ -55,7 +55,7 @@ module Lucky::ActionCallbacks
   # Run a method before an action is called
   #
   # Methods will run in the order that each `before` is defined. Also, each
-  # method must return a `Lucky::Response` like `redirect`, `render`, `json`,
+  # method must return a `Lucky::Response` like `redirect`, `html`, `json`,
   # etc, or call `continue`:
   #
   # ```crystal
@@ -90,7 +90,7 @@ module Lucky::ActionCallbacks
   # `after` isn't as common as `before` but can still be useful. One example
   # would be to log a successful transaction to analytics. Methods will run in
   # the order that each `after` is defined. Also, each method must return
-  # either a `Lucky::Response` like `redirect`, `render`, `json`, etc, or call
+  # either a `Lucky::Response` like `redirect`, `html`, `json`, etc, or call
   # `continue`:
   #
   # ```crystal
@@ -119,7 +119,7 @@ module Lucky::ActionCallbacks
       callback_result = {{ callback_method }}
       ensure_callbacks_return_response_or_continue(callback_result)
       # Callback {{ callback_method }} should return a Lucky::Response or Lucky::ActionCallbacks::Continue
-      # Do this by using `continue` or one of rendering methods like `render` or `redirect`
+      # Do this by using `continue` or one of rendering methods like `html` or `redirect`
       #
       #   def {{ callback_method }}
       #     cookies["name"] = "John"
@@ -144,7 +144,7 @@ module Lucky::ActionCallbacks
 
       ensure_callbacks_return_response_or_continue(callback_result)
       # Callback {{ callback_method }} should return a Lucky::Response or Lucky::ActionCallbacks::Continue
-      # Do this by using `continue` or one of rendering methods like `render` or `redirect`
+      # Do this by using `continue` or one of rendering methods like `html` or `redirect`
       #
       #   def {{ callback_method }}
       #     cookies["name"] = "John"

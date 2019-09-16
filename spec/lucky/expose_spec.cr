@@ -6,8 +6,7 @@ class OnlyExpose < TestAction
   expose :name
 
   get "/expose" do
-    render
-    render OnlyExposePage
+    html OnlyExposePage
   end
 
   def name
@@ -44,8 +43,8 @@ class MultipleExposeAndAssigns < InheritedExposureAction
   expose :expose_three
 
   get "/mutli-expose" do
-    render arg1: "arg1", arg2: "arg2"
-    render MultipleExposeAndAssignsPage, arg1: "arg1", arg2: "arg2"
+    html arg1: "arg1", arg2: "arg2"
+    html MultipleExposeAndAssignsPage, arg1: "arg1", arg2: "arg2"
   end
 
   def expose_three

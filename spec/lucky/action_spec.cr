@@ -54,7 +54,7 @@ end
 
 class Tests::Index < TestAction
   route do
-    render
+    html
   end
 end
 

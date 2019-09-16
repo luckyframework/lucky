@@ -38,13 +38,13 @@ module Lucky::Exposable
   # ```
   # class Messages::Index < BrowserAction
   #   route do
-  #     render IndexPage, current_user: current_user
+  #     html IndexPage, current_user: current_user
   #   end
   # end
   #
   # class Messages::New < BrowserAction
   #   route do
-  #     render NewPage, current_user: current_user
+  #     html NewPage, current_user: current_user
   #   end
   # end
   # ```
@@ -68,13 +68,13 @@ module Lucky::Exposable
   # ```
   # class Messages::Index < BrowserAction
   #   route do
-  #     render IndexPage
+  #     html IndexPage
   #   end
   # end
   #
   # class Messages::New < BrowserAction
   #   route do
-  #     render NewPage
+  #     html NewPage
   #   end
   # end
   # ```
@@ -88,7 +88,7 @@ module Lucky::Exposable
   #   expose message
   #
   #   route do
-  #     render ShowPage
+  #     html ShowPage
   #   end
   #
   #   private def message
@@ -102,7 +102,7 @@ module Lucky::Exposable
   #
   # ```
   # route do
-  #   render ShowPage, message: message
+  #   html ShowPage, message: message
   # end
   # ```
   macro expose(method_name)

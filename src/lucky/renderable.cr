@@ -1,9 +1,9 @@
 module Lucky::Renderable
   # Render a page and pass it data
   #
-  # `render` is used to pass data to a page. Each key/value pair must match up
-  # with each `needs` declarations for that page. For example, if we have a
-  # page like this:
+  # `html` is used to pass data to a page and render it. Each key/value pair
+  # must match up with each `needs` declarations for that page. For example, if
+  # we have a page like this:
   #
   # ```crystal
   # class Users::IndexPage < MainLayout
@@ -17,12 +17,12 @@ module Lucky::Renderable
   # end
   # ```
   #
-  # Our action must pass a `users` key to the `render` method like this:
+  # Our action must pass a `users` key to the `html` method like this:
   #
   # ```crystal
   # class Users::Index < BrowserAction
   #   route do
-  #     render IndexPage, users: UserQuery.new
+  #     html IndexPage, users: UserQuery.new
   #   end
   # end
   # ```
@@ -43,7 +43,7 @@ module Lucky::Renderable
   #   end
   # end
   # ```
-  macro render(page_class = nil, **assigns)
+  macro html(page_class = nil, **assigns)
     validate_page_class!({{ page_class }})
 
     render_html_page(
@@ -54,6 +54,10 @@ module Lucky::Renderable
         {{ assigns }}
       {% end %}
     )
+  end
+
+  private def render(*args, **named_args)
+    {% raise "'render' in actions has been renamed to 'html'" %}
   end
 
   macro validate_page_class!(page_class)
