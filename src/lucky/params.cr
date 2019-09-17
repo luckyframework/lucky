@@ -27,14 +27,14 @@ class Lucky::Params
 
   # Retrieve a value from the params hash, raise if key is absent
   #
-  # If no key is found a `Lucky::MissingParam` will be raised:
+  # If no key is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
   # params.get("page")    # 1 : String
   # params.get("missing") # Missing parameter: missing
   # ```
   def get(key) : String
-    get?(key) || raise Lucky::MissingParam.new(key.to_s)
+    get?(key) || raise Lucky::MissingParamError.new(key.to_s)
   end
 
   # Retrieve a value from the params hash, return nil if key is absent
@@ -49,14 +49,14 @@ class Lucky::Params
 
   # Retrieve a file from the params hash, raise if key is absent
   #
-  # If no key is found a `Lucky::MissingParam` will be raised:
+  # If no key is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
   # params.get("avatar_file") # Lucky::UploadedFile
   # params.get("missing")     # Missing parameter: missing
   # ```
   def get_file(key) : Lucky::UploadedFile
-    get_file?(key) || raise Lucky::MissingParam.new(key.to_s)
+    get_file?(key) || raise Lucky::MissingParamError.new(key.to_s)
   end
 
   # Retrieve a file from the params hash, return nil if key is absent
@@ -72,7 +72,7 @@ class Lucky::Params
   # Retrieve a nested value from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
-  # is found a `Lucky::MissingParam` will be raised:
+  # is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
   # body = "user:name=Alesia&user:age=35&page=1"
@@ -85,7 +85,7 @@ class Lucky::Params
   def nested(nested_key : String | Symbol) : Hash(String, String)
     nested_params = nested?(nested_key)
     if nested_params.keys.empty?
-      raise Lucky::MissingNestedParam.new nested_key
+      raise Lucky::MissingNestedParamError.new nested_key
     else
       nested_params
     end
@@ -115,7 +115,7 @@ class Lucky::Params
   # Retrieve a nested file from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
-  # is found a `Lucky::MissingParam` will be raised:
+  # is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
   # params.nested_file?("file")    # Lucky::UploadedFile
@@ -124,7 +124,7 @@ class Lucky::Params
   def nested_file(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)
     nested_file_params = nested_file?(nested_key)
     if nested_file_params.keys.empty?
-      raise Lucky::MissingNestedParam.new nested_key
+      raise Lucky::MissingNestedParamError.new nested_key
     else
       nested_file_params
     end
@@ -146,7 +146,7 @@ class Lucky::Params
   # Retrieve nested values from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
-  # is found a `Lucky::MissingParam` will be raised:
+  # is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
   # body = "users[0]:name=Alesia&users[0]:age=35&users[1]:name=Bob&users[1]:age=40&page=1"
@@ -160,7 +160,7 @@ class Lucky::Params
   def many_nested(nested_key : String | Symbol) : Array(Hash(String, String))
     nested_params = many_nested?(nested_key)
     if nested_params.empty?
-      raise Lucky::MissingNestedParam.new nested_key
+      raise Lucky::MissingNestedParamError.new nested_key
     else
       nested_params
     end

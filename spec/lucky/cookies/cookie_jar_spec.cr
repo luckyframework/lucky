@@ -99,7 +99,7 @@ describe Lucky::CookieJar do
     end
 
     it "raises an error if the cookie is > 4096 bytes" do
-      expect_raises(Lucky::CookieOverflow) do
+      expect_raises(Lucky::CookieOverflowError) do
         jar = Lucky::CookieJar.empty_jar
         jar.set_raw(:overflow, "x" * (4097 - 27)) # "overflow=x...x; path=/; HttpOnly",
       end

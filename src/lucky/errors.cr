@@ -96,16 +96,16 @@ module Lucky
   end
 
   # Raised when storing more than 4K of session data.
-  class CookieOverflow < Error
+  class CookieOverflowError < Error
   end
 
-  class InvalidSignature < Error
+  class InvalidSignatureError < Error
   end
 
-  class InvalidMessage < Error
+  class InvalidMessageError < Error
   end
 
-  class InvalidParam < Error
+  class InvalidParamError < Error
     include Lucky::RenderableError
 
     getter :param_name, :param_value, :param_type
@@ -126,7 +126,7 @@ module Lucky
     end
   end
 
-  class MissingParam < Error
+  class MissingParamError < Error
     include Lucky::RenderableError
 
     getter :param_name
@@ -147,7 +147,7 @@ module Lucky
     end
   end
 
-  class MissingNestedParam < Error
+  class MissingNestedParamError < Error
     include Lucky::RenderableError
 
     getter :nested_key
@@ -168,7 +168,7 @@ module Lucky
     end
   end
 
-  class MissingFile < Error
+  class MissingFileError < Error
     getter :path
 
     def initialize(@path : String)
@@ -179,7 +179,7 @@ module Lucky
     end
   end
 
-  class InvalidFlashJSON < Error
+  class InvalidFlashJSONError < Error
     getter bad_json
 
     def initialize(@bad_json : String?)

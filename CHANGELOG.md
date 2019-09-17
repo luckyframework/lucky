@@ -49,7 +49,7 @@
 ### v0.15 (2019-06-12)
 
 - Removed `Lucky::Action::Status`. Use Crystal's `HTTP::Status` enum. [#769](https://github.com/luckyframework/lucky/pull/769)
-- CookieOverflow is now checked when the cookie is set instead of later in middleware. [#761](https://github.com/luckyframework/lucky/pull/761)
+- CookieOverflowError is now checked when the cookie is set instead of later in middleware. [#761](https://github.com/luckyframework/lucky/pull/761)
 - Crystal 0.29.0 support added
 - Rename `Lucky::BaseApp` to `Lucky::BaseAppServer`
 - Rename `Sentry` to `LuckySentry`

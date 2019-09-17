@@ -130,7 +130,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises Lucky::MissingParam do
+      expect_raises Lucky::MissingParamError do
         params.get(:missing)
       end
     end
@@ -235,7 +235,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises Lucky::MissingNestedParam do
+      expect_raises Lucky::MissingNestedParamError do
         params.nested(:missing)
       end
     end
@@ -284,7 +284,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises Lucky::MissingParam do
+      expect_raises Lucky::MissingParamError do
         params.get_file(:missing)
       end
     end
@@ -317,7 +317,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises Lucky::MissingNestedParam do
+      expect_raises Lucky::MissingNestedParamError do
         params.nested_file(:missing)
       end
     end
@@ -443,7 +443,7 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      expect_raises Lucky::MissingNestedParam do
+      expect_raises Lucky::MissingNestedParamError do
         params.many_nested(:missing)
       end
     end
