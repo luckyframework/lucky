@@ -6,7 +6,7 @@ class <%= pluralized_resource %>::Create < BrowserAction
         redirect Show.with(<%= underscored_resource %>.id)
       else
         flash.failure = "It looks like the form is not valid"
-        render NewPage, form: form
+        html NewPage, form: form
       end
     end
   end

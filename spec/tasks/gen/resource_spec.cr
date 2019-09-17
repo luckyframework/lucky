@@ -18,7 +18,7 @@ describe Gen::Action do
           "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
           "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
         should_create_files_with_contents io,
-          "./src/actions/users/show.cr": "render ShowPage, user: UserQuery.find(user_id)",
+          "./src/actions/users/show.cr": "html ShowPage, user: UserQuery.find(user_id)",
           "./src/actions/users/edit.cr": "user = UserQuery.find(user_id)",
           "./src/actions/users/update.cr": "user = UserQuery.find(user_id)",
           "./src/actions/users/delete.cr": "UserQuery.find(user_id).delete"
