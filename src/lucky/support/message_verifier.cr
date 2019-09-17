@@ -21,7 +21,7 @@ module Lucky
     end
 
     def verify(signed_message) : String
-      verified(signed_message) || raise(Exceptions::InvalidSignature.new)
+      verified(signed_message) || raise(InvalidSignature.new)
     end
 
     def verify_raw(signed_message : String) : Bytes
@@ -29,7 +29,7 @@ module Lucky
       if valid_message?(data, digest)
         decode(data)
       else
-        raise(Exceptions::InvalidSignature.new)
+        raise(InvalidSignature.new)
       end
     end
 

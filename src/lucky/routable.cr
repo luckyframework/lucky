@@ -324,11 +324,11 @@ module Lucky::Routable
   # `param page : Int32 = 1` will only generate `/posts`.
   #
   # These parameters are also typed. The path `/posts?page=ten` will raise a
-  # `Lucky::Exceptions::InvalidParam` error because `ten` is a String not an
+  # `Lucky::InvalidParam` error because `ten` is a String not an
   # Int32.
   #
   # Additionally, if the param is non-optional it will raise the
-  # `Lucky::Exceptions::MissingParam` error if the required param is absent
+  # `Lucky::MissingParam` error if the required param is absent
   # when making a request:
   #
   # ```
@@ -358,7 +358,7 @@ module Lucky::Routable
           return default_or_nil
         {% else %}
           return default_or_nil ||
-            raise Lucky::Exceptions::MissingParam.new("{{ type_declaration.var.id }}")
+            raise Lucky::MissingParam.new("{{ type_declaration.var.id }}")
         {% end %}
       end
 
@@ -367,7 +367,7 @@ module Lucky::Routable
       if result.is_a? {{ type }}::Lucky::SuccessfulCast
         result.value
       else
-        raise Lucky::Exceptions::InvalidParam.new(
+        raise Lucky::InvalidParam.new(
           param_name: "{{ type_declaration.var.id }}",
           param_value: val.to_s,
           param_type: "{{ type }}"
