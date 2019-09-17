@@ -21,7 +21,7 @@ describe Lucky::FlashStore do
       not_valid_json=invalid
       MESSAGE
 
-      expect_raises(Lucky::InvalidFlashJSON, message) do
+      expect_raises(Lucky::InvalidFlashJSONError, message) do
         Lucky::FlashStore.from_session context.session
       end
     end

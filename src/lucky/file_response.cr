@@ -53,7 +53,7 @@ class Lucky::FileResponse < Lucky::Response
   end
 
   def print
-    raise Lucky::MissingFile.new(path) unless file_exists?
+    raise Lucky::MissingFileError.new(path) unless file_exists?
 
     set_response_headers
     context.response.status_code = status

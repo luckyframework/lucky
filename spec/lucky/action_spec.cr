@@ -245,7 +245,7 @@ describe Lucky::Action do
 
     it "raises for missing required params" do
       action = RequiredParams::Index.new(build_context(path: ""), params)
-      expect_raises(Lucky::MissingParam) { action.required_page }
+      expect_raises(Lucky::MissingParamError) { action.required_page }
     end
 
     it "can inherit params" do
@@ -312,13 +312,13 @@ describe Lucky::Action do
     end
 
     it "raises when the optional param cannot be parsed into the desired type" do
-      expect_raises Lucky::InvalidParam do
+      expect_raises Lucky::InvalidParamError do
         OptionalParams::Index.new(build_context(path: "/?page=no_int"), params()).call
       end
     end
 
     it "raises when we cannot parse the non-optional param into the desired type" do
-      expect_raises Lucky::InvalidParam, "Required param \"with_int_never_nil\" with value \"no_int\" couldn't be parsed to a \"Int32\"" do
+      expect_raises Lucky::InvalidParamError, "Required param \"with_int_never_nil\" with value \"no_int\" couldn't be parsed to a \"Int32\"" do
         OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=no_int"), params()).call
       end
     end
