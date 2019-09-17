@@ -71,7 +71,7 @@ module Lucky
 
     getter request
 
-    def initialize(action_name : String, format : Symbol, accepted_formats : Array(Symbol))
+    def initialize(@request : HTTP::Request, action_name : String, format : Symbol, accepted_formats : Array(Symbol))
       super <<-TEXT
       The request wants :#{format}, but #{action_name} does not accept it.
 
@@ -114,7 +114,7 @@ module Lucky
     end
 
     def message : String?
-      "Required param \"#{param_name}\" with value \"#{param_value}\" couldn't be parsed to a \"#{param_type}\""
+      "Required param '#{param_name}' with value '#{param_value}' couldn't be parsed to a '#{param_type}'"
     end
 
     def renderable_status : Int32
@@ -122,7 +122,7 @@ module Lucky
     end
 
     def renderable_message
-      "Required param \"#{param_name}\" with value \"#{param_value}\" couldn't be parsed to a \"#{param_type}\""
+      message
     end
   end
 
@@ -156,7 +156,7 @@ module Lucky
     end
 
     def message : String
-      "Missing param key: #{nested_key}"
+      "Missing param key: '#{nested_key}'"
     end
 
     def renderable_status
@@ -164,7 +164,7 @@ module Lucky
     end
 
     def renderable_message
-      "Missing param key: '#{nested_key}'"
+      message
     end
   end
 
