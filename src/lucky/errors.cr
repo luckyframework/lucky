@@ -143,7 +143,7 @@ module Lucky
     end
 
     def renderable_message
-      messagee
+      message
     end
   end
 
