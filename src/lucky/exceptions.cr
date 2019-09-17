@@ -24,7 +24,7 @@ module Lucky
         "Required param \"#{param_name}\" with value \"#{param_value}\" couldn't be parsed to a \"#{param_type}\""
       end
 
-      def http_status : Int32
+      def renderable_status : Int32
         HTTP::Status::UNPROCESSABLE_ENTITY.value
       end
 
