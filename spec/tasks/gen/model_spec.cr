@@ -42,4 +42,13 @@ describe Gen::Model do
       io.to_s.should contain("Model name should be camel case")
     end
   end
+
+  it "displays an error if the name contains weird characters" do
+    with_cleanup do
+      io = IO::Memory.new
+      ARGV.push(":-)sillyame")
+      Gen::Model.new.call(io)
+      io.to_s.should contain("Model name should only contain letters")
+    end
+  end
 end
