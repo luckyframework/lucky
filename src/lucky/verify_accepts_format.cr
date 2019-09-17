@@ -72,6 +72,7 @@ module Lucky::VerifyAcceptsFormat
       continue
     else
       raise Lucky::NotAcceptableError.new(
+        request: request,
         action_name: self.class.name,
         format: clients_desired_format,
         accepted_formats: self.class._accepted_formats
