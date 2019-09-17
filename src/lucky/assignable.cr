@@ -1,6 +1,9 @@
 module Lucky::Assignable
   macro needs(*type_declarations)
     {% for declaration in type_declarations %}
+      {% unless declaration.is_a?(TypeDeclaration) %}
+        {% raise "needs expected a type declaration like 'name : String', instead got: '#{declaration}'" %}
+      {% end %}
       {% ASSIGNS << declaration %}
     {% end %}
   end
