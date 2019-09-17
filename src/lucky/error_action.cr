@@ -33,13 +33,13 @@ abstract class Lucky::ErrorAction
   # Accept all formats. ErrorAction should *always* work
   class_getter _accepted_formats = [] of Symbol
 
-  abstract def render(error : Exception) : Lucky::Response
+  abstract def default_render(error : Exception) : Lucky::Response
   abstract def report(error : Exception) : Nil
 
   def perform_action(error : Exception)
     # Always get the rendered error because it also includes the HTTP status.
     # We need the HTTP status to use in the debug page.
-    response = render(error)
+    response = render(error) || default_render(error)
     ensure_response_is_returned(response)
 
     if html? && Lucky::ErrorHandler.settings.show_debug_output
@@ -51,6 +51,9 @@ abstract class Lucky::ErrorAction
     if !_dont_report.includes?(error.class)
       report(error)
     end
+  end
+
+  private def render(error : Exception) : Nil
   end
 
   private def ensure_response_is_returned(response : Lucky::Response) : Lucky::Response

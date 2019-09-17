@@ -24,7 +24,7 @@ class FakeErrorAction < Lucky::ErrorAction
     head status: 404
   end
 
-  def render(error : Exception) : Lucky::Response
+  def default_render(error : Exception) : Lucky::Response
     plain_text "This is not a debug page", status: 500
   end
 
@@ -108,7 +108,7 @@ describe "Error handling" do
       end
     end
 
-    it "falls back to generic error handling if there are no custom error handlers" do
+    it "falls back to 'default_render' if there is no 'render' method for the exception" do
       handle_error(error: UnhandledError.new) do |context, output|
         output.should contain("This is not a debug page")
         context.response.headers["Content-Type"].should eq("text/plain")

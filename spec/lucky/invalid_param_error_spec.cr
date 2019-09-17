@@ -8,6 +8,6 @@ describe Lucky::Exceptions::InvalidParam do
       param_type: "Int32")
     error.should be_a(Lucky::RenderableError)
     error.renderable_message.should contain("couldn't be parsed")
-    error.http_status.should eq 422
+    error.renderable_status.should eq 422
   end
 end
