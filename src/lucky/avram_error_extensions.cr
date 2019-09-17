@@ -5,15 +5,15 @@ class Avram::InvalidOperationError
     400
   end
 
-  def renderable_message
+  def renderable_message : String
     "Invalid params"
   end
 
-  def renderable_details
+  def renderable_details : String
     "#{invalid_attribute_name} #{validation_messages.first}"
   end
 
-  private def invalid_attribute_name
+  def invalid_attribute_name : String
     invalid_attribute[0].to_s
   end
 
