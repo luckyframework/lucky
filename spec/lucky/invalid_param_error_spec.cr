@@ -1,8 +1,8 @@
 require "../spec_helper"
 
-describe Lucky::Exceptions::InvalidParam do
+describe Lucky::InvalidParam do
   it "responds with a custom HTTP code" do
-    error = Lucky::Exceptions::InvalidParam.new(
+    error = Lucky::InvalidParam.new(
       param_name: "page",
       param_value: "select%201+1",
       param_type: "Int32")

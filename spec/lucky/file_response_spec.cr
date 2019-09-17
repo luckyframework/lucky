@@ -8,7 +8,7 @@ describe Lucky::FileResponse do
       it "raises an exception" do
         context = build_context
 
-        expect_raises Lucky::Exceptions::MissingFile, /^Cannot read file/ do
+        expect_raises Lucky::MissingFile, /^Cannot read file/ do
           print_file_response(context, file: "nope")
         end
       end
