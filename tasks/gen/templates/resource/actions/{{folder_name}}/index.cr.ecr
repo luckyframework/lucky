@@ -1,5 +1,5 @@
 class <%= pluralized_resource %>::Index < BrowserAction
   route do
-    render IndexPage, <%= pluralized_resource.underscore %>: <%= query_class %>.new
+    html IndexPage, <%= pluralized_resource.underscore %>: <%= query_class %>.new
   end
 end
