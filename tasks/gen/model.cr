@@ -44,7 +44,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def valid?
-    model_name_is_present && model_name_is_camelcase
+    model_name_is_present && model_name_is_camelcase && model_name_matches_format
   end
 
   private def model_name_is_present
@@ -55,6 +55,12 @@ class Gen::Model < LuckyCli::Task
   private def model_name_is_camelcase
     @error = "Model name should be camel case. Example: lucky gen.model #{model_name.camelcase}"
     model_name.camelcase == model_name
+  end
+
+  private def model_name_matches_format
+    formatted = model_name.gsub(/[^\w]/, "")
+    @error = "Model name should only contain letters. Example: lucky gen.model #{formatted}"
+    model_name == formatted
   end
 
   private def template
