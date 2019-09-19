@@ -128,6 +128,33 @@ private def test_server_port
   6226
 end
 
-at_exit do
-  server.close
-end
+# There is no hook for after the specs.
+# As a workaround we can just let the server be closed when the program finished
+# or monkey match Spec.run
+#
+# at_exit do
+#   server.close
+# end
+
+# monkey patch that requires renaminc server variable to SERVER constant
+#
+# private def spec_after_all
+#   puts "spec_after_all"
+#   SERVER.close
+# end
+
+# module Spec
+#   def self.run
+#     start_time = Time.monotonic
+
+#     at_exit do
+#       run_filters
+#       root_context.run
+#     ensure
+#       spec_after_all
+#       elapsed_time = Time.monotonic - start_time
+#       root_context.finish(elapsed_time, @@aborted)
+#       exit 1 unless root_context.succeeded && !@@aborted
+#     end
+#   end
+# end
