@@ -1,7 +1,7 @@
 class Avram::InvalidOperationError
   include Lucky::RenderableError
 
-  def renderable_status
+  def renderable_status : Int32
     400
   end
 

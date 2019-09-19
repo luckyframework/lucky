@@ -16,7 +16,7 @@ class Lucky::TextResponse < Lucky::Response
     context.response.print body
   end
 
-  def status
+  def status : Int
     @status || context.response.status_code || DEFAULT_STATUS
   end
 end
