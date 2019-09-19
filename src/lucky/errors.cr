@@ -23,11 +23,11 @@ module Lucky
       super "Failed to parse the request parameters."
     end
 
-    def renderable_status
+    def renderable_status : Int32
       400
     end
 
-    def renderable_message
+    def renderable_message : String
       "There was a problem parsing the JSON params. Please check that it is formed correctly."
     end
   end
@@ -57,11 +57,11 @@ module Lucky
       TEXT
     end
 
-    def renderable_status
+    def renderable_status : Int32
       406
     end
 
-    def renderable_message
+    def renderable_message : String
       "Unrecognized Accept header '#{request.headers["Accept"]?}'."
     end
   end
@@ -86,11 +86,11 @@ module Lucky
       TEXT
     end
 
-    def renderable_status
+    def renderable_status : Int32
       406
     end
 
-    def renderable_message
+    def renderable_message : String
       "Accept header '#{request.headers["Accept"]?}' is not accepted."
     end
   end
@@ -121,7 +121,7 @@ module Lucky
       HTTP::Status::UNPROCESSABLE_ENTITY.value
     end
 
-    def renderable_message
+    def renderable_message : String
       message
     end
   end
@@ -138,11 +138,11 @@ module Lucky
       "Missing parameter: '#{param_name}''"
     end
 
-    def renderable_status
+    def renderable_status : Int32
       400
     end
 
-    def renderable_message
+    def renderable_message : String
       message
     end
   end
@@ -159,11 +159,11 @@ module Lucky
       "Missing param key: '#{nested_key}'"
     end
 
-    def renderable_status
+    def renderable_status : Int32
       400
     end
 
-    def renderable_message
+    def renderable_message : String
       message
     end
   end

@@ -60,7 +60,7 @@ class Lucky::FileResponse < Lucky::Response
     File.open(full_path) { |file| IO.copy(file, context.response) }
   end
 
-  def status
+  def status : Int
     @status || context.response.status_code || DEFAULT_STATUS
   end
 
