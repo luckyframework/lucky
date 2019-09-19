@@ -28,7 +28,7 @@ class FakeErrorAction < Lucky::ErrorAction
     plain_text "This is not a debug page", status: 500
   end
 
-  def report(error : Exception)
+  def report(error : Exception) : Nil
     settings.output.print("Reported: #{error.class.name}")
   end
 end
