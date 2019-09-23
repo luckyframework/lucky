@@ -88,9 +88,44 @@
   end
   ```
 </details>
+- Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single file now.
+<details>
+  <summary>src/serializers/</summary>
+  ```crystal
+  # Merge these two classes
+  class Users::IndexSerializer < Lucky::Serializer
+  end
+
+  class Users::ShowSerializers < Lucky::Serializer
+  end
+
+  # in to this class
+  class UserSerializer < BaseSerializer
+    # Same contents as Users::ShowSerializer
+    # Calls to Users::IndexSerializer now become
+    # UserSerializer.for_collection(users)
+  end
+  ```
+</details>
 - Rename: `Errors::ShowSerializer` to `ErrorSerializer`
 - Update: `ErrorSerializer` to inherit from the new `BaseSerializer`
+- Update: `ErrorSerializer` contents with
+```crystal
+class ErrorSerializer < BaseSerializer
+  def initialize(
+    @message : String,
+    @details : String? = nil,
+    @param : String? = nil # If there was a problem with a specific param
+  )
+  end
+
+  def render
+    {message: @message, param: @param, details: @details}
+  end
+end
+```
 - Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
+- Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248).
 
 ## Upgrading from 0.16 to 0.17
 
