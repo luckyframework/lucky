@@ -227,7 +227,7 @@ class Watch < LuckyCli::Task
   end
 
   private def parse_options
-    OptionParser.parse! do |parser|
+    OptionParser.parse do |parser|
       parser.banner = "Usage: lucky watch [arguments]"
       parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
         @reload_browser = true

@@ -1,7 +1,7 @@
 name: lucky
-version: 0.17.0
+version: 0.18.0
 
-crystal: 0.30.0
+crystal: 0.31.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.17.0
+    tag: v0.18.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.0
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    version: ~> 0.11.0
+    tag: v0.12.0-rc1
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0

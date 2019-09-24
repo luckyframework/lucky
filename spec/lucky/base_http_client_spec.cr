@@ -4,6 +4,7 @@ server = TestServer.new(6226)
 
 spawn do
   server.listen
+  # The server will be closed when all specs complete
 end
 
 Spec.before_each do
@@ -60,8 +61,4 @@ describe Lucky::BaseHTTPClient do
     end
 
   {% end %}
-end
-
-at_exit do
-  server.close
 end
