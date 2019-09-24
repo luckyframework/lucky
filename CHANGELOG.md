@@ -1,4 +1,4 @@
-### Changes in 0.18
+### Changes in 0.19
 
 - Fixed: how accept / content-type headers are handled [#869](https://github.com/luckyframework/lucky/pull/869)
 - Added: `ParamParsingError` for when parsing JSON params fails [#874](https://github.com/luckyframework/lucky/pull/874)
@@ -31,6 +31,9 @@
 - Updated: webpack to ignore `node_modules` directory [see LuckyCli](https://github.com/luckyframework/lucky_cli/pull/401)
 - Added: support for `browser_binary` in LuckyFlow [see LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/59)
 
+### v0.18 (2019-09-??)
+
+- Added: support for Crystal 0.31.0
 
 ### v0.17 (2019-08-13)
 
