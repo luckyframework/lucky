@@ -14,7 +14,7 @@ class Lucky::ComponentTemplate < Teeplate::FileTree
 end
 
 class Gen::Component < LuckyCli::Task
-  summary "Generate a new component"
+  summary "Generate a new HTML component"
 
   def call(io : IO = STDOUT)
     if error
@@ -23,6 +23,16 @@ class Gen::Component < LuckyCli::Task
       Lucky::ComponentTemplate.new(component_filename, component_class).render(output_path)
       io.puts success_message
     end
+  end
+
+  def help_message
+    <<-TEXT
+    #{summary}
+
+    Example:
+
+      lucky gen.component SettingsMenu
+    TEXT
   end
 
   private def error

@@ -18,6 +18,16 @@ class Gen::Model < LuckyCli::Task
     end
   end
 
+  def help_message
+    <<-TEXT
+    #{summary}
+
+    Example:
+
+      lucky gen.model Project
+    TEXT
+  end
+
   def create_migration
     Avram::Migrator::MigrationGenerator.new(
       "Create#{pluralized_model_name}",

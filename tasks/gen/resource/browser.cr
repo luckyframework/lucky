@@ -13,6 +13,20 @@ class Gen::Resource::Browser < LuckyCli::Task
     end
   end
 
+  def help_message
+    <<-TEXT
+    #{summary}
+
+    Requires the name of the resource and list of database columns. Columns
+    are passed as column_name:ColumnType. Where ColumnType are one of the
+    support Avram datatypes.
+
+    Example:
+
+      lucky gen.resource.browser Project title:String completed:Bool priority:Int32
+    TEXT
+  end
+
   def call(@io : IO = STDOUT)
     validate!
     generate_resource

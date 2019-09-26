@@ -14,7 +14,7 @@ class Lucky::PageTemplate < Teeplate::FileTree
 end
 
 class Gen::Page < LuckyCli::Task
-  summary "Generate a new page"
+  summary "Generate a new HTML page"
 
   def call(io : IO = STDOUT)
     if error
@@ -23,6 +23,16 @@ class Gen::Page < LuckyCli::Task
       Lucky::PageTemplate.new(page_filename, page_class).render(output_path)
       io.puts success_message
     end
+  end
+
+  def help_message
+    <<-TEXT
+    #{summary}
+
+    Example:
+
+      lucky gen.page Users::IndexPage
+    TEXT
   end
 
   private def error
