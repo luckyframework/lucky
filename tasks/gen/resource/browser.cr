@@ -19,7 +19,7 @@ class Gen::Resource::Browser < LuckyCli::Task
 
     Requires the name of the resource and list of database columns. Columns
     are passed as column_name:ColumnType. Where ColumnType are one of the
-    support Avram datatypes.
+    supported Avram datatypes.
 
     Example:
 
