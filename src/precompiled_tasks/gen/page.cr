@@ -1,3 +1,3 @@
 require "../../../tasks/gen/page"
 
-Gen::Page.new.call
+Gen::Page.new.print_help_or_call(ARGV)
