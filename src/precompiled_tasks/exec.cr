@@ -1,3 +1,3 @@
 require "../../tasks/exec"
 
-Lucky::Exec.new.call
+Lucky::Exec.new.print_help_or_call(ARGV)

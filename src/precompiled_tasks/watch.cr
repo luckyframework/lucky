@@ -1,3 +1,3 @@
 require "../../tasks/watch"
 
-Watch.new.call
+Watch.new.print_help_or_call(ARGV)
