@@ -1,24 +1,24 @@
-## Upgrading from 0.18 to 0.19
+## Upgrading from 0.17 to 0.18
 
-- Ensure you've upgraded to crystal 0.31.0
+- Upgrade to crystal 0.31.1
 - Upgrade Lucky CLI (homebrew)
 
 ```
 brew update
-brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.31.0
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.31.1
 brew upgrade lucky
 ```
 
 - Upgrade Lucky CLI (Linux)
 
-- Update `.crystal-version` to `0.31.0`
+- Update `.crystal-version` to `0.31.1`
 
 > Remove the existing Lucky binary and follow the Linux
 > instructions in this section
 > https://luckyframework.org/guides/getting-started/installing#on-linux
 
 - Update versions in `shard.yml`
-  - Lucky should be `~> 0.19`
+  - Lucky should be `~> 0.18`
 - Run `shards update`
 
 ### General updates
@@ -144,12 +144,6 @@ end
 ```
 - Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
 - Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248).
-
-## Upgrading from 0.17 to 0.18
-
-- Upgrade to crystal 0.31.0
-
-No updates to Lucky itself are required. There may be Crystal 0.31.0 related changes you may need to make.
 
 
 ## Upgrading from 0.16 to 0.17
