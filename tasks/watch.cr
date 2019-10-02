@@ -227,28 +227,15 @@ class Watch < LuckyCli::Task
   end
 
   private def parse_options
-    {% if compare_versions(Crystal::VERSION, "0.31.0-0") >= 0 %}
-      OptionParser.parse do |parser|
-        parser.banner = "Usage: lucky watch [arguments]"
-        parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
-          @reload_browser = true
-        }
-        parser.on("-h", "--help", "Help here") {
-          puts parser
-          exit(0)
-        }
-      end
-    {% else %}
-      OptionParser.parse! do |parser|
-        parser.banner = "Usage: lucky watch [arguments]"
-        parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
-          @reload_browser = true
-        }
-        parser.on("-h", "--help", "Help here") {
-          puts parser
-          exit(0)
-        }
-      end
-    {% end %}
+    OptionParser.parse do |parser|
+      parser.banner = "Usage: lucky watch [arguments]"
+      parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
+        @reload_browser = true
+      }
+      parser.on("-h", "--help", "Help here") {
+        puts parser
+        exit(0)
+      }
+    end
   end
 end
