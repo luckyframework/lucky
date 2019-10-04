@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    versioin: ~> 0.18.0
+    version: ~> 0.18.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.0
