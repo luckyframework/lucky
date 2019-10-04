@@ -1,4 +1,50 @@
-### Changes in v0.17
+### Changes in 0.18
+
+- Added: support for Crystal 0.31.1
+- Fixed: how accept / content-type headers are handled [#869](https://github.com/luckyframework/lucky/pull/869)
+- Added: `ParamParsingError` for when parsing JSON params fails [#874](https://github.com/luckyframework/lucky/pull/874)
+- Updated: `Lucky::BaseHTTPClient` [#875](https://github.com/luckyframework/lucky/pull/875)
+- Updated: shell scripts for POSIX compliance [#879](https://github.com/luckyframework/lucky/pull/879)
+- Added: `date_input`, `time_input`, `datetime_input` [#877](https://github.com/luckyframework/lucky/pull/877)
+- Added: support for HTTP `PATCH` [#885](https://github.com/luckyframework/lucky/pull/885)
+- Added: `abbr` HTML tag [#886](https://github.com/luckyframework/lucky/pull/886)
+- Fixed: missing primary_key and timestamps in generated migrations [#888](https://github.com/luckyframework/lucky/pull/888)
+- Fixed: `pluralize` to take any Int [#890](https://github.com/luckyframework/lucky/pull/890)
+- Fixed: generation of migrations with resource [see Commit](https://github.com/luckyframework/lucky/commit/31848d916bdba9d2e6333e508ae2e95d9788263a)
+- Rename: `Lucky::HttpRespondable` to `Lucky::RenderableError` [see Commit](https://github.com/luckyframework/lucky/commit/026f2e3bf9c1085376537c27bc2a28bfde590eb1)
+- Fixed: `accepts_format`, and a few other mime type issues [#896](https://github.com/luckyframework/lucky/pull/896)
+- Fixed: default curl requests to server not responding properly [#899](https://github.com/luckyframework/lucky/pull/899)
+- Rename: `handle_error` to `render` in `ErrorAction` [#903](https://github.com/luckyframework/lucky/pull/903)
+- Rename: `render` to `html` in Actions [#905](https://github.com/luckyframework/lucky/pull/905)
+- Update: error message when missing type declaration for `needs` [#907](https://github.com/luckyframework/lucky/pull/907)
+- Fixed: model generation allowing for non alphanumeric characters [#910](https://github.com/luckyframework/lucky/pull/910)
+- Updated: make more errors renderable [#911](https://github.com/luckyframework/lucky/pull/911)
+- Fixed: help messages now display for precompiled tasks [#923](https://github.com/luckyframework/lucky/pull/923)
+- Updated: default help messages for tasks [#923](https://github.com/luckyframework/lucky/pull/923)
+- Fixed: issue with precompile tasks running in some directories [#924](https://github.com/luckyframework/lucky/pull/924)
+- Added: SQL logging [see Avram](https://github.com/luckyframework/avram/pull/213)
+- Updated: error message when postgres isn't running [see Avram](https://github.com/luckyframework/avram/pull/218)
+- Updated: `Box.create_pair` allows for setting attributes, and returns instances [see Avram](https://github.com/luckyframework/avram/pull/215)
+- Added: ability to `clone` a query [see Avram](https://github.com/luckyframework/avram/pull/214)
+- Fixed: `add_belongs_to` in alter statement using wrong Int size [see Avram](https://github.com/luckyframework/avram/pull/224)
+- Fixed: incorrect error message from `SaveOperation` updates in 0.17 [see Avram](https://github.com/luckyframework/avram/pull/225)
+- Added: `between` query method [see Avram](https://github.com/luckyframework/avram/pull/227)
+- Added: ordering queries by `NULLS FIRST` and `NULLS LAST` [see Avram](https://github.com/luckyframework/avram/pull/228)
+- Fixed: missing attributes from SaveOperation [see Avram](https://github.com/luckyframework/avram/pull/232)
+- Added: `db.schema.restore` and `db.schema.dump` tasks [see Avram](https://github.com/luckyframework/avram/pull/216)
+- Added: `group` query method for doing GROUP BY [see Avram](https://github.com/luckyframework/avram/pull/234)
+- Updated: SchemaEnforcer [see Avram](https://github.com/luckyframework/avram/pull/237)
+- Fixed: issue when calling `before` in SaveOperation [see Avram](https://github.com/luckyframework/avram/pull/240)
+- Added: JWT auth generation for API apps [see LuckyCli](https://github.com/luckyframework/lucky_cli/pull/395)
+- Updated: Serializers to be smarter with collections [see LuckyCli](https://github.com/luckyframework/lucky_cli/pull/397)
+- Updated: webpack to ignore `node_modules` directory [see LuckyCli](https://github.com/luckyframework/lucky_cli/pull/401)
+- Removed: cli `lucky init` task args [see LuckyCli](https://github.com/luckyframework/lucky_cli/pull/420)
+- Added: new `lucky init.custom` task to take args as `init` did before.
+- Fixed: `lucky init` to catch invalid project names properly.
+- Added: support for `browser_binary` in LuckyFlow [see LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/59)
+
+
+### v0.17 (2019-08-13)
 
 - Rename: `Avram::BaseForm` to `Avram::SaveOperation` [see Avram](https://github.com/luckyframework/avram/pull/104)
 - Rename: `Avram::Field` to `Avram::Attribute` [see Avram](https://github.com/luckyframework/avram/commit/d3503a161670077c1d7b14484382132ea3ab423d)
