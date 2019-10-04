@@ -24,9 +24,7 @@ brew upgrade lucky
 ### General updates
 
 - Rename: all `render` calls in actions to `html`.
-- Update: the `src/actions/errors/show.cr` file to the new format
-<details>
-  <summary>src/actions/errors/show.cr</summary>
+- Update: the `src/actions/errors/show.cr` file to the new format:
 
   ```crystal
   class Errors::Show < Lucky::ErrorAction
@@ -90,11 +88,9 @@ brew upgrade lucky
     end
   end
   ```
-</details>
+
 - Rename: `title` to `message` in `src/pages/errors/show_page.cr`.
 - Add: `BaseSerializer` to `src/serializers/`.
-<details>
-  <summary>src/serializers/base_serializer.cr</summary>
 
   ```crystal
   abstract class BaseSerializer < Lucky::Serializer
@@ -105,11 +101,9 @@ brew upgrade lucky
     end
   end
   ```
-</details>
+  
 - Add: `require "src/serializers/base_serializer"` to your `src/app.cr`
-- Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single file now.
-<details>
-  <summary>src/serializers/</summary>
+- Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single class.
   
   ```crystal
   # Merge these two classes
@@ -127,44 +121,51 @@ brew upgrade lucky
     #    UserSerializer.for_collection(users)
   end
   ```
-</details>
+
 - Rename: `Errors::ShowSerializer` to `ErrorSerializer`
 - Update: `ErrorSerializer` to inherit from the new `BaseSerializer`
 - Update: `ErrorSerializer` contents with:
-```crystal
-class ErrorSerializer < BaseSerializer
-  def initialize(
-    @message : String,
-    @details : String? = nil,
-    @param : String? = nil # If there was a problem with a specific param
-  )
-  end
 
-  def render
-    {message: @message, param: @param, details: @details}
+  ```crystal
+  class ErrorSerializer < BaseSerializer
+    def initialize(
+      @message : String,
+      @details : String? = nil,
+      @param : String? = nil # If there was a problem with a specific param
+    )
+    end
+
+    def render
+      {message: @message, param: @param, details: @details}
+    end
   end
-end
-```
+  
+  ```
 - Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
-- Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248).
+- Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248). You can likely ignore this as most people do not rescue these specific errors.
 - Add: `accepted_formats [:json]` to `ApiAction` in `src/actions/api_action.cr`.
-```crystal
-abstract class ApiAction < Lucky::Action
-  accepted_formats [:json]
-end
-```
+
+  ```crystal
+  abstract class ApiAction < Lucky::Action
+    accepted_formats [:json]
+  end
+  ```
+  
 - Add: `accepted_formats [:html, :json], default: :html` to `BrowserAction` in `src/actions/browser_action.cr`
+
+  ```crystal
+  abstract class BrowserAction < Lucky::Action
+    accepted_formats [:html, :json], default: :html
+  end
+  ```
+  
+- Update: `src/app_server.cr` with explicit return type on the `middleware` method.
 ```crystal
-abstract class BrowserAction < Lucky::Action
-  accepted_formats [:html, :json], default: :html
-end
-```
-- Update: `src/app_server.cr` with explicit return type
-```crystal
+# Add return type here
 def middleware : Array(HTTP::Handler)
   [
     # ...
-  ] of HTTP::Handler
+  ] of HTTP::Handler # Add this or app will fail to compile
 end
 ```
 
