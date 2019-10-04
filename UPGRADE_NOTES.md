@@ -130,7 +130,7 @@ brew upgrade lucky
 </details>
 - Rename: `Errors::ShowSerializer` to `ErrorSerializer`
 - Update: `ErrorSerializer` to inherit from the new `BaseSerializer`
-- Update: `ErrorSerializer` contents with
+- Update: `ErrorSerializer` contents with:
 ```crystal
 class ErrorSerializer < BaseSerializer
   def initialize(
@@ -148,7 +148,17 @@ end
 - Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
 - Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248).
 - Add: `accepted_formats [:json]` to `ApiAction` in `src/actions/api_action.cr`.
+```crystal
+abstract class ApiAction < Lucky::Action
+  accepted_formats [:json]
+end
+```
 - Add: `accepted_formats [:html, :json], default: :html` to `BrowserAction` in `src/actions/browser_action.cr`
+```crystal
+abstract class BrowserAction < Lucky::Action
+  accepted_formats [:html, :json], default: :html
+end
+```
 - Update: `src/app_server.cr` with explicit return type
 ```crystal
 def middleware : Array(HTTP::Handler)
@@ -157,7 +167,6 @@ def middleware : Array(HTTP::Handler)
   ] of HTTP::Handler
 end
 ```
-
 
 ## Upgrading from 0.16 to 0.17
 
