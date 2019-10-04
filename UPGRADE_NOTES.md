@@ -1,3 +1,162 @@
+## Upgrading from 0.17 to 0.18
+
+- Upgrade to crystal 0.31.1
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.31.1
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+- Update `.crystal-version` to `0.31.1`
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.18`
+- Run `shards update`
+
+### General updates
+
+- Rename: all `render` calls in actions to `html`.
+- Update: the `src/actions/errors/show.cr` file to the new format
+<details>
+  <summary>src/actions/errors/show.cr</summary>
+
+  ```crystal
+  class Errors::Show < Lucky::ErrorAction
+    DEFAULT_MESSAGE = "Something went wrong."
+    default_format :html
+    dont_report [Lucky::RouteNotFoundError]
+
+    def render(error : Lucky::RouteNotFoundError)
+      if html?
+        error_html "Sorry, we couldn't find that page.", status: 404
+      else
+        error_json "Not found", status: 404
+      end
+    end
+
+    # When the request is JSON and an InvalidOperationError is raised, show a
+    # helpful error with the param that is invalid, and what was wrong with it.
+    def render(error : Avram::InvalidOperationError)
+      if html?
+        error_html DEFAULT_MESSAGE, status: 500
+      else
+        error_json \
+          message: error.renderable_message,
+          details: error.renderable_details,
+          param: error.invalid_attribute_name,
+          status: 400
+      end
+    end
+
+    # Always keep this below other 'render' methods or it may override your
+    # custom 'render' methods.
+    def render(error : Lucky::RenderableError)
+      if html?
+        error_html DEFAULT_MESSAGE, status: error.renderable_status
+      else
+        error_json error.renderable_message, status: error.renderable_status
+      end
+    end
+
+    # If none of the 'render' methods return a response for the raised Exception,
+    # Lucky will use this method.
+    def default_render(error : Exception) : Lucky::Response
+      if html?
+        error_html DEFAULT_MESSAGE, status: 500
+      else
+        error_json DEFAULT_MESSAGE, status: 500
+      end
+    end
+
+    private def error_html(message : String, status : Int)
+      context.response.status_code = status
+      html Errors::ShowPage, message: message, status: status
+    end
+
+    private def error_json(message : String, status : Int, details = nil, param = nil)
+      json ErrorSerializer.new(message: message, details: details, param: param), status: status
+    end
+
+    private def report(error : Exception) : Nil
+      # Send to Rollbar, send an email, etc.
+    end
+  end
+  ```
+</details>
+- Rename: `title` to `message` in `src/pages/errors/show_page.cr`.
+- Add: `BaseSerializer` to `src/serializers/`.
+<details>
+  <summary>src/serializers/base_serializer.cr</summary>
+
+  ```crystal
+  abstract class BaseSerializer < Lucky::Serializer
+    def self.for_collection(collection : Enumerable, *args, **named_args)
+      collection.map do |object|
+        new(object, *args, **named_args)
+      end
+    end
+  end
+  ```
+</details>
+- Add: `require "src/serializers/base_serializer"` to your `src/app.cr`
+- Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single file now.
+<details>
+  <summary>src/serializers/</summary>
+  ```crystal
+  # Merge these two classes
+  class Users::IndexSerializer < Lucky::Serializer
+  end
+
+  class Users::ShowSerializers < Lucky::Serializer
+  end
+
+  # in to this class
+  class UserSerializer < BaseSerializer
+    # Same contents as Users::ShowSerializer
+    # Calls to Users::IndexSerializer now become
+    # UserSerializer.for_collection(users)
+  end
+  ```
+</details>
+- Rename: `Errors::ShowSerializer` to `ErrorSerializer`
+- Update: `ErrorSerializer` to inherit from the new `BaseSerializer`
+- Update: `ErrorSerializer` contents with
+```crystal
+class ErrorSerializer < BaseSerializer
+  def initialize(
+    @message : String,
+    @details : String? = nil,
+    @param : String? = nil # If there was a problem with a specific param
+  )
+  end
+
+  def render
+    {message: @message, param: @param, details: @details}
+  end
+end
+```
+- Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
+- Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248).
+- Add: `accepted_formats [:json]` to `ApiAction` in `src/actions/api_action.cr`.
+- Add: `accepted_formats [:html, :json], default: :html` to `BrowserAction` in `src/actions/browser_action.cr`
+- Update: `src/app_server.cr` with explicit return type
+```crystal
+def middleware : Array(HTTP::Handler)
+  [
+    # ...
+  ] of HTTP::Handler
+end
+```
+
+
 ## Upgrading from 0.16 to 0.17
 
 - Ensure you've upgraded to crystal 0.30.1
