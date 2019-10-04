@@ -110,6 +110,7 @@ brew upgrade lucky
 - Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single file now.
 <details>
   <summary>src/serializers/</summary>
+  
   ```crystal
   # Merge these two classes
   class Users::IndexSerializer < Lucky::Serializer
@@ -121,8 +122,9 @@ brew upgrade lucky
   # in to this class
   class UserSerializer < BaseSerializer
     # Same contents as Users::ShowSerializer
-    # Calls to Users::IndexSerializer now become
-    # UserSerializer.for_collection(users)
+    # Calls to Users::IndexSerializer now become:
+    #
+    #    UserSerializer.for_collection(users)
   end
   ```
 </details>
