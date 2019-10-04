@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    tag: v0.18.0-preview
+    versioin: ~> 0.18.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.0
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    tag: v0.12.0-preview
+    version: ~> 0.12.0
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
