@@ -78,7 +78,6 @@ abstract class Lucky::ErrorAction
   end
 
   def render_exception_page(error : Exception, status : Int) : Lucky::Response
-    context.response.reset
     Lucky::TextResponse.new(
       context: context,
       status: status,
