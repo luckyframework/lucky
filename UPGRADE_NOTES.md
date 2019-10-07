@@ -18,7 +18,10 @@ brew upgrade lucky
 > https://luckyframework.org/guides/getting-started/installing#on-linux
 
 - Update versions in `shard.yml`
+  - Crystal should be `0.31.1`
   - Lucky should be `~> 0.18`
+  - Authentic should be `~> 0.5.0`
+  - LuckyFlow should be `~> 0.6.0`
 - Run `shards update`
 
 ### General updates
@@ -102,7 +105,7 @@ brew upgrade lucky
   end
   ```
   
-- Add: `require "src/serializers/base_serializer"` to your `src/app.cr`
+- Add: `require "./serializers/base_serializer"` to your `src/app.cr` above `require "./serializers/**"`
 - Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single class.
   
   ```crystal
@@ -168,6 +171,10 @@ def middleware : Array(HTTP::Handler)
   ] of HTTP::Handler # Add this or app will fail to compile
 end
 ```
+
+- Add: `include Lucky::RequestExpectations` to `spec/spec_helper.cr` below `include Carbon::Expectations`
+- Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `spec/spec_helper.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`
+- Update: Change `at_exit do` in `spec/setup/start_app_server.cr` to `Spec.after_suite do`
 
 ## Upgrading from 0.16 to 0.17
 
