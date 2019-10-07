@@ -13,7 +13,7 @@ module Lucky::HTMLTextHelpers
   # * `omission` (default: `...`) will insert itself at the end of the
   # truncated text.
   # * `separator` (default: nil) is where words are cut off. This is often
-  # overridden to break on word boundries by setting the separator to a space
+  # overridden to break on word boundaries by setting the separator to a space
   # `" "`. Keep in mind this, may cause your text to be truncated before your
   # `length` value if the `length` - `omission` is before the `separator`.
   # * `escape` (default: false) weather or not to HTML escape the truncated

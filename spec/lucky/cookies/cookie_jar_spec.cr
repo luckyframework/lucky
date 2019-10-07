@@ -108,7 +108,7 @@ describe Lucky::CookieJar do
 
   describe "delete" do
     # https://stackoverflow.com/questions/5285940/correct-way-to-delete-cookies-server-side
-    it "exipres the cookie and sets the value to an empty string" do
+    it "expires the cookie and sets the value to an empty string" do
       jar = Lucky::CookieJar.empty_jar
       jar.set(:rules, "no fighting!")
       jar.get_raw(:rules).expired?.should_not be_true

@@ -43,7 +43,7 @@ class Callbacks::Index < InheritableCallbacks
   after set_second_after_cookie
 
   get "/callbacks" do
-    cookies.set("after", "This should be overwritten by the after ballback")
+    cookies.set("after", "This should be overwritten by the after callback")
     plain_text "not_from_callback"
   end
 
