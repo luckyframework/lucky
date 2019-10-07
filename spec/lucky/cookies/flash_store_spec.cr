@@ -39,7 +39,7 @@ describe Lucky::FlashStore do
     flash_store.success.should eq("Success")
   end
 
-  it "has nillable shortcuts" do
+  it "has nilable shortcuts" do
     flash_store = Lucky::FlashStore.new
 
     flash_store.failure?.should be_nil

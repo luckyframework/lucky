@@ -14,7 +14,7 @@ module Lucky::ForgeryProtectionHelpers
   # Meta tags used for submitting AJAX links and forms
   #
   # These tags are automatically added to MainLayout when generating a new
-  # project. They are used by Rails UJS to safely submit forms and non-GET AJAZ
+  # project. They are used by Rails UJS to safely submit forms and non-GET AJAX
   # requests
   def csrf_meta_tags
     meta name: "csrf-param",

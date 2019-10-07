@@ -222,7 +222,7 @@ If you're not sure about an upgrade step, or simply want to look at an example, 
       # This sets the log formatter to JSON so you can parse the logs with
       # services like Logentries or Logstash.
       #
-      # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+      # If you want logs like in development use `Lucky::PrettyLogFormatter`.
       Dexter::Logger.new(
         io: STDOUT,
         level: Logger::Severity::INFO,
@@ -356,7 +356,7 @@ class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
 end
 ```
 - Update: models now default the primary key to `Int64`. This can be
-overriden if your tables uses a different column type for your primary keys,
+overridden if your tables uses a different column type for your primary keys,
 such as Int32 or UUID
 
 ```crystal
@@ -388,7 +388,7 @@ end
 - Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
 - Rename: all association query methods from the association name to `where_{association_name}`. (e.g. `UserQuery.new.posts` => `UserQuery.new.where_posts`)
 - Update: all association query methods no longer take a block. Pass the query in as an argument. (e.g. `UserQuery.new.posts { |post_query| }` => `UserQuery.new.where_posts(PostQuery.new)`)
-- Update: `where_{association_name}` methods no longer need to be preceeded by a `join_{assoc}`, unless you need a custom join (i.e. `left_join_{assoc}`). If you use a custom join, you will need to add the `auto_inner_join: false` option to your `where_{assoc}` method.
+- Update: `where_{association_name}` methods no longer need to be preceded by a `join_{assoc}`, unless you need a custom join (i.e. `left_join_{assoc}`). If you use a custom join, you will need to add the `auto_inner_join: false` option to your `where_{assoc}` method.
 
 ### Moving forms to operations
 - Rename: the `src/forms` directory to `src/operations`.
@@ -555,7 +555,7 @@ logger =
     # This sets the log formatter to JSON so you can parse the logs with
     # services like Logentries or Logstash.
     #
-    # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+    # If you want logs like in development use `Lucky::PrettyLogFormatter`.
     Dexter::Logger.new(
       io: STDOUT,
       level: Logger::Severity::INFO,
@@ -958,7 +958,7 @@ https://github.com/luckyframework/lucky_cli/blob/a25472cc7461b1803735d086e57a632
 
 - Add default `Error::ShowSerializer`
 
-This is used for serializering errors to JSON. Add this to
+This is used for serializing errors to JSON. Add this to
 `src/serializers/errors/show_serializer.cr`
 
 ```crystal

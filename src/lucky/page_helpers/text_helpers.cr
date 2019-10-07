@@ -134,10 +134,10 @@ module Lucky::TextHelpers
   #
   # NOTE: By default `#to_sentence` will include a
   # [serial comma](https://en.wikipedia.org/wiki/Serial_comma). This can be
-  # overriden like so:
+  # overridden like so:
   #
   #     to_sentence(["one", "two", "three"], last_word_connector: " and ")
-  #     # => one, two and thre
+  #     # => one, two and three
   def to_sentence(list : Enumerable,
                   word_connector : String = ", ",
                   two_word_connector : String = " and ",
