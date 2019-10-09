@@ -2,6 +2,8 @@ require "../../src/app.cr"
 
 # You have access to all your app's code here.
 #
+# This fill will be executed when the editor is closed.
+#
 # If you want to see the result of an expression, use 'pp!'
 #
 #   pp! UserQuery.first # Print the first user
