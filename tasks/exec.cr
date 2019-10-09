@@ -12,6 +12,7 @@ class Lucky::Exec < LuckyCli::Task
     setting template_path : String = "#{__DIR__}/exec_template.cr.template"
   end
 
+  # Override parent class (LuckyCli::Task) because this method hijacks the following args: "--help", "-h", "help"
   def print_help_or_call(args : Array(String), io : IO = STDERR)
     call(args)
   end
