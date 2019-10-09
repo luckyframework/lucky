@@ -1,2 +1,7 @@
-# You can change your editor in config/exec.cr
 require "../../src/app.cr"
+
+# You have access to all your app's code here.
+#
+# If you want to see the result of an expression, use 'pp!'
+#
+#   pp! UserQuery.first # Print the first user
