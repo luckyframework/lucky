@@ -12,10 +12,15 @@ class Lucky::Exec < LuckyCli::Task
     setting template_path : String = "#{__DIR__}/exec_template.cr.template"
   end
 
+  # Override parent class (LuckyCli::Task) because this method hijacks the following args: "--help", "-h", "help"
+  def print_help_or_call(args : Array(String), io : IO = STDERR)
+    call(args)
+  end
+
   def call(args = ARGV)
     editor = settings.editor
-    repeat = false
-    back = 0
+    repeat = true
+    back = 1
 
     OptionParser.parse(args) do |parser|
       parser.banner = "Usage: lucky exec [arguments]"
@@ -23,10 +28,10 @@ class Lucky::Exec < LuckyCli::Task
       parser.on("-e EDITOR", "--editor EDITOR", "Which editor to use") do |e|
         editor = e
       end
-      parser.on("-r", "--repeat", "Keep editing in a loop") do
-        repeat = true
+      parser.on("-o", "--once", "Don't loop") do
+        repeat = false
       end
-      parser.on("-b BACK", "--back BACK", "Keep editing in a loop") do |b|
+      parser.on("-b BACK", "--back BACK", "Load code from this many sessions back. Default is 1.") do |b|
         back = b.to_i
       end
       parser.invalid_option do |flag|
