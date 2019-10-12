@@ -10,14 +10,14 @@ class Lucky::LogHandler
   delegate logger, to: Lucky
 
   def call(context)
-    time = Time.utc
+    start = Time.monotonic
     should_skip = settings.skip_if.try &.call(context)
 
     log_request_start(context) unless should_skip
     call_next(context)
-    log_request_end(context, duration: Time.utc - time) unless should_skip
+    log_request_end(context, duration: Time.monotonic - start) unless should_skip
   rescue e
-    log_exception(context, time, e)
+    log_exception(context, Time.utc, e)
     raise e
   end
 
