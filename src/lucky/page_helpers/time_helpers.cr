@@ -1,4 +1,20 @@
 module Lucky::TimeHelpers
+  # Returns a `String` with approximate distance in time between `from` and `to`.
+  #
+  # ```
+  # distance_of_time_in_words(Time.utc(2019, 8, 14, 10, 0, 0), Time.utc(2019, 8, 14, 10, 0, 5))
+  # # => "5 seconds"
+  # distance_of_time_in_words(Time.utc(2019, 8, 14, 10, 0), Time.utc(2019, 8, 14, 10, 25))
+  # # => "25 minutes"
+  # distance_of_time_in_words(Time.utc(2019, 8, 14, 10), Time.utc(2019, 8, 14, 11))
+  # # => "an hour"
+  # distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2019, 8, 16))
+  # # => "2 days"
+  # distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2019, 10, 4))
+  # # => "about a month"
+  # distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2061, 10, 4))
+  # # => "almost 42 years"
+  # ```
   def distance_of_time_in_words(from : Time, to : Time) : String
     minutes = (to - from).minutes
     seconds = (to - from).seconds
@@ -11,6 +27,15 @@ module Lucky::TimeHelpers
     distance_in_seconds(seconds)
   end
 
+  # Returns a `String` with approximate distance in time between `from` and current moment.
+  #
+  # ```
+  # time_ago_in_words(Time.utc(2019, 8, 30)) # => "about a month"
+  # # gives the same result as:
+  # distance_of_time_in_words(Time.utc(2019, 8, 30), Time.utc) # => "about a month"
+  # ```
+  #
+  # See more examples in `#distance_of_time_in_words`.
   def time_ago_in_words(from : Time) : String
     distance_of_time_in_words(from, Time.utc)
   end
