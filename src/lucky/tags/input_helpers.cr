@@ -29,13 +29,13 @@ module Lucky::InputHelpers
   end
 
   generate_helpful_error_for textarea
-	
-	# Returns a textarea field.
-	#
-	# ```
-	# textarea(attribute)
-	# # => <textarea id="param_key_attribute_name" name="param_key:attribute_name"></textarea>
-	# ```
+
+  # Returns a textarea field.
+  #
+  # ```
+  # textarea(attribute)
+  # # => <textarea id="param_key_attribute_name" name="param_key:attribute_name"></textarea>
+  # ```
   def textarea(field : Avram::PermittedAttribute, **html_options)
     textarea field.param.to_s, merge_options(html_options, {
       "id"   => input_id(field),
@@ -43,13 +43,13 @@ module Lucky::InputHelpers
     })
   end
 
-	# Similar to textarea; this allows for Boolean attributes
-	# through `attrs`.
-	#
-	# ```
-	# textarea(attribute, attrs: [:required])
-	# # => <textarea id="param_key_attribute_name" name="param_key:attribute_name" required></textarea>
-	# ```
+  # Similar to textarea; this allows for Boolean attributes
+  # through `attrs`.
+  #
+  # ```
+  # textarea(attribute, attrs: [:required])
+  # # => <textarea id="param_key_attribute_name" name="param_key:attribute_name" required></textarea>
+  # ```
   def textarea(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
     textarea field.param.to_s, merge_options(html_options, {
       "id"   => input_id(field),
@@ -57,7 +57,7 @@ module Lucky::InputHelpers
     }), attrs: attrs
   end
 
-	def checkbox(field : Avram::PermittedAttribute(T),
+  def checkbox(field : Avram::PermittedAttribute(T),
                unchecked_value : String,
                checked_value : String,
                **html_options) forall T
@@ -79,7 +79,7 @@ module Lucky::InputHelpers
     generate_input(field, "checkbox", html_options)
   end
 
-  def checkbox(field : Avram::PermittedAttribute(Bool?), attrs : Array(Symbol),  **html_options)
+  def checkbox(field : Avram::PermittedAttribute(Bool?), attrs : Array(Symbol), **html_options)
     unchecked_value = "false"
     if field.value
       html_options = merge_options(html_options, {"checked" => "true"})
@@ -89,7 +89,7 @@ module Lucky::InputHelpers
     generate_input(field, "checkbox", html_options, attrs: attrs)
   end
 
-	generate_helpful_error_for checkbox
+  generate_helpful_error_for checkbox
 
   {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
     generate_helpful_error_for {{input_type.id}}_input
