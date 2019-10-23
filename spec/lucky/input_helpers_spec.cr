@@ -91,6 +91,9 @@ describe Lucky::InputHelpers do
       view.checkbox(false_field).to_s.should contain <<-HTML
       <input type="hidden" id="" name="user:admin" value="false">
       HTML
+			view.checkbox(false_field, attrs: [:checked]).to_s.should contain <<-HTML
+			<input type="checkbox" id="user_admin" name="user:admin" value="true" checked>
+			HTML
 
       true_field = form.admin(true)
       view.checkbox(true_field).to_s.should contain <<-HTML
@@ -99,6 +102,9 @@ describe Lucky::InputHelpers do
       view.checkbox(true_field).to_s.should contain <<-HTML
       <input type="hidden" id="" name="user:admin" value="false">
       HTML
+			view.checkbox(true_field, attrs: [:required]).to_s.should contain <<-HTML
+			<input type="checkbox" id="user_admin" name="user:admin" value="true" checked="true" required>
+			HTML
     end
   end
 
@@ -232,6 +238,10 @@ describe Lucky::InputHelpers do
     view.textarea(form.first_name, rows: 5, cols: 15).to_s.should contain <<-HTML
     <textarea id="user_first_name" name="user:first_name" rows="5" cols="15">My name</textarea>
     HTML
+
+		view.textarea(form.first_name, attrs: [:required]).to_s.should contain <<-HTML
+		<textarea id="user_first_name" name="user:first_name" required>My name</textarea>
+		HTML
   end
 
   it "renders time inputs" do
