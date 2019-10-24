@@ -1,10 +1,10 @@
 class <%= pluralized_resource %>::NewPage < MainLayout
-  needs form : <%= operation_class %>
+  needs operation : <%= operation_class %>
   quick_def page_title, "New"
 
   def content
     h1 "New"
-    render_<%= underscored_resource %>_form(@form)
+    render_<%= underscored_resource %>_form(@operation)
   end
 
   def render_<%= underscored_resource %>_form(f)
