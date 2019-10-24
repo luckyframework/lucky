@@ -203,11 +203,13 @@ end
 class Watch < LuckyCli::Task
   summary "Start and recompile project when files change"
   @reload_browser : Bool = false
+  @show_full_error_trace : Bool = false
 
   def call
     parse_options
 
     build_commands = ["crystal build ./src/start_server.cr"]
+    build_commands[0] += " --error-trace" if @show_full_error_trace
     run_commands = ["./start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
@@ -231,6 +233,9 @@ class Watch < LuckyCli::Task
       parser.banner = "Usage: lucky watch [arguments]"
       parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
         @reload_browser = true
+      }
+      parser.on("--error-trace", "Show full error trace.") {
+        @show_full_error_trace = true
       }
       parser.on("-h", "--help", "Help here") {
         puts parser
