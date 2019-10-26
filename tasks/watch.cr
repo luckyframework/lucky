@@ -204,21 +204,9 @@ class Watch < LuckyCli::Task
   summary "Start and recompile project when files change"
   @reload_browser : Bool = false
 
-  def help_message
-    <<-TEXT
-    Starts a file watching process and runs your project.
-    When any of your project files change, this will recompile the
-    project for you.
-
-    Examples:
-
-      lucky watch
-      lucky watch --reload-browser
-
-    Options:
-
-      -r , --reload-browser     Reloads browser on changes using browser-sync
-    TEXT
+  # Override parent class (LuckyCli::Task) because this method hijacks the following args: "--help", "-h", "help"
+  def print_help_or_call(args : Array(String), io : IO = STDERR)
+    call(args)
   end
 
   def call
@@ -245,7 +233,12 @@ class Watch < LuckyCli::Task
 
   private def parse_options
     OptionParser.parse do |parser|
-      parser.banner = "Usage: lucky watch [arguments]"
+      parser.banner = <<-TEXT
+      #{summary}
+
+      Usage: lucky watch [arguments]
+      TEXT
+      parser.on("-h", "--help", "Show this help message") { puts parser; exit(0) }
       parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
         @reload_browser = true
       }
