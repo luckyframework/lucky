@@ -90,7 +90,7 @@ module Lucky::Routable
   # ```
   # class Posts::Comments::Show
   #   nested_route do
-  #     render_text "Post: #{post_id}, Comment: #{comment_id}"
+  #     plain_text "Post: #{post_id}, Comment: #{comment_id}"
   #   end
   # end
   # ```
@@ -107,7 +107,7 @@ module Lucky::Routable
   # ```
   # class Posts::Show
   #   route do
-  #     render_text "Post: #{post_id}"
+  #     plain_text "Post: #{post_id}"
   #   end
   # end
   # ```
@@ -302,7 +302,7 @@ module Lucky::Routable
   #   param page : Int32?
   #
   #   route do
-  #     render_text "Posts - Page #{page || 1}"
+  #     plain_text "Posts - Page #{page || 1}"
   #   end
   # end
   # ```

@@ -35,7 +35,7 @@ module Lucky::Renderable
   #
   #   route do
   #     # Users::IndexPage receives users AND current_user
-  #     render IndexPage users: UserQuery.new
+  #     html IndexPage users: UserQuery.new
   #   end
   #
   #   private def current_user
