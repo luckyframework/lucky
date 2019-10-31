@@ -10,7 +10,7 @@ module Lucky
     # class BrowserAction < Lucky::Action
     #   include Lucky::SecureHeaders::SetFrameGuard
     #
-    #   def frame_guard_value
+    #   def frame_guard_value : String
     #     "deny"
     #   end
     # end
