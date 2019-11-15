@@ -42,8 +42,21 @@ class Lucky::CookieJar
     {% raise "use CookieJar#delete instead of CookieJar#unset" %}
   end
 
+  # Clear cookies without any specific options.
   def clear : Void
+    clear { }
+  end
+
+  # Clear cookies with a block to add specific options.
+  #
+  # jar.clear do |cookie|
+  #   cookie.path("/")
+  #         .http_only(true)
+  #         .secure(true)
+  # end
+  def clear(&block : HTTP::Cookie ->) : Void
     cookies.each do |cookie|
+      yield cookie
       delete cookie.name
     end
   end
