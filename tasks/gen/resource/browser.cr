@@ -74,7 +74,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def rollback_contents : String
-    "drop :#{pluralized_resource.underscore}"
+    "drop table_for(#{resource_name})"
   end
 
   private def validate! : Void
