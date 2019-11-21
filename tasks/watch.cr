@@ -210,8 +210,8 @@ class Watch < LuckyCli::Task
     call(args)
   end
 
-  def call
-    parse_options
+  def call(args = ARGV)
+    parse_options(args)
 
     build_commands = ["crystal build ./src/start_server.cr"]
     run_commands = ["./start_server"]
@@ -232,8 +232,8 @@ class Watch < LuckyCli::Task
     end
   end
 
-  private def parse_options
-    OptionParser.parse do |parser|
+  private def parse_options(args)
+    OptionParser.parse(args) do |parser|
       parser.banner = <<-TEXT
       #{summary}
 
