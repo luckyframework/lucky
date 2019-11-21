@@ -166,15 +166,16 @@ module LuckySentry
     end
 
     private def print_error_message
-      puts "There was a problem compiling. Watching for fixes...".colorize(:red)
       if successful_compilations.zero?
         puts <<-ERROR
 
-        Try this...
+        #{"---".colorize.dim}
 
-          #{green_arrow} If you haven't done it already, run #{"script/setup".colorize(:green)}
-          #{green_arrow} Run #{"shards install".colorize(:green)} to ensure dependencies are installed
-          #{green_arrow} Ask for help in #{"https://gitter.im/luckyframework/Lobby".colorize(:green)}
+        Feeling stuck? Try this...
+
+          ▸  Run setup: #{"script/setup".colorize.bold}
+          ▸  Reinstall shards: #{"rm -rf lib bin && shards install".colorize.bold}
+          ▸  Ask for help: #{"https://gitter.im/luckyframework/Lobby".colorize.bold}
         ERROR
       end
     end
