@@ -31,7 +31,6 @@ module Lucky::WithDefaults
     macro method_missing(call)
       overridden_html_class = nil
 
-      {% args = call.args %}
       {% named_args = call.named_args %}
       {% if named_args %}
         {% if call.named_args.any? { |arg| arg.name == :class } %}
@@ -103,8 +102,8 @@ module Lucky::WithDefaults
       end
       {% end %}
 
-      args = Tuple.new({% if args %}
-        {% for arg in args %}
+      args = Tuple.new({% if call.args %}
+        {% for arg in call.args %}
           {{ arg }},
         {% end %}
       {% end %})
