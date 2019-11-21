@@ -2,12 +2,6 @@ require "../spec_helper"
 
 include ContextHelper
 
-class SampleFallbackAction::Index < TestAction
-  fallback do
-    plain_text "Last chance"
-  end
-end
-
 describe Lucky::RouteNotFoundHandler do
   it "raises a Lucky::RouteNotFoundError" do
     context = build_context(path: "/foo/bar")
@@ -21,7 +15,7 @@ describe Lucky::RouteNotFoundHandler do
   end
 
   it "has the fallback_action set from a fallback route" do
-    Lucky::RouteNotFoundHandler.fallback_action.should eq SampleFallbackAction::Index
+    Lucky::RouteNotFoundHandler.fallback_action.should eq TestFallbackAction::Index
   end
 
   it "responds with a fallback action" do
@@ -34,7 +28,7 @@ describe Lucky::RouteNotFoundHandler do
     handler.call(context)
 
     context.response.close
-    output.to_s.should contain "Last chance"
+    output.to_s.should contain "You found me"
   end
 
   it "still raises a Lucky::RouteNotFoundError for non GET requests" do
