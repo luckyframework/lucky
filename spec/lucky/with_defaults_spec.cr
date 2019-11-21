@@ -33,6 +33,17 @@ private class TestWithDefaultsPage
       html.text_input replace_class: "replaced-without-default"
     end
 
+    # tags that have content
+    with_defaults class: "default" do |html|
+      html.div "text content"
+    end
+
+    with_defaults class: "default" do |html|
+      html.div do
+        text "block content"
+      end
+    end
+
     view
   end
 end
@@ -55,6 +66,10 @@ describe "with_defaults" do
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="appended-without-default">)
     contents
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="replaced-without-default">)
+    contents
+      .should contain %(<div class="default">text content</div>)
+    contents
+      .should contain %(<div class="default">block content</div>)
   end
 end
 
