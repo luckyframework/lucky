@@ -1,11 +1,11 @@
 # Set up defaults arguments for HTML tags.
 #
-# This is automatically included in Pages and Cells.
+# This is automatically included in Pages and Components.
 module Lucky::WithDefaults
-  # This is typically used in Cells and helper methods to set up defaults for
+  # This is typically used in components and helper methods to set up defaults for
   # reusable components.
   #
-  # Example in a page or cell:
+  # Example in a page or component:
   #
   #    with_defaults field: form.email, class: "input" do |html|
   #      html.email_input placeholder: "Email"
@@ -31,6 +31,7 @@ module Lucky::WithDefaults
     macro method_missing(call)
       overridden_html_class = nil
 
+      {% args = call.args %}
       {% named_args = call.named_args %}
       {% if named_args %}
         {% if call.named_args.any? { |arg| arg.name == :class } %}
@@ -81,7 +82,7 @@ module Lucky::WithDefaults
         {% named_args = named_args.reject { |arg| arg.name == :replace_class } %}
       {% end %}
 
-      args = @named_args{% if named_args %}.merge(
+      nargs = @named_args{% if named_args %}.merge(
         {% for arg in named_args %}
           {{ arg.name }}: {{ arg.value }},
         {% end %}
@@ -94,15 +95,21 @@ module Lucky::WithDefaults
       # We fix that by making sure there is always a class key if we try to
       # append/replace a class.
       {% if appended_class_arg || replace_class_arg %}
-        args = args.merge(class: "")
+        nargs = nargs.merge(class: "")
       {% end %}
 
       if overridden_html_class
-        args = args.merge(class: overridden_html_class)
+        nargs = nargs.merge(class: overridden_html_class)
       end
       {% end %}
 
-      @page_context.{{ call.name }} **args
+      args = Tuple.new({% if args %}
+        {% for arg in args %}
+          {{ arg }},
+        {% end %}
+      {% end %})
+
+      @page_context.{{ call.name }} *args, **nargs  {{ call.block }}
     end
   end
 end
