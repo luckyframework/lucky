@@ -2,6 +2,8 @@ require "../spec_helper"
 
 include ContextHelper
 
+# TestFallbackAction::Index is defined in spec/support/test_fallback_action.cr
+# so that it can be used in other tests without causing conflicts.
 describe Lucky::RouteNotFoundHandler do
   it "raises a Lucky::RouteNotFoundError" do
     context = build_context(path: "/foo/bar")

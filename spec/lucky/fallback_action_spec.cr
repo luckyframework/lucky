@@ -2,6 +2,8 @@ require "../spec_helper"
 
 include ContextHelper
 
+# TestFallbackAction::Index is defined in spec/support/test_fallback_action.cr
+# so that it can be used in other tests without causing conflicts.
 describe "fallback routing" do
   it "renders from a fallback" do
     response = TestFallbackAction::Index.new(build_context, params).call
