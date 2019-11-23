@@ -2,7 +2,7 @@ class Lucky::FlashStore
   SESSION_KEY = "_flash"
   alias Key = String | Symbol
 
-  delegate each, to: all
+  delegate any?, each, empty?, to: all
 
   @now = {} of String => String
   @next = {} of String => String
