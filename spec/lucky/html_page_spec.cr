@@ -66,6 +66,7 @@ class LessNeedyDefaultsPage < MainLayout
   needs a_string : String = "string default"
   needs bool : Bool = false
   needs nil_default : String? = nil
+  needs inferred_nil_default : String?
 
   def inner
     div @a_string
@@ -74,6 +75,9 @@ class LessNeedyDefaultsPage < MainLayout
     end
     if @nil_default.nil?
       div "nil default"
+    end
+    if @inferred_nil_default.nil?
+      div "inferred nil default"
     end
   end
 
@@ -144,6 +148,10 @@ describe Lucky::HTMLPage do
 
     it "allows nil as default value to needs" do
       LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>nil default</div>)
+    end
+
+    it "infers the default value from nilable needs" do
+      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>inferred nil default</div>)
     end
   end
 
