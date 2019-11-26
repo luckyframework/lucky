@@ -50,7 +50,7 @@ module Lucky::HTMLBuilder
           {% var = declaration.var %}
           {% type = declaration.type %}
           {% value = declaration.value %}
-          {% value = nil if type.stringify.ends_with?("::Nil") && !value %}
+          {% value = nil if type.stringify.ends_with?("Nil") && !value %}
           {% has_default = value || value == false || value == nil %}
           {% if false || var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ value }}{% end %},
         {% end %}
