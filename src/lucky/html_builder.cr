@@ -49,8 +49,10 @@ module Lucky::HTMLBuilder
         {% for declaration in ASSIGNS %}
           {% var = declaration.var %}
           {% type = declaration.type %}
-          {% has_default = declaration.value || declaration.value == false || declaration.value == nil %}
-          {% if var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ declaration.value }}{% end %},
+          {% value = declaration.value %}
+          {% value = nil if type.stringify.ends_with?("Nil") && !value %}
+          {% has_default = value || value == false || value == nil %}
+          {% if false || var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ value }}{% end %},
         {% end %}
         **unused_exposures
         )
