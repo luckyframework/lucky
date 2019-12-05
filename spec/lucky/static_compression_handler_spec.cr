@@ -29,10 +29,9 @@ describe Lucky::StaticCompressionHandler do
 
       next_called.should be_false
       context.response.close
-      pp context.response.headers
 
       context.response.headers["Content-Encoding"].should eq "gzip"
-      context.response.headers.has_key?("Etag").should be_true
+      context.response.headers["Etag"].should eq etag
       output.to_s.ends_with?(File.read(gzip_path)).should be_true
     end
   end
@@ -70,6 +69,10 @@ end
 
 private def gzip_path
   File.join(public_dir, "#{PATH}.gz")
+end
+
+private def etag
+  %{W/"#{File.info(gzip_path).modification_time.to_unix}"}
 end
 
 private def call_handler_with(context : HTTP::Server::Context, &block)
