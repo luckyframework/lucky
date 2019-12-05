@@ -37,7 +37,7 @@ describe Lucky::StaticCompressionHandler do
     end
   end
 
-  it "calls next when not Accept-Encoding doesn't include gzip" do
+  it "calls next when Accept-Encoding doesn't include gzip" do
     Lucky::StaticCompressionHandler.temp_config(enabled: true) do
       context = build_context(path: PATH)
       context.request.headers["Accept-Encoding"] = "whatever"
@@ -49,7 +49,7 @@ describe Lucky::StaticCompressionHandler do
     end
   end
 
-  it "sends not modified when file hasn't been modified" do
+  it "sends NOT_MODIFIED when file hasn't been modified" do
     Lucky::StaticCompressionHandler.temp_config(enabled: true) do
       context = build_context(path: PATH)
       context.request.headers["Accept-Encoding"] = "gzip"
