@@ -30,13 +30,27 @@ describe Lucky::TextResponse do
       context.request.body.to_s.should eq ""
       context.response.status_code.should eq 200
     end
+
+    it "gzips if enabled" do
+      Lucky::TextResponse.temp_config(gzip_enabled: true) do
+        output = IO::Memory.new
+        context = build_context_with_io(output)
+        context.request.headers["Accept-Encoding"] = "gzip"
+
+        print_response(context, status: 200, body: "some body")
+        context.response.close
+
+        context.response.headers["Content-Encoding"].should eq "gzip"
+        output.to_s.ends_with?("some body").should be_false
+      end
+    end
   end
 end
 
-private def print_response(context : HTTP::Server::Context, status : Int32?)
-  print_response_with_body(context, "", status)
+private def print_response(context : HTTP::Server::Context, status : Int32?, body = "")
+  print_response_with_body(context, body, status)
 end
 
 private def print_response_with_body(context : HTTP::Server::Context, body : String, status : Int32?)
-  Lucky::TextResponse.new(context, "", body, status: status).print
+  Lucky::TextResponse.new(context, "text/html", body, status: status).print
 end
