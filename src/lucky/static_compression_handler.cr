@@ -10,8 +10,9 @@ class Lucky::StaticCompressionHandler
     expanded_path = File.expand_path(request_path, "/")
     file_path = File.join(@public_dir, expanded_path)
     compressed_path = "#{file_path}.#{@file_ext}"
+    content_type = MIME.from_filename(file_path, "application/octet-stream")
 
-    if !should_compress?(file_path, compressed_path, context.request.headers)
+    if !should_compress?(file_path, content_type, compressed_path, context.request.headers)
       call_next(context)
       return
     end
@@ -26,17 +27,17 @@ class Lucky::StaticCompressionHandler
       return
     end
 
-    context.response.content_type = MIME.from_filename(file_path, "application/octet-stream")
+    context.response.content_type = content_type
     context.response.content_length = File.size(compressed_path)
     File.open(compressed_path) do |file|
       IO.copy(file, context.response)
     end
   end
 
-  private def should_compress?(file_path, compressed_path, request_headers)
+  private def should_compress?(file_path, content_type, compressed_path, request_headers)
     Lucky::Server.settings.gzip_enabled &&
       request_headers.includes_word?("Accept-Encoding", @content_encoding) &&
-      Lucky::Server.settings.gzip_content_types.includes?(MIME.from_filename(file_path, "application/octet-stream")) &&
+      Lucky::Server.settings.gzip_content_types.includes?(content_type) &&
       File.exists?(compressed_path)
   end
 
