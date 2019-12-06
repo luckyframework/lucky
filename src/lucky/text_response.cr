@@ -3,11 +3,6 @@
 {% end %}
 
 class Lucky::TextResponse < Lucky::Response
-  Habitat.create do
-    setting gzip_enabled : Bool = false
-    setting gzip_content_types : Array(String) = %w(text/html text/javascript application/json text/plain application/xml text/csv)
-  end
-
   DEFAULT_STATUS = 200
 
   getter context, content_type, body, debug_message
@@ -37,9 +32,9 @@ class Lucky::TextResponse < Lucky::Response
 
   private def should_gzip?
     {% if !flag?(:without_zlib) %}
-      settings.gzip_enabled &&
+      Lucky::Server.settings.gzip_enabled &&
         context.request.headers.includes_word?("Accept-Encoding", "gzip") &&
-        settings.gzip_content_types.includes?(content_type)
+        Lucky::Server.settings.gzip_content_types.includes?(content_type)
     {% end %}
   end
 end
