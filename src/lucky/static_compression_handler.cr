@@ -1,9 +1,4 @@
 class Lucky::StaticCompressionHandler
-  Habitat.create do
-    setting enabled : Bool = false
-    setting compress_file_extensions : Array(String) = %w(.htm .html .txt .css .js .svg .json .xml .otf .ttf .woff .woff2)
-  end
-
   include HTTP::Handler
 
   def initialize(@public_dir : String, @file_ext = "gz", @content_encoding = "gzip")
@@ -39,9 +34,9 @@ class Lucky::StaticCompressionHandler
   end
 
   private def should_compress?(file_path, compressed_path, request_headers)
-    settings.enabled &&
+    Lucky::Server.settings.gzip_enabled &&
       request_headers.includes_word?("Accept-Encoding", @content_encoding) &&
-      settings.compress_file_extensions.includes?(File.extname(file_path)) &&
+      Lucky::Server.settings.gzip_content_types.includes?(MIME.from_filename(file_path, "application/octet-stream")) &&
       File.exists?(compressed_path)
   end
 

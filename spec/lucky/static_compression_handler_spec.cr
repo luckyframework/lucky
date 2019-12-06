@@ -16,8 +16,20 @@ describe Lucky::StaticCompressionHandler do
     next_called.should be_true
   end
 
+  it "calls next when content type isn't in Lucky::Server.gzip_content_types" do
+    Lucky::Server.temp_config(gzip_enabled: true, gzip_content_types: %w(text/html)) do
+      context = build_context(path: PATH)
+      context.request.headers["Accept-Encoding"] = "gzip"
+      next_called = false
+
+      call_handler_with(context) { next_called = true }
+
+      next_called.should be_true
+    end
+  end
+
   it "delivers the precompressed file when enabled" do
-    Lucky::StaticCompressionHandler.temp_config(enabled: true) do
+    Lucky::Server.temp_config(gzip_enabled: true) do
       output = IO::Memory.new
       context = build_context_with_io(output, path: PATH)
 
@@ -37,7 +49,7 @@ describe Lucky::StaticCompressionHandler do
   end
 
   it "calls next when Accept-Encoding doesn't include gzip" do
-    Lucky::StaticCompressionHandler.temp_config(enabled: true) do
+    Lucky::Server.temp_config(gzip_enabled: true) do
       context = build_context(path: PATH)
       context.request.headers["Accept-Encoding"] = "whatever"
       next_called = false
@@ -49,7 +61,7 @@ describe Lucky::StaticCompressionHandler do
   end
 
   it "sends NOT_MODIFIED when file hasn't been modified" do
-    Lucky::StaticCompressionHandler.temp_config(enabled: true) do
+    Lucky::Server.temp_config(gzip_enabled: true) do
       context = build_context(path: PATH)
       context.request.headers["Accept-Encoding"] = "gzip"
       context.request.headers["If-Modified-Since"] = HTTP.format_time(Time.utc)
