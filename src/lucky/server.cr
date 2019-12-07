@@ -7,6 +7,7 @@ class Lucky::Server
     setting gzip_enabled : Bool = false
     setting gzip_content_types : Array(String) = %w(
       application/json
+      application/javascript
       application/xml
       font/otf
       font/ttf
