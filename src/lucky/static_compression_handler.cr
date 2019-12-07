@@ -1,3 +1,16 @@
+# Middleware that serves static files that have been pre-compressed.
+# There can be multiple instances and the first in the middleware stack will take precedence.
+# For example, if you want to serve brotli compressed assets for browsers that support it and
+# serve gzip assets for those that don't you would do something like this in your middleware:
+#
+# ```
+# [
+#   # ...
+#   Lucky::StaticCompressionHandler.new("./public", file_ext: "br", content_encoding: "br"),
+#   Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip"),
+#   # ...
+# ]
+# ```
 class Lucky::StaticCompressionHandler
   include HTTP::Handler
 

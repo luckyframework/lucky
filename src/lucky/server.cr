@@ -1,3 +1,6 @@
+# Class for configuring server settings
+#
+# The settings created here can be customized in each Lucky app by modifying them in your config/server.cr
 class Lucky::Server
   Habitat.create do
     setting secret_key_base : String

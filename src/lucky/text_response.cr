@@ -2,6 +2,11 @@
   require "gzip"
 {% end %}
 
+# Writes the *content_type*, *status*, and *body* to the *context* for text responses.
+#
+# There are two settings in `Lucky::Server.settings` that determine if
+# the text response is gzip encoded; `Lucky::Server.settings.gzip_enabled` and `Lucky::Server.settings.gzip_content_types`.
+# These settings can be adjusted in your Lucky app under config/server.cr
 class Lucky::TextResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
