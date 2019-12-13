@@ -205,8 +205,13 @@ class Watch < LuckyCli::Task
   summary "Start and recompile project when files change"
   @reload_browser : Bool = false
 
-  def call
-    parse_options
+  # Override parent class (LuckyCli::Task) because this method hijacks the following args: "--help", "-h", "help"
+  def print_help_or_call(args : Array(String), io : IO = STDERR)
+    call(args)
+  end
+
+  def call(args = ARGV)
+    parse_options(args)
 
     build_commands = ["crystal build ./src/start_server.cr"]
     run_commands = ["./start_server"]
@@ -227,15 +232,16 @@ class Watch < LuckyCli::Task
     end
   end
 
-  private def parse_options
-    OptionParser.parse do |parser|
-      parser.banner = "Usage: lucky watch [arguments]"
+  private def parse_options(args)
+    OptionParser.parse(args) do |parser|
+      parser.banner = <<-TEXT
+      #{summary}
+
+      Usage: lucky watch [arguments]
+      TEXT
+      parser.on("-h", "--help", "Show this help message") { puts parser; exit(0) }
       parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
         @reload_browser = true
-      }
-      parser.on("-h", "--help", "Help here") {
-        puts parser
-        exit(0)
       }
     end
   end
