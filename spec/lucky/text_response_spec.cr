@@ -36,13 +36,13 @@ describe Lucky::TextResponse do
         output = IO::Memory.new
         context = build_context_with_io(output)
         context.request.headers["Accept-Encoding"] = "gzip"
-        expected_io = IO::Memory.new
-        Gzip::Writer.open(expected_io) { |gzw| gzw.print "some body" }
 
         print_response(context, status: 200, body: "some body")
         context.response.close
 
         context.response.headers["Content-Encoding"].should eq "gzip"
+        expected_io = IO::Memory.new
+        Gzip::Writer.open(expected_io) { |gzw| gzw.print "some body" }
         output.to_s.ends_with?(expected_io.to_s).should be_true
       end
     end
