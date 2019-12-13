@@ -47,7 +47,7 @@ class Lucky::StaticCompressionHandler
     end
   end
 
-  private def should_compress?(file_path, content_type, compressed_path, request_headers)
+  private def should_compress?(file_path, content_type, compressed_path, request_headers) : Bool
     Lucky::Server.settings.gzip_enabled &&
       request_headers.includes_word?("Accept-Encoding", @content_encoding) &&
       Lucky::Server.settings.gzip_content_types.any? { |ct| content_type.starts_with?(ct) } &&
