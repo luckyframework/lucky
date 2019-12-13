@@ -14,6 +14,7 @@ describe Lucky::StaticCompressionHandler do
     call_handler_with(context) { next_called = true }
 
     next_called.should be_true
+    context.response.headers["Content-Encoding"]?.should_not eq "gzip"
   end
 
   it "calls next when content type isn't in Lucky::Server.gzip_content_types" do
@@ -25,6 +26,7 @@ describe Lucky::StaticCompressionHandler do
       call_handler_with(context) { next_called = true }
 
       next_called.should be_true
+      context.response.headers["Content-Encoding"]?.should_not eq "gzip"
     end
   end
 
