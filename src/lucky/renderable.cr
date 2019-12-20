@@ -56,6 +56,7 @@ module Lucky::Renderable
     )
   end
 
+  # :nodoc:
   macro validate_page_class!(page_class)
     {% if page_class && page_class.resolve? %}
       {% ancestors = page_class.resolve.ancestors %}
@@ -126,34 +127,35 @@ module Lucky::Renderable
     end
   end
 
-  private def file(path : String,
-                   content_type : String? = nil,
-                   disposition : String = "attachment",
-                   filename : String? = nil,
-                   status : Int32? = nil) : Lucky::FileResponse
+  def file(path : String,
+           content_type : String? = nil,
+           disposition : String = "attachment",
+           filename : String? = nil,
+           status : Int32? = nil) : Lucky::FileResponse
     Lucky::FileResponse.new(context, path, content_type, disposition, filename, status)
   end
 
-  private def file(path : String,
-                   content_type : String? = nil,
-                   disposition : String = "attachment",
-                   filename : String? = nil,
-                   status : HTTP::Status = HTTP::Status::OK) : Lucky::FileResponse
+  def file(path : String,
+           content_type : String? = nil,
+           disposition : String = "attachment",
+           filename : String? = nil,
+           status : HTTP::Status = HTTP::Status::OK) : Lucky::FileResponse
     file(path, content_type, disposition, filename, status.value)
   end
 
-  private def send_text_response(body : String, content_type : String, status : Int32? = nil) : Lucky::TextResponse
+  def send_text_response(body : String, content_type : String, status : Int32? = nil) : Lucky::TextResponse
     Lucky::TextResponse.new(context, content_type, body, status: status)
   end
 
-  private def plain_text(body : String, status : Int32? = nil) : Lucky::TextResponse
+  def plain_text(body : String, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body, "text/plain", status)
   end
 
-  private def plain_text(body : String, status : HTTP::Status) : Lucky::TextResponse
+  def plain_text(body : String, status : HTTP::Status) : Lucky::TextResponse
     plain_text(body, status: status.value)
   end
 
+  # :nodoc:
   private def text(*args, **named_args)
     {% raise "'text' in actions has been renamed to 'plain_text'" %}
   end
@@ -163,27 +165,27 @@ module Lucky::Renderable
     plain_text(*args, **named_args)
   end
 
-  private def head(status : Int32) : Lucky::TextResponse
+  def head(status : Int32) : Lucky::TextResponse
     send_text_response(body: "", content_type: "", status: status)
   end
 
-  private def head(status : HTTP::Status) : Lucky::TextResponse
+  def head(status : HTTP::Status) : Lucky::TextResponse
     head(status.value)
   end
 
-  private def json(body, status : Int32? = nil) : Lucky::TextResponse
+  def json(body, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body.to_json, "application/json", status)
   end
 
-  private def json(body, status : HTTP::Status) : Lucky::TextResponse
+  def json(body, status : HTTP::Status) : Lucky::TextResponse
     json(body, status: status.value)
   end
 
-  private def xml(body : String, status : Int32? = nil) : Lucky::TextResponse
+  def xml(body : String, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body, "text/xml", status)
   end
 
-  private def xml(body, status : HTTP::Status) : Lucky::TextResponse
+  def xml(body, status : HTTP::Status) : Lucky::TextResponse
     xml(body, status: status.value)
   end
 end
