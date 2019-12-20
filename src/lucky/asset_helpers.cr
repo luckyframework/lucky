@@ -15,8 +15,6 @@ module Lucky::AssetHelpers
 
   # Return the string path to an asset
   #
-  # Use this in a page or component
-  #
   # ```
   # # In a page or component:
   # # Will find the asset in `public/assets/images/logo.png`
@@ -72,8 +70,6 @@ module Lucky::AssetHelpers
   end
 
   # Return the string path to an asset (allows string interpolation)
-  #
-  # Use this in a page or component:
   #
   # ```
   # # In a page or component
