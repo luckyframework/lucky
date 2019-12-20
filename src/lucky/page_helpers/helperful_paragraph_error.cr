@@ -1,3 +1,4 @@
+# :nodoc:
 module Lucky::HelpfulParagraphError
   macro p(_arg, **args)
     {% raise <<-ERROR
