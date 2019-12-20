@@ -84,9 +84,9 @@ module Lucky::AssetHelpers
   # Lucky::AssetHelpers.asset("images/logo.png")
   # ```
   #
-  # NOTE: This method does *not* check assets at compile time. The asset is path
-  # is found at Runtime so it is possible the asset does not exist. Be sure to
-  # manual test that the asset is returned as expected.
+  # NOTE: This method does *not* check assets at compile time. The asset path
+  # is found at runtime so it is possible the asset does not exist. Be sure to
+  # manually test that the asset is returned as expected.
   def dynamic_asset(path)
     fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
     if fingerprinted_path
