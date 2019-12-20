@@ -8,23 +8,23 @@ abstract class Lucky::BaseAppServer
     @server = HTTP::Server.new(middleware)
   end
 
-  # :nodoc;
+  # :nodoc:
   def host : String
     Lucky::Server.settings.host
   end
 
-  # :nodoc;
+  # :nodoc:
   def port : Int32
     Lucky::Server.settings.port
   end
 
-  # :nodoc;
+  # :nodoc:
   def listen : Nil
     server.bind_tcp host, port
     server.listen
   end
 
-  # :nodoc;
+  # :nodoc:
   def close : Nil
     server.close
   end
