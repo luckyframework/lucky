@@ -46,7 +46,9 @@ end
 class PageWithDefaultsFirst
   include Lucky::HTMLPage
   needs required : String
+  needs nothing : Bool = false
   needs extra_css : String?
+  needs extra_html : String? = nil
   needs status : String = "special"
   needs title : String
 
