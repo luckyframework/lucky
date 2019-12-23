@@ -45,7 +45,9 @@ module Lucky::HTMLBuilder
 
   macro generate_needy_initializer
     {% if !@type.abstract? %}
-      {% sorted_assigns = ASSIGNS.sort_by { |dec| dec.type.resolve.nilable? || dec.value ? 1 : 0 } %}
+      {% sorted_assigns = ASSIGNS.sort_by { |dec|
+           dec.type.resolve.nilable? || dec.value || dec.value == nil || dec.value == false ? 1 : 0
+         } %}
       def initialize(
         {% for declaration in sorted_assigns %}
           {% var = declaration.var %}

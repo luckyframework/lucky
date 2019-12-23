@@ -45,6 +45,7 @@ end
 
 class PageWithDefaultsFirst
   include Lucky::HTMLPage
+  needs required : String
   needs extra_css : String?
   needs status : String = "special"
   needs title : String
@@ -60,6 +61,6 @@ describe "Assigns within multiple pages with the same name" do
     PageTwo.new build_context, title: "foo", name: "Paul"
     PageThree.new build_context, name: "Paul", admin_name: "Pablo", title: "Admin"
     PageWithQuestionMark.new(build_context, signed_in?: true).perform_render.to_s.should contain("true")
-    PageWithDefaultsFirst.new(build_context, title: "foo").perform_render.to_s.should contain("special foo")
+    PageWithDefaultsFirst.new(build_context, required: "thing", title: "foo").perform_render.to_s.should contain("special foo")
   end
 end
