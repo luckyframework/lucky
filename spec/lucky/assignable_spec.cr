@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ContextHelper
+
 class BasePage
   include Lucky::HTMLPage
 
@@ -41,11 +43,26 @@ class PageWithQuestionMark
   end
 end
 
+class PageWithDefaultsFirst
+  include Lucky::HTMLPage
+  needs required : String
+  needs nothing : Bool = false
+  needs extra_css : String?
+  needs extra_html : String? = nil
+  needs status : String = "special"
+  needs title : String
+
+  def render
+    text "#{@status} #{@title}"
+  end
+end
+
 describe "Assigns within multiple pages with the same name" do
   it "should only appear once in the initializer" do
     PageOne.new build_context, title: "foo", name: "Paul", second: "second"
     PageTwo.new build_context, title: "foo", name: "Paul"
     PageThree.new build_context, name: "Paul", admin_name: "Pablo", title: "Admin"
     PageWithQuestionMark.new(build_context, signed_in?: true).perform_render.to_s.should contain("true")
+    PageWithDefaultsFirst.new(build_context, required: "thing", title: "foo").perform_render.to_s.should contain("special foo")
   end
 end
