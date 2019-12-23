@@ -9,6 +9,7 @@ private class TestComponent < Lucky::BaseComponent
 end
 
 private class ComplexTestComponent < Lucky::BaseComponent
+  needs extra_css : String?
   needs title : String
 
   def render
