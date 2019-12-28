@@ -1,10 +1,10 @@
 class <%= pluralized_resource %>::ShowPage < MainLayout
   needs <%= underscored_resource %> : <%= resource %>
-  quick_def page_title, @<%= underscored_resource %>.<%= columns.first.name %>
+  quick_def page_title, "<%= resource %> with id: #{@<%= underscored_resource %>.id}"
 
   def content
     link "Back to all <%= pluralized_resource %>", <%= pluralized_resource %>::Index
-    h1 @<%= underscored_resource %>.<%= columns.first.name %>
+    h1 "<%= resource %> with id: #{@<%= underscored_resource %>.id}"
     render_actions
     render_<%= underscored_resource %>_fields
   end
