@@ -245,6 +245,7 @@ class Watch < LuckyCli::Task
       parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
         @reload_browser = true
       }
+      # TODO: https://github.com/crystal-lang/crystal/issues/8374
       parser.on("--error-trace", "Show full error trace.") {
         @show_full_error_trace = true
       }
