@@ -9,6 +9,7 @@ module Lucky::Exposable
     end
   end
 
+  # :nodoc:
   macro inherit_exposures
     \{% for v in @type.ancestors.first.constant :EXPOSURES %}
       \{% EXPOSURES << v %}

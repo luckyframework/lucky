@@ -1,3 +1,7 @@
+# Protect from CSRF attacks
+#
+# This module is automatically included in `BrowserAction` to protect from CSRF
+# attacks.
 module Lucky::ProtectFromForgery
   ALLOWED_METHODS = %w(GET HEAD OPTIONS TRACE)
   SESSION_KEY     = "X-CSRF-TOKEN"
@@ -42,7 +46,7 @@ module Lucky::ProtectFromForgery
     params.get?(PARAM_KEY) || request.headers[SESSION_KEY]?
   end
 
-  def forbid_access_because_of_bad_token : Lucky::Response
+  private def forbid_access_because_of_bad_token : Lucky::Response
     head :forbidden
   end
 end

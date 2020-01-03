@@ -1,3 +1,4 @@
+# :nodoc:
 class Lucky::Router
   INSTANCE = new
 

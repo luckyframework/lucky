@@ -1,3 +1,4 @@
+# :nodoc:
 module Lucky::Assignable
   macro needs(*type_declarations)
     {% for declaration in type_declarations %}

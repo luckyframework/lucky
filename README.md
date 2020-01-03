@@ -22,6 +22,9 @@ Feel free to say hi or ask questions on our
 
 Keep up to date by following [@luckyframework](https://twitter.com/luckyframework) on Twitter.
 
+## Documentation
+[API (master)](https://luckyframework.github.io/lucky/)
+
 ## What's it look like?
 
 ### JSON endpoint:

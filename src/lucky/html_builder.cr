@@ -45,12 +45,17 @@ module Lucky::HTMLBuilder
 
   macro generate_needy_initializer
     {% if !@type.abstract? %}
+      {% sorted_assigns = ASSIGNS.sort_by { |dec|
+           dec.type.resolve.nilable? || dec.value || dec.value == nil || dec.value == false ? 1 : 0
+         } %}
       def initialize(
-        {% for declaration in ASSIGNS %}
+        {% for declaration in sorted_assigns %}
           {% var = declaration.var %}
           {% type = declaration.type %}
-          {% has_default = declaration.value || declaration.value == nil %}
-          {% if var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ declaration.value }}{% end %},
+          {% value = declaration.value %}
+          {% value = nil if type.stringify.ends_with?("Nil") && !value %}
+          {% has_default = value || value == false || value == nil %}
+          {% if false || var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ value }}{% end %},
         {% end %}
         **unused_exposures
         )

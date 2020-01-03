@@ -1,6 +1,6 @@
 class <%= pluralized_resource %>::IndexPage < MainLayout
   needs <%= pluralized_resource.underscore %> : <%= query_class %>
-  quick_def page_title, "All"
+  quick_def page_title, "All <%= pluralized_resource %>"
 
   def content
     h1 "All <%= pluralized_resource %>"
