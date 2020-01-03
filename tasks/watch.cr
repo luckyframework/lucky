@@ -204,6 +204,7 @@ end
 class Watch < LuckyCli::Task
   summary "Start and recompile project when files change"
   @reload_browser : Bool = false
+  @show_full_error_trace : Bool = false
 
   # Override parent class (LuckyCli::Task) because this method hijacks the following args: "--help", "-h", "help"
   def print_help_or_call(args : Array(String), io : IO = STDERR)
@@ -214,6 +215,7 @@ class Watch < LuckyCli::Task
     parse_options(args)
 
     build_commands = ["crystal build ./src/start_server.cr"]
+    build_commands[0] += " --error-trace" if @show_full_error_trace
     run_commands = ["./start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
@@ -242,6 +244,10 @@ class Watch < LuckyCli::Task
       parser.on("-h", "--help", "Show this help message") { puts parser; exit(0) }
       parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
         @reload_browser = true
+      }
+      # TODO: https://github.com/crystal-lang/crystal/issues/8374
+      parser.on("--error-trace", "Show full error trace.") {
+        @show_full_error_trace = true
       }
     end
   end
