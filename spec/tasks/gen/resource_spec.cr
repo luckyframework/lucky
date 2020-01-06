@@ -7,7 +7,7 @@ describe Gen::Action do
   it "generates actions, model, operation and query" do
     with_cleanup do
       Gen::Migration.silence_output do
-        io = generate Gen::Resource::Browser, "User", "name:String"
+        io = generate Gen::Resource::Browser, "User", "name:String", "signed_up:Time"
 
         should_create_files_with_contents io,
           "./src/actions/users/index.cr": "class Users::Index < BrowserAction",
@@ -32,28 +32,17 @@ describe Gen::Action do
           "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
           "./src/operations/save_user.cr": "class SaveUser < User::SaveOperation"
         should_generate_migration named: "create_users.cr"
+        should_generate_migration named: "create_users.cr", with: "add signed_up : Time"
         io.to_s.should contain "at: #{"/users".colorize.green}"
       end
     end
   end
 
-  it "allows for all supported column types" do
+  it "displays an error when given a more complex type" do
     with_cleanup do
-      io = generate Gen::Resource::Browser,
-        "Alphabet",
-        "a:Bool",
-        "b:Int16",
-        "c:Int32",
-        "d:Int64",
-        "e:String",
-        "f:UUID",
-        "g:Time",
-        "h:Float64",
-        "i:JSON::Any",
-        "j:Array(String)"
-      io.to_s.should_not contain("Must provide valid columns")
-      should_generate_migration named: "create_alphabets.cr", with: "add i : JSON::Any"
-      should_generate_migration named: "create_alphabets.cr", with: "add j : Array(String)"
+      io = generate Gen::Resource::Browser, "Alphabet", "a:JSON::Any"
+
+      io.to_s.should contain("Other complex types can be added manually")
     end
   end
 
