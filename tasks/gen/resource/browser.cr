@@ -38,7 +38,7 @@ class Gen::Resource::Browser < LuckyCli::Task
 
   private def columns : Array(Lucky::GeneratedColumn)
     column_definitions.map do |column_definition|
-      column_name, column_type = column_definition.split(":")
+      column_name, column_type = parse_definition(column_definition)
       Lucky::GeneratedColumn.new(name: column_name, type: column_type)
     end
   end
@@ -134,10 +134,22 @@ class Gen::Resource::Browser < LuckyCli::Task
 
   private def columns_are_valid? : Bool
     column_definitions.any? && column_definitions.all? do |column_definition|
-      column_parts = column_definition.split(":")
-      column_name = column_parts.first
+      column_parts = parse_definition(column_definition)
+      column_name = column_parts.first?.to_s
       column_parts.size == 2 && column_name == column_name.underscore
     end
+  end
+
+  private def parse_definition(column_definition : String) : Array(String)
+    matcher = /^([a-z_0-9]+):(Bool|Int16|Int32|Int64|String|UUID|Time|Float64|JSON::Any|Array\(\w+\))/
+    matched = column_definition.match(matcher)
+    definition = [] of String
+    if matched
+      definition << matched[1] if matched[1]?
+      definition << matched[2] if matched[2]?
+    end
+
+    definition
   end
 
   private def display_success_messages

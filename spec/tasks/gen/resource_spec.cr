@@ -4,7 +4,7 @@ include CleanupHelper
 include GeneratorHelper
 
 describe Gen::Action do
-  it "generates actions, model, form and query" do
+  it "generates actions, model, operation and query" do
     with_cleanup do
       Gen::Migration.silence_output do
         io = generate Gen::Resource::Browser, "User", "name:String"
@@ -34,6 +34,26 @@ describe Gen::Action do
         should_generate_migration named: "create_users.cr"
         io.to_s.should contain "at: #{"/users".colorize.green}"
       end
+    end
+  end
+
+  it "allows for all supported column types" do
+    with_cleanup do
+      io = generate Gen::Resource::Browser,
+        "Alphabet",
+        "a:Bool",
+        "b:Int16",
+        "c:Int32",
+        "d:Int64",
+        "e:String",
+        "f:UUID",
+        "g:Time",
+        "h:Float64",
+        "i:JSON::Any",
+        "j:Array(String)"
+      io.to_s.should_not contain("Must provide valid columns")
+      should_generate_migration named: "create_alphabets.cr", with: "add i : JSON::Any"
+      should_generate_migration named: "create_alphabets.cr", with: "add j : Array(String)"
     end
   end
 

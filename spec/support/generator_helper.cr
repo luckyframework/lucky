@@ -9,4 +9,10 @@ module GeneratorHelper
   private def should_generate_migration(named name : String)
     Dir.new("./db/migrations").any?(&.ends_with?(name)).should be_true
   end
+
+  private def should_generate_migration(named name : String, with content : String)
+    filename = Dir.new("./db/migrations").find(&.ends_with?(name))
+    filename.should_not be_nil
+    File.read("./db/migrations/#{filename}").should contain(content)
+  end
 end
