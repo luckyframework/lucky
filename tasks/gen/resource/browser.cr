@@ -6,7 +6,7 @@ require "avram"
 class Gen::Resource::Browser < LuckyCli::Task
   summary "Generate a resource (model, operation, query, actions, and pages)"
   getter io : IO = STDOUT
-  VALID_TYPES = {"Bool", "Float64", "Int16", "Int32", "Int64", "String", "Time", "UUID"}
+  SUPPORTED_TYPES = {"Bool", "Float64", "Int16", "Int32", "Int64", "String", "Time", "UUID"}
 
   class InvalidOption < Exception
     def initialize(message : String)
@@ -83,7 +83,7 @@ class Gen::Resource::Browser < LuckyCli::Task
     validate_not_namespaced!
     validate_name_is_singular!
     validate_name_is_camelcase!
-    validate_has_valid_columns!
+    validate_has_supported_columns!
   end
 
   private def validate_name_is_present!
@@ -111,10 +111,10 @@ class Gen::Resource::Browser < LuckyCli::Task
     end
   end
 
-  private def validate_has_valid_columns!
+  private def validate_has_supported_columns!
     if !columns_are_valid?
       error <<-ERR
-      Must provide valid columns for the resource: lucky gen.resource.browser #{resource_name.camelcase} name:String
+      Must provide a supported column type for the resource: lucky gen.resource.browser #{resource_name.camelcase} name:String
 
       Other complex types can be added manually. See https://luckyframework.org/guides/database/migrations#add-column for more details.
       ERR
@@ -144,7 +144,7 @@ class Gen::Resource::Browser < LuckyCli::Task
       column_type = column_parts.last
       column_parts.size == 2 &&
         column_name == column_name.underscore &&
-        VALID_TYPES.includes?(column_type)
+        SUPPORTED_TYPES.includes?(column_type)
     end
   end
 

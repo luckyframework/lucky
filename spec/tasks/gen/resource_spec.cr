@@ -66,7 +66,7 @@ describe Gen::Action do
     with_cleanup do
       io = generate Gen::Resource::Browser, "User"
 
-      io.to_s.should contain("Must provide valid columns for the resource")
+      io.to_s.should contain("Must provide a supported column type for the resource")
     end
   end
 
@@ -74,7 +74,7 @@ describe Gen::Action do
     with_cleanup do
       io = generate Gen::Resource::Browser, "User", "name", "String"
 
-      io.to_s.should contain("Must provide valid columns for the resource")
+      io.to_s.should contain("Must provide a supported column type for the resource")
     end
   end
 
