@@ -38,8 +38,8 @@ module Gen::Mixins::MigrationWithColumns
     !!ARGV[1]?
   end
 
-  private def columns_are_valid?(required : Bool = false) : Bool
-    (!required || column_definitions.any?) && column_definitions.all? do |column_definition|
+  private def columns_are_valid? : Bool
+    column_definitions.all? do |column_definition|
       column_parts = parse_definition(column_definition)
       column_name = column_parts.first
       column_type = column_parts.last

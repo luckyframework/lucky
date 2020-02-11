@@ -91,7 +91,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def validate_has_supported_columns!
-    if !columns_are_valid?(required: true)
+    if column_definitions.empty? || !columns_are_valid?
       error unsupported_columns_error("resource", "resource.browser")
     end
   end
