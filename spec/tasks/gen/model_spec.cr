@@ -9,18 +9,30 @@ describe Gen::Model do
       Gen::Migration.silence_output do
         io = IO::Memory.new
         model_name = "ContactInfo"
-        ARGV.push(model_name)
+        ARGV.push(model_name, "name:String", "contacted_at:Time")
 
         Gen::Model.new.call(io)
 
-        should_generate_migration named: "create_contact_infos.cr"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "table"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
           "./src/operations/save_contact_info.cr": "class SaveContactInfo < ContactInfo::SaveOperation",
           "./src/queries/contact_info_query.cr": "class ContactInfoQuery < ContactInfo::BaseQuery"
+        should_generate_migration named: "create_contact_infos.cr",
+          with: "add contacted_at : Time"
       end
+    end
+  end
+
+  it "displays an error when given a more complex type" do
+    with_cleanup do
+      io = IO::Memory.new
+      ARGV.push("Alphabet", "a:JSON::Any")
+
+      Gen::Model.new.call(io)
+
+      io.to_s.should contain("Other complex types can be added manually")
     end
   end
 

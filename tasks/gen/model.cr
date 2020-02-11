@@ -3,8 +3,10 @@ require "teeplate"
 require "avram"
 require "./templates/model_template"
 require "wordsmith"
+require "./mixins/migration_with_columns"
 
 class Gen::Model < LuckyCli::Task
+  include Gen::Mixins::MigrationWithColumns
   summary "Generate a model, query, and save operation"
   getter io : IO = STDOUT
 
@@ -24,59 +26,52 @@ class Gen::Model < LuckyCli::Task
 
     Example:
 
-      lucky gen.model Project
+      lucky gen.model Project title:String completed:Bool priority:Int32
     TEXT
   end
 
   def create_migration
     Avram::Migrator::MigrationGenerator.new(
-      "Create#{pluralized_model_name}",
+      "Create#{pluralized_subject_name}",
       migrate_contents: migrate_contents,
       rollback_contents: rollback_contents
     ).generate
   end
 
-  private def migrate_contents
-    String.build do |string|
-      string << "# Learn about migrations at: https://luckyframework.org/guides/database/migrations"
-      string << "\n"
-      string << "create table_for(#{model_name}) do\n"
-      string << "  primary_key id : Int64\n"
-      string << "  add_timestamps\n"
-      string << "end"
-    end
-  end
-
-  private def rollback_contents : String
-    "drop table_for(#{model_name})"
-  end
-
-  private def pluralized_model_name
-    Wordsmith::Inflector.pluralize(model_name)
+  private def pluralized_subject_name
+    Wordsmith::Inflector.pluralize(subject_name)
   end
 
   private def valid?
-    model_name_is_present && model_name_is_camelcase && model_name_matches_format
+    subject_name_is_present &&
+      subject_name_is_camelcase &&
+      subject_name_matches_format &&
+      columns_are_supported
   end
 
-  private def model_name_is_present
+  private def subject_name_is_present
     @error = "Model name is required. Example: lucky gen.model User"
     ARGV.first?
   end
 
-  private def model_name_is_camelcase
-    @error = "Model name should be camel case. Example: lucky gen.model #{model_name.camelcase}"
-    model_name.camelcase == model_name
+  private def subject_name_is_camelcase
+    @error = "Model name should be camel case. Example: lucky gen.model #{subject_name.camelcase}"
+    subject_name.camelcase == subject_name
   end
 
-  private def model_name_matches_format
-    formatted = model_name.gsub(/[^\w]/, "")
+  private def subject_name_matches_format
+    formatted = subject_name.gsub(/[^\w]/, "")
     @error = "Model name should only contain letters. Example: lucky gen.model #{formatted}"
-    model_name == formatted
+    subject_name == formatted
+  end
+
+  private def columns_are_supported
+    @error = unsupported_columns_error("model")
+    columns_are_valid?
   end
 
   private def template
-    Lucky::ModelTemplate.new(model_name)
+    Lucky::ModelTemplate.new(subject_name)
   end
 
   private def display_success_messages
@@ -86,10 +81,10 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def success_message(filename, type = nil)
-    "Generated #{model_name.colorize(:green)}#{type.colorize(:green)} in #{filename.colorize(:green)}"
+    "Generated #{subject_name.colorize(:green)}#{type.colorize(:green)} in #{filename.colorize(:green)}"
   end
 
-  private def model_name
+  private def subject_name
     ARGV.first
   end
 

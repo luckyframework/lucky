@@ -3,7 +3,7 @@ require "../../spec_helper"
 include CleanupHelper
 include GeneratorHelper
 
-describe Gen::Action do
+describe Gen::Resource::Browser do
   it "generates actions, model, operation and query" do
     with_cleanup do
       Gen::Migration.silence_output do
