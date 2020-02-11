@@ -8,6 +8,26 @@ describe Gen::Model do
     with_cleanup do
       Gen::Migration.silence_output do
         io = IO::Memory.new
+        model_name = "Customer"
+        ARGV.push(model_name)
+
+        Gen::Model.new.call(io)
+
+        should_create_files_with_contents io,
+          "./src/models/customer.cr": "table"
+        should_create_files_with_contents io,
+          "./src/models/customer.cr": "class Customer < BaseModel",
+          "./src/operations/save_customer.cr": "class SaveCustomer < Customer::SaveOperation",
+          "./src/queries/customer_query.cr": "class CustomerQuery < Customer::BaseQuery"
+        should_generate_migration named: "create_customers.cr"
+      end
+    end
+  end
+
+  it "generates a model with columns" do
+    with_cleanup do
+      Gen::Migration.silence_output do
+        io = IO::Memory.new
         model_name = "ContactInfo"
         ARGV.push(model_name, "name:String", "contacted_at:Time")
 
@@ -26,14 +46,12 @@ describe Gen::Model do
   end
 
   it "displays an error when given a more complex type" do
-    with_cleanup do
-      io = IO::Memory.new
-      ARGV.push("Alphabet", "a:JSON::Any")
+    io = IO::Memory.new
+    ARGV.push("Alphabet", "a:JSON::Any")
 
-      Gen::Model.new.call(io)
+    Gen::Model.new.call(io)
 
-      io.to_s.should contain("Other complex types can be added manually")
-    end
+    io.to_s.should contain("Other complex types can be added manually")
   end
 
   it "displays an error if given no arguments" do

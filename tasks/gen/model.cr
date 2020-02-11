@@ -7,6 +7,7 @@ require "./mixins/migration_with_columns"
 
 class Gen::Model < LuckyCli::Task
   include Gen::Mixins::MigrationWithColumns
+
   summary "Generate a model, query, and save operation"
   getter io : IO = STDOUT
 
@@ -32,37 +33,37 @@ class Gen::Model < LuckyCli::Task
 
   def create_migration
     Avram::Migrator::MigrationGenerator.new(
-      "Create#{pluralized_subject_name}",
+      "Create#{pluralized_resource_name}",
       migrate_contents: migrate_contents,
       rollback_contents: rollback_contents
     ).generate
   end
 
-  private def pluralized_subject_name
-    Wordsmith::Inflector.pluralize(subject_name)
+  private def pluralized_resource_name
+    Wordsmith::Inflector.pluralize(resource_name)
   end
 
   private def valid?
-    subject_name_is_present &&
-      subject_name_is_camelcase &&
-      subject_name_matches_format &&
+    resource_name_is_present &&
+      resource_name_is_camelcase &&
+      resource_name_matches_format &&
       columns_are_supported
   end
 
-  private def subject_name_is_present
+  private def resource_name_is_present
     @error = "Model name is required. Example: lucky gen.model User"
     ARGV.first?
   end
 
-  private def subject_name_is_camelcase
-    @error = "Model name should be camel case. Example: lucky gen.model #{subject_name.camelcase}"
-    subject_name.camelcase == subject_name
+  private def resource_name_is_camelcase
+    @error = "Model name should be camel case. Example: lucky gen.model #{resource_name.camelcase}"
+    resource_name.camelcase == resource_name
   end
 
-  private def subject_name_matches_format
-    formatted = subject_name.gsub(/[^\w]/, "")
+  private def resource_name_matches_format
+    formatted = resource_name.gsub(/[^\w]/, "")
     @error = "Model name should only contain letters. Example: lucky gen.model #{formatted}"
-    subject_name == formatted
+    resource_name == formatted
   end
 
   private def columns_are_supported
@@ -71,7 +72,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def template
-    Lucky::ModelTemplate.new(subject_name)
+    Lucky::ModelTemplate.new(resource_name)
   end
 
   private def display_success_messages
@@ -81,10 +82,10 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def success_message(filename, type = nil)
-    "Generated #{subject_name.colorize(:green)}#{type.colorize(:green)} in #{filename.colorize(:green)}"
+    "Generated #{resource_name.colorize(:green)}#{type.colorize(:green)} in #{filename.colorize(:green)}"
   end
 
-  private def subject_name
+  private def resource_name
     ARGV.first
   end
 

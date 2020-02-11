@@ -6,6 +6,7 @@ require "../mixins/migration_with_columns"
 
 class Gen::Resource::Browser < LuckyCli::Task
   include Gen::Mixins::MigrationWithColumns
+
   summary "Generate a resource (model, operation, query, actions, and pages)"
   getter io : IO = STDOUT
 
@@ -39,7 +40,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def generate_resource
-    Lucky::ResourceTemplate.new(subject_name, columns).render("./src/")
+    Lucky::ResourceTemplate.new(resource_name, columns).render("./src/")
     Avram::Migrator::MigrationGenerator.new(
       "Create" + pluralized_resource,
       migrate_contents: migrate_contents,
@@ -65,32 +66,32 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def validate_name_is_present!
-    if subject_name?.nil? || subject_name?.try &.empty?
+    if resource_name?.nil? || resource_name?.try &.empty?
       error "Resource name is required. Example: lucky gen.resource.browser User"
     end
   end
 
   private def validate_not_namespaced!
-    if subject_name.includes?("::")
+    if resource_name.includes?("::")
       error "Namespaced resources are not supported"
     end
   end
 
   private def validate_name_is_singular!
-    singularized_name = Wordsmith::Inflector.singularize(subject_name)
-    if singularized_name != subject_name
+    singularized_name = Wordsmith::Inflector.singularize(resource_name)
+    if singularized_name != resource_name
       error "Resource must be singular. Example: lucky gen.resource.browser #{singularized_name}"
     end
   end
 
   private def validate_name_is_camelcase!
-    if subject_name.camelcase != subject_name
-      error "Resource name should be camel case. Example: lucky gen.resource.browser #{subject_name.camelcase}"
+    if resource_name.camelcase != resource_name
+      error "Resource name should be camel case. Example: lucky gen.resource.browser #{resource_name.camelcase}"
     end
   end
 
   private def validate_has_supported_columns!
-    if !columns_are_valid?
+    if !columns_are_valid?(required: true)
       error unsupported_columns_error("resource", "resource.browser")
     end
   end
@@ -100,9 +101,9 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def display_success_messages
-    success_message(subject_name, "./src/models/#{underscored_resource}.cr")
-    success_message("Save" + subject_name, "./src/operations/save_#{underscored_resource}.cr")
-    success_message(subject_name + "Query", "./src/queries/#{underscored_resource}_query.cr")
+    success_message(resource_name, "./src/models/#{underscored_resource}.cr")
+    success_message("Save" + resource_name, "./src/operations/save_#{underscored_resource}.cr")
+    success_message(resource_name + "Query", "./src/queries/#{underscored_resource}_query.cr")
     %w(index show new create edit update delete).each do |action|
       success_message(
         pluralized_resource + "::" + action.capitalize,
@@ -118,7 +119,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def underscored_resource
-    subject_name.underscore
+    resource_name.underscore
   end
 
   private def folder_name
@@ -126,18 +127,18 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def pluralized_resource
-    Wordsmith::Inflector.pluralize subject_name
+    Wordsmith::Inflector.pluralize resource_name
   end
 
   private def success_message(class_name : String, filename : String) : Void
     io.puts "Generated #{class_name.colorize.green} in #{filename.colorize.green}"
   end
 
-  private def subject_name
-    subject_name?.not_nil!
+  private def resource_name
+    resource_name?.not_nil!
   end
 
-  private def subject_name?
+  private def resource_name?
     ARGV.first?
   end
 end

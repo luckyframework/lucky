@@ -5,7 +5,7 @@ module Gen::Mixins::MigrationWithColumns
     String.build do |string|
       string << "# Learn about migrations at: https://luckyframework.org/guides/database/migrations"
       string << "\n"
-      string << "create table_for(#{subject_name}) do\n"
+      string << "create table_for(#{resource_name}) do\n"
       string << "  primary_key id : Int64\n"
       string << "  add_timestamps\n"
       columns.each do |column|
@@ -16,7 +16,7 @@ module Gen::Mixins::MigrationWithColumns
   end
 
   private def rollback_contents : String
-    "drop table_for(#{subject_name})"
+    "drop table_for(#{resource_name})"
   end
 
   private def columns : Array(Lucky::GeneratedColumn)
@@ -38,8 +38,8 @@ module Gen::Mixins::MigrationWithColumns
     !!ARGV[1]?
   end
 
-  private def columns_are_valid? : Bool
-    column_definitions.any? && column_definitions.all? do |column_definition|
+  private def columns_are_valid?(required : Bool = false) : Bool
+    (!required || column_definitions.any?) && column_definitions.all? do |column_definition|
       column_parts = parse_definition(column_definition)
       column_name = column_parts.first
       column_type = column_parts.last
@@ -55,7 +55,7 @@ module Gen::Mixins::MigrationWithColumns
 
   private def unsupported_columns_error(subject : String, generator : String = subject)
     <<-ERR
-    Must provide a supported column type for the #{subject}: lucky gen.#{generator || subject} #{subject_name.camelcase} name:String
+    Must provide a supported column type for the #{subject}: lucky gen.#{generator || subject} #{resource_name.camelcase} name:String
 
     Other complex types can be added manually. See https://luckyframework.org/guides/database/migrations#add-column for more details.
     ERR
