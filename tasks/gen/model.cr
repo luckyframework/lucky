@@ -72,7 +72,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def template
-    Lucky::ModelTemplate.new(resource_name)
+    Lucky::ModelTemplate.new(resource_name, columns)
   end
 
   private def display_success_messages

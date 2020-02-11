@@ -1,2 +1,5 @@
 class Save<%= @name %> < <%= @name %>::SaveOperation
+<%- if @columns.any? -%>
+  permit_columns <%= @columns.map(&.name).join(", ") %>
+<%- end -%>
 end
