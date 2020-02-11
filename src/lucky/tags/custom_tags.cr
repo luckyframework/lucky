@@ -9,10 +9,9 @@ module Lucky::CustomTags
     attrs : Array(Symbol) = [] of Symbol,
     **other_options
   )
-    bool_attrs = build_boolean_attrs(attrs)
     merged_options = merge_options(other_options, options)
 
-    tag(name, bool_attrs, merged_options) do
+    tag(name, attrs, merged_options) do
       text content
     end
   end
@@ -29,9 +28,10 @@ module Lucky::CustomTags
     end
   end
 
-  def tag(name : String, boolean_attrs : String = "", options = EMPTY_HTML_ATTRS, **other_options, &block)
+  def tag(name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block)
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
+    boolean_attrs = build_boolean_attrs(attrs)
     view << "<#{name}" << tag_attrs << boolean_attrs << ">"
     check_tag_content!(yield)
     view << "</#{name}>"
