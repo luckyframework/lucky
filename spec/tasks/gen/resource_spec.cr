@@ -3,7 +3,7 @@ require "../../spec_helper"
 include CleanupHelper
 include GeneratorHelper
 
-describe Gen::Action do
+describe Gen::Resource::Browser do
   it "generates actions, model, operation and query" do
     with_cleanup do
       Gen::Migration.silence_output do
@@ -31,6 +31,8 @@ describe Gen::Action do
           "./src/models/user.cr": "class User < BaseModel",
           "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
           "./src/operations/save_user.cr": "class SaveUser < User::SaveOperation"
+        should_create_files_with_contents io,
+          "./src/operations/save_user.cr": "# permit_columns name, signed_up"
         should_generate_migration named: "create_users.cr"
         should_generate_migration named: "create_users.cr", with: "add signed_up : Time"
         io.to_s.should contain "at: #{"/users".colorize.green}"

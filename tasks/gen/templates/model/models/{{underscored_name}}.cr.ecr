@@ -1,4 +1,7 @@
 class <%= @name %> < BaseModel
   table do
+    <%- @columns.each do |column| -%>
+    column <%= column.name %> : <%= column.type %>
+    <%- end -%>
   end
 end
