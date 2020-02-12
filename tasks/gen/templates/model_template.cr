@@ -12,4 +12,15 @@ class Lucky::ModelTemplate < Teeplate::FileTree
     @underscored_name = @name.underscore
     @pluralized_name = Wordsmith::Inflector.pluralize(@underscored_name)
   end
+
+  def columns_list
+    (@columns.any? ? @columns : example_columns).map(&.name).join(", ")
+  end
+
+  private def example_columns
+    [
+      Lucky::GeneratedColumn.new("column_1", ""),
+      Lucky::GeneratedColumn.new("column_2", ""),
+    ]
+  end
 end

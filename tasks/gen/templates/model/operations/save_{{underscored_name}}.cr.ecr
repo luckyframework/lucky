@@ -1,5 +1,6 @@
 class Save<%= @name %> < <%= @name %>::SaveOperation
-<%- if @columns.any? -%>
-  permit_columns <%= @columns.map(&.name).join(", ") %>
-<%- end -%>
+  # To save user provided params to the database, you must permit them
+  # https://luckyframework.org/guides/database/validating-saving#perma-permitting-columns
+  #
+  # permit_columns <%= columns_list %>
 end

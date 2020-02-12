@@ -41,20 +41,16 @@ class Gen::Resource::Browser < LuckyCli::Task
 
   private def generate_resource
     Lucky::ResourceTemplate.new(resource_name, columns).render("./src/")
-    Avram::Migrator::MigrationGenerator.new(
-      "Create" + pluralized_resource,
-      migrate_contents: migrate_contents,
-      rollback_contents: rollback_contents
-    ).generate
+    create_migration
     display_success_messages
   end
 
   private def display_path_to_resource
-    io.puts "\nView list of #{pluralized_resource} in your browser at: #{path_to_resource.colorize.green}"
+    io.puts "\nView list of #{pluralized_name} in your browser at: #{path_to_resource.colorize.green}"
   end
 
   private def path_to_resource
-    "/" + pluralized_resource.underscore
+    "/" + pluralized_name.underscore
   end
 
   private def validate! : Void
@@ -106,13 +102,13 @@ class Gen::Resource::Browser < LuckyCli::Task
     success_message(resource_name + "Query", "./src/queries/#{underscored_resource}_query.cr")
     %w(index show new create edit update delete).each do |action|
       success_message(
-        pluralized_resource + "::" + action.capitalize,
+        pluralized_name + "::" + action.capitalize,
         "./src/actions/#{folder_name}/#{action}.cr"
       )
     end
     %w(index show new edit).each do |action|
       success_message(
-        pluralized_resource + "::" + action.capitalize + "Page",
+        pluralized_name + "::" + action.capitalize + "Page",
         "./src/pages/#{folder_name}/#{action}_page.cr"
       )
     end
@@ -126,7 +122,7 @@ class Gen::Resource::Browser < LuckyCli::Task
     Wordsmith::Inflector.pluralize underscored_resource
   end
 
-  private def pluralized_resource
+  private def pluralized_name
     Wordsmith::Inflector.pluralize resource_name
   end
 
@@ -156,10 +152,10 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
     @operation_filename = operation_class.underscore
     @query_filename = query_class.underscore
     @underscored_resource = @resource.underscore
-    @folder_name = pluralized_resource.underscore
+    @folder_name = pluralized_name.underscore
   end
 
-  private def pluralized_resource
+  private def pluralized_name
     Wordsmith::Inflector.pluralize(resource)
   end
 

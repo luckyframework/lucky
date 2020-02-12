@@ -31,18 +31,6 @@ class Gen::Model < LuckyCli::Task
     TEXT
   end
 
-  def create_migration
-    Avram::Migrator::MigrationGenerator.new(
-      "Create#{pluralized_resource_name}",
-      migrate_contents: migrate_contents,
-      rollback_contents: rollback_contents
-    ).generate
-  end
-
-  private def pluralized_resource_name
-    Wordsmith::Inflector.pluralize(resource_name)
-  end
-
   private def valid?
     resource_name_is_present &&
       resource_name_is_camelcase &&
@@ -87,6 +75,10 @@ class Gen::Model < LuckyCli::Task
 
   private def resource_name
     ARGV.first
+  end
+
+  private def pluralized_name
+    Wordsmith::Inflector.pluralize(resource_name)
   end
 
   private def underscored_name

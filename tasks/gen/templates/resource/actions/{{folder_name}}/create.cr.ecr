@@ -1,4 +1,4 @@
-class <%= pluralized_resource %>::Create < BrowserAction
+class <%= pluralized_name %>::Create < BrowserAction
   route do
     <%= operation_class %>.create(params) do |operation, <%= underscored_resource %>|
       if <%= underscored_resource %>

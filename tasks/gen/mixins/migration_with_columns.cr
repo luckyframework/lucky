@@ -1,6 +1,14 @@
 module Gen::Mixins::MigrationWithColumns
   SUPPORTED_TYPES = {"Bool", "Float64", "Int16", "Int32", "Int64", "String", "Time", "UUID"}
 
+  def create_migration
+    Avram::Migrator::MigrationGenerator.new(
+      "Create#{pluralized_name}",
+      migrate_contents: migrate_contents,
+      rollback_contents: rollback_contents
+    ).generate
+  end
+
   private def migrate_contents : String
     String.build do |string|
       string << "# Learn about migrations at: https://luckyframework.org/guides/database/migrations"

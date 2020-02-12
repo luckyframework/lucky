@@ -16,8 +16,10 @@ describe Gen::Model do
         should_create_files_with_contents io,
           "./src/models/customer.cr": "table"
         should_create_files_with_contents io,
+          "./src/operations/save_customer.cr": "# permit_columns column_1, column_2"
+        should_create_files_with_contents io,
           "./src/models/customer.cr": "class Customer < BaseModel",
-          "./src/operations/save_customer.cr": "class SaveCustomer < Customer::SaveOperation\nend",
+          "./src/operations/save_customer.cr": "class SaveCustomer < Customer::SaveOperation",
           "./src/queries/customer_query.cr": "class CustomerQuery < Customer::BaseQuery"
         should_generate_migration named: "create_customers.cr"
       end
@@ -37,7 +39,7 @@ describe Gen::Model do
           "./src/models/contact_info.cr": "table"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "column name : String",
-          "./src/operations/save_contact_info.cr": "permit_columns name, contacted_at"
+          "./src/operations/save_contact_info.cr": "# permit_columns name, contacted_at"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
           "./src/operations/save_contact_info.cr": "class SaveContactInfo < ContactInfo::SaveOperation",
