@@ -1,4 +1,25 @@
-### Changes in 0.18
+### v0.18.3 (2020-02-17)
+
+- Added: support for Crystal 0.33.0
+
+### v0.18.2 (2019-12-13)
+
+- Added: support for Crystal 0.32.0
+
+### v0.18.1 (2019-10-18)
+
+- Fixed: debug page in development with reset context
+- Updated: lucky exec works more like a REPL
+- Updated: Log time measured with monotonic
+- Fixed: Record deletion when primary key is UUID
+- Fixed: Setting empty array as default to array column
+- Added: Overflow cast catch from Int64 to Int32
+- Fixed: UUID primary key issue in SaveOperation
+- Fixed: required attribute validations on custom before_save callbacks
+- Added: New `reset_limit` query method
+- Added: New `reset_offset` query method
+
+### v0.18.0 (2019-10-03)
 
 - Added: support for Crystal 0.31.1
 - Fixed: how accept / content-type headers are handled [#869](https://github.com/luckyframework/lucky/pull/869)
