@@ -49,12 +49,18 @@ class PageWithDefaultsFirst
   needs nothing : Bool = false
   needs extra_css : String?
   needs extra_html : String? = nil
+  needs optional_metaclass : String.class | Nil
   needs status : String = "special"
   needs title : String
 
   def render
     text "#{@status} #{@title}"
   end
+end
+
+class PageWithMetaclass
+  include Lucky::HTMLPage
+  needs string_class : String.class
 end
 
 describe "Assigns within multiple pages with the same name" do
@@ -64,5 +70,6 @@ describe "Assigns within multiple pages with the same name" do
     PageThree.new build_context, name: "Paul", admin_name: "Pablo", title: "Admin"
     PageWithQuestionMark.new(build_context, signed_in?: true).perform_render.to_s.should contain("true")
     PageWithDefaultsFirst.new(build_context, required: "thing", title: "foo").perform_render.to_s.should contain("special foo")
+    PageWithMetaclass.new(build_context, string_class: String)
   end
 end
