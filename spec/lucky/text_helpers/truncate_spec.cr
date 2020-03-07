@@ -3,19 +3,19 @@ require "./text_helpers_spec"
 class TextHelperTestPage
   def test_truncate
     truncate "Hello World", length: 8 do
-      link "Continue", "#"
+      a "Continue", href: "#"
     end
   end
 
   def text_truncate_with_block_invoked
     truncate("Here is a long test and I need a continue to read link", length: 27) do
-      link "Continue", "#"
+      a "Continue", href: "#"
     end
   end
 
   def text_truncate_without_block_invoked
     truncate("Hello World", length: 12) do
-      link "Continue", "#"
+      a "Continue", href: "#"
     end
   end
 end

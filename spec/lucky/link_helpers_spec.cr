@@ -26,32 +26,14 @@ private class TestPage
     link "Test", to: LinkHelpers::Create, something_custom: "foo"
   end
 
-  def string_path
-    link "Test", to: "/foos"
-  end
-
-  def string_path_with_options
-    link "Test", to: "/foos", data_method: "post"
-  end
-
   def get_route_with_block
     link to: LinkHelpers::Index do
       text "Hello"
     end
   end
 
-  def string_path_with_block
-    link to: "/foo" do
-      text "Hello"
-    end
-  end
-
   def get_route_without_text
     link to: LinkHelpers::Index
-  end
-
-  def string_path_without_text
-    link to: "/foo"
   end
 
   def get_route_with_text_and_attrs
@@ -67,14 +49,6 @@ private class TestPage
       text "Hello"
     end
   end
-
-  def string_path_with_attrs
-    link "Test", to: "/foos", attrs: [:disabled]
-  end
-
-  def string_path_with_attrs_no_text
-    link to: "/foos", attrs: [:disabled]
-  end
 end
 
 describe Lucky::LinkHelpers do
@@ -85,8 +59,6 @@ describe Lucky::LinkHelpers do
       .non_get_route_with_options
       .to_s
       .should contain %(<a href="/link_helpers" data-method="post" something-custom="foo">Test</a>)
-    view.string_path.to_s.should contain %(<a href="/foos">Test</a>)
-    view.string_path_with_options.to_s.should contain %(<a href="/foos" data-method="post">Test</a>)
   end
 
   it "renders a link tag with an action" do
@@ -102,20 +74,12 @@ describe Lucky::LinkHelpers do
   end
 
   it "renders a link tag with a block" do
-    view.string_path_with_block.to_s.should contain <<-HTML
-    <a href="/foo">Hello</a>
-    HTML
-
     view.get_route_with_block.to_s.should contain <<-HTML
     <a href="/link_helpers">Hello</a>
     HTML
   end
 
   it "renders a link tag without text" do
-    view.string_path_without_text.to_s.should contain <<-HTML
-    <a href="/foo"></a>
-    HTML
-
     view.get_route_without_text.to_s.should contain <<-HTML
     <a href="/link_helpers"></a>
     HTML
@@ -142,14 +106,6 @@ describe Lucky::LinkHelpers do
 
     view.get_route_with_block_and_attrs.to_s.should contain <<-HTML
     <a href="/link_helpers" disabled>Hello</a>
-    HTML
-
-    view.string_path_with_attrs.to_s.should contain <<-HTML
-    <a href="/foos" disabled>Test</a>
-    HTML
-
-    view.string_path_with_attrs_no_text.to_s.should contain <<-HTML
-    <a href="/foos" disabled></a>
     HTML
   end
 end
