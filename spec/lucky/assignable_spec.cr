@@ -36,10 +36,10 @@ end
 
 class PageWithQuestionMark
   include Lucky::HTMLPage
-  needs signed_in? : Bool
+  needs signed_in : Bool
 
   def render
-    text @signed_in.to_s
+    text signed_in?.to_s
   end
 end
 
@@ -61,6 +61,11 @@ end
 class PageWithMetaclass
   include Lucky::HTMLPage
   needs string_class : String.class
+  needs access_me_with_a_getter : String = "called from an auto-generated getter"
+
+  def render
+    text access_me_with_a_getter
+  end
 end
 
 describe "Assigns within multiple pages with the same name" do
@@ -68,8 +73,9 @@ describe "Assigns within multiple pages with the same name" do
     PageOne.new build_context, title: "foo", name: "Paul", second: "second"
     PageTwo.new build_context, title: "foo", name: "Paul"
     PageThree.new build_context, name: "Paul", admin_name: "Pablo", title: "Admin"
-    PageWithQuestionMark.new(build_context, signed_in?: true).perform_render.to_s.should contain("true")
+    PageWithQuestionMark.new(build_context, signed_in: true).perform_render.to_s.should contain("true")
     PageWithDefaultsFirst.new(build_context, required: "thing", title: "foo").perform_render.to_s.should contain("special foo")
     PageWithMetaclass.new(build_context, string_class: String)
+      .perform_render.to_s.should contain("called from an auto-generated getter")
   end
 end

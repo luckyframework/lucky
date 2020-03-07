@@ -3,7 +3,10 @@ module Lucky::Assignable
   macro needs(*type_declarations)
     {% for declaration in type_declarations %}
       {% unless declaration.is_a?(TypeDeclaration) %}
-        {% raise "needs expected a type declaration like 'name : String', instead got: '#{declaration}'" %}
+        {% raise "'needs' expects a type declaration like 'name : String', instead got: '#{declaration}'" %}
+      {% end %}
+      {% if declaration.var.stringify.ends_with?("?") %}
+        {% raise "Using '?' in a 'needs' var name is no longer supported. Now Lucky generates a method ending in '?' if the type is 'Bool'." %}
       {% end %}
       {% ASSIGNS << declaration %}
     {% end %}
