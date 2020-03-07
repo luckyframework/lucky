@@ -28,6 +28,7 @@ module Lucky::HTMLBuilder
   macro setup_initializer_hook
     macro finished
       generate_needy_initializer
+      generate_getters
     end
 
     macro included
@@ -61,11 +62,23 @@ module Lucky::HTMLBuilder
           {% value = declaration.value %}
           {% value = nil if type.stringify.ends_with?("Nil") && !value %}
           {% has_default = value || value == false || value == nil %}
-          {% if false || var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ value }}{% end %},
+          @{{ var.id }} : {{ type }}{% if has_default %} = {{ value }}{% end %},
         {% end %}
         **unused_exposures
         )
       end
+    {% end %}
+  end
+
+  macro generate_getters
+    {% if !@type.abstract? %}
+      {% for declaration in ASSIGNS %}
+        {% if declaration.type.stringify == "Bool" %}
+          getter? {{ declaration }}
+        {% else %}
+          getter {{ declaration }}
+        {% end %}
+      {% end %}
     {% end %}
   end
 
