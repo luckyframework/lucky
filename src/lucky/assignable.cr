@@ -1,5 +1,26 @@
-# :nodoc:
 module Lucky::Assignable
+  # Declare what a page needs in order to be initialized.
+  #
+  # This will declare an instance variable and getter automatically. It will
+  # also add arguments to an `initialize` method at the end of compilation.
+  #
+  # ### Examples
+  #
+  # ```crystal
+  # class Users::IndexPage < MainLayout
+  #   # This page needs a `User` or it will fail to compile
+  #   # You can access it with `@user` or the getter method `user`
+  #   needs user : User
+  #
+  #   # This page can take an optional `ProductQuery`. This means you can
+  #   # Leave `products` off when rendering from an Action.
+  #   needs products : ProductQuery?
+  #
+  #   # When using a `Bool` Lucky will generate a method ending with `?`
+  #   # So in this case you can call `should_show_sidebar?` in the page.
+  #   needs should_show_sidebar : Bool = true
+  # end
+  # ```
   macro needs(*type_declarations)
     {% for declaration in type_declarations %}
       {% unless declaration.is_a?(TypeDeclaration) %}
@@ -12,6 +33,7 @@ module Lucky::Assignable
     {% end %}
   end
 
+  # :nodoc:
   macro included
     SETTINGS = {} of Nil => Nil
     ASSIGNS = [] of Nil
@@ -25,6 +47,7 @@ module Lucky::Assignable
     end
   end
 
+  # :nodoc:
   macro inherit_page_settings
     SETTINGS = {} of Nil => Nil
     ASSIGNS = [] of Nil
