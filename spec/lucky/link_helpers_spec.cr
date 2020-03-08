@@ -53,6 +53,28 @@ private class TestPage
   def string_path_without_text
     link to: "/foo"
   end
+
+  def get_route_with_text_and_attrs
+    link "Text", to: LinkHelpers::Index, attrs: [:disabled]
+  end
+
+  def get_route_with_attrs_no_text
+    link to: LinkHelpers::Index, attrs: [:disabled]
+  end
+
+  def get_route_with_block_and_attrs
+    link to: LinkHelpers::Index, attrs: [:disabled] do
+      text "Hello"
+    end
+  end
+
+  def string_path_with_attrs
+    link "Test", to: "/foos", attrs: [:disabled]
+  end
+
+  def string_path_with_attrs_no_text
+    link to: "/foos", attrs: [:disabled]
+  end
 end
 
 describe Lucky::LinkHelpers do
@@ -106,6 +128,28 @@ describe Lucky::LinkHelpers do
 
     view.link(to: LinkHelpers::Index, "data-num": 4).to_s.should contain <<-HTML
     <a href="/link_helpers" data-num="4"></a>
+    HTML
+  end
+
+  it "renders a link with boolean attrs" do
+    view.get_route_with_text_and_attrs.to_s.should contain <<-HTML
+    <a href="/link_helpers" disabled>Text</a>
+    HTML
+
+    view.get_route_with_attrs_no_text.to_s.should contain <<-HTML
+    <a href="/link_helpers" disabled></a>
+    HTML
+
+    view.get_route_with_block_and_attrs.to_s.should contain <<-HTML
+    <a href="/link_helpers" disabled>Hello</a>
+    HTML
+
+    view.string_path_with_attrs.to_s.should contain <<-HTML
+    <a href="/foos" disabled>Test</a>
+    HTML
+
+    view.string_path_with_attrs_no_text.to_s.should contain <<-HTML
+    <a href="/foos" disabled></a>
     HTML
   end
 end

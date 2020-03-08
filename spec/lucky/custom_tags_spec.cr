@@ -38,6 +38,11 @@ describe Lucky::CustomTags do
         page.text "content"
       end.to_s.should contain %(<foo-tag class="my-class">content</foo-tag>)
     end
+
+    view.tap do |page|
+      page.tag "script", [:async], data_counter: "https://counter.co", src: "count.js" do
+      end.to_s.should contain %(<script data-counter="https://counter.co" src="count.js" async></script>)
+    end
   end
 
   it "has a method for empty tags" do

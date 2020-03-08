@@ -1,0 +1,6 @@
+#!/bin/sh -eu
+
+COMPOSE="docker-compose run --rm app"
+
+printf "\ngenerating docs with 'crystal docs'\n\n"
+$COMPOSE crystal docs

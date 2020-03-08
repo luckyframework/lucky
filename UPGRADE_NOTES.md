@@ -1,3 +1,42 @@
+## Upgrading from 0.18 to 0.19
+
+- Update `.crystal-version` file to `0.33.0`
+- Upgrade to crystal 0.33.0
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.33.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.33.0`
+  - Lucky should be `~> 0.19.0`
+  - Authentic should be `~> 0.5.1`
+  - LuckyFlow should be `~> 0.6.2`
+- Run `shards update`
+
+### Recommended (but optional) changes
+
+
+#### GZip static assets
+
+* [Add the compression plugin](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-73db280623fcd1a64ac1ab76c8700dbc) to `package.json`
+* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-cd19e42e70bfbcf2a12480b0b6b1f590)
+  to your `webpack.mix.js` file
+* In `src/app_server.cr` add `Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip")` above the `Lucky::StaticFileHandler.new`.
+
+#### GZip text responses
+
+* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-83ca1a783e82ef6f0d38f400b7c1eaa1) to `config.server.cr` to gzip text responses.
+
 ## Upgrading from 0.17 to 0.18
 
 - Upgrade to crystal 0.31.1
@@ -11,11 +50,11 @@ brew upgrade lucky
 
 - Upgrade Lucky CLI (Linux)
 
-- Update `.crystal-version` to `0.31.1`
-
 > Remove the existing Lucky binary and follow the Linux
 > instructions in this section
 > https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update `.crystal-version` to `0.31.1`
 
 - Update versions in `shard.yml`
   - Crystal should be `0.31.1`
@@ -104,10 +143,10 @@ brew upgrade lucky
     end
   end
   ```
-  
+
 - Add: `require "./serializers/base_serializer"` to your `src/app.cr` above `require "./serializers/**"`
 - Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single class.
-  
+
   ```crystal
   # Merge these two classes
   class Users::IndexSerializer < Lucky::Serializer
@@ -142,7 +181,7 @@ brew upgrade lucky
       {message: @message, param: @param, details: @details}
     end
   end
-  
+
   ```
 - Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
 - Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248). You can likely ignore this as most people do not rescue these specific errors.
@@ -153,7 +192,7 @@ brew upgrade lucky
     accepted_formats [:json]
   end
   ```
-  
+
 - Add: `accepted_formats [:html, :json], default: :html` to `BrowserAction` in `src/actions/browser_action.cr`
 
   ```crystal
@@ -161,7 +200,7 @@ brew upgrade lucky
     accepted_formats [:html, :json], default: :html
   end
   ```
-  
+
 - Update: `src/app_server.cr` with explicit return type on the `middleware` method.
 ```crystal
 # Add return type here

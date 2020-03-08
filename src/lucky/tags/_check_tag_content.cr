@@ -1,3 +1,4 @@
+# :nodoc:
 module Lucky::CheckTagContent
   # If a tag has a nested tag (`IO`) or nil
   # then return that content.

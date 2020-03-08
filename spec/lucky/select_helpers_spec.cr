@@ -24,10 +24,10 @@ end
 
 class SomeFormWithCompany
   def company_id
-    Avram::PermittedAttribute(String).new(
+    Avram::PermittedAttribute(Int32?).new(
       name: :company_id,
       param: "1",
-      value: "",
+      value: nil,
       param_key: "company"
     )
   end

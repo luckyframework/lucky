@@ -1,4 +1,60 @@
-### Changes in 0.18
+### Changes in 0.19
+
+- Added: missing docs for time helpers [#943](https://github.com/luckyframework/lucky/pull/943)
+- Added: HTML boolean attributes to checkbox and textarea helpers [#955](https://github.com/luckyframework/lucky/pull/955)
+- Fixed: generated templates with proper naming conventions [#956](https://github.com/luckyframework/lucky/pull/956)
+- Added: `to_param` for `UUID` allowing UUID to be passed in params [#945](https://github.com/luckyframework/lucky/pull/945)
+- Updated: watcher error message to be a little less abrupt [#968](https://github.com/luckyframework/lucky/pull/968)
+- Updated: generated migrations using the `table_for` macro [#970](https://github.com/luckyframework/lucky/pull/970)
+- Fixed: using `with_defaults` when the tag has content [#972](https://github.com/luckyframework/lucky/pull/972)
+- Added: `any?` and `empty?` to `flash` [#977](https://github.com/luckyframework/lucky/pull/977)
+- Fixed: allowing `false` values for `needs` [#979](https://github.com/luckyframework/lucky/pull/979)
+- Updated: `needs` to now infer a value of `nil` when the type is nilable [#980](https://github.com/luckyframework/lucky/pull/980)
+- Fixed: allowing the `-h` flag for the watch task [#958](https://github.com/luckyframework/lucky/pull/958)
+- Added: gzip response for assets when it's configured [#983](https://github.com/luckyframework/lucky/pull/983)
+- Added: Lucky API docs are now generated from the CI which is deployed to Github pages [#989](https://github.com/luckyframework/lucky/pull/989)
+- Fixed: when using `needs` with different values in random order and Lucky would not compile [#993](https://github.com/luckyframework/lucky/pull/993)
+- Added: more context to the resource generator [See commit](https://github.com/luckyframework/lucky/commit/ae7301750c9b49c99d5b530ddc93cda91e73f288)
+- Added: ability to pass Crystal's `--error-tace` flag to `lucky watch` [#957](https://github.com/luckyframework/lucky/pull/957)
+- Fixed: generating resource.browser when using a `JSON::Any` column type [#997](https://github.com/luckyframework/lucky/pull/997)
+- Fixed: issue when using HTML boolean attributes with custom tags [#1010](https://github.com/luckyframework/lucky/pull/1010)
+- Added: the option to define columns in the model generator [#1009](https://github.com/luckyframework/lucky/pull/1009)
+- Updated: permitting columns generated from the resource generator [#1014](https://github.com/luckyframework/lucky/pull/1014)
+- Added: new `to_prepared_sql` method to generate fully prepared sql for debugging [See Avram](https://github.com/luckyframework/avram/pull/264)
+- Fixed: cloning distinct queries [See Avram](https://github.com/luckyframework/avram/pull/285)
+- Added: new predicate methods variants for boolean columns [See Avram](https://github.com/luckyframework/avram/pull/300)
+- Added: new `changed?`, `changes`, and `original_value` methods for attributes in Operations [See Avram](https://github.com/luckyframework/avram/pull/295)
+- Updated: `validate_size_of` and `validate_inclusion_of` to allow `nil` values [See Avram](https://github.com/luckyframework/avram/pull/299)
+- Updated: error messages on some callbacks [See Avram](https://github.com/luckyframework/avram/pull/282)
+- Fixed: `select_sum` when the column is any number type [See Avram](https://github.com/luckyframework/avram/pull/304)
+- Fixed: issues with `has_one` when your model is namespaced, and how it's queried [See Avram](https://github.com/luckyframework/avram/pull/263)
+- Fixed: aggregate query methods to work on all number types [See Avram](https://github.com/luckyframework/avram/pull/307)
+- Fixed: bug when using a Box that had no columns [See Avram](https://github.com/luckyframework/avram/pull/310)
+- Updated: preloads to only call when there are parent records. This is a query optimization update. [See Avram](https://github.com/luckyframework/avram/pull/306)
+
+
+### v0.18.3 (2020-02-17)
+
+- Added: support for Crystal 0.33.0
+
+### v0.18.2 (2019-12-13)
+
+- Added: support for Crystal 0.32.0
+
+### v0.18.1 (2019-10-18)
+
+- Fixed: debug page in development with reset context
+- Updated: lucky exec works more like a REPL
+- Updated: Log time measured with monotonic
+- Fixed: Record deletion when primary key is UUID
+- Fixed: Setting empty array as default to array column
+- Added: Overflow cast catch from Int64 to Int32
+- Fixed: UUID primary key issue in SaveOperation
+- Fixed: required attribute validations on custom before_save callbacks
+- Added: New `reset_limit` query method
+- Added: New `reset_offset` query method
+
+### v0.18.0 (2019-10-03)
 
 - Added: support for Crystal 0.31.1
 - Fixed: how accept / content-type headers are handled [#869](https://github.com/luckyframework/lucky/pull/869)

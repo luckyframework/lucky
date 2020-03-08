@@ -1,30 +1,30 @@
 module Lucky::LinkHelpers
-  def link(text, to : Lucky::RouteHelper, **html_options)
-    a text, merge_options(html_options, link_to_href(to))
+  def link(text, to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a text, merge_options(html_options, link_to_href(to)), attrs
   end
 
-  def link(text, to : Lucky::Action.class, **html_options)
-    a text, merge_options(html_options, link_to_href(to.route))
+  def link(text, to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a text, merge_options(html_options, link_to_href(to.route)), attrs
   end
 
-  def link(to : Lucky::RouteHelper, **html_options)
-    a merge_options(html_options, link_to_href(to)) do
+  def link(to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a attrs, merge_options(html_options, link_to_href(to)) do
       yield
     end
   end
 
-  def link(to : Lucky::Action.class, **html_options)
-    a merge_options(html_options, link_to_href(to.route)) do
+  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a attrs, merge_options(html_options, link_to_href(to.route)) do
       yield
     end
   end
 
-  def link(to : Lucky::RouteHelper, **html_options)
-    a(merge_options(html_options, link_to_href(to))) { }
+  def link(to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a(attrs, merge_options(html_options, link_to_href(to))) { }
   end
 
-  def link(to : Lucky::Action.class, **html_options)
-    a(merge_options(html_options, link_to_href(to.route))) { }
+  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a(attrs, merge_options(html_options, link_to_href(to.route))) { }
   end
 
   private def link_to_href(route)
@@ -35,17 +35,17 @@ module Lucky::LinkHelpers
     end
   end
 
-  def link(text, to : String, **html_options)
-    a text, merge_options(html_options, {"href" => to})
+  def link(text, to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a text, merge_options(html_options, {"href" => to}), attrs
   end
 
-  def link(to : String, **html_options)
-    a merge_options(html_options, {"href" => to}) do
+  def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a attrs, merge_options(html_options, {"href" => to}) do
       yield
     end
   end
 
-  def link(to : String, **html_options)
-    a(merge_options(html_options, {"href" => to})) { }
+  def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
+    a(attrs, merge_options(html_options, {"href" => to})) { }
   end
 end

@@ -166,15 +166,16 @@ module LuckySentry
     end
 
     private def print_error_message
-      puts "There was a problem compiling. Watching for fixes...".colorize(:red)
       if successful_compilations.zero?
         puts <<-ERROR
 
-        Try this...
+        #{"---".colorize.dim}
 
-          #{green_arrow} If you haven't done it already, run #{"script/setup".colorize(:green)}
-          #{green_arrow} Run #{"shards install".colorize(:green)} to ensure dependencies are installed
-          #{green_arrow} Ask for help in #{"https://gitter.im/luckyframework/Lobby".colorize(:green)}
+        Feeling stuck? Try this...
+
+          ▸  Run setup: #{"script/setup".colorize.bold}
+          ▸  Reinstall shards: #{"rm -rf lib bin && shards install".colorize.bold}
+          ▸  Ask for help: #{"https://gitter.im/luckyframework/Lobby".colorize.bold}
         ERROR
       end
     end
@@ -203,11 +204,18 @@ end
 class Watch < LuckyCli::Task
   summary "Start and recompile project when files change"
   @reload_browser : Bool = false
+  @show_full_error_trace : Bool = false
 
-  def call
-    parse_options
+  # Override parent class (LuckyCli::Task) because this method hijacks the following args: "--help", "-h", "help"
+  def print_help_or_call(args : Array(String), io : IO = STDERR)
+    call(args)
+  end
+
+  def call(args = ARGV)
+    parse_options(args)
 
     build_commands = ["crystal build ./src/start_server.cr"]
+    build_commands[0] += " --error-trace" if @show_full_error_trace
     run_commands = ["./start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
@@ -226,15 +234,20 @@ class Watch < LuckyCli::Task
     end
   end
 
-  private def parse_options
-    OptionParser.parse do |parser|
-      parser.banner = "Usage: lucky watch [arguments]"
+  private def parse_options(args)
+    OptionParser.parse(args) do |parser|
+      parser.banner = <<-TEXT
+      #{summary}
+
+      Usage: lucky watch [arguments]
+      TEXT
+      parser.on("-h", "--help", "Show this help message") { puts parser; exit(0) }
       parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
         @reload_browser = true
       }
-      parser.on("-h", "--help", "Help here") {
-        puts parser
-        exit(0)
+      # TODO: https://github.com/crystal-lang/crystal/issues/8374
+      parser.on("--error-trace", "Show full error trace.") {
+        @show_full_error_trace = true
       }
     end
   end

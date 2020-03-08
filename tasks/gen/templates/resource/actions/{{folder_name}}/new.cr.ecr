@@ -1,4 +1,4 @@
-class <%= pluralized_resource %>::New < BrowserAction
+class <%= pluralized_name %>::New < BrowserAction
   route do
     html NewPage, operation: <%= operation_class %>.new
   end

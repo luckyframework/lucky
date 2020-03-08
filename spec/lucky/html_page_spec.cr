@@ -62,6 +62,26 @@ class InnerPage < MainLayout
   end
 end
 
+class LessNeedyDefaultsPage < MainLayout
+  needs a_string : String = "string default"
+  needs bool : Bool = false
+  needs nil_default : String? = nil
+  needs inferred_nil_default : String?
+  needs inferred_nil_default2 : String | Nil
+
+  def inner
+    div @a_string
+    div("bool default") if @bool == false
+    div("nil default") if @nil_default.nil?
+    div("inferred nil default") if @inferred_nil_default.nil?
+    div("inferred nil default 2") if @inferred_nil_default2.nil?
+  end
+
+  def page_title
+    "Boolean Default"
+  end
+end
+
 describe Lucky::HTMLPage do
   describe "tags that contain contents" do
     it "can be called with various arguments" do
@@ -110,6 +130,28 @@ describe Lucky::HTMLPage do
     it "renders layouts and needs" do
       InnerPage.new(build_context, foo: "bar").render.to_s.should contain %(<title>A great title</title>)
       InnerPage.new(build_context, foo: "bar").render.to_s.should contain %(<body>Inner textbar</body>)
+    end
+  end
+
+  describe "needs with defaults" do
+    it "allows default values to needs" do
+      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>string default</div>)
+    end
+
+    it "allows false as default value to needs" do
+      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>bool default</div>)
+    end
+
+    it "allows nil as default value to needs" do
+      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>nil default</div>)
+    end
+
+    it "infers the default value from nilable needs" do
+      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>inferred nil default</div>)
+    end
+
+    it "infers the default value from nilable needs" do
+      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>inferred nil default 2</div>)
     end
   end
 

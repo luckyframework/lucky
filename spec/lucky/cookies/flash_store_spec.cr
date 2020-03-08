@@ -62,6 +62,38 @@ describe Lucky::FlashStore do
     end
   end
 
+  describe "#any?" do
+    it "returns true if there are key/value pairs" do
+      flash_store = build_flash_store(next: {
+        "some_key" => "some_value",
+      })
+
+      flash_store.any?.should be_true
+    end
+
+    it "returns false if there are no key/value pairs" do
+      flash_store = build_flash_store
+
+      flash_store.any?.should be_false
+    end
+  end
+
+  describe "#empty?" do
+    it "returns false if there are key/value pairs" do
+      flash_store = build_flash_store(next: {
+        "some_key" => "some_value",
+      })
+
+      flash_store.empty?.should be_false
+    end
+
+    it "returns true if there are no key/value pairs" do
+      flash_store = build_flash_store
+
+      flash_store.empty?.should be_true
+    end
+  end
+
   describe "#all" do
     it "prefers values from @next over @now" do
       next_hash = {"name" => "Paul"}

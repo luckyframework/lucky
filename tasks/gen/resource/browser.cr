@@ -2,8 +2,11 @@ require "lucky_cli"
 require "teeplate"
 require "wordsmith"
 require "avram"
+require "../mixins/migration_with_columns"
 
 class Gen::Resource::Browser < LuckyCli::Task
+  include Gen::Mixins::MigrationWithColumns
+
   summary "Generate a resource (model, operation, query, actions, and pages)"
   getter io : IO = STDOUT
 
@@ -36,45 +39,18 @@ class Gen::Resource::Browser < LuckyCli::Task
     io.puts e.message.colorize.red
   end
 
-  private def columns : Array(Lucky::GeneratedColumn)
-    column_definitions.map do |column_definition|
-      column_name, column_type = column_definition.split(":")
-      Lucky::GeneratedColumn.new(name: column_name, type: column_type)
-    end
-  end
-
   private def generate_resource
     Lucky::ResourceTemplate.new(resource_name, columns).render("./src/")
-    Avram::Migrator::MigrationGenerator.new(
-      "Create" + pluralized_resource,
-      migrate_contents: migrate_contents,
-      rollback_contents: rollback_contents
-    ).generate
+    create_migration
     display_success_messages
   end
 
   private def display_path_to_resource
-    io.puts "\nView list of #{pluralized_resource} in your browser at: #{path_to_resource.colorize.green}"
+    io.puts "\nView list of #{pluralized_name} in your browser at: #{path_to_resource.colorize.green}"
   end
 
   private def path_to_resource
-    "/" + pluralized_resource.underscore
-  end
-
-  private def migrate_contents : String
-    String.build do |string|
-      string << "create table_for(#{resource_name}) do\n"
-      string << "  primary_key id : Int64\n"
-      string << "  add_timestamps\n"
-      columns.each do |column|
-        string << "  add #{column.name} : #{column.type}\n"
-      end
-      string << "end"
-    end
-  end
-
-  private def rollback_contents : String
-    "drop :#{pluralized_resource.underscore}"
+    "/" + pluralized_name.underscore
   end
 
   private def validate! : Void
@@ -82,7 +58,7 @@ class Gen::Resource::Browser < LuckyCli::Task
     validate_not_namespaced!
     validate_name_is_singular!
     validate_name_is_camelcase!
-    validate_has_valid_columns!
+    validate_has_supported_columns!
   end
 
   private def validate_name_is_present!
@@ -110,34 +86,14 @@ class Gen::Resource::Browser < LuckyCli::Task
     end
   end
 
-  private def validate_has_valid_columns!
-    if !columns_are_valid?
-      error "Must provide valid columns for the resource: lucky gen.resource.browser #{resource_name.camelcase} name:String"
+  private def validate_has_supported_columns!
+    if column_definitions.empty? || !columns_are_valid?
+      error unsupported_columns_error("resource", "resource.browser")
     end
   end
 
   private def error(message : String)
     raise InvalidOption.new(message)
-  end
-
-  private def column_definitions
-    if column_arguments?
-      ARGV.skip(1)
-    else
-      [] of String
-    end
-  end
-
-  private def column_arguments? : Bool
-    !!ARGV[1]?
-  end
-
-  private def columns_are_valid? : Bool
-    column_definitions.any? && column_definitions.all? do |column_definition|
-      column_parts = column_definition.split(":")
-      column_name = column_parts.first
-      column_parts.size == 2 && column_name == column_name.underscore
-    end
   end
 
   private def display_success_messages
@@ -146,13 +102,13 @@ class Gen::Resource::Browser < LuckyCli::Task
     success_message(resource_name + "Query", "./src/queries/#{underscored_resource}_query.cr")
     %w(index show new create edit update delete).each do |action|
       success_message(
-        pluralized_resource + "::" + action.capitalize,
+        pluralized_name + "::" + action.capitalize,
         "./src/actions/#{folder_name}/#{action}.cr"
       )
     end
     %w(index show new edit).each do |action|
       success_message(
-        pluralized_resource + "::" + action.capitalize + "Page",
+        pluralized_name + "::" + action.capitalize + "Page",
         "./src/pages/#{folder_name}/#{action}_page.cr"
       )
     end
@@ -166,7 +122,7 @@ class Gen::Resource::Browser < LuckyCli::Task
     Wordsmith::Inflector.pluralize underscored_resource
   end
 
-  private def pluralized_resource
+  private def pluralized_name
     Wordsmith::Inflector.pluralize resource_name
   end
 
@@ -183,13 +139,6 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 end
 
-class Lucky::GeneratedColumn
-  getter name, type
-
-  def initialize(@name : String, @type : String)
-  end
-end
-
 class Lucky::ResourceTemplate < Teeplate::FileTree
   directory "#{__DIR__}/../templates/resource"
 
@@ -203,10 +152,10 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
     @operation_filename = operation_class.underscore
     @query_filename = query_class.underscore
     @underscored_resource = @resource.underscore
-    @folder_name = pluralized_resource.underscore
+    @folder_name = pluralized_name.underscore
   end
 
-  private def pluralized_resource
+  private def pluralized_name
     Wordsmith::Inflector.pluralize(resource)
   end
 
