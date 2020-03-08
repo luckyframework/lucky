@@ -36,16 +36,33 @@ module Lucky::LinkHelpers
   end
 
   def link(text, to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
-    a text, merge_options(html_options, {"href" => to}), attrs
+    {%
+      raise <<-ERROR
+      `link` no longer supports passing a String to `to`.
+      Use `a()` or pass an Action class instead.
+
+      Example:
+        a "Home", href: "/"
+
+        link "Home", to: Home::Index
+      ERROR
+    %}
   end
 
   def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
-    a attrs, merge_options(html_options, {"href" => to}) do
-      yield
-    end
-  end
+    {%
+      raise <<-ERROR
+      `link` no longer supports passing a String to `to`.
+      Use `a()` or pass an Action class instead.
 
-  def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
-    a(attrs, merge_options(html_options, {"href" => to})) { }
+      Example:
+        a href: "/" do
+        end
+
+        link to: Home::Index do
+        end
+      ERROR
+    %}
+    yield
   end
 end
