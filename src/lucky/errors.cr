@@ -99,6 +99,10 @@ module Lucky
   class CookieOverflowError < Error
   end
 
+  # Raised when getting a cookie that doesn't exist.
+  class CookieNotFoundError < Error
+  end
+
   class InvalidSignatureError < Error
   end
 
