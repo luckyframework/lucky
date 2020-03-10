@@ -99,6 +99,28 @@ module Lucky
   class CookieOverflowError < Error
   end
 
+  # Raised when getting a cookie that doesn't exist.
+  class CookieNotFoundError < Error
+    include Lucky::RenderableError
+
+    getter :key
+
+    def initialize(@key : String | Symbol)
+    end
+
+    def message : String
+      "No cookie found with the key: '#{key}'"
+    end
+
+    def renderable_status : Int32
+      400
+    end
+
+    def renderable_message : String
+      message
+    end
+  end
+
   class InvalidSignatureError < Error
   end
 

@@ -56,7 +56,7 @@ class Lucky::CookieJar
   end
 
   def get_raw(key : Key) : HTTP::Cookie
-    get_raw?(key) || raise "No cookie with the key: #{key}"
+    get_raw?(key) || raise CookieNotFoundError.new(key)
   end
 
   def get_raw?(key : Key) : HTTP::Cookie?
@@ -64,7 +64,7 @@ class Lucky::CookieJar
   end
 
   def get(key : Key) : String
-    get?(key) || raise "No cookie for '#{key}'"
+    get?(key) || raise CookieNotFoundError.new(key)
   end
 
   def get?(key : Key) : String?

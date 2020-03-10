@@ -30,6 +30,22 @@ describe Lucky::CookieJar do
     jar.get_raw?("missing").should be_nil
   end
 
+  it "raises CookieNotFoundError when getting a raw cookie that doesn't exist" do
+    jar = Lucky::CookieJar.empty_jar
+
+    expect_raises Lucky::CookieNotFoundError, "No cookie found with the key: 'snickerdoodle'" do
+      jar.get_raw(:snickerdoodle)
+    end
+  end
+
+  it "raises CookieNotFoundError when getting an encrypted cookie that doesn't exist" do
+    jar = Lucky::CookieJar.empty_jar
+
+    expect_raises Lucky::CookieNotFoundError, "No cookie found with the key: 'snickerdoodle'" do
+      jar.get(:snickerdoodle)
+    end
+  end
+
   it "catches values with old or incorrect keys and returns nil" do
     jar_with_old_secret = Lucky::CookieJar.empty_jar
     Lucky::Server.temp_config(secret_key_base: "a" * 32) do
