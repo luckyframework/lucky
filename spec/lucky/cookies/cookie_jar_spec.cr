@@ -33,7 +33,7 @@ describe Lucky::CookieJar do
   it "raises CookieNotFoundError when getting a raw cookie that doesn't exist" do
     jar = Lucky::CookieJar.empty_jar
 
-    expect_raises Lucky::CookieNotFoundError, "No cookie with the key: snickerdoodle" do
+    expect_raises Lucky::CookieNotFoundError, "No cookie found with the key: 'snickerdoodle'" do
       jar.get_raw(:snickerdoodle)
     end
   end
@@ -41,7 +41,7 @@ describe Lucky::CookieJar do
   it "raises CookieNotFoundError when getting an encrypted cookie that doesn't exist" do
     jar = Lucky::CookieJar.empty_jar
 
-    expect_raises Lucky::CookieNotFoundError, "No cookie for 'snickerdoodle'" do
+    expect_raises Lucky::CookieNotFoundError, "No cookie found with the key: 'snickerdoodle'" do
       jar.get(:snickerdoodle)
     end
   end
