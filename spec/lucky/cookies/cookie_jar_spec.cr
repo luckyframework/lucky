@@ -136,6 +136,23 @@ describe Lucky::CookieJar do
     end
   end
 
+  describe "deleted?" do
+    it "returns true when the cookie looks like a deleted cookie" do
+      jar = Lucky::CookieJar.empty_jar
+      jar.set(:go, "now!")
+      jar.deleted?(:go).should be_false
+
+      jar.delete(:go)
+
+      jar.deleted?(:go).should be_true
+    end
+
+    it "returns false when the cookie doesn't even exist" do
+      jar = Lucky::CookieJar.empty_jar
+      jar.deleted?(:non).should be_false
+    end
+  end
+
   describe "#clear" do
     it "deletes all the cookies in the jar" do
       jar = Lucky::CookieJar.empty_jar
