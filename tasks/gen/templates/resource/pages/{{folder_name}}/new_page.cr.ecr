@@ -10,7 +10,7 @@ class <%= pluralized_name %>::NewPage < MainLayout
   def render_<%= underscored_resource %>_form(op)
     form_for <%= pluralized_name %>::Create do
       <%- columns.each_with_index do |column, index| -%>
-      mount Shared::Field.new(op.<%= column.name %>, "<%= Wordsmith::Inflector.humanize(column.name.to_s) %>")<% if index.zero? %>, &.text_input(autofocus: "true")<% end %>
+      mount Shared::Field.new(op.<%= column.name %>)<% if index.zero? %>, &.text_input(autofocus: "true")<% end %>
       <%- end -%>
 
       submit "Save", data_disable_with: "Saving..."
