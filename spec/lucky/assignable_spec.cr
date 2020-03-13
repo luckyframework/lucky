@@ -68,6 +68,19 @@ class PageWithMetaclass
   end
 end
 
+class OverrideGetterPage
+  include Lucky::HTMLPage
+  needs name : String = "Oops! Not set"
+
+  def render
+    text name
+  end
+
+  def name
+    "Joe"
+  end
+end
+
 describe "Assigns within multiple pages with the same name" do
   it "should only appear once in the initializer" do
     PageOne.new build_context, title: "foo", name: "Paul", second: "second"
@@ -77,5 +90,6 @@ describe "Assigns within multiple pages with the same name" do
     PageWithDefaultsFirst.new(build_context, required: "thing", title: "foo").perform_render.to_s.should contain("special foo")
     PageWithMetaclass.new(build_context, string_class: String)
       .perform_render.to_s.should contain("called from an auto-generated getter")
+    OverrideGetterPage.new(build_context).perform_render.to_s.should eq("Joe")
   end
 end

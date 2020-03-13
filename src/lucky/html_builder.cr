@@ -28,7 +28,6 @@ module Lucky::HTMLBuilder
   macro setup_initializer_hook
     macro finished
       generate_needy_initializer
-      generate_getters
     end
 
     macro included
