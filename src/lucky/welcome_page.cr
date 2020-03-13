@@ -69,7 +69,7 @@ class Lucky::WelcomePage
         tr do
           td "Ask for ideas in our chatroom", class: "left-column"
           td class: "right-column" do
-            link gitter_url, to: gitter_url, target: "_blank"
+            a gitter_url, href: gitter_url, target: "_blank"
           end
         end
       end
