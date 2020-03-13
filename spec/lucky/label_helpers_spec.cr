@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ContextHelper
+
 class TestUser
   def first_name
     "My Name"
@@ -24,19 +26,11 @@ private class TestPage
   end
 
   def label_without_html_options
-    label_for form.first_name
+    label_for form.first_name, "First name"
   end
 
   def label_with_html_options
-    label_for form.first_name, class: "best-label"
-  end
-
-  def label_with_custom_text
-    label_for form.first_name, "My Label"
-  end
-
-  def label_with_custom_text_and_options
-    label_for form.first_name, "My Label", class: "best-label"
+    label_for form.first_name, "First name", class: "best-label"
   end
 
   def label_with_block
@@ -59,14 +53,6 @@ describe Lucky::LabelHelpers do
 
     view.label_with_html_options.to_s.should contain <<-HTML
     <label for="user_first_name" class="best-label">First name</label>
-    HTML
-
-    view.label_with_custom_text.to_s.should contain <<-HTML
-    <label for="user_first_name">My Label</label>
-    HTML
-
-    view.label_with_custom_text_and_options.to_s.should contain <<-HTML
-    <label for="user_first_name" class="best-label">My Label</label>
     HTML
 
     view.label_with_block.to_s.should contain <<-HTML
