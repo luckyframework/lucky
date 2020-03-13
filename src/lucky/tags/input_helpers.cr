@@ -8,9 +8,13 @@ module Lucky::InputHelpers
       Try this...
 
         ▸ Allow the attribute to be filled by adding
-        'permit_columns {attribute_name}' to your form object.
+        'permit_columns {attribute_name}' to the SaveOperation.
 
-      Q. Why aren't column attributes permitted by default?
+      View more about 'permit_columns'
+
+        https://luckyframework.org/guides/database/validating-saving#perma-permitting-columns
+
+      Q. Why aren't database attributes permitted by default?
       A. Malicious users could submit any value they want. For example: you
          might have an 'admin' flag on a User. If all attributes were
          permitted, a malicious user could set the 'admin' flag to 'true'
