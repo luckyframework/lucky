@@ -16,6 +16,8 @@ require "./lucky/cookies/*"
 require "./lucky/secure_headers/*"
 require "./lucky/route_helper"
 require "./lucky/*"
+require "./lucky/paginator/paginator"
+require "./lucky/paginator/*"
 
 module Lucky
   Habitat.create do
