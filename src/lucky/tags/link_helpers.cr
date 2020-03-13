@@ -38,7 +38,9 @@ module Lucky::LinkHelpers
   def link(text, to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
     {%
       raise <<-ERROR
-      `link` no longer supports passing a String to `to`. Use `a()` or pass an Action class instead.
+      'link' no longer supports passing a String to 'to'.
+
+      Use 'a()' or pass an Action class instead.
 
       Example:
 
@@ -52,7 +54,9 @@ module Lucky::LinkHelpers
   def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
     {%
       raise <<-ERROR
-      `link` no longer supports passing a String to `to`. Use `a()` or pass an Action class instead.
+      'link' no longer supports passing a String to 'to'.
+
+      Use 'a()' or pass an Action class instead.
 
       Example:
 
