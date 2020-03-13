@@ -73,6 +73,7 @@ describe Lucky::Paginator::BackendHelpers do
 
     pages.page.should eq(2)
     pages.per_page.should eq(25)
+    pages.total.should eq(2)
     records.query.offset.should eq(25)
     records.query.limit.should eq(25)
   end
@@ -82,6 +83,7 @@ describe Lucky::Paginator::BackendHelpers do
 
     pages.page.should eq(2)
     pages.per_page.should eq(10)
+    pages.total.should eq(5)
     records.query.offset.should eq(10)
     records.query.limit.should eq(10)
   end
