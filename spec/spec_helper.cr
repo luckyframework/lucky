@@ -31,7 +31,7 @@ class UnusedDatabase < Avram::Database
 end
 
 UnusedDatabase.configure do |settings|
-  settings.url = "unused"
+  settings.url = Avram::PostgresURL.build(database: "unused", hostname: "localhost")
 end
 
 Avram.configure do |settings|
