@@ -29,6 +29,17 @@ module Lucky::Assignable
       {% if declaration.var.stringify.ends_with?("?") %}
         {% raise "Using '?' in a 'needs' var name is no longer supported. Now Lucky generates a method ending in '?' if the type is 'Bool'." %}
       {% end %}
+
+      {% if declaration.type.stringify == "Bool" %}
+        def {{ declaration.var }}?
+          @{{ declaration.var }}
+        end
+      {% else %}
+        def {{ declaration.var }}
+          @{{ declaration.var }}
+        end
+      {% end %}
+
       {% ASSIGNS << declaration %}
     {% end %}
   end
