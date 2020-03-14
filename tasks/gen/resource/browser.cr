@@ -127,7 +127,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   end
 
   private def success_message(class_name : String, filename : String) : Void
-    io.puts "Generated #{class_name.colorize.green} in #{filename.colorize.green}"
+    io.puts "Generated #{class_name.colorize.bold} in #{filename.colorize.bold}"
   end
 
   private def resource_name
