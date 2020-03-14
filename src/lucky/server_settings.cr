@@ -10,7 +10,7 @@ module Lucky::ServerSettings
   end
 
   def port : Int32
-    ENV["PORT"]?.try(&.to_i) || settings["port"].as_i
+    ENV["DEV_PORT"]?.try(&.to_i) || settings["port"].as_i
   end
 
   private def settings
