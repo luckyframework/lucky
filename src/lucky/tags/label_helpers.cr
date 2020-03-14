@@ -1,15 +1,7 @@
 module Lucky::LabelHelpers
-  def label_for(field : Avram::PermittedAttribute, **html_options)
-    label_for(
-      field,
-      Wordsmith::Inflector.humanize(field.name.to_s),
-      **html_options
-    )
-  end
-
-  def label_for(field : Avram::PermittedAttribute, text : String, **html_options)
+  def label_for(field : Avram::PermittedAttribute, text : String? = nil, **html_options)
     label(
-      text,
+      text || guess_label_name(field),
       merge_options(html_options, {"for" => input_id(field)})
     )
   end
@@ -27,5 +19,9 @@ module Lucky::LabelHelpers
   def label_for(field, **options)
     Lucky::InputHelpers.error_message_for_unallowed_field
     yield
+  end
+
+  private def guess_label_name(field)
+    Wordsmith::Inflector.humanize(field.name.to_s)
   end
 end
