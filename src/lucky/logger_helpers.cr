@@ -2,7 +2,7 @@ module Lucky::LoggerHelpers
   def self.colored_status_code(status_code : Int32) : String
     case status_code
     when 200..399
-      "#{status_code.colorize(:green)}"
+      "#{status_code.colorize.green}"
     when 400..499
       "#{status_code.colorize(:yellow)}"
     when 500..599

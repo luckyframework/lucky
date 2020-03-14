@@ -7,7 +7,7 @@ class Routes < LuckyCli::Task
 
   def call
     routes = Lucky::Router.routes.map do |route|
-      [route.method.to_s.upcase, route.path.colorize(:green), route.action]
+      [route.method.to_s.upcase, route.path.colorize.green, route.action]
     end
 
     table = ShellTable.new(

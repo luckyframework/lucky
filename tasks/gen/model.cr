@@ -70,7 +70,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def success_message(filename, type = nil)
-    "Generated #{resource_name.colorize(:green)}#{type.colorize(:green)} in #{filename.colorize(:green)}"
+    "Generated #{resource_name.colorize.green}#{type.colorize.green} in #{filename.colorize.green}"
   end
 
   private def resource_name
