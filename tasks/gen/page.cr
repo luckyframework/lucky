@@ -70,6 +70,6 @@ class Gen::Page < LuckyCli::Task
   end
 
   private def success_message
-    "Done generating #{page_class.colorize(:green)} in #{output_path_with_filename.colorize(:green)}"
+    "Done generating #{page_class.colorize.green} in #{output_path_with_filename.colorize.green}"
   end
 end
