@@ -3,12 +3,13 @@ module Lucky::InputHelpers
 
   macro error_message_for_unallowed_field
     {% raise <<-ERROR
-      The attribute is not permitted.
+      The database attribute for the operation is not permitted and cannot be used in a form.
 
-      Try this...
+      Try allowing the attribute to be filled...
 
-        ▸ Allow the attribute to be filled by adding
-        'permit_columns {attribute_name}' to the SaveOperation.
+          class MySaveOperation # SaveUser, SaveTask, etc.
+            permit_columns {attribute_name}
+          end
 
       View more about 'permit_columns'
 
