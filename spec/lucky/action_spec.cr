@@ -253,23 +253,6 @@ describe Lucky::Action do
     end
   end
 
-  describe "query_params" do
-    it "returns the HTTP::Params for the query params" do
-      action = PlainText::Index.new(build_context(path: "/?q=test"), params)
-      action.query_params.should be_a(HTTP::Params)
-      action.query_params["q"].should eq("test")
-    end
-  end
-
-  describe "json_body" do
-    it "returns a JSON::Any object" do
-      request = build_request(method: "GET", body: %({"page": 1}))
-      action = PlainText::Index.new(build_context(request: request), params)
-      action.json_body.should be_a(JSON::Any)
-      action.json_body["page"].as_i.should eq(1)
-    end
-  end
-
   it "can add anchors to routes (and escapes them)" do
     Tests::Index.path(anchor: "#foo").should eq "/tests#%23foo"
     Tests::Index.route(anchor: "#foo").path.should eq "/tests#%23foo"

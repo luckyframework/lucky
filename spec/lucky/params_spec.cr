@@ -4,6 +4,29 @@ include ContextHelper
 include MultipartHelper
 
 describe Lucky::Params do
+  describe "#query" do
+    it "returns the HTTP::Params for the query params" do
+      request = build_request
+      request.query = "q=test"
+
+      params = Lucky::Params.new(request)
+
+      params.query.should be_a(HTTP::Params)
+      params.query["q"].should eq("test")
+    end
+  end
+
+  describe "#json" do
+    it "returns a JSON::Any object" do
+      request = build_request(body: {page: 1}.to_json)
+
+      params = Lucky::Params.new(request)
+
+      params.json.should be_a(JSON::Any)
+      params.json["page"].as_i.should eq(1)
+    end
+  end
+
   it "works when parsing params twice" do
     request = build_request body: "from=form",
       content_type: "application/x-www-form-urlencoded"
