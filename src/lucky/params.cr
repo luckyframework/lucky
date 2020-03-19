@@ -103,8 +103,8 @@ class Lucky::Params
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
-  # params.get("avatar_file") # Lucky::UploadedFile
-  # params.get("missing")     # Missing parameter: missing
+  # params.get_file("avatar_file") # Lucky::UploadedFile
+  # params.get_file("missing")     # Raise: Missing parameter: missing
   # ```
   def get_file(key) : Lucky::UploadedFile
     get_file?(key) || raise Lucky::MissingParamError.new(key.to_s)
@@ -113,8 +113,8 @@ class Lucky::Params
   # Retrieve a file from the params hash, return nil if key is absent
   #
   # ```crystal
-  # params.get("avatar_file") # (Lucky::UploadedFile | Nil)
-  # params.get("missing")     # nil
+  # params.get_file?("avatar_file") # (Lucky::UploadedFile | Nil)
+  # params.get_file?("missing")     # nil
   # ```
   def get_file?(key : String | Symbol) : Lucky::UploadedFile?
     multipart_files[key.to_s]?
