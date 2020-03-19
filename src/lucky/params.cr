@@ -5,9 +5,9 @@ class Lucky::Params
   @route_params : Hash(String, String) = {} of String => String
 
   # :nodoc:
-  getter :request
+  private getter :request
   # :nodoc:
-  getter :route_params
+  private getter :route_params
 
   # Create a new params object
   #
