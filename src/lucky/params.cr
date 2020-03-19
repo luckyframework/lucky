@@ -407,10 +407,8 @@ class Lucky::Params
     raise Lucky::ParamParsingError.new(request)
   end
 
-  private def body
-    (request.body || IO::Memory.new).gets_to_end.tap do |request_body|
-      request.body = IO::Memory.new(request_body)
-    end
+  def body : String
+    request.body.to_s
   end
 
   private def empty_params
