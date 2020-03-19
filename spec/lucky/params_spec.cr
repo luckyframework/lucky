@@ -39,6 +39,28 @@ describe Lucky::Params do
     end
   end
 
+  describe "#from_multipart" do
+    it "returns a Tuple with form data in first position" do
+      request = build_multipart_request form_parts: {"from" => "multipart"}
+
+      params = Lucky::Params.new(request)
+
+      params.from_multipart.first["from"].should eq("multipart")
+    end
+
+    it "returns a Tuple with files in second position" do
+      request = build_multipart_request file_parts: {
+        "avatar" => "file_contents",
+      }
+
+      params = Lucky::Params.new(request)
+
+      file = params.from_multipart.last["avatar"]
+      file.should be_a(Lucky::UploadedFile)
+      File.read(file.path).should eq "file_contents"
+    end
+  end
+
   it "works when parsing params twice" do
     request = build_request body: "from=form",
       content_type: "application/x-www-form-urlencoded"
