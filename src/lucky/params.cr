@@ -5,6 +5,9 @@ class Lucky::Params
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
 
+  alias MultipartParams = Hash(String, String)
+  alias MultipartFiles = Hash(String, Lucky::UploadedFile)
+
   # :nodoc:
   private getter :request
   # :nodoc:
@@ -48,7 +51,7 @@ class Lucky::Params
 
   # Returns just the query params as `HTTP::Params`
   #
-  # Returns an `HTTP::Params` object for only the query params. This is rarely
+  # Returns an `HTTP::Params` object for only the query params. This method is rarely
   # helpful since you can get query params with `get`, but if you do need raw
   # access to the query params this is the way to get them.
   #
@@ -63,7 +66,7 @@ class Lucky::Params
 
   # Returns x-www-form-urlencoded body params as `HTTP::Params`
   #
-  # Returns an `HTTP::Params` object for the request body. This is rarely
+  # Returns an `HTTP::Params` object for the request body. This method is rarely
   # helpful since you can get query params with `get`, but if you do need raw
   # access to the body params this is the way to get them.
   #
@@ -74,6 +77,24 @@ class Lucky::Params
   # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
   def from_form_data : HTTP::Params
     form_params
+  end
+
+  # Returns multipart params and files.
+  #
+  # Return a Tuple with a hash of params and a hash of `Lucky::UploadedFile`.
+  # This method is rarely helpful since you can get params with `get` and files
+  # with `get_file`, but if you need something more custom you can use this method
+  # to get better access to the raw params.
+  #
+  # ```crystal
+  # form_params = params.from_multipart.last # Hash(String, String)
+  # form_params["name"]                      # "Kyle"
+  #
+  # files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
+  # files["avatar"]                    # Lucky::UploadedFile
+  # ```
+  def from_multipart : Tuple(MultipartParams, MultipartFiles)
+    parse_multipart_request
   end
 
   # Retrieve a value from the params hash, raise if key is absent
@@ -91,8 +112,8 @@ class Lucky::Params
   # Retrieve a value from the params hash, return nil if key is absent
   #
   # ```crystal
-  # params.get?("page")    # 1 : (String | Nil)
   # params.get?("missing") # nil : (String | Nil)
+  # params.get?("page")    # 1 : (String | Nil)
   # ```
   def get?(key : String | Symbol) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
@@ -103,8 +124,12 @@ class Lucky::Params
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
-  # params.get_file("avatar_file") # Lucky::UploadedFile
-  # params.get_file("missing")     # Raise: Missing parameter: missing
+  # params.get_file("missing") # Raise: Missing parameter: missing
+  #
+  # file = params.get_file("avatar_file") # Lucky::UploadedFile
+  # file.name                             # avatar.png
+  # file.metadata                         # HTTP::FormData::FileMetadata
+  # file.tempfile.read                    # Get the file contents
   # ```
   def get_file(key) : Lucky::UploadedFile
     get_file?(key) || raise Lucky::MissingParamError.new(key.to_s)
@@ -113,8 +138,12 @@ class Lucky::Params
   # Retrieve a file from the params hash, return nil if key is absent
   #
   # ```crystal
-  # params.get_file?("avatar_file") # (Lucky::UploadedFile | Nil)
-  # params.get_file?("missing")     # nil
+  # params.get_file?("missing") # nil
+  #
+  # file = params.get_file?("avatar_file") # Lucky::UploadedFile
+  # file.not_nil!.name                     # avatar.png
+  # file.not_nil!.metadata                 # HTTP::FormData::FileMetadata
+  # file.not_nil!.tempfile.read            # Get the file contents
   # ```
   def get_file?(key : String | Symbol) : Lucky::UploadedFile?
     multipart_files[key.to_s]?
@@ -414,9 +443,9 @@ class Lucky::Params
     @_parsed_multipart_request ||= parse_form_data
   end
 
-  private def parse_form_data
-    multipart_params = {} of String => String
-    multipart_files = {} of String => Lucky::UploadedFile
+  private def parse_form_data : Tuple(MultipartParams, MultipartFiles)
+    multipart_params = MultipartParams.new
+    multipart_files = MultipartFiles.new
     body_io = IO::Memory.new(body)
 
     boundary = MIME::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
