@@ -7,8 +7,12 @@ module ContextHelper
     HTTP::Request.new(method, "/", body: body, headers: headers)
   end
 
-  def build_context(path = "/", request = nil) : HTTP::Server::Context
+  def build_context(path = "/", request : HTTP::Request? = nil) : HTTP::Server::Context
     build_context_with_io(IO::Memory.new, path: path, request: request)
+  end
+
+  def build_context(request : HTTP::Request) : HTTP::Server::Context
+    build_context(path: "/", request: request)
   end
 
   private def build_context(method : String) : HTTP::Server::Context

@@ -1,5 +1,6 @@
 class Lucky::Params
   include Avram::Paramable
+  include Lucky::Memoizable
 
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
@@ -393,18 +394,8 @@ class Lucky::Params
     request.headers["Content-Type"]?
   end
 
-  @_parsed_json : JSON::Any?
-
-  private def parsed_json : JSON::Any
-    @_parsed_json ||= begin
-      if body.blank?
-        JSON.parse("{}")
-      else
-        JSON.parse(body)
-      end
-    end
-  rescue JSON::ParseException
-    raise Lucky::ParamParsingError.new(request)
+  private memoize def parsed_json : JSON::Any
+    Lucky::JsonBodyParser.new(request).parsed_json
   end
 
   def body : String
