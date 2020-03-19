@@ -30,9 +30,9 @@ class Lucky::Params
   #
   # ```crystal
   # # {"page": 1}
-  # params.json["page"].as_i # 1
+  # params.from_json["page"].as_i # 1
   # # {"users": [{"name": "Skyler"}]}
-  # params.json["users"][0]["name"].as_s # "Skyler"
+  # params.from_json["users"][0]["name"].as_s # "Skyler"
   # ```
   #
   # See the crystal docs on
@@ -42,23 +42,38 @@ class Lucky::Params
   # > You can also get JSON params with `Lucky::Params#get/nested`. Sometimes
   # > `Lucky::Params` are not flexible enough. In those cases this method opens
   # > the possiblity to do just about anything with JSON.
-  def json : JSON::Any
+  def from_json : JSON::Any
     parsed_json
   end
 
   # Returns just the query params as `HTTP::Params`
   #
-  # Returns an `HTTP::Params` object for just query params. This is rarely
-  # helpful since you can get query params with `get`, `nested`, etc., but if
-  # you do need raw access to the query params this is a good way to get them.
+  # Returns an `HTTP::Params` object for only the query params. This is rarely
+  # helpful since you can get query params with `get`, but if you do need raw
+  # access to the query params this is the way to get them.
   #
   # ```crystal
-  # params.query["search"] # Will return the "search" query param
+  # params.from_query["search"] # Will return the "search" query param
   # ```
   #
   # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
-  def query : HTTP::Params
+  def from_query : HTTP::Params
     request.query_params
+  end
+
+  # Returns x-www-form-urlencoded body params as `HTTP::Params`
+  #
+  # Returns an `HTTP::Params` object for the request body. This is rarely
+  # helpful since you can get query params with `get`, but if you do need raw
+  # access to the body params this is the way to get them.
+  #
+  # ```crystal
+  # params.from_form_data["name"]
+  # ```
+  #
+  # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
+  def from_form_data : HTTP::Params
+    form_params
   end
 
   # Retrieve a value from the params hash, raise if key is absent
