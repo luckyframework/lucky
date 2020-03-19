@@ -26,6 +26,41 @@ class Lucky::Params
   def initialize(@request, @route_params = {} of String => String)
   end
 
+  # Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
+  #
+  # ```crystal
+  # # {"page": 1}
+  # params.json["page"].as_i # 1
+  # # {"users": [{"name": "Skyler"}]}
+  # params.json["users"][0]["name"].as_s # "Skyler"
+  # ```
+  #
+  # See the crystal docs on
+  # [`JSON::Any`](https://crystal-lang.org/api/JSON/Any.html) for more on using
+  # JSON in Crystal.
+  #
+  # > You can also get JSON params with `Lucky::Params#get/nested`. Sometimes
+  # > `Lucky::Params` are not flexible enough. In those cases this method opens
+  # > the possiblity to do just about anything with JSON.
+  def json : JSON::Any
+    parsed_json
+  end
+
+  # Returns just the query params as `HTTP::Params`
+  #
+  # Returns an `HTTP::Params` object for just query params. This is rarely
+  # helpful since you can get query params with `get`, `nested`, etc., but if
+  # you do need raw access to the query params this is a good way to get them.
+  #
+  # ```crystal
+  # params.query["search"] # Will return the "search" query param
+  # ```
+  #
+  # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
+  def query : HTTP::Params
+    request.query_params
+  end
+
   # Retrieve a value from the params hash, raise if key is absent
   #
   # If no key is found a `Lucky::MissingParamError` will be raised:
