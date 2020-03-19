@@ -253,6 +253,14 @@ describe Lucky::Action do
     end
   end
 
+  describe "query_params" do
+    it "returns the HTTP::Params for the query params" do
+      action = PlainText::Index.new(build_context(path: "/?q=test"), params)
+      action.query_params.should be_a(HTTP::Params)
+      action.query_params["q"].should eq("test")
+    end
+  end
+
   it "can add anchors to routes (and escapes them)" do
     Tests::Index.path(anchor: "#foo").should eq "/tests#%23foo"
     Tests::Index.route(anchor: "#foo").path.should eq "/tests#%23foo"
