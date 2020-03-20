@@ -6,10 +6,11 @@ require "file_utils"
 class Lucky::PageTemplate < Teeplate::FileTree
   @page_filename : String
   @page_class : String
+  @output_path : String
 
   directory "#{__DIR__}/templates/page"
 
-  def initialize(@page_filename, @page_class)
+  def initialize(@page_filename, @page_class, @output_path)
   end
 end
 
@@ -20,7 +21,7 @@ class Gen::Page < LuckyCli::Task
     if error
       io.puts error.colorize(:red)
     else
-      Lucky::PageTemplate.new(page_filename, page_class).render(output_path)
+      Lucky::PageTemplate.new(page_filename, page_class, output_path).render(output_path)
       io.puts success_message
     end
   end
