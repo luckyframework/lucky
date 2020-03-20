@@ -1,9 +1,9 @@
 class <%= pluralized_name %>::NewPage < MainLayout
   needs operation : <%= operation_class %>
-  quick_def page_title, "New <%= pluralized_name %>"
+  quick_def page_title, "New <%= resource %>"
 
   def content
-    h1 "New <%= pluralized_name %>"
+    h1 "New <%= resource %>"
     render_<%= underscored_resource %>_form(@operation)
   end
 
