@@ -143,6 +143,12 @@ class ParamsWithDefaultParamsLast < TestAction
   end
 end
 
+class TestActionWithRemoteIp < TestAction
+  get "/remote-ip" do
+    plain_text remote_ip
+  end
+end
+
 describe Lucky::Action do
   it "has a url helper" do
     Lucky::RouteHelper.temp_config(base_uri: "example.com") do
@@ -321,6 +327,32 @@ describe Lucky::Action do
       expect_raises Lucky::InvalidParamError, "Required param 'with_int_never_nil' with value 'no_int' couldn't be parsed to a 'Int32'" do
         OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=no_int"), params()).call
       end
+    end
+  end
+
+  describe "getting the remote_ip" do
+    it "returns the fallback local address" do
+      response = TestActionWithRemoteIp.new(build_context(path: "/remote-ip"), params).call
+      response.body.to_s.should eq "127.0.0.1"
+    end
+
+    it "returns the X_FORWARDED_FOR address" do
+      headers = HTTP::Headers.new
+      headers["HTTP_X_FORWARDED_FOR"] = "1.2.3.4,127.0.0.1"
+      request = HTTP::Request.new("GET", "/remote-ip", body: "", headers: headers)
+      context = build_context(request)
+
+      response = TestActionWithRemoteIp.new(context, params).call
+      response.body.to_s.should eq "1.2.3.4"
+    end
+
+    it "returns the original remote_address" do
+      request = HTTP::Request.new("GET", "/remote-ip", body: "", headers: HTTP::Headers.new)
+      request.remote_address = "1.2.3.4"
+      context = build_context(request)
+
+      response = TestActionWithRemoteIp.new(context, params).call
+      response.body.to_s.should eq "1.2.3.4"
     end
   end
 end

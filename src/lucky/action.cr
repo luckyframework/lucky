@@ -18,6 +18,7 @@ abstract class Lucky::Action
   include Lucky::ActionCallbacks
   include Lucky::Redirectable
   include Lucky::VerifyAcceptsFormat
+  include Lucky::RemoteIpAddress
 
   # Must be defined here instead of in Renderable
   # Otherwise it clashes with ErrorAction#render
