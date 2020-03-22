@@ -13,7 +13,7 @@ describe Lucky::RemoteIpHandler do
 
     it "returns the X_FORWARDED_FOR address" do
       headers = HTTP::Headers.new
-      headers["HTTP_X_FORWARDED_FOR"] = "1.2.3.4,127.0.0.1"
+      headers["X_FORWARDED_FOR"] = "1.2.3.4,127.0.0.1"
       request = HTTP::Request.new("GET", "/remote-ip", body: "", headers: headers)
       context = build_context(request)
 
@@ -23,7 +23,7 @@ describe Lucky::RemoteIpHandler do
 
     it "returns nil if the X_FORWARDED_FOR is an empty string, and no default remote_address is found" do
       headers = HTTP::Headers.new
-      headers["HTTP_X_FORWARDED_FOR"] = ""
+      headers["X_FORWARDED_FOR"] = ""
       request = HTTP::Request.new("GET", "/remote-ip", body: "", headers: headers)
       context = build_context(request)
 
