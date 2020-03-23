@@ -1,9 +1,12 @@
 module ContextHelper
   extend self
 
-  private def build_request(method = "GET", body = "", content_type = "") : HTTP::Request
+  private def build_request(method = "GET", body = "", content_type = "", fixed_length : Bool = false) : HTTP::Request
     headers = HTTP::Headers.new
     headers.add("Content-Type", content_type)
+    if fixed_length
+      body = HTTP::FixedLengthContent.new(IO::Memory.new(body), body.size)
+    end
     HTTP::Request.new(method, "/", body: body, headers: headers)
   end
 

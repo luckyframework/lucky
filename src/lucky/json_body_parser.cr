@@ -16,6 +16,6 @@ class Lucky::JsonBodyParser
   end
 
   private def body : String
-    request.body.to_s
+    Lucky::RequestBodyReader.new(request).body
   end
 end

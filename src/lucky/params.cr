@@ -477,8 +477,8 @@ class Lucky::Params
     Lucky::JsonBodyParser.new(request).parsed_json
   end
 
-  def body : String
-    request.body.to_s
+  memoize def body : String
+    Lucky::RequestBodyReader.new(request).body
   end
 
   private def empty_params
