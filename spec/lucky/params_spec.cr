@@ -63,13 +63,13 @@ describe Lucky::Params do
 
   it "works when parsing params twice" do
     request = build_request body: "from=form",
-      content_type: "application/x-www-form-urlencoded"
+      content_type: "application/x-www-form-urlencoded",
+      fixed_length: true
 
     params = Lucky::Params.new(request)
-    dup_params = Lucky::Params.new(request)
 
     params.get?(:from).should eq "form"
-    dup_params.get?(:from).should eq "form"
+    params.get?(:from).should eq "form"
   end
 
   it "works when parsing multipart params twice" do
@@ -81,10 +81,20 @@ describe Lucky::Params do
     }
 
     params = Lucky::Params.new(request)
-    dup_params = Lucky::Params.new(request)
 
     params.nested?(:user)
-    dup_params.nested?(:user)
+    params.nested?(:user)
+  end
+
+  it "works when parsing multipart params twice" do
+    request = build_request body: {page: 1}.to_json,
+      content_type: "application/json",
+      fixed_length: true
+
+    params = Lucky::Params.new(request)
+
+    params.get?(:page).should eq "1"
+    params.get?(:page).should eq "1"
   end
 
   describe "all" do
