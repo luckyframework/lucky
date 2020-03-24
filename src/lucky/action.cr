@@ -20,7 +20,7 @@ abstract class Lucky::Action
   include Lucky::Routable
   include Lucky::Renderable
   include Lucky::ParamHelpers
-  include Lucky::ActionCallbacks
+  include Lucky::ActionPipes
   include Lucky::Redirectable
   include Lucky::VerifyAcceptsFormat
 

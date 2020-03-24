@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class CallbackFromActionMacro::Index < TestAction
+class PipeFromActionMacro::Index < TestAction
   before set_before_cookie
 
   route do
@@ -15,7 +15,7 @@ class CallbackFromActionMacro::Index < TestAction
   end
 end
 
-abstract class InheritableCallbacks < TestAction
+abstract class InheritablePipes < TestAction
   before set_before_cookie
   after overwrite_after_cookie
 
@@ -30,21 +30,21 @@ abstract class InheritableCallbacks < TestAction
   end
 end
 
-class Callbacks::Skipped < InheritableCallbacks
+class Pipes::Skipped < InheritablePipes
   skip set_before_cookie, overwrite_after_cookie
 
-  get "/skipped-callbacks" do
+  get "/skipped-pipes" do
     plain_text "Body"
   end
 end
 
-class Callbacks::Index < InheritableCallbacks
+class Pipes::Index < InheritablePipes
   before set_second_before_cookie
   after set_second_after_cookie
 
-  get "/callbacks" do
-    cookies.set("after", "This should be overwritten by the after callback")
-    plain_text "not_from_callback"
+  get "/pipes" do
+    cookies.set("after", "This should be overwritten by the after pipe")
+    plain_text "not_from_pipe"
   end
 
   def set_second_before_cookie
@@ -58,11 +58,11 @@ class Callbacks::Index < InheritableCallbacks
   end
 end
 
-class Callbacks::HaltedBefore < TestAction
+class Pipes::HaltedBefore < TestAction
   before redirect_me
   before should_not_be_reached
 
-  get "/before_callbacks" do
+  get "/before_pipes" do
     plain_text "this should not be reached"
   end
 
@@ -76,11 +76,11 @@ class Callbacks::HaltedBefore < TestAction
   end
 end
 
-class Callbacks::HaltedAfter < TestAction
+class Pipes::HaltedAfter < TestAction
   after redirect_me
   after should_not_be_reached
 
-  get "/after_callbacks" do
+  get "/after_pipes" do
     plain_text "this should not be reached"
   end
 
@@ -94,9 +94,9 @@ class Callbacks::HaltedAfter < TestAction
   end
 end
 
-class Callbacks::OrderDependent < TestAction
-  getter callback_data
-  @callback_data = [] of String
+class Pipes::OrderDependent < TestAction
+  getter pipe_data
+  @pipe_data = [] of String
 
   before dog
   before cat
@@ -108,45 +108,45 @@ class Callbacks::OrderDependent < TestAction
   end
 
   def dog
-    @callback_data << "dog"
+    @pipe_data << "dog"
     continue
   end
 
   def cat
-    @callback_data << "cat"
+    @pipe_data << "cat"
     continue
   end
 
   def red
-    @callback_data << "red"
+    @pipe_data << "red"
     continue
   end
 
   def yellow
-    @callback_data << "yellow"
+    @pipe_data << "yellow"
     continue
   end
 end
 
 describe Lucky::Action do
   it "works with actions that use the `action` macro" do
-    response = CallbackFromActionMacro::Index.new(build_context, params).call
+    response = PipeFromActionMacro::Index.new(build_context, params).call
     response.context.cookies.get("before").should eq "before"
   end
 
-  it "can skip callbacks" do
-    response = Callbacks::Skipped.new(build_context, params).call
+  it "can skip pipes" do
+    response = Pipes::Skipped.new(build_context, params).call
     response.context.cookies.get?("before").should be_nil
     response.context.cookies.get?("after").should be_nil
   end
 
-  describe "handles before callbacks" do
-    it "runs through all the callbacks if no Lucky::Response is returned" do
+  describe "handles before pipes" do
+    it "runs through all the pipes if no Lucky::Response is returned" do
       with_log do |log_io|
-        response = Callbacks::Index.new(build_context, params).call
+        response = Pipes::Index.new(build_context, params).call
 
         log = log_io.to_s
-        response.body.should eq "not_from_callback"
+        response.body.should eq "not_from_pipe"
         log.should contain("before")
         log.should contain("second_before")
         log.should contain("after")
@@ -158,43 +158,43 @@ describe Lucky::Action do
       end
     end
 
-    it "halts before callbacks if a Lucky::Response is returned" do
+    it "halts before pipes if a Lucky::Response is returned" do
       with_log do |log_io|
-        response = Callbacks::HaltedBefore.new(build_context, params).call
+        response = Pipes::HaltedBefore.new(build_context, params).call
 
         log = log_io.to_s
         response.body.should eq ""
         response.context.response.status_code.should eq 302
         response.context.response.headers["Location"].should eq "/redirected_in_before"
-        log.should contain("stopped_by")
+        log.should contain("halted_by")
         log.should contain("redirect_me")
         response.context.cookies.get?("before").should be_nil
       end
     end
 
-    it "halts after callbacks if a Lucky::Response is returned" do
+    it "halts after pipes if a Lucky::Response is returned" do
       with_log do |log_io|
-        response = Callbacks::HaltedAfter.new(build_context, params).call
+        response = Pipes::HaltedAfter.new(build_context, params).call
 
         log = log_io.to_s
         response.body.should eq ""
         response.context.response.status_code.should eq 302
         response.context.response.headers["Location"].should eq "/redirected_in_after"
         response.context.cookies.get?("after").should be_nil
-        log.should contain("stopped_by")
+        log.should contain("halted_by")
         log.should contain("redirect_me")
       end
     end
 
-    it "renders the callbacks in the order they were defined" do
-      action = Callbacks::OrderDependent.new(build_context, params)
+    it "renders the pipes in the order they were defined" do
+      action = Pipes::OrderDependent.new(build_context, params)
       response = action.call
 
       response.body.should eq "rendered"
-      action.callback_data[0].should eq("dog")
-      action.callback_data[1].should eq("cat")
-      action.callback_data[2].should eq("red")
-      action.callback_data[3].should eq("yellow")
+      action.pipe_data[0].should eq("dog")
+      action.pipe_data[1].should eq("cat")
+      action.pipe_data[2].should eq("red")
+      action.pipe_data[3].should eq("yellow")
     end
   end
 end
