@@ -208,6 +208,8 @@ private def with_log
   )
 
   Lucky.temp_config(logger: logger) do
-    yield log_io
+    Lucky::Action.temp_config(pipe_log_level: Logger::Severity::INFO) do
+      yield log_io
+    end
   end
 end

@@ -127,10 +127,10 @@ module Lucky::ActionCallbacks
       #   end
 
       if callback_result.is_a?(Lucky::Response)
-        Lucky::ActionCallbacks.log_stopped_callback(context,"{{ callback_method.id }}")
+        Lucky::ActionCallbacks.log_stopped_callback("{{ callback_method.id }}")
         return callback_result
       else
-        Lucky::ActionCallbacks.log_continued_callback(context,"{{ callback_method.id }}")
+        Lucky::ActionCallbacks.log_continued_callback("{{ callback_method.id }}")
       end
     {% end %}
   end
@@ -152,28 +152,24 @@ module Lucky::ActionCallbacks
       #   end
 
       if callback_result.is_a?(Lucky::Response)
-        Lucky::ActionCallbacks.log_stopped_callback(context,"{{ callback_method.id }}")
+        Lucky::ActionCallbacks.log_stopped_callback("{{ callback_method.id }}")
         return callback_result
       else
-        Lucky::ActionCallbacks.log_continued_callback(context,"{{ callback_method.id }}")
+        Lucky::ActionCallbacks.log_continued_callback("{{ callback_method.id }}")
       end
     {% end %}
   end
 
   # :nodoc:
-  def self.log_stopped_callback(
-    context : HTTP::Server::Context,
-    callback_method_name : String
-  ) : Void
+  def self.log_stopped_callback(callback_method_name : String) : Nil
     Lucky.logger.warn({stopped_by: callback_method_name})
   end
 
   # :nodoc:
-  def self.log_continued_callback(
-    context : HTTP::Server::Context,
-    callback_method_name : String
-  ) : Void
-    Lucky.logger.debug({ran: callback_method_name})
+  def self.log_continued_callback(callback_method_name : String) : Nil
+    Lucky::Action.settings.pipe_log_level.try do |level|
+      Lucky.logger.log(level, {ran: callback_method_name})
+    end
   end
 
   # :nodoc:
