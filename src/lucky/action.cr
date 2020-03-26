@@ -1,6 +1,11 @@
 require "./*"
 
 abstract class Lucky::Action
+  Habitat.create do
+    setting pipe_log_level : ::Logger::Severity? = nil,
+      example: "Logger::Severity::INFO"
+  end
+
   getter :context, :route_params
 
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
@@ -15,7 +20,7 @@ abstract class Lucky::Action
   include Lucky::Routable
   include Lucky::Renderable
   include Lucky::ParamHelpers
-  include Lucky::ActionCallbacks
+  include Lucky::ActionPipes
   include Lucky::Redirectable
   include Lucky::VerifyAcceptsFormat
 

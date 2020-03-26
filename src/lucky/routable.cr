@@ -63,18 +63,18 @@ module Lucky::Routable
       # Ensure clients_desired_format is cached by calling it
       clients_desired_format
 
-      %callback_result = run_before_callbacks
+      %pipe_result = run_before_pipes
 
-      %response = if %callback_result.is_a?(Lucky::Response)
-        %callback_result
+      %response = if %pipe_result.is_a?(Lucky::Response)
+        %pipe_result
       else
         {{ body }}
       end
 
-      %callback_result = run_after_callbacks
+      %pipe_result = run_after_pipes
 
-      if %callback_result.is_a?(Lucky::Response)
-        %callback_result
+      if %pipe_result.is_a?(Lucky::Response)
+        %pipe_result
       else
         %response
       end
