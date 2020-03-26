@@ -189,7 +189,6 @@ module LuckySentry
         if FILE_TIMESTAMPS[file]? && FILE_TIMESTAMPS[file] != timestamp
           FILE_TIMESTAMPS[file] = timestamp
           file_changed = true
-          puts "#{file} has changed".colorize(:yellow)
         elsif FILE_TIMESTAMPS[file]?.nil?
           FILE_TIMESTAMPS[file] = timestamp
           file_changed = true if (app_processes.none? &.terminated?)
