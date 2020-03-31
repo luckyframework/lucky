@@ -1,7 +1,12 @@
 module ContextHelper
   extend self
 
-  private def build_request(method = "GET", body = "", content_type = "", fixed_length : Bool = false) : HTTP::Request
+  private def build_request(
+    method = "GET",
+    body = "",
+    content_type = "",
+    fixed_length : Bool = false
+  ) : HTTP::Request
     headers = HTTP::Headers.new
     headers.add("Content-Type", content_type)
     if fixed_length
@@ -10,7 +15,10 @@ module ContextHelper
     HTTP::Request.new(method, "/", body: body, headers: headers)
   end
 
-  def build_context(path = "/", request : HTTP::Request? = nil) : HTTP::Server::Context
+  def build_context(
+    path = "/",
+    request : HTTP::Request? = nil
+  ) : HTTP::Server::Context
     build_context_with_io(IO::Memory.new, path: path, request: request)
   end
 
@@ -26,7 +34,11 @@ module ContextHelper
     )
   end
 
-  private def build_context_with_io(io : IO, path = "/", request = nil) : HTTP::Server::Context
+  private def build_context_with_io(
+    io : IO,
+    path = "/",
+    request = nil
+  ) : HTTP::Server::Context
     request = request || HTTP::Request.new("GET", path)
     response = HTTP::Server::Response.new(io)
     HTTP::Server::Context.new request, response

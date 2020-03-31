@@ -1,0 +1,98 @@
+require "../spec_helper"
+
+include ContextHelper
+
+describe Lucky::UrlHelpers do
+  describe "#current_page?" do
+    context "given a string" do
+      it "tests if a path matches the request path or not" do
+        view_for("/").current_page?("/").should be_true
+        view_for("/page").current_page?("/gum").should be_false
+        view_for("/page").current_page?("/page").should be_true
+        view_for("/page").current_page?("/page/").should be_true
+        view_for("/page/").current_page?("/page").should be_true
+        view_for("/page/").current_page?("/page/").should be_true
+      end
+
+      it "tests if the path of a url matches request path or not" do
+        view_for("/").current_page?("https://example.com/")
+          .should be_true
+        view_for("/page").current_page?("https://example.com/page")
+          .should be_true
+        view_for("/page").current_page?("https://example.com/gum")
+          .should be_false
+        view_for("https://example.com/gum").current_page?("/gum")
+          .should be_true
+      end
+
+      it "only tests positive for get and head" do
+        view_for("/get", "GET").current_page?("/get").should be_true
+        view_for("/head", "HEAD").current_page?("/head").should be_true
+        view_for("/post", "POST").current_page?("/post").should be_false
+        view_for("/put", "PUT").current_page?("/put").should be_false
+        view_for("/patch", "PATCH").current_page?("/patch").should be_false
+        view_for("/delete", "DELETE").current_page?("/delete").should be_false
+      end
+
+      it "ignores query parameters by default" do
+        view_for("/page?order=desc&page=1").current_page?("/page")
+          .should be_true
+        view_for("/page").current_page?("/page?order=desc&page=1")
+          .should be_true
+        view_for("/page?order=desc&page=1").current_page?("/page/123")
+          .should be_false
+      end
+
+      it "takes query params into account if explicitly required" do
+        view_for("/page?order=desc&page=1")
+          .current_page?("/page?order=desc&page=1", check_query_params: true)
+          .should be_true
+        view_for("/page")
+          .current_page?("/page", check_query_params: true)
+          .should be_true
+        view_for("/page")
+          .current_page?("/page?order=desc&page=1", check_query_params: true)
+          .should be_false
+        view_for("/page?order=desc&page=1")
+          .current_page?("/page/123", check_query_params: true)
+          .should be_false
+      end
+    end
+
+    context "given a browser action" do
+      it "tests if the path matches or not" do
+        view_for("/pages/123").current_page?(Pages::Show.with(123))
+          .should be_true
+        view_for("/pages/123").current_page?(Pages::Show.with(12))
+          .should be_false
+        view_for("/pages").current_page?(Pages::Index)
+          .should be_true
+      end
+    end
+  end
+end
+
+private def view_for(
+  path : String,
+  method : String = "GET"
+)
+  request = HTTP::Request.new(method, path)
+  TestPage.new(build_context(path: path, request: request))
+end
+
+private class TestPage
+  include Lucky::HTMLPage
+  include Lucky::UrlHelpers
+end
+
+class Pages::Index < TestAction
+  get "/pages" do
+    plain_text "I'm just a list of pages"
+  end
+end
+
+class Pages::Show < TestAction
+  get "/pages/:id" do
+    plain_text "I'm just a page"
+  end
+end
