@@ -10,27 +10,35 @@ module Lucky::UrlHelpers
   # current_page?("/shop/products/")
   # # => true
   # current_page?("/shop/products?order=desc&page=1")
+  # # => true
+  # current_page?("/shop/products", check_query_params: true)
   # # => false
   # current_page?("/shop/products?order=desc&page=1", check_query_params: true)
   # # => true
   # current_page?("https://example.com/shop/products")
   # # => true
-  # current_page?("https://example.com/shop/products?order=desc&page=1")
+  # current_page?("https://example.io/shop/products")
   # # => false
+  # current_page?("https://example.com/shop/products", check_query_params: true)
+  # # => false
+  # current_page?("https://example.com/shop/products?order=desc&page=1")
+  # # => true
   # ```
   def current_page?(
-    path : String,
+    value : String,
     check_query_params : Bool = false
   )
-    return false unless {"GET", "HEAD"}.includes?(@context.request.method)
+    request = @context.request
 
-    uri = URI.parse(path)
+    return false unless {"GET", "HEAD"}.includes?(request.method)
+
+    uri = URI.parse(value)
 
     if check_query_params
-      resource = @context.request.resource
+      resource = request.resource
       path = uri.full_path
     else
-      resource = URI.parse(@context.request.resource).path
+      resource = URI.parse(request.resource).path
       path = uri.path
     end
 
@@ -39,7 +47,12 @@ module Lucky::UrlHelpers
       resource = resource.chomp('/')
     end
 
-    path == resource
+    if value.match(/^\w+:\/\//)
+      host_with_port = uri.port ? "#{uri.host}:#{uri.port}" : uri.host
+      "#{host_with_port}#{path}" == "#{request.host_with_port}#{resource}"
+    else
+      path == resource
+    end
   end
 
   # Tests if the given path matches the current request path.
@@ -48,7 +61,7 @@ module Lucky::UrlHelpers
   # # Visiting https://example.com/pages/123
   # current_page?(Pages::Show.with(123))
   # # => true
-  # current_page?(Pages::Show.with(456))
+  # current_page?(Posts::Show.with(123))
   # # => false
   # # Visiting https://example.com/pages
   # current_page?(Pages::Index)
@@ -57,7 +70,7 @@ module Lucky::UrlHelpers
   # # => false
   # ```
   def current_page?(
-    action : Class | Lucky::RouteHelper,
+    action : Lucky::Action.class | Lucky::RouteHelper,
     check_query_params : Bool = false
   )
     current_page?(action.path)

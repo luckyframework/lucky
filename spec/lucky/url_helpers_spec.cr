@@ -7,25 +7,35 @@ describe Lucky::UrlHelpers do
     context "given a string" do
       it "tests if a path matches the request path or not" do
         view_for("/").current_page?("/").should be_true
-        view_for("/page").current_page?("/gum").should be_false
-        view_for("/page").current_page?("/page").should be_true
-        view_for("/page").current_page?("/page/").should be_true
-        view_for("/page/").current_page?("/page").should be_true
-        view_for("/page/").current_page?("/page/").should be_true
+        view_for("/action").current_page?("/gum").should be_false
+        view_for("/action").current_page?("/action").should be_true
+        view_for("/action").current_page?("/action/").should be_true
+        view_for("/action/").current_page?("/action").should be_true
+        view_for("/action/").current_page?("/action/").should be_true
       end
 
       it "tests if the path of a url matches request path or not" do
-        view_for("/").current_page?("https://example.com/")
+        view_for("/")
+          .current_page?("https://example.com/")
           .should be_true
-        view_for("/page").current_page?("https://example.com/page")
+        view_for("/action")
+          .current_page?("https://example.com/action")
           .should be_true
-        view_for("/page").current_page?("https://example.com/gum")
+        view_for("/action", host_with_port: "example.io")
+          .current_page?("https://example.com/action")
           .should be_false
-        view_for("https://example.com/gum").current_page?("/gum")
+        view_for("/action", host_with_port: "example.com:3000")
+          .current_page?("https://example.com/action")
+          .should be_false
+        view_for("/action", host_with_port: "example.com:3000")
+          .current_page?("https://example.com:3000/action")
+          .should be_true
+        view_for("/action", host_with_port: "example.com:3000")
+          .current_page?("http://example.com:3000/action")
           .should be_true
       end
 
-      it "only tests positive for get and head" do
+      it "only tests positive for get and head requests" do
         view_for("/get", "GET").current_page?("/get").should be_true
         view_for("/head", "HEAD").current_page?("/head").should be_true
         view_for("/post", "POST").current_page?("/post").should be_false
@@ -35,26 +45,26 @@ describe Lucky::UrlHelpers do
       end
 
       it "ignores query parameters by default" do
-        view_for("/page?order=desc&page=1").current_page?("/page")
+        view_for("/action?order=desc&page=1").current_page?("/action")
           .should be_true
-        view_for("/page").current_page?("/page?order=desc&page=1")
+        view_for("/action").current_page?("/action?order=desc&page=1")
           .should be_true
-        view_for("/page?order=desc&page=1").current_page?("/page/123")
+        view_for("/action?order=desc&page=1").current_page?("/action/123")
           .should be_false
       end
 
-      it "takes query params into account if explicitly required" do
-        view_for("/page?order=desc&page=1")
-          .current_page?("/page?order=desc&page=1", check_query_params: true)
+      it "checks query params if explicitly required" do
+        view_for("/action?order=desc&page=1")
+          .current_page?("/action?order=desc&page=1", check_query_params: true)
           .should be_true
-        view_for("/page")
-          .current_page?("/page", check_query_params: true)
+        view_for("/action")
+          .current_page?("/action", check_query_params: true)
           .should be_true
-        view_for("/page")
-          .current_page?("/page?order=desc&page=1", check_query_params: true)
+        view_for("/action")
+          .current_page?("/action?order=desc&page=1", check_query_params: true)
           .should be_false
-        view_for("/page?order=desc&page=1")
-          .current_page?("/page/123", check_query_params: true)
+        view_for("/action?order=desc&page=1")
+          .current_page?("/action", check_query_params: true)
           .should be_false
       end
     end
@@ -74,9 +84,11 @@ end
 
 private def view_for(
   path : String,
-  method : String = "GET"
+  method : String = "GET",
+  host_with_port : String = "example.com"
 )
   request = HTTP::Request.new(method, path)
+  request.headers["Host"] = host_with_port
   TestPage.new(build_context(path: path, request: request))
 end
 
