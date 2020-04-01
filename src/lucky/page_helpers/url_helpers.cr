@@ -69,10 +69,7 @@ module Lucky::UrlHelpers
   # current_page?(Blog::Index)
   # # => false
   # ```
-  def current_page?(
-    action : Lucky::Action.class | Lucky::RouteHelper,
-    check_query_params : Bool = false
-  )
+  def current_page?(action : Lucky::Action.class | Lucky::RouteHelper)
     current_page?(action.path)
   end
 end
