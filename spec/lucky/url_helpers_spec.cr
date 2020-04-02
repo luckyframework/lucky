@@ -53,6 +53,15 @@ describe Lucky::UrlHelpers do
           .should be_false
       end
 
+      it "deals with escaped characters in query params" do
+        view_for("/pages?description=Some%20d%C3%A9scription")
+          .current_page?("/pages?description=Some déscription", check_query_params: true)
+          .should be_true
+        view_for("/pages?description=Some%20d%C3%A9scription")
+          .current_page?("/pages?description=Some%20d%C3%A9scription", check_query_params: true)
+          .should be_true
+      end
+
       it "checks query params if explicitly required" do
         view_for("/action?order=desc&page=1")
           .current_page?("/action?order=desc&page=1", check_query_params: true)

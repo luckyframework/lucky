@@ -43,8 +43,8 @@ module Lucky::UrlHelpers
     end
 
     if check_query_params
-      path += uri.query_params.map(&.join).sort!.join
-      resource += request_uri.query_params.map(&.join).sort!.join
+      path += comparable_query_params(uri.query_params)
+      resource += comparable_query_params(request_uri.query_params)
     end
 
     if value.match(/^\w+:\/\//)
@@ -83,5 +83,9 @@ module Lucky::UrlHelpers
     check_query_params : Bool = false
   )
     current_page?(action.path, check_query_params)
+  end
+
+  private def comparable_query_params(query_params : HTTP::Params) : String
+    URI.decode(query_params.map(&.join).sort!.join)
   end
 end
