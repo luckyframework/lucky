@@ -33,18 +33,18 @@ module Lucky::UrlHelpers
     return false unless {"GET", "HEAD"}.includes?(request.method)
 
     uri = URI.parse(value)
+    request_uri = URI.parse(request.resource)
+    path = uri.path
+    resource = request_uri.path
 
-    if check_query_params
-      resource = request.resource
-      path = uri.full_path
-    else
-      resource = URI.parse(request.resource).path
-      path = uri.path
+    unless path == "/"
+      path = path.chomp("/")
+      resource = resource.chomp("/")
     end
 
-    unless path == '/'
-      path = path.chomp('/')
-      resource = resource.chomp('/')
+    if check_query_params
+      path += uri.query_params.map(&.join).sort!.join
+      resource += request_uri.query_params.map(&.join).sort!.join
     end
 
     if value.match(/^\w+:\/\//)
@@ -68,8 +68,20 @@ module Lucky::UrlHelpers
   # # => true
   # current_page?(Blog::Index)
   # # => false
+  # # Visiting https://example.com/pages?page=2
+  # current_page?(Pages::Index.with)
+  # # => true
+  # current_page?(Pages::Index.with(page: 2))
+  # # => true
+  # current_page?(Pages::Index.with, check_query_params: true)
+  # # => false
+  # current_page?(Pages::Index.with(page: 2), check_query_params: true)
+  # # => true
   # ```
-  def current_page?(action : Lucky::Action.class | Lucky::RouteHelper)
-    current_page?(action.path)
+  def current_page?(
+    action : Lucky::Action.class | Lucky::RouteHelper,
+    check_query_params : Bool = false
+  )
+    current_page?(action.path, check_query_params)
   end
 end

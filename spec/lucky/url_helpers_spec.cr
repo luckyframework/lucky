@@ -67,6 +67,27 @@ describe Lucky::UrlHelpers do
           .current_page?("/action", check_query_params: true)
           .should be_false
       end
+
+      it "does not care about the order of query params" do
+        view_for("/action?order=desc&page=1")
+          .current_page?("/action?order=desc&page=1", check_query_params: true)
+          .should be_true
+        view_for("/action?order=desc&page=1")
+          .current_page?("/action?page=1&order=desc", check_query_params: true)
+          .should be_true
+      end
+
+      it "ignores anchors" do
+        view_for("/pages/123").current_page?("/pages/123#section")
+          .should be_true
+        view_for("/pages/123#section").current_page?("/pages/123")
+          .should be_true
+        view_for("/pages/123#section").current_page?("/pages/123#section")
+          .should be_true
+        view_for("/pages/123")
+          .current_page?("/pages/123#section", check_query_params: true)
+          .should be_true
+      end
     end
 
     context "given a browser action" do
@@ -76,6 +97,42 @@ describe Lucky::UrlHelpers do
         view_for("/pages/123").current_page?(Pages::Show.with(12))
           .should be_false
         view_for("/pages").current_page?(Pages::Index)
+          .should be_true
+        view_for("/pages")
+          .current_page?(Pages::Index.with(page: 2))
+          .should be_true
+        view_for("/pages?page=2")
+          .current_page?(Pages::Index)
+          .should be_true
+      end
+
+      it "checks query params if explicitly required" do
+        view_for("/pages")
+          .current_page?(Pages::Index, check_query_params: true)
+          .should be_true
+        view_for("/pages?page=2")
+          .current_page?(Pages::Index.with(page: 2), check_query_params: true)
+          .should be_true
+        view_for("/pages")
+          .current_page?(Pages::Index.with(page: 2), check_query_params: true)
+          .should be_false
+        view_for("/pages?page=2")
+          .current_page?(Pages::Index, check_query_params: true)
+          .should be_false
+      end
+
+      it "ignores anchors" do
+        view_for("/pages/123")
+          .current_page?(Pages::Show.with(123, anchor: "section"))
+          .should be_true
+        view_for("/pages/123#section")
+          .current_page?(Pages::Show.with(123))
+          .should be_true
+        view_for("/pages/123#section")
+          .current_page?(Pages::Show.with(123, anchor: "section"))
+          .should be_true
+        view_for("/pages/123")
+          .current_page?(Pages::Show.with(123, anchor: "section"), check_query_params: true)
           .should be_true
       end
     end
@@ -98,6 +155,8 @@ private class TestPage
 end
 
 class Pages::Index < TestAction
+  param page : Int32 = 1
+
   get "/pages" do
     plain_text "I'm just a list of pages"
   end
