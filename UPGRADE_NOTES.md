@@ -45,7 +45,8 @@ brew upgrade lucky
 - Update: `UserSerializer` to inherit from the `BaseSerializer` if it doesn't already.
 - Add: `cookie.http_only(true)` to your `config/cookies.cr` file. This goes inside your `settings.on_set` block.
 - Update: your node dependencies where needed
-- Add: the new `system_check` script in your `script/system_check` and script helpers in `script/helpers/`
+- Add: this line `system_check: script/system_check && $SHELL` to your `Procfile.dev`
+- Add: the new `system_check` script in `script/system_check` and script helpers `function_helpers` and `text_helpers` in to `script/helpers/`
 <details>
   <summary>script/system_check</summary>
 
@@ -95,6 +96,7 @@ brew upgrade lucky
 </details>
 <details>
   <summary>script/helpers/function_helpers</summary>
+
   ```bash
   #!/usr/bin/env bash
 
@@ -167,6 +169,7 @@ brew upgrade lucky
 </details>
 <details>
   <summary>script/helpers/text_helpers</summary>
+
   ```bash
   #!/usr/bin/env bash
 
@@ -202,7 +205,6 @@ brew upgrade lucky
   }
   ```
 </details>
-- Add: this line `system_check: script/system_check && $SHELL` to your `Procfile.dev`
 
 
 ## Upgrading from 0.18 to 0.19
