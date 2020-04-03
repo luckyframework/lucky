@@ -1,3 +1,210 @@
+## Upgrading from 0.19 to 0.20
+
+- Update `.crystal-version` file to `0.34.0`
+- Upgrade to crystal 0.34.0
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.34.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.34.0`
+  - Lucky should be `~> 0.20.0`
+  - Authentic should be `~> 0.5.2`
+  - LuckyFlow should be `~> 0.6.2`
+- Run `shards update`
+
+### General updates
+
+- Update: any `link()` where the `to:` option is a `String` to an action class. e.g. `link("Home", to: "/")` -> `link("Home", to: Home::Index)`. If no action class is available, use `a(href: "")` instead.
+- Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`
+- Update: your local `ENV["PORT"]` to be `ENV["DEV_PORT"]`.
+- Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(Avram::Params.new({"name" => "Gary"}))`
+- Remove: the `on:` option from `needs` inside every Operation class. e.g. `needs created_by : String, on: :create` -> `needs created_by : String`
+
+
+### Optional updates
+
+- Update: all instance variables called from a `needs` on a page can now just use the method of that name. e.g. `@page` -> `page`
+- Add: `include Lucky::CatchUnpermittedAttribute` to the `class Shared::Field(T)` in `src/components/shared/field.cr`
+- Add: the new `Lucky::RemoteIpHandler.new` to your app handlers in `src/app_server.cr` just before `Lucky::RouteHandler.new`.
+- Add: `robots.txt` to your `public/` directory.
+  ```
+  User-agent: *
+  Disallow:
+  ```
+- Update: `UserSerializer` to inherit from the `BaseSerializer` if it doesn't already.
+- Add: `cookie.http_only(true)` to your `config/cookies.cr` file. This goes inside your `settings.on_set` block.
+- Update: your node dependencies where needed
+- Add: the new `system_check` script in your `script/system_check` and script helpers in `script/helpers/`
+<details>
+  <summary>script/system_check</summary>
+
+  ```bash
+  #!/usr/bin/env bash
+
+  source script/helpers/text_helpers
+  source script/helpers/function_helpers
+
+  # Use this script to check the system for required tools and process that your app needs.
+  # A few helper functions are provided to make writing bash a little easier. See the 
+  # script/helpers/function_helpers file for more examples.
+  #
+  # A few examples you might use here:
+  #   * 'lucky db.verify_connection' to test postgres can be connected
+  #   * Checking that elasticsearch, redis, or postgres is installed and/or booted
+  #   * Note: Booting additional processes for things like mail, background jobs, etc...
+  #     should go in your Procfile.dev.
+
+  # NOTE: Remove this part if your app is API only
+  if command_not_found "yarn"; then
+    print_error "Yarn is not installed\n  See https://yarnpkg.com/lang/en/docs/install/ for install instructions."
+  fi
+
+  # Only if this isn't CI
+  if [ -z "$CI" ]; then
+    lucky ensure_process_runner_installed
+  fi
+
+  if command_not_found "createdb"; then
+    MSG="Please install the postgres CLI tools, then try again."
+    if is_mac; then
+      MSG="$MSG\nIf you're using Postgres.app, see https://postgresapp.com/documentation/cli-tools.html."
+   fi
+    MSG="$MSG\nSee https://www.postgresql.org/docs/current/tutorial-install.html for install instructions."
+
+    print_error "$MSG"
+  fi
+
+
+  ## CUSTOM PRE-BOOT CHECKS ##
+  # example:
+  # if command_not_running "redis-cli ping"; then
+  #   print_error "Redis is not running."
+  # fi
+  ```
+</details>
+<details>
+  <summary>script/helpers/function_helpers</summary>
+  ```bash
+  #!/usr/bin/env bash
+
+  # This file contains a set of functions used as helpers
+  # for various tasks. Read the examples for each one for
+  # more information. Feel free to put any additional helper
+  # functions you may need for your app
+
+
+  # Returns true if the command $1 is not found
+  # example:
+  #   if command_not_found "yarn"; then
+  #     echo "no yarn"
+  #   fi
+  command_not_found() {
+    ! command -v $1 > /dev/null
+    return $?
+  }
+
+  # Returns true if the command $1 is not running
+  # You must supply the full command to check as an argument
+  # example:
+  #   if command_not_running "redis-cli ping"; then
+  #     print_error "Redis is not running"
+  #   fi
+  command_not_running() {
+    $1
+    if [ $? -ne 0 ]; then
+      true
+    else
+      false
+    fi
+  }
+
+  # Returns true if the OS is macOS
+  # example:
+  #   if is_mac; then
+  #     echo "do mac stuff"
+  #   fi
+  is_mac() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      true
+    else
+      false
+    fi
+  }
+
+  # Returns true if the OS is linux based
+  # example:
+  #   if is_linux; then
+  #     echo "do linux stuff"
+  #   fi
+  is_linux() {
+    if [[ "$OSTYPE" == "linux"* ]]; then
+      true
+    else
+      false
+    fi
+  }
+
+  # Prints error and exit.
+  # example:
+  #   print_error "Redis is not running. Run it with some_command"
+  print_error() {
+    printf "${BOLD_RED_COLOR}There is a problem with your system setup:\n\n"
+    printf "${BOLD_RED_COLOR}$1 \n\n" | indent
+    exit 1
+  }
+  ```
+</details>
+<details>
+  <summary>script/helpers/text_helpers</summary>
+  ```bash
+  #!/usr/bin/env bash
+
+  # This file contains a set of functions used to format text,
+  # and make printing text a little easier. Feel free to put
+  # any additional functions you need for formatting your shell
+  # output text.
+
+  # Colors
+  BOLD_RED_COLOR="\e[1m\e[31m"
+
+  # Indents the text 2 spaces
+  # example:
+  #   printf "Hello" | indent
+  indent() {
+    while read LINE; do
+      echo "  $LINE" || true
+    done
+  }
+
+  # Prints out an arrow to your custom notice
+  # example:
+  #   notice "Installing new magic"
+  notice() {
+    printf "\n▸ $1\n"
+  }
+
+  # Prints out a check mark and Done.
+  # example:
+  #   print_done
+  print_done() {
+    printf "✔ Done\n" | indent
+  }
+  ```
+</details>
+- Add: this line `system_check: script/system_check && $SHELL` to your `Procfile.dev`
+
+
 ## Upgrading from 0.18 to 0.19
 
 - Update `.crystal-version` file to `0.33.0`
