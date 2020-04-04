@@ -31,7 +31,7 @@ module Lucky::InputHelpers
     end
   end
 
-  def submit(text : String, **html_options)
+  def submit(text : String, **html_options) : Nil
     input merge_options(html_options, {"type" => "submit", "value" => text})
   end
 
@@ -43,7 +43,7 @@ module Lucky::InputHelpers
   # textarea(attribute)
   # # => <textarea id="param_key_attribute_name" name="param_key:attribute_name"></textarea>
   # ```
-  def textarea(field : Avram::PermittedAttribute, **html_options)
+  def textarea(field : Avram::PermittedAttribute, **html_options) : Nil
     textarea field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
@@ -54,7 +54,7 @@ module Lucky::InputHelpers
   # textarea(attribute, attrs: [:required])
   # # => <textarea id="param_key_attribute_name" name="param_key:attribute_name" required></textarea>
   # ```
-  def textarea(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+  def textarea(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
     textarea field.param.to_s, merge_options(html_options, {
       "id"   => input_id(field),
       "name" => input_name(field),
@@ -64,7 +64,7 @@ module Lucky::InputHelpers
   def checkbox(field : Avram::PermittedAttribute(T),
                unchecked_value : String,
                checked_value : String,
-               **html_options) forall T
+               **html_options) : Nil forall T
     if field.param == checked_value
       html_options = merge_options(html_options, {"checked" => "true"})
     end
@@ -73,11 +73,11 @@ module Lucky::InputHelpers
     generate_input(field, "checkbox", html_options)
   end
 
-  def checkbox(field : Avram::PermittedAttribute(Bool?), **html_options)
+  def checkbox(field : Avram::PermittedAttribute(Bool?), **html_options) : Nil
     checkbox field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
-  def checkbox(field : Avram::PermittedAttribute(Bool?), attrs : Array(Symbol), **html_options)
+  def checkbox(field : Avram::PermittedAttribute(Bool?), attrs : Array(Symbol), **html_options) : Nil
     unchecked_value = "false"
     if field.value
       html_options = merge_options(html_options, {"checked" => "true"})
@@ -98,7 +98,7 @@ module Lucky::InputHelpers
     # {{input_type.id}}_input(attribute)
     # # => <input type="{{input_type.id}}" id="param_key_attribute_name" name="param_key:attribute_name" value="" />
     # ```
-    def {{input_type.id}}_input(field : Avram::PermittedAttribute, **html_options)
+    def {{input_type.id}}_input(field : Avram::PermittedAttribute, **html_options) : Nil
       {{input_type.id}}_input field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
     end
 
@@ -109,60 +109,60 @@ module Lucky::InputHelpers
     # {{input_type.id}}_input(attribute, attrs: [:required])
     # # => <input type="{{input_type.id}}" id="param_key_attribute_name" name="param_key:attribute_name" value="" required />
     # ```
-    def {{input_type.id}}_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+    def {{input_type.id}}_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
       generate_input(field, {{input_type}}, html_options, attrs: attrs)
     end
   {% end %}
 
   generate_helpful_error_for telephone_input
 
-  def telephone_input(field : Avram::PermittedAttribute, **html_options)
+  def telephone_input(field : Avram::PermittedAttribute, **html_options) : Nil
     telephone_input field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
-  def telephone_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+  def telephone_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
     generate_input(field, "tel", html_options, attrs: attrs)
   end
 
   generate_helpful_error_for password_input
 
-  def password_input(field : Avram::PermittedAttribute, **html_options)
+  def password_input(field : Avram::PermittedAttribute, **html_options) : Nil
     password_input field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
-  def password_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+  def password_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
     generate_input(field, "password", html_options, {"value" => ""}, attrs)
   end
 
   generate_helpful_error_for time_input
 
-  def time_input(field : Avram::PermittedAttribute, **html_options)
+  def time_input(field : Avram::PermittedAttribute, **html_options) : Nil
     time_input field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
-  def time_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+  def time_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
     value = field.value.try(&.to_s("%H:%M:%S")) || field.param.to_s
     generate_input(field, "time", html_options, input_overrides: {"value" => value}, attrs: attrs)
   end
 
   generate_helpful_error_for date_input
 
-  def date_input(field : Avram::PermittedAttribute, **html_options)
+  def date_input(field : Avram::PermittedAttribute, **html_options) : Nil
     date_input field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
-  def date_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+  def date_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
     value = field.value.try(&.to_s("%Y-%m-%d")) || field.param.to_s
     generate_input(field, "date", html_options, input_overrides: {"value" => value}, attrs: attrs)
   end
 
   generate_helpful_error_for datetime_input
 
-  def datetime_input(field : Avram::PermittedAttribute, **html_options)
+  def datetime_input(field : Avram::PermittedAttribute, **html_options) : Nil
     datetime_input field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
-  def datetime_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options)
+  def datetime_input(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
     value = field.value.try(&.to_s("%Y-%m-%dT%H:%M:%S")) || field.param.to_s
     generate_input(field, "datetime-local", html_options, input_overrides: {"value" => value}, attrs: attrs)
   end
@@ -171,7 +171,7 @@ module Lucky::InputHelpers
                              type,
                              html_options,
                              input_overrides = {} of String => String,
-                             attrs : Array(Symbol) = [] of Symbol)
+                             attrs : Array(Symbol) = [] of Symbol) : Nil
     input_options = {
       "type"  => type,
       "id"    => input_id(field),

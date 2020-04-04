@@ -4,7 +4,7 @@ include ContextHelper
 
 describe Lucky::WelcomePage do
   it "compiles successfully" do
-    html = Lucky::WelcomePage.new(context: build_context).render.to_s
-    html.should contain("Welcome to Lucky")
+    Lucky::WelcomePage.new(context: build_context).tap(&.render).view.to_s
+      .should contain("Welcome to Lucky")
   end
 end

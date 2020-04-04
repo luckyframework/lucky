@@ -5,8 +5,9 @@ include ContextHelper
 abstract class LayoutWithOptionalSidebar
   include Lucky::HTMLPage
 
-  def render
+  def render : String
     render_if_defined :sidebar
+    view.to_s
   end
 end
 

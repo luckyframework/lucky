@@ -7,7 +7,11 @@ module Lucky::HTMLPage
 
   macro included
     include Lucky::HTMLBuilder
-    private getter view = IO::Memory.new
+    getter view = IO::Memory.new
     needs context : HTTP::Server::Context
+  end
+
+  def to_s(io)
+    io << view
   end
 end

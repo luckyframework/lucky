@@ -8,7 +8,7 @@ module Lucky::CustomTags
     options = EMPTY_HTML_ATTRS,
     attrs : Array(Symbol) = [] of Symbol,
     **other_options
-  )
+  ) : Nil
     merged_options = merge_options(other_options, options)
 
     tag(name, attrs, merged_options) do
@@ -16,19 +16,19 @@ module Lucky::CustomTags
     end
   end
 
-  def tag(name : String, content : String | Lucky::AllowedInTags)
+  def tag(name : String, content : String | Lucky::AllowedInTags) : Nil
     tag(EMPTY_HTML_ATTRS) do
       text content
     end
   end
 
-  def tag(name : String, &block)
+  def tag(name : String, &block) : Nil
     tag(EMPTY_HTML_ATTRS) do
       yield
     end
   end
 
-  def tag(name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block)
+  def tag(name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
     boolean_attrs = build_boolean_attrs(attrs)
@@ -39,7 +39,7 @@ module Lucky::CustomTags
 
   # Outputs a custom tag with no tag closing.
   # `empty_tag("br")` => `<br>`
-  def empty_tag(name : String, options = EMPTY_HTML_ATTRS, **other_options)
+  def empty_tag(name : String, options = EMPTY_HTML_ATTRS, **other_options) : Nil
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
     view << "<#{name}" << tag_attrs << ">"

@@ -1,10 +1,13 @@
 require "../spec_helper"
 
+include ContextHelper
+
 class TestRender
   include Lucky::HTMLPage
 
-  def render
+  def render : String
     render_complicated_html
+    view.to_s
   end
 
   private def render_complicated_html
@@ -31,6 +34,7 @@ class UnsafePage
 
   def render
     text "<script>not safe</span>"
+    view.to_s
   end
 end
 
@@ -43,6 +47,7 @@ abstract class MainLayout
     body do
       inner
     end
+    view.to_s
   end
 
   abstract def inner
@@ -85,73 +90,73 @@ end
 describe Lucky::HTMLPage do
   describe "tags that contain contents" do
     it "can be called with various arguments" do
-      view.header("text").to_s.should eq %(<header>text</header>)
-      view.header("text", {class: "stuff"}).to_s.should eq %(<header class="stuff">text</header>)
-      view.header("text", class: "stuff").to_s.should eq %(<header class="stuff">text</header>)
+      view(&.header("text")).should eq %(<header>text</header>)
+      view(&.header("text", {class: "stuff"})).should eq %(<header class="stuff">text</header>)
+      view(&.header("text", class: "stuff")).should eq %(<header class="stuff">text</header>)
     end
 
     it "dasherizes attribute names" do
-      view.header("text", data_foo: "stuff").to_s.should eq %(<header data-foo="stuff">text</header>)
+      view(&.header("text", data_foo: "stuff")).should eq %(<header data-foo="stuff">text</header>)
     end
   end
 
   describe "empty tags" do
     it "can be called with various arguments" do
-      view.br.to_s.should eq %(<br>)
-      view.img(src: "my_src").to_s.should eq %(<img src="my_src">)
-      view.img({src: "my_src"}).to_s.should eq %(<img src="my_src">)
-      view.img({:src => "my_src"}).to_s.should eq %(<img src="my_src">)
+      view(&.br).should eq %(<br>)
+      view(&.img(src: "my_src")).should eq %(<img src="my_src">)
+      view(&.img({src: "my_src"})).should eq %(<img src="my_src">)
+      view(&.img({:src => "my_src"})).should eq %(<img src="my_src">)
     end
   end
 
   describe "HTML escaping" do
     it "escapes text" do
-      UnsafePage.new(build_context).render.to_s.should eq "&lt;script&gt;not safe&lt;/span&gt;"
+      UnsafePage.new(build_context).render.should eq "&lt;script&gt;not safe&lt;/span&gt;"
     end
 
     it "escapes HTML attributes" do
       unsafe = "<span>bad news</span>"
       escaped = "&lt;span&gt;bad news&lt;/span&gt;"
-      view.img(src: unsafe).to_s.should eq %(<img src="#{escaped}">)
-      view.img({src: unsafe}).to_s.should eq %(<img src="#{escaped}">)
-      view.img({:src => unsafe}).to_s.should eq %(<img src="#{escaped}">)
+      view(&.img(src: unsafe)).should eq %(<img src="#{escaped}">)
+      view(&.img({src: unsafe})).should eq %(<img src="#{escaped}">)
+      view(&.img({:src => unsafe})).should eq %(<img src="#{escaped}">)
     end
   end
 
   it "renders complicated HTML syntax" do
-    view.render.to_s.should be_a(String)
+    TestRender.new(build_context).render.should be_a(String)
   end
 
   it "can render raw strings" do
-    view.raw("<safe>").to_s.should eq "<safe>"
+    view(&.raw("<safe>")).should eq "<safe>"
   end
 
   describe "can be used to render layouts" do
     it "renders layouts and needs" do
-      InnerPage.new(build_context, foo: "bar").render.to_s.should contain %(<title>A great title</title>)
-      InnerPage.new(build_context, foo: "bar").render.to_s.should contain %(<body>Inner textbar</body>)
+      InnerPage.new(build_context, foo: "bar").render.should contain %(<title>A great title</title>)
+      InnerPage.new(build_context, foo: "bar").render.should contain %(<body>Inner textbar</body>)
     end
   end
 
   describe "needs with defaults" do
     it "allows default values to needs" do
-      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>string default</div>)
+      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>string default</div>)
     end
 
     it "allows false as default value to needs" do
-      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>bool default</div>)
+      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>bool default</div>)
     end
 
     it "allows nil as default value to needs" do
-      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>nil default</div>)
+      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>nil default</div>)
     end
 
     it "infers the default value from nilable needs" do
-      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>inferred nil default</div>)
+      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>inferred nil default</div>)
     end
 
     it "infers the default value from nilable needs" do
-      LessNeedyDefaultsPage.new(build_context).render.to_s.should contain %(<div>inferred nil default 2</div>)
+      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>inferred nil default 2</div>)
     end
   end
 
@@ -161,5 +166,7 @@ describe Lucky::HTMLPage do
 end
 
 private def view
-  TestRender.new(build_context)
+  TestRender.new(build_context).tap do |page|
+    yield page
+  end.view.to_s
 end
