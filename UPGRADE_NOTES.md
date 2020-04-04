@@ -34,7 +34,7 @@ brew upgrade lucky
 
 ### Optional updates
 
-- Update: all instance variables called from a `needs` on a page can now just use the method of that name. e.g. `@page` -> `page`
+- Update: all instance variables called from a `needs` on a page or component can now just use the method of that name. e.g. `@current_user` -> `current_user`
 - Add: `include Lucky::CatchUnpermittedAttribute` to the `class Shared::Field(T)` in `src/components/shared/field.cr`
 - Add: the new `Lucky::RemoteIpHandler.new` to your app handlers in `src/app_server.cr` just before `Lucky::RouteHandler.new`.
 - Add: `robots.txt` to your `public/` directory.
