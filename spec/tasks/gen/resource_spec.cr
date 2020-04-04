@@ -26,7 +26,8 @@ describe Gen::Resource::Browser do
           "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
           "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
           "./src/pages/users/new_page.cr": "class Users::NewPage < MainLayout",
-          "./src/pages/users/edit_page.cr": "class Users::EditPage < MainLayout"
+          "./src/pages/users/edit_page.cr": "class Users::EditPage < MainLayout",
+          "./src/components/users/form_fields.cr": "class Users::FormFields < BaseComponent"
         should_create_files_with_contents io,
           "./src/models/user.cr": "class User < BaseModel",
           "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
