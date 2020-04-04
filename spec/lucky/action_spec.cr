@@ -213,13 +213,13 @@ describe Lucky::Action do
   describe "rendering" do
     it "renders plain text" do
       response = PlainText::Index.new(build_context, params).call
-      response.body.should eq "plain"
+      response.body.to_s.should eq "plain"
       response.content_type.should eq "text/plain"
     end
 
     it "infer the correct HTML page to render" do
       response = Tests::Index.new(build_context, params).call
-      response.body.should contain "Rendered from Tests::IndexPage"
+      response.body.to_s.should contain "Rendered from Tests::IndexPage"
       response.content_type.should eq "text/html"
     end
   end

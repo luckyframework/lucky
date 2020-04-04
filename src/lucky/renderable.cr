@@ -80,11 +80,10 @@ module Lucky::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
-    body = view.perform_render.to_s
     Lucky::TextResponse.new(
       context,
       "text/html",
-      body,
+      view.perform_render,
       debug_message: log_message(view),
     )
   end

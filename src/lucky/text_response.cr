@@ -14,7 +14,7 @@ class Lucky::TextResponse < Lucky::Response
 
   def initialize(@context : HTTP::Server::Context,
                  @content_type : String,
-                 @body : String,
+                 @body : String | IO,
                  @status : Int32? = nil,
                  @debug_message : String? = nil)
   end
