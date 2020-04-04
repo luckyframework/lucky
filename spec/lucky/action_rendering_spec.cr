@@ -131,7 +131,7 @@ describe Lucky::Action do
     it "render assigns" do
       response = Rendering::Index.new(build_context, params).call
 
-      response.body.should contain "Anything"
+      response.body.to_s.should contain "Anything"
       response.debug_message.to_s.should contain "Rendering::IndexPage"
     end
   end
@@ -139,12 +139,12 @@ describe Lucky::Action do
   # See issue https://github.com/luckyframework/lucky/issues/678
   it "renders page classes when prefixed with ::" do
     response = Namespaced::Rendering::Index.new(build_context, params).call
-    response.body.should contain "Anything"
+    response.body.to_s.should contain "Anything"
   end
 
   it "renders JSON" do
     response = Rendering::JSON::Index.new(build_context, params).call
-    response.body.should eq %({"name":"Paul"})
+    response.body.to_s.should eq %({"name":"Paul"})
     response.status.should eq 200
 
     status = Rendering::JSON::WithStatus.new(build_context, params).call.status
@@ -156,7 +156,7 @@ describe Lucky::Action do
 
   it "renders XML" do
     response = Rendering::Xml::Index.new(build_context, params).call
-    response.body.should eq %(<anything />)
+    response.body.to_s.should eq %(<anything />)
     response.status.should eq 200
 
     status = Rendering::Xml::WithStatus.new(build_context, params).call.status
@@ -168,7 +168,7 @@ describe Lucky::Action do
 
   it "renders head response with no body" do
     response = Rendering::HeadOnly.new(build_context, params).call
-    response.body.should eq ""
+    response.body.to_s.should eq ""
     response.status.should eq 204
 
     response = Rendering::HeadOnly::WithSymbolStatus.new(build_context, params).call
@@ -177,15 +177,15 @@ describe Lucky::Action do
 
   it "renders text" do
     response = Rendering::Text::Index.new(build_context, params).call
-    response.body.should eq "Anything"
+    response.body.to_s.should eq "Anything"
     response.status.should eq 200
 
     response = Rendering::Text::WithStatus.new(build_context, params).call
-    response.body.should eq "Anything"
+    response.body.to_s.should eq "Anything"
     response.status.should eq 201
 
     response = Rendering::Text::WithSymbolStatus.new(build_context, params).call
-    response.body.should eq "Anything"
+    response.body.to_s.should eq "Anything"
     response.status.should eq 201
   end
 
