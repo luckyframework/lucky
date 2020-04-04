@@ -245,7 +245,7 @@ If you're not sure about an upgrade step, or simply want to look at an example, 
 ### General updates
 - Rename: Action rendering method `text` to `plain_text`.
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
-- Delete: `config/static_file_handler.cr`. The `Lucky::StaticFileHandler` no longer has config settings.
+- Delete: `config/static_file_handler.cr`.
 - Add: a new `Lucky::LogHandler` configure to the bottom of `config/logger.cr`.
 - Update: `Avram::Repo.configure` to `Avram.configure` in `config/logger.cr`.
 <details>
