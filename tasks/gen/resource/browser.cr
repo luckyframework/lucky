@@ -112,6 +112,7 @@ class Gen::Resource::Browser < LuckyCli::Task
         "./src/pages/#{folder_name}/#{action}_page.cr"
       )
     end
+    success_message("#{pluralized_name}::FormFields", "./src/components/#{folder_name}/form_fields.cr")
   end
 
   private def underscored_resource

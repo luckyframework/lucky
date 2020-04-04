@@ -9,9 +9,8 @@ class <%= pluralized_name %>::NewPage < MainLayout
 
   def render_<%= underscored_resource %>_form(op)
     form_for <%= pluralized_name %>::Create do
-      <%- columns.each_with_index do |column, index| -%>
-      mount Shared::Field.new(op.<%= column.name %>)<% if index.zero? %>, &.text_input(autofocus: "true")<% end %>
-      <%- end -%>
+      # Edit fields in src/components/<%= folder_name %>/form_fields.cr
+      mount <%= pluralized_name %>::FormFields.new(op)
 
       submit "Save", data_disable_with: "Saving..."
     end
