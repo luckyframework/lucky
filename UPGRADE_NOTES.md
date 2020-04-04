@@ -25,7 +25,7 @@ brew upgrade lucky
 
 ### General updates
 
-- Update: any `link()` where the `to:` option is a `String` to an action class. e.g. `link("Home", to: "/")` -> `link("Home", to: Home::Index)`. If no action class is available, use `a(href: "")` instead.
+- Update: `link` no longer accepts a `String` path or URL, it must be an Action. Change `link()` to an `a` tag with an `href` (`a "Google", href: "https://google.com"), or use an action class with `link` (`link "Home", to: "/" ` to `link("Home", to: Home::Index)`.
 - Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`
 - Update: your local `ENV["PORT"]` to be `ENV["DEV_PORT"]`.
 - Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(Avram::Params.new({"name" => "Gary"}))`
