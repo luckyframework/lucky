@@ -1,11 +1,11 @@
 module Lucky::SelectHelpers
-  def select_input(field : Avram::PermittedAttribute, **html_options)
+  def select_input(field : Avram::PermittedAttribute, **html_options) : Nil
     select_tag merge_options(html_options, {"name" => input_name(field)}) do
       yield
     end
   end
 
-  def options_for_select(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(String, T)), **html_options) forall T
+  def options_for_select(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(String, T)), **html_options) : Nil forall T
     select_options.each do |option_name, option_value|
       attributes = {"value" => option_value.to_s}
 

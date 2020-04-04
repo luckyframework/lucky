@@ -70,7 +70,7 @@ module Lucky::HTMLTextHelpers
   # ```html
   # You're such a <strong>nice</strong> and <strong>attractive</strong> person.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>")
+  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>") : Nil
     if text.blank? || phrases.all?(&.to_s.blank?)
       raw (text || "")
     else
@@ -91,16 +91,16 @@ module Lucky::HTMLTextHelpers
   # Exactly the same as the `highlight` that takes multiple phrases, but with a
   # singular `phrase` argument for readability.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _)
+  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _) : Nil
     highlight(text, phrases, highlighter: block)
   end
 
-  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>")
+  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>") : Nil
     phrases = [phrase] of String | Regex
     highlight(text, phrases, highlighter: highlighter)
   end
 
-  def highlight(text : String, phrase : String | Regex, &block : String -> _)
+  def highlight(text : String, phrase : String | Regex, &block : String -> _) : Nil
     phrases = [phrase] of String | Regex
     highlight(text, phrases, highlighter: block)
   end
