@@ -35,7 +35,7 @@ brew upgrade lucky
 
 #### GZip text responses
 
-* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-83ca1a783e82ef6f0d38f400b7c1eaa1) to `config.server.cr` to gzip text responses.
+* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-83ca1a783e82ef6f0d38f400b7c1eaa1) to `config/server.cr` to gzip text responses.
 
 ## Upgrading from 0.17 to 0.18
 
