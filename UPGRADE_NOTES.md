@@ -26,10 +26,10 @@ brew upgrade lucky
 ### General updates
 
 - Update: any `link()` where the `to:` option is a `String` to an action class. e.g. `link("Home", to: "/")` -> `link("Home", to: Home::Index)`. If no action class is available, use `a(href: "")` instead.
-- Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`
-- Update: your local `ENV["PORT"]` to be `ENV["DEV_PORT"]`.
+- Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`. Lucky now automatically creates a method ending with `?` for `needs` with a `Bool` type.
+- Update: your development `ENV["PORT"]` to be `ENV["DEV_PORT"]` if you need to customize the port your local server is running on.
 - Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(Avram::Params.new({"name" => "Gary"}))`
-- Remove: the `on:` option from `needs` inside every Operation class. e.g. `needs created_by : String, on: :create` -> `needs created_by : String`
+- Remove: the `on:` option from `needs` inside every Operation class. e.g. `needs created_by : String, on: :create` -> `needs created_by : String`. You will need to explicitly pass these when calling `new`, `create`, and `update`.
 
 
 ### Optional updates
