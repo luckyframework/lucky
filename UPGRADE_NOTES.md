@@ -28,7 +28,7 @@ brew upgrade lucky
 - Update: `link` no longer accepts a `String` path or URL, it must be an Action. Change `link()` to an `a` tag with an `href` (`a "Google", href: "https://google.com"), or use an action class with `link` (`link "Home", to: "/" ` to `link("Home", to: Home::Index)`.
 - Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`
 - Update: your local `ENV["PORT"]` to be `ENV["DEV_PORT"]`.
-- Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(Avram::Params.new({"name" => "Gary"}))`
+- Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(name: "Gary")`, or if you must use a hash, wrap it in params first: `MyOperation.new(Avram::Params.new({"name" => "Gary"})`
 - Remove: the `on:` option from `needs` inside every Operation class. e.g. `needs created_by : String, on: :create` -> `needs created_by : String`
 
 
