@@ -103,19 +103,56 @@ module Lucky::Renderable
     response.print
   end
 
+  private def handle_response(_response : Nil)
+    {%
+      raise <<-ERROR
+
+
+      An action returned Nil
+
+      But it should return a Lucky::Response.
+
+      Try this...
+
+        ▸ Return a response with html, redirect, or json at the end of your action.
+        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
+
+      For example...
+
+        get "/admin/users" do
+          # Make sure there is a response in all conditional branches
+          if current_user.admin?
+            html IndexPage, users: UserQuery.new
+          else
+            redirect Home::Index
+          end
+        end
+
+      ERROR
+    %}
+  end
+
   private def handle_response(_response : T) forall T
     {%
       raise <<-ERROR
 
 
-      Your action returned #{T}
+      An action returned #{T}
 
       But it should return a Lucky::Response
 
       Try this...
 
-        ▸ Use a method like render/redirect/json at the end of your action.
-        ▸ Ensure all conditionals (like if/else) return a response with render/redirect/json/etc.
+        ▸ Return a response with html, redirect, or json at the end of your action.
+        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
+
+      For example...
+
+        get "/users" do
+          # Return a response with json, redirect, html, etc.
+          html IndexPage, users: UserQuery.new
+        end
+
       ERROR
     %}
   end
