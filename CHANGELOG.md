@@ -1,9 +1,10 @@
 ### Changes in 0.20
 
+- Added: support for Crystal 0.34.0
 - Fixed: error on some generated pages from missing sourcemap [#1019](https://github.com/luckyframework/lucky/pull/1019)
-- Updated: `options_for_select` to be a little more generic [#295](https://github.com/luckyframework/lucky/pull/295)
+- Updated: `options_for_select` to accept more types [#295](https://github.com/luckyframework/lucky/pull/295)
 - Added: ability to pass boolean attrs in link helper methods [#1032](https://github.com/luckyframework/lucky/pull/1032)
-- Removed: ability to set predicate methods on `needs` [#1034](https://github.com/luckyframework/lucky/pull/1034)
+- Removed: setting `needs` with `?`. Lucky now generates a method ending in `?` for you when the type is `Bool` [#1034](https://github.com/luckyframework/lucky/pull/1034)
 - Added: `needs` on pages can now be accessed by a method and not just instance variable [#1034](https://github.com/luckyframework/lucky/pull/1034)
 - Removed: `link` helper method with a `String` path. [#1035](https://github.com/luckyframework/lucky/pull/1035)
 - Added: new `Lucky::CookieNotFoundError` class. [#1038](https://github.com/luckyframework/lucky/pull/1038)
@@ -20,6 +21,12 @@
 - Updated: all action "callbacks" are officially named "pipes". All pipes only log when halted by default. [#1062](https://github.com/luckyframework/lucky/pull/1062)
 - Updated: the `lucky dev` watcher does not print which file changes because you know you just changed that file. [#1065](https://github.com/luckyframework/lucky/pull/1065)
 - Added: a new HTTP handler to set the `request.remote_address` if the `X-Forwarded-For` header is set. [#1059](https://github.com/luckyframework/lucky/pull/1059)
+- Added: a `current_page?` helper method for pages. [#1074](https://github.com/luckyframework/lucky/pull/1074)
+- Added: `FormFields` component for generated resources. [#1081](https://github.com/luckyframework/lucky/pull/1081)
+- Updated: all HTML tag methods explicitly return `Nil` now. [#1083](https://github.com/luckyframework/lucky/pull/1083)
+- Updated: page markup to render directly to the IO instead of creating an additional string. [#1084](https://github.com/luckyframework/lucky/pull/1084)
+- Added: `String#squish` method. [#1085](https://github.com/luckyframework/lucky/pull/1085)
+- Updated: error message from returning invalid type in Actions. [#1086](https://github.com/luckyframework/lucky/pull/1086)
 - Added: ability to set custom directory when generating a new Lucky project [See LuckyCli](https://github.com/luckyframework/lucky_cli/pull/464)
 - Added: ability to set your postgres DB port with ENV var. [See LuckyCli](https://github.com/luckyframework/lucky_cli/pull/469)
 - Added: a `robots.txt` file to generated web apps by default. [See LuckyCli](https://github.com/luckyframework/lucky_cli/pull/472)
@@ -32,7 +39,6 @@
 - Added: new `system_check` script along with some refactors to make checking that your app is setup a lot easier. [See LuckyCli](https://github.com/luckyframework/lucky_cli/pull/482)
 - Removed: ability to pass a raw hash to an `Avram::SaveOperation`. [See Avram](https://github.com/luckyframework/avram/pull/312)
 - Added: ability to `skip_schema_enforcer` for certain models. [See Avram](https://github.com/luckyframework/avram/pull/314)
-- Added: setting local config files for development that won't be added to your project's repo. [See Avram](https://github.com/luckyframework/avram/pull/314)
 - Added: `Avram::Model#reload` to reload all of the attributes that may have been updated since the instance was created. [See Avram](https://github.com/luckyframework/avram/pull/324)
 - Added: `Query#reset_where` to reset the WHERE clause on a specific column. [See Avram](https://github.com/luckyframework/avram/pull/325)
 - Added: logging queries that fail. [See Avram](https://github.com/luckyframework/avram/pull/326)
@@ -44,7 +50,6 @@
 - Removed: the `on` option for `needs` in `SaveOperation`. [See Avram](https://github.com/luckyframework/avram/pull/332)
 - Fixed: connecting to databases running on a unix domain socket. [See Avram](https://github.com/luckyframework/avram/pull/333)
 - Added: new shard for turning an Avram column in to a URL slug. [AvramSlugify](https://github.com/luckyframework/avram_slugify)
-
 
 ### v0.19.0 (2020-02-29)
 
