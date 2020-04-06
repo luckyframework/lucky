@@ -18,7 +18,7 @@
 - Updated: generated pages to have some default text pointing to the location of the file to edit. [#1057](https://github.com/luckyframework/lucky/pull/1057)
 - Fixed: incorrect pluralization of resources on `NewPage`. [#1058](https://github.com/luckyframework/lucky/pull/1058)
 - Updated: all action "callbacks" are officially named "pipes". All pipes only log when halted by default. [#1062](https://github.com/luckyframework/lucky/pull/1062)
-- Updated: the `lucky dev` watcher stop telling you when you changed a file because you know you just changed that file. [#1065](https://github.com/luckyframework/lucky/pull/1065)
+- Updated: the `lucky dev` watcher does not print which file changes because you know you just changed that file. [#1065](https://github.com/luckyframework/lucky/pull/1065)
 - Added: a new HTTP handler to set the `request.remote_address` if the `X-Forwarded-For` header is set. [#1059](https://github.com/luckyframework/lucky/pull/1059)
 - Added: ability to set custom directory when generating a new Lucky project [See LuckyCli](https://github.com/luckyframework/lucky_cli/pull/464)
 - Added: ability to set your postgres DB port with ENV var. [See LuckyCli](https://github.com/luckyframework/lucky_cli/pull/469)
