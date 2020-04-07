@@ -36,9 +36,9 @@ module Lucky::MountComponent
 
   private def print_component_comment(component : Lucky::BaseComponent) : Nil
     if Lucky::HTMLPage.settings.render_component_comments
-      raw "<!-- Started: #{component.class.name} -->"
+      raw "<!-- BEGIN: #{component.class.name} -->"
       yield
-      raw "<!-- Finished: #{component.class.name} -->"
+      raw "<!-- END: #{component.class.name} -->"
     else
       yield
     end
