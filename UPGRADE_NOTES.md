@@ -1,3 +1,57 @@
+## Upgrading from 0.19 to 0.20
+
+- Update `.crystal-version` file to `0.34.0`
+- Upgrade to crystal 0.34.0
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.34.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.34.0`
+  - Lucky should be `~> 0.20.0`
+  - Authentic should be `~> 0.5.2`
+  - LuckyFlow should be `~> 0.6.2`
+- Run `shards update`
+
+### General updates
+
+- Update: `link` no longer accepts a `String` path or URL, it must be an Action. Change `link()` to an `a` tag with an `href` (`a "Google", href: "https://google.com"), or use an action class with `link` (`link "Home", to: "/" ` to `link("Home", to: Home::Index)`.
+- Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`. Lucky now automatically creates a method ending with `?` for `needs` with a `Bool` type.
+- Update: your development `ENV["PORT"]` to be `ENV["DEV_PORT"]` if you need to customize the port your local server is running on.
+- Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(name: "Gary")`, or if you must use a hash, wrap it in params first: `MyOperation.new(Avram::Params.new({"name" => "Gary"})`
+- Remove: the `on:` option from `needs` inside every Operation class. e.g. `needs created_by : String, on: :create` -> `needs created_by : String`. You will need to explicitly pass these when calling `new`, `create`, and `update`.
+
+
+### Optional updates
+
+- Update: all instance variables called from a `needs` on a page or component can now just use the method of that name. e.g. `@current_user` -> `current_user`
+- Add: `include Lucky::CatchUnpermittedAttribute` to the `class Shared::Field(T)` in `src/components/shared/field.cr`. This will raise a nicer error if you forget to permit a column in your SaveOperation
+- Add: the new `Lucky::RemoteIpHandler.new` to your app handlers in `src/app_server.cr` just before `Lucky::RouteHandler.new`.
+- Add: `robots.txt` to your `public/` directory.
+  ```
+  User-agent: *
+  Disallow:
+  ```
+- Update: `UserSerializer` to inherit from the `BaseSerializer` if it doesn't already.
+- Add: `cookie.http_only(true)` to your `config/cookies.cr` file. This goes inside your `settings.on_set` block.
+- Update: your node dependencies where needed
+- Update: the `setup` script in `script/setup`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/setup.ecr). Be sure to remove the ECR tags.
+- Add: this line `system_check: script/system_check && $SHELL` to your `Procfile.dev`
+- Add: the new `system_check` script in `script/system_check`. Note: you may need to `chmod +x script/system_check`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/system_check.ecr). Be sure to remove the ECR tags.
+- Add: the new `function_helpers` script in `script/helpers/function_helpers`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/helpers/function_helpers)
+- Add: the new `text_helpers` script in `script/helpers/text_helpers`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/helpers/text_helpers)
+
+
 ## Upgrading from 0.18 to 0.19
 
 - Update `.crystal-version` file to `0.33.0`
