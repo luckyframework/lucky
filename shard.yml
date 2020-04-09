@@ -1,7 +1,7 @@
 name: lucky
-version: 0.19.0
+version: 0.20.0
 
-crystal: 0.33.0
+crystal: 0.34.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    branch: master
+    version: ~> 0.20.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.1
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    version: ~> 0.12.3
+    version: ~> 0.13.0
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
@@ -60,7 +60,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
-    version: 0.10.0
+    version: 0.12.0
 
 scripts:
   postinstall: script/precompile_tasks
