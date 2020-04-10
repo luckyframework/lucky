@@ -25,7 +25,7 @@ brew upgrade lucky
 
 ### General updates
 
-- Update: `link` no longer accepts a `String` path or URL, it must be an Action. Change `link()` to an `a` tag with an `href` (`a "Google", href: "https://google.com"), or use an action class with `link` (`link "Home", to: "/" ` to `link("Home", to: Home::Index)`.
+- Update: `link` no longer accepts a `String` path or URL, it must be an Action. Change `link()` to an `a` tag with an `href` (`a "Google", href: "https://google.com"`), or use an action class with `link` (`link "Home", to: "/" ` becomes `link("Home", to: Home::Index)`.
 - Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`. Lucky now automatically creates a method ending with `?` for `needs` with a `Bool` type.
 - Update: your development `ENV["PORT"]` to be `ENV["DEV_PORT"]` if you need to customize the port your local server is running on.
 - Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(name: "Gary")`, or if you must use a hash, wrap it in params first: `MyOperation.new(Avram::Params.new({"name" => "Gary"})`
