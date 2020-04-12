@@ -88,7 +88,3 @@ describe Lucky::SessionHandler do
     header.should contain("HttpOnly")
   end
 end
-
-private def encryptor
-  Lucky::MessageEncryptor.new(Lucky::Server.settings.secret_key_base)
-end
