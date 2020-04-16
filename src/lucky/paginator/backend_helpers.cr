@@ -59,10 +59,10 @@ module Lucky::Paginator::BackendHelpers
   #
   # class Users::IndexPage < MainLayout
   #   needs pages : Lucky::Paginator
-  #   needs items : Array(T)
+  #   needs items : Array(Int32)
   #
   #   def content
-  #     # Render 'items' like normal
+  #     # Render pagination links for the 'items' Array
   #     mount Lucky::Paginator::SimpleNav.new(@pages)
   #   end
   # end
@@ -77,7 +77,9 @@ module Lucky::Paginator::BackendHelpers
       item_count: items.size,
       full_path: context.request.resource
 
-    updated_items = items[pages.offset..pages.offset + pages.per_page]
+    return {pages, Array(T).new} if pages.offset > items.size
+
+    updated_items = items[pages.offset...pages.offset + pages.per_page]
     {pages, updated_items}
   end
 

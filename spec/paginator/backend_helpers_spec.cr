@@ -28,7 +28,7 @@ class Paginatable
   end
 
   def call_array
-    paginate_array(FakeUser::BaseQuery.new.to_a)
+    paginate_array([1]*50)
   end
 
   def params
@@ -88,7 +88,7 @@ describe Lucky::Paginator::BackendHelpers do
     pages.page.should eq(1)
     pages.per_page.should eq(25)
     pages.total.should eq(2)
-    records.size.should eq(2)
+    records.size.should eq(25)
   end
 
   it "uses array with the 'page' param if given" do
@@ -97,7 +97,16 @@ describe Lucky::Paginator::BackendHelpers do
     pages.page.should eq(2)
     pages.per_page.should eq(25)
     pages.total.should eq(2)
-    records.size.should eq(2)
+    records.size.should eq(25)
+  end
+
+  it "return empty array if page is set above array size" do
+    pages, records = Paginatable.new(page: "3").call_array
+
+    pages.page.should eq(3)
+    pages.per_page.should eq(25)
+    pages.total.should eq(2)
+    records.size.should eq(0)
   end
 
   it "allows overriding 'paginator_page' and 'paginator_per_page'" do
