@@ -76,7 +76,7 @@ module Lucky::Paginator::BackendHelpers
       item_count: items.size,
       full_path: context.request.resource
 
-    return {pages, Array(T).new} if pages.offset > items.size
+    return {pages, Array(T).new} if pages.overflowed?
 
     updated_items = items[pages.offset...pages.offset + pages.per_page]
     {pages, updated_items}
