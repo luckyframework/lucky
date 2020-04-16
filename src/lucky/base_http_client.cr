@@ -12,7 +12,7 @@ abstract class Lucky::BaseHTTPClient
     @client = HTTP::Client.new(host, port: port)
   end
 
-  {% for method in [:get, :put, :patch, :post, :exec] %}
+  {% for method in [:get, :put, :patch, :post, :exec, :delete, :options, :head] %}
     def self.{{ method.id }}(*args, **named_args)
       new.{{ method.id }}(*args, **named_args)
     end
@@ -90,7 +90,7 @@ abstract class Lucky::BaseHTTPClient
     @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: params.to_json)
   end
 
-  {% for method in [:put, :patch, :post, :delete, :get] %}
+  {% for method in [:put, :patch, :post, :delete, :get, :options, :head] %}
     def {{ method.id }}(path : String, **params) : HTTP::Client::Response
       {{ method.id }}(path, params)
     end
