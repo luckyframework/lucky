@@ -100,7 +100,7 @@ describe Lucky::Paginator::BackendHelpers do
     records.size.should eq(25)
   end
 
-  it "return empty array if page is set above array size" do
+  it "return empty array if page is overflowed" do
     pages, records = Paginatable.new(page: "3").call_array
 
     pages.page.should eq(3)
