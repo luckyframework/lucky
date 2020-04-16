@@ -40,7 +40,6 @@ module Lucky::Paginator::BackendHelpers
     {pages, updated_query}
   end
 
-
   # Call this in your actions to paginate an array.
   #
   # This method will return a `Lucky::Paginator` object and the requested page
@@ -53,7 +52,7 @@ module Lucky::Paginator::BackendHelpers
   #   get "/items" do
   #     # The 'Array' will just show items for the requested page
   #     # because 'paginate' will add a 'limit' and 'offset' to the query.
-  #     pages, items = paginate_array([1,2,3])
+  #     pages, items = paginate_array([1, 2, 3])
   #     render IndexPage, pages: pages, items: items
   #   end
   # end
@@ -78,7 +77,7 @@ module Lucky::Paginator::BackendHelpers
       item_count: items.size,
       full_path: context.request.resource
 
-    updated_items = items[pages.offset..pages.offset+pages.per_page]
+    updated_items = items[pages.offset..pages.offset + pages.per_page]
     {pages, updated_items}
   end
 
