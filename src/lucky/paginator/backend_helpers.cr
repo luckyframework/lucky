@@ -40,6 +40,48 @@ module Lucky::Paginator::BackendHelpers
     {pages, updated_query}
   end
 
+  # Call this in your actions to paginate an array.
+  #
+  # This method will return a `Lucky::Paginator` object and the requested page
+  # of items.
+  #
+  # ## Examples
+  #
+  # ```crystal
+  # class ListItems::Index < BrowserAction
+  #   get "/items" do
+  #     # The 'Array' will just show items for the requested page
+  #     pages, items = paginate_array([1, 2, 3])
+  #     render IndexPage, pages: pages, items: items
+  #   end
+  # end
+  #
+  # class Users::IndexPage < MainLayout
+  #   needs pages : Lucky::Paginator
+  #   needs items : Array(Int32)
+  #
+  #   def content
+  #     # Render pagination links for the 'items' Array
+  #     mount Lucky::Paginator::SimpleNav.new(@pages)
+  #   end
+  # end
+  # ```
+  def paginate_array(
+    items : Array(T),
+    per_page : Int32 = paginator_per_page
+  ) : Tuple(Paginator, Array(T)) forall T
+    pages = Paginator.new \
+      page: paginator_page,
+      per_page: per_page,
+      item_count: items.size,
+      full_path: context.request.resource
+
+    return {pages, Array(T).new} if pages.overflowed?
+
+    updated_items = items[pages.offset...pages.offset + pages.per_page]
+    {pages, updated_items}
+  end
+
   # Returns the page that was request, or `1`
   #
   # By default this method looks for a `page` param. It can be given as a
