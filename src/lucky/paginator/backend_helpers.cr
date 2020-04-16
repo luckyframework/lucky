@@ -51,7 +51,6 @@ module Lucky::Paginator::BackendHelpers
   # class ListItems::Index < BrowserAction
   #   get "/items" do
   #     # The 'Array' will just show items for the requested page
-  #     # because 'paginate' will add a 'limit' and 'offset' to the query.
   #     pages, items = paginate_array([1, 2, 3])
   #     render IndexPage, pages: pages, items: items
   #   end
