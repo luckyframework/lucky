@@ -85,7 +85,7 @@ describe Lucky::BaseHTTPClient do
     end
   end
 
-  {% for method in [:put, :patch, :post, :delete, :get] %}
+  {% for method in [:put, :patch, :post, :delete, :get, :options] %}
     describe "\#{{method.id}}" do
       it "sends correct request to correct uri and gives the correct response" do
         with_fake_server(path: "hello", response_body: "world") do
@@ -115,6 +115,33 @@ describe Lucky::BaseHTTPClient do
       end
     end
   {% end %}
+end
+
+describe "head" do
+  it "sends the correct request to the correct uri and gets an empty response body" do
+    with_fake_server(path: "hello", response_body: "world") do
+      response = MyClient.new.head(
+        path: "hello",
+        foo: "bar"
+      )
+
+      response.body.should eq ""
+      request = server.last_request
+      request.method.should eq("HEAD")
+      request.path.should eq "hello"
+    end
+  end
+  it "works without params" do
+    with_fake_server(path: "hello", response_body: "world") do
+      response = MyClient.new.head(path: "hello")
+
+      response.body.should eq ""
+      request = server.last_request
+      request.method.should eq("HEAD")
+      request.path.should eq "hello"
+      request.body.not_nil!.gets_to_end.should eq("{}")
+    end
+  end
 end
 
 private def with_fake_server(path : String, response_body : String)
