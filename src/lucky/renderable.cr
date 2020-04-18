@@ -159,7 +159,7 @@ module Lucky::Renderable
 
   private def log_response(response : Lucky::Response) : Nil
     response.debug_message.try do |message|
-      Lucky.logger.debug(message)
+      Lucky::Log.debug { message }
     end
   end
 
