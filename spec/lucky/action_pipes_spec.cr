@@ -142,7 +142,7 @@ describe Lucky::Action do
 
   describe "handles before pipes" do
     it "runs through all the pipes if no Lucky::Response is returned" do
-      with_log do |log_io|
+      Lucky::ContinuedPipeLog.dexter.temp_config do |log_io|
         response = Pipes::Index.new(build_context, params).call
 
         log = log_io.to_s
@@ -159,7 +159,7 @@ describe Lucky::Action do
     end
 
     it "halts before pipes if a Lucky::Response is returned" do
-      with_log do |log_io|
+      Lucky::Log.dexter.temp_config do |log_io|
         response = Pipes::HaltedBefore.new(build_context, params).call
 
         log = log_io.to_s
@@ -173,7 +173,7 @@ describe Lucky::Action do
     end
 
     it "halts after pipes if a Lucky::Response is returned" do
-      with_log do |log_io|
+      Lucky::Log.dexter.temp_config do |log_io|
         response = Pipes::HaltedAfter.new(build_context, params).call
 
         log = log_io.to_s
@@ -195,21 +195,6 @@ describe Lucky::Action do
       action.pipe_data[1].should eq("cat")
       action.pipe_data[2].should eq("red")
       action.pipe_data[3].should eq("yellow")
-    end
-  end
-end
-
-private def with_log
-  log_io = IO::Memory.new
-  logger = Dexter::Logger.new(
-    log_io,
-    level: Logger::Severity::DEBUG,
-    log_formatter: RawLogFormatter
-  )
-
-  Lucky.temp_config(logger: logger) do
-    Lucky::Action.temp_config(pipe_log_level: Logger::Severity::INFO) do
-      yield log_io
     end
   end
 end

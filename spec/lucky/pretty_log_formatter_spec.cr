@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ContextHelper
+
 describe Lucky::PrettyLogFormatter do
   context "special cases" do
     it "pretty formats data for the start of an HTTP request" do
@@ -20,7 +22,8 @@ describe Lucky::PrettyLogFormatter do
   context "when given data that is not the start/end of an HTTP request " do
     it "prints message text with an arrow" do
       io = IO::Memory.new
-      format(io, {message: "some text"})
+
+      format(io, data: nil, message: "some text")
 
       io.to_s.chomp.should eq " #{"▸".colorize.dim} some text"
     end
@@ -42,24 +45,43 @@ describe Lucky::PrettyLogFormatter do
 
   it "uses a red arrow for ERRORS and above" do
     io = IO::Memory.new
-    format(io, severity: Logger::Severity::ERROR, data: {message: "message"})
 
-    io.to_s.chomp.should eq(" #{"▸".colorize.red} message")
+    format(io, severity: Log::Severity::Error, data: {message: "anything"})
+
+    io.to_s.chomp.should start_with(" #{"▸".colorize.red} Message")
   end
 
   it "uses a yellow arrow for warnings and colors the first value" do
     io = IO::Memory.new
-    format(io, severity: Logger::Severity::WARN, data: {first: "message", second: "message"})
+    format(io, severity: Log::Severity::Warning, data: {first: "message", second: "message"})
 
     io.to_s.chomp.should eq(" #{"▸".colorize.yellow} First #{"message".colorize.yellow.bold}. Second #{"message".colorize.bold}")
   end
+
+  it "formats exceptions" do
+    io = IO::Memory.new
+    ex = RuntimeError.new("Oops that wasn't supposed to happen")
+
+    format(io, severity: Log::Severity::Error, data: nil, exception: ex)
+
+    io.to_s.should start_with(" #{"▸".colorize.red} #{ex.class.name.colorize.bold.red}")
+    io.to_s.should contain("Details:")
+  end
 end
 
-private def format(io, data : NamedTuple, severity = Logger::Severity::INFO)
-  Lucky::PrettyLogFormatter.new(
-    severity: severity,
-    timestamp: Time.utc,
-    progname: "",
-    io: io
-  ).format(data)
+private def format(io, data : NamedTuple?, message : String = "", severity = Log::Severity::Info, exception : Exception? = nil)
+  Log.with_context do
+    Log.context.set(local: data) if data
+
+    entry = Log::Entry.new \
+      source: "lucky-test",
+      message: message,
+      severity: severity,
+      exception: exception
+
+    Lucky::PrettyLogFormatter.new(
+      entry: entry,
+      io: io
+    ).call
+  end
 end

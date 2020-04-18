@@ -12,13 +12,15 @@ describe Lucky::LogHandler do
     call_log_handler_with(log_io, context) { called = true }
 
     log_output = log_io.to_s
-    log_output.should contain("GET #{"/".colorize.underline}")
-    log_output.should contain("Sent #{"200".colorize.green}")
+    log_output.should contain(%("method" => "GET"))
+    log_output.should contain(%("path" => "/"))
+    log_output.should contain(%("status" => 200))
+    log_output.should contain(%("duration"))
     called.should be_true
   end
 
   it "skips logging if skip_if function returns true" do
-    Lucky::LogHandler.temp_config(skip_if: ->(context : HTTP::Server::Context) { true }) do
+    Lucky::LogHandler.temp_config(skip_if: ->(_context : HTTP::Server::Context) { true }) do
       called = false
       log_io = IO::Memory.new
       context = build_context_with_io(log_io)
@@ -43,8 +45,7 @@ describe Lucky::LogHandler do
 end
 
 private def call_log_handler_with(io : IO, context : HTTP::Server::Context, &block)
-  logger = Dexter::Logger.new(io, log_formatter: Lucky::PrettyLogFormatter)
-  Lucky.temp_config(logger: logger) do
+  Lucky::Log.dexter.temp_config(io) do
     handler = Lucky::LogHandler.new
     handler.next = ->(_ctx : HTTP::Server::Context) { block.call }
     handler.call(context)

@@ -21,11 +21,6 @@ require "./lucky/paginator/*"
 require "./lucky/paginator/components/*"
 
 module Lucky
-  Habitat.create do
-    setting logger : Dexter::Logger
-  end
-
-  def self.logger
-    settings.logger
-  end
+  Log              = ::Log.for("lucky")
+  ContinuedPipeLog = Log.for("continued_pipe_log")
 end
