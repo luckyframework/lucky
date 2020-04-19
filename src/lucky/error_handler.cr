@@ -17,7 +17,7 @@ class Lucky::ErrorHandler
   end
 
   private def call_error_action(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
-    Lucky::Log.dexter.error { {exception: error.inspect_with_backtrace} }
+    Lucky::Log.error(exception: error) { "" }
     action.new(context).perform_action(error)
     context
   end
