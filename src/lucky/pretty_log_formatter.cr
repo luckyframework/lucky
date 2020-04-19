@@ -67,8 +67,8 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
 
     def write : Nil
       add_arrow
-      colored_status_code = Lucky::LoggerHelpers.colored_status_code(local_context["status"].as_i)
-      io << "Sent #{colored_status_code} (#{local_context["duration"]})"
+      http_status = Lucky::LoggerHelpers.colored_http_status(local_context["status"].as_i)
+      io << "Sent #{http_status} (#{local_context["duration"]})"
     end
   end
 
