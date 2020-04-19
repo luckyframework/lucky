@@ -80,19 +80,23 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
     def write : Nil
       add_arrow
       entry.exception.try do |ex|
-        io << ex.class.name.colorize.bold.red
-        io << " "
+        io << " #{ex.class.name} ".colorize.bold.on_red
         if ex.message.try(&.lines)
-          io << "\n\n   Details:\n".colorize.bold
+          io << "\n"
           ex.message.try(&.lines).try(&.each do |line|
             io << "\n     "
             io << line
           end)
         end
-        io << "\n\n   Backtrace:\n".colorize.bold if ex.backtrace?
-        (ex.backtrace? || [] of String).each do |trace_line|
-          trace_line = trace_line.colorize.dim unless trace_line.starts_with?(/src|spec/)
-          io << "\n     #{trace_line}"
+        if backtrace = ex.backtrace?
+          io << "\n\n   "
+          io << " Backtrace ".colorize.bold.black.on_white
+          io << "\n"
+          backtrace.each do |trace_line|
+            trace_line = trace_line.colorize.dim unless trace_line.starts_with?(/src|spec/)
+            io << "\n     #{trace_line}"
+          end
+          io << "\n"
         end
       end
     end
