@@ -64,8 +64,8 @@ describe Lucky::PrettyLogFormatter do
 
     format(io, severity: Log::Severity::Error, data: nil, exception: ex)
 
-    io.to_s.should start_with(" #{"▸".colorize.red} #{ex.class.name.colorize.bold.red}")
-    io.to_s.should contain("Details:")
+    io.to_s.should start_with(" #{"▸".colorize.red}")
+    io.to_s.should contain(" #{ex.class.name} ".colorize.bold.on_red.to_s)
   end
 end
 
