@@ -1,3 +1,58 @@
+## Upgrading from 0.20 to 0.21
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.34.0`
+  - Lucky should be `~> 0.21.0`
+  - Authentic should be `~> 0.5.4`
+  - LuckyFlow should be `~> 0.6.3`
+
+- Run `shards update`
+
+### General updates
+
+- Rename: `config/logger.cr` to `config/log.cr`
+- Update: `config/log.cr` to use the new `Log`. [See implementation](https://github.com/luckyframework/lucky_cli/blob/master/src/web_app_skeleton/config/log.cr)
+- Update: `Procfile.dev` and update the `system_check` to `script/system_check && sleep 100000`.
+- Update: all `Lucky.logger.{level}("message")` calls to use the new Crystal Log `Log.{level} { "message" }`
+- Remove: the following lines from `config/database.cr`
+```crystal
+# Uncomment the next line to log all SQL queries
+# settings.query_log_level = ::Logger::Severity::DEBUG
+```
+
+### Updating `Lucky.logger`
+
+Before this version, you would log data like this:
+
+```crystal
+Lucky.logger.debug("Logging some message")
+Lucky.logger.info({path: @context.request.path})
+```
+
+Now, you would write this like:
+
+```crystal
+# Use the Crystal std-lib log for simple String messages
+Log.debug { "Logging some message" }
+
+# Use the Dexter extension for logging key/value data
+Log.dexter.info { {path: @context.request.path} }
+```
+
+
 ## Upgrading from 0.19 to 0.20
 
 - Update `.crystal-version` file to `0.34.0`
