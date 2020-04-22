@@ -1,6 +1,8 @@
 ### Changes in 0.21
 
 - Added: support for Crystal 0.34.0 `Log` class [#506 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/506/files)
+- Improve error logging [#1114](https://github.com/luckyframework/lucky/pull/1114)
+- Improve http status logging [#1114](https://github.com/luckyframework/lucky/pull/1114)
 - Upgraded: Dexter to v0.2.0
   - Type-safe log configuration
   - New JSON formatter
