@@ -1,6 +1,7 @@
 ### Changes in 0.21
 
 - Added: support for Crystal 0.34.0 `Log` class [#506 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/506/files)
+- Added: `paginate_array` for paginating Arrays [#1108](https://github.com/luckyframework/lucky/pull/1108)
 - Improve error logging [#1114](https://github.com/luckyframework/lucky/pull/1114)
 - Improve http status logging [#1114](https://github.com/luckyframework/lucky/pull/1114)
 - Upgraded: Dexter to v0.2.0
