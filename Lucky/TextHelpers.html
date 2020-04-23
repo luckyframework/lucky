@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.33.0">
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/luckyframework/lucky">
+  <title>Lucky::TextHelpers - github.com/luckyframework/lucky</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Bool" data-name="bool">
+      <a href="../Bool.html">Bool</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Hash" data-name="hash(k, v)">
+      <a href="../Hash.html">Hash</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Int16" data-name="int16">
+      <a href="../Int16.html">Int16</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Int32" data-name="int32">
+      <a href="../Int32.html">Int32</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Int64" data-name="int64">
+      <a href="../Int64.html">Int64</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/luckyframework/lucky/Lucky" data-name="lucky">
+      <a href="../Lucky.html">Lucky</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/Action" data-name="lucky::action">
+      <a href="../Lucky/Action.html">Action</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Action/Settings" data-name="lucky::action::settings">
+      <a href="../Lucky/Action/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ActionPipes" data-name="lucky::actionpipes">
+      <a href="../Lucky/ActionPipes.html">ActionPipes</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/AllowedInTags" data-name="lucky::allowedintags">
+      <a href="../Lucky/AllowedInTags.html">AllowedInTags</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/AssetHelpers" data-name="lucky::assethelpers">
+      <a href="../Lucky/AssetHelpers.html">AssetHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Assignable" data-name="lucky::assignable">
+      <a href="../Lucky/Assignable.html">Assignable</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/BaseAppServer" data-name="lucky::baseappserver">
+      <a href="../Lucky/BaseAppServer.html">BaseAppServer</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/BaseComponent" data-name="lucky::basecomponent">
+      <a href="../Lucky/BaseComponent.html">BaseComponent</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/BaseHTTPClient" data-name="lucky::basehttpclient">
+      <a href="../Lucky/BaseHTTPClient.html">BaseHTTPClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/BaseLogFormatter" data-name="lucky::baselogformatter">
+      <a href="../Lucky/BaseLogFormatter.html">BaseLogFormatter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/BaseTags" data-name="lucky::basetags">
+      <a href="../Lucky/BaseTags.html">BaseTags</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/CatchUnpermittedAttribute" data-name="lucky::catchunpermittedattribute">
+      <a href="../Lucky/CatchUnpermittedAttribute.html">CatchUnpermittedAttribute</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/CookieJar" data-name="lucky::cookiejar">
+      <a href="../Lucky/CookieJar.html">CookieJar</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/CookieJar/Key" data-name="lucky::cookiejar::key">
+      <a href="../Lucky/CookieJar/Key.html">Key</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/CookieJar/Settings" data-name="lucky::cookiejar::settings">
+      <a href="../Lucky/CookieJar/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/CookieNotFoundError" data-name="lucky::cookienotfounderror">
+      <a href="../Lucky/CookieNotFoundError.html">CookieNotFoundError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/CookieOverflowError" data-name="lucky::cookieoverflowerror">
+      <a href="../Lucky/CookieOverflowError.html">CookieOverflowError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/CustomTags" data-name="lucky::customtags">
+      <a href="../Lucky/CustomTags.html">CustomTags</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Error" data-name="lucky::error">
+      <a href="../Lucky/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ErrorAction" data-name="lucky::erroraction">
+      <a href="../Lucky/ErrorAction.html">ErrorAction</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/ErrorHandler" data-name="lucky::errorhandler">
+      <a href="../Lucky/ErrorHandler.html">ErrorHandler</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ErrorHandler/Settings" data-name="lucky::errorhandler::settings">
+      <a href="../Lucky/ErrorHandler/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ExceptionPage" data-name="lucky::exceptionpage">
+      <a href="../Lucky/ExceptionPage.html">ExceptionPage</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Exposable" data-name="lucky::exposable">
+      <a href="../Lucky/Exposable.html">Exposable</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/FileResponse" data-name="lucky::fileresponse">
+      <a href="../Lucky/FileResponse.html">FileResponse</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/FlashHandler" data-name="lucky::flashhandler">
+      <a href="../Lucky/FlashHandler.html">FlashHandler</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/FlashStore" data-name="lucky::flashstore">
+      <a href="../Lucky/FlashStore.html">FlashStore</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/FlashStore/Key" data-name="lucky::flashstore::key">
+      <a href="../Lucky/FlashStore/Key.html">Key</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/ForceSSLHandler" data-name="lucky::forcesslhandler">
+      <a href="../Lucky/ForceSSLHandler.html">ForceSSLHandler</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ForceSSLHandler/Settings" data-name="lucky::forcesslhandler::settings">
+      <a href="../Lucky/ForceSSLHandler/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ForgeryProtectionHelpers" data-name="lucky::forgeryprotectionhelpers">
+      <a href="../Lucky/ForgeryProtectionHelpers.html">ForgeryProtectionHelpers</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/FormHelpers" data-name="lucky::formhelpers">
+      <a href="../Lucky/FormHelpers.html">FormHelpers</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/FormHelpers/Settings" data-name="lucky::formhelpers::settings">
+      <a href="../Lucky/FormHelpers/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/HTMLBuilder" data-name="lucky::htmlbuilder">
+      <a href="../Lucky/HTMLBuilder.html">HTMLBuilder</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/HTMLPage" data-name="lucky::htmlpage">
+      <a href="../Lucky/HTMLPage.html">HTMLPage</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/HTMLPage/Settings" data-name="lucky::htmlpage::settings">
+      <a href="../Lucky/HTMLPage/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/HTMLTextHelpers" data-name="lucky::htmltexthelpers">
+      <a href="../Lucky/HTMLTextHelpers.html">HTMLTextHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/HttpMethodOverrideHandler" data-name="lucky::httpmethodoverridehandler">
+      <a href="../Lucky/HttpMethodOverrideHandler.html">HttpMethodOverrideHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/InputHelpers" data-name="lucky::inputhelpers">
+      <a href="../Lucky/InputHelpers.html">InputHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/InvalidFlashJSONError" data-name="lucky::invalidflashjsonerror">
+      <a href="../Lucky/InvalidFlashJSONError.html">InvalidFlashJSONError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/InvalidMessageError" data-name="lucky::invalidmessageerror">
+      <a href="../Lucky/InvalidMessageError.html">InvalidMessageError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/InvalidParamError" data-name="lucky::invalidparamerror">
+      <a href="../Lucky/InvalidParamError.html">InvalidParamError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/InvalidSignatureError" data-name="lucky::invalidsignatureerror">
+      <a href="../Lucky/InvalidSignatureError.html">InvalidSignatureError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/LabelHelpers" data-name="lucky::labelhelpers">
+      <a href="../Lucky/LabelHelpers.html">LabelHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/LinkHelpers" data-name="lucky::linkhelpers">
+      <a href="../Lucky/LinkHelpers.html">LinkHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/LoggerHelpers" data-name="lucky::loggerhelpers">
+      <a href="../Lucky/LoggerHelpers.html">LoggerHelpers</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/LogHandler" data-name="lucky::loghandler">
+      <a href="../Lucky/LogHandler.html">LogHandler</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/LogHandler/Settings" data-name="lucky::loghandler::settings">
+      <a href="../Lucky/LogHandler/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Memoizable" data-name="lucky::memoizable">
+      <a href="../Lucky/Memoizable.html">Memoizable</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/MessageEncryptor" data-name="lucky::messageencryptor">
+      <a href="../Lucky/MessageEncryptor.html">MessageEncryptor</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/MessageEncryptor/InvalidSecretKeyBase" data-name="lucky::messageencryptor::invalidsecretkeybase">
+      <a href="../Lucky/MessageEncryptor/InvalidSecretKeyBase.html">InvalidSecretKeyBase</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/MessageVerifier" data-name="lucky::messageverifier">
+      <a href="../Lucky/MessageVerifier.html">MessageVerifier</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/MissingFileError" data-name="lucky::missingfileerror">
+      <a href="../Lucky/MissingFileError.html">MissingFileError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/MissingNestedParamError" data-name="lucky::missingnestedparamerror">
+      <a href="../Lucky/MissingNestedParamError.html">MissingNestedParamError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/MissingParamError" data-name="lucky::missingparamerror">
+      <a href="../Lucky/MissingParamError.html">MissingParamError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/MountComponent" data-name="lucky::mountcomponent">
+      <a href="../Lucky/MountComponent.html">MountComponent</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/NotAcceptableError" data-name="lucky::notacceptableerror">
+      <a href="../Lucky/NotAcceptableError.html">NotAcceptableError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/NumberToCurrency" data-name="lucky::numbertocurrency">
+      <a href="../Lucky/NumberToCurrency.html">NumberToCurrency</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/Paginator" data-name="lucky::paginator">
+      <a href="../Lucky/Paginator.html">Paginator</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Paginator/BackendHelpers" data-name="lucky::paginator::backendhelpers">
+      <a href="../Lucky/Paginator/BackendHelpers.html">BackendHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Paginator/BootstrapNav" data-name="lucky::paginator::bootstrapnav">
+      <a href="../Lucky/Paginator/BootstrapNav.html">BootstrapNav</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Paginator/BulmaNav" data-name="lucky::paginator::bulmanav">
+      <a href="../Lucky/Paginator/BulmaNav.html">BulmaNav</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Paginator/CurrentPage" data-name="lucky::paginator::currentpage">
+      <a href="../Lucky/Paginator/CurrentPage.html">CurrentPage</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Paginator/Page" data-name="lucky::paginator::page">
+      <a href="../Lucky/Paginator/Page.html">Page</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Paginator/SeriesItem" data-name="lucky::paginator::seriesitem">
+      <a href="../Lucky/Paginator/SeriesItem.html">SeriesItem</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Paginator/SimpleNav" data-name="lucky::paginator::simplenav">
+      <a href="../Lucky/Paginator/SimpleNav.html">SimpleNav</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ParamHelpers" data-name="lucky::paramhelpers">
+      <a href="../Lucky/ParamHelpers.html">ParamHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ParamParsingError" data-name="lucky::paramparsingerror">
+      <a href="../Lucky/ParamParsingError.html">ParamParsingError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/Params" data-name="lucky::params">
+      <a href="../Lucky/Params.html">Params</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Params/MultipartFiles" data-name="lucky::params::multipartfiles">
+      <a href="../Lucky/Params/MultipartFiles.html">MultipartFiles</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Params/MultipartParams" data-name="lucky::params::multipartparams">
+      <a href="../Lucky/Params/MultipartParams.html">MultipartParams</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/PrettyLogFormatter" data-name="lucky::prettylogformatter">
+      <a href="../Lucky/PrettyLogFormatter.html">PrettyLogFormatter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ProtectFromForgery" data-name="lucky::protectfromforgery">
+      <a href="../Lucky/ProtectFromForgery.html">ProtectFromForgery</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/QuickDef" data-name="lucky::quickdef">
+      <a href="../Lucky/QuickDef.html">QuickDef</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Redirectable" data-name="lucky::redirectable">
+      <a href="../Lucky/Redirectable.html">Redirectable</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RemoteIpHandler" data-name="lucky::remoteiphandler">
+      <a href="../Lucky/RemoteIpHandler.html">RemoteIpHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Renderable" data-name="lucky::renderable">
+      <a href="../Lucky/Renderable.html">Renderable</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RenderableError" data-name="lucky::renderableerror">
+      <a href="../Lucky/RenderableError.html">RenderableError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RenderIfDefined" data-name="lucky::renderifdefined">
+      <a href="../Lucky/RenderIfDefined.html">RenderIfDefined</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RequestExpectations" data-name="lucky::requestexpectations">
+      <a href="../Lucky/RequestExpectations.html">RequestExpectations</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RequestTypeHelpers" data-name="lucky::requesttypehelpers">
+      <a href="../Lucky/RequestTypeHelpers.html">RequestTypeHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Response" data-name="lucky::response">
+      <a href="../Lucky/Response.html">Response</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Routable" data-name="lucky::routable">
+      <a href="../Lucky/Routable.html">Routable</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Route" data-name="lucky::route">
+      <a href="../Lucky/Route.html">Route</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RouteHandler" data-name="lucky::routehandler">
+      <a href="../Lucky/RouteHandler.html">RouteHandler</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/RouteHelper" data-name="lucky::routehelper">
+      <a href="../Lucky/RouteHelper.html">RouteHelper</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RouteHelper/Settings" data-name="lucky::routehelper::settings">
+      <a href="../Lucky/RouteHelper/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RouteNotFoundError" data-name="lucky::routenotfounderror">
+      <a href="../Lucky/RouteNotFoundError.html">RouteNotFoundError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/RouteNotFoundHandler" data-name="lucky::routenotfoundhandler">
+      <a href="../Lucky/RouteNotFoundHandler.html">RouteNotFoundHandler</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/SecureHeaders" data-name="lucky::secureheaders">
+      <a href="../Lucky/SecureHeaders.html">SecureHeaders</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/SecureHeaders/SetFrameGuard" data-name="lucky::secureheaders::setframeguard">
+      <a href="../Lucky/SecureHeaders/SetFrameGuard.html">SetFrameGuard</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/SecureHeaders/SetSniffGuard" data-name="lucky::secureheaders::setsniffguard">
+      <a href="../Lucky/SecureHeaders/SetSniffGuard.html">SetSniffGuard</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/SecureHeaders/SetXSSGuard" data-name="lucky::secureheaders::setxssguard">
+      <a href="../Lucky/SecureHeaders/SetXSSGuard.html">SetXSSGuard</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/SelectHelpers" data-name="lucky::selecthelpers">
+      <a href="../Lucky/SelectHelpers.html">SelectHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Serializer" data-name="lucky::serializer">
+      <a href="../Lucky/Serializer.html">Serializer</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/Server" data-name="lucky::server">
+      <a href="../Lucky/Server.html">Server</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Server/Settings" data-name="lucky::server::settings">
+      <a href="../Lucky/Server/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/ServerSettings" data-name="lucky::serversettings">
+      <a href="../Lucky/ServerSettings.html">ServerSettings</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/Session" data-name="lucky::session">
+      <a href="../Lucky/Session.html">Session</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Session/Key" data-name="lucky::session::key">
+      <a href="../Lucky/Session/Key.html">Key</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/Session/Settings" data-name="lucky::session::settings">
+      <a href="../Lucky/Session/Settings.html">Settings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/SessionHandler" data-name="lucky::sessionhandler">
+      <a href="../Lucky/SessionHandler.html">SessionHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/SpecialtyTags" data-name="lucky::specialtytags">
+      <a href="../Lucky/SpecialtyTags.html">SpecialtyTags</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/StaticCompressionHandler" data-name="lucky::staticcompressionhandler">
+      <a href="../Lucky/StaticCompressionHandler.html">StaticCompressionHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/StaticFileHandler" data-name="lucky::staticfilehandler">
+      <a href="../Lucky/StaticFileHandler.html">StaticFileHandler</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/luckyframework/lucky/Lucky/TextHelpers" data-name="lucky::texthelpers">
+      <a href="../Lucky/TextHelpers.html">TextHelpers</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/TextHelpers/Cycle" data-name="lucky::texthelpers::cycle">
+      <a href="../Lucky/TextHelpers/Cycle.html">Cycle</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/TextResponse" data-name="lucky::textresponse">
+      <a href="../Lucky/TextResponse.html">TextResponse</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/TimeHelpers" data-name="lucky::timehelpers">
+      <a href="../Lucky/TimeHelpers.html">TimeHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/UnknownAcceptHeaderError" data-name="lucky::unknownacceptheadererror">
+      <a href="../Lucky/UnknownAcceptHeaderError.html">UnknownAcceptHeaderError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/UploadedFile" data-name="lucky::uploadedfile">
+      <a href="../Lucky/UploadedFile.html">UploadedFile</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/UrlHelpers" data-name="lucky::urlhelpers">
+      <a href="../Lucky/UrlHelpers.html">UrlHelpers</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/VerifyAcceptsFormat" data-name="lucky::verifyacceptsformat">
+      <a href="../Lucky/VerifyAcceptsFormat.html">VerifyAcceptsFormat</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/WelcomePage" data-name="lucky::welcomepage">
+      <a href="../Lucky/WelcomePage.html">WelcomePage</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky/Lucky/WithDefaults" data-name="lucky::withdefaults">
+      <a href="../Lucky/WithDefaults.html">WithDefaults</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Lucky/WithDefaults/OptionMerger" data-name="lucky::withdefaults::optionmerger(t, v)">
+      <a href="../Lucky/WithDefaults/OptionMerger.html">OptionMerger</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/Object" data-name="object">
+      <a href="../Object.html">Object</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/String" data-name="string">
+      <a href="../String.html">String</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky/UUID" data-name="uuid">
+      <a href="../UUID.html">UUID</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Lucky::TextHelpers
+
+</h1>
+
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>These helper methods will return a <code><a href="../String.html">String</a></code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></li>
+    
+  </ul>
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L2" target="_blank">
+        lucky/page_helpers/text_helpers.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#current_cycle(name:String=&quot;default&quot;)-instance-method" class="signature"><strong>#current_cycle</strong>(name : String = <span class="s">&quot;default&quot;</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cycle(values:Array,name=&quot;default&quot;):String-instance-method" class="signature"><strong>#cycle</strong>(values : Array, name = <span class="s">&quot;default&quot;</span>) : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cycle(*values,name:String=&quot;default&quot;):String-instance-method" class="signature"><strong>#cycle</strong>(*values, name : String = <span class="s">&quot;default&quot;</span>) : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#excerpt(text:String,phrase:Regex%7CString,separator:String=&quot;&quot;,radius:Int32=100,omission:String=&quot;...&quot;):String-instance-method" class="signature"><strong>#excerpt</strong>(text : String, phrase : Regex | String, separator : String = <span class="s">&quot;&quot;</span>, radius : Int32 = <span class="n">100</span>, omission : String = <span class="s">&quot;...&quot;</span>) : String</a>
+        
+          <div class="summary"><p>Grab a window of longer string</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pluralize(count:Int%7CString%7CNil,singular:String,plural=nil):String-instance-method" class="signature"><strong>#pluralize</strong>(count : Int | String | Nil, singular : String, plural = <span class="n">nil</span>) : String</a>
+        
+          <div class="summary"><p>It pluralizes <code>singular</code> unless <code>count</code> is 1.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reset_cycle(name:String=&quot;default&quot;)-instance-method" class="signature"><strong>#reset_cycle</strong>(name : String = <span class="s">&quot;default&quot;</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reset_cycles-instance-method" class="signature"><strong>#reset_cycles</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_sentence(list:Enumerable,word_connector:String=&quot;,&quot;,two_word_connector:String=&quot;and&quot;,last_word_connector:String=&quot;,and&quot;):String-instance-method" class="signature"><strong>#to_sentence</strong>(list : Enumerable, word_connector : String = <span class="s">&quot;, &quot;</span>, two_word_connector : String = <span class="s">&quot; and &quot;</span>, last_word_connector : String = <span class="s">&quot;, and &quot;</span>) : String</a>
+        
+          <div class="summary"><p>Creates a comma-separated sentence from the provided <code>Enumerable</code> <em>list</em> and appends it to the view.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#truncate_text(text:String,length:Int32=30,omission:String=&quot;...&quot;,separator:String?=nil):String-instance-method" class="signature"><strong>#truncate_text</strong>(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String? = <span class="n">nil</span>) : String</a>
+        
+          <div class="summary"><p>Shorten text after a length point.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#word_wrap(text:String,line_width:Int32=80,break_sequence:String=&quot;%5Cn&quot;):String-instance-method" class="signature"><strong>#word_wrap</strong>(text : String, line_width : Int32 = <span class="n">80</span>, break_sequence : String = <span class="s">&quot;\n&quot;</span>) : String</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="current_cycle(name:String=&amp;quot;default&amp;quot;)-instance-method">
+      <div class="signature">
+        
+        def <strong>current_cycle</strong>(name : <a href="../String.html">String</a> = <span class="s">&quot;default&quot;</span>)
+
+        <a class="method-permalink" href="#current_cycle(name:String=&quot;default&quot;)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L174" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cycle(values:Array,name=&amp;quot;default&amp;quot;):String-instance-method">
+      <div class="signature">
+        
+        def <strong>cycle</strong>(values : Array, name = <span class="s">&quot;default&quot;</span>) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#cycle(values:Array,name=&quot;default&quot;):String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L160" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cycle(*values,name:String=&amp;quot;default&amp;quot;):String-instance-method">
+      <div class="signature">
+        
+        def <strong>cycle</strong>(*values, name : <a href="../String.html">String</a> = <span class="s">&quot;default&quot;</span>) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#cycle(*values,name:String=&quot;default&quot;):String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L169" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="excerpt(text:String,phrase:Regex|String,separator:String=&amp;quot;&amp;quot;,radius:Int32=100,omission:String=&amp;quot;...&amp;quot;):String-instance-method">
+      <div class="signature">
+        
+        def <strong>excerpt</strong>(text : <a href="../String.html">String</a>, phrase : Regex | <a href="../String.html">String</a>, separator : <a href="../String.html">String</a> = <span class="s">&quot;&quot;</span>, radius : <a href="../Int32.html">Int32</a> = <span class="n">100</span>, omission : <a href="../String.html">String</a> = <span class="s">&quot;...&quot;</span>) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#excerpt(text:String,phrase:Regex%7CString,separator:String=&quot;&quot;,radius:Int32=100,omission:String=&quot;...&quot;):String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Grab a window of longer string</p>
+
+<p>You'll need to specify a <code>phrase</code> to center on, either a Regex or a String.</p>
+
+<p>Optionally:</p>
+
+<ul><li>A <code>radius</code> (default: <code>100</code>) which controls how many units out from the
+<code>phrase</code> on either side the excerpt will be.</li><li>A <code>separator</code> (default <code>""</code>) which controls what the <code>radius</code> will count.
+The unit by default is any character, which means the default is 100
+character from the <code>phrase</code> in either direction. For example, an excerpt of # 10 words would use a <code>radius</code> of 10 and a <code>separator</code> of <code>" "</code>.</li><li>An <code>omission</code> string (default: <code>"..."</code>), which prepends and appends to
+the excerpt.</li></ul>
+
+<pre><code class="language-crystal">lyrics <span class="o">=</span> <span class="s">&quot;We represent the Lolly pop Guild, The Lolly pop Guild&quot;</span>
+excerpt(text, phrase: <span class="s">&quot;Guild&quot;</span>, radius: <span class="n">10</span>)</code></pre>
+
+<p>outputs:</p>
+
+<pre><code class="language-html">...Lolly pop Guild, The Loll...</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L54" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pluralize(count:Int|String|Nil,singular:String,plural=nil):String-instance-method">
+      <div class="signature">
+        
+        def <strong>pluralize</strong>(count : Int | <a href="../String.html">String</a> | Nil, singular : <a href="../String.html">String</a>, plural = <span class="n">nil</span>) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#pluralize(count:Int%7CString%7CNil,singular:String,plural=nil):String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>It pluralizes <code>singular</code> unless <code>count</code> is 1. You can specify the <code>plural</code> option
+to override the chosen plural word.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L89" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reset_cycle(name:String=&amp;quot;default&amp;quot;)-instance-method">
+      <div class="signature">
+        
+        def <strong>reset_cycle</strong>(name : <a href="../String.html">String</a> = <span class="s">&quot;default&quot;</span>)
+
+        <a class="method-permalink" href="#reset_cycle(name:String=&quot;default&quot;)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L179" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reset_cycles-instance-method">
+      <div class="signature">
+        
+        def <strong>reset_cycles</strong>
+
+        <a class="method-permalink" href="#reset_cycles-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L229" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_sentence(list:Enumerable,word_connector:String=&amp;quot;,&amp;quot;,two_word_connector:String=&amp;quot;and&amp;quot;,last_word_connector:String=&amp;quot;,and&amp;quot;):String-instance-method">
+      <div class="signature">
+        
+        def <strong>to_sentence</strong>(list : Enumerable, word_connector : <a href="../String.html">String</a> = <span class="s">&quot;, &quot;</span>, two_word_connector : <a href="../String.html">String</a> = <span class="s">&quot; and &quot;</span>, last_word_connector : <a href="../String.html">String</a> = <span class="s">&quot;, and &quot;</span>) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#to_sentence(list:Enumerable,word_connector:String=&quot;,&quot;,two_word_connector:String=&quot;and&quot;,last_word_connector:String=&quot;,and&quot;):String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a comma-separated sentence from the provided <code>Enumerable</code> <em>list</em>
+and appends it to the view.</p>
+
+<h4><a id="options" class="anchor" href="#options">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Options:</h4>
+
+<p>The following options allow you to specify how the sentence is constructed:</p>
+
+<ul><li><em>word_connector</em> - A string used to join the elements in <em>list</em>s
+containing three or more elements (Default is ", ")</li><li><em>two_word_connector</em> - A string used to join the elements in <em>list</em>s
+containing exactly two elements (Default is " and ")</li><li><em>last_word_connector</em> - A string used to join the last element in
+<em>list</em>s containing three or more elements (Default is ", and ")</li></ul></ul>
+
+<h4><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples:</h4>
+
+<pre><code>to_sentence(<span class="o">[]</span> <span class="k">of</span> <span class="t">String</span>)            <span class="c"># =&gt; &quot;&quot;</span>
+to_sentence([<span class="n">1</span>])                     <span class="c"># =&gt; &quot;1&quot;</span>
+to_sentence([<span class="s">&quot;one&quot;</span>, <span class="s">&quot;two&quot;</span>])          <span class="c"># =&gt; &quot;one and two&quot;</span>
+to_sentence({<span class="s">&quot;one&quot;</span>, <span class="s">&quot;two&quot;</span>, <span class="s">&quot;three&quot;</span>}) <span class="c"># =&gt; &quot;one, two, and three&quot;</span>
+
+to_sentence([<span class="s">&quot;one&quot;</span>, <span class="s">&quot;two&quot;</span>, <span class="s">&quot;three&quot;</span>], word_connector: <span class="s">&quot; + &quot;</span>)
+<span class="c"># =&gt; one + two, and three</span>
+
+to_sentence(<span class="t">Set</span>{<span class="s">&quot;a&quot;</span>, <span class="s">&quot;z&quot;</span>}, two_word_connector: <span class="s">&quot; to &quot;</span>)
+<span class="c"># =&gt; a to z</span>
+
+to_sentence(<span class="n">1</span>..<span class="n">3</span>, last_word_connector: <span class="s">&quot;, or &quot;</span>)
+<span class="c"># =&gt; 1, 2, or 3</span></code></pre>
+
+<p><span class="flag purple">NOTE</span>  By default <code><a href="../Lucky/TextHelpers.html#to_sentence(list:Enumerable,word_connector:String=&quot;,&quot;,two_word_connector:String=&quot;and&quot;,last_word_connector:String=&quot;,and&quot;):String-instance-method">#to_sentence</a></code> will include a
+<a href="https://en.wikipedia.org/wiki/Serial_comma" target="_blank">serial comma</a>. This can be
+overridden like so:</p>
+
+<pre><code>to_sentence([<span class="s">&quot;one&quot;</span>, <span class="s">&quot;two&quot;</span>, <span class="s">&quot;three&quot;</span>], last_word_connector: <span class="s">&quot; and &quot;</span>)
+<span class="c"># =&gt; one, two and three</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L141" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="truncate_text(text:String,length:Int32=30,omission:String=&amp;quot;...&amp;quot;,separator:String?=nil):String-instance-method">
+      <div class="signature">
+        
+        def <strong>truncate_text</strong>(text : <a href="../String.html">String</a>, length : <a href="../Int32.html">Int32</a> = <span class="n">30</span>, omission : <a href="../String.html">String</a> = <span class="s">&quot;...&quot;</span>, separator : <a href="../String.html">String</a>? = <span class="n">nil</span>) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#truncate_text(text:String,length:Int32=30,omission:String=&quot;...&quot;,separator:String?=nil):String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Shorten text after a length point.</p>
+
+<p>Unlike <code>truncate</code>, this method can be used inside of other tags because it
+returns a String. See <code>truncate</code> method for argument documentation.</p>
+
+<pre><code class="language-crystal">link <span class="s">&quot;#&quot;</span> <span class="k">do</span>
+  text truncate_text(<span class="s">&quot;Four score and seven years ago&quot;</span>, length: <span class="n">27</span>)
+<span class="k">end</span></code></pre>
+
+<p>outputs:</p>
+
+<pre><code class="language-html">&lt;a href=\"#\">Four score and se...&lt;/a></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="word_wrap(text:String,line_width:Int32=80,break_sequence:String=&amp;quot;\n&amp;quot;):String-instance-method">
+      <div class="signature">
+        
+        def <strong>word_wrap</strong>(text : <a href="../String.html">String</a>, line_width : <a href="../Int32.html">Int32</a> = <span class="n">80</span>, break_sequence : <a href="../String.html">String</a> = <span class="s">&quot;\n&quot;</span>) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#word_wrap(text:String,line_width:Int32=80,break_sequence:String=&quot;%5Cn&quot;):String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/679e8477f61ccd3c3decca180b205eb648d5092c/src/lucky/page_helpers/text_helpers.cr#L99" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
