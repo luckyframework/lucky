@@ -39,7 +39,7 @@ module Lucky
     end
 
     private def encode(data) : String
-      ::Base64.strict_encode(data)
+      ::Base64.urlsafe_encode(data)
     end
 
     private def decode(data) : Bytes
