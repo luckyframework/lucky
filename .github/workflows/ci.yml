@@ -1,0 +1,34 @@
+name: Lucky CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: "*"
+
+jobs:
+  check_format:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal
+    steps:
+      - uses: actions/checkout@v1
+      - name: Format
+        run: crystal tool format --check
+  specs:
+    runs-on: ubuntu-latest
+
+    container:
+      image: crystallang/crystal:0.34.0
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install shards
+      run: shards install
+    - name: Cache Crystal
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/crystal
+        key: ${{ runner.os }}-crystal
+    - name: Run tests
+      run: crystal spec
