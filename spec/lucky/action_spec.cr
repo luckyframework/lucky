@@ -2,6 +2,38 @@ require "../spec_helper"
 
 include ContextHelper
 
+class PrefixedActions < Lucky::Action
+  route_prefix "/api/v1"
+
+  get "/prefixed_get" do
+    plain_text "im prefixed!"
+  end
+
+  post "/prefixed_post/:id" do
+    plain_text "im prefixed!"
+  end
+
+  put "/prefixed_put/:id" do
+    plain_text "im prefixed!"
+  end
+
+  patch "/prefixed_patch/:id" do
+    plain_text "im prefixed!"
+  end
+
+  trace "/prefixed_trace/:id" do
+    plain_text "im prefixed!"
+  end
+
+  delete "/prefixed_delete/:id" do
+    plain_text "im prefixed!"
+  end
+
+  match :options, "/prefixed_match_options" do
+    plain_text "im prefixed!"
+  end
+end
+
 class CustomRoutes::Index < TestAction
   get "/so_custom" do
     plain_text "test"
@@ -207,6 +239,18 @@ describe Lucky::Action do
       assert_route_added? Lucky::Route.new :trace, "/so_custom", CustomRoutes::Trace
       assert_route_added? Lucky::Route.new :delete, "/so_custom", CustomRoutes::Delete
       assert_route_added? Lucky::Route.new :options, "/so_custom", CustomRoutes::Match
+    end
+  end
+
+  describe "prefixing routes" do
+    it "prefixes the URL helpers for the resourceful actions" do
+      assert_route_added? Lucky::Route.new :get, "/api/v1/prefixed_get", PrefixedActions
+      assert_route_added? Lucky::Route.new :put, "/api/v1/prefixed_put/:id", PrefixedActions
+      assert_route_added? Lucky::Route.new :post, "/api/v1/prefixed_post/:id", PrefixedActions
+      assert_route_added? Lucky::Route.new :patch, "/api/v1/prefixed_patch/:id", PrefixedActions
+      assert_route_added? Lucky::Route.new :trace, "/api/v1/prefixed_trace/:id", PrefixedActions
+      assert_route_added? Lucky::Route.new :delete, "/api/v1/prefixed_delete/:id", PrefixedActions
+      assert_route_added? Lucky::Route.new :options, "/api/v1/prefixed_match_options", PrefixedActions
     end
   end
 
