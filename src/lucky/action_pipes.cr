@@ -162,14 +162,12 @@ module Lucky::ActionPipes
 
   # :nodoc:
   def self.log_halted_pipe(pipe_method_name : String) : Nil
-    Lucky.logger.warn({halted_by: pipe_method_name})
+    Lucky::Log.dexter.warn { {halted_by: pipe_method_name} }
   end
 
   # :nodoc:
   def self.log_continued_pipe(pipe_method_name : String) : Nil
-    Lucky::Action.settings.pipe_log_level.try do |level|
-      Lucky.logger.log(level, {ran_pipe: pipe_method_name})
-    end
+    Lucky::ContinuedPipeLog.dexter.info { {ran_pipe: pipe_method_name} }
   end
 
   # :nodoc:

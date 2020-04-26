@@ -1,15 +1,16 @@
 module Lucky::LoggerHelpers
-  def self.colored_status_code(status_code : Int32) : String
+  def self.colored_http_status(status_code : Int32) : String
+    status_name = Wordsmith::Inflector.humanize(HTTP::Status.from_value?(status_code) || "")
+    message = "#{status_code} #{status_name}".colorize.bold
+
     case status_code
-    when 200..399
-      "#{status_code.colorize.green}"
     when 400..499
-      "#{status_code.colorize(:yellow)}"
+      message.yellow
     when 500..599
-      "#{status_code.colorize(:red)}"
+      message.red
     else
-      "#{status_code}"
-    end
+      message
+    end.to_s
   end
 
   def self.elapsed_text(elapsed : Time::Span) : String

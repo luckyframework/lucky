@@ -9,9 +9,7 @@ Spec.before_each do
   ARGV.clear
 end
 
-Lucky.configure do |settings|
-  settings.logger = Dexter::Logger.new(nil)
-end
+Log.dexter.configure(:none)
 
 Lucky::Session.configure do |settings|
   settings.key = "_app_session"

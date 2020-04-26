@@ -2,7 +2,7 @@ require "../spec_helper"
 
 include ContextHelper
 
-class PrefixedActions < Lucky::Action
+class PrefixedActions < TestAction
   route_prefix "/api/v1"
 
   get "/prefixed_get" do

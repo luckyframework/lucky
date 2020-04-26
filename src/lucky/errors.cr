@@ -46,7 +46,7 @@ module Lucky
 
       You can teach Lucky how to handle this header:
 
-          # Add this in config/mime_types.cr
+          #{"# Add this in config/mime_types.cr".colorize.dim}
           Lucky::MimeType.register "#{accept_header}", :custom_format
 
       Or use one of these headers Lucky knows about:

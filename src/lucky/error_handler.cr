@@ -3,7 +3,6 @@ class Lucky::ErrorHandler
 
   Habitat.create do
     setting show_debug_output : Bool
-    setting logger : Dexter::Logger = Lucky.logger
   end
 
   private getter action
@@ -18,7 +17,7 @@ class Lucky::ErrorHandler
   end
 
   private def call_error_action(context : HTTP::Server::Context, error : Exception) : HTTP::Server::Context
-    settings.logger.error(exception: error.inspect_with_backtrace)
+    Lucky::Log.error(exception: error) { "" }
     action.new(context).perform_action(error)
     context
   end
