@@ -73,7 +73,7 @@ module Lucky
         Usually the key is set in 'config/server.cr'
 
           Lucky::Server.configure do |settings|
-          settings.secret_key_base = "your-new-key"
+            settings.secret_key_base = "your-new-key"
           end
 
 
