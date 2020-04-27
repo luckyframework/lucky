@@ -16,6 +16,12 @@ module Lucky::SelectHelpers
     end
   end
 
+  # Renders an <option> HTML tag with no value
+  # The text is set to `label`.
+  def select_prompt(label : String) : Nil
+    option(label, value: "")
+  end
+
   private def input_name(field)
     "#{field.param_key}:#{field.name}"
   end
