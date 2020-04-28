@@ -89,6 +89,38 @@ module Lucky::InputHelpers
 
   generate_helpful_error_for checkbox
 
+  # Returns a radio input field.
+  #
+  # ```
+  # radio(attribute, "checked_value")
+  # # => <input type="radio" id="param_key_attribute_name_checked_value" name="param_key:attribute_name" value="checked_value" checked="true">
+  # ```
+  def radio(field : Avram::PermittedAttribute(String?),
+            checked_value : String,
+            **html_options) : Nil
+    radio field, checked_value, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
+  end
+
+  # Similar to radio; this allows for Boolean attributes through `attrs`.
+  #
+  # ```
+  # radio(attribute, "checked_value", attrs: [:required])
+  # # => <input type="radio" id="param_key_attribute_name_checked_value" name="param_key:attribute_name" value="checked_value" checked="true" required />
+  # ```
+  def radio(field : Avram::PermittedAttribute(String?),
+            checked_value : String,
+            attrs : Array(Symbol),
+            **html_options) : Nil
+    if field.value == checked_value
+      html_options = merge_options(html_options, {"checked" => "true"})
+    end
+    overrides = {"id" => input_id(field) + "_#{checked_value}", "value" => checked_value}
+    html_options = merge_options(html_options, overrides)
+    generate_input(field, "radio", html_options, attrs: attrs)
+  end
+
+  generate_helpful_error_for radio
+
   {% for input_type in ["text", "email", "file", "color", "hidden", "number", "url", "search", "range"] %}
     generate_helpful_error_for {{input_type.id}}_input
 

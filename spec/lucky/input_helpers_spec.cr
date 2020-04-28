@@ -44,6 +44,15 @@ class InputTestForm
       param_key: "user"
     )
   end
+
+  def status(value : String)
+    Avram::PermittedAttribute(String?).new(
+      name: :status,
+      param: nil,
+      value: value,
+      param_key: "user"
+    )
+  end
 end
 
 private class TestPage
@@ -104,6 +113,32 @@ describe Lucky::InputHelpers do
       HTML
       view(&.checkbox(true_field, attrs: [:required])).should contain <<-HTML
       <input type="checkbox" id="user_admin" name="user:admin" value="true" checked="true" required>
+      HTML
+    end
+  end
+
+  describe "radio inputs" do
+    it "renders radio inputs" do
+      radio_field = form.status("approved")
+
+      rendered = view { |page|
+        page.radio(radio_field, "approved")
+        page.radio(radio_field, "unapproved")
+      }
+      rendered.should contain <<-HTML
+      <input type="radio" id="user_status_approved" name="user:status" value="approved" checked="true">
+      HTML
+
+      rendered.should contain <<-HTML
+      <input type="radio" id="user_status_unapproved" name="user:status" value="unapproved">
+      HTML
+    end
+
+    it "renders radio inputs with boolean attrs" do
+      radio_field = form.status("approved")
+
+      view(&.radio(radio_field, "approved", attrs: [:required])).should contain <<-HTML
+      <input type="radio" id="user_status_approved" name="user:status" value="approved" checked="true" required>
       HTML
     end
   end
