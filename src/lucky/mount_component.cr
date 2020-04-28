@@ -36,7 +36,7 @@ module Lucky::MountComponent
 
   private def print_component_comment(component : Lucky::BaseComponent) : Nil
     if Lucky::HTMLPage.settings.render_component_comments
-      raw "<!-- BEGIN: #{component.class.name} -->"
+      raw "<!-- BEGIN: #{component.class.file_location} #{component.class.name} -->"
       yield
       raw "<!-- END: #{component.class.name} -->"
     else
