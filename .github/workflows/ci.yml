@@ -10,17 +10,19 @@ jobs:
   check_format:
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal
+      image: crystallang/crystal:0.34.0
     steps:
       - uses: actions/checkout@v1
+      - name: Install shards
+        run: shards install
       - name: Format
         run: crystal tool format --check
+      - name: Lint
+        run: ./bin/ameba
   specs:
     runs-on: ubuntu-latest
-
     container:
       image: crystallang/crystal:0.34.0
-
     steps:
     - uses: actions/checkout@v2
     - name: Install shards

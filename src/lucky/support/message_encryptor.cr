@@ -59,28 +59,26 @@ module Lucky
     end
 
     private def set_cipher_key(cipher)
-      begin
-        cipher.key = @secret
-      rescue error : ArgumentError
-        raise InvalidSecretKeyBase.new(<<-MESSAGE
-          The secret key is invalid:
+      cipher.key = @secret
+    rescue error : ArgumentError
+      raise InvalidSecretKeyBase.new(<<-MESSAGE
+        The secret key is invalid:
 
-            #{error.message}
+          #{error.message}
 
-          You can generate a new key using 'lucky gen.secret_key' in your terminal:
+        You can generate a new key using 'lucky gen.secret_key' in your terminal:
 
-            ▸ lucky gen.secret_key
+          ▸ lucky gen.secret_key
 
-          Usually the key is set in 'config/server.cr'
+        Usually the key is set in 'config/server.cr'
 
-            Lucky::Server.configure do |settings|
-             settings.secret_key_base = "your-new-key"
-            end
+          Lucky::Server.configure do |settings|
+            settings.secret_key_base = "your-new-key"
+          end
 
 
-          MESSAGE
-        )
-      end
+        MESSAGE
+      )
     end
 
     class InvalidSecretKeyBase < Exception

@@ -81,7 +81,7 @@ module LuckySentry
 
       Try closing these programs...
 
-        #{io.to_s}
+        #{io}
       ERROR
     end
 

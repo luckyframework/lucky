@@ -72,7 +72,7 @@ class Lucky::MimeType
       if accept == "*/*"
         default_format
       else
-        Lucky::MimeType.accept_header_formats.find do |accept_header_substring, format|
+        Lucky::MimeType.accept_header_formats.find do |accept_header_substring, _format|
           accept.includes?(accept_header_substring)
         end.try(&.[1])
       end
