@@ -46,12 +46,12 @@ class InputTestForm
   end
 
   def status(value : String)
-      Avram::PermittedAttribute(String?).new(
-        name: :status,
-        param: nil,
-        value: value,
-        param_key: "user"
-      )
+    Avram::PermittedAttribute(String?).new(
+      name: :status,
+      param: nil,
+      value: value,
+      param_key: "user"
+    )
   end
 end
 
