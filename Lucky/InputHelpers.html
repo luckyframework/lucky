@@ -867,7 +867,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#color_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#color_input</strong>(field : Avram::Attribute, **options)</a>
+        <a href="#color_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#color_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
+        
+          <div class="summary"><p>Similar to color_input; this allows for Boolean attributes through <code>attrs</code>.</p></div>
         
       </li>
     
@@ -879,19 +881,17 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#color_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#color_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
-        
-          <div class="summary"><p>Similar to color_input; this allows for Boolean attributes through <code>attrs</code>.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#date_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#date_input</strong>(field : Avram::Attribute, **options)</a>
+        <a href="#color_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#color_input</strong>(field : Avram::Attribute, **options)</a>
         
       </li>
     
       <li class="entry-summary">
         <a href="#date_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#date_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#date_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#date_input</strong>(field : Avram::Attribute, **options)</a>
         
       </li>
     
@@ -906,24 +906,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#datetime_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#datetime_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#datetime_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#datetime_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#email_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#email_input</strong>(field : Avram::Attribute, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#email_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#email_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
-        
-          <div class="summary"><p>Returns a email input field.</p></div>
+        <a href="#datetime_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#datetime_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
         
       </li>
     
@@ -935,9 +923,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#file_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#file_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
+        <a href="#email_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#email_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
         
-          <div class="summary"><p>Similar to file_input; this allows for Boolean attributes through <code>attrs</code>.</p></div>
+          <div class="summary"><p>Returns a email input field.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#email_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#email_input</strong>(field : Avram::Attribute, **options)</a>
         
       </li>
     
@@ -945,6 +938,13 @@
         <a href="#file_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#file_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
         
           <div class="summary"><p>Returns a file input field.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#file_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#file_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
+        
+          <div class="summary"><p>Similar to file_input; this allows for Boolean attributes through <code>attrs</code>.</p></div>
         
       </li>
     
@@ -961,6 +961,11 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#hidden_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#hidden_input</strong>(field : Avram::Attribute, **options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#hidden_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#hidden_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
         
           <div class="summary"><p>Returns a hidden input field.</p></div>
@@ -968,19 +973,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#hidden_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#hidden_input</strong>(field : Avram::Attribute, **options)</a>
+        <a href="#number_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#number_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
+        
+          <div class="summary"><p>Returns a number input field.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#number_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#number_input</strong>(field : Avram::Attribute, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#number_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method" class="signature"><strong>#number_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil</a>
-        
-          <div class="summary"><p>Returns a number input field.</p></div>
         
       </li>
     
@@ -1003,6 +1003,25 @@
     
       <li class="entry-summary">
         <a href="#password_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#password_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#radio(field:Avram::PermittedAttribute(String?),checked_value:String,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#radio</strong>(field : Avram::PermittedAttribute(String?), checked_value : String, attrs : Array(Symbol), **html_options) : Nil</a>
+        
+          <div class="summary"><p>Similar to radio; this allows for Boolean attributes through <code>attrs</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#radio(field:Avram::PermittedAttribute(String?),checked_value:String,**html_options):Nil-instance-method" class="signature"><strong>#radio</strong>(field : Avram::PermittedAttribute(String?), checked_value : String, **html_options) : Nil</a>
+        
+          <div class="summary"><p>Returns a radio input field.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#radio(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#radio</strong>(field : Avram::Attribute, **options)</a>
         
       </li>
     
@@ -1050,7 +1069,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#telephone_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#telephone_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
+        <a href="#telephone_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#telephone_input</strong>(field : Avram::Attribute, **options)</a>
         
       </li>
     
@@ -1060,12 +1079,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#telephone_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#telephone_input</strong>(field : Avram::Attribute, **options)</a>
+        <a href="#telephone_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#telephone_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#text_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#text_input</strong>(field : Avram::Attribute, **options)</a>
+        <a href="#text_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#text_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
+        
+          <div class="summary"><p>Similar to text_input; this allows for Boolean attributes through <code>attrs</code>.</p></div>
         
       </li>
     
@@ -1077,9 +1098,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#text_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method" class="signature"><strong>#text_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil</a>
-        
-          <div class="summary"><p>Similar to text_input; this allows for Boolean attributes through <code>attrs</code>.</p></div>
+        <a href="#text_input(field:Avram::Attribute,**options)-instance-method" class="signature"><strong>#text_input</strong>(field : Avram::Attribute, **options)</a>
         
       </li>
     
@@ -1238,13 +1257,22 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="color_input(field:Avram::Attribute,**options)-instance-method">
+    <div class="entry-detail" id="color_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>color_input</strong>(field : Avram::Attribute, **options)
+        def <strong>color_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
 
-        <a class="method-permalink" href="#color_input(field:Avram::Attribute,**options)-instance-method">#</a>
+        <a class="method-permalink" href="#color_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Similar to color_input; this allows for Boolean attributes
+through <code>attrs</code>.</p>
+
+<pre><code>color_input(attribute, attrs: [<span class="n">:required</span>])
+<span class="c"># =&gt; &lt;input type=&quot;color&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
+        </div>
       
       <br/>
       <div>
@@ -1274,35 +1302,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="color_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
+    <div class="entry-detail" id="color_input(field:Avram::Attribute,**options)-instance-method">
       <div class="signature">
         
-        def <strong>color_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
+        def <strong>color_input</strong>(field : Avram::Attribute, **options)
 
-        <a class="method-permalink" href="#color_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Similar to color_input; this allows for Boolean attributes
-through <code>attrs</code>.</p>
-
-<pre><code>color_input(attribute, attrs: [<span class="n">:required</span>])
-<span class="c"># =&gt; &lt;input type=&quot;color&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="date_input(field:Avram::Attribute,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>date_input</strong>(field : Avram::Attribute, **options)
-
-        <a class="method-permalink" href="#date_input(field:Avram::Attribute,**options)-instance-method">#</a>
+        <a class="method-permalink" href="#color_input(field:Avram::Attribute,**options)-instance-method">#</a>
       </div>
       
       <br/>
@@ -1317,6 +1322,20 @@ through <code>attrs</code>.</p>
         def <strong>date_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil
 
         <a class="method-permalink" href="#date_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="date_input(field:Avram::Attribute,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>date_input</strong>(field : Avram::Attribute, **options)
+
+        <a class="method-permalink" href="#date_input(field:Avram::Attribute,**options)-instance-method">#</a>
       </div>
       
       <br/>
@@ -1353,20 +1372,6 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="datetime_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>datetime_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil
-
-        <a class="method-permalink" href="#datetime_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
     <div class="entry-detail" id="datetime_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
       <div class="signature">
         
@@ -1381,35 +1386,13 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="email_input(field:Avram::Attribute,**options)-instance-method">
+    <div class="entry-detail" id="datetime_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>email_input</strong>(field : Avram::Attribute, **options)
+        def <strong>datetime_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil
 
-        <a class="method-permalink" href="#email_input(field:Avram::Attribute,**options)-instance-method">#</a>
+        <a class="method-permalink" href="#datetime_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">#</a>
       </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="email_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>email_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil
-
-        <a class="method-permalink" href="#email_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Returns a email input field.</p>
-
-<pre><code>email_input(attribute)
-<span class="c"># =&gt; &lt;input type=&quot;email&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
-        </div>
       
       <br/>
       <div>
@@ -1440,22 +1423,35 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="file_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
+    <div class="entry-detail" id="email_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>file_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
+        def <strong>email_input</strong>(field : Avram::PermittedAttribute, **html_options) : Nil
 
-        <a class="method-permalink" href="#file_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#email_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Similar to file_input; this allows for Boolean attributes
-through <code>attrs</code>.</p>
+          <p>Returns a email input field.</p>
 
-<pre><code>file_input(attribute, attrs: [<span class="n">:required</span>])
-<span class="c"># =&gt; &lt;input type=&quot;file&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
+<pre><code>email_input(attribute)
+<span class="c"># =&gt; &lt;input type=&quot;email&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="email_input(field:Avram::Attribute,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>email_input</strong>(field : Avram::Attribute, **options)
+
+        <a class="method-permalink" href="#email_input(field:Avram::Attribute,**options)-instance-method">#</a>
+      </div>
       
       <br/>
       <div>
@@ -1477,6 +1473,29 @@ through <code>attrs</code>.</p>
 
 <pre><code>file_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;file&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="file_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>file_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
+
+        <a class="method-permalink" href="#file_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Similar to file_input; this allows for Boolean attributes
+through <code>attrs</code>.</p>
+
+<pre><code>file_input(attribute, attrs: [<span class="n">:required</span>])
+<span class="c"># =&gt; &lt;input type=&quot;file&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -1522,6 +1541,20 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
+    <div class="entry-detail" id="hidden_input(field:Avram::Attribute,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>hidden_input</strong>(field : Avram::Attribute, **options)
+
+        <a class="method-permalink" href="#hidden_input(field:Avram::Attribute,**options)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="hidden_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">
       <div class="signature">
         
@@ -1544,34 +1577,6 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="hidden_input(field:Avram::Attribute,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>hidden_input</strong>(field : Avram::Attribute, **options)
-
-        <a class="method-permalink" href="#hidden_input(field:Avram::Attribute,**options)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="number_input(field:Avram::Attribute,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>number_input</strong>(field : Avram::Attribute, **options)
-
-        <a class="method-permalink" href="#number_input(field:Avram::Attribute,**options)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
     <div class="entry-detail" id="number_input(field:Avram::PermittedAttribute,**html_options):Nil-instance-method">
       <div class="signature">
         
@@ -1587,6 +1592,20 @@ through <code>attrs</code>.</p>
 <pre><code>number_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;number&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="number_input(field:Avram::Attribute,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>number_input</strong>(field : Avram::Attribute, **options)
+
+        <a class="method-permalink" href="#number_input(field:Avram::Attribute,**options)-instance-method">#</a>
+      </div>
       
       <br/>
       <div>
@@ -1651,6 +1670,64 @@ through <code>attrs</code>.</p>
         def <strong>password_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
 
         <a class="method-permalink" href="#password_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="radio(field:Avram::PermittedAttribute(String?),checked_value:String,attrs:Array(Symbol),**html_options):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>radio</strong>(field : Avram::PermittedAttribute(<a href="../String.html">String</a>?), checked_value : <a href="../String.html">String</a>, attrs : Array(Symbol), **html_options) : Nil
+
+        <a class="method-permalink" href="#radio(field:Avram::PermittedAttribute(String?),checked_value:String,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Similar to radio; this allows for Boolean attributes through <code>attrs</code>.</p>
+
+<pre><code>radio(attribute, <span class="s">&quot;checked_value&quot;</span>, attrs: [<span class="n">:required</span>])
+<span class="c"># =&gt; &lt;input type=&quot;radio&quot; id=&quot;param_key_attribute_name_checked_value&quot; name=&quot;param_key:attribute_name&quot; value=&quot;checked_value&quot; checked=&quot;true&quot; required /&gt;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="radio(field:Avram::PermittedAttribute(String?),checked_value:String,**html_options):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>radio</strong>(field : Avram::PermittedAttribute(<a href="../String.html">String</a>?), checked_value : <a href="../String.html">String</a>, **html_options) : Nil
+
+        <a class="method-permalink" href="#radio(field:Avram::PermittedAttribute(String?),checked_value:String,**html_options):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a radio input field.</p>
+
+<pre><code>radio(attribute, <span class="s">&quot;checked_value&quot;</span>)
+<span class="c"># =&gt; &lt;input type=&quot;radio&quot; id=&quot;param_key_attribute_name_checked_value&quot; name=&quot;param_key:attribute_name&quot; value=&quot;checked_value&quot; checked=&quot;true&quot;&gt;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="radio(field:Avram::Attribute,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>radio</strong>(field : Avram::Attribute, **options)
+
+        <a class="method-permalink" href="#radio(field:Avram::Attribute,**options)-instance-method">#</a>
       </div>
       
       <br/>
@@ -1791,12 +1868,12 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="telephone_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
+    <div class="entry-detail" id="telephone_input(field:Avram::Attribute,**options)-instance-method">
       <div class="signature">
         
-        def <strong>telephone_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
+        def <strong>telephone_input</strong>(field : Avram::Attribute, **options)
 
-        <a class="method-permalink" href="#telephone_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#telephone_input(field:Avram::Attribute,**options)-instance-method">#</a>
       </div>
       
       <br/>
@@ -1819,12 +1896,12 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="telephone_input(field:Avram::Attribute,**options)-instance-method">
+    <div class="entry-detail" id="telephone_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>telephone_input</strong>(field : Avram::Attribute, **options)
+        def <strong>telephone_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
 
-        <a class="method-permalink" href="#telephone_input(field:Avram::Attribute,**options)-instance-method">#</a>
+        <a class="method-permalink" href="#telephone_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
       </div>
       
       <br/>
@@ -1833,13 +1910,22 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="text_input(field:Avram::Attribute,**options)-instance-method">
+    <div class="entry-detail" id="text_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>text_input</strong>(field : Avram::Attribute, **options)
+        def <strong>text_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
 
-        <a class="method-permalink" href="#text_input(field:Avram::Attribute,**options)-instance-method">#</a>
+        <a class="method-permalink" href="#text_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Similar to text_input; this allows for Boolean attributes
+through <code>attrs</code>.</p>
+
+<pre><code>text_input(attribute, attrs: [<span class="n">:required</span>])
+<span class="c"># =&gt; &lt;input type=&quot;text&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
+        </div>
       
       <br/>
       <div>
@@ -1869,22 +1955,13 @@ through <code>attrs</code>.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="text_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">
+    <div class="entry-detail" id="text_input(field:Avram::Attribute,**options)-instance-method">
       <div class="signature">
         
-        def <strong>text_input</strong>(field : Avram::PermittedAttribute, attrs : Array(Symbol), **html_options) : Nil
+        def <strong>text_input</strong>(field : Avram::Attribute, **options)
 
-        <a class="method-permalink" href="#text_input(field:Avram::PermittedAttribute,attrs:Array(Symbol),**html_options):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#text_input(field:Avram::Attribute,**options)-instance-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Similar to text_input; this allows for Boolean attributes
-through <code>attrs</code>.</p>
-
-<pre><code>text_input(attribute, attrs: [<span class="n">:required</span>])
-<span class="c"># =&gt; &lt;input type=&quot;text&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
-        </div>
       
       <br/>
       <div>
