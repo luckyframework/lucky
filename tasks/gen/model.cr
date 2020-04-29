@@ -61,7 +61,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def resource_name_not_taken
-    @error = "A model by the name '#{resource_name.camelcase}' already exists."
+    @error = "'#{resource_name.camelcase}' model already exists at #{"./src/models/#{template.underscored_name}.cr"}."
     !File.exists?("./src/models/#{template.underscored_name}.cr")
   end
 
