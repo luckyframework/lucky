@@ -98,7 +98,7 @@ describe Gen::Model do
 
       io = IO::Memory.new
       Gen::Model.new.call(io)
-      io.to_s.should contain("A model by the name 'User' already exists.")
+      io.to_s.should contain("'User' model already exists at ./src/models/user.cr")
     end
   end
 end
