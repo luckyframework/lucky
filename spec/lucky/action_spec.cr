@@ -224,19 +224,19 @@ describe Lucky::Action do
     end
   end
 
-  describe ".permitted_query_params" do
+  describe ".query_param_declarations" do
     it "returns an empty array" do
-      PlainText::Index.permitted_query_params.size.should eq 0
+      PlainText::Index.query_param_declarations.size.should eq 0
     end
 
     it "returns required param declarations" do
-      RequiredParams::Index.permitted_query_params.size.should eq 1
-      RequiredParams::Index.permitted_query_params.first.should eq "required_page : Int32"
+      RequiredParams::Index.query_param_declarations.size.should eq 1
+      RequiredParams::Index.query_param_declarations.first.should eq "required_page : Int32"
     end
 
     it "returns optional param declarations" do
-      OptionalParams::Index.permitted_query_params.size.should eq 6
-      OptionalParams::Index.permitted_query_params.should contain "bool_with_false_default : Bool | ::Nil"
+      OptionalParams::Index.query_param_declarations.size.should eq 6
+      OptionalParams::Index.query_param_declarations.should contain "bool_with_false_default : Bool | ::Nil"
     end
   end
 
