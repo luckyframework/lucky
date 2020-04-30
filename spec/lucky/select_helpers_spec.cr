@@ -17,6 +17,11 @@ private class TestPage
     self
   end
 
+  def render_prompt(label)
+    select_prompt(label)
+    self
+  end
+
   def html
     view
   end
@@ -52,6 +57,12 @@ describe Lucky::SelectHelpers do
       .html.to_s.should eq <<-HTML
       <option value="1" selected="true">Volvo</option><option value="3">BMW</option>
       HTML
+  end
+
+  it "renders a blank option as a prompt" do
+    view.render_prompt("Which one do you want?").html.to_s.should eq <<-HTML
+    <option value="">Which one do you want?</option>
+    HTML
   end
 end
 
