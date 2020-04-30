@@ -224,6 +224,22 @@ describe Lucky::Action do
     end
   end
 
+  describe ".query_param_declarations" do
+    it "returns an empty array" do
+      PlainText::Index.query_param_declarations.size.should eq 0
+    end
+
+    it "returns required param declarations" do
+      RequiredParams::Index.query_param_declarations.size.should eq 1
+      RequiredParams::Index.query_param_declarations.first.should eq "required_page : Int32"
+    end
+
+    it "returns optional param declarations" do
+      OptionalParams::Index.query_param_declarations.size.should eq 6
+      OptionalParams::Index.query_param_declarations.should contain "bool_with_false_default : Bool | ::Nil"
+    end
+  end
+
   describe "params" do
     it "can get params" do
       action = PlainText::Index.new(build_context(path: "/?q=test"), params)

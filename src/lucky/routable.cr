@@ -289,6 +289,9 @@ module Lucky::Routable
   macro included
     PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
 
+    @@query_param_declarations : Array(String) = [] of String
+    class_getter query_param_declarations : Array(String)
+
     macro inherited
       inherit_param_declarations
     end
@@ -358,6 +361,7 @@ module Lucky::Routable
   # `/user_confirmations?token=abc123`
   macro param(type_declaration)
     {% PARAM_DECLARATIONS << type_declaration %}
+    @@query_param_declarations << "{{ type_declaration.var }} : {{ type_declaration.type }}"
 
     def {{ type_declaration.var }} : {{ type_declaration.type }}
       {% is_nilable_type = type_declaration.type.is_a?(Union) %}

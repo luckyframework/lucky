@@ -35,7 +35,8 @@ class Gen::Model < LuckyCli::Task
     resource_name_is_present &&
       resource_name_is_camelcase &&
       resource_name_matches_format &&
-      columns_are_supported
+      columns_are_supported &&
+      resource_name_not_taken
   end
 
   private def resource_name_is_present
@@ -57,6 +58,11 @@ class Gen::Model < LuckyCli::Task
   private def columns_are_supported
     @error = unsupported_columns_error("model")
     columns_are_valid?
+  end
+
+  private def resource_name_not_taken
+    @error = "'#{resource_name.camelcase}' model already exists at #{"./src/models/#{template.underscored_name}.cr"}."
+    !File.exists?("./src/models/#{template.underscored_name}.cr")
   end
 
   private def template
