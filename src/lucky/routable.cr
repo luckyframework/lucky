@@ -1,9 +1,7 @@
 # Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routable
   macro included
-    macro inherited
-      ROUTE_SETTINGS = {prefix: ""}
-    end
+    ROUTE_SETTINGS = {prefix: ""}
   end
 
   macro fallback
