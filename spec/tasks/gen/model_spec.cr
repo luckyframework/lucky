@@ -86,4 +86,19 @@ describe Gen::Model do
       io.to_s.should contain("Model name should only contain letters")
     end
   end
+
+  it "displays an error if the model has already been generated" do
+    with_cleanup do
+      ARGV.push("User")
+
+      Gen::Migration.silence_output do
+        io = IO::Memory.new
+        Gen::Model.new.call(io)
+      end
+
+      io = IO::Memory.new
+      Gen::Model.new.call(io)
+      io.to_s.should contain("'User' model already exists at ./src/models/user.cr")
+    end
+  end
 end
