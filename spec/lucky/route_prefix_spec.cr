@@ -56,11 +56,17 @@ module ApiPrefixModule
   end
 end
 
-class ApiInlcudingModulePrefix < TestAction
+class ActionIncludingModulePrefix < TestAction
   include ApiPrefixModule
 
   get "/has-module-prefix" do
     plain_text "child route prefixed"
+  end
+end
+
+class ActionNotIncludingModulePrefix < TestAction
+  get "/no-prefix" do
+    plain_text "no prefix"
   end
 end
 
@@ -81,7 +87,8 @@ describe "prefixing routes" do
   end
 
   it "correctly prefixes action through included modules" do
-    assert_route_added? Lucky::Route.new :get, "/module-prefix/has-module-prefix", ApiInlcudingModulePrefix
+    assert_route_added? Lucky::Route.new :get, "/module-prefix/has-module-prefix", ActionIncludingModulePrefix
+    assert_route_added? Lucky::Route.new :get, "/no-prefix", ActionNotIncludingModulePrefix
   end
 end
 
