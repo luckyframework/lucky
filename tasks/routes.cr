@@ -6,13 +6,12 @@ class Routes < LuckyCli::Task
 
   def call
     table = String.build do |output|
+      output << "#{print_banner_message}\n\n"
       Lucky::Router.routes.map do |route|
-        output << "#{route.method.to_s.upcase} #{route.path.colorize.green}\n"
-        output << "  Action       ▸ #{route.action}\n"
-        if has_query_params?(route.action)
-          output << "  Query params ▸ #{query_param_display(route.action)}\n"
+        output << "#{route.method.to_s.upcase} #{route.path.colorize.bold.underline} #{dim_arrow} #{route.action.colorize.green}\n"
+        route.action.query_param_declarations.each do |param|
+          output << " #{dim_arrow} #{param}\n"
         end
-        output << "  Route helper ▸ #{route_helper_display(route.action)}\n"
         output << "\n\n"
       end
     end
@@ -20,39 +19,15 @@ class Routes < LuckyCli::Task
     puts table
   end
 
-  private def has_query_params?(action : Lucky::Action.class) : Bool
-    action.query_param_declarations.any?
+  private def dim_arrow
+    "▸".colorize.dim
   end
 
-  private def param_declaration(declaration : String) : Array(String)
-    declaration.split(" : ")
-  end
+  private def print_banner_message
+    <<-TEXT.colorize.dim
 
-  private def query_param_display(action : Lucky::Action.class) : String
-    action.query_param_declarations.map { |declaration|
-      name, type = param_declaration(declaration)
-      "#{name} : #{type.colorize.yellow}"
-    }.join(", ")
-  end
-
-  private def route_helper_display(action : Lucky::Action.class) : String
-    if has_query_params?(action)
-      first_param = action.query_param_declarations.first
-      name, type = param_declaration(first_param)
-      %{#{action}.with(#{name}: "#{example_param_by_type(type)}")}
-    else
-      "#{action}.route"
-    end
-  end
-
-  private def example_param_by_type(type : String) : String
-    case type
-    when .includes?("Int")
-      "4"
-    when .includes?("Bool")
-      "false"
-    else
-      "example"
-    end
+    Routing documentation:
+      https://luckyframework.org/guides/http-and-routing/routing-and-params
+    TEXT
   end
 end
