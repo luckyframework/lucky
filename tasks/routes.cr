@@ -27,7 +27,7 @@ class Routes < LuckyCli::Task
     <<-TEXT.colorize.dim
 
     Routing documentation:
-    
+
       https://luckyframework.org/guides/http-and-routing/routing-and-params
     TEXT
   end
