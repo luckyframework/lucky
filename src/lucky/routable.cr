@@ -14,9 +14,9 @@ module Lucky::Routable
   end
 
   macro inherit_route_settings
-      \{% for k, v in @type.ancestors.first.constant :ROUTE_SETTINGS %}
-        \{% ROUTE_SETTINGS[k] = v %}
-      \{% end %}
+    \{% for k, v in @type.ancestors.first.constant :ROUTE_SETTINGS %}
+      \{% ROUTE_SETTINGS[k] = v %}
+    \{% end %}
   end
 
   macro fallback
