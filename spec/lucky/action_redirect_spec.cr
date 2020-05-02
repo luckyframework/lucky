@@ -36,10 +36,46 @@ describe Lucky::Action do
     action.redirect to: "/somewhere", status: :moved_permanently
     should_redirect(action, to: "/somewhere", status: 301)
   end
+
+  it "turbolinks redirects after a XHR POST form submission" do
+    request = build_request("POST")
+    request.headers["Accept"] = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01"
+    request.headers["X-Requested-With"] = "XmlHttpRequest"
+    context = build_context("/", request: request)
+
+    action = RedirectAction.new(context, params)
+    response = action.redirect to: "/somewhere", status: 302
+    should_redirect(action, to: "/somewhere", status: 200)
+    action.context.response.headers.has_key?("Turbolinks-Location").should be_false
+    response.body.should eq %[Turbolinks.clearCache();\nTurbolinks.visit("/somewhere", {"action": "replace"})]
+  end
+
+  it "set a cookie for redirects occurring during a turbolinks GET request" do
+    request = build_request
+    request.headers["Turbolinks-Referrer"] = "/"
+    context = build_context("/", request: request)
+
+    action = RedirectAction.new(context, params)
+    response = action.redirect to: "/somewhere", status: 302
+    should_redirect(action, to: "/somewhere", status: 302)
+    context.response.headers.has_key?("Turbolinks-Location").should be_false
+    response.body.should eq ""
+    # should remember redirect to
+    context.cookies.get?(:_turbolinks_location).should eq "/somewhere"
+  end
+
+  it "restore turbolinks redirect target" do
+    context = build_context
+    context.cookies.set(:_turbolinks_location, "/somewhere")
+
+    RedirectAction.new(context, params).call
+    context.response.status_code.should eq 200
+    context.response.headers["Turbolinks-Location"].should eq "/somewhere"
+    context.cookies.deleted?(:_turbolinks_location).should be_true
+  end
 end
 
 private def should_redirect(action, to path, status)
   action.context.response.headers["Location"].should eq path
-  action.context.response.headers["Turbolinks-Location"].should eq path
   action.context.response.status_code.should eq status
 end
