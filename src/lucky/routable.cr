@@ -1,8 +1,36 @@
 # Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routable
+  macro included
+    ROUTE_SETTINGS = {prefix: ""}
+
+    macro included
+      inherit_route_settings
+    end
+
+    macro inherited
+      ROUTE_SETTINGS = {prefix: ""}
+      inherit_route_settings
+    end
+  end
+
+  macro inherit_route_settings
+    \{% for k, v in @type.ancestors.first.constant :ROUTE_SETTINGS %}
+      \{% ROUTE_SETTINGS[k] = v %}
+    \{% end %}
+  end
+
   macro fallback
     Lucky::RouteNotFoundHandler.fallback_action = {{ @type.name.id }}
     setup_call_method({{ yield }})
+  end
+
+  # Sets the prefix for all routes defined by the match
+  # and http method (get, put, post, etc..) macros
+  macro route_prefix(prefix)
+    {% unless prefix.starts_with?("/") %}
+      {% prefix.raise "Prefix must start with a slash. Example: '/#{prefix}'" %}
+    {% end %}
+    {% ROUTE_SETTINGS[:prefix] = prefix %}
   end
 
   {% for http_method in [:get, :put, :post, :patch, :trace, :delete] %}
@@ -52,7 +80,7 @@ module Lucky::Routable
       {% method.raise "HTTP methods should be lower-case symbols. Use #{method.downcase} instead of #{method}." %}
     {% end %}
 
-    add_route({{method}}, {{path}}, {{ @type.name.id }})
+    add_route({{method}}, {{ path }}, {{ @type.name.id }})
 
     setup_call_method({{ yield }})
   end
@@ -161,7 +189,7 @@ module Lucky::Routable
 
   # :nodoc:
   macro add_route(method, path, action)
-    Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
+    Lucky::Router.add({{ method }}, {{ ROUTE_SETTINGS[:prefix] + path }}, {{ @type.name.id }})
 
     {% path_parts = path.split("/").reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(":")) %}
