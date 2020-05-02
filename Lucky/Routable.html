@@ -860,6 +860,11 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#inherit_route_settings-macro" class="signature"><strong>inherit_route_settings</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#match(method,path)-macro" class="signature"><strong>match</strong>(method, path)</a>
         
           <div class="summary"><p>Define a route with a custom HTTP method.</p></div>
@@ -905,6 +910,13 @@
         <a href="#route-macro" class="signature"><strong>route</strong></a>
         
           <div class="summary"><p>Define a route that responds to the appropriate HTTP request automatically</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#route_prefix(prefix)-macro" class="signature"><strong>route_prefix</strong>(prefix)</a>
+        
+          <div class="summary"><p>Sets the prefix for all routes defined by the match and http method (get, put, post, etc..) macros</p></div>
         
       </li>
     
@@ -1014,6 +1026,20 @@ route. For example:</p>
 
 <ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing" target="_blank">Routing</a></li></ul>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inherit_route_settings-macro">
+      <div class="signature">
+        
+        macro <strong>inherit_route_settings</strong>
+
+        <a class="method-permalink" href="#inherit_route_settings-macro">#</a>
+      </div>
       
       <br/>
       <div>
@@ -1288,6 +1314,26 @@ adding underscores. The method is found via the last part of the class name:</p>
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
 <ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes" target="_blank">Automatically Generate RESTful Routes</a></li><li><a href="https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes" target="_blank">Examples of automatically generated routes</a></li></ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="route_prefix(prefix)-macro">
+      <div class="signature">
+        
+        macro <strong>route_prefix</strong>(prefix)
+
+        <a class="method-permalink" href="#route_prefix(prefix)-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets the prefix for all routes defined by the match
+and http method (get, put, post, etc..) macros</p>
         </div>
       
       <br/>
