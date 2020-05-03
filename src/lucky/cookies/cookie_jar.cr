@@ -49,7 +49,7 @@ class Lucky::CookieJar
   end
 
   def delete(key : Key) : Nil
-    if cookie = cookies[key.to_s]
+    if cookie = cookies[key.to_s]?
       cookie.expires(1.year.ago).value("")
       set_cookies[key.to_s] = cookie
     end
