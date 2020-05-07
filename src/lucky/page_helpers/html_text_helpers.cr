@@ -70,7 +70,9 @@ module Lucky::HTMLTextHelpers
   # ```html
   # You're such a <strong>nice</strong> and <strong>attractive</strong> person.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>") : Nil
+  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>", escape : Bool = true) : Nil
+    text = escape ? HTML.escape(text) : text
+
     if text.blank? || phrases.all?(&.to_s.blank?)
       raw (text || "")
     else
@@ -91,18 +93,18 @@ module Lucky::HTMLTextHelpers
   # Exactly the same as the `highlight` that takes multiple phrases, but with a
   # singular `phrase` argument for readability.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _) : Nil
-    highlight(text, phrases, highlighter: block)
+  def highlight(text : String, phrases : Array(String | Regex), escape : Bool = false, &block : String -> _) : Nil
+    highlight(text, phrases, highlighter: block, escape: escape)
   end
 
-  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>") : Nil
+  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>", escape : Bool = true) : Nil
     phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: highlighter)
+    highlight(text, phrases, highlighter: highlighter, escape: escape)
   end
 
-  def highlight(text : String, phrase : String | Regex, &block : String -> _) : Nil
+  def highlight(text : String, phrase : String | Regex, escape : Bool = true, &block : String -> _) : Nil
     phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: block)
+    highlight(text, phrases, highlighter: block, escape: escape)
   end
 
   # Wraps text in whatever you'd like based on line breaks
