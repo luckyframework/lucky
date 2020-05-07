@@ -49,11 +49,6 @@ describe Lucky::RequestTypeHelpers do
     override_format :foo, &.html?.should(be_false)
   end
 
-  it "checks if client accepts AJAX" do
-    override_format :ajax, &.ajax?.should(be_true)
-    override_format :foo, &.ajax?.should(be_false)
-  end
-
   it "checks if client accepts XML" do
     override_format :xml, &.xml?.should(be_true)
     override_format :foo, &.xml?.should(be_false)
@@ -62,6 +57,14 @@ describe Lucky::RequestTypeHelpers do
   it "checks if client accepts plain text" do
     override_format :plain_text, &.plain_text?.should(be_true)
     override_format :foo, &.plain_text?.should(be_false)
+  end
+
+  it "checks if request send via AJAX" do
+    action = FakeAction.new
+    action.ajax?.should(be_false)
+
+    action.context.request.headers["X-Requested-With"] = "XMLHttpRequest"
+    action.ajax?.should(be_true)
   end
 end
 

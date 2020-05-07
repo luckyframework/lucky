@@ -4,7 +4,7 @@ include ContextHelper
 
 describe Lucky::MimeType do
   describe "determine_clients_desired_format" do
-    it "returns the format for the 'Accept' header if it is an AJAX request" do
+    it "returns the format for the 'Accept' header" do
       format = determine_format("accept": "application/json", "X-Requested-With": "XmlHttpRequest")
       format.should eq(:json)
     end
@@ -24,12 +24,7 @@ describe Lucky::MimeType do
       format.should eq(:csv)
     end
 
-    it "returns :ajax if it is an AJAX request and no 'Accept' header is given" do
-      format = determine_format("X-Requested-With": "XmlHttpRequest")
-      format.should eq(:ajax)
-    end
-
-    describe "when the 'Accept' header is the default browser header, and it is not an AJAX request" do
+    describe "when the 'Accept' header is the default browser header" do
       it "returns :html if :html is an accepted format" do
         default_browser_header = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
         format = determine_format(default_format: :csv, headers: {"accept": default_browser_header}, accepted_formats: [:html, :csv])
@@ -43,7 +38,7 @@ describe Lucky::MimeType do
       end
     end
 
-    it "falls back to 'default_format' if no accept header and not AJAX" do
+    it "falls back to 'default_format' if no accept header" do
       format = determine_format(default_format: :csv)
       format.should eq(:csv)
     end
