@@ -58,11 +58,18 @@ describe Lucky::TextHelpers do
         .should eq "<div>We want to put a wrapper...</div>\n\n<div>...right there.</div>"
     end
 
-    it "simple_formats without changing the text passed" do
-      text = "<b>Ok</b><script>code!</script>"
-      text_clone = text.dup
-      view.simple_format(text)
-      text.to_s.should eq text_clone
+    it "escapes html by default" do
+      text = "<b>Ok</b>"
+
+      view.tap(&.simple_format(text)).render
+        .should eq("<p>&lt;b&gt;Ok&lt;/b&gt;</p>")
+    end
+
+    it "allows raw HTML" do
+      text = "<b>Ok</b>"
+
+      view.tap(&.simple_format(text, escape: false)).render
+        .should eq("<p><b>Ok</b></p>")
     end
 
     it "simple_formats without modifying the html options" do
