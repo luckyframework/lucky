@@ -16,7 +16,7 @@ module Lucky::HTMLTextHelpers
   # overridden to break on word boundaries by setting the separator to a space
   # `" "`. Keep in mind this, may cause your text to be truncated before your
   # `length` value if the `length` - `omission` is before the `separator`.
-  # * `escape` (default: false) weather or not to HTML escape the truncated
+  # * `escape` (default: true) weather or not to HTML escape the truncated
   # string.
   # * `blk` (default: nil) A block to run after the text has been truncated.
   # Often used to add an action to read more text, like a "Read more" link.
@@ -149,7 +149,9 @@ module Lucky::HTMLTextHelpers
   #
   # <p>baz</p>
   # ```
-  def simple_format(text : String, **html_options) : Nil
+  def simple_format(text : String, escape : Bool = true, **html_options) : Nil
+    text = escape ? HTML.escape(text) : text
+
     simple_format(text) do |formatted_text|
       para(html_options) do
         raw formatted_text
