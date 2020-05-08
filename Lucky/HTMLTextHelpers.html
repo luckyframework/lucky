@@ -844,26 +844,26 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#highlight(text:String,phrases:Array(String%7CRegex),highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrases : Array(String | Regex), highlighter : Proc | String = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>) : Nil</a>
+        <a href="#highlight(text:String,phrases:Array(String%7CRegex),highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;,escape:Bool=true):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrases : Array(String | Regex), highlighter : Proc | String = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>, escape : Bool = <span class="n">true</span>) : Nil</a>
         
           <div class="summary"><p>Wrap phrases to make them stand out</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#highlight(text:String,phrases:Array(String%7CRegex),&block:String-%3E_):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrases : Array(String | Regex), &block : String -> _) : Nil</a>
+        <a href="#highlight(text:String,phrases:Array(String%7CRegex),escape:Bool=false,&block:String-%3E_):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrases : Array(String | Regex), escape : Bool = <span class="n">false</span>, &block : String -> _) : Nil</a>
         
           <div class="summary"><p>Highlight a single phrase</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#highlight(text:String,phrase:String%7CRegex,highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrase : String | Regex, highlighter : Proc | String = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>) : Nil</a>
+        <a href="#highlight(text:String,phrase:String%7CRegex,highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;,escape:Bool=true):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrase : String | Regex, highlighter : Proc | String = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>, escape : Bool = <span class="n">true</span>) : Nil</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#highlight(text:String,phrase:String%7CRegex,&block:String-%3E_):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrase : String | Regex, &block : String -> _) : Nil</a>
+        <a href="#highlight(text:String,phrase:String%7CRegex,escape:Bool=true,&block:String-%3E_):Nil-instance-method" class="signature"><strong>#highlight</strong>(text : String, phrase : String | Regex, escape : Bool = <span class="n">true</span>, &block : String -> _) : Nil</a>
         
       </li>
     
@@ -875,14 +875,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#simple_format(text:String,**html_options):Nil-instance-method" class="signature"><strong>#simple_format</strong>(text : String, **html_options) : Nil</a>
+        <a href="#simple_format(text:String,escape:Bool=true,**html_options):Nil-instance-method" class="signature"><strong>#simple_format</strong>(text : String, escape : Bool = <span class="n">true</span>, **html_options) : Nil</a>
         
           <div class="summary"><p>Wraps text in paragraphs based on line breaks</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#truncate(text:String,length:Int32=30,omission:String=&quot;...&quot;,separator:String?=nil,escape:Bool=false,blk:Proc?=nil):Nil-instance-method" class="signature"><strong>#truncate</strong>(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String? = <span class="n">nil</span>, escape : Bool = <span class="n">false</span>, blk : Proc? = <span class="n">nil</span>) : Nil</a>
+        <a href="#truncate(text:String,length:Int32=30,omission:String=&quot;...&quot;,separator:String?=nil,escape:Bool=true,blk:Proc?=nil):Nil-instance-method" class="signature"><strong>#truncate</strong>(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String? = <span class="n">nil</span>, escape : Bool = <span class="n">true</span>, blk : Proc? = <span class="n">nil</span>) : Nil</a>
         
           <div class="summary"><p>Shortens text after a length point and inserts content afterward</p></div>
         
@@ -917,12 +917,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="highlight(text:String,phrases:Array(String|Regex),highlighter:Proc|String=&amp;quot;&amp;lt;mark&amp;gt;\\1&amp;lt;/mark&amp;gt;&amp;quot;):Nil-instance-method">
+    <div class="entry-detail" id="highlight(text:String,phrases:Array(String|Regex),highlighter:Proc|String=&amp;quot;&amp;lt;mark&amp;gt;\\1&amp;lt;/mark&amp;gt;&amp;quot;,escape:Bool=true):Nil-instance-method">
       <div class="signature">
         
-        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrases : Array(<a href="../String.html">String</a> | Regex), highlighter : Proc | <a href="../String.html">String</a> = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>) : Nil
+        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrases : Array(<a href="../String.html">String</a> | Regex), highlighter : Proc | <a href="../String.html">String</a> = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>, escape : <a href="../Bool.html">Bool</a> = <span class="n">true</span>) : Nil
 
-        <a class="method-permalink" href="#highlight(text:String,phrases:Array(String%7CRegex),highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#highlight(text:String,phrases:Array(String%7CRegex),highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;,escape:Bool=true):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -961,19 +961,19 @@ String</strong></p>
       </div>
     </div>
   
-    <div class="entry-detail" id="highlight(text:String,phrases:Array(String|Regex),&amp;block:String-&gt;_):Nil-instance-method">
+    <div class="entry-detail" id="highlight(text:String,phrases:Array(String|Regex),escape:Bool=false,&amp;block:String-&gt;_):Nil-instance-method">
       <div class="signature">
         
-        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrases : Array(<a href="../String.html">String</a> | Regex), &block : <a href="../String.html">String</a> -> _) : Nil
+        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrases : Array(<a href="../String.html">String</a> | Regex), escape : <a href="../Bool.html">Bool</a> = <span class="n">false</span>, &block : <a href="../String.html">String</a> -> _) : Nil
 
-        <a class="method-permalink" href="#highlight(text:String,phrases:Array(String%7CRegex),&block:String-%3E_):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#highlight(text:String,phrases:Array(String%7CRegex),escape:Bool=false,&block:String-%3E_):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Highlight a single phrase</p>
 
-<p>Exactly the same as the <code><a href="../Lucky/HTMLTextHelpers.html#highlight(text:String,phrases:Array(String%7CRegex),highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;):Nil-instance-method">#highlight</a></code> that takes multiple phrases, but with a
+<p>Exactly the same as the <code><a href="../Lucky/HTMLTextHelpers.html#highlight(text:String,phrases:Array(String%7CRegex),highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;,escape:Bool=true):Nil-instance-method">#highlight</a></code> that takes multiple phrases, but with a
 singular <code>phrase</code> argument for readability.</p>
 
 <pre><code></code></pre>
@@ -985,12 +985,12 @@ singular <code>phrase</code> argument for readability.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="highlight(text:String,phrase:String|Regex,highlighter:Proc|String=&amp;quot;&amp;lt;mark&amp;gt;\\1&amp;lt;/mark&amp;gt;&amp;quot;):Nil-instance-method">
+    <div class="entry-detail" id="highlight(text:String,phrase:String|Regex,highlighter:Proc|String=&amp;quot;&amp;lt;mark&amp;gt;\\1&amp;lt;/mark&amp;gt;&amp;quot;,escape:Bool=true):Nil-instance-method">
       <div class="signature">
         
-        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrase : <a href="../String.html">String</a> | Regex, highlighter : Proc | <a href="../String.html">String</a> = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>) : Nil
+        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrase : <a href="../String.html">String</a> | Regex, highlighter : Proc | <a href="../String.html">String</a> = <span class="s">&quot;&lt;mark&gt;\\1&lt;/mark&gt;&quot;</span>, escape : <a href="../Bool.html">Bool</a> = <span class="n">true</span>) : Nil
 
-        <a class="method-permalink" href="#highlight(text:String,phrase:String%7CRegex,highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#highlight(text:String,phrase:String%7CRegex,highlighter:Proc%7CString=&quot;&lt;mark&gt;%5C%5C1&lt;/mark&gt;&quot;,escape:Bool=true):Nil-instance-method">#</a>
       </div>
       
       <br/>
@@ -999,12 +999,12 @@ singular <code>phrase</code> argument for readability.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="highlight(text:String,phrase:String|Regex,&amp;block:String-&gt;_):Nil-instance-method">
+    <div class="entry-detail" id="highlight(text:String,phrase:String|Regex,escape:Bool=true,&amp;block:String-&gt;_):Nil-instance-method">
       <div class="signature">
         
-        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrase : <a href="../String.html">String</a> | Regex, &block : <a href="../String.html">String</a> -> _) : Nil
+        def <strong>highlight</strong>(text : <a href="../String.html">String</a>, phrase : <a href="../String.html">String</a> | Regex, escape : <a href="../Bool.html">Bool</a> = <span class="n">true</span>, &block : <a href="../String.html">String</a> -> _) : Nil
 
-        <a class="method-permalink" href="#highlight(text:String,phrase:String%7CRegex,&block:String-%3E_):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#highlight(text:String,phrase:String%7CRegex,escape:Bool=true,&block:String-%3E_):Nil-instance-method">#</a>
       </div>
       
       <br/>
@@ -1048,12 +1048,12 @@ baz&lt;hr></code></pre>
       </div>
     </div>
   
-    <div class="entry-detail" id="simple_format(text:String,**html_options):Nil-instance-method">
+    <div class="entry-detail" id="simple_format(text:String,escape:Bool=true,**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>simple_format</strong>(text : <a href="../String.html">String</a>, **html_options) : Nil
+        def <strong>simple_format</strong>(text : <a href="../String.html">String</a>, escape : <a href="../Bool.html">Bool</a> = <span class="n">true</span>, **html_options) : Nil
 
-        <a class="method-permalink" href="#simple_format(text:String,**html_options):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#simple_format(text:String,escape:Bool=true,**html_options):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1077,12 +1077,12 @@ baz&lt;hr></code></pre>
       </div>
     </div>
   
-    <div class="entry-detail" id="truncate(text:String,length:Int32=30,omission:String=&amp;quot;...&amp;quot;,separator:String?=nil,escape:Bool=false,blk:Proc?=nil):Nil-instance-method">
+    <div class="entry-detail" id="truncate(text:String,length:Int32=30,omission:String=&amp;quot;...&amp;quot;,separator:String?=nil,escape:Bool=true,blk:Proc?=nil):Nil-instance-method">
       <div class="signature">
         
-        def <strong>truncate</strong>(text : <a href="../String.html">String</a>, length : <a href="../Int32.html">Int32</a> = <span class="n">30</span>, omission : <a href="../String.html">String</a> = <span class="s">&quot;...&quot;</span>, separator : <a href="../String.html">String</a>? = <span class="n">nil</span>, escape : <a href="../Bool.html">Bool</a> = <span class="n">false</span>, blk : Proc? = <span class="n">nil</span>) : Nil
+        def <strong>truncate</strong>(text : <a href="../String.html">String</a>, length : <a href="../Int32.html">Int32</a> = <span class="n">30</span>, omission : <a href="../String.html">String</a> = <span class="s">&quot;...&quot;</span>, separator : <a href="../String.html">String</a>? = <span class="n">nil</span>, escape : <a href="../Bool.html">Bool</a> = <span class="n">true</span>, blk : Proc? = <span class="n">nil</span>) : Nil
 
-        <a class="method-permalink" href="#truncate(text:String,length:Int32=30,omission:String=&quot;...&quot;,separator:String?=nil,escape:Bool=false,blk:Proc?=nil):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#truncate(text:String,length:Int32=30,omission:String=&quot;...&quot;,separator:String?=nil,escape:Bool=true,blk:Proc?=nil):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1100,7 +1100,7 @@ including the <code>omission</code>.</li><li><code>omission</code> (default: <co
 truncated text.</li><li><code>separator</code> (default: nil) is where words are cut off. This is often
 overridden to break on word boundaries by setting the separator to a space
 <code>" "</code>. Keep in mind this, may cause your text to be truncated before your
-<code>length</code> value if the <code>length</code> - <code>omission</code> is before the <code>separator</code>.</li><li><code>escape</code> (default: false) weather or not to HTML escape the truncated
+<code>length</code> value if the <code>length</code> - <code>omission</code> is before the <code>separator</code>.</li><li><code>escape</code> (default: true) weather or not to HTML escape the truncated
 string.</li><li><code>blk</code> (default: nil) A block to run after the text has been truncated.
 Often used to add an action to read more text, like a "Read more" link.</li></ul>
 
