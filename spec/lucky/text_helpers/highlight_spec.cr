@@ -41,13 +41,17 @@ describe Lucky::TextHelpers do
       view(&.highlight("wow em", %w(wow em), highlighter: "<em>\\1</em>")).should eq %(<em>wow</em> <em>em</em>)
     end
 
-    it "highlights with html" do
-      view(&.highlight("<p>This is a beautiful morning, but also a beautiful day</p>", "beautiful")).should eq "<p>This is a <mark>beautiful</mark> morning, but also a <mark>beautiful</mark> day</p>"
-      view(&.highlight("<p>This is a <em>beautiful</em> morning, but also a beautiful day</p>", "beautiful")).should eq "<p>This is a <em><mark>beautiful</mark></em> morning, but also a <mark>beautiful</mark> day</p>"
-      view(&.highlight("<p>This is a <em class=\"error\">beautiful</em> morning, but also a beautiful <span class=\"last\">day</span></p>", "beautiful")).should eq "<p>This is a <em class=\"error\"><mark>beautiful</mark></em> morning, but also a <mark>beautiful</mark> <span class=\"last\">day</span></p>"
-      view(&.highlight("<p class=\"beautiful\">This is a beautiful morning, but also a beautiful day</p>", "beautiful")).should eq "<p class=\"beautiful\">This is a <mark>beautiful</mark> morning, but also a <mark>beautiful</mark> day</p>"
-      view(&.highlight("<p>This is a beautiful <a href=\"http://example.com/beautiful\#top?what=beautiful%20morning&when=now+then\">morning</a>, but also a beautiful day</p>", "beautiful")).should eq "<p>This is a <mark>beautiful</mark> <a href=\"http://example.com/beautiful\#top?what=beautiful%20morning&when=now+then\">morning</a>, but also a <mark>beautiful</mark> day</p>"
-      view(&.highlight("<div>abc div</div>", "div", highlighter: "<b>\\1</b>")).should eq "<div>abc <b>div</b></div>"
+    it "escapes HTML by default" do
+      view(&.highlight("<span>wow</span>", "wow")).should eq %(&lt;span&gt;<mark>wow</mark>&lt;/span&gt;)
+    end
+
+    it "allows unescaped HTML" do
+      view(&.highlight("<p>This is a beautiful morning, but also a beautiful day</p>", "beautiful", escape: false)).should eq "<p>This is a <mark>beautiful</mark> morning, but also a <mark>beautiful</mark> day</p>"
+      view(&.highlight("<p>This is a <em>beautiful</em> morning, but also a beautiful day</p>", "beautiful", escape: false)).should eq "<p>This is a <em><mark>beautiful</mark></em> morning, but also a <mark>beautiful</mark> day</p>"
+      view(&.highlight("<p>This is a <em class=\"error\">beautiful</em> morning, but also a beautiful <span class=\"last\">day</span></p>", "beautiful", escape: false)).should eq "<p>This is a <em class=\"error\"><mark>beautiful</mark></em> morning, but also a <mark>beautiful</mark> <span class=\"last\">day</span></p>"
+      view(&.highlight("<p class=\"beautiful\">This is a beautiful morning, but also a beautiful day</p>", "beautiful", escape: false)).should eq "<p class=\"beautiful\">This is a <mark>beautiful</mark> morning, but also a <mark>beautiful</mark> day</p>"
+      view(&.highlight("<p>This is a beautiful <a href=\"http://example.com/beautiful\#top?what=beautiful%20morning&when=now+then\">morning</a>, but also a beautiful day</p>", "beautiful", escape: false)).should eq "<p>This is a <mark>beautiful</mark> <a href=\"http://example.com/beautiful\#top?what=beautiful%20morning&when=now+then\">morning</a>, but also a <mark>beautiful</mark> day</p>"
+      view(&.highlight("<div>abc div</div>", "div", highlighter: "<b>\\1</b>", escape: false)).should eq "<div>abc <b>div</b></div>"
     end
 
     it "highlights with block" do

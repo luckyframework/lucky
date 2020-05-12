@@ -29,6 +29,16 @@ describe Lucky::TextHelpers do
         .should eq "Hello Wor..."
     end
 
+    it "escapes the text by default" do
+      view.tap(&.truncate("<span>escape me</span>", length: 12)).render
+        .should eq "&lt;span&gt;esc..."
+    end
+
+    it "allows leaving the text unescaped" do
+      view.tap(&.truncate("<span>leave me as-is</span>", length: 12, escape: false)).render
+        .should eq "<span>lea..."
+    end
+
     it "truncates with default length of 30" do
       str = "This is a string that will go longer then the default truncate length of 30"
       view.tap(&.truncate(str)).render.should eq str[0...27] + "..."

@@ -60,14 +60,34 @@ module Lucky::Redirectable
   # ```
   # Note: It's recommended to use the method above that accepts a human friendly version of the status
   def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
-    context.response.headers.add "Location", path
-    context.response.headers.add "Turbolinks-Location", path
-    context.response.status_code = status
-    Lucky::TextResponse.new(context, "", "")
+    if request.headers["X-Requested-With"]?.try(&.downcase) == "xmlhttprequest" && request.method != "GET"
+      context.response.headers.add "Location", path
+
+      # do not enable form disabled elements for XHR redirects, see https://github.com/rails/rails/pull/31441
+      context.response.headers.add "X-Xhr-Redirect", path
+
+      Lucky::TextResponse.new(context,
+        "text/javascript",
+        %[Turbolinks.clearCache();\nTurbolinks.visit(#{path.to_json}, {"action": "replace"})],
+        status: 200)
+    else
+      if request.headers["Turbolinks-Referrer"]?
+        store_turbolinks_location_in_session(path)
+      end
+      # ordinary redirect
+      context.response.headers.add "Location", path
+      context.response.status_code = status
+      Lucky::TextResponse.new(context, "", "")
+    end
   end
 
   # :nodoc:
   def redirect(to page_instead_of_action : Lucky::HTMLPage.class, **unused_args)
     {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
+  end
+
+  private def store_turbolinks_location_in_session(path : String)
+    cookies.set(:_turbolinks_location, path).http_only(true)
+    # this cookie read at Lucky::RedirectableTurbolinksSupport
   end
 end

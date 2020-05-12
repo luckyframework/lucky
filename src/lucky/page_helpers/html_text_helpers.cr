@@ -16,7 +16,7 @@ module Lucky::HTMLTextHelpers
   # overridden to break on word boundaries by setting the separator to a space
   # `" "`. Keep in mind this, may cause your text to be truncated before your
   # `length` value if the `length` - `omission` is before the `separator`.
-  # * `escape` (default: false) weather or not to HTML escape the truncated
+  # * `escape` (default: true) weather or not to HTML escape the truncated
   # string.
   # * `blk` (default: nil) A block to run after the text has been truncated.
   # Often used to add an action to read more text, like a "Read more" link.
@@ -30,7 +30,7 @@ module Lucky::HTMLTextHelpers
   # ```html
   # "Four score and se...<a href="#">Read more</a>"
   # ```
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = false, blk : Nil | Proc = nil) : Nil
+  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, blk : Nil | Proc = nil) : Nil
     content = truncate_text(text, length, omission, separator)
     raw (escape ? HTML.escape(content) : content)
     blk.call if !blk.nil? && text.size > length
@@ -70,7 +70,9 @@ module Lucky::HTMLTextHelpers
   # ```html
   # You're such a <strong>nice</strong> and <strong>attractive</strong> person.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>") : Nil
+  def highlight(text : String, phrases : Array(String | Regex), highlighter : Proc | String = "<mark>\\1</mark>", escape : Bool = true) : Nil
+    text = escape ? HTML.escape(text) : text
+
     if text.blank? || phrases.all?(&.to_s.blank?)
       raw (text || "")
     else
@@ -91,18 +93,18 @@ module Lucky::HTMLTextHelpers
   # Exactly the same as the `highlight` that takes multiple phrases, but with a
   # singular `phrase` argument for readability.
   # ```
-  def highlight(text : String, phrases : Array(String | Regex), &block : String -> _) : Nil
-    highlight(text, phrases, highlighter: block)
+  def highlight(text : String, phrases : Array(String | Regex), escape : Bool = false, &block : String -> _) : Nil
+    highlight(text, phrases, highlighter: block, escape: escape)
   end
 
-  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>") : Nil
+  def highlight(text : String, phrase : String | Regex, highlighter : Proc | String = "<mark>\\1</mark>", escape : Bool = true) : Nil
     phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: highlighter)
+    highlight(text, phrases, highlighter: highlighter, escape: escape)
   end
 
-  def highlight(text : String, phrase : String | Regex, &block : String -> _) : Nil
+  def highlight(text : String, phrase : String | Regex, escape : Bool = true, &block : String -> _) : Nil
     phrases = [phrase] of String | Regex
-    highlight(text, phrases, highlighter: block)
+    highlight(text, phrases, highlighter: block, escape: escape)
   end
 
   # Wraps text in whatever you'd like based on line breaks
@@ -149,7 +151,9 @@ module Lucky::HTMLTextHelpers
   #
   # <p>baz</p>
   # ```
-  def simple_format(text : String, **html_options) : Nil
+  def simple_format(text : String, escape : Bool = true, **html_options) : Nil
+    text = escape ? HTML.escape(text) : text
+
     simple_format(text) do |formatted_text|
       para(html_options) do
         raw formatted_text
