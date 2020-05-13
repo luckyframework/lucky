@@ -37,7 +37,7 @@ module Lucky::Memoizable
     ) : {{ method_def.return_type }}
       {{ method_def.body }}
     end
-   
+
     def {{ method_def.name }}__tuple_cached(
       {% for arg in method_def.args %}
         {{ arg.name }} : {{ arg.restriction }},
@@ -57,7 +57,7 @@ module Lucky::Memoizable
             {{arg.name}},
           {% end %}
         )
-        { 
+        {
           result,
           {% for arg in method_def.args %}
             {{arg.name}},
@@ -65,7 +65,7 @@ module Lucky::Memoizable
         }
       end.call.not_nil!
     end
-   
+
     # Returns cached value
     def {{ method_def.name }}(
       {% for arg in method_def.args %}
