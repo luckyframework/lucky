@@ -56,7 +56,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def columns_are_supported
-    @error = unsupported_columns_error("model")
+    @error = unsupported_columns_error(resource_name)
     columns_are_valid?
   end
 
