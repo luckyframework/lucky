@@ -29,7 +29,7 @@ describe "memoizations" do
     object = ObjectWithMemoizedMethods.new
 
     object.method_1.should eq "method_1"
-    2.times { object.method_1 }
+    2.times { object.method_1.should eq("method_1") }
     object.times_method_1_called.should eq 1
   end
 
@@ -37,7 +37,7 @@ describe "memoizations" do
     object = ObjectWithMemoizedMethods.new
 
     object.method_2.should be_nil
-    2.times { object.method_2 }
+    2.times { object.method_2.should be_nil }
     object.times_method_2_called.should eq 1
   end
 
@@ -45,11 +45,11 @@ describe "memoizations" do
     object = ObjectWithMemoizedMethods.new
 
     object.method_3("arg-a", "arg-b").should eq("arg-a, arg-b")
-    2.times { object.method_3("arg-a", "arg-b") }
+    2.times { object.method_3("arg-a", "arg-b").should eq("arg-a, arg-b") }
     object.times_method_3_called.should eq 1
 
     object.method_3("arg-a", "arg-c").should eq("arg-a, arg-c")
-    2.times { object.method_3("arg-a", "arg-c") }
+    2.times { object.method_3("arg-a", "arg-c").should eq("arg-a, arg-c") }
     object.times_method_3_called.should eq 2
   end
 
