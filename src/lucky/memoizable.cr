@@ -16,7 +16,8 @@ module Lucky::Memoizable
   #
   # The `memoize` method will raise a compile time exception if you forget to include
   # a return type for your method, or if any arguments are missing a type.
-  # Arguments are allowed but as soon as one changes, the previous value is no longer held on to.
+  # The result of a set of arguments is only kept until the passed arguments change.
+  # Once they change, passing previous arguments will re-run the memoized method.
   # Equality (==) is used for checking on argument updates.
   macro memoize(method_def)
     {% raise "You must define a return type for memoized methods" if method_def.return_type.is_a?(Nop) %}
