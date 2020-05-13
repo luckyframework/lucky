@@ -41,7 +41,7 @@ describe Gen::Resource::Browser do
     end
   end
 
-   describe "error messages for unsupported column types" do
+  describe "error messages for unsupported column types" do
     it "contains each unsupported type passed in the arguments" do
       with_cleanup do
         bad_int_column = "int_column:integer"
