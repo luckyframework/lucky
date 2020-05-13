@@ -51,17 +51,33 @@ describe "memoizations" do
     object.method_3("arg-a", "arg-c").should eq("arg-a, arg-c")
     9.times { object.method_3("arg-a", "arg-c") }
     object.times_method_3_called.should eq 2
+  end
 
+  it "handles default arguments" do
+    object = ObjectWithMemoizedMethods.new
+
+    object.method_3("arg-a", "default-arg-b").should eq("arg-a, default-arg-b")
+    object.method_3("arg-a", "default-arg-b").should eq("arg-a, default-arg-b")
     object.method_3("arg-a").should eq("arg-a, default-arg-b")
-    9.times { object.method_3("arg-a") }
+    object.times_method_3_called.should eq 1
+  end
+
+  it "handles calling with named arguments" do
+    object = ObjectWithMemoizedMethods.new
+
+    object.method_3("arg-a", "arg-b").should eq("arg-a, arg-b")
+    object.method_3("arg-a", arg_b: "arg-b").should eq("arg-a, arg-b")
+    object.method_3(arg_a: "arg-a", arg_b: "arg-b").should eq("arg-a, arg-b")
+    object.method_3(arg_b: "arg-b", arg_a: "arg-a").should eq("arg-a, arg-b")
+    object.times_method_3_called.should eq 1
+  end
+
+  it "does not hold on to result of previous calls" do
+    object = ObjectWithMemoizedMethods.new
+
+    object.method_3("arg-a", "arg-b").should eq("arg-a, arg-b")
+    object.method_3("arg-a", "arg-c").should eq("arg-a, arg-c")
+    object.method_3("arg-a", "arg-b").should eq("arg-a, arg-b")
     object.times_method_3_called.should eq 3
-
-    object.method_3("arg-a", arg_b: "different").should eq("arg-a, different")
-    9.times { object.method_3("arg-a", arg_b: "different") }
-    object.times_method_3_called.should eq 4
-
-    object.method_3(arg_b: "different", arg_a: "something").should eq("something, different")
-    9.times { object.method_3("something", "different") }
-    object.times_method_3_called.should eq 5
   end
 end
