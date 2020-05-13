@@ -39,6 +39,9 @@ module Lucky::Memoizable
       {{ method_def.body }}
     end
 
+    # Checks the passed arguments against the memoized args
+    # and runs the method body if it is the very first call
+    # or the arguments do not match
     def {{ method_def.name }}__tuple_cached(
       {% for arg in method_def.args %}
         {{ arg.name }} : {{ arg.restriction }},
