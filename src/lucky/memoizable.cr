@@ -15,25 +15,73 @@ module Lucky::Memoizable
   # then each subsequent call returns the user record.
   #
   # The `memoize` method will raise a compile time exception if you forget to include
-  # a return type for your method, or if your return type is a `Union`.
-  # Arguments are not allowed in memoized methods because these can change the return value.
+  # a return type for your method, or if any arguments are missing a type.
+  # The result of a set of arguments is only kept until the passed arguments change.
+  # Once they change, passing previous arguments will re-run the memoized method.
+  # Equality (==) is used for checking on argument updates.
   macro memoize(method_def)
-    {% raise "Return type of memoize method must not be a Union" if method_def.return_type.is_a?(Union) %}
-    {% raise "You must define a return type for memoize methods" if method_def.return_type.is_a?(Nop) %}
-    {% raise "Memoize methods can not be defined with arguments" if method_def.args.size > 0 %}
+    {% raise "You must define a return type for memoized methods" if method_def.return_type.is_a?(Nop) %}
+    {% raise "All arguments must have an explicit type for memoized methods" if method_def.args.any? &.is_a?(Nop) %}
 
-    @__{{ method_def.name }} : {{ method_def.return_type }}? = nil
+    @__memoized_{{method_def.name}} : Tuple(
+      {{ method_def.return_type }},
+      {% for arg in method_def.args %}
+        {{ arg.restriction }},
+      {% end %}
+    )?
 
     # Returns uncached value
-    def {{ method_def.name }}__uncached : {{ method_def.return_type }}
+    def {{ method_def.name }}__uncached(
+      {% for arg in method_def.args %}
+        {{ arg.name }} : {{ arg.restriction }},
+      {% end %}
+    ) : {{ method_def.return_type }}
       {{ method_def.body }}
     end
 
-    # Returns cached value
-    def {{ method_def.name }} : {{ method_def.return_type }}
-      @__{{ method_def.name }} ||= -> do
-        {{ method_def.name }}__uncached
+    # Checks the passed arguments against the memoized args
+    # and runs the method body if it is the very first call
+    # or the arguments do not match
+    def {{ method_def.name }}__tuple_cached(
+      {% for arg in method_def.args %}
+        {{ arg.name }} : {{ arg.restriction }},
+      {% end %}
+    ) : Tuple(
+      {{ method_def.return_type }},
+      {% for arg in method_def.args %}
+        {{ arg.restriction }},
+      {% end %}
+    )
+      {% for arg, index in method_def.args %}
+        @__memoized_{{ method_def.name }} = nil if {{arg.name}} != @__memoized_{{ method_def.name }}.try &.at({{index}} + 1)
+      {% end %}
+      @__memoized_{{ method_def.name }} ||= -> do
+        result = {{ method_def.name }}__uncached(
+          {% for arg in method_def.args %}
+            {{arg.name}},
+          {% end %}
+        )
+        {
+          result,
+          {% for arg in method_def.args %}
+            {{arg.name}},
+          {% end %}
+        }
       end.call.not_nil!
+    end
+
+    # Returns cached value
+    def {{ method_def.name }}(
+      {% for arg in method_def.args %}
+        {% has_default = arg.default_value || arg.default_value == false || arg.default_value == nil %}
+        {{ arg.name }} : {{ arg.restriction }}{% if has_default %} = {{ arg.default_value }}{% end %},
+      {% end %}
+    ) : {{ method_def.return_type }}
+      {{ method_def.name }}__tuple_cached(
+        {% for arg in method_def.args %}
+          {{arg.name}},
+        {% end %}
+      ).first
     end
   end
 end
