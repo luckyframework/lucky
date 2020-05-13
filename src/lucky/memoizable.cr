@@ -15,8 +15,9 @@ module Lucky::Memoizable
   # then each subsequent call returns the user record.
   #
   # The `memoize` method will raise a compile time exception if you forget to include
-  # a return type for your method, or if your return type is a `Union`.
-  # Arguments are not allowed in memoized methods because these can change the return value.
+  # a return type for your method, or if any arguments are missing a type.
+  # Arguments are allowed but as soon as one changes, the previous value is no longer held on to.
+  # Equality (==) is used for checking on argument updates.
   macro memoize(method_def)
     {% raise "You must define a return type for memoized methods" if method_def.return_type.is_a?(Nop) %}
     {% raise "All arguments must have an explicit type for memoized methods" if method_def.args.any? &.is_a?(Nop) %}
