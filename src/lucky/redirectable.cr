@@ -60,7 +60,7 @@ module Lucky::Redirectable
   # ```
   # Note: It's recommended to use the method above that accepts a human friendly version of the status
   def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
-    if request.headers["X-Requested-With"]?.try(&.downcase) == "xmlhttprequest" && request.method != "GET"
+    if ajax? && request.method != "GET"
       context.response.headers.add "Location", path
 
       # do not enable form disabled elements for XHR redirects, see https://github.com/rails/rails/pull/31441
