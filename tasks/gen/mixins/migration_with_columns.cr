@@ -68,7 +68,7 @@ module Gen::Mixins::MigrationWithColumns
   private def unsupported_columns_error(subject : String, generator : String = subject)
     <<-ERR
     Unable to generate model #{subject}, the following columns are using types not supported by the generator:
-    
+
       #{invalid_columns.join("\n  ")}
 
 
