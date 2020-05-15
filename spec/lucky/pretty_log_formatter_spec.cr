@@ -53,7 +53,7 @@ describe Lucky::PrettyLogFormatter do
 
   it "uses a yellow arrow for warnings and colors the first value" do
     io = IO::Memory.new
-    format(io, severity: Log::Severity::Warning, data: {first: "message", second: "message"})
+    format(io, severity: Log::Severity::Warn, data: {first: "message", second: "message"})
 
     io.to_s.chomp.should eq(" #{"▸".colorize.yellow} First #{"message".colorize.yellow.bold}. Second #{"message".colorize.bold}")
   end
