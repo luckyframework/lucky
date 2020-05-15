@@ -18,7 +18,7 @@ describe Lucky::RemoteIpHandler do
       context = build_context(request)
 
       run_remote_ip_handler(context)
-      context.request.remote_address.should eq "1.2.3.4"
+      context.request.remote_address.should eq Socket::IPAddress.new("1.2.3.4", 0)
     end
 
     it "returns nil if the X_FORWARDED_FOR is an empty string, and no default remote_address is found" do
