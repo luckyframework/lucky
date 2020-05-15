@@ -42,12 +42,8 @@ module Gen::Mixins::MigrationWithColumns
     end
   end
 
-  private def column_arguments? : Bool
-    !!ARGV[1]?
-  end
-
-  private def columns_are_valid? : Bool
-    column_definitions.all? do |column_definition|
+  private def invalid_columns : Array(String)
+    column_definitions.reject! do |column_definition|
       column_parts = parse_definition(column_definition)
       column_name = column_parts.first
       column_type = column_parts.last
@@ -57,15 +53,28 @@ module Gen::Mixins::MigrationWithColumns
     end
   end
 
+  private def column_arguments? : Bool
+    !!ARGV[1]?
+  end
+
+  private def columns_are_valid? : Bool
+    invalid_columns.empty?
+  end
+
   private def parse_definition(column_definition : String) : Array(String)
     column_definition.split(':', 2)
   end
 
   private def unsupported_columns_error(subject : String, generator : String = subject)
     <<-ERR
-    Must provide a supported column type for the #{subject}: lucky gen.#{generator || subject} #{resource_name.camelcase} name:String
+    Unable to generate model #{subject}, the following columns are using types not supported by the generator:
 
-    Other complex types can be added manually. See https://luckyframework.org/guides/database/migrations#add-column for more details.
+      #{invalid_columns.join("\n  ")}
+
+
+    The supported types are #{SUPPORTED_TYPES.join(", ")}
+
+    For more complex types that can be added to your migrations manually, see https://luckyframework.org/guides/database/migrations#add-column for more details.
     ERR
   end
 end

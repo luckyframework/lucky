@@ -50,13 +50,33 @@ describe Gen::Model do
     end
   end
 
-  it "displays an error when given a more complex type" do
-    io = IO::Memory.new
-    ARGV.push("Alphabet", "a:JSON::Any")
+  describe "error messages for unsupported column types" do
+    it "contains each unsupported type passed in the arguments" do
+      with_cleanup do
+        bad_int_column = "int_column:integer"
+        bad_text_column = "text_column:text"
+        good_string_column = "good_column:String"
+        io = IO::Memory.new
+        ARGV.push("ModelName", bad_int_column, bad_text_column, good_string_column)
 
-    Gen::Model.new.call(io)
+        Gen::Model.new.call(io)
 
-    io.to_s.should contain("Other complex types can be added manually")
+        io.to_s.should contain("Unable to generate model ModelName")
+        io.to_s.should contain("the following columns are using types not supported by the generator")
+        io.to_s.should contain(bad_int_column)
+        io.to_s.should contain(bad_text_column)
+        io.to_s.should_not contain(good_string_column)
+      end
+    end
+
+    it "displays an error when given a more complex type" do
+      io = IO::Memory.new
+      ARGV.push("Alphabet", "a:JSON::Any")
+
+      Gen::Model.new.call(io)
+
+      io.to_s.should contain("For more complex types that can be added to your migrations manually")
+    end
   end
 
   it "displays an error if given no arguments" do
