@@ -71,12 +71,11 @@ end
 
 private def format(io, data : NamedTuple?, message : String = "", severity = Log::Severity::Info, exception : Exception? = nil)
   Log.with_context do
-    Log.context.set(local: data) if data
-
     entry = Log::Entry.new \
       source: "lucky-test",
       message: message,
       severity: severity,
+      data: Log::Metadata.build(data),
       exception: exception
 
     Lucky::PrettyLogFormatter.new(
