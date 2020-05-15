@@ -33,11 +33,11 @@ describe Lucky::RemoteIpHandler do
 
     it "returns the original remote_address" do
       request = HTTP::Request.new("GET", "/remote-ip", body: "", headers: HTTP::Headers.new)
-      request.remote_address = "255.255.255.255"
+      request.remote_address = Socket::IPAddress.new("255.255.255.255", 0)
       context = build_context(request)
 
       run_remote_ip_handler(context)
-      context.request.remote_address.should eq "255.255.255.255"
+      context.request.remote_address.should eq Socket::IPAddress.new("255.255.255.255", 0)
     end
   end
 end

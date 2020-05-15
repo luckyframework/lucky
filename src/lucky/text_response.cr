@@ -1,5 +1,5 @@
 {% if !flag?(:without_zlib) %}
-  require "gzip"
+  require "compress/gzip"
 {% end %}
 
 # Writes the *content_type*, *status*, and *body* to the *context* for text responses.
@@ -35,7 +35,7 @@ class Lucky::TextResponse < Lucky::Response
 
   private def gzip
     context.response.headers["Content-Encoding"] = "gzip"
-    context.response.output = Gzip::Writer.new(context.response.output, sync_close: true)
+    context.response.output = Compress::Gzip::Writer.new(context.response.output, sync_close: true)
   end
 
   private def should_gzip?
