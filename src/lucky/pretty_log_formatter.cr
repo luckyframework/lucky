@@ -29,7 +29,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
     abstract def write : Nil
 
     def local_context
-      entry.context["local"]?.try(&.as_h) || ::Log::Context.new.as_h
+      entry.context["local"]?.try(&.as_h) || ::Log::Metadata.new.as_h
     end
 
     private def add_arrow : Void
