@@ -40,7 +40,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
       arrow = "▸"
 
       case severity.value
-      when ::Log::Severity::Warning.value
+      when ::Log::Severity::Warn.value
         arrow.colorize.yellow
       when .>= ::Log::Severity::Error.value
         arrow.colorize.red
@@ -129,7 +129,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
     end
 
     private def printing_first_value_of_warning?
-      severity.value == ::Log::Severity::Warning.value && index.zero?
+      severity.value == ::Log::Severity::Warn.value && index.zero?
     end
   end
 end
