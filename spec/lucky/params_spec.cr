@@ -134,65 +134,17 @@ describe Lucky::Params do
   end
 
   describe "get" do
-    it "parses form encoded params" do
-      request = build_request body: "page=1&foo=bar",
-        content_type: "application/x-www-form-urlencoded"
-
-      params = Lucky::Params.new(request)
-
-      params.get?(:page).should eq "1"
-      params.get?(:foo).should eq "bar"
-    end
-
-    it "parses JSON params" do
-      request = build_request body: {page: 1, foo: "bar"}.to_json,
-        content_type: "application/json"
-
-      params = Lucky::Params.new(request)
-
-      params.get?(:page).should eq "1"
-      params.get?(:foo).should eq "bar"
-    end
-
-    it "handles empty JSON body" do
-      request = build_request body: "",
-        content_type: "application/json"
-
-      params = Lucky::Params.new(request)
-
-      # Should not raise
-      params.get?(:anything)
-    end
-
-    it "handles JSON with charset directive in Content-Type header" do
-      request = build_request body: {page: 1, foo: "bar"}.to_json,
-        content_type: "application/json;charset=UTF-8"
-
-      params = Lucky::Params.new(request)
-
-      params.get?(:page).should eq "1"
-      params.get?(:foo).should eq "bar"
-    end
-
-    it "parses query params" do
+    it "strips whitespace around values" do
       request = build_request body: "", content_type: ""
-      request.query = "page=1&id=1"
+      request.query = "email= paul@luckyframework.org &name= Paul "
 
       params = Lucky::Params.new(request)
 
-      params.get?(:page).should eq "1"
-      params.get?(:id).should eq "1"
+      params.get?(:email).should eq "paul@luckyframework.org"
+      params.get?(:name).should eq "Paul"
     end
 
-    it "parses params in multipart requests" do
-      request = build_multipart_request form_parts: {"from" => "multipart"}
-
-      params = Lucky::Params.new(request)
-
-      params.get(:from).should eq "multipart"
-    end
-
-    it "raises if missing a param and using get! version" do
+    it "raises if missing a param and using get version" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 
       params = Lucky::Params.new(request)
@@ -202,12 +154,101 @@ describe Lucky::Params do
       end
     end
 
-    it "returns nil if using get version" do
+    it "returns nil if using get? version" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 
       params = Lucky::Params.new(request)
 
       params.get?(:missing).should be_nil
+    end
+  end
+
+  describe "get_raw" do
+    it "parses form encoded params" do
+      request = build_request body: "page=1&foo=bar",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:page).should eq "1"
+      params.get_raw?(:foo).should eq "bar"
+    end
+
+    it "parses JSON params" do
+      request = build_request body: {page: 1, foo: "bar"}.to_json,
+        content_type: "application/json"
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:page).should eq "1"
+      params.get_raw?(:foo).should eq "bar"
+    end
+
+    it "handles empty JSON body" do
+      request = build_request body: "",
+        content_type: "application/json"
+
+      params = Lucky::Params.new(request)
+
+      # Should not raise
+      params.get_raw?(:anything)
+    end
+
+    it "handles JSON with charset directive in Content-Type header" do
+      request = build_request body: {page: 1, foo: "bar"}.to_json,
+        content_type: "application/json;charset=UTF-8"
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:page).should eq "1"
+      params.get_raw?(:foo).should eq "bar"
+    end
+
+    it "parses query params" do
+      request = build_request body: "", content_type: ""
+      request.query = "page=1&id=1"
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:page).should eq "1"
+      params.get_raw?(:id).should eq "1"
+    end
+
+    it "parses params in multipart requests" do
+      request = build_multipart_request form_parts: {"from" => "multipart"}
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw(:from).should eq "multipart"
+    end
+
+    it "raises if missing a param and using get_raw version" do
+      request = build_request body: "", content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      expect_raises Lucky::MissingParamError do
+        params.get_raw(:missing)
+      end
+    end
+
+    it "returns nil if using get_raw? version" do
+      request = build_request body: "", content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:missing).should be_nil
+    end
+
+    it "does not strip whitespace around values" do
+      request = build_request body: "", content_type: ""
+      request.query = "email= paul@luckyframework.org  &name= Paul &age=28 "
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:email).should eq " paul@luckyframework.org  "
+      params.get_raw?(:name).should eq " Paul "
+      params.get_raw?(:age).should eq "28 "
     end
   end
 
