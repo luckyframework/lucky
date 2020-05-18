@@ -29,7 +29,11 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
     abstract def write : Nil
 
     def local_context
-      entry.data.as_h
+      res = Hash(String, ::Log::Metadata::Value).new
+      entry.data.each do |key, value|
+        res[key.to_s] = value
+      end
+      res
     end
 
     private def add_arrow : Void
