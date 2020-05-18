@@ -97,25 +97,54 @@ class Lucky::Params
     parse_multipart_request
   end
 
-  # Retrieve a value from the params hash, raise if key is absent
+  # Retrieve a trimmed value from the params hash, raise if key is absent
   #
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
-  # params.get("page")    # 1 : String
+  # params.get("name")    # "Paul" : String
+  # params.get("page")    # "1" : String
   # params.get("missing") # Missing parameter: missing
   # ```
   def get(key) : String
-    get?(key) || raise Lucky::MissingParamError.new(key.to_s)
+    get_raw(key).strip
   end
 
-  # Retrieve a value from the params hash, return nil if key is absent
+  # Retrieve a trimmed value from the params hash, return nil if key is absent
   #
   # ```crystal
   # params.get?("missing") # nil : (String | Nil)
-  # params.get?("page")    # 1 : (String | Nil)
+  # params.get?("page")    # "1" : (String | Nil)
+  # params.get?("name")    # "Paul" : (String | Nil)
   # ```
   def get?(key : String | Symbol) : String?
+    if value = get_raw?(key)
+      value.strip
+    end
+  end
+
+  # Retrieve a raw, untrimmed value from the params hash, raise if key is absent
+  #
+  # If no key is found a `Lucky::MissingParamError` will be raised:
+  #
+  # ```crystal
+  # params.get_raw("name")    # " Paul " : String
+  # params.get_raw("page")    # "1" : String
+  # params.get_raw("missing") # Missing parameter: missing
+  # ```
+  def get_raw(key) : String
+    get_raw?(key) || raise Lucky::MissingParamError.new(key.to_s)
+  end
+
+  # Retrieve a raw, untrimmed value from the params hash, return nil if key is
+  # absent
+  #
+  # ```crystal
+  # params.get_raw?("missing") # nil : (String | Nil)
+  # params.get_raw?("page")    # "1" : (String | Nil)
+  # params.get_raw?("name")    # " Paul " : (String | Nil)
+  # ```
+  def get_raw?(key : String | Symbol) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
