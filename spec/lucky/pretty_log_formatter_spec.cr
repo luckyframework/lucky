@@ -75,7 +75,7 @@ private def format(io, data : NamedTuple?, message : String = "", severity = Log
       source: "lucky-test",
       message: message,
       severity: severity,
-      data: Log::Metadata.build(data),
+      data: Log::Metadata.build(data || Log::Metadata.empty),
       exception: exception
 
     Lucky::PrettyLogFormatter.new(
