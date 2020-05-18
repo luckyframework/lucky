@@ -907,14 +907,14 @@
       <li class="entry-summary">
         <a href="#get(key):String-instance-method" class="signature"><strong>#get</strong>(key) : String</a>
         
-          <div class="summary"><p>Retrieve a value from the params hash, raise if key is absent</p></div>
+          <div class="summary"><p>Retrieve a trimmed value from the params hash, raise if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#get?(key:String%7CSymbol):String?-instance-method" class="signature"><strong>#get?</strong>(key : String | Symbol) : String?</a>
         
-          <div class="summary"><p>Retrieve a value from the params hash, return nil if key is absent</p></div>
+          <div class="summary"><p>Retrieve a trimmed value from the params hash, return nil if key is absent</p></div>
         
       </li>
     
@@ -929,6 +929,20 @@
         <a href="#get_file?(key:String%7CSymbol):Lucky::UploadedFile?-instance-method" class="signature"><strong>#get_file?</strong>(key : String | Symbol) : Lucky::UploadedFile?</a>
         
           <div class="summary"><p>Retrieve a file from the params hash, return nil if key is absent</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_raw(key):String-instance-method" class="signature"><strong>#get_raw</strong>(key) : String</a>
+        
+          <div class="summary"><p>Retrieve a raw, untrimmed value from the params hash, raise if key is absent</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_raw?(key:String%7CSymbol):String?-instance-method" class="signature"><strong>#get_raw?</strong>(key : String | Symbol) : String?</a>
+        
+          <div class="summary"><p>Retrieve a raw, untrimmed value from the params hash, return nil if key is absent</p></div>
         
       </li>
     
@@ -1269,11 +1283,12 @@ access to the query params this is the way to get them.</p>
       
         <div class="doc">
           
-          <p>Retrieve a value from the params hash, raise if key is absent</p>
+          <p>Retrieve a trimmed value from the params hash, raise if key is absent</p>
 
 <p>If no key is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
 
-<pre><code class="language-crystal">params.get(<span class="s">&quot;page&quot;</span>)    <span class="c"># 1 : String</span>
+<pre><code class="language-crystal">params.get(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot;Paul&quot; : String</span>
+params.get(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : String</span>
 params.get(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
         </div>
       
@@ -1293,10 +1308,11 @@ params.get(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing
       
         <div class="doc">
           
-          <p>Retrieve a value from the params hash, return nil if key is absent</p>
+          <p>Retrieve a trimmed value from the params hash, return nil if key is absent</p>
 
 <pre><code class="language-crystal">params.get?(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil : (String | Nil)</span>
-params.get?(<span class="s">&quot;page&quot;</span>)    <span class="c"># 1 : (String | Nil)</span></code></pre>
+params.get?(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : (String | Nil)</span>
+params.get?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot;Paul&quot; : (String | Nil)</span></code></pre>
         </div>
       
       <br/>
@@ -1351,6 +1367,55 @@ file <span class="o">=</span> params.get_file?(<span class="s">&quot;avatar_file
 file.not_nil!.name                     <span class="c"># avatar.png</span>
 file.not_nil!.metadata                 <span class="c"># HTTP::FormData::FileMetadata</span>
 file.not_nil!.tempfile.read            <span class="c"># Get the file contents</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_raw(key):String-instance-method">
+      <div class="signature">
+        
+        def <strong>get_raw</strong>(key) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#get_raw(key):String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Retrieve a raw, untrimmed value from the params hash, raise if key is absent</p>
+
+<p>If no key is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
+
+<pre><code class="language-crystal">params.get_raw(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot; Paul &quot; : String</span>
+params.get_raw(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : String</span>
+params.get_raw(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_raw?(key:String|Symbol):String?-instance-method">
+      <div class="signature">
+        
+        def <strong>get_raw?</strong>(key : <a href="../String.html">String</a> | Symbol) : <a href="../String.html">String</a>?
+
+        <a class="method-permalink" href="#get_raw?(key:String%7CSymbol):String?-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Retrieve a raw, untrimmed value from the params hash, return nil if key is
+absent</p>
+
+<pre><code class="language-crystal">params.get_raw?(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil : (String | Nil)</span>
+params.get_raw?(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : (String | Nil)</span>
+params.get_raw?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot; Paul &quot; : (String | Nil)</span></code></pre>
         </div>
       
       <br/>
