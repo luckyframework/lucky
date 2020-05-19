@@ -157,7 +157,7 @@ module Lucky
     end
 
     def message : String
-      "Missing parameter: '#{param_name}''"
+      "Missing parameter: '#{param_name}'"
     end
 
     def renderable_status : Int32
