@@ -8,6 +8,7 @@ module Lucky::MountComponent
   # ```
   # mount MyComponent.new
   # ```
+  @[Deprecated("Use `#m` instead. Example: m(MyComponent, arg1: 123)")]
   def mount(component : Lucky::BaseComponent) : Nil
     print_component_comment(component) do
       component.view(view).render
@@ -26,6 +27,7 @@ module Lucky::MountComponent
   #   text name.upcase
   # end
   # ```
+  @[Deprecated("Use `#m` instead. Example: m(MyComponent, arg1: 123) do/end")]
   def mount(component : Lucky::BaseComponent) : Nil
     print_component_comment(component) do
       component.view(view).render do |*yield_args|
