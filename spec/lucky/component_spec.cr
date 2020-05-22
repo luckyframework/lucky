@@ -14,7 +14,7 @@ private class ComplexTestComponent < Lucky::BaseComponent
   def render
     text @title
     img src: asset("images/logo.png")
-    mount TestComponent.new
+    m(TestComponent)
   end
 end
 
@@ -36,11 +36,11 @@ private class TestMountPage
   include Lucky::HTMLPage
 
   def render
-    mount ComplexTestComponent.new(title: "passed_in_title")
-    mount ComponentWithBlockAndNoBlockArgs.new do
+    m(ComplexTestComponent, title: "passed_in_title")
+    m(ComponentWithBlockAndNoBlockArgs) do
       text "Block without args"
     end
-    mount ComponentWithBlock.new("jane") do |name|
+    m(ComponentWithBlock, "Jane") do |name|
       text name.upcase
     end
     view

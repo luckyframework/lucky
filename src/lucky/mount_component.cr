@@ -10,7 +10,7 @@ module Lucky::MountComponent
   # ```
   @[Deprecated("Use `#m` instead. Example: m(MyComponent, arg1: 123)")]
   def mount(component : Lucky::BaseComponent) : Nil
-    print_component_comment(component) do
+    print_component_comment(component.class) do
       component.view(view).render
     end
   end
@@ -29,18 +29,54 @@ module Lucky::MountComponent
   # ```
   @[Deprecated("Use `#m` instead. Example: m(MyComponent, arg1: 123) do/end")]
   def mount(component : Lucky::BaseComponent) : Nil
-    print_component_comment(component) do
+    print_component_comment(component.class) do
       component.view(view).render do |*yield_args|
         yield *yield_args
       end
     end
   end
 
-  private def print_component_comment(component : Lucky::BaseComponent) : Nil
+  # Appends the `component` to the view.
+  #
+  # When `Lucky::HTMLPage.settings.render_component_comments` is
+  # set to `true`, it will render HTML comments showing where the component
+  # starts and ends.
+  #
+  # ```
+  # m(MyComponent)
+  # m(MyComponent, with_args: 123)
+  # ```
+  def m(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
+    print_component_comment(component) do
+      component.new(*args, **named_args).view(view).render
+    end
+  end
+
+  # Appends the `component` to the view. Takes a block, and yields the
+  # args passed to the component.
+  #
+  # When `Lucky::HTMLPage.settings.render_component_comments` is
+  # set to `true`, it will render HTML comments showing where the component
+  # starts and ends.
+  #
+  # ```
+  # m(MyComponent, name: "Jane") do |name|
+  #   text name.upcase
+  # end
+  # ```
+  def m(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
+    print_component_comment(component) do
+      component.new(*args, **named_args).view(view).render do |*yield_args|
+        yield *yield_args
+      end
+    end
+  end
+
+  private def print_component_comment(component : Lucky::BaseComponent.class) : Nil
     if Lucky::HTMLPage.settings.render_component_comments
-      raw "<!-- BEGIN: #{component.class.name} #{component.class.file_location} -->"
+      raw "<!-- BEGIN: #{component.name} #{component.file_location} -->"
       yield
-      raw "<!-- END: #{component.class.name} -->"
+      raw "<!-- END: #{component.name} -->"
     else
       yield
     end
