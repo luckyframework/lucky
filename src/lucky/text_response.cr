@@ -20,6 +20,7 @@ class Lucky::TextResponse < Lucky::Response
   end
 
   def print : Nil
+    write_session
     write_cookies
     context.response.content_type = content_type
     context.response.status_code = status
@@ -44,12 +45,14 @@ class Lucky::TextResponse < Lucky::Response
     {% end %}
   end
 
-  private def write_cookies : Void
+  private def write_session : Void
     context.cookies.set(
       Lucky::Session.settings.key,
       context.session.to_json
     )
+  end
 
+  private def write_cookies : Void
     response = context.response
 
     context.cookies.updated.each do |cookie|
