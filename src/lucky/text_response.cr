@@ -20,6 +20,7 @@ class Lucky::TextResponse < Lucky::Response
   end
 
   def print : Nil
+    write_cookies
     context.response.content_type = content_type
     context.response.status_code = status
     gzip if should_gzip?
@@ -41,5 +42,20 @@ class Lucky::TextResponse < Lucky::Response
         context.request.headers.includes_word?("Accept-Encoding", "gzip") &&
         Lucky::Server.settings.gzip_content_types.includes?(content_type)
     {% end %}
+  end
+
+  private def write_cookies : Void
+    context.cookies.set(
+      Lucky::Session.settings.key,
+      context.session.to_json
+    )
+
+    response = context.response
+
+    context.cookies.updated.each do |cookie|
+      response.cookies[cookie.name] = cookie
+    end
+
+    response.cookies.add_response_headers(response.headers)
   end
 end

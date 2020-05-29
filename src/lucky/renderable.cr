@@ -179,7 +179,9 @@ module Lucky::Renderable
     file(path, content_type, disposition, filename, status.value)
   end
 
-  def send_text_response(body : String, content_type : String, status : Int32? = nil) : Lucky::TextResponse
+  def send_text_response(body : String,
+                         content_type : String,
+                         status : Int32? = 100) : Lucky::TextResponse
     Lucky::TextResponse.new(context, content_type, body, status: status)
   end
 
@@ -196,7 +198,7 @@ module Lucky::Renderable
     {% raise "'text' in actions has been renamed to 'plain_text'" %}
   end
 
-  @[Deprecated("`render_text deprecated. Use `plain_text` instead")]
+  @[Deprecated("`render_text` deprecated. Use `plain_text` instead")]
   private def render_text(*args, **named_args) : Lucky::TextResponse
     plain_text(*args, **named_args)
   end
