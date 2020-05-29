@@ -4,6 +4,47 @@ include ContextHelper
 
 describe Lucky::TextResponse do
   describe "#print" do
+    context "flash" do
+      it "writes the flash to the session" do
+        context = build_context
+        context.flash.success = "Yay!"
+        flash_json = {success: "Yay!"}.to_json
+
+        print_response_with_body(context)
+
+        context.session.get(Lucky::FlashStore::SESSION_KEY).should eq(flash_json)
+      end
+
+      it "only keeps the flash for one request" do
+        context1 = build_context
+        now_json = {success: "Yay!"}.to_json
+        context1.session.set(Lucky::FlashStore::SESSION_KEY, now_json)
+        next_json = context1.flash.to_json
+
+        context1.flash.success.should eq("Yay!")
+
+        print_response_with_body(context1)
+
+        context2 = build_context
+        context2.session.set(Lucky::FlashStore::SESSION_KEY, next_json)
+
+        context2.flash.success.should eq("")
+      end
+
+      it "keeps the flash for the next request" do
+        context1 = build_context
+        context1.flash.success = "Yay!"
+        next_json = context1.flash.to_json
+
+        print_response_with_body(context1)
+
+        context2 = build_context
+        context2.session.set(Lucky::FlashStore::SESSION_KEY, next_json)
+
+        context2.flash.success.should eq("Yay!")
+      end
+    end
+
     context "cookies" do
       it "sets a cookie" do
         context = build_context
@@ -18,6 +59,7 @@ describe Lucky::TextResponse do
       it "persist cookies across multiple requests using response headers from Lucky and request headers from the browser" do
         context_1 = build_context
         context_1.cookies.set(:email, "test@example.com")
+
         print_response_with_body(context_1)
 
         browser_request = build_request
