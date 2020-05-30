@@ -19,7 +19,7 @@ class Lucky::Session
   end
 
   def destroy
-    {% raise "CookieJar#destroy has been renamed to CookieJar#clear to match Hash#clear" %}
+    {% raise "Session#destroy has been renamed to Session#clear to match Hash#clear" %}
   end
 
   def reset
