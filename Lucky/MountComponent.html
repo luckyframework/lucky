@@ -833,16 +833,38 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#mount(component:Lucky::BaseComponent):Nil-instance-method" class="signature"><strong>#mount</strong>(component : Lucky::BaseComponent) : Nil</a>
+        <a href="#m(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method" class="signature"><strong>#m</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args) : Nil</a>
         
           <div class="summary"><p>Appends the <code>component</code> to the view.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#mount(component:Lucky::BaseComponent,&):Nil-instance-method" class="signature"><strong>#mount</strong>(component : Lucky::BaseComponent, &) : Nil</a>
+        <a href="#m(component:Lucky::BaseComponent.class,*args,**named_args,&):Nil-instance-method" class="signature"><strong>#m</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args, &) : Nil</a>
         
           <div class="summary"><p>Appends the <code>component</code> to the view.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#mount(component:Lucky::BaseComponent):Nil-instance-method" class="signature"><strong>#mount</strong>(component : Lucky::BaseComponent) : Nil</a>
+        
+          <div class="summary"><p>Appends the <code>component</code> to the view.</p>
+
+<p><span class="flag red">DEPRECATED</span>  Use <code><a href="../Lucky/MountComponent.html#m(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">#m</a></code> instead. Example: m(MyComponent, arg1: 123)</p>
+
+</div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#mount(component:Lucky::BaseComponent,&):Nil-instance-method" class="signature"><strong>#mount</strong>(component : Lucky::BaseComponent, &) : Nil</a>
+        
+          <div class="summary"><p>Appends the <code>component</code> to the view.</p>
+
+<p><span class="flag red">DEPRECATED</span>  Use <code><a href="../Lucky/MountComponent.html#m(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">#m</a></code> instead. Example: m(MyComponent, arg1: 123) do/end</p>
+
+</div>
         
       </li>
     
@@ -870,6 +892,60 @@
     Instance Method Detail
   </h2>
   
+    <div class="entry-detail" id="m(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>m</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args) : Nil
+
+        <a class="method-permalink" href="#m(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Appends the <code>component</code> to the view.</p>
+
+<p>When <code><a href="../Lucky/HTMLPage.html#settings-class-method">Lucky::HTMLPage.settings</a>.render_component_comments</code> is
+set to <code>true</code>, it will render HTML comments showing where the component
+starts and ends.</p>
+
+<pre><code>m(<span class="t">MyComponent</span>)
+m(<span class="t">MyComponent</span>, with_args: <span class="n">123</span>)</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="m(component:Lucky::BaseComponent.class,*args,**named_args,&amp;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>m</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args, &) : Nil
+
+        <a class="method-permalink" href="#m(component:Lucky::BaseComponent.class,*args,**named_args,&):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Appends the <code>component</code> to the view. Takes a block, and yields the
+args passed to the component.</p>
+
+<p>When <code><a href="../Lucky/HTMLPage.html#settings-class-method">Lucky::HTMLPage.settings</a>.render_component_comments</code> is
+set to <code>true</code>, it will render HTML comments showing where the component
+starts and ends.</p>
+
+<pre><code>m(<span class="t">MyComponent</span>, name: <span class="s">&quot;Jane&quot;</span>) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
+  text name.upcase
+<span class="k">end</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="mount(component:Lucky::BaseComponent):Nil-instance-method">
       <div class="signature">
         
@@ -887,6 +963,10 @@ set to <code>true</code>, it will render HTML comments showing where the compone
 starts and ends.</p>
 
 <pre><code>mount <span class="t">MyComponent</span>.<span class="k">new</span></code></pre>
+
+<p><span class="flag red">DEPRECATED</span>  Use <code><a href="../Lucky/MountComponent.html#m(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">#m</a></code> instead. Example: m(MyComponent, arg1: 123)</p>
+
+
         </div>
       
       <br/>
@@ -915,6 +995,10 @@ starts and ends.</p>
 <pre><code>mount <span class="t">MyComponent</span>.<span class="k">new</span>(<span class="s">&quot;jane&quot;</span>) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
   text name.upcase
 <span class="k">end</span></code></pre>
+
+<p><span class="flag red">DEPRECATED</span>  Use <code><a href="../Lucky/MountComponent.html#m(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">#m</a></code> instead. Example: m(MyComponent, arg1: 123) do/end</p>
+
+
         </div>
       
       <br/>
