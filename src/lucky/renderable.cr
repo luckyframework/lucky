@@ -163,25 +163,31 @@ module Lucky::Renderable
     end
   end
 
-  def file(path : String,
-           content_type : String? = nil,
-           disposition : String = "attachment",
-           filename : String? = nil,
-           status : Int32? = nil) : Lucky::FileResponse
+  def file(
+    path : String,
+    content_type : String? = nil,
+    disposition : String = "attachment",
+    filename : String? = nil,
+    status : Int32? = nil
+  ) : Lucky::FileResponse
     Lucky::FileResponse.new(context, path, content_type, disposition, filename, status)
   end
 
-  def file(path : String,
-           content_type : String? = nil,
-           disposition : String = "attachment",
-           filename : String? = nil,
-           status : HTTP::Status = HTTP::Status::OK) : Lucky::FileResponse
+  def file(
+    path : String,
+    content_type : String? = nil,
+    disposition : String = "attachment",
+    filename : String? = nil,
+    status : HTTP::Status = HTTP::Status::OK
+  ) : Lucky::FileResponse
     file(path, content_type, disposition, filename, status.value)
   end
 
-  def send_text_response(body : String,
-                         content_type : String,
-                         status : Int32? = 100) : Lucky::TextResponse
+  def send_text_response(
+    body : String,
+    content_type : String,
+    status : Int32? = 100
+  ) : Lucky::TextResponse
     Lucky::TextResponse.new(context, content_type, body, status: status)
   end
 
