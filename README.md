@@ -174,10 +174,10 @@ You need to make sure to install the Crystal dependencies.
 
 ### Lucky to have you!
 
-We love all of the community members that have put in hard work helping to make Lucky better.
+We love all of the community members that have put in hard work to make Lucky better.
 If you're one of those people, we want to give you a t-shirt!
 
-Shirts are given to community members that have put in a ton of effort and contributions in to Lucky. 
+To get a shirt, we ask that you have made a significant contribution to Lucky.
 This includes things like submitting PRs with bug fixes and feature implementations, helping other members
 work through problems, and deploying real world applications using Lucky!
 
