@@ -22,6 +22,10 @@ class Lucky::FlashStore
     raise Lucky::InvalidFlashJSONError.new(session.get?(SESSION_KEY))
   end
 
+  def recycle : Void
+    @next = @now
+  end
+
   private def all : Hash(String, String)
     @now.merge(@next)
   end

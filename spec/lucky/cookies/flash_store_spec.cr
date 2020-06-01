@@ -47,6 +47,18 @@ describe Lucky::FlashStore do
     flash_store.success?.should be_nil
   end
 
+  describe "#recycle" do
+    it "carries messages for @now over to @next" do
+      next_hash = {} of String => String
+      now_hash = {"name" => "Paul"}
+      flash_store = build_flash_store(now: now_hash, next: next_hash)
+
+      flash_store.recycle.should be_nil
+      next_flash = JSON.parse(flash_store.to_json).as_h
+      next_flash["name"]?.should eq("Paul")
+    end
+  end
+
   describe "#each" do
     it "returns the list of key/value pairs" do
       flash_store = build_flash_store(next: {
