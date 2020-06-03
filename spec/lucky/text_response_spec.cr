@@ -16,32 +16,32 @@ describe Lucky::TextResponse do
       end
 
       it "only keeps the flash for one request" do
-        context1 = build_context
+        context_1 = build_context
         now_json = {success: "Yay!"}.to_json
-        context1.session.set(Lucky::FlashStore::SESSION_KEY, now_json)
-        next_json = context1.flash.to_json
+        context_1.session.set(Lucky::FlashStore::SESSION_KEY, now_json)
+        next_json = context_1.flash.to_json
 
-        context1.flash.success.should eq("Yay!")
+        context_1.flash.success.should eq("Yay!")
 
-        print_response_with_body(context1)
+        print_response_with_body(context_1)
 
-        context2 = build_context
-        context2.session.set(Lucky::FlashStore::SESSION_KEY, next_json)
+        context_2 = build_context
+        context_2.session.set(Lucky::FlashStore::SESSION_KEY, next_json)
 
-        context2.flash.success.should eq("")
+        context_2.flash.success.should eq("")
       end
 
       it "keeps the flash for the next request" do
-        context1 = build_context
-        context1.flash.success = "Yay!"
-        next_json = context1.flash.to_json
+        context_1 = build_context
+        context_1.flash.success = "Yay!"
+        next_json = context_1.flash.to_json
 
-        print_response_with_body(context1)
+        print_response_with_body(context_1)
 
-        context2 = build_context
-        context2.session.set(Lucky::FlashStore::SESSION_KEY, next_json)
+        context_2 = build_context
+        context_2.session.set(Lucky::FlashStore::SESSION_KEY, next_json)
 
-        context2.flash.success.should eq("Yay!")
+        context_2.flash.success.should eq("Yay!")
       end
     end
 

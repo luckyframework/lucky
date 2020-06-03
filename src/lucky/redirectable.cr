@@ -60,7 +60,9 @@ module Lucky::Redirectable
   # ```
   # Note: It's recommended to use the method above that accepts a human friendly version of the status
   def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
-    flash.recycle
+    # flash messages are not consumed here, so keep them for the next action
+    flash.keep
+
     if ajax? && request.method != "GET"
       context.response.headers.add "Location", path
 
