@@ -24,6 +24,46 @@
 # method that takes a `String`. However, it's recommended you pass a
 # `Lucky::Action` class if possible because it guarantees runtime safety.
 module Lucky::Redirectable
+  # Redirect back with a `Lucky::Action` fallback
+  #
+  # ```crystal
+  # redirect_back fallback: Users::Index
+  # ```
+  def redirect_back(fallback : Lucky::Action.class, status = 302)
+    redirect_back fallback.route, status
+  end
+
+  # Redirect back with a `Lucky::RouteHelper` fallback
+  #
+  # ```crystal
+  # redirect_back fallback: Users::Show.with(user.id)
+  # ```
+  def redirect_back(fallback : Lucky::RouteHelper, status = 302)
+    redirect_back fallback.path, status
+  end
+
+  # Redirects the browser to the page that issued the request (the referrer)
+  # if possible, otherwise redirects to the provided default fallback
+  # location.
+  #
+  # The referrer information is pulled from the 'Referer' header on
+  # the request. This is an optional header, and if the request
+  # is missing this header the *fallback* will be used.
+  #
+  # ```crystal
+  # redirect_back fallback: "/users"
+  # ```
+  #
+  # A redirect status can be specified
+  #
+  # ```crystal
+  # redirect_back fallback: "/home", status: 301
+  # ```
+  def redirect_back(fallback : String, status = 302)
+    referer = request.headers["Referer"]?
+    redirect to: (referer || fallback), status: status
+  end
+
   # Redirect using a `Lucky::RouteHelper`
   #
   # ```crystal
