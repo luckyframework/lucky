@@ -1,5 +1,8 @@
 [![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)](http://luckyframework.org)
 
+![Deploy docs](https://github.com/luckyframework/lucky/workflows/Deploy%20docs/badge.svg)
+![Lucky CI](https://github.com/luckyframework/lucky/workflows/Lucky%20CI/badge.svg)
+
 The goal: prevent bugs, forget about most performance issues, and spend more
 time on code instead of debugging and fixing tests.
 
