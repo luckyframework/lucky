@@ -848,7 +848,7 @@
       
     
       <dt class="entry-const" id="TAGS">
-        <strong>TAGS</strong> = <code>[<span class="n">:a</span>, <span class="n">:abbr</span>, <span class="n">:address</span>, <span class="n">:article</span>, <span class="n">:aside</span>, <span class="n">:b</span>, <span class="n">:bdi</span>, <span class="n">:body</span>, <span class="n">:button</span>, <span class="n">:code</span>, <span class="n">:details</span>, <span class="n">:dialog</span>, <span class="n">:div</span>, <span class="n">:dd</span>, <span class="n">:dl</span>, <span class="n">:dt</span>, <span class="n">:em</span>, <span class="n">:fieldset</span>, <span class="n">:figcaption</span>, <span class="n">:figure</span>, <span class="n">:footer</span>, <span class="n">:form</span>, <span class="n">:h1</span>, <span class="n">:h2</span>, <span class="n">:h3</span>, <span class="n">:h4</span>, <span class="n">:h5</span>, <span class="n">:h6</span>, <span class="n">:head</span>, <span class="n">:header</span>, <span class="n">:html</span>, <span class="n">:i</span>, <span class="n">:iframe</span>, <span class="n">:label</span>, <span class="n">:li</span>, <span class="n">:main</span>, <span class="n">:mark</span>, <span class="n">:menuitem</span>, <span class="n">:meter</span>, <span class="n">:nav</span>, <span class="n">:ol</span>, <span class="n">:option</span>, <span class="n">:pre</span>, <span class="n">:progress</span>, <span class="n">:rp</span>, <span class="n">:rt</span>, <span class="n">:ruby</span>, <span class="n">:s</span>, <span class="n">:script</span>, <span class="n">:section</span>, <span class="n">:small</span>, <span class="n">:span</span>, <span class="n">:strong</span>, <span class="n">:summary</span>, <span class="n">:table</span>, <span class="n">:template</span>, <span class="n">:tbody</span>, <span class="n">:td</span>, <span class="n">:textarea</span>, <span class="n">:th</span>, <span class="n">:thead</span>, <span class="n">:time</span>, <span class="n">:title</span>, <span class="n">:tr</span>, <span class="n">:u</span>, <span class="n">:ul</span>, <span class="n">:video</span>, <span class="n">:wbr</span>] <span class="k">of</span> <span class="t">::</span><span class="t">Symbol</span></code>
+        <strong>TAGS</strong> = <code>[<span class="n">:a</span>, <span class="n">:abbr</span>, <span class="n">:address</span>, <span class="n">:article</span>, <span class="n">:aside</span>, <span class="n">:b</span>, <span class="n">:bdi</span>, <span class="n">:body</span>, <span class="n">:button</span>, <span class="n">:code</span>, <span class="n">:details</span>, <span class="n">:dialog</span>, <span class="n">:div</span>, <span class="n">:dd</span>, <span class="n">:dl</span>, <span class="n">:dt</span>, <span class="n">:em</span>, <span class="n">:fieldset</span>, <span class="n">:figcaption</span>, <span class="n">:figure</span>, <span class="n">:footer</span>, <span class="n">:form</span>, <span class="n">:h1</span>, <span class="n">:h2</span>, <span class="n">:h3</span>, <span class="n">:h4</span>, <span class="n">:h5</span>, <span class="n">:h6</span>, <span class="n">:head</span>, <span class="n">:header</span>, <span class="n">:html</span>, <span class="n">:i</span>, <span class="n">:iframe</span>, <span class="n">:label</span>, <span class="n">:li</span>, <span class="n">:main</span>, <span class="n">:mark</span>, <span class="n">:menuitem</span>, <span class="n">:meter</span>, <span class="n">:nav</span>, <span class="n">:ol</span>, <span class="n">:option</span>, <span class="n">:pre</span>, <span class="n">:progress</span>, <span class="n">:rp</span>, <span class="n">:rt</span>, <span class="n">:ruby</span>, <span class="n">:s</span>, <span class="n">:script</span>, <span class="n">:section</span>, <span class="n">:small</span>, <span class="n">:span</span>, <span class="n">:strong</span>, <span class="n">:summary</span>, <span class="n">:table</span>, <span class="n">:tbody</span>, <span class="n">:td</span>, <span class="n">:template</span>, <span class="n">:textarea</span>, <span class="n">:th</span>, <span class="n">:thead</span>, <span class="n">:time</span>, <span class="n">:title</span>, <span class="n">:tr</span>, <span class="n">:u</span>, <span class="n">:ul</span>, <span class="n">:video</span>, <span class="n">:wbr</span>] <span class="k">of</span> <span class="t">::</span><span class="t">Symbol</span></code>
       </dt>
       
     
@@ -2194,11 +2194,6 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#table(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#table</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#table(content:Lucky::AllowedInTags%7CString=&quot;&quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method" class="signature"><strong>#table</strong>(content : Lucky::AllowedInTags | String = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil</a>
         
           <div class="summary"><p>Generates a <code>&lt;table&gt;&lt;/table&gt;</code> tag.</p></div>
@@ -2216,6 +2211,16 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#table(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#table</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tbody(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#tbody</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#tbody(attrs:Array(Symbol),options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#tbody</strong>(attrs : Array(Symbol), options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
         
       </li>
@@ -2229,11 +2234,6 @@
         <a href="#tbody(content:Lucky::AllowedInTags%7CString=&quot;&quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method" class="signature"><strong>#tbody</strong>(content : Lucky::AllowedInTags | String = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil</a>
         
           <div class="summary"><p>Generates a <code>&lt;tbody&gt;&lt;/tbody&gt;</code> tag.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#tbody(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#tbody</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
         
       </li>
     
@@ -2260,12 +2260,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#template(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#template</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
+        <a href="#template(content:Lucky::AllowedInTags%7CString=&quot;&quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method" class="signature"><strong>#template</strong>(content : Lucky::AllowedInTags | String = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#template(attrs:Array(Symbol),options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#template</strong>(attrs : Array(Symbol), options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
+          <div class="summary"><p>Generates a <code>&lt;template&gt;&lt;/template&gt;</code> tag.</p></div>
         
       </li>
     
@@ -2275,9 +2272,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#template(content:Lucky::AllowedInTags%7CString=&quot;&quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method" class="signature"><strong>#template</strong>(content : Lucky::AllowedInTags | String = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil</a>
+        <a href="#template(attrs:Array(Symbol),options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#template</strong>(attrs : Array(Symbol), options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
         
-          <div class="summary"><p>Generates a <code>&lt;template&gt;&lt;/template&gt;</code> tag.</p></div>
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#template(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method" class="signature"><strong>#template</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</a>
         
       </li>
     
@@ -6472,20 +6472,6 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="table(options=EMPTY_HTML_ATTRS,**other_options,&amp;):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>table</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil
-
-        <a class="method-permalink" href="#table(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
     <div class="entry-detail" id="table(content:Lucky::AllowedInTags|String=&amp;quot;&amp;quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method">
       <div class="signature">
         
@@ -6529,6 +6515,34 @@
         def <strong>table</strong>(attrs : Array(Symbol), options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil
 
         <a class="method-permalink" href="#table(attrs:Array(Symbol),options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="table(options=EMPTY_HTML_ATTRS,**other_options,&amp;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>table</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil
+
+        <a class="method-permalink" href="#table(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tbody(options=EMPTY_HTML_ATTRS,**other_options,&amp;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>tbody</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil
+
+        <a class="method-permalink" href="#tbody(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method">#</a>
       </div>
       
       <br/>
@@ -6581,20 +6595,6 @@
 
 <pre><code>tbody(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;tbody class=&quot;cls-1 red&quot; required&gt;Sample&lt;/tbody&gt;</span></code></pre>
         </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="tbody(options=EMPTY_HTML_ATTRS,**other_options,&amp;):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>tbody</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil
-
-        <a class="method-permalink" href="#tbody(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method">#</a>
-      </div>
       
       <br/>
       <div>
@@ -6667,12 +6667,35 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="template(options=EMPTY_HTML_ATTRS,**other_options,&amp;):Nil-instance-method">
+    <div class="entry-detail" id="template(content:Lucky::AllowedInTags|String=&amp;quot;&amp;quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>template</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil
+        def <strong>template</strong>(content : <a href="../Lucky/AllowedInTags.html">Lucky::AllowedInTags</a> | <a href="../String.html">String</a> = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil
 
-        <a class="method-permalink" href="#template(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#template(content:Lucky::AllowedInTags%7CString=&quot;&quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Generates a <code>&lt;template&gt;&lt;/template&gt;</code> tag.</p>
+
+<ul><li>The <em>content</em> argument is either a <code><a href="../String.html">String</a></code>, or any type that has included <code><a href="../Lucky/AllowedInTags.html">Lucky::AllowedInTags</a></code>. This is the content that goes inside of the tag.</li><li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li><li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes" target="_blank">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li></ul>
+
+<pre><code>template(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;template class=&quot;cls-1 red&quot; required&gt;Sample&lt;/template&gt;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="template(content:String|Lucky::AllowedInTags):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>template</strong>(content : <a href="../String.html">String</a> | <a href="../Lucky/AllowedInTags.html">Lucky::AllowedInTags</a>) : Nil
+
+        <a class="method-permalink" href="#template(content:String%7CLucky::AllowedInTags):Nil-instance-method">#</a>
       </div>
       
       <br/>
@@ -6695,36 +6718,13 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="template(content:String|Lucky::AllowedInTags):Nil-instance-method">
+    <div class="entry-detail" id="template(options=EMPTY_HTML_ATTRS,**other_options,&amp;):Nil-instance-method">
       <div class="signature">
         
-        def <strong>template</strong>(content : <a href="../String.html">String</a> | <a href="../Lucky/AllowedInTags.html">Lucky::AllowedInTags</a>) : Nil
+        def <strong>template</strong>(options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil
 
-        <a class="method-permalink" href="#template(content:String%7CLucky::AllowedInTags):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#template(options=EMPTY_HTML_ATTRS,**other_options,&):Nil-instance-method">#</a>
       </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="template(content:Lucky::AllowedInTags|String=&amp;quot;&amp;quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>template</strong>(content : <a href="../Lucky/AllowedInTags.html">Lucky::AllowedInTags</a> | <a href="../String.html">String</a> = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil
-
-        <a class="method-permalink" href="#template(content:Lucky::AllowedInTags%7CString=&quot;&quot;,options=EMPTY_HTML_ATTRS,attrs:Array(Symbol)=[]ofSymbol,**other_options):Nil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Generates a <code>&lt;template&gt;&lt;/template&gt;</code> tag.</p>
-
-<ul><li>The <em>content</em> argument is either a <code><a href="../String.html">String</a></code>, or any type that has included <code><a href="../Lucky/AllowedInTags.html">Lucky::AllowedInTags</a></code>. This is the content that goes inside of the tag.</li><li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li><li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes" target="_blank">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li></ul>
-
-<pre><code>template(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;template class=&quot;cls-1 red&quot; required&gt;Sample&lt;/template&gt;</span></code></pre>
-        </div>
       
       <br/>
       <div>
