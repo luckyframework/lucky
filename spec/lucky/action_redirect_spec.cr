@@ -73,6 +73,16 @@ describe Lucky::Action do
     context.response.headers["Turbolinks-Location"].should eq "/somewhere"
     context.cookies.deleted?(:_turbolinks_location).should be_true
   end
+
+  it "keeps flash messages for the next action" do
+    context = build_context_with_flash({success: "Keep me!"}.to_json)
+
+    action = RedirectAction.new(context, params)
+    response = action.redirect to: "/somewhere", status: 302
+    response.print
+    flash = Lucky::FlashStore.from_session(response.context.session)
+    flash.success.should eq("Keep me!")
+  end
 end
 
 private def should_redirect(action, to path, status)
