@@ -172,9 +172,22 @@ You need to make sure to install the Crystal dependencies.
 
 > Run specific tests with `script/test <path_to_spec>`
 
+### Lucky to have you!
+
+We love all of the community members that have put in hard work to make Lucky better.
+If you're one of those people, we want to give you a t-shirt!
+
+To get a shirt, we ask that you have made a significant contribution to Lucky.
+This includes things like submitting PRs with bug fixes and feature implementations, helping other members
+work through problems, and deploying real world applications using Lucky!
+
+To claim your shirt, [fill in this form](https://forms.gle/w3PJ4pww8WDAuJov5).
+ 
+
 ## Contributors
 
 - [paulcsmith](https://github.com/paulcsmith) Paul Smith - creator, maintainer
+- [Our wonderful community](https://github.com/luckyframework/lucky/graphs/contributors) - ❤️
 
 ## Thanks & attributions
 
