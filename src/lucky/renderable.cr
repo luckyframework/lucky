@@ -232,4 +232,23 @@ module Lucky::Renderable
   def xml(body, status : HTTP::Status) : Lucky::TextResponse
     xml(body, status: status.value)
   end
+
+  # Render a Component as an HTML response.
+  #
+  # ```
+  # get "/foo" do
+  #   component MyComponent, with: :args
+  # end
+  # ```
+  def component(comp : Lucky::BaseComponent.class, status : Int32? = nil, **named_args) : Lucky::TextResponse
+    send_text_response(
+      comp.new(**named_args).render_to_string,
+      "text/html",
+      status
+    )
+  end
+
+  def component(comp : Lucky::BaseComponent.class, status : HTTP::Status, **named_args) : Lucky::TextResponse
+    component(comp, status.value, **named_args)
+  end
 end

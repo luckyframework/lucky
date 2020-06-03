@@ -126,6 +126,40 @@ class Rendering::File::Missing < TestAction
   end
 end
 
+private class PlainTestComponent < Lucky::BaseComponent
+  def render
+    h1 "Plain Component"
+  end
+end
+
+private class ComplexTestComponent < Lucky::BaseComponent
+  needs title : String
+
+  def render
+    text @title
+    img src: asset("images/logo.png")
+    m(PlainTestComponent)
+  end
+end
+
+class Rendering::PlainComponent < TestAction
+  get "/foo" do
+    component PlainTestComponent
+  end
+end
+
+class Rendering::ComplexComponent < TestAction
+  get "/foo" do
+    component ComplexTestComponent, title: "Getting Complex"
+  end
+end
+
+class Rendering::PlainComponentWithCustomStatus < TestAction
+  get "/foo" do
+    component PlainTestComponent, status: :partial_content
+  end
+end
+
 describe Lucky::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
@@ -133,6 +167,28 @@ describe Lucky::Action do
 
       response.body.to_s.should contain "Anything"
       response.debug_message.to_s.should contain "Rendering::IndexPage"
+    end
+  end
+
+  describe "rendering Components" do
+    it "renders a simple component" do
+      response = Rendering::PlainComponent.new(build_context, params).call
+
+      response.body.to_s.should eq "<h1>Plain Component</h1>"
+    end
+
+    it "renders a complex component" do
+      response = Rendering::ComplexComponent.new(build_context, params).call
+
+      body = response.body.to_s
+      body.should contain "<h1>Plain Component</h1>"
+      body.should contain "Getting Complex"
+      body.should contain "images/logo-with-hash.png"
+    end
+
+    it "renders a component with a HTTP::Status" do
+      response = Rendering::PlainComponentWithCustomStatus.new(build_context, params).call
+      response.status.should eq 206
     end
   end
 
