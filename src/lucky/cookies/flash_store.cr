@@ -22,7 +22,7 @@ class Lucky::FlashStore
     raise Lucky::InvalidFlashJSONError.new(session.get?(SESSION_KEY))
   end
 
-  def keep : Void
+  def keep : Nil
     @next = @now
   end
 
