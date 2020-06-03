@@ -3,6 +3,9 @@
 ![Deploy docs](https://github.com/luckyframework/lucky/workflows/Deploy%20docs/badge.svg)
 ![Lucky CI](https://github.com/luckyframework/lucky/workflows/Lucky%20CI/badge.svg)
 
+[![Version](https://img.shields.io/github/tag/luckyframework/lucky.svg?maxAge=360&label=version)](https://github.com/luckyframework/lucky/releases/latest)
+[![License](https://img.shields.io/github/license/luckyframework/lucky.svg)](https://github.com/luckyframework/lucky/blob/master/LICENSE)
+
 The goal: prevent bugs, forget about most performance issues, and spend more
 time on code instead of debugging and fixing tests.
 
