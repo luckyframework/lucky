@@ -6,6 +6,8 @@
 [![Version](https://img.shields.io/github/tag/luckyframework/lucky.svg?maxAge=360&label=version)](https://github.com/luckyframework/lucky/releases/latest)
 [![License](https://img.shields.io/github/license/luckyframework/lucky.svg)](https://github.com/luckyframework/lucky/blob/master/LICENSE)
 
+[![Gitter](https://img.shields.io/gitter/room/luckyframework/lucky.svg)](https://gitter.im/luckyframework/Lobby)
+
 The goal: prevent bugs, forget about most performance issues, and spend more
 time on code instead of debugging and fixing tests.
 
