@@ -57,6 +57,10 @@ describe Lucky::Action do
     should_redirect(action, to: RedirectAction.path, status: 302)
 
     action = RedirectAction.new(build_context, params)
+    action.redirect_back fallback: RedirectAction, status: HTTP::Status::MOVED_PERMANENTLY
+    should_redirect(action, to: RedirectAction.path, status: 301)
+
+    action = RedirectAction.new(build_context, params)
     action.redirect_back fallback: RedirectAction, status: 301
     should_redirect(action, to: RedirectAction.path, status: 301)
   end
