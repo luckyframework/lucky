@@ -29,8 +29,8 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: Users::Index
   # ```
-  def redirect_back(fallback : Lucky::Action.class, status = 302)
-    redirect_back fallback.route, status
+  def redirect_back(*, fallback : Lucky::Action.class, status = 302)
+    redirect_back fallback: fallback.route, status: status
   end
 
   # Redirect back with a `Lucky::RouteHelper` fallback
@@ -38,8 +38,8 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: Users::Show.with(user.id)
   # ```
-  def redirect_back(fallback : Lucky::RouteHelper, status = 302)
-    redirect_back fallback.path, status
+  def redirect_back(*, fallback : Lucky::RouteHelper, status = 302)
+    redirect_back fallback: fallback.path, status: status
   end
 
   # Redirect back with a human friendly status
@@ -47,8 +47,8 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: "/users", status: HTTP::Status::MOVED_PERMANENTLY
   # ```
-  def redirect_back(fallback : String, status : HTTP::Status)
-    redirect_back fallback, status.value
+  def redirect_back(*, fallback : String, status : HTTP::Status)
+    redirect_back fallback: fallback, status: status.value
   end
 
   # Redirects the browser to the page that issued the request (the referrer)
@@ -68,7 +68,7 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: "/home", status: 301
   # ```
-  def redirect_back(fallback : String, status : Int32 = 302)
+  def redirect_back(*, fallback : String, status : Int32 = 302)
     referer = request.headers["Referer"]?
     redirect to: (referer || fallback), status: status
   end
