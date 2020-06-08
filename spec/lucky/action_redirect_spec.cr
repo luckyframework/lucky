@@ -37,6 +37,34 @@ describe Lucky::Action do
     should_redirect(action, to: "/somewhere", status: 301)
   end
 
+  it "redirects back" do
+    request = build_request("POST")
+    request.headers["Referer"] = "https://www.example.com/coming/from"
+    action = RedirectAction.new(build_context(request), params)
+    action.redirect_back fallback: "/fallback"
+    should_redirect(action, to: "https://www.example.com/coming/from", status: 302)
+
+    action = RedirectAction.new(build_context, params)
+    action.redirect_back fallback: "/fallback"
+    should_redirect(action, to: "/fallback", status: 302)
+
+    action = RedirectAction.new(build_context, params)
+    action.redirect_back fallback: RedirectAction.route
+    should_redirect(action, to: RedirectAction.path, status: 302)
+
+    action = RedirectAction.new(build_context, params)
+    action.redirect_back fallback: RedirectAction
+    should_redirect(action, to: RedirectAction.path, status: 302)
+
+    action = RedirectAction.new(build_context, params)
+    action.redirect_back fallback: RedirectAction, status: HTTP::Status::MOVED_PERMANENTLY
+    should_redirect(action, to: RedirectAction.path, status: 301)
+
+    action = RedirectAction.new(build_context, params)
+    action.redirect_back fallback: RedirectAction, status: 301
+    should_redirect(action, to: RedirectAction.path, status: 301)
+  end
+
   it "turbolinks redirects after a XHR POST form submission" do
     request = build_request("POST")
     request.headers["Accept"] = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01"
