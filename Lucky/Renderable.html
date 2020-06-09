@@ -825,6 +825,18 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#component(comp:Lucky::BaseComponent.class,status:Int32?=nil,**named_args):Lucky::TextResponse-instance-method" class="signature"><strong>#component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : Int32? = <span class="n">nil</span>, **named_args) : Lucky::TextResponse</a>
+        
+          <div class="summary"><p>Render a Component as an HTML response.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method" class="signature"><strong>#component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : Lucky::TextResponse</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::FileResponse-instance-method" class="signature"><strong>#file</strong>(path : String, content_type : String? = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>) : Lucky::FileResponse</a>
         
       </li>
@@ -921,6 +933,43 @@
 </a>
     Instance Method Detail
   </h2>
+  
+    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:Int32?=nil,**named_args):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#component(comp:Lucky::BaseComponent.class,status:Int32?=nil,**named_args):Lucky::TextResponse-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Render a Component as an HTML response.</p>
+
+<pre><code>get <span class="s">&quot;/foo&quot;</span> <span class="k">do</span>
+  component <span class="t">MyComponent</span>, <span class="k">with</span>: <span class="n">:args</span>
+<span class="k">end</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
   
     <div class="entry-detail" id="file(path:String,content_type:String?=nil,disposition:String=&amp;quot;attachment&amp;quot;,filename:String?=nil,status:Int32?=nil):Lucky::FileResponse-instance-method">
       <div class="signature">
