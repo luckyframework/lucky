@@ -85,7 +85,31 @@ module Lucky::Renderable
       "text/html",
       view.perform_render,
       debug_message: log_message(view),
+      enable_cookies: enable_cookies?
     )
+  end
+
+  # Disable cookies
+  #
+  # When `disable_cookies` is used, no `Set-Cookie` header will be written to
+  # the response.
+  #
+  # ```crystal
+  # class Events::Show < ApiAction
+  #   disable_cookies
+  #
+  #   get "/events/:id" do
+  #     ...
+  #   end
+  # end
+  # ```
+  #
+  macro disable_cookies
+    DISABLE_COOKIES = true
+  end
+
+  private def enable_cookies?
+    !{{@type.constant :DISABLE_COOKIES}}
   end
 
   private def log_message(view) : String
@@ -188,7 +212,13 @@ module Lucky::Renderable
     content_type : String,
     status : Int32? = 100
   ) : Lucky::TextResponse
-    Lucky::TextResponse.new(context, content_type, body, status: status)
+    Lucky::TextResponse.new(
+      context,
+      content_type,
+      body,
+      status: status,
+      enable_cookies: enable_cookies?
+    )
   end
 
   def plain_text(body : String, status : Int32? = nil) : Lucky::TextResponse

@@ -10,19 +10,22 @@
 class Lucky::TextResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
-  getter context, content_type, body, debug_message
+  getter context, content_type, body, debug_message, enable_cookies
 
   def initialize(@context : HTTP::Server::Context,
                  @content_type : String,
                  @body : String | IO,
                  @status : Int32? = nil,
-                 @debug_message : String? = nil)
+                 @debug_message : String? = nil,
+                 @enable_cookies : Bool = true)
   end
 
   def print : Nil
-    write_flash
-    write_session
-    write_cookies
+    if enable_cookies
+      write_flash
+      write_session
+      write_cookies
+    end
     context.response.content_type = content_type
     context.response.status_code = status
     gzip if should_gzip?
