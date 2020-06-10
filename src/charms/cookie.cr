@@ -37,4 +37,9 @@ class HTTP::Cookie
     self.http_only = value
     self
   end
+
+  def samesite(value : HTTP::Cookie::SameSite) : HTTP::Cookie
+    self.samesite = value
+    self
+  end
 end
