@@ -44,7 +44,7 @@ module Lucky::SpecialtyTags
 
   # Generates a canonical link tag to specify the "canonical" or "preferred"
   # version of a page.
-  def canonical_link_tag(href : String) : Nil
+  def canonical_link(href : String) : Nil
     empty_tag "link", href: href, rel: "canonical"
   end
 

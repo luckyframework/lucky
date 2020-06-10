@@ -57,7 +57,7 @@ describe Lucky::SpecialtyTags do
   end
 
   it "renders canonical link tag" do
-    view(&.canonical_link_tag("https://it.is/here")).should contain <<-HTML
+    view(&.canonical_link("https://it.is/here")).should contain <<-HTML
     <link href="https://it.is/here" rel="canonical">
     HTML
   end
