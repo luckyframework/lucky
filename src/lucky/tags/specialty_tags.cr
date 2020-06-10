@@ -42,6 +42,12 @@ module Lucky::SpecialtyTags
     meta name: "viewport", content: build_viewport_properties(options)
   end
 
+  # Generates a canonical link tag to specify the "canonical" or "preferred"
+  # version of a page.
+  def canonical_link_tag(href : String) : Nil
+    empty_tag "link", href: href, rel: "canonical"
+  end
+
   # Adds *string* directly to the rendered HTML with no escaping.
   #
   # For example,
