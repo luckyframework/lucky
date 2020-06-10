@@ -132,6 +132,15 @@ describe Lucky::TextResponse do
         header.should contain("Secure")
         header.should contain("HttpOnly")
       end
+
+      it "allows for cookies to be disabled" do
+        context = build_context
+        context.session.set(:email, "test@example.com")
+
+        print_response_with_body(context, enable_cookies: false)
+
+        context.response.headers.has_key?("Set-Cookie").should be_false
+      end
     end
 
     context "status" do
@@ -205,7 +214,14 @@ private def print_response_with_body(
   context : HTTP::Server::Context,
   body = "",
   status = 200,
-  content_type = "text/html"
+  content_type = "text/html",
+  enable_cookies = true
 )
-  Lucky::TextResponse.new(context, content_type, body, status: status).print
+  Lucky::TextResponse.new(
+    context,
+    content_type,
+    body,
+    status: status,
+    enable_cookies: enable_cookies
+  ).print
 end
