@@ -105,11 +105,13 @@ module Lucky::Renderable
   # ```
   #
   macro disable_cookies
-    DISABLE_COOKIES = true
+    private def enable_cookies?
+      false
+    end
   end
 
   private def enable_cookies?
-    !{{@type.constant :DISABLE_COOKIES}}
+    true
   end
 
   private def log_message(view) : String
