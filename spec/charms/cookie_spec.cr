@@ -22,6 +22,7 @@ describe HTTP::Cookie do
       cookie.domain.should eq("luckyframework.org")
       cookie.secure.should be_true
       cookie.http_only.should be_true
+      cookie.samesite.to_s.should eq "Lax"
     end
   end
 
