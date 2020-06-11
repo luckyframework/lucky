@@ -12,6 +12,7 @@ describe HTTP::Cookie do
         .domain("luckyframework.org")
         .secure(true)
         .http_only(true)
+        .samesite(:lax)
 
       cookie.should be_a(HTTP::Cookie)
       cookie.name.should eq("session_id")
@@ -21,6 +22,7 @@ describe HTTP::Cookie do
       cookie.domain.should eq("luckyframework.org")
       cookie.secure.should be_true
       cookie.http_only.should be_true
+      cookie.samesite.to_s.should eq "Lax"
     end
   end
 
