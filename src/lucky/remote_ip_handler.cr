@@ -19,8 +19,12 @@ class Lucky::RemoteIpHandler
     request = context.request
 
     if x_forwarded = request.headers["X_FORWARDED_FOR"]?.try(&.split(',').first?).presence
-      # if the x_forwarded is not a valid ip address we fallback to request.remote_address
-      Socket::IPAddress.new(x_forwarded, 0) rescue request.remote_address
+      begin
+        Socket::IPAddress.new(x_forwarded, 0)
+      rescue Socket::Error
+        # if the x_forwarded is not a valid ip address we fallback to request.remote_address
+        request.remote_address
+      end
     else
       request.remote_address
     end

@@ -21,6 +21,18 @@ describe Lucky::RemoteIpHandler do
       context.request.remote_address.should eq Socket::IPAddress.new("1.2.3.4", 0)
     end
 
+    it "returns request.remote_address if X_FORWARDED_FOR is not valid" do
+      headers = HTTP::Headers.new
+      headers["X_FORWARDED_FOR"] = "not-a-socket"
+      request = HTTP::Request.new("GET", "/remote-ip", body: "", headers: headers)
+      request.remote_address = Socket::IPAddress.new("255.255.255.255", 0)
+      context = build_context(request)
+
+      run_remote_ip_handler(context)
+
+      context.request.remote_address.should eq Socket::IPAddress.new("255.255.255.255", 0)
+    end
+
     it "returns nil if the X_FORWARDED_FOR is an empty string, and no default remote_address is found" do
       headers = HTTP::Headers.new
       headers["X_FORWARDED_FOR"] = ""
