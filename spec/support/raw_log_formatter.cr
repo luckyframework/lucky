@@ -1,5 +1,5 @@
-struct RawLogFormatter < Dexter::Formatters::BaseLogFormatter
-  def format(data) : Nil
+struct RawLogFormatter < Dexter::BaseFormatter
+  def call : Nil
     io << data
   end
 end

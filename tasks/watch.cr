@@ -151,7 +151,7 @@ module LuckySentry
 
     private def stop_all_processes
       @app_processes.each do |process|
-        process.kill unless process.terminated?
+        process.signal(:term) unless process.terminated?
       end
     end
 

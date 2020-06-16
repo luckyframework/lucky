@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.21.0
+    branch: pcs/crystal-0.35
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.1
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    version: ~> 0.14
+    branch: pcs/update-crystal-pg
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
@@ -55,7 +55,7 @@ dependencies:
     version: ~> 0.1.0
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.2.0
+    version: ~> 0.3.0
 
 development_dependencies:
   ameba:
