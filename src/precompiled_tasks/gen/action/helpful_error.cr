@@ -1,15 +1,15 @@
 require "colorize"
 
 puts <<-ERROR
-Missing 'browser' or 'api' after 'gen.action'
+    Missing 'browser' or 'api' after 'gen.action'
 
-For actions used in a browser (HTML, redirects)...
+    For actions used in a browser (HTML, redirects)...
 
-    #{"lucky gen.action.browser".colorize.green.bold}
+        #{"lucky gen.action.browser".colorize.green.bold}
 
-For an API endpoint (JSON, XML, GraphQL)...
+    For an API endpoint (JSON, XML, GraphQL)...
 
-    #{"lucky gen.action.api".colorize.green.bold}
+        #{"lucky gen.action.api".colorize.green.bold}
 
 
-ERROR
+    ERROR
