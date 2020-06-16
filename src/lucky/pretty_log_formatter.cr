@@ -30,9 +30,11 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
 
     def local_context
       res = Hash(String, ::Log::Metadata::Value).new
-      entry.data.each do |key, value|
+
+      entry.context[:local]?.try &.as_h.each do |key, value|
         res[key.to_s] = value
       end
+
       res
     end
 
