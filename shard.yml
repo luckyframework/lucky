@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    branch: pcs/crystal-0.35
+    version: ~> 0.22.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.1
@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    branch: pcs/update-crystal-pg
+    version: ~> 0.15.0
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.2.0
