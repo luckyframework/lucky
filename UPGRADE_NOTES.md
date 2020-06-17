@@ -1,3 +1,26 @@
+## Upgrading from 0.21 to 0.22
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.0`
+  - Lucky should be `~> 0.22.0`
+  - Authentic should be `~> 0.6.0`
+  - jwt should be `~> 1.4.2`
+
+- Run `shards update`
+
 ## Upgrading from 0.20 to 0.21
 
 - Upgrade Lucky CLI (homebrew)
