@@ -43,6 +43,18 @@ private class TestPage
       text "foo"
     end
   end
+
+  def form_with_multipart
+    form_for FormHelpers::Create, multipart: true do
+      text "foo"
+    end
+  end
+
+  def form_with_multipart_false
+    form_for FormHelpers::Create, multipart: false do
+      text "foo"
+    end
+  end
 end
 
 describe Lucky::FormHelpers do
@@ -85,6 +97,18 @@ describe Lucky::FormHelpers do
     form.should contain <<-HTML
     <form action="/form_helpers" method="get"><input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token"></form>
     HTML
+  end
+
+  it "converts the multipart argument" do
+    without_csrf_protection do
+      view(&.form_with_multipart).should contain <<-HTML
+      <form action="/form_helpers" method="post" enctype="multipart/form-data">foo</form>
+      HTML
+
+      view(&.form_with_multipart_false).should contain <<-HTML
+      <form action="/form_helpers" method="post">foo</form>
+      HTML
+    end
   end
 end
 
