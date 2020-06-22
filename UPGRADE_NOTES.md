@@ -1,5 +1,7 @@
 ## Upgrading from 0.21 to 0.22
 
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.21.0&to=0.22.0).
+
 - Upgrade Lucky CLI (homebrew)
 
 ```
@@ -22,6 +24,8 @@ brew upgrade lucky
 - Run `shards update`
 
 ## Upgrading from 0.20 to 0.21
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.20.0&to=0.21.0).
 
 - Upgrade Lucky CLI (homebrew)
 
@@ -78,6 +82,8 @@ Log.dexter.info { {path: @context.request.path} }
 
 ## Upgrading from 0.19 to 0.20
 
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.19.0&to=0.20.0).
+
 - Update `.crystal-version` file to `0.34.0`
 - Upgrade to crystal 0.34.0
 - Upgrade Lucky CLI (homebrew)
@@ -132,6 +138,8 @@ brew upgrade lucky
 
 ## Upgrading from 0.18 to 0.19
 
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.18.0&to=0.19.0).
+
 - Update `.crystal-version` file to `0.33.0`
 - Upgrade to crystal 0.33.0
 - Upgrade Lucky CLI (homebrew)
@@ -170,6 +178,8 @@ brew upgrade lucky
 * Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-83ca1a783e82ef6f0d38f400b7c1eaa1) to `config/server.cr` to gzip text responses.
 
 ## Upgrading from 0.17 to 0.18
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.17.0&to=0.18.0).
 
 - Upgrade to crystal 0.31.1
 - Upgrade Lucky CLI (homebrew)
