@@ -23,4 +23,9 @@ require "./lucky/paginator/components/*"
 module Lucky
   Log              = ::Log.for("lucky")
   ContinuedPipeLog = Log.for("continued_pipe_log")
+
+  # Use Dir.current to return the root folder of your Lucky application.
+  def self.root
+    {% raise "Please use Crystal's 'Dir.current' to return the root folder of your Lucky application." %}
+  end
 end
