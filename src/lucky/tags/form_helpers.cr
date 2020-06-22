@@ -4,8 +4,7 @@ module Lucky::FormHelpers
   end
 
   def form_for(route : Lucky::RouteHelper, **html_options) : Nil
-    form_options = {"action" => route.path, "method" => form_method(route)}
-    form merge_options(html_options, form_options) do
+    form build_form_options(route, html_options) do
       csrf_hidden_input if settings.include_csrf_tag
       method_override_input(route)
       yield
@@ -22,6 +21,16 @@ module Lucky::FormHelpers
     else
       "post"
     end
+  end
+
+  private def build_form_options(route, html_options) : Hash
+    options = merge_options(html_options, {
+      "action" => route.path,
+      "method" => form_method(route),
+    })
+    options["enctype"] = "multipart/form-data" if options.delete("multipart")
+
+    options
   end
 
   private def method_override_input(route) : Nil
