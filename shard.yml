@@ -34,7 +34,7 @@ dependencies:
     branch: jaw/v0.23.0
   habitat:
     github: luckyframework/habitat
-    branch: jaw/v0.5.0
+    version: ~> 0.4.4
   wordsmith:
     github: luckyframework/wordsmith
     version: ~> 0.2.0
