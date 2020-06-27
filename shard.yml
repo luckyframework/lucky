@@ -1,5 +1,5 @@
 name: lucky
-version: 0.22.0
+version: 0.23.0
 
 crystal: 0.35.0
 
@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    branch: jaw/v0.23.0
+    version: ~> 0.23.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.4
@@ -40,10 +40,10 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    branch: jaw/v0.16.0
+    version: ~> 0.16.0
   lucky_router:
     github: luckyframework/lucky_router
-    branch: jaw/v0.3.0
+    version: ~> 0.3.0
   shell-table:
     github: luckyframework/shell-table.cr
     branch: refactor/setter
