@@ -1,5 +1,5 @@
 name: lucky
-version: 0.22.0
+version: 0.23.0
 
 crystal: 0.35.0
 
@@ -31,25 +31,25 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.22.0
+    version: ~> 0.23.0
   habitat:
     github: luckyframework/habitat
-    version: ~> 0.4.1
+    version: ~> 0.4.4
   wordsmith:
     github: luckyframework/wordsmith
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    version: ~> 0.15.0
+    version: ~> 0.16.0
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.2.0
+    version: ~> 0.3.0
   shell-table:
     github: luckyframework/shell-table.cr
     branch: refactor/setter
   cry:
-    github: paulcsmith/cry
-    version: ~> 0.4.1
+    github: luckyframework/cry
+    version: ~> 0.4.0
   exception_page:
     github: crystal-loot/exception_page
     version: ~> 0.1.0
@@ -60,7 +60,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
-    version: 0.12.1
+    version: 0.13.0
 
 scripts:
   postinstall: script/precompile_tasks
