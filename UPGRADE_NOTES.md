@@ -18,7 +18,8 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Crystal should be `0.35.0`
   - Lucky should be `~> 0.23.0`
-  - Authentic should be `~> 0.6.0`
+  - Authentic should be `~> 0.6.1`
+  - LuckyFlow should be `~> 0.7.0`
   - jwt should be `~> 1.4.2`
 
 - Run `shards update`
