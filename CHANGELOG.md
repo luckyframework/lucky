@@ -1,4 +1,66 @@
-### Changes in 0.21
+### Changes in 0.23
+
+- Updated: password reset tokens to be URL safe [#1118](https://github.com/luckyframework/lucky/pull/1118)
+- Added: `radio` input helper [#1125](https://github.com/luckyframework/lucky/pull/1125)
+- Added: component file paths to rendered comments in markup for development [#1126](https://github.com/luckyframework/lucky/pull/1126)
+- Added: `query_param_declarations` method to Action classes [#1122](https://github.com/luckyframework/lucky/pull/1122)
+- Fixed: generating a model that already exists now raises an error [#1127](https://github.com/luckyframework/lucky/pull/1127)
+- Added: `select_prompt` helper method [#1124](https://github.com/luckyframework/lucky/pull/1124)
+- Updated: `lucky routes` UI to now include query params [#1128](https://github.com/luckyframework/lucky/pull/1128)
+- Added: `route_prefix` method for Actions to prefix all routes [#1121](https://github.com/luckyframework/lucky/pull/1121)
+- Fixed: error when deleting cookies that don't exist [#1132](https://github.com/luckyframework/lucky/pull/1132)
+- Fixed: handling ajax form submissions with TurboLinks [#1133](https://github.com/luckyframework/lucky/pull/1133)
+- Fixed: issue with `ajax?` method not returning correct value [#1134](https://github.com/luckyframework/lucky/pull/1134)
+- Fixed: security issue by escaping HTML helpers by default [#1135](https://github.com/luckyframework/lucky/pull/1135)
+- Updated: `memoize` to allow for arguments, and `nil` and `false` values [#1139](https://github.com/luckyframework/lucky/pull/1139)
+- Updated: model generator to provide more helpful error messages [#1140](https://github.com/luckyframework/lucky/pull/1140)
+- Added: `get_raw` method to params along with striping blankspace on param `get` calls [#1144](https://github.com/luckyframework/lucky/pull/1144)
+- Removed: `mount` with deprecation in favor of new `m` method.
+- Added: `m` helper method as a `mount` replacement with a new interface. [#1151](https://github.com/luckyframework/lucky/pull/1151)
+- Updated: `String#squish` method to be faster [#1159](https://github.com/luckyframework/lucky/pull/1159)
+- Removed: `Lucky::SessionHandler` and `Lucky::FlashHandler`. [#518 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/518)
+- Fixed: issue with session cookies not being written at the right time. [#1160](https://github.com/luckyframework/lucky/pull/1160)
+- Added: `template` HTML method for `<template>` tags. [#1164](https://github.com/luckyframework/lucky/pull/1164)
+- Fixed: flash messages being lost during multiple redirects. [#1169](https://github.com/luckyframework/lucky/pull/1169)
+- Added: `redirect_back` for actions to redirect back to previous referrer [#1168](https://github.com/luckyframework/lucky/pull/1168)
+- Added: `component` method to render a Component directly from an Action [#1172](https://github.com/luckyframework/lucky/pull/1172)
+- Added: `canonical_link` HTML helper method. [#1182](https://github.com/luckyframework/lucky/pull/1182)
+- Added: `disable_cookies` macro to stop cookies from being written on a specific action [#1180](https://github.com/luckyframework/lucky/pull/1180)
+- Fixed: setting `samesite` on cookies in your `Lucky::CookieJar` `on_set` [#1183](https://github.com/luckyframework/lucky/pull/1183)
+- Fixed: compilation bug in generated page when running `lucky gen.page` [#1191](https://github.com/luckyframework/lucky/pull/1191)
+- Added: `multipart: true` option to `form_for` to set multipart enctype [#1200](https://github.com/luckyframework/lucky/pull/1200)
+- Added: `Lucky.root` method to raise compile-time error directing people to use `Dir.current` instead. [#1206](https://github.com/luckyframework/lucky/pull/1206)
+- Added: native CLI args to `LuckyCli::Task`. [#466 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/466)
+- Updated: generated projects to disable StaticFileHandler directory listing by default. [#510 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/510)
+- Updated: error action to return a 404 for `Avra::RecordNotFoundError` [#524 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/524)
+- Fixed: `select_count` failing when postgres returns no counts. [#357 in Avram](https://github.com/luckyframework/avram/pull/357)
+- Added: support for postgres extensions with `enable_extension`, `disable_extension`, and `update_extension`. [#356 in Avram](https://github.com/luckyframework/avram/pull/356)
+- Added: enum support for models with `avram_enum` macro. [#339 in Avram](https://github.com/luckyframework/avram/pull/339)
+- Fixed: the error message when using `remove` in migrations, and not passing a Symbol.
+- Added: `rename` and `rename_belongs_to` in migrations [#366 in Avram](https://github.com/luckyframework/avram/pull/366)
+- Added: new `lucky db.setup` task which runs `db.create` and `db.migrate`. [#361 in Avram](https://github.com/luckyframework/avram/pull/361)
+- Added: ability to set a custom index name for table indices. [#386 in Avram](https://github.com/luckyframework/avram/pull/386)
+- Fixed: using a custom primary key name of type `UUID`. [#401 in Avram](https://github.com/luckyframework/avram/pull/401)
+- Added: checking for a connection to the PostgreSQL engine before running the `lucky db.create` task. [#397 in Avram](https://github.com/luckyframework/avram/pull/397)
+- Fixed: logging issues related to Crystal 0.35.0. [#31 in Dexter](https://github.com/luckyframework/dexter/pull/31)
+- Updated: which selenium library was being used for LuckyFlow. [#76 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/76)
+- Added: initial work to support using other browsers aside from Chrome in LuckyFlow. [#79 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/79), [#88 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/88)
+- Added: support to auto fetch latest webdrivers in LuckyFlow. [#80 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/80)
+- Fixed: issue with really long stacktrace in LuckyFlow. [#83 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/83)
+- Added: `have_text` expectation method for Flow specs. [#87 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/87)
+- Added: optional path param routing. [#18 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/18)
+- Update: routing to ensure matching dynamic fragments all work. [#23 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/23)
+- Added: a little bit of speed to the routing lookup. [#26 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/26)
+- Added: a new `validation` option to Habitat settings. [#49 in Habitat](https://github.com/luckyframework/habitat/pull/49)
+- Renamed: the internal Habitat `Settings` class to `HabitatSettings` to avoid name conflicts in some Lucky apps. [#48 in Habitat](https://github.com/luckyframework/habitat/pull/48)
+- Fixed: bug when setting a default value in a Habitat setting that could potentially raise an exception. [#51 in Habitat](https://github.com/luckyframework/habitat/pull/51)
+
+
+### v0.22.0 (2020-06-17)
+
+- Added: support for Crystal 0.35.0
+
+### v0.21.0 (2020-04-19)
 
 - Added: support for Crystal 0.34.0 `Log` class [#506 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/506/files)
 - Added: `paginate_array` for paginating Arrays [#1108](https://github.com/luckyframework/lucky/pull/1108)
@@ -10,7 +72,7 @@
   - Helpers for testing logs
 - Fix for issues with the system check in Procfile.dev [#505 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/505)
 
-### Changes in 0.20
+### v0.20.0 (2020-04-08)
 
 - Added: support for Crystal 0.34.0
 - Fixed: error on some generated pages from missing sourcemap [#1019](https://github.com/luckyframework/lucky/pull/1019)
