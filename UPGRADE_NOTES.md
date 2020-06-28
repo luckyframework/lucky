@@ -1,3 +1,43 @@
+## Upgrading from 0.22 to 0.23
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.22.0&to=0.23.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.0`
+  - Lucky should be `~> 0.23.0`
+  - Authentic should be `~> 0.6.1`
+  - LuckyFlow should be `~> 0.7.0`
+  - jwt should be `~> 1.4.2`
+
+- Run `shards update`
+
+### General updates
+
+- Update: `params.get` now strips white space. If you need the raw value, use `params.get_raw`.
+- Rename: `mount` to `m` in all pages that use components.
+- Update: all mounted components to use new signature `mount(MyComponent.new(x: 1, y: 2))` -> `m(MyComponent, x: 1, y:2)`.
+- Remove: `Lucky::SessionHandler` and `Lucky::FlashHandler` from `src/app_server.cr`
+
+### Optional updates
+
+- Add: `Avram::RecordNotFoundError` to the `dont_report` array in `src/actions/errors/show.cr`
+- Update: `def render(error : Lucky::RouteNotFoundError` to `def render(error : Lucky::RouteNotFoundError | Avram::RecordNotFoundError)` in `src/actions/errors/show.cr`.
+- Update: any CLI tasks that use `ARGV` to use the native args [See implementation](https://github.com/luckyframework/lucky_cli/pull/466)
+
+
 ## Upgrading from 0.21 to 0.22
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.21.0&to=0.22.0).
