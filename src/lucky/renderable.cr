@@ -212,7 +212,7 @@ module Lucky::Renderable
   def send_text_response(
     body : String,
     content_type : String,
-    status : Int32? = 100
+    status : Int32? = nil
   ) : Lucky::TextResponse
     Lucky::TextResponse.new(
       context,
