@@ -4,7 +4,7 @@
 # render the contents of the IO inline to a web browser. Options for the
 # method:
 #
-# * `io` - first argument, _required_. The IO to the data from.
+# * `data` - first argument, _required_. The data that should be sent.
 # * `content_type` - defaults to "application/octet-stream".
 # * `disposition` - default "attachment" (downloads file), or "inline"
 #   (renders file in browser).
@@ -17,29 +17,24 @@
 # Examples:
 #
 # ```crystal
-# class Rendering::Data < Lucky::Action
-#   get "/foo" do
-#     data IO::Memory.new("Lucky is awesome")
-#   end
-# end
-# ```
-#
-# `data` can also be used with a `String` first argument.
-#
-# ```crystal
-# class Rendering::Data < Lucky::Action
-#   get "/foo" do
-#     data "Lucky is awesome"
+# class Reports::MyReport < ApiAction
+#   get "/reports/my_report" do
+#     result = CSV.build do |csv|
+#       csv.row "one", "two"
+#       csv.row "three"
+#     end
+
+#     data result, filename: "my_report.csv"
 #   end
 # end
 # ```
 class Lucky::DataResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
-  getter context, io, content_type, filename, debug_message, headers
+  getter context, data, content_type, filename, debug_message, headers
 
   def initialize(@context : HTTP::Server::Context,
-                 @io : IO,
+                 @data : String,
                  @content_type : String = "application/octet-stream",
                  @disposition : String = "attachment",
                  @filename : String? = nil,
@@ -49,9 +44,7 @@ class Lucky::DataResponse < Lucky::Response
 
   def print
     set_response_headers
-    context.response.status_code = status
-    content_length = IO.copy(io, context.response)
-    context.response.content_length = content_length
+    context.response.print data
   end
 
   def status : Int
@@ -59,7 +52,9 @@ class Lucky::DataResponse < Lucky::Response
   end
 
   private def set_response_headers : Nil
+    context.response.content_length = data.bytesize
     context.response.content_type = content_type
+    context.response.status_code = status
     context.response.headers["Accept-Ranges"] = "bytes"
     context.response.headers["X-Content-Type-Options"] = "nosniff"
     context.response.headers["Content-Transfer-Encoding"] = "binary"
