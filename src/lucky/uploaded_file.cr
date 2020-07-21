@@ -1,5 +1,7 @@
 # This class represents an uploaded file from a form
 class Lucky::UploadedFile
+  include Avram::Uploadable
+
   getter name : String
   getter tempfile : File
   getter metadata : HTTP::FormData::FileMetadata
@@ -25,5 +27,24 @@ class Lucky::UploadedFile
   # ```
   def path : String
     @tempfile.path
+  end
+
+  # Returns the original name of the file
+  #
+  # ```
+  # uploaded_file_object.filename # => String
+  # ```
+  def filename : String
+    metadata.filename.to_s
+  end
+
+  # Tests if the file name is blank, which typically means no file was selected
+  # at the time the form was submitted.
+  #
+  # ```
+  # uploaded_file_object.blank? # => Bool
+  # ```
+  def blank? : Bool
+    filename.blank?
   end
 end
