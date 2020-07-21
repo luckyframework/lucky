@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="lucky">
-  <title>Lucky::NotAcceptableError - lucky 0.23.0</title>
+  <title>Lucky::DataResponse - lucky 0.23.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -171,7 +171,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/DataResponse" data-name="lucky::dataresponse">
+  <li class=" current" data-id="lucky/Lucky/DataResponse" data-name="lucky::dataresponse">
       <a href="../Lucky/DataResponse.html">DataResponse</a>
       
     </li>
@@ -396,7 +396,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/NotAcceptableError" data-name="lucky::notacceptableerror">
+  <li class=" " data-id="lucky/Lucky/NotAcceptableError" data-name="lucky::notacceptableerror">
       <a href="../Lucky/NotAcceptableError.html">NotAcceptableError</a>
       
     </li>
@@ -765,33 +765,35 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Lucky::NotAcceptableError
+  <span class="kind">class</span> Lucky::DataResponse
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/NotAcceptableError.html">Lucky::NotAcceptableError</a></li><li class="superclass"><a href="../Lucky/Error.html">Lucky::Error</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
-
-
-
-
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/DataResponse.html">Lucky::DataResponse</a></li><li class="superclass"><a href="../Lucky/Response.html">Lucky::Response</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
 
   <h2>
-    <a id="included-modules" class="anchor" href="#included-modules">
+    <a id="overview" class="anchor" href="#overview">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Included Modules
+    Overview
   </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../Lucky/RenderableError.html">Lucky::RenderableError</a></li>
-    
-  </ul>
+
+  <pre><code>data result, filename: <span class="s">&quot;my_report.csv&quot;</span></code></pre>
+
+<p>end
+end</p>
+
+<pre><code></code></pre>
+
+
+
+
 
 
 
@@ -814,6 +816,25 @@
 
 
 
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="DEFAULT_STATUS">
+        <strong>DEFAULT_STATUS</strong> = <code><span class="n">200</span></code>
+      </dt>
+      
+    
+  </dl>
+
 
 
   <h2>
@@ -827,7 +848,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(request:HTTP::Request,action_name:String,format:Symbol,accepted_formats:Array(Symbol))-class-method" class="signature"><strong>.new</strong>(request : HTTP::Request, action_name : String, format : Symbol, accepted_formats : Array(Symbol))</a>
+        <a href="#new(context:HTTP::Server::Context,data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil,debug_message:String?=nil)-class-method" class="signature"><strong>.new</strong>(context : HTTP::Server::Context, data : String, content_type : String = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>, debug_message : String? = <span class="n">nil</span>)</a>
         
       </li>
     
@@ -848,17 +869,47 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#renderable_message:String-instance-method" class="signature"><strong>#renderable_message</strong> : String</a>
+        <a href="#content_type:String-instance-method" class="signature"><strong>#content_type</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#renderable_status:Int32-instance-method" class="signature"><strong>#renderable_status</strong> : Int32</a>
+        <a href="#context:HTTP::Server::Context-instance-method" class="signature"><strong>#context</strong> : HTTP::Server::Context</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#request:HTTP::Request-instance-method" class="signature"><strong>#request</strong> : HTTP::Request</a>
+        <a href="#data:String-instance-method" class="signature"><strong>#data</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#debug_message:String?-instance-method" class="signature"><strong>#debug_message</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#disposition:String-instance-method" class="signature"><strong>#disposition</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#filename:String?-instance-method" class="signature"><strong>#filename</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#headers-instance-method" class="signature"><strong>#headers</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#print-instance-method" class="signature"><strong>#print</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#status:Int-instance-method" class="signature"><strong>#status</strong> : Int</a>
         
       </li>
     
@@ -872,39 +923,19 @@
   
     
 
-  <h3>Instance methods inherited from module <code><a href="../Lucky/RenderableError.html">Lucky::RenderableError</a></code></h3>
+  <h3>Instance methods inherited from class <code><a href="../Lucky/Response.html">Lucky::Response</a></code></h3>
   
   
-    <a href="../Lucky/RenderableError.html#renderable_message:String-instance-method" class="tooltip">
-      <span>renderable_message : String</span>
-    renderable_message</a>, 
+    <a href="../Lucky/Response.html#print-instance-method" class="tooltip">
+      <span>print</span>
+    print</a>, 
     
   
-    <a href="../Lucky/RenderableError.html#renderable_status:Int32-instance-method" class="tooltip">
-      <span>renderable_status : Int32</span>
-    renderable_status</a>
+    <a href="../Lucky/Response.html#status:Int-instance-method" class="tooltip">
+      <span>status : Int</span>
+    status</a>
     
   
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
 
 
     
@@ -946,12 +977,12 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(request:HTTP::Request,action_name:String,format:Symbol,accepted_formats:Array(Symbol))-class-method">
+    <div class="entry-detail" id="new(context:HTTP::Server::Context,data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil,debug_message:String?=nil)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(request : HTTP::Request, action_name : <a href="../String.html">String</a>, format : Symbol, accepted_formats : Array(Symbol))
+        def self.<strong>new</strong>(context : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>, data : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a>? = <span class="n">nil</span>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>, debug_message : <a href="../String.html">String</a>? = <span class="n">nil</span>)
 
-        <a class="method-permalink" href="#new(request:HTTP::Request,action_name:String,format:Symbol,accepted_formats:Array(Symbol))-class-method">#</a>
+        <a class="method-permalink" href="#new(context:HTTP::Server::Context,data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil,debug_message:String?=nil)-class-method">#</a>
       </div>
       
       <br/>
@@ -974,12 +1005,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="renderable_message:String-instance-method">
+    <div class="entry-detail" id="content_type:String-instance-method">
       <div class="signature">
         
-        def <strong>renderable_message</strong> : <a href="../String.html">String</a>
+        def <strong>content_type</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#renderable_message:String-instance-method">#</a>
+        <a class="method-permalink" href="#content_type:String-instance-method">#</a>
       </div>
       
       <br/>
@@ -988,12 +1019,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="renderable_status:Int32-instance-method">
+    <div class="entry-detail" id="context:HTTP::Server::Context-instance-method">
       <div class="signature">
         
-        def <strong>renderable_status</strong> : <a href="../Int32.html">Int32</a>
+        def <strong>context</strong> : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>
 
-        <a class="method-permalink" href="#renderable_status:Int32-instance-method">#</a>
+        <a class="method-permalink" href="#context:HTTP::Server::Context-instance-method">#</a>
       </div>
       
       <br/>
@@ -1002,12 +1033,96 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="request:HTTP::Request-instance-method">
+    <div class="entry-detail" id="data:String-instance-method">
       <div class="signature">
         
-        def <strong>request</strong> : HTTP::Request
+        def <strong>data</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#request:HTTP::Request-instance-method">#</a>
+        <a class="method-permalink" href="#data:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="debug_message:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>debug_message</strong> : <a href="../String.html">String</a>?
+
+        <a class="method-permalink" href="#debug_message:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="disposition:String-instance-method">
+      <div class="signature">
+        
+        def <strong>disposition</strong> : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#disposition:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="filename:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>filename</strong> : <a href="../String.html">String</a>?
+
+        <a class="method-permalink" href="#filename:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="headers-instance-method">
+      <div class="signature">
+        
+        def <strong>headers</strong>
+
+        <a class="method-permalink" href="#headers-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="print-instance-method">
+      <div class="signature">
+        
+        def <strong>print</strong>
+
+        <a class="method-permalink" href="#print-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="status:Int-instance-method">
+      <div class="signature">
+        
+        def <strong>status</strong> : Int
+
+        <a class="method-permalink" href="#status:Int-instance-method">#</a>
       </div>
       
       <br/>
