@@ -209,6 +209,16 @@ module Lucky::Renderable
     file(path, content_type, disposition, filename, status.value)
   end
 
+  def data(
+    data : String,
+    content_type : String = "application/octet-stream",
+    disposition : String = "attachment",
+    filename : String? = nil,
+    status : Int32? = nil
+  ) : Lucky::DataResponse
+    Lucky::DataResponse.new(context, data, content_type, disposition, filename, status)
+  end
+
   def send_text_response(
     body : String,
     content_type : String,
