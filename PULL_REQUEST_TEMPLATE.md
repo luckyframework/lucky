@@ -1,5 +1,5 @@
 ## Purpose
-Describe the feature or issue and link to the related issue. 
+Describe the feature or issue and link to the related issue.
 If no issue has been opened about this, be sure to open an issue first to discuss the need for this PR.
 
 ## Description
