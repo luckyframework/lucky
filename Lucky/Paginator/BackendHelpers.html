@@ -902,7 +902,7 @@ of records.</p>
 
   <span class="k">def</span> <span class="m">content</span>
     <span class="c"># Render &#39;users&#39; like normal</span>
-    mount <span class="t">Lucky</span><span class="t">::</span><span class="t">Paginator</span><span class="t">::</span><span class="t">SimpleNav</span>.<span class="k">new</span>(@pages)
+    m <span class="t">Lucky</span><span class="t">::</span><span class="t">Paginator</span><span class="t">::</span><span class="t">SimpleNav</span>, @pages
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
         </div>
@@ -948,7 +948,7 @@ of items.</p>
 
   <span class="k">def</span> <span class="m">content</span>
     <span class="c"># Render pagination links for the &#39;items&#39; Array</span>
-    mount <span class="t">Lucky</span><span class="t">::</span><span class="t">Paginator</span><span class="t">::</span><span class="t">SimpleNav</span>.<span class="k">new</span>(@pages)
+    m <span class="t">Lucky</span><span class="t">::</span><span class="t">Paginator</span><span class="t">::</span><span class="t">SimpleNav</span>, @pages
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
         </div>
