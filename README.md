@@ -187,7 +187,7 @@ This includes things like submitting PRs with bug fixes and feature implementati
 work through problems, and deploying real world applications using Lucky!
 
 To claim your shirt, [fill in this form](https://forms.gle/w3PJ4pww8WDAuJov5).
- 
+
 
 ## Contributors
 
