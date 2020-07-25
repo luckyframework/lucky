@@ -790,6 +790,20 @@
 
 
 
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">Avram::Uploadable</li>
+    
+  </ul>
+
 
 
 
@@ -847,6 +861,20 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#blank?:Bool-instance-method" class="signature"><strong>#blank?</strong> : Bool</a>
+        
+          <div class="summary"><p>Tests if the file name is blank, which typically means no file was selected at the time the form was submitted.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#filename:String-instance-method" class="signature"><strong>#filename</strong> : String</a>
+        
+          <div class="summary"><p>Returns the original name of the file</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#metadata:HTTP::FormData::FileMetadata-instance-method" class="signature"><strong>#metadata</strong> : HTTP::FormData::FileMetadata</a>
         
       </li>
@@ -875,6 +903,16 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
   
     
 
@@ -944,6 +982,49 @@ be assigned the body of the HTTP::FormData::Part</p>
 </a>
     Instance Method Detail
   </h2>
+  
+    <div class="entry-detail" id="blank?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>blank?</strong> : <a href="../Bool.html">Bool</a>
+
+        <a class="method-permalink" href="#blank?:Bool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Tests if the file name is blank, which typically means no file was selected
+at the time the form was submitted.</p>
+
+<pre><code>uploaded_file_object.blank? <span class="c"># =&gt; Bool</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="filename:String-instance-method">
+      <div class="signature">
+        
+        def <strong>filename</strong> : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#filename:String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the original name of the file</p>
+
+<pre><code>uploaded_file_object.filename <span class="c"># =&gt; String</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
   
     <div class="entry-detail" id="metadata:HTTP::FormData::FileMetadata-instance-method">
       <div class="signature">
