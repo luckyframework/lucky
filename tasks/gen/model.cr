@@ -27,7 +27,7 @@ class Gen::Model < LuckyCli::Task
 
     Example:
 
-      lucky gen.model Project title:String completed:Bool priority:Int32
+      lucky gen.model Project title:String description:String? completed:Bool priority:Int32
     TEXT
   end
 

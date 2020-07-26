@@ -46,7 +46,7 @@ module Gen::Mixins::MigrationWithColumns
     column_definitions.reject! do |column_definition|
       column_parts = parse_definition(column_definition)
       column_name = column_parts.first
-      column_type = column_parts.last
+      column_type = column_parts.last.strip("?")
       column_parts.size == 2 &&
         column_name == column_name.underscore &&
         SUPPORTED_TYPES.includes?(column_type)
