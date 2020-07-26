@@ -138,7 +138,7 @@ private class ComplexTestComponent < Lucky::BaseComponent
   def render
     text @title
     img src: asset("images/logo.png")
-    m(PlainTestComponent)
+    mount(PlainTestComponent)
   end
 end
 

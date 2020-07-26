@@ -27,7 +27,7 @@ brew upgrade lucky
 ### General updates
 
 - Update: `params.get` now strips white space. If you need the raw value, use `params.get_raw`.
-- Rename: `mount` to `m` in all pages that use components.
+- Rename: `mount` to `m` in all pages that use components. **Note: This was reverted in the next version**
 - Update: all mounted components to use new signature `mount(MyComponent.new(x: 1, y: 2))` -> `m(MyComponent, x: 1, y:2)`.
 - Remove: `Lucky::SessionHandler` and `Lucky::FlashHandler` from `src/app_server.cr`
 

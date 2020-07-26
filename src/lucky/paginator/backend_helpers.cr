@@ -22,7 +22,7 @@ module Lucky::Paginator::BackendHelpers
   #
   #   def content
   #     # Render 'users' like normal
-  #     m Lucky::Paginator::SimpleNav, @pages
+  #     mount Lucky::Paginator::SimpleNav, @pages
   #   end
   # end
   # ```
@@ -62,7 +62,7 @@ module Lucky::Paginator::BackendHelpers
   #
   #   def content
   #     # Render pagination links for the 'items' Array
-  #     m Lucky::Paginator::SimpleNav, @pages
+  #     mount Lucky::Paginator::SimpleNav, @pages
   #   end
   # end
   # ```
