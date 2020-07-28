@@ -12,7 +12,7 @@ class <%= pluralized_name %>::EditPage < MainLayout
   def render_<%= underscored_resource %>_form(op)
     form_for <%= pluralized_name %>::Update.with(@<%= underscored_resource %>.id) do
       # Edit fields in src/components/<%= folder_name %>/form_fields.cr
-      m <%= pluralized_name %>::FormFields, op
+      mount <%= pluralized_name %>::FormFields, op
 
       submit "Update", data_disable_with: "Updating..."
     end

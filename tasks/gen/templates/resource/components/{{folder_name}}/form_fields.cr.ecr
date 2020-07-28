@@ -3,7 +3,7 @@ class <%= pluralized_name %>::FormFields < BaseComponent
 
   def render
     <%- columns.each_with_index do |column, index| -%>
-    m Shared::Field, operation.<%= column.name %><% if index.zero? %>, &.text_input(autofocus: "true")<% end %>
+    mount Shared::Field, operation.<%= column.name %><% if index.zero? %>, &.text_input(autofocus: "true")<% end %>
     <%- end -%>
   end
 end
