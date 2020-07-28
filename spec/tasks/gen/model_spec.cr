@@ -31,7 +31,7 @@ describe Gen::Model do
       Gen::Migration.silence_output do
         io = IO::Memory.new
         model_name = "ContactInfo"
-        ARGV.push(model_name, "name:String", "contacted_at:Time")
+        ARGV.push(model_name, "name:String", "notes:String?", "contacted_at:Time")
 
         Gen::Model.new.call(io)
 
@@ -39,11 +39,15 @@ describe Gen::Model do
           "./src/models/contact_info.cr": "table"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "column name : String",
-          "./src/operations/save_contact_info.cr": "# permit_columns name, contacted_at"
+          "./src/operations/save_contact_info.cr": "# permit_columns name, notes, contacted_at"
+        should_create_files_with_contents io,
+          "./src/models/contact_info.cr": "column notes : String?"
         should_create_files_with_contents io,
           "./src/models/contact_info.cr": "class ContactInfo < BaseModel",
           "./src/operations/save_contact_info.cr": "class SaveContactInfo < ContactInfo::SaveOperation",
           "./src/queries/contact_info_query.cr": "class ContactInfoQuery < ContactInfo::BaseQuery"
+        should_generate_migration named: "create_contact_infos.cr",
+          with: "add notes : String?"
         should_generate_migration named: "create_contact_infos.cr",
           with: "add contacted_at : Time"
       end
@@ -56,8 +60,9 @@ describe Gen::Model do
         bad_int_column = "int_column:integer"
         bad_text_column = "text_column:text"
         good_string_column = "good_column:String"
+        good_optional_string_column = "good_optional_column:String?"
         io = IO::Memory.new
-        ARGV.push("ModelName", bad_int_column, bad_text_column, good_string_column)
+        ARGV.push("ModelName", bad_int_column, bad_text_column, good_string_column, good_optional_string_column)
 
         Gen::Model.new.call(io)
 
@@ -66,6 +71,7 @@ describe Gen::Model do
         io.to_s.should contain(bad_int_column)
         io.to_s.should contain(bad_text_column)
         io.to_s.should_not contain(good_string_column)
+        io.to_s.should_not contain(good_optional_string_column)
       end
     end
 

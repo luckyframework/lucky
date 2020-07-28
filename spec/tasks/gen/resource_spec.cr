@@ -7,7 +7,7 @@ describe Gen::Resource::Browser do
   it "generates actions, model, operation and query" do
     with_cleanup do
       Gen::Migration.silence_output do
-        io = generate Gen::Resource::Browser, "User", "name:String", "signed_up:Time"
+        io = generate Gen::Resource::Browser, "User", "name:String", "notes:String?", "signed_up:Time"
 
         should_create_files_with_contents io,
           "./src/actions/users/index.cr": "class Users::Index < BrowserAction",
@@ -33,9 +33,11 @@ describe Gen::Resource::Browser do
           "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
           "./src/operations/save_user.cr": "class SaveUser < User::SaveOperation"
         should_create_files_with_contents io,
-          "./src/operations/save_user.cr": "permit_columns name, signed_up"
+          "./src/operations/save_user.cr": "permit_columns name, notes, signed_up"
         should_generate_migration named: "create_users.cr"
+        should_generate_migration named: "create_users.cr", with: "add name : String"
         should_generate_migration named: "create_users.cr", with: "add signed_up : Time"
+        should_generate_migration named: "create_users.cr", with: "add notes : String?"
         io.to_s.should contain "at: #{"/users".colorize.green}"
       end
     end
@@ -47,8 +49,9 @@ describe Gen::Resource::Browser do
         bad_int_column = "int_column:integer"
         bad_text_column = "text_column:text"
         good_string_column = "good_column:String"
+        good_optional_string_column = "good_optional_column:String?"
         io = IO::Memory.new
-        ARGV.push("ModelName", bad_int_column, bad_text_column, good_string_column)
+        ARGV.push("ModelName", bad_int_column, bad_text_column, good_string_column, good_optional_string_column)
 
         Gen::Model.new.call(io)
 
@@ -57,6 +60,7 @@ describe Gen::Resource::Browser do
         io.to_s.should contain(bad_int_column)
         io.to_s.should contain(bad_text_column)
         io.to_s.should_not contain(good_string_column)
+        io.to_s.should_not contain(good_optional_string_column)
       end
     end
 

@@ -26,7 +26,7 @@ class Gen::Resource::Browser < LuckyCli::Task
 
     Example:
 
-      lucky gen.resource.browser Project title:String completed:Bool priority:Int32
+      lucky gen.resource.browser Project title:String description:String? completed:Bool priority:Int32
     TEXT
   end
 
