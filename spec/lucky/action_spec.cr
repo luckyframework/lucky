@@ -143,6 +143,12 @@ class ParamsWithDefaultParamsLast < TestAction
   end
 end
 
+class OptionalRouteParams::Index < TestAction
+  get "/complex_posts/:required/?:optional_1/?:optional_2" do
+    plain_text "test"
+  end
+end
+
 describe Lucky::Action do
   it "has a url helper" do
     Lucky::RouteHelper.temp_config(base_uri: "example.com") do
@@ -160,6 +166,14 @@ describe Lucky::Action do
     it "returns url with (required) path params" do
       Lucky::RouteHelper.temp_config(base_uri: "example.com") do
         Tests::Edit.url_without_query_params(1).should eq "example.com/tests/1/edit"
+      end
+    end
+
+    it "returns url with optional path params" do
+      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+        OptionalRouteParams::Index.url_without_query_params(1).should eq "example.com/complex_posts/1"
+        OptionalRouteParams::Index.url_without_query_params(1, 2).should eq "example.com/complex_posts/1/2"
+        OptionalRouteParams::Index.url_without_query_params(1, 2, 3).should eq "example.com/complex_posts/1/2/3"
       end
     end
   end
@@ -207,6 +221,20 @@ describe Lucky::Action do
       assert_route_added? Lucky::Route.new :trace, "/so_custom", CustomRoutes::Trace
       assert_route_added? Lucky::Route.new :delete, "/so_custom", CustomRoutes::Delete
       assert_route_added? Lucky::Route.new :options, "/so_custom", CustomRoutes::Match
+    end
+
+    it "works with optional routing paths" do
+      route = OptionalRouteParams::Index.with(required: "1")
+      route.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1")
+      route.path.should eq "/complex_posts/1"
+
+      route2 = OptionalRouteParams::Index.with(required: "1", optional_1: "2")
+      route2.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1/2")
+      route2.path.should eq "/complex_posts/1/2"
+
+      route3 = OptionalRouteParams::Index.with(required: "1", optional_1: "2", optional_2: "3")
+      route3.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1/2/3")
+      route3.path.should eq "/complex_posts/1/2/3"
     end
   end
 
