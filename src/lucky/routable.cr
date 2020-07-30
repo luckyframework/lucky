@@ -191,16 +191,22 @@ module Lucky::Routable
   macro add_route(method, path, action)
     Lucky::Router.add({{ method }}, {{ ROUTE_SETTINGS[:prefix] + path }}, {{ @type.name.id }})
 
-    {% path_parts = path.split("/").reject(&.empty?) %}
-    {% path_params = path_parts.select(&.starts_with?(":")) %}
+    {% path_parts = path.split('/').reject(&.empty?) %}
+    {% path_params = path_parts.select(&.starts_with?(':')) %}
+    {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
 
-    {% for part in path_parts %}
-      {% if part.starts_with?(":") %}
-        {% part = part.gsub(/:/, "").id %}
-        def {{ part }} : String
-          params.get(:{{ part }})
-        end
-      {% end %}
+    {% for param in path_params %}
+      {% part = param.gsub(/:/, "").id %}
+      def {{ part }} : String
+        params.get(:{{ part }})
+      end
+    {% end %}
+
+    {% for param in optional_path_params %}
+      {% part = param.gsub(/^\?:/, "").id %}
+      def {{ part }} : String?
+        params.get?(:{{ part }})
+      end
     {% end %}
 
     def self.path(*args, **named_args) : String
@@ -214,6 +220,9 @@ module Lucky::Routable
     def self.url_without_query_params(
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
+    {% end %}
+    {% for param in optional_path_params %}
+      {{ param.gsub(/^\?:/, "").id }},
     {% end %}
     )
       path = path_from_parts(
