@@ -191,16 +191,22 @@ module Lucky::Routable
   macro add_route(method, path, action)
     Lucky::Router.add({{ method }}, {{ ROUTE_SETTINGS[:prefix] + path }}, {{ @type.name.id }})
 
-    {% path_parts = path.split("/").reject(&.empty?) %}
-    {% path_params = path_parts.select(&.starts_with?(":")) %}
+    {% path_parts = path.split('/').reject(&.empty?) %}
+    {% path_params = path_parts.select(&.starts_with?(':')) %}
+    {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
 
-    {% for part in path_parts %}
-      {% if part.starts_with?(":") %}
-        {% part = part.gsub(/:/, "").id %}
-        def {{ part }} : String
-          params.get(:{{ part }})
-        end
-      {% end %}
+    {% for param in path_params %}
+      {% part = param.gsub(/:/, "").id %}
+      def {{ part }} : String
+        params.get(:{{ part }})
+      end
+    {% end %}
+
+    {% for param in optional_path_params %}
+      {% part = param.gsub(/^\?:/, "").id %}
+      def {{ part }} : String?
+        params.get?(:{{ part }})
+      end
     {% end %}
 
     def self.path(*args, **named_args) : String
@@ -215,10 +221,16 @@ module Lucky::Routable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+    {% for param in optional_path_params %}
+      {{ param.gsub(/^\?:/, "").id }} = nil,
+    {% end %}
     )
       path = path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
+        {% end %}
+        {% for param in optional_path_params %}
+          {{ param.gsub(/^\?:/, "").id }},
         {% end %}
       )
       Lucky::RouteHelper.new({{ method }}, path).url
@@ -240,11 +252,17 @@ module Lucky::Routable
       {% no_default = !param.value && param.value != false && param.value != nil %}
       {{ param }}{% if is_nilable_type && no_default %} = nil{% end %},
     {% end %}
+    {% for param in optional_path_params %}
+      {{ param.gsub(/^\?:/, "").id }} : String? = nil,
+    {% end %}
     anchor : String? = nil
       ) : Lucky::RouteHelper
       path = path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
+        {% end %}
+        {% for param in optional_path_params %}
+          {{ param.gsub(/^\?:/, "").id }},
         {% end %}
       )
       query_params = {} of String => String
@@ -283,13 +301,22 @@ module Lucky::Routable
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
         {% end %}
+        {% for param in optional_path_params %}
+          {{ param.gsub(/^\?:/, "").id }},
+        {% end %}
     )
       path = String.build do |path|
         {% for part in path_parts %}
-          path << "/"
-          {% if part.starts_with?(":") %}
+          {% if part.starts_with?("?:") %}
+            if {{ part.gsub(/^\?:/, "").id }}
+              path << "/"
+              path << URI.encode_www_form({{ part.gsub(/^\?:/, "").id }}.to_param)
+            end
+          {% elsif part.starts_with?(':') %}
+            path << "/"
             path << URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param)
           {% else %}
+            path << "/"
             path << URI.encode_www_form({{ part }})
           {% end %}
         {% end %}
