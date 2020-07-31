@@ -160,7 +160,6 @@ end
 
 private class TestPage
   include Lucky::HTMLPage
-  include Lucky::UrlHelpers
 end
 
 class Pages::Index < TestAction

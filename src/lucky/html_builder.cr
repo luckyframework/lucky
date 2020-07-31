@@ -16,6 +16,7 @@ module Lucky::HTMLBuilder
   include Lucky::NumberToCurrency
   include Lucky::TextHelpers
   include Lucky::HTMLTextHelpers
+  include Lucky::UrlHelpers
   include Lucky::TimeHelpers
   include Lucky::ForgeryProtectionHelpers
   include Lucky::MountComponent
