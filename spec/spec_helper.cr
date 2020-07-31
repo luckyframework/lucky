@@ -29,7 +29,7 @@ class UnusedDatabase < Avram::Database
 end
 
 UnusedDatabase.configure do |settings|
-  settings.credentials = Avram::Credentials.new(database: "unused", hostname: "localhost")
+  settings.credentials = Avram::Credentials.void
 end
 
 Avram.configure do |settings|
