@@ -10,24 +10,24 @@ module Lucky::VerifyAcceptsFormat
     end
   end
 
-  # Set what formats the Action accepts.
+  # Set the single format that the Action accepts.
   #
   # Same as `accepted_formats` but this one only accepts one format and no
-  # default. If you pass less an empty array or more than one format, you must
+  # default. If you pass an empty array or more than one format, you must
   # use the other `accepted_formats` so you can tell Lucky what the `default`
   # format should be.
   #
-  # If something other than the accepts formats are request, Lucky will raise
+  # If something other than the accepted formats are requested, Lucky will raise
   # a `Lucky::NotAcceptableError` error.
   #
   # ```
-  # # Defaults is set to :html since there is just one format
+  # # Default is set to :html since there is just one format
   # accepted_formats [:html]
   #
   # # Raises at compile time because Lucky needs to know which format is the default
   # accepted_formats [:html, :json]
   #
-  # # Give Lucky the default if ore than one format is accepted
+  # # If more than one format is accepted, you must provide the default explicitly
   # accepted_formats [:html, :json], default: :html
   # ```
   macro accepted_formats(formats)
@@ -44,7 +44,7 @@ module Lucky::VerifyAcceptsFormat
 
   # Set what formats the Action accepts.
   #
-  # If something other than the accepts formats are request, Lucky will raise
+  # If something other than the accepted formats are requested, Lucky will raise
   # a `Lucky::NotAcceptableError` error.
   #
   # ```
