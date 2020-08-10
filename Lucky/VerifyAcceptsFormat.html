@@ -861,7 +861,7 @@
       <li class="entry-summary">
         <a href="#accepted_formats(formats)-macro" class="signature"><strong>accepted_formats</strong>(formats)</a>
         
-          <div class="summary"><p>Set what formats the Action accepts.</p></div>
+          <div class="summary"><p>Set the single format that the Action accepts.</p></div>
         
       </li>
     
@@ -930,23 +930,23 @@
       
         <div class="doc">
           
-          <p>Set what formats the Action accepts.</p>
+          <p>Set the single format that the Action accepts.</p>
 
 <p>Same as <code><a href="../Lucky/VerifyAcceptsFormat.html#accepted_formats(formats)-macro">accepted_formats</a></code> but this one only accepts one format and no
-default. If you pass less an empty array or more than one format, you must
+default. If you pass an empty array or more than one format, you must
 use the other <code><a href="../Lucky/VerifyAcceptsFormat.html#accepted_formats(formats)-macro">accepted_formats</a></code> so you can tell Lucky what the <code>default</code>
 format should be.</p>
 
-<p>If something other than the accepts formats are request, Lucky will raise
+<p>If something other than the accepted formats are requested, Lucky will raise
 a <code><a href="../Lucky/NotAcceptableError.html">Lucky::NotAcceptableError</a></code> error.</p>
 
-<pre><code><span class="c"># Defaults is set to :html since there is just one format</span>
+<pre><code><span class="c"># Default is set to :html since there is just one format</span>
 accepted_formats [<span class="n">:html</span>]
 
 <span class="c"># Raises at compile time because Lucky needs to know which format is the default</span>
 accepted_formats [<span class="n">:html</span>, <span class="n">:json</span>]
 
-<span class="c"># Give Lucky the default if ore than one format is accepted</span>
+<span class="c"># If more than one format is accepted, you must provide the default explicitly</span>
 accepted_formats [<span class="n">:html</span>, <span class="n">:json</span>], default: <span class="n">:html</span></code></pre>
         </div>
       
@@ -968,7 +968,7 @@ accepted_formats [<span class="n">:html</span>, <span class="n">:json</span>], d
           
           <p>Set what formats the Action accepts.</p>
 
-<p>If something other than the accepts formats are request, Lucky will raise
+<p>If something other than the accepted formats are requested, Lucky will raise
 a <code><a href="../Lucky/NotAcceptableError.html">Lucky::NotAcceptableError</a></code> error.</p>
 
 <pre><code>accepted_formats [<span class="n">:html</span>, <span class="n">:json</span>], default: <span class="n">:json</span></code></pre>
