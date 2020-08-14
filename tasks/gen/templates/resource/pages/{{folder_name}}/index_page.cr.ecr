@@ -10,7 +10,7 @@ class <%= pluralized_name %>::IndexPage < MainLayout
 
   def render_<%= pluralized_name.underscore %>
     ul do
-      @<%= pluralized_name.underscore %>.each do |<%= underscored_resource %>|
+      <%= pluralized_name.underscore %>.each do |<%= underscored_resource %>|
         li do
           link <%= underscored_resource %>.<%= columns.first.name %>, <%= pluralized_name %>::Show.with(<%= underscored_resource %>)
         end
