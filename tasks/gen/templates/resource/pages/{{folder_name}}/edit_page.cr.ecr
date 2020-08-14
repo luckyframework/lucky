@@ -1,16 +1,16 @@
 class <%= pluralized_name %>::EditPage < MainLayout
   needs operation : <%= operation_class %>
   needs <%= underscored_resource %> : <%= resource %>
-  quick_def page_title, "Edit <%= resource %> with id: #{@<%= underscored_resource %>.id}"
+  quick_def page_title, "Edit <%= resource %> with id: #{<%= underscored_resource %>.id}"
 
   def content
     link "Back to all <%= pluralized_name %>", <%= pluralized_name %>::Index
-    h1 "Edit <%= resource %> with id: #{@<%= underscored_resource %>.id}"
-    render_<%= underscored_resource %>_form(@operation)
+    h1 "Edit <%= resource %> with id: #{<%= underscored_resource %>.id}"
+    render_<%= underscored_resource %>_form(operation)
   end
 
   def render_<%= underscored_resource %>_form(op)
-    form_for <%= pluralized_name %>::Update.with(@<%= underscored_resource %>.id) do
+    form_for <%= pluralized_name %>::Update.with(<%= underscored_resource %>.id) do
       # Edit fields in src/components/<%= folder_name %>/form_fields.cr
       mount <%= pluralized_name %>::FormFields, op
 

@@ -4,7 +4,7 @@ class <%= pluralized_name %>::NewPage < MainLayout
 
   def content
     h1 "New <%= resource %>"
-    render_<%= underscored_resource %>_form(@operation)
+    render_<%= underscored_resource %>_form(operation)
   end
 
   def render_<%= underscored_resource %>_form(op)
