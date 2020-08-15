@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/github/tag/luckyframework/lucky.svg?maxAge=360&label=version)](https://github.com/luckyframework/lucky/releases/latest)
 [![License](https://img.shields.io/github/license/luckyframework/lucky.svg)](https://github.com/luckyframework/lucky/blob/master/LICENSE)
 
-[![Gitter](https://img.shields.io/gitter/room/luckyframework/lucky.svg)](https://gitter.im/luckyframework/Lobby)
+[![Discord](https://img.shields.io/discord/743896265057632256)](https://discord.gg/HeqJUcb)
 
 The goal: prevent bugs, forget about most performance issues, and spend more
 time on code instead of debugging and fixing tests.
@@ -21,13 +21,14 @@ Lucky has a [fresh new set of guides](https://luckyframework.org/guides/) that
 make it easy to get started.
 
 Feel free to say hi or ask questions on our
-[chat room](https://gitter.im/luckyframework/Lobby).
+[chat room](https://discord.gg/HeqJUcb).
 
 ## Keep up-to-date
 
 Keep up to date by following [@luckyframework](https://twitter.com/luckyframework) on Twitter.
 
 ## Documentation
+
 [API (master)](https://luckyframework.github.io/lucky/)
 
 ## What's it look like?
@@ -187,7 +188,6 @@ This includes things like submitting PRs with bug fixes and feature implementati
 work through problems, and deploying real world applications using Lucky!
 
 To claim your shirt, [fill in this form](https://forms.gle/w3PJ4pww8WDAuJov5).
-
 
 ## Contributors
 
