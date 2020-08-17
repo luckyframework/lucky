@@ -4,7 +4,7 @@ In order to foster an inclusive, kind, harassment-free, and cooperative communit
 
 ## Summary
 
-Harassment in code and discussion or violation of physical boundaries is completely unacceptable anywhere in Lucky's  codebases, issue trackers, chatrooms, mailing lists, meetups, and other events. Violators will be warned by the core team. Repeat violations will result in being blocked or banned by the core team at or before the 3rd violation.
+Harassment in code and discussion or violation of physical boundaries is completely unacceptable anywhere in Lucky's codebases, issue trackers, chatrooms, mailing lists, meetups, and other events. Violators will be warned by the core team. Repeat violations will result in being blocked or banned by the core team at or before the 3rd violation.
 
 ## In detail
 
@@ -16,7 +16,7 @@ Maintainers are also subject to the anti-harassment policy.
 
 If anyone engages in harassing behavior, including maintainers, we may take appropriate action, up to and including warning the offender, deletion of comments, removal from the project’s codebase and communication systems, and escalation to GitHub support.
 
-If you are being harassed, notice that someone else is being harassed, or have any other concerns, please contact a member of the core team on Twitter on privately on Gitter.com (@paulcsmith).
+If you are being harassed, notice that someone else is being harassed, or have any other concerns, please contact a member of the core team on Twitter on privately on Discord (@Paul Smith).
 
 We expect everyone to follow these rules anywhere in Lucky's codebases, issue trackers, chatrooms, and mailing lists.
 
@@ -41,4 +41,3 @@ Thanks to the CocoaPods Code of Conduct, Bundler Code of Conduct, JSConf Code of
 ## License
 
 To the extent possible under law, the Lucky team has waived all copyright and related or neighboring rights to the Code of Conduct. This work is published from the United States.
-
