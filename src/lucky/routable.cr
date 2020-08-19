@@ -253,10 +253,12 @@ module Lucky::Routable
     {% params_without_defaults = PARAM_DECLARATIONS.reject do |decl|
          params_with_defaults.includes? decl
        end %}
-    {% for param in params_without_defaults + params_with_defaults %}
+    {% for param in params_without_defaults %}
       {% is_nilable_type = param.type.is_a?(Union) %}
-      {% no_default = !param.value && param.value != false && param.value != nil %}
-      {{ param }}{% if is_nilable_type && no_default %} = nil{% end %},
+      {{ param }}{% if is_nilable_type %} = nil{% end %},
+    {% end %}
+    {% for param in params_with_defaults %}
+      {{ param.var }} = nil,
     {% end %}
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} : String? = nil,
@@ -273,15 +275,7 @@ module Lucky::Routable
       )
       query_params = {} of String => String
       {% for param in PARAM_DECLARATIONS %}
-        {% if param.value == false %}
-          {% default_value = false %}
-        {% else %}
-          {% default_value = param.value || nil %}
-        {% end %}
-        param_is_default_or_nil = {{ param.var }} == {{ default_value }}
-        unless param_is_default_or_nil
-          query_params["{{ param.var }}"] = {{ param.var }}.to_s
-        end
+        query_params["{{ param.var }}"] = {{ param.var }}.to_s unless {{ param.var }}.nil?
       {% end %}
       unless query_params.empty?
         path += "?#{HTTP::Params.encode(query_params)}"
