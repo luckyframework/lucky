@@ -196,6 +196,9 @@ module Lucky::Routable
     {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
 
     {% for param in path_params %}
+      {% if param.includes?("-") %}
+        {% param.raise "Path variables must only use underscores. Use #{param.gsub(/-/, "_")} instead of #{param}." %}
+      {% end %}
       {% part = param.gsub(/:/, "").id %}
       def {{ part }} : String
         params.get(:{{ part }})
@@ -203,6 +206,9 @@ module Lucky::Routable
     {% end %}
 
     {% for param in optional_path_params %}
+      {% if param.includes?("-") %}
+        {% param.raise "Optional path variables must only use underscores. Use #{param.gsub(/-/, "_")} instead of #{param}." %}
+      {% end %}
       {% part = param.gsub(/^\?:/, "").id %}
       def {{ part }} : String?
         params.get?(:{{ part }})
