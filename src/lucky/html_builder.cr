@@ -64,7 +64,9 @@ module Lucky::HTMLBuilder
           {% has_default = value || value == false || value == nil %}
           @{{ var.id }} : {{ type }}{% if has_default %} = {{ value }}{% end %},
         {% end %}
-        **unused_exposures
+        {% unless @type < Lucky::BaseComponent %}
+          **unused_exposures
+        {% end %}
         )
       end
     {% end %}
