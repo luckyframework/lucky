@@ -890,28 +890,28 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect_back(*,fallback:Lucky::Action.class,status=302)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>)</a>
+        <a href="#redirect_back(*,fallback:Lucky::Action.class,status=302,allow_external=false)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>)</a>
         
           <div class="summary"><p>Redirect back with a <code><a href="../Lucky/Action.html">Lucky::Action</a></code> fallback</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect_back(*,fallback:Lucky::RouteHelper,status=302)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : Lucky::RouteHelper, status = <span class="n">302</span>)</a>
+        <a href="#redirect_back(*,fallback:Lucky::RouteHelper,status=302,allow_external=false)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : Lucky::RouteHelper, status = <span class="n">302</span>, allow_external = <span class="n">false</span>)</a>
         
           <div class="summary"><p>Redirect back with a <code><a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a></code> fallback</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect_back(*,fallback:String,status:HTTP::Status)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : String, status : HTTP::Status)</a>
+        <a href="#redirect_back(*,fallback:String,status:HTTP::Status,allow_external=false)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : String, status : HTTP::Status, allow_external = <span class="n">false</span>)</a>
         
           <div class="summary"><p>Redirect back with a human friendly status</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect_back(*,fallback:String,status:Int32=302)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : String, status : Int32 = <span class="n">302</span>)</a>
+        <a href="#redirect_back(*,fallback:String,status:Int32=302,allow_external:Bool=false)-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : String, status : Int32 = <span class="n">302</span>, allow_external : Bool = <span class="n">false</span>)</a>
         
           <div class="summary"><p>Redirects the browser to the page that issued the request (the referrer) if possible, otherwise redirects to the provided default fallback location.</p></div>
         
@@ -1030,12 +1030,12 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::Action.class,status=302)-instance-method">
+    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::Action.class,status=302,allow_external=false)-instance-method">
       <div class="signature">
         
-        def <strong>redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>)
+        def <strong>redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#redirect_back(*,fallback:Lucky::Action.class,status=302)-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_back(*,fallback:Lucky::Action.class,status=302,allow_external=false)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1051,12 +1051,12 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::RouteHelper,status=302)-instance-method">
+    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::RouteHelper,status=302,allow_external=false)-instance-method">
       <div class="signature">
         
-        def <strong>redirect_back</strong>(*, fallback : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, status = <span class="n">302</span>)
+        def <strong>redirect_back</strong>(*, fallback : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#redirect_back(*,fallback:Lucky::RouteHelper,status=302)-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_back(*,fallback:Lucky::RouteHelper,status=302,allow_external=false)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1072,12 +1072,12 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect_back(*,fallback:String,status:HTTP::Status)-instance-method">
+    <div class="entry-detail" id="redirect_back(*,fallback:String,status:HTTP::Status,allow_external=false)-instance-method">
       <div class="signature">
         
-        def <strong>redirect_back</strong>(*, fallback : <a href="../String.html">String</a>, status : HTTP::Status)
+        def <strong>redirect_back</strong>(*, fallback : <a href="../String.html">String</a>, status : HTTP::Status, allow_external = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#redirect_back(*,fallback:String,status:HTTP::Status)-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_back(*,fallback:String,status:HTTP::Status,allow_external=false)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1093,12 +1093,12 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect_back(*,fallback:String,status:Int32=302)-instance-method">
+    <div class="entry-detail" id="redirect_back(*,fallback:String,status:Int32=302,allow_external:Bool=false)-instance-method">
       <div class="signature">
         
-        def <strong>redirect_back</strong>(*, fallback : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> = <span class="n">302</span>)
+        def <strong>redirect_back</strong>(*, fallback : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> = <span class="n">302</span>, allow_external : <a href="../Bool.html">Bool</a> = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#redirect_back(*,fallback:String,status:Int32=302)-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_back(*,fallback:String,status:Int32=302,allow_external:Bool=false)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1116,6 +1116,12 @@ is missing this header the <em>fallback</em> will be used.</p>
 <p>A redirect status can be specified</p>
 
 <pre><code class="language-crystal">redirect_back fallback: <span class="s">&quot;/home&quot;</span>, status: <span class="n">301</span></code></pre>
+
+<p>External referers are ignored by default.
+It is determined by comparing the referer header to the request host.
+They can be explicitly allowed if necessary</p>
+
+<p>redirect_back fallback: "/home", allow_external: true</p>
         </div>
       
       <br/>
