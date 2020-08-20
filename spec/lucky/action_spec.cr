@@ -350,6 +350,14 @@ describe Lucky::Action do
       OptionalParams::Index.path(page: 7, with_default: "/other").should eq "/optional_params?page=7&with_default=%2Fother"
     end
 
+    it "is added to the path if the value matches default and is explicitly given" do
+      OptionalParams::Index.path(with_default: "default").should eq "/optional_params?with_default=default"
+    end
+
+    it "is not added to the path param has default value but not given" do
+      OptionalParams::Index.path.should eq "/optional_params"
+    end
+
     it "is added as optional argument to the route" do
       OptionalParams::Index.route(page: 7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7")
       OptionalParams::Index.route(page: 7, with_default: "/other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=%2Fother")
