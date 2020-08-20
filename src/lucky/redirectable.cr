@@ -29,8 +29,8 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: Users::Index
   # ```
-  def redirect_back(*, fallback : Lucky::Action.class, status = 302)
-    redirect_back fallback: fallback.route, status: status
+  def redirect_back(*, fallback : Lucky::Action.class, status = 302, allow_external = false)
+    redirect_back fallback: fallback.route, status: status, allow_external: allow_external
   end
 
   # Redirect back with a `Lucky::RouteHelper` fallback
@@ -38,8 +38,8 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: Users::Show.with(user.id)
   # ```
-  def redirect_back(*, fallback : Lucky::RouteHelper, status = 302)
-    redirect_back fallback: fallback.path, status: status
+  def redirect_back(*, fallback : Lucky::RouteHelper, status = 302, allow_external = false)
+    redirect_back fallback: fallback.path, status: status, allow_external: allow_external
   end
 
   # Redirect back with a human friendly status
@@ -47,8 +47,8 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: "/users", status: HTTP::Status::MOVED_PERMANENTLY
   # ```
-  def redirect_back(*, fallback : String, status : HTTP::Status)
-    redirect_back fallback: fallback, status: status.value
+  def redirect_back(*, fallback : String, status : HTTP::Status, allow_external = false)
+    redirect_back fallback: fallback, status: status.value, allow_external: allow_external
   end
 
   # Redirects the browser to the page that issued the request (the referrer)
@@ -68,9 +68,20 @@ module Lucky::Redirectable
   # ```crystal
   # redirect_back fallback: "/home", status: 301
   # ```
-  def redirect_back(*, fallback : String, status : Int32 = 302)
+  #
+  # External referers are ignored by default.
+  # It is determined by comparing the referer header to the base uri specified in `config/route_helper.cr`.
+  # They can be explicitly allowed if necessary
+  #
+  # redirect_back fallback: "/home", allow_external: true
+  def redirect_back(*, fallback : String, status : Int32 = 302, allow_external : Bool = false)
     referer = request.headers["Referer"]?
-    redirect to: (referer || fallback), status: status
+
+    if referer && (allow_external || allowed_host?(referer))
+      redirect to: referer, status: status
+    else
+      redirect to: fallback, status: status
+    end
   end
 
   # Redirect using a `Lucky::RouteHelper`
@@ -141,5 +152,13 @@ module Lucky::Redirectable
   private def store_turbolinks_location_in_session(path : String)
     cookies.set(:_turbolinks_location, path).http_only(true)
     # this cookie read at Lucky::RedirectableTurbolinksSupport
+  end
+
+  private def allowed_host?(referer : String)
+    if referer_host = URI.parse(referer).host
+      referer_host.ends_with?(Lucky::RouteHelper.settings.base_uri)
+    else
+      false
+    end
   end
 end

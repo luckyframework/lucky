@@ -37,32 +37,59 @@ describe Lucky::Action do
     should_redirect(action, to: "/somewhere", status: 301)
   end
 
-  it "redirects back" do
-    request = build_request("POST")
-    request.headers["Referer"] = "https://www.example.com/coming/from"
-    action = RedirectAction.new(build_context(request), params)
-    action.redirect_back fallback: "/fallback"
-    should_redirect(action, to: "https://www.example.com/coming/from", status: 302)
+  describe "#redirect_back" do
+    it "redirects to referer if present" do
+      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+        request = build_request("POST")
+        request.headers["Referer"] = "https://www.example.com/coming/from"
+        action = RedirectAction.new(build_context(request), params)
+        action.redirect_back fallback: "/fallback"
+        should_redirect(action, to: "https://www.example.com/coming/from", status: 302)
+      end
+    end
 
-    action = RedirectAction.new(build_context, params)
-    action.redirect_back fallback: "/fallback"
-    should_redirect(action, to: "/fallback", status: 302)
+    it "redirects to fallback if referer missing" do
+      request = build_request("POST")
+      action = RedirectAction.new(build_context(request), params)
+      action.redirect_back fallback: "/fallback"
+      should_redirect(action, to: "/fallback", status: 302)
 
-    action = RedirectAction.new(build_context, params)
-    action.redirect_back fallback: RedirectAction.route
-    should_redirect(action, to: RedirectAction.path, status: 302)
+      action = RedirectAction.new(build_context, params)
+      action.redirect_back fallback: RedirectAction.route
+      should_redirect(action, to: RedirectAction.path, status: 302)
 
-    action = RedirectAction.new(build_context, params)
-    action.redirect_back fallback: RedirectAction
-    should_redirect(action, to: RedirectAction.path, status: 302)
+      action = RedirectAction.new(build_context, params)
+      action.redirect_back fallback: RedirectAction
+      should_redirect(action, to: RedirectAction.path, status: 302)
 
-    action = RedirectAction.new(build_context, params)
-    action.redirect_back fallback: RedirectAction, status: HTTP::Status::MOVED_PERMANENTLY
-    should_redirect(action, to: RedirectAction.path, status: 301)
+      action = RedirectAction.new(build_context, params)
+      action.redirect_back fallback: RedirectAction, status: HTTP::Status::MOVED_PERMANENTLY
+      should_redirect(action, to: RedirectAction.path, status: 301)
 
-    action = RedirectAction.new(build_context, params)
-    action.redirect_back fallback: RedirectAction, status: 301
-    should_redirect(action, to: RedirectAction.path, status: 301)
+      action = RedirectAction.new(build_context, params)
+      action.redirect_back fallback: RedirectAction, status: 301
+      should_redirect(action, to: RedirectAction.path, status: 301)
+    end
+
+    it "redirects to fallback if referer is external" do
+      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+        request = build_request("POST")
+        request.headers["Referer"] = "https://www.external.com/coming/from"
+        action = RedirectAction.new(build_context(request), params)
+        action.redirect_back fallback: "/fallback"
+        should_redirect(action, to: "/fallback", status: 302)
+      end
+    end
+
+    it "redirects to referer if referer is external and allowed" do
+      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+        request = build_request("POST")
+        request.headers["Referer"] = "https://www.external.com/coming/from"
+        action = RedirectAction.new(build_context(request), params)
+        action.redirect_back fallback: "/fallback", allow_external: true
+        should_redirect(action, to: "https://www.external.com/coming/from", status: 302)
+      end
+    end
   end
 
   it "turbolinks redirects after a XHR POST form submission" do
