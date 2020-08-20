@@ -70,7 +70,7 @@ module Lucky::Redirectable
   # ```
   #
   # External referers are ignored by default.
-  # It is determined by comparing the referer header to the base uri specified in `config/route_helper.cr`.
+  # It is determined by comparing the referer header to the request host.
   # They can be explicitly allowed if necessary
   #
   # redirect_back fallback: "/home", allow_external: true
@@ -156,7 +156,7 @@ module Lucky::Redirectable
 
   private def allowed_host?(referer : String)
     if referer_host = URI.parse(referer).host
-      referer_host.ends_with?(Lucky::RouteHelper.settings.base_uri)
+      referer_host == request.host
     else
       false
     end

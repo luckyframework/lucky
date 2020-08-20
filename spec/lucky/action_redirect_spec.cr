@@ -39,13 +39,11 @@ describe Lucky::Action do
 
   describe "#redirect_back" do
     it "redirects to referer if present" do
-      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
-        request = build_request("POST")
-        request.headers["Referer"] = "https://www.example.com/coming/from"
-        action = RedirectAction.new(build_context(request), params)
-        action.redirect_back fallback: "/fallback"
-        should_redirect(action, to: "https://www.example.com/coming/from", status: 302)
-      end
+      request = build_request("POST")
+      request.headers["Referer"] = "https://example.com/coming/from"
+      action = RedirectAction.new(build_context(request), params)
+      action.redirect_back fallback: "/fallback"
+      should_redirect(action, to: "https://example.com/coming/from", status: 302)
     end
 
     it "redirects to fallback if referer missing" do
@@ -72,23 +70,19 @@ describe Lucky::Action do
     end
 
     it "redirects to fallback if referer is external" do
-      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
-        request = build_request("POST")
-        request.headers["Referer"] = "https://www.external.com/coming/from"
-        action = RedirectAction.new(build_context(request), params)
-        action.redirect_back fallback: "/fallback"
-        should_redirect(action, to: "/fallback", status: 302)
-      end
+      request = build_request("POST")
+      request.headers["Referer"] = "https://external.com/coming/from"
+      action = RedirectAction.new(build_context(request), params)
+      action.redirect_back fallback: "/fallback"
+      should_redirect(action, to: "/fallback", status: 302)
     end
 
     it "redirects to referer if referer is external and allowed" do
-      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
-        request = build_request("POST")
-        request.headers["Referer"] = "https://www.external.com/coming/from"
-        action = RedirectAction.new(build_context(request), params)
-        action.redirect_back fallback: "/fallback", allow_external: true
-        should_redirect(action, to: "https://www.external.com/coming/from", status: 302)
-      end
+      request = build_request("POST")
+      request.headers["Referer"] = "https://external.com/coming/from"
+      action = RedirectAction.new(build_context(request), params)
+      action.redirect_back fallback: "/fallback", allow_external: true
+      should_redirect(action, to: "https://external.com/coming/from", status: 302)
     end
   end
 
