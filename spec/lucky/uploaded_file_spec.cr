@@ -24,7 +24,8 @@ describe Lucky::UploadedFile do
 
   describe "#path" do
     it "returns the file path" do
-      uploaded_file.path.should match(/^\/tmp\/.*welcome_file$/)
+      uploaded_file.path.starts_with?(Dir.tempdir).should be_true
+      uploaded_file.path.ends_with?("welcome_file").should be_true
     end
   end
 
