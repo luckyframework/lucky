@@ -31,31 +31,31 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.23
+    version: ~> 0.23.0
   habitat:
     github: luckyframework/habitat
-    version: ~> 0.4
+    version: ~> 0.4.4
   wordsmith:
     github: luckyframework/wordsmith
-    version: ~> 0.2
+    version: ~> 0.2.0
   avram:
     github: luckyframework/avram
     branch: master
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.3
+    version: ~> 0.3.0
   shell-table:
     github: luckyframework/shell-table.cr
     branch: refactor/setter
   cry:
     github: luckyframework/cry
-    version: ~> 0.4
+    version: ~> 0.4.0
   exception_page:
     github: crystal-loot/exception_page
     version: ~> 0.1.0
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.3
+    version: ~> 0.3.0
 
 development_dependencies:
   ameba:
