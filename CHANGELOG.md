@@ -1,4 +1,40 @@
-### Changes in 0.23
+### Changes in 0.24
+
+- Fixed: `send_text_response` default status to nil [#1214](https://github.com/luckyframework/lucky/pull/1214)
+- Added: `data` method for Actions to return file contents [#1220](https://github.com/luckyframework/lucky/pull/1220)
+- Updated: Component `m` is renamed to `mount` [#1226](https://github.com/luckyframework/lucky/pull/1226)
+- Updated: Components with UrlHelpers like `current_page?` [#1228](https://github.com/luckyframework/lucky/pull/1228)
+- Added: optional param routing [#1229](https://github.com/luckyframework/lucky/pull/1229)
+- Updated: docs on `accept_format` [#1234](https://github.com/luckyframework/lucky/pull/1234)
+- Updated: generator templates to use getter methods over instance variables [#1236](https://github.com/luckyframework/lucky/pull/1236)
+- Updated: our community to use Discord for community [chat room](https://discord.gg/HeqJUcb) [#1237](https://github.com/luckyframework/lucky/pull/1237)
+- Updated: compile-time error when path params are defined with dashes [#1238](https://github.com/luckyframework/lucky/pull/1238)
+- Updated: path helpers to render query params even if default value is passed [#1239](https://github.com/luckyframework/lucky/pull/1239)
+- Updated: `redirect_back` to disallow external referrers by default with config option [#1241](https://github.com/luckyframework/lucky/pull/1241)
+- Updated: generated api apps will use `disable_cookies` by default [#535 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/535)
+- Fixed: generating an app with the name "app" will raise an error [#543 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/543)
+- Updated: `AppClient` renamed to `ApiClient` [#534 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/534)
+- Updated: generated projects to use `--ignore-crystal-version` flag when running `shards install`. NOTE: this is a temporary update, and will be reverted in a future release. [Read Crystal Blog](https://crystal-lang.org/2020/08/20/preparing-our-shards-for-crystal-1.0.html) [See commit](https://github.com/luckyframework/lucky_cli/pull/547/files#diff-154806d6e0faa0b1aa1e518f3bbd3647R25)
+- Added: ability to set default values on model columns [#424 in Avram](https://github.com/luckyframework/avram/pull/424)
+- Added: `file_attribute` for operations to specify a file from params [#428 in Avram](https://github.com/luckyframework/avram/pull/428)
+- Added: new `Database.delete` strategy for cleaning up data in specs [#426 in Avram](https://github.com/luckyframework/avram/pull/426)
+- Added: `create_function` and `drop_function` to create SQL functions [#427 in Avram](https://github.com/luckyframework/avram/pull/427)
+- Updated: `Avram::PostgresURL` renamed to `Avram::Credentials` with a new interface [#433 in Avram](https://github.com/luckyframework/avram/pull/433)
+- Added: `create_trigger` and `drop_trigger` to create SQL triggers [#436 in Avram](https://github.com/luckyframework/avram/pull/436)
+- Added: association `_count` method to easily return a count of a has_many association [#392 in Avram](https://github.com/luckyframework/avram/pull/392)
+- Added: new `Pulsar` shard for pub/sub style communication in Lucky [See Pulsar](https://github.com/luckyframework/pulsar)
+- Added: Pulsar instrumentation to Avram for subscribing to queries [#441 in Avram](https://github.com/luckyframework/avram/pull/441)
+- Added: support for `Array(Float64)` in databases [#443 in Avram](https://github.com/luckyframework/avram/pull/443)
+- Updated: `fill_existing_with` option on `add_belongs_to` in migrations [#444 in Avram](https://github.com/luckyframework/avram/pull/444)
+- Added: `Box.build_attributes` method to build the attributes of a model in specs [#449 in Avram](https://github.com/luckyframework/avram/pull/449)
+- Fixed: blank strings causing parse exceptions in save operations [#448 in Avram](https://github.com/luckyframework/avram/pull/448)
+- Updated: LuckyRouter with many performance and structural refactors [#28](https://github.com/luckyframework/lucky_router/pull/28), [#30](https://github.com/luckyframework/lucky_router/pull/30), [#31](https://github.com/luckyframework/lucky_router/pull/31), [#32](https://github.com/luckyframework/lucky_router/pull/32)
+
+### v0.23.1 (2020-07-07)
+
+- Fixed: generated apps using deprecated `mount` instead of `m` [#531 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/531)
+
+### v0.23.0 (2020-06-26)
 
 - Updated: password reset tokens to be URL safe [#1118](https://github.com/luckyframework/lucky/pull/1118)
 - Added: `radio` input helper [#1125](https://github.com/luckyframework/lucky/pull/1125)
