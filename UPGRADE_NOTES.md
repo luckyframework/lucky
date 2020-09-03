@@ -1,3 +1,66 @@
+## Upgrading from 0.23 to 0.24
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.23.0&to=0.24.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.1`
+  - Lucky should be `~> 0.24.0`
+
+- Run `shards update`
+
+### General updates
+
+- Rename: all instances of the `m` macro to `mount`. e.g. `m Shared::Footer, year: 2020` -> `mount Shared::Footer, year: 2020`.
+- Update: `config/database.cr` with new `Avram::Credentials`.
+```crystal
+AppDatabase.configure do |settings|
+  if Lucky::Env.production?
+    settings.credentials = Avram::Credentials.parse(ENV["DB_URL"])
+  else
+    settings.credentials = Avram::Credentials.parse?(ENV["DB_URL"]?) || Avram::Credentials.new(
+      database: database_name,
+      hostname: ENV["DB_HOST"]? || "localhost",
+      port: ENV["DB_PORT"]?.try(&.to_i) || 5432,
+      username: ENV["DB_USERNAME"]? || "postgres",
+      password: ENV["DB_PASSWORD"]? || "postgres"
+    )
+  end
+end
+```
+- Rename: all instances of `AppClient` to `ApiClient` in your `spec/` directory.
+- Update: `script/setup` with `shards install --ignore-crystal-version`. Alternatively, you can set a global `SHARDS_OPTS=--ignore-crystal-version` environment variable
+
+### Optional updates
+
+- Update: `redirect_back` with `allow_external: true` argument if you need to allow external referers
+- Update: your database credentials with the new `query` option to pass query string options
+```crystal
+# config/database.cr
+settings.credentials = Avram::Credentials.new(
+  database: database_name,
+  hostname: ENV["DB_HOST"]? || "localhost",
+  port: ENV["DB_PORT"]?.try(&.to_i) || 5432,
+  username: ENV["DB_USERNAME"]? || "postgres",
+  password: ENV["DB_PASSWORD"]? || "postgres",
+  # This option is new
+  query: "initial_pool_size=5&max_pool_size=20"
+)
+```
+- Add: `disable_cookies` to `ApiAction` in `src/actions/api_action.cr`.
+
 ## Upgrading from 0.22 to 0.23
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.22.0&to=0.23.0).
