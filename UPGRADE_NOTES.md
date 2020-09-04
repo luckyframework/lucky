@@ -23,7 +23,7 @@ brew upgrade lucky
 
 ### General updates
 
-- Rename: all instances of the `m` macro to `mount`. e.g. `m Shared::Footer, year: 2020` -> `mount Shared::Footer, year: 2020`.
+- Rename: all instances of the `m` method to `mount`. e.g. `m Shared::Footer, year: 2020` -> `mount Shared::Footer, year: 2020`.
 - Update: `config/database.cr` with new `Avram::Credentials`.
 ```crystal
 AppDatabase.configure do |settings|
