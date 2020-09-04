@@ -1,4 +1,4 @@
-FROM crystallang/crystal:0.35.0
+FROM crystallang/crystal:0.35.1
 WORKDIR /data
 
 RUN apt-get update && \
