@@ -18,6 +18,7 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Crystal should be `0.35.1`
   - Lucky should be `~> 0.24.0`
+  - Authentic should be `~> 0.7.0`
 
 - Run `shards update`
 
@@ -33,6 +34,7 @@ AppDatabase.configure do |settings|
     settings.credentials = Avram::Credentials.parse?(ENV["DB_URL"]?) || Avram::Credentials.new(
       database: database_name,
       hostname: ENV["DB_HOST"]? || "localhost",
+      # NOTE: This was changed from `String` to `Int32`
       port: ENV["DB_PORT"]?.try(&.to_i) || 5432,
       username: ENV["DB_USERNAME"]? || "postgres",
       password: ENV["DB_PASSWORD"]? || "postgres"
