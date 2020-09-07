@@ -29,9 +29,9 @@ brew upgrade lucky
 ```crystal
 AppDatabase.configure do |settings|
   if Lucky::Env.production?
-    settings.credentials = Avram::Credentials.parse(ENV["DB_URL"])
+    settings.credentials = Avram::Credentials.parse(ENV["DATABASE_URL"])
   else
-    settings.credentials = Avram::Credentials.parse?(ENV["DB_URL"]?) || Avram::Credentials.new(
+    settings.credentials = Avram::Credentials.parse?(ENV["DATABASE_URL"]?) || Avram::Credentials.new(
       database: database_name,
       hostname: ENV["DB_HOST"]? || "localhost",
       # NOTE: This was changed from `String` to `Int32`
