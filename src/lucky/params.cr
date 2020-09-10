@@ -93,7 +93,7 @@ class Lucky::Params
   # files["avatar"]                    # Lucky::UploadedFile
   # ```
   def from_multipart : Tuple(MultipartParams, MultipartFiles)
-    parse_multipart_request
+    parse_form_data
   end
 
   # Retrieve a trimmed value from the params hash, raise if key is absent
@@ -451,19 +451,15 @@ class Lucky::Params
     HTTP::Params.parse(body)
   end
 
-  private memoize def multipart_params : Hash(String, String)
-    parse_multipart_request.first
+  private def multipart_params : MultipartParams
+    parse_form_data.first
   end
 
-  private memoize def multipart_files : Hash(String, Lucky::UploadedFile)
-    parse_multipart_request.last
+  private def multipart_files : MultipartFiles
+    parse_form_data.last
   end
 
-  private memoize def parse_multipart_request : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))
-    parse_form_data
-  end
-
-  private def parse_form_data : Tuple(MultipartParams, MultipartFiles)
+  private memoize def parse_form_data : Tuple(MultipartParams, MultipartFiles)
     multipart_params = MultipartParams.new
     multipart_files = MultipartFiles.new
     body_io = IO::Memory.new(body)
