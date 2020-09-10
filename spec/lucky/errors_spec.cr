@@ -60,7 +60,7 @@ describe "Errors" do
 
   describe Lucky::ParamParsingError do
     it "is renderable" do
-      error = Lucky::ParamParsingError.new(request: build_request)
+      error = Lucky::ParamParsingError.new
       error.should be_a(Lucky::RenderableError)
       error.renderable_message.should contain("There was a problem parsing the JSON")
       error.renderable_status.should eq 400
