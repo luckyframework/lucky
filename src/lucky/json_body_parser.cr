@@ -1,8 +1,8 @@
 # :nodoc:
 class Lucky::JsonBodyParser
-  getter request : HTTP::Request
+  getter body : String
 
-  def initialize(@request)
+  def initialize(@body)
   end
 
   def parsed_json : JSON::Any
@@ -12,10 +12,6 @@ class Lucky::JsonBodyParser
       JSON.parse(body)
     end
   rescue JSON::ParseException
-    raise Lucky::ParamParsingError.new(request)
-  end
-
-  private def body : String
-    Lucky::RequestBodyReader.new(request).body
+    raise Lucky::ParamParsingError.new
   end
 end

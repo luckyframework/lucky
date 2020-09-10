@@ -322,7 +322,7 @@ class Lucky::Params
 
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
-    nested_key_json = parsed_json.as_h[nested_key]? || JSON.parse("{}")
+    nested_key_json = parsed_json[nested_key]? || JSON.parse("{}")
 
     nested_key_json.as_h.each do |key, value|
       nested_params[key.to_s] = value.to_s
@@ -336,7 +336,7 @@ class Lucky::Params
     source = multipart? ? multipart_params : form_params
     source.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
-        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+        nested_params[key.lchop(nested_key)] = value
       end
 
       nested_params
@@ -347,7 +347,7 @@ class Lucky::Params
     nested_key = "#{nested_key}:"
     query_params.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
-        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+        nested_params[key.lchop(nested_key)] = value
       end
 
       nested_params
@@ -358,7 +358,7 @@ class Lucky::Params
     nested_key = "#{nested_key}:"
     multipart_files.to_h.reduce(empty_file_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
-        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+        nested_params[key.lchop(nested_key)] = value
       end
 
       nested_params
@@ -386,7 +386,7 @@ class Lucky::Params
 
   private def many_nested_json_params(nested_key : String) : Array(Hash(String, String))
     many_nested_params = [] of Hash(String, String)
-    nested_key_json = parsed_json.as_h[nested_key]? || JSON.parse("[]")
+    nested_key_json = parsed_json[nested_key]? || JSON.parse("[]")
 
     nested_key_json.as_a.each do |nested_values|
       nested_params = {} of String => String
@@ -429,7 +429,7 @@ class Lucky::Params
 
   private def body_param(key : String)
     if json?
-      parsed_json.as_h[key]?.try(&.to_s)
+      parsed_json[key]?.try(&.to_s)
     elsif multipart?
       multipart_params[key]?
     else
@@ -447,28 +447,20 @@ class Lucky::Params
     end
   end
 
-  @_form_params : HTTP::Params?
-
-  private def form_params
-    @_form_params ||= HTTP::Params.parse(body)
+  private memoize def form_params : HTTP::Params
+    HTTP::Params.parse(body)
   end
 
-  @_multipart_params : Hash(String, String)?
-
-  private def multipart_params : Hash(String, String)
-    @_multipart_params ||= parse_multipart_request.first
+  private memoize def multipart_params : Hash(String, String)
+    parse_multipart_request.first
   end
 
-  @_multipart_files : Hash(String, Lucky::UploadedFile)?
-
-  private def multipart_files : Hash(String, Lucky::UploadedFile)
-    @_multipart_files ||= parse_multipart_request.last
+  private memoize def multipart_files : Hash(String, Lucky::UploadedFile)
+    parse_multipart_request.last
   end
 
-  @_parsed_multipart_request : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))?
-
-  private def parse_multipart_request
-    @_parsed_multipart_request ||= parse_form_data
+  private memoize def parse_multipart_request : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))
+    parse_form_data
   end
 
   private def parse_form_data : Tuple(MultipartParams, MultipartFiles)
@@ -490,11 +482,11 @@ class Lucky::Params
   end
 
   private def json?
-    content_type.try(&.match(/^application\/json/))
+    !!(/^application\/json/ =~ content_type)
   end
 
   private def multipart?
-    content_type.try(&.match(/^multipart\/form-data/))
+    !!(/^multipart\/form-data/ =~ content_type)
   end
 
   private def content_type : String?
@@ -502,7 +494,7 @@ class Lucky::Params
   end
 
   private memoize def parsed_json : JSON::Any
-    Lucky::JsonBodyParser.new(request).parsed_json
+    Lucky::JsonBodyParser.new(body).parsed_json
   end
 
   memoize def body : String
