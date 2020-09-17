@@ -22,7 +22,7 @@ module Lucky::HTMLBuilder
   include Lucky::MountComponent
   include Lucky::HelpfulParagraphError
   include Lucky::RenderIfDefined
-  include Lucky::WithDefaults
+  include Lucky::TagDefaults
 
   abstract def view
 
