@@ -3,6 +3,9 @@
 [![Version](https://img.shields.io/github/tag/luckyframework/lucky.svg?maxAge=360&label=version)](https://github.com/luckyframework/lucky/releases/latest)
 [![License](https://img.shields.io/github/license/luckyframework/lucky.svg)](https://github.com/luckyframework/lucky/blob/master/LICENSE)
 
+[![API Documentation Website](https://img.shields.io/website?down_color=red&down_message=Offline&label=API%20Documentation&up_message=Online&url=https%3A%2F%2Fluckyframework.github.io%2Flucky%2F)](https://luckyframework.github.io/lucky)
+[![Lucky Guides Website](https://img.shields.io/website?down_color=red&down_message=Offline&label=Lucky%20Guides&up_message=Online&url=https%3A%2F%2Fluckyframework.org%2Fguides)](https://luckyframework.org/guides)
+
 [![Discord](https://img.shields.io/discord/743896265057632256)](https://discord.gg/HeqJUcb)
 
 The goal: prevent bugs, forget about most performance issues, and spend more
