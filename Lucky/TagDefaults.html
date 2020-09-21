@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="lucky">
-  <title>Lucky::WithDefaults - lucky 0.24.0</title>
+  <title>Lucky::TagDefaults - lucky 0.24.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -671,6 +671,21 @@
       
     </li>
   
+  <li class="parent open current" data-id="lucky/Lucky/TagDefaults" data-name="lucky::tagdefaults">
+      <a href="../Lucky/TagDefaults.html">TagDefaults</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/Lucky/TagDefaults/OptionMerger" data-name="lucky::tagdefaults::optionmerger(t, v)">
+      <a href="../Lucky/TagDefaults/OptionMerger.html">OptionMerger</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="lucky/Lucky/TextHelpers" data-name="lucky::texthelpers">
       <a href="../Lucky/TextHelpers.html">TextHelpers</a>
       
@@ -721,21 +736,6 @@
       
     </li>
   
-  <li class="parent open current" data-id="lucky/Lucky/WithDefaults" data-name="lucky::withdefaults">
-      <a href="../Lucky/WithDefaults.html">WithDefaults</a>
-      
-        <ul>
-  
-  <li class=" " data-id="lucky/Lucky/WithDefaults/OptionMerger" data-name="lucky::withdefaults::optionmerger(t, v)">
-      <a href="../Lucky/WithDefaults/OptionMerger.html">OptionMerger</a>
-      
-    </li>
-  
-</ul>
-
-      
-    </li>
-  
 </ul>
 
       
@@ -765,7 +765,7 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::WithDefaults
+  <span class="kind">module</span> Lucky::TagDefaults
 
 </h1>
 
@@ -842,7 +842,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#with_defaults(**named_args,&)-instance-method" class="signature"><strong>#with_defaults</strong>(**named_args, &)</a>
+        <a href="#tag_defaults(**named_args,&)-instance-method" class="signature"><strong>#tag_defaults</strong>(**named_args, &)</a>
         
           <div class="summary"><p>This is typically used in components and helper methods to set up defaults for reusable components.</p></div>
         
@@ -872,12 +872,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="with_defaults(**named_args,&)-instance-method">
+    <div class="entry-detail" id="tag_defaults(**named_args,&)-instance-method">
       <div class="signature">
         
-        def <strong>with_defaults</strong>(**named_args, &)
+        def <strong>tag_defaults</strong>(**named_args, &)
 
-        <a class="method-permalink" href="#with_defaults(**named_args,&)-instance-method">#</a>
+        <a class="method-permalink" href="#tag_defaults(**named_args,&)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -887,9 +887,9 @@ reusable components.</p>
 
 <p>Example in a page or component:</p>
 
-<p>with_defaults field: form.email, class: "input" do |html|</p>
+<p>tag_defaults field: form.email, class: "input" do |tag_builder|</p>
 
-<pre><code> html.email_input placeholder: <span class="s">&quot;Email&quot;</span></code></pre>
+<pre><code> tag_builder.email_input placeholder: <span class="s">&quot;Email&quot;</span></code></pre>
 
 <p>end</p>
 
