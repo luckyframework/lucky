@@ -33,7 +33,10 @@ class Lucky::ForceSSLHandler
   end
 
   def call(context)
-    if secure?(context) || disabled?
+    if disabled?
+      call_next(context)
+    elsif secure?(context)
+      add_transport_header_if_enabled(context)
       call_next(context)
     else
       redirect_to_secure_version(context)
@@ -50,7 +53,6 @@ class Lucky::ForceSSLHandler
 
   private def redirect_to_secure_version(context : HTTP::Server::Context)
     context.response.status_code = settings.redirect_status
-    add_transport_header_if_enabled(context)
     context.response.headers["Location"] =
       "https://#{context.request.host}#{context.request.resource}"
   end
