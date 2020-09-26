@@ -2,8 +2,9 @@ require "../spec_helper"
 
 include ContextHelper
 
+# NOTE: The Memoizable module is included in the Object charm
+# which gives all Objects access to `memoize`
 private class ObjectWithMemoizedMethods
-  include Lucky::Memoizable
   getter times_method_1_called = 0
   getter times_method_2_called = 0
   getter times_method_3_called = 0
