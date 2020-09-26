@@ -2,7 +2,6 @@
 #
 # Generally the `Accept` header is checked, but some check other headers, such as `X-Requested-With`.
 module Lucky::RequestTypeHelpers
-  include Lucky::Memoizable
 
   private def default_format
     {% raise <<-TEXT
