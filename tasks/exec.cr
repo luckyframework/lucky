@@ -1,55 +1,32 @@
 require "cry"
-require "option_parser"
 require "habitat"
 require "lucky_cli"
 
 class Lucky::Exec < LuckyCli::Task
   name "exec"
   summary "Execute code. Use this in place of a console/REPL"
+  arg :editor, "Which editor to use", shortcut: "-e", optional: true
+  arg :back, "Load code from this many sessions back. Default is 1.",
+      shortcut: "-b",
+      optional: true,
+      format: /^\d+/
+  switch :once, "Don't loop. Only run once.", shortcut: "-o"
 
   Habitat.create do
     setting editor : String = "vim"
     setting template_path : String = "#{__DIR__}/exec_template.cr.template"
   end
 
-  # Override parent class (LuckyCli::Task) because this method hijacks the following args: "--help", "-h", "help"
-  def print_help_or_call(args : Array(String), io : IO = STDERR)
-    call(args)
-  end
-
-  def call(args = ARGV)
-    editor = settings.editor
-    repeat = true
-    back = 1
-
-    OptionParser.parse(args) do |parser|
-      parser.banner = "Usage: lucky exec [arguments]"
-      parser.on("-h", "--help", "Show this help message") { puts parser; exit(0) }
-      parser.on("-e EDITOR", "--editor EDITOR", "Which editor to use") do |e|
-        editor = e
-      end
-      parser.on("-o", "--once", "Don't loop") do
-        repeat = false
-      end
-      parser.on("-b BACK", "--back BACK", "Load code from this many sessions back. Default is 1.") do |b|
-        back = b.to_i
-      end
-      parser.invalid_option do |flag|
-        STDERR.puts "ERROR: #{flag} is not a valid option."
-        STDERR.puts parser
-        exit(1)
-      end
-      parser.missing_option do |option|
-        STDERR.puts "ERROR: #{option} is missing a value"
-        exit(1)
-      end
-    end
+  def call
+    editor_to_use = editor || settings.editor
+    repeat = !once?
+    sessions_back = (back || 1).to_i
 
     Cry::CodeRunner.new(
       code: "",
-      editor: editor,
+      editor: editor_to_use,
       repeat: repeat,
-      back: back,
+      back: sessions_back,
       template: settings.template_path
     ).run
   end
