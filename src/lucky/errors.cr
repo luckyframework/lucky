@@ -17,7 +17,9 @@ module Lucky
   class ParamParsingError < Error
     include Lucky::RenderableError
 
-    def initialize
+    getter request
+
+    def initialize(@request : HTTP::Request)
       super "Failed to parse the request parameters."
     end
 

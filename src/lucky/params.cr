@@ -490,7 +490,7 @@ class Lucky::Params
   end
 
   private memoize def parsed_json : JSON::Any
-    Lucky::JsonBodyParser.new(body).parsed_json
+    Lucky::JsonBodyParser.new(body, request).parsed_json
   end
 
   memoize def body : String
