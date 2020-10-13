@@ -7,9 +7,9 @@ class Lucky::Exec < LuckyCli::Task
   summary "Execute code. Use this in place of a console/REPL"
   arg :editor, "Which editor to use", shortcut: "-e", optional: true
   arg :back, "Load code from this many sessions back. Default is 1.",
-      shortcut: "-b",
-      optional: true,
-      format: /^\d+/
+    shortcut: "-b",
+    optional: true,
+    format: /^\d+/
   switch :once, "Don't loop. Only run once.", shortcut: "-o"
 
   Habitat.create do
