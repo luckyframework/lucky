@@ -2,7 +2,6 @@
 #
 # Generally the `Accept` header is checked, but some check other headers, such as `X-Requested-With`.
 module Lucky::RequestTypeHelpers
-
   private def default_format
     {% raise <<-TEXT
     Must set 'accepted_formats' or 'default_format' in #{@type} (or its parent class).
