@@ -85,9 +85,7 @@ describe Lucky::LinkHelpers do
 
   it "renders a link with uuid" do
     uuid = UUID.random
-    view(&.link uuid to: LinkHelpers::Index).should contain <<-HTML
-    <a href="/link_helpers">#{uuid}</a>
-    HTML
+    view(&.link uuid, to: LinkHelpers::Index).should contain "<a href=\"/link_helpers\">#{uuid}</a>"
   end
 
   it "renders a link with a special data attribute" do
