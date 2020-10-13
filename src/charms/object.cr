@@ -1,4 +1,4 @@
 class Object
   include ::Lucky::QuickDef
-  include Lucky::Memoizable
+  include ::Lucky::Memoizable
 end
