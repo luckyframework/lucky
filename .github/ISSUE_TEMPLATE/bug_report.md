@@ -26,7 +26,8 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots/code samples to help explain your problem.
 
 **Versions (please complete the following information):**
- - Lucky version:
+ - Lucky version (check in shard.lock):
+ - Crystal version (`crystal --version`):
  - OS:
 
 **Additional context**
