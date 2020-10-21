@@ -1,4 +1,4 @@
-blank_issues_enabled: false
+blank_issues_enabled: true
 contact_links:
   - name: Request Feature
     url: https://github.com/luckyframework/lucky/discussions/new?category_id=66231
