@@ -13,11 +13,11 @@ A clear and concise description of what the bug is.
 **To Reproduce**
 Steps to reproduce the behavior:
 
-Example:
+> Example:
 
 > 1. Generate a Lucky project '...'
-> 2. Generate a route with '...'3. Scroll down to '....'
-> 4. See error 'paste error message'
+> 2. Generate a route with '...'
+> 3. See error 'paste error message'
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
@@ -26,8 +26,8 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots/code samples to help explain your problem.
 
 **Versions (please complete the following information):**
- - Lucky version: 
- - OS: 
+ - Lucky version:
+ - OS:
 
 **Additional context**
 Add any other context about the problem here.
