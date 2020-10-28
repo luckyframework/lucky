@@ -3,30 +3,6 @@ require "../spec_helper"
 include ContextHelper
 include MultipartHelper
 
-private class TestOperationWithDefaultParamKey < Avram::Operation
-  attribute title : String
-
-  def run
-  end
-end
-
-private class TestOperationWithCustomParamKey < Avram::Operation
-  param_key :test_op
-  attribute title : String
-
-  def run
-  end
-end
-
-private class User < Avram::Model
-  table do
-    column name : String
-  end
-end
-
-private class SaveUser < User::SaveOperation
-end
-
 describe Lucky::Params do
   describe "#from_query" do
     it "returns the HTTP::Params for the query params" do
@@ -620,56 +596,6 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request).to_h
       params.should eq({"filter" => {"name" => "euphonium"}, "page" => "1", "per" => "50"})
-    end
-  end
-
-  describe "#has_key_for?" do
-    it "returns true for the Operation with the proper key" do
-      request = build_request body: "", content_type: ""
-      request.query = "test_operation_with_default_param_key:title=Test"
-      params = Lucky::Params.new(request)
-
-      params.has_key_for?(TestOperationWithDefaultParamKey).should be_true
-    end
-
-    it "returns true for the Operation with a custom key" do
-      request = build_request body: "", content_type: ""
-      request.query = "test_op:title=Test"
-      params = Lucky::Params.new(request)
-
-      params.has_key_for?(TestOperationWithCustomParamKey).should be_true
-    end
-
-    it "returns false for the Operation with the improper key" do
-      request = build_request body: "", content_type: ""
-      request.query = "bad_key:title=Test"
-      params = Lucky::Params.new(request)
-
-      params.has_key_for?(TestOperationWithDefaultParamKey).should be_false
-    end
-
-    it "returns false for the Operation with no key" do
-      request = build_request body: "", content_type: ""
-      request.query = "title=Test"
-      params = Lucky::Params.new(request)
-
-      params.has_key_for?(TestOperationWithDefaultParamKey).should be_false
-    end
-
-    it "returns true for the SaveOperation with the proper key" do
-      request = build_request body: "", content_type: ""
-      request.query = "user:name=Test"
-      params = Lucky::Params.new(request)
-
-      params.has_key_for?(SaveUser).should be_true
-    end
-
-    it "returns false for the SaveOperation with the improper key" do
-      request = build_request body: "", content_type: ""
-      request.query = "author:name=Test"
-      params = Lucky::Params.new(request)
-
-      params.has_key_for?(SaveUser).should be_false
     end
   end
 end
