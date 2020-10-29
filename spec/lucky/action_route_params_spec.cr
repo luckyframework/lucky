@@ -14,6 +14,18 @@ private class TestOptionalParamAction < TestAction
   end
 end
 
+private class TestGlobAction < TestAction
+  get "/complex_posts/*" do
+    plain_text "test"
+  end
+end
+
+private class TestNamedGlobAction < TestAction
+  get "/complex_posts/*:leftover" do
+    plain_text "test"
+  end
+end
+
 describe "Automatically generated param helpers" do
   it "generates helpers for all route params" do
     action = TestParamAction.new(build_context, {"param_1" => "param_1_value", "param_2" => "param_2_value"})
@@ -30,5 +42,25 @@ describe "Automatically generated param helpers" do
     action.optional_2.should eq nil
     typeof(action.optional_1).should eq String?
     typeof(action.optional_2).should eq String?
+  end
+
+  it "generates helper for unnamed glob" do
+    action = TestGlobAction.new(build_context, {"glob" => "globbed/path"})
+    action.glob.should eq "globbed/path"
+
+    action = TestGlobAction.new(build_context, {} of String => String)
+    action.glob.should be_nil
+
+    typeof(action.glob).should eq String?
+  end
+
+  it "generates helper for named glob" do
+    action = TestNamedGlobAction.new(build_context, {"leftover" => "globbed/path"})
+    action.leftover.should eq "globbed/path"
+
+    action = TestNamedGlobAction.new(build_context, {} of String => String)
+    action.leftover.should be_nil
+
+    typeof(action.leftover).should eq String?
   end
 end
