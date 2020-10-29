@@ -194,6 +194,14 @@ module Lucky::Routable
     {% path_parts = path.split('/').reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(':')) %}
     {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
+    {% glob_param = path_parts.select(&.starts_with?("*")) %}
+    {% if glob_param.size > 1 %}
+      {% glob_param.raise "Only one glob can be in a path, but found more than one." %}
+    {% end %}
+    {% glob_param = glob_param.first %}
+    {% if glob_param && path_parts.last != glob_param %}
+      {% glob_param.raise "Glob param must be defined at the end of the path." %}
+    {% end %}
 
     {% for param in path_params %}
       {% if param.includes?("-") %}
@@ -212,6 +220,23 @@ module Lucky::Routable
       {% part = param.gsub(/^\?:/, "").id %}
       def {{ part }} : String?
         params.get?(:{{ part }})
+      end
+    {% end %}
+
+    {% if glob_param %}
+      {% if glob_param.includes?("-") %}
+        {% glob_param.raise "Named globs must only use underscores. Use #{glob_param.gsub(/-/, "_")} instead of #{glob_param}." %}
+      {% end %}
+      {% part = nil %}
+      {% if glob_param.starts_with?("*:") %}
+        {% part = glob_param.gsub(/\*:/, "") %}
+      {% elsif glob_param == "*" %}
+        {% part = "glob" %}
+      {% else %}
+        {% glob_param.raise "Invalid glob format #{glob_param}." %}
+      {% end %}
+      def {{ part.id }} : String?
+        params.get?({{ part.id.symbolize }})
       end
     {% end %}
 
