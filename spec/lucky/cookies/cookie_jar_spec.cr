@@ -134,6 +134,28 @@ describe Lucky::CookieJar do
       jar.get_raw(:rules).expired?.should be_true
       jar.get_raw(:rules).value.should eq("")
     end
+
+    it "deletes a valid cookie with a block" do
+      jar = Lucky::CookieJar.empty_jar
+      jar.set(:rules, "no fighting!").domain("brawl.co")
+
+      jar.delete(:rules) do |cookie|
+        cookie.domain("brawl.co")
+      end
+
+      jar.deleted?(:rules).should be_true
+    end
+
+    it "ignores an invalid cookie when trying to delete" do
+      jar = Lucky::CookieJar.empty_jar
+      jar.set(:rules, "no fighting!").domain("brawl.co")
+
+      jar.delete(:burritos) do |cookie|
+        cookie.domain("brawl.co")
+      end
+
+      jar.deleted?(:rules).should be_false
+    end
   end
 
   describe "deleted?" do
