@@ -1,4 +1,5 @@
 require "../../spec_helper"
+
 include ContextHelper
 
 class TextHelperTestPage

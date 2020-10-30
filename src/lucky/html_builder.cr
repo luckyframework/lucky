@@ -16,12 +16,13 @@ module Lucky::HTMLBuilder
   include Lucky::NumberToCurrency
   include Lucky::TextHelpers
   include Lucky::HTMLTextHelpers
+  include Lucky::UrlHelpers
   include Lucky::TimeHelpers
   include Lucky::ForgeryProtectionHelpers
   include Lucky::MountComponent
   include Lucky::HelpfulParagraphError
   include Lucky::RenderIfDefined
-  include Lucky::WithDefaults
+  include Lucky::TagDefaults
 
   abstract def view
 
@@ -45,16 +46,39 @@ module Lucky::HTMLBuilder
 
   macro generate_needy_initializer
     {% if !@type.abstract? %}
+      {% sorted_assigns = ASSIGNS.sort_by { |dec|
+           has_explicit_value =
+             dec.type.is_a?(Metaclass) ||
+               dec.type.types.map(&.id).includes?(Nil.id) ||
+               dec.value ||
+               dec.value == nil ||
+               dec.value == false
+           has_explicit_value ? 1 : 0
+         } %}
       def initialize(
-        {% for declaration in ASSIGNS %}
+        {% for declaration in sorted_assigns %}
           {% var = declaration.var %}
           {% type = declaration.type %}
-          {% has_default = declaration.value || declaration.value == nil %}
-          {% if var.stringify.ends_with?("?") %}{{ var }}{% end %} @{{ var.stringify.gsub(/\?/, "").id }} : {{ type }}{% if has_default %} = {{ declaration.value }}{% end %},
+          {% value = declaration.value %}
+          {% value = nil if type.stringify.ends_with?("Nil") && !value %}
+          {% has_default = value || value == false || value == nil %}
+          @{{ var.id }} : {{ type }}{% if has_default %} = {{ value }}{% end %},
         {% end %}
         **unused_exposures
         )
       end
+    {% end %}
+  end
+
+  macro generate_getters
+    {% if !@type.abstract? %}
+      {% for declaration in ASSIGNS %}
+        {% if declaration.type.stringify == "Bool" %}
+          getter? {{ declaration }}
+        {% else %}
+          getter {{ declaration }}
+        {% end %}
+      {% end %}
     {% end %}
   end
 

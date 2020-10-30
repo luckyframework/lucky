@@ -1,7 +1,7 @@
 require "json"
 require "colorize"
 
-class AssetManifestBuilder
+private class AssetManifestBuilder
   MANIFEST_PATH = File.expand_path("./public/mix-manifest.json")
   MAX_RETRIES   =   20
   RETRY_AFTER   = 0.25

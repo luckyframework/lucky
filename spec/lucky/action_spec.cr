@@ -143,10 +143,25 @@ class ParamsWithDefaultParamsLast < TestAction
   end
 end
 
+class OptionalRouteParams::Index < TestAction
+  get "/complex_posts/:required/?:optional_1/?:optional_2" do
+    plain_text "test"
+  end
+end
+
+class Tests::ActionWithPrefix < TestAction
+  route_prefix "/prefix"
+
+  get "/so_custom" do
+    plain_text "doesn't matter"
+  end
+end
+
 describe Lucky::Action do
   it "has a url helper" do
     Lucky::RouteHelper.temp_config(base_uri: "example.com") do
       Tests::Index.url.should eq "example.com/tests"
+      Tests::ActionWithPrefix.url.should eq "example.com/prefix/so_custom"
     end
   end
 
@@ -160,6 +175,14 @@ describe Lucky::Action do
     it "returns url with (required) path params" do
       Lucky::RouteHelper.temp_config(base_uri: "example.com") do
         Tests::Edit.url_without_query_params(1).should eq "example.com/tests/1/edit"
+      end
+    end
+
+    it "returns url with optional path params" do
+      Lucky::RouteHelper.temp_config(base_uri: "example.com") do
+        OptionalRouteParams::Index.url_without_query_params(1).should eq "example.com/complex_posts/1"
+        OptionalRouteParams::Index.url_without_query_params(1, 2).should eq "example.com/complex_posts/1/2"
+        OptionalRouteParams::Index.url_without_query_params(1, 2, 3).should eq "example.com/complex_posts/1/2/3"
       end
     end
   end
@@ -180,6 +203,7 @@ describe Lucky::Action do
       Tests::Update.with("test-id").should eq Lucky::RouteHelper.new(:put, "/tests/test-id")
       Tests::Create.path.should eq "/tests"
       Tests::Create.route.should eq Lucky::RouteHelper.new(:post, "/tests")
+      Tests::ActionWithPrefix.path.should eq "/prefix/so_custom"
     end
 
     it "escapes path params" do
@@ -208,19 +232,49 @@ describe Lucky::Action do
       assert_route_added? Lucky::Route.new :delete, "/so_custom", CustomRoutes::Delete
       assert_route_added? Lucky::Route.new :options, "/so_custom", CustomRoutes::Match
     end
+
+    it "works with optional routing paths" do
+      route = OptionalRouteParams::Index.with(required: "1")
+      route.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1")
+      route.path.should eq "/complex_posts/1"
+
+      route2 = OptionalRouteParams::Index.with(required: "1", optional_1: "2")
+      route2.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1/2")
+      route2.path.should eq "/complex_posts/1/2"
+
+      route3 = OptionalRouteParams::Index.with(required: "1", optional_1: "2", optional_2: "3")
+      route3.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1/2/3")
+      route3.path.should eq "/complex_posts/1/2/3"
+    end
   end
 
   describe "rendering" do
     it "renders plain text" do
       response = PlainText::Index.new(build_context, params).call
-      response.body.should eq "plain"
+      response.body.to_s.should eq "plain"
       response.content_type.should eq "text/plain"
     end
 
     it "infer the correct HTML page to render" do
       response = Tests::Index.new(build_context, params).call
-      response.body.should contain "Rendered from Tests::IndexPage"
+      response.body.to_s.should contain "Rendered from Tests::IndexPage"
       response.content_type.should eq "text/html"
+    end
+  end
+
+  describe ".query_param_declarations" do
+    it "returns an empty array" do
+      PlainText::Index.query_param_declarations.size.should eq 0
+    end
+
+    it "returns required param declarations" do
+      RequiredParams::Index.query_param_declarations.size.should eq 1
+      RequiredParams::Index.query_param_declarations.first.should eq "required_page : Int32"
+    end
+
+    it "returns optional param declarations" do
+      OptionalParams::Index.query_param_declarations.size.should eq 6
+      OptionalParams::Index.query_param_declarations.should contain "bool_with_false_default : Bool | ::Nil"
     end
   end
 
@@ -304,6 +358,14 @@ describe Lucky::Action do
     it "is added as optional argument to the path" do
       OptionalParams::Index.path(page: 7).should eq "/optional_params?page=7"
       OptionalParams::Index.path(page: 7, with_default: "/other").should eq "/optional_params?page=7&with_default=%2Fother"
+    end
+
+    it "is added to the path if the value matches default and is explicitly given" do
+      OptionalParams::Index.path(with_default: "default").should eq "/optional_params?with_default=default"
+    end
+
+    it "is not added to the path param has default value but not given" do
+      OptionalParams::Index.path.should eq "/optional_params"
     end
 
     it "is added as optional argument to the route" do

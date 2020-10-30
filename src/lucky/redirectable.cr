@@ -24,6 +24,66 @@
 # method that takes a `String`. However, it's recommended you pass a
 # `Lucky::Action` class if possible because it guarantees runtime safety.
 module Lucky::Redirectable
+  # Redirect back with a `Lucky::Action` fallback
+  #
+  # ```crystal
+  # redirect_back fallback: Users::Index
+  # ```
+  def redirect_back(*, fallback : Lucky::Action.class, status = 302, allow_external = false)
+    redirect_back fallback: fallback.route, status: status, allow_external: allow_external
+  end
+
+  # Redirect back with a `Lucky::RouteHelper` fallback
+  #
+  # ```crystal
+  # redirect_back fallback: Users::Show.with(user.id)
+  # ```
+  def redirect_back(*, fallback : Lucky::RouteHelper, status = 302, allow_external = false)
+    redirect_back fallback: fallback.path, status: status, allow_external: allow_external
+  end
+
+  # Redirect back with a human friendly status
+  #
+  # ```crystal
+  # redirect_back fallback: "/users", status: HTTP::Status::MOVED_PERMANENTLY
+  # ```
+  def redirect_back(*, fallback : String, status : HTTP::Status, allow_external = false)
+    redirect_back fallback: fallback, status: status.value, allow_external: allow_external
+  end
+
+  # Redirects the browser to the page that issued the request (the referrer)
+  # if possible, otherwise redirects to the provided default fallback
+  # location.
+  #
+  # The referrer information is pulled from the 'Referer' header on
+  # the request. This is an optional header, and if the request
+  # is missing this header the *fallback* will be used.
+  #
+  # ```crystal
+  # redirect_back fallback: "/users"
+  # ```
+  #
+  # A redirect status can be specified
+  #
+  # ```crystal
+  # redirect_back fallback: "/home", status: 301
+  # ```
+  #
+  # External referers are ignored by default.
+  # It is determined by comparing the referer header to the request host.
+  # They can be explicitly allowed if necessary
+  #
+  # redirect_back fallback: "/home", allow_external: true
+  def redirect_back(*, fallback : String, status : Int32 = 302, allow_external : Bool = false)
+    referer = request.headers["Referer"]?
+
+    if referer && (allow_external || allowed_host?(referer))
+      redirect to: referer, status: status
+    else
+      redirect to: fallback, status: status
+    end
+  end
+
   # Redirect using a `Lucky::RouteHelper`
   #
   # ```crystal
@@ -60,14 +120,45 @@ module Lucky::Redirectable
   # ```
   # Note: It's recommended to use the method above that accepts a human friendly version of the status
   def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
-    context.response.headers.add "Location", path
-    context.response.headers.add "Turbolinks-Location", path
-    context.response.status_code = status
-    Lucky::TextResponse.new(context, "", "")
+    # flash messages are not consumed here, so keep them for the next action
+    flash.keep
+
+    if ajax? && request.method != "GET"
+      context.response.headers.add "Location", path
+
+      # do not enable form disabled elements for XHR redirects, see https://github.com/rails/rails/pull/31441
+      context.response.headers.add "X-Xhr-Redirect", path
+
+      Lucky::TextResponse.new(context,
+        "text/javascript",
+        %[Turbolinks.clearCache();\nTurbolinks.visit(#{path.to_json}, {"action": "replace"})],
+        status: 200)
+    else
+      if request.headers["Turbolinks-Referrer"]?
+        store_turbolinks_location_in_session(path)
+      end
+      # ordinary redirect
+      context.response.headers.add "Location", path
+      context.response.status_code = status
+      Lucky::TextResponse.new(context, "", "")
+    end
   end
 
   # :nodoc:
   def redirect(to page_instead_of_action : Lucky::HTMLPage.class, **unused_args)
     {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
+  end
+
+  private def store_turbolinks_location_in_session(path : String)
+    cookies.set(:_turbolinks_location, path).http_only(true)
+    # this cookie read at Lucky::RedirectableTurbolinksSupport
+  end
+
+  private def allowed_host?(referer : String)
+    if referer_host = URI.parse(referer).host
+      referer_host == request.host
+    else
+      false
+    end
   end
 end

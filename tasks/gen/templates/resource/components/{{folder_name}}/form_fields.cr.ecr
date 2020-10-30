@@ -1,0 +1,9 @@
+class <%= pluralized_name %>::FormFields < BaseComponent
+  needs operation : <%= operation_class %>
+
+  def render
+    <%- columns.each_with_index do |column, index| -%>
+    mount Shared::Field, operation.<%= column.name %><% if index.zero? %>, &.text_input(autofocus: "true")<% end %>
+    <%- end -%>
+  end
+end

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Request Feature
+    url: https://github.com/luckyframework/lucky/discussions/new?category_id=66231
+    about: Request a feature in the discussion forum
+  - name: Visit Forum
+    url: https://github.com/luckyframework/lucky/discussions
+    about: Ask questions and discuss with other community members
+  - name: Chat
+    url: https://discord.com/invite/HeqJUcb
+    about: Chat with the community

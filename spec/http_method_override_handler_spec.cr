@@ -15,7 +15,7 @@ describe Lucky::HttpMethodOverrideHandler do
       should_handle "POST", overridden_method: "delete", and_return: "DELETE"
     end
 
-    it "leaves as-is when GET with overriden method" do
+    it "leaves as-is when GET with overridden method" do
       should_handle "GET", overridden_method: "delete", and_return: "GET"
     end
 

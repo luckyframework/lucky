@@ -3,6 +3,14 @@ require "./html_builder"
 abstract class Lucky::BaseComponent
   include Lucky::HTMLBuilder
 
+  macro inherited
+    # Returns the relative file location to the
+    # project root. e.g. src/components/my_component.cr
+    def self.file_location
+      __FILE__.gsub("#{Dir.current}/", "")
+    end
+  end
+
   private def view : IO
     @view || raise "No view was set. Use 'mount' or call 'render_to_string'."
   end

@@ -25,13 +25,13 @@ end
 
 describe Lucky::Action do
   it "renders fully qualified pages" do
-    body = Rendering::Foo.new(build_context, params).call.body
+    body = Rendering::Foo.new(build_context, params).call.body.to_s
 
     body.should contain "EditPage"
   end
 
   it "renders within the same namespace" do
-    body = Rendering::WithinSameNameSpace.new(build_context, params).call.body
+    body = Rendering::WithinSameNameSpace.new(build_context, params).call.body.to_s
 
     body.should contain "WithinSameNameSpace"
   end

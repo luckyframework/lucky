@@ -70,6 +70,6 @@ class Gen::Component < LuckyCli::Task
   end
 
   private def success_message
-    "Done generating #{component_class.colorize(:green)} in #{output_path_with_filename.colorize(:green)}"
+    "Done generating #{component_class.colorize.green} in #{output_path_with_filename.colorize.green}"
   end
 end

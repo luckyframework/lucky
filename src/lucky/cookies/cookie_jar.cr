@@ -49,14 +49,24 @@ class Lucky::CookieJar
   end
 
   def delete(key : Key) : Nil
-    if cookie = cookies[key.to_s]
+    if cookie = cookies[key.to_s]?
       cookie.expires(1.year.ago).value("")
       set_cookies[key.to_s] = cookie
     end
   end
 
+  # Returns `true` if the cookie has been expired, and has no value.
+  # Will return `false` if the cookie does not exist, or is valid.
+  def deleted?(key : Key) : Bool
+    if cookie = cookies[key.to_s]?
+      cookie.expired? && cookie.value == ""
+    else
+      false
+    end
+  end
+
   def get_raw(key : Key) : HTTP::Cookie
-    get_raw?(key) || raise "No cookie with the key: #{key}"
+    get_raw?(key) || raise CookieNotFoundError.new(key)
   end
 
   def get_raw?(key : Key) : HTTP::Cookie?
@@ -64,7 +74,7 @@ class Lucky::CookieJar
   end
 
   def get(key : Key) : String
-    get?(key) || raise "No cookie for '#{key}'"
+    get?(key) || raise CookieNotFoundError.new(key)
   end
 
   def get?(key : Key) : String?

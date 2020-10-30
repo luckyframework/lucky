@@ -1,8 +1,36 @@
 # Methods for routing HTTP requests and their parameters to actions.
 module Lucky::Routable
+  macro included
+    ROUTE_SETTINGS = {prefix: ""}
+
+    macro included
+      inherit_route_settings
+    end
+
+    macro inherited
+      ROUTE_SETTINGS = {prefix: ""}
+      inherit_route_settings
+    end
+  end
+
+  macro inherit_route_settings
+    \{% for k, v in @type.ancestors.first.constant :ROUTE_SETTINGS %}
+      \{% ROUTE_SETTINGS[k] = v %}
+    \{% end %}
+  end
+
   macro fallback
     Lucky::RouteNotFoundHandler.fallback_action = {{ @type.name.id }}
     setup_call_method({{ yield }})
+  end
+
+  # Sets the prefix for all routes defined by the match
+  # and http method (get, put, post, etc..) macros
+  macro route_prefix(prefix)
+    {% unless prefix.starts_with?("/") %}
+      {% prefix.raise "Prefix must start with a slash. Example: '/#{prefix}'" %}
+    {% end %}
+    {% ROUTE_SETTINGS[:prefix] = prefix %}
   end
 
   {% for http_method in [:get, :put, :post, :patch, :trace, :delete] %}
@@ -52,7 +80,7 @@ module Lucky::Routable
       {% method.raise "HTTP methods should be lower-case symbols. Use #{method.downcase} instead of #{method}." %}
     {% end %}
 
-    add_route({{method}}, {{path}}, {{ @type.name.id }})
+    add_route({{method}}, {{ path }}, {{ @type.name.id }})
 
     setup_call_method({{ yield }})
   end
@@ -63,18 +91,18 @@ module Lucky::Routable
       # Ensure clients_desired_format is cached by calling it
       clients_desired_format
 
-      %callback_result = run_before_callbacks
+      %pipe_result = run_before_pipes
 
-      %response = if %callback_result.is_a?(Lucky::Response)
-        %callback_result
+      %response = if %pipe_result.is_a?(Lucky::Response)
+        %pipe_result
       else
         {{ body }}
       end
 
-      %callback_result = run_after_callbacks
+      %pipe_result = run_after_pipes
 
-      if %callback_result.is_a?(Lucky::Response)
-        %callback_result
+      if %pipe_result.is_a?(Lucky::Response)
+        %pipe_result
       else
         %response
       end
@@ -90,7 +118,7 @@ module Lucky::Routable
   # ```
   # class Posts::Comments::Show
   #   nested_route do
-  #     render_text "Post: #{post_id}, Comment: #{comment_id}"
+  #     plain_text "Post: #{post_id}, Comment: #{comment_id}"
   #   end
   # end
   # ```
@@ -107,7 +135,7 @@ module Lucky::Routable
   # ```
   # class Posts::Show
   #   route do
-  #     render_text "Post: #{post_id}"
+  #     plain_text "Post: #{post_id}"
   #   end
   # end
   # ```
@@ -161,18 +189,56 @@ module Lucky::Routable
 
   # :nodoc:
   macro add_route(method, path, action)
-    Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
+    Lucky::Router.add({{ method }}, {{ ROUTE_SETTINGS[:prefix] + path }}, {{ @type.name.id }})
 
-    {% path_parts = path.split("/").reject(&.empty?) %}
-    {% path_params = path_parts.select(&.starts_with?(":")) %}
+    {% path = ROUTE_SETTINGS[:prefix] + path %}
+    {% path_parts = path.split('/').reject(&.empty?) %}
+    {% path_params = path_parts.select(&.starts_with?(':')) %}
+    {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
+    {% glob_param = path_parts.select(&.starts_with?("*")) %}
+    {% if glob_param.size > 1 %}
+      {% glob_param.raise "Only one glob can be in a path, but found more than one." %}
+    {% end %}
+    {% glob_param = glob_param.first %}
+    {% if glob_param && path_parts.last != glob_param %}
+      {% glob_param.raise "Glob param must be defined at the end of the path." %}
+    {% end %}
 
-    {% for part in path_parts %}
-      {% if part.starts_with?(":") %}
-        {% part = part.gsub(/:/, "").id %}
-        def {{ part }} : String
-          params.get(:{{ part }})
-        end
+    {% for param in path_params %}
+      {% if param.includes?("-") %}
+        {% param.raise "Path variables must only use underscores. Use #{param.gsub(/-/, "_")} instead of #{param}." %}
       {% end %}
+      {% part = param.gsub(/:/, "").id %}
+      def {{ part }} : String
+        params.get(:{{ part }})
+      end
+    {% end %}
+
+    {% for param in optional_path_params %}
+      {% if param.includes?("-") %}
+        {% param.raise "Optional path variables must only use underscores. Use #{param.gsub(/-/, "_")} instead of #{param}." %}
+      {% end %}
+      {% part = param.gsub(/^\?:/, "").id %}
+      def {{ part }} : String?
+        params.get?(:{{ part }})
+      end
+    {% end %}
+
+    {% if glob_param %}
+      {% if glob_param.includes?("-") %}
+        {% glob_param.raise "Named globs must only use underscores. Use #{glob_param.gsub(/-/, "_")} instead of #{glob_param}." %}
+      {% end %}
+      {% part = nil %}
+      {% if glob_param.starts_with?("*:") %}
+        {% part = glob_param.gsub(/\*:/, "") %}
+      {% elsif glob_param == "*" %}
+        {% part = "glob" %}
+      {% else %}
+        {% glob_param.raise "Invalid glob format #{glob_param}." %}
+      {% end %}
+      def {{ part.id }} : String?
+        params.get?({{ part.id.symbolize }})
+      end
     {% end %}
 
     def self.path(*args, **named_args) : String
@@ -187,16 +253,23 @@ module Lucky::Routable
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
+    {% for param in optional_path_params %}
+      {{ param.gsub(/^\?:/, "").id }} = nil,
+    {% end %}
     )
       path = path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
+        {% end %}
+        {% for param in optional_path_params %}
+          {{ param.gsub(/^\?:/, "").id }},
         {% end %}
       )
       Lucky::RouteHelper.new({{ method }}, path).url
     end
 
     def self.route(
+    # required path variables
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
@@ -207,10 +280,21 @@ module Lucky::Routable
     {% params_without_defaults = PARAM_DECLARATIONS.reject do |decl|
          params_with_defaults.includes? decl
        end %}
-    {% for param in params_without_defaults + params_with_defaults %}
+
+    # params without a default value, could be nilable
+    {% for param in params_without_defaults %}
       {% is_nilable_type = param.type.is_a?(Union) %}
-      {% no_default = !param.value && param.value != false && param.value != nil %}
-      {{ param }}{% if is_nilable_type && no_default %} = nil{% end %},
+      {{ param }}{% if is_nilable_type %} = nil{% end %},
+    {% end %}
+
+    # params with a default value set are always nilable
+    {% for param in params_with_defaults %}
+      {{ param.var }} = nil,
+    {% end %}
+
+    # optional path variables are nilable
+    {% for param in optional_path_params %}
+      {{ param.gsub(/^\?:/, "").id }} : String? = nil,
     {% end %}
     anchor : String? = nil
       ) : Lucky::RouteHelper
@@ -218,18 +302,14 @@ module Lucky::Routable
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
         {% end %}
+        {% for param in optional_path_params %}
+          {{ param.gsub(/^\?:/, "").id }},
+        {% end %}
       )
       query_params = {} of String => String
       {% for param in PARAM_DECLARATIONS %}
-        {% if param.value == false %}
-          {% default_value = false %}
-        {% else %}
-          {% default_value = param.value || nil %}
-        {% end %}
-        param_is_default_or_nil = {{ param.var }} == {{ default_value }}
-        unless param_is_default_or_nil
-          query_params["{{ param.var }}"] = {{ param.var }}.to_s
-        end
+        # add query param if given and not nil
+        query_params["{{ param.var }}"] = {{ param.var }}.to_s unless {{ param.var }}.nil?
       {% end %}
       unless query_params.empty?
         path += "?#{HTTP::Params.encode(query_params)}"
@@ -255,13 +335,22 @@ module Lucky::Routable
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
         {% end %}
+        {% for param in optional_path_params %}
+          {{ param.gsub(/^\?:/, "").id }},
+        {% end %}
     )
       path = String.build do |path|
         {% for part in path_parts %}
-          path << "/"
-          {% if part.starts_with?(":") %}
+          {% if part.starts_with?("?:") %}
+            if {{ part.gsub(/^\?:/, "").id }}
+              path << "/"
+              path << URI.encode_www_form({{ part.gsub(/^\?:/, "").id }}.to_param)
+            end
+          {% elsif part.starts_with?(':') %}
+            path << "/"
             path << URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param)
           {% else %}
+            path << "/"
             path << URI.encode_www_form({{ part }})
           {% end %}
         {% end %}
@@ -275,6 +364,9 @@ module Lucky::Routable
 
   macro included
     PARAM_DECLARATIONS = [] of Crystal::Macros::TypeDeclaration
+
+    @@query_param_declarations : Array(String) = [] of String
+    class_getter query_param_declarations : Array(String)
 
     macro inherited
       inherit_param_declarations
@@ -302,7 +394,7 @@ module Lucky::Routable
   #   param page : Int32?
   #
   #   route do
-  #     render_text "Posts - Page #{page || 1}"
+  #     plain_text "Posts - Page #{page || 1}"
   #   end
   # end
   # ```
@@ -345,6 +437,7 @@ module Lucky::Routable
   # `/user_confirmations?token=abc123`
   macro param(type_declaration)
     {% PARAM_DECLARATIONS << type_declaration %}
+    @@query_param_declarations << "{{ type_declaration.var }} : {{ type_declaration.type }}"
 
     def {{ type_declaration.var }} : {{ type_declaration.type }}
       {% is_nilable_type = type_declaration.type.is_a?(Union) %}

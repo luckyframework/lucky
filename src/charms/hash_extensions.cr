@@ -1,5 +1,5 @@
 class Hash
-  # Return the **nillable** value of a hash key
+  # Return the **nilable** value of a hash key
   #
   # This returns a value stored in a hash. The key can be specified as a String
   # or Symbol. Internally this works by converting Symbols to Strings. See the

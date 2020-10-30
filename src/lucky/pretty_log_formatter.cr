@@ -1,14 +1,41 @@
-struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
-  private abstract class MessageFormatter
-    class Continue; end
+struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
+  ENTRY_FORMATTERS = [
+    RequestStartedFormatter,
+    RequestEndedFormatter,
+    ExceptionFormatter,
+    AnyOtherDataFormatter,
+  ]
 
-    private getter io, severity
+  def call : Nil
+    ENTRY_FORMATTERS.each do |entry_formatter|
+      formatter = entry_formatter.new(io, entry)
 
-    def initialize(@io : IO, @severity : ::Logger::Severity)
+      if formatter.should_format?
+        formatter.write
+        break
+      end
+    end
+  end
+
+  private abstract class EntryFormatter
+    private getter io, entry
+    delegate severity, to: entry
+
+    def initialize(@io : IO, @entry : ::Log::Entry)
     end
 
-    def format(_catch_all)
-      Continue.new
+    abstract def should_format? : Bool
+
+    abstract def write : Nil
+
+    def local_context
+      res = Hash(String, ::Log::Metadata::Value).new
+
+      entry.context[:local]?.try &.as_h.each do |key, value|
+        res[key.to_s] = value
+      end
+
+      res
     end
 
     private def add_arrow : Void
@@ -19,9 +46,9 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
       arrow = "▸"
 
       case severity.value
-      when Logger::Severity::WARN.value
+      when ::Log::Severity::Warn.value
         arrow.colorize.yellow
-      when .>= Logger::Severity::ERROR.value
+      when .>= ::Log::Severity::Error.value
         arrow.colorize.red
       else
         arrow.colorize.dim
@@ -29,35 +56,70 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
     end
   end
 
-  private class RequestStartedFormatter < MessageFormatter
-    def format(data : NamedTuple(method: String, path: String))
-      io << "\n#{data[:method]} #{data[:path].colorize.underline}"
+  private class RequestStartedFormatter < EntryFormatter
+    def should_format? : Bool
+      (Lucky::LogHandler::REQUEST_START_KEYS.values.to_a - local_context.keys).empty?
+    end
+
+    def write : Nil
+      io << "\n#{local_context["method"]} #{local_context["path"].colorize.underline}"
     end
   end
 
-  private class RequestEndedFormatter < MessageFormatter
-    def format(data : NamedTuple(status: Int32, duration: String))
-      colored_status_code = Lucky::LoggerHelpers.colored_status_code(data[:status])
+  private class RequestEndedFormatter < EntryFormatter
+    def should_format? : Bool
+      (Lucky::LogHandler::REQUEST_END_KEYS.values.to_a - local_context.keys).empty?
+    end
+
+    def write : Nil
       add_arrow
-      io << "Sent #{colored_status_code} (#{data[:duration]})"
+      http_status = Lucky::LoggerHelpers.colored_http_status(local_context["status"].as_i)
+      io << "Sent #{http_status} (#{local_context["duration"]})"
     end
   end
 
-  private class PlainTextFormatter < MessageFormatter
-    def format(data : NamedTuple(message: String))
+  private class ExceptionFormatter < EntryFormatter
+    def should_format? : Bool
+      entry.exception.present?
+    end
+
+    def write : Nil
       add_arrow
-
-      io << data[:message]
+      entry.exception.try do |ex|
+        io << " #{ex.class.name} ".colorize.bold.on_red
+        if ex.message.try(&.lines)
+          io << "\n"
+          ex.message.try(&.lines).try(&.each do |line|
+            io << "\n     "
+            io << line
+          end)
+        end
+        if backtrace = ex.backtrace?
+          io << "\n\n   "
+          io << " Backtrace ".colorize.bold.black.on_white
+          io << "\n"
+          backtrace.each do |trace_line|
+            trace_line = trace_line.colorize.dim unless trace_line.starts_with?(/src|spec/)
+            io << "\n     #{trace_line}"
+          end
+          io << "\n"
+        end
+      end
     end
   end
 
-  private class AnyOtherDataFormatter < MessageFormatter
+  private class AnyOtherDataFormatter < EntryFormatter
     private property index = 0
 
-    def format(data : NamedTuple)
-      add_arrow
+    def should_format? : Bool
+      true
+    end
 
-      io << data.map do |key, value|
+    def write : Nil
+      add_arrow
+      io << "#{entry.message}" unless entry.message.empty?
+
+      io << local_context.map do |key, value|
         "#{Wordsmith::Inflector.humanize(key)} #{colored(value.to_s)}".tap do
           self.index += 1
         end
@@ -73,21 +135,7 @@ struct Lucky::PrettyLogFormatter < Dexter::Formatters::BaseLogFormatter
     end
 
     private def printing_first_value_of_warning?
-      severity.value == Logger::Severity::WARN.value && index.zero?
-    end
-  end
-
-  MESSAGE_FORMATTERS = [
-    RequestStartedFormatter,
-    RequestEndedFormatter,
-    PlainTextFormatter,
-    AnyOtherDataFormatter,
-  ]
-
-  def format(data : NamedTuple) : Nil
-    MESSAGE_FORMATTERS.each do |message_formatter|
-      result = message_formatter.new(io, severity).format(data)
-      break unless result.is_a?(MessageFormatter::Continue)
+      severity.value == ::Log::Severity::Warn.value && index.zero?
     end
   end
 end

@@ -1,6 +1,6 @@
 module Lucky::BaseTags
   include Lucky::CheckTagContent
-  TAGS             = %i(a abbr address article aside b bdi body button code details dialog div dd dl dt em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header html i iframe label li main mark menuitem meter nav ol option pre progress rp rt ruby s script section small span strong summary table tbody td textarea th thead time title tr u ul video wbr)
+  TAGS             = %i(a abbr address article aside b bdi body button code details dialog div dd dl dt em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header html i iframe label li main mark menuitem meter nav ol option pre progress rp rt ruby s script section small span strong summary table tbody td template textarea tfoot th thead time title tr u ul video wbr)
   RENAMED_TAGS     = {"para": "p", "select_tag": "select"}
   EMPTY_TAGS       = %i(img br hr input meta source)
   EMPTY_HTML_ATTRS = {} of String => String
@@ -20,26 +20,26 @@ module Lucky::BaseTags
         options = EMPTY_HTML_ATTRS,
         attrs : Array(Symbol) = [] of Symbol,
         **other_options
-      )
+      ) : Nil
       merged_options = merge_options(other_options, options)
       {{method_name.id}}(attrs, merged_options) do
         text content
       end
     end
 
-    def {{method_name.id}}(content : String | Lucky::AllowedInTags)
+    def {{method_name.id}}(content : String | Lucky::AllowedInTags) : Nil
       {{method_name.id}}(EMPTY_HTML_ATTRS) do
         text content
       end
     end
 
-    def {{method_name.id}}(&block)
+    def {{method_name.id}}(&block) : Nil
       {{method_name.id}}(EMPTY_HTML_ATTRS) do
         yield
       end
     end
 
-    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block)
+    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
       view << "<{{tag.id}}" << tag_attrs << ">"
@@ -47,7 +47,7 @@ module Lucky::BaseTags
       view << "</{{tag.id}}>"
     end
 
-    def {{method_name.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options, &block)
+    def {{method_name.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
       boolean_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
@@ -67,11 +67,11 @@ module Lucky::BaseTags
 
   {% for tag in EMPTY_TAGS %}
     # Generates a `&lt;{{tag.id}}&gt;` tag.
-    def {{tag.id}}
+    def {{tag.id}} : Nil
       view << %(<{{tag.id}}> )
     end
 
-    def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options)
+    def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
       {{tag.id}}([] of Symbol, options, **other_options)
     end
 
@@ -83,7 +83,7 @@ module Lucky::BaseTags
     # ```
     # {{tag.id}}([:required], {"class" => "cls-1"}) #=> <{{tag.id}} class="cls-1" required>
     # ```
-    def {{tag.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options)
+    def {{tag.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options) : Nil
       bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
@@ -97,7 +97,7 @@ module Lucky::BaseTags
   # text("Hello") # => Hello
   # text("<div>") # => &lt;div&gt;
   # ```
-  def text(content : String | Lucky::AllowedInTags)
+  def text(content : String | Lucky::AllowedInTags) : Nil
     view << HTML.escape(content.to_s)
   end
 
@@ -106,7 +106,7 @@ module Lucky::BaseTags
   # ```
   # style("a { color: red; }") # => <style>a { color: red; }</style>
   # ```
-  def style(styles : String)
+  def style(styles : String) : Nil
     view << "<style>#{styles}</style>"
   end
 

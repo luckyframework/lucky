@@ -1,0 +1,36 @@
+name: Lucky CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: "*"
+
+jobs:
+  check_format:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:0.35.1
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install shards
+        run: shards install --ignore-crystal-version
+      - name: Format
+        run: crystal tool format --check
+      - name: Lint
+        run: ./bin/ameba
+  specs:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:0.35.1
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install shards
+      run: shards install --ignore-crystal-version
+    - name: Cache Crystal
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/crystal
+        key: ${{ runner.os }}-crystal
+    - name: Run tests
+      run: crystal spec

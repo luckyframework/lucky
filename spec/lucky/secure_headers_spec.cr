@@ -85,7 +85,7 @@ describe Lucky::SecureHeaders do
 
     it "throws an error when given a bad value" do
       expect_raises(Exception, "You set frame_guard_value to hax0rz") do
-        route = FrameGuardRoutes::WithBadValue.new(build_context, params).call
+        FrameGuardRoutes::WithBadValue.new(build_context, params).call
       end
     end
   end

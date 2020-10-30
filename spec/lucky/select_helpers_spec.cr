@@ -17,6 +17,11 @@ private class TestPage
     self
   end
 
+  def render_prompt(label)
+    select_prompt(label)
+    self
+  end
+
   def html
     view
   end
@@ -24,10 +29,10 @@ end
 
 class SomeFormWithCompany
   def company_id
-    Avram::PermittedAttribute(String).new(
+    Avram::PermittedAttribute(Int32?).new(
       name: :company_id,
       param: "1",
-      value: "",
+      value: nil,
       param_key: "company"
     )
   end
@@ -52,6 +57,12 @@ describe Lucky::SelectHelpers do
       .html.to_s.should eq <<-HTML
       <option value="1" selected="true">Volvo</option><option value="3">BMW</option>
       HTML
+  end
+
+  it "renders a blank option as a prompt" do
+    view.render_prompt("Which one do you want?").html.to_s.should eq <<-HTML
+    <option value="">Which one do you want?</option>
+    HTML
   end
 end
 

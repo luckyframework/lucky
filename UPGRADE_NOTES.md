@@ -1,3 +1,467 @@
+## Upgrading from 0.23 to 0.24
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.23.0&to=0.24.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.1`
+  - Lucky should be `~> 0.24.0`
+  - Authentic should be `~> 0.7.0`
+
+- Run `shards update`
+
+### General updates
+
+- Rename: all instances of the `m` method to `mount`. e.g. `m Shared::Footer, year: 2020` -> `mount Shared::Footer, year: 2020`.
+- Update: `config/database.cr` with new `Avram::Credentials`.
+```crystal
+AppDatabase.configure do |settings|
+  if Lucky::Env.production?
+    settings.credentials = Avram::Credentials.parse(ENV["DATABASE_URL"])
+  else
+    settings.credentials = Avram::Credentials.parse?(ENV["DATABASE_URL"]?) || Avram::Credentials.new(
+      database: database_name,
+      hostname: ENV["DB_HOST"]? || "localhost",
+      # NOTE: This was changed from `String` to `Int32`
+      port: ENV["DB_PORT"]?.try(&.to_i) || 5432,
+      username: ENV["DB_USERNAME"]? || "postgres",
+      password: ENV["DB_PASSWORD"]? || "postgres"
+    )
+  end
+end
+```
+- Rename: all instances of `AppClient` to `ApiClient` in your `spec/` directory.
+- Update: `script/setup` with `shards install --ignore-crystal-version`. Alternatively, you can set a global `SHARDS_OPTS=--ignore-crystal-version` environment variable
+
+### Optional updates
+
+- Update: `redirect_back` with `allow_external: true` argument if you need to allow external referers
+- Update: your database credentials with the new `query` option to pass query string options
+```crystal
+# config/database.cr
+settings.credentials = Avram::Credentials.new(
+  database: database_name,
+  hostname: ENV["DB_HOST"]? || "localhost",
+  port: ENV["DB_PORT"]?.try(&.to_i) || 5432,
+  username: ENV["DB_USERNAME"]? || "postgres",
+  password: ENV["DB_PASSWORD"]? || "postgres",
+  # This option is new
+  query: "initial_pool_size=5&max_pool_size=20"
+)
+```
+- Add: `disable_cookies` to `ApiAction` in `src/actions/api_action.cr`.
+
+## Upgrading from 0.22 to 0.23
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.22.0&to=0.23.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.0`
+  - Lucky should be `~> 0.23.0`
+  - Authentic should be `~> 0.6.1`
+  - LuckyFlow should be `~> 0.7.0`
+  - jwt should be `~> 1.4.2`
+
+- Run `shards update`
+
+### General updates
+
+- Update: `params.get` now strips white space. If you need the raw value, use `params.get_raw`.
+- Rename: `mount` to `m` in all pages that use components. **Note: This was reverted in the next version**
+- Update: all mounted components to use new signature `mount(MyComponent.new(x: 1, y: 2))` -> `m(MyComponent, x: 1, y:2)`.
+- Remove: `Lucky::SessionHandler` and `Lucky::FlashHandler` from `src/app_server.cr`
+
+### Optional updates
+
+- Add: `Avram::RecordNotFoundError` to the `dont_report` array in `src/actions/errors/show.cr`
+- Update: `def render(error : Lucky::RouteNotFoundError` to `def render(error : Lucky::RouteNotFoundError | Avram::RecordNotFoundError)` in `src/actions/errors/show.cr`.
+- Update: any CLI tasks that use `ARGV` to use the native args [See implementation](https://github.com/luckyframework/lucky_cli/pull/466)
+
+
+## Upgrading from 0.21 to 0.22
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.21.0&to=0.22.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.0`
+  - Lucky should be `~> 0.22.0`
+  - Authentic should be `~> 0.6.0`
+  - jwt should be `~> 1.4.2`
+
+- Run `shards update`
+
+## Upgrading from 0.20 to 0.21
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.20.0&to=0.21.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.34.0`
+  - Lucky should be `~> 0.21.0`
+  - Authentic should be `~> 0.5.4`
+  - LuckyFlow should be `~> 0.6.3`
+
+- Run `shards update`
+
+### General updates
+
+- Rename: `config/logger.cr` to `config/log.cr`
+- Update: `config/log.cr` to use the new `Log`. [See implementation](https://github.com/luckyframework/lucky_cli/blob/master/src/web_app_skeleton/config/log.cr)
+- Update: `Procfile.dev` and update the `system_check` to `script/system_check && sleep 100000`.
+- Update: all `Lucky.logger.{level}("message")` calls to use the new Crystal Log `Log.{level} { "message" }`
+- Remove: the following lines from `config/database.cr`
+```crystal
+# Uncomment the next line to log all SQL queries
+# settings.query_log_level = ::Logger::Severity::DEBUG
+```
+
+### Updating `Lucky.logger`
+
+Before this version, you would log data like this:
+
+```crystal
+Lucky.logger.debug("Logging some message")
+Lucky.logger.info({path: @context.request.path})
+```
+
+Now, you would write this like:
+
+```crystal
+# Use the Crystal std-lib log for simple String messages
+Log.debug { "Logging some message" }
+
+# Use the Dexter extension for logging key/value data
+Log.dexter.info { {path: @context.request.path} }
+```
+
+
+## Upgrading from 0.19 to 0.20
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.19.0&to=0.20.0).
+
+- Update `.crystal-version` file to `0.34.0`
+- Upgrade to crystal 0.34.0
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.34.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.34.0`
+  - Lucky should be `~> 0.20.0`
+  - Authentic should be `~> 0.5.2`
+  - LuckyFlow should be `~> 0.6.2`
+- Run `shards update`
+
+### General updates
+
+- Update: `link` no longer accepts a `String` path or URL, it must be an Action. Change `link()` to an `a` tag with an `href` (`a "Google", href: "https://google.com"`), or use an action class with `link` (`link "Home", to: "/" ` becomes `link("Home", to: Home::Index)`.
+- Remove: the `?` from any `needs` using a predicate method. e.g. `needs signed_in? : Bool` -> `needs signed_in : Bool`. Lucky now automatically creates a method ending with `?` for `needs` with a `Bool` type.
+- Update: your development `ENV["PORT"]` to be `ENV["DEV_PORT"]` if you need to customize the port your local server is running on.
+- Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(name: "Gary")`, or if you must use a hash, wrap it in params first: `MyOperation.new(Avram::Params.new({"name" => "Gary"})`
+- Remove: the `on:` option from `needs` inside every Operation class. e.g. `needs created_by : String, on: :create` -> `needs created_by : String`. You will need to explicitly pass these when calling `new`, `create`, and `update`.
+
+
+### Optional updates
+
+- Update: all instance variables called from a `needs` on a page or component can now just use the method of that name. e.g. `@current_user` -> `current_user`
+- Add: `include Lucky::CatchUnpermittedAttribute` to the `class Shared::Field(T)` in `src/components/shared/field.cr`. This will raise a nicer error if you forget to permit a column in your SaveOperation
+- Add: the new `Lucky::RemoteIpHandler.new` to your app handlers in `src/app_server.cr` just before `Lucky::RouteHandler.new`.
+- Add: `robots.txt` to your `public/` directory.
+  ```
+  User-agent: *
+  Disallow:
+  ```
+- Update: `UserSerializer` to inherit from the `BaseSerializer` if it doesn't already.
+- Add: `cookie.http_only(true)` to your `config/cookies.cr` file. This goes inside your `settings.on_set` block.
+- Update: your node dependencies where needed
+- Update: the `setup` script in `script/setup`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/setup.ecr). Be sure to remove the ECR tags.
+- Add: this line `system_check: script/system_check && $SHELL` to your `Procfile.dev`
+- Add: the new `system_check` script in `script/system_check`. Note: you may need to `chmod +x script/system_check`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/system_check.ecr). Be sure to remove the ECR tags.
+- Add: the new `function_helpers` script in `script/helpers/function_helpers`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/helpers/function_helpers)
+- Add: the new `text_helpers` script in `script/helpers/text_helpers`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/helpers/text_helpers)
+
+
+## Upgrading from 0.18 to 0.19
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.18.0&to=0.19.0).
+
+- Update `.crystal-version` file to `0.33.0`
+- Upgrade to crystal 0.33.0
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.33.0
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.33.0`
+  - Lucky should be `~> 0.19.0`
+  - Authentic should be `~> 0.5.1`
+  - LuckyFlow should be `~> 0.6.2`
+- Run `shards update`
+
+### Recommended (but optional) changes
+
+
+#### GZip static assets
+
+* [Add the compression plugin](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-73db280623fcd1a64ac1ab76c8700dbc) to `package.json`
+* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-cd19e42e70bfbcf2a12480b0b6b1f590)
+  to your `webpack.mix.js` file
+* In `src/app_server.cr` add `Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip")` above the `Lucky::StaticFileHandler.new`.
+
+#### GZip text responses
+
+* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-83ca1a783e82ef6f0d38f400b7c1eaa1) to `config/server.cr` to gzip text responses.
+
+## Upgrading from 0.17 to 0.18
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.17.0&to=0.18.0).
+
+- Upgrade to crystal 0.31.1
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade crystal-lang # Make sure you're up-to-date. Requires 0.31.1
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update `.crystal-version` to `0.31.1`
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.31.1`
+  - Lucky should be `~> 0.18`
+  - Authentic should be `~> 0.5.0`
+  - LuckyFlow should be `~> 0.6.0`
+- Run `shards update`
+
+### General updates
+
+- Rename: all `render` calls in actions to `html`.
+- Update: the `src/actions/errors/show.cr` file to the new format:
+
+  ```crystal
+  class Errors::Show < Lucky::ErrorAction
+    DEFAULT_MESSAGE = "Something went wrong."
+    default_format :html
+    dont_report [Lucky::RouteNotFoundError]
+
+    def render(error : Lucky::RouteNotFoundError)
+      if html?
+        error_html "Sorry, we couldn't find that page.", status: 404
+      else
+        error_json "Not found", status: 404
+      end
+    end
+
+    # When the request is JSON and an InvalidOperationError is raised, show a
+    # helpful error with the param that is invalid, and what was wrong with it.
+    def render(error : Avram::InvalidOperationError)
+      if html?
+        error_html DEFAULT_MESSAGE, status: 500
+      else
+        error_json \
+          message: error.renderable_message,
+          details: error.renderable_details,
+          param: error.invalid_attribute_name,
+          status: 400
+      end
+    end
+
+    # Always keep this below other 'render' methods or it may override your
+    # custom 'render' methods.
+    def render(error : Lucky::RenderableError)
+      if html?
+        error_html DEFAULT_MESSAGE, status: error.renderable_status
+      else
+        error_json error.renderable_message, status: error.renderable_status
+      end
+    end
+
+    # If none of the 'render' methods return a response for the raised Exception,
+    # Lucky will use this method.
+    def default_render(error : Exception) : Lucky::Response
+      if html?
+        error_html DEFAULT_MESSAGE, status: 500
+      else
+        error_json DEFAULT_MESSAGE, status: 500
+      end
+    end
+
+    private def error_html(message : String, status : Int)
+      context.response.status_code = status
+      html Errors::ShowPage, message: message, status: status
+    end
+
+    private def error_json(message : String, status : Int, details = nil, param = nil)
+      json ErrorSerializer.new(message: message, details: details, param: param), status: status
+    end
+
+    private def report(error : Exception) : Nil
+      # Send to Rollbar, send an email, etc.
+    end
+  end
+  ```
+
+- Rename: `title` to `message` in `src/pages/errors/show_page.cr`.
+- Add: `BaseSerializer` to `src/serializers/`.
+
+  ```crystal
+  abstract class BaseSerializer < Lucky::Serializer
+    def self.for_collection(collection : Enumerable, *args, **named_args)
+      collection.map do |object|
+        new(object, *args, **named_args)
+      end
+    end
+  end
+  ```
+
+- Add: `require "./serializers/base_serializer"` to your `src/app.cr` above `require "./serializers/**"`
+- Optional: Update all serializers to inherit from `BaseSerializer`. Also merge Show/Index serializers in to a single class.
+
+  ```crystal
+  # Merge these two classes
+  class Users::IndexSerializer < Lucky::Serializer
+  end
+
+  class Users::ShowSerializers < Lucky::Serializer
+  end
+
+  # in to this class
+  class UserSerializer < BaseSerializer
+    # Same contents as Users::ShowSerializer
+    # Calls to Users::IndexSerializer now become:
+    #
+    #    UserSerializer.for_collection(users)
+  end
+  ```
+
+- Rename: `Errors::ShowSerializer` to `ErrorSerializer`
+- Update: `ErrorSerializer` to inherit from the new `BaseSerializer`
+- Update: `ErrorSerializer` contents with:
+
+  ```crystal
+  class ErrorSerializer < BaseSerializer
+    def initialize(
+      @message : String,
+      @details : String? = nil,
+      @param : String? = nil # If there was a problem with a specific param
+    )
+    end
+
+    def render
+      {message: @message, param: @param, details: @details}
+    end
+  end
+
+  ```
+- Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
+- Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248). You can likely ignore this as most people do not rescue these specific errors.
+- Add: `accepted_formats [:json]` to `ApiAction` in `src/actions/api_action.cr`.
+
+  ```crystal
+  abstract class ApiAction < Lucky::Action
+    accepted_formats [:json]
+  end
+  ```
+
+- Add: `accepted_formats [:html, :json], default: :html` to `BrowserAction` in `src/actions/browser_action.cr`
+
+  ```crystal
+  abstract class BrowserAction < Lucky::Action
+    accepted_formats [:html, :json], default: :html
+  end
+  ```
+
+- Update: `src/app_server.cr` with explicit return type on the `middleware` method.
+```crystal
+# Add return type here
+def middleware : Array(HTTP::Handler)
+  [
+    # ...
+  ] of HTTP::Handler # Add this or app will fail to compile
+end
+```
+
+- Add: `include Lucky::RequestExpectations` to `spec/spec_helper.cr` below `include Carbon::Expectations`
+- Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `spec/spec_helper.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`
+- Update: Change `at_exit do` in `spec/setup/start_app_server.cr` to `Spec.after_suite do`
+
 ## Upgrading from 0.16 to 0.17
 
 - Ensure you've upgraded to crystal 0.30.1
@@ -28,7 +492,7 @@ If you're not sure about an upgrade step, or simply want to look at an example, 
 ### General updates
 - Rename: Action rendering method `text` to `plain_text`.
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
-- Delete: `config/static_file_handler.cr`. The `Lucky::StaticFileHandler` no longer has config settings.
+- Delete: `config/static_file_handler.cr`.
 - Add: a new `Lucky::LogHandler` configure to the bottom of `config/logger.cr`.
 - Update: `Avram::Repo.configure` to `Avram.configure` in `config/logger.cr`.
 <details>
@@ -51,7 +515,7 @@ If you're not sure about an upgrade step, or simply want to look at an example, 
       # This sets the log formatter to JSON so you can parse the logs with
       # services like Logentries or Logstash.
       #
-      # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+      # If you want logs like in development use `Lucky::PrettyLogFormatter`.
       Dexter::Logger.new(
         io: STDOUT,
         level: Logger::Severity::INFO,
@@ -185,7 +649,7 @@ class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
 end
 ```
 - Update: models now default the primary key to `Int64`. This can be
-overriden if your tables uses a different column type for your primary keys,
+overridden if your tables uses a different column type for your primary keys,
 such as Int32 or UUID
 
 ```crystal
@@ -217,7 +681,7 @@ end
 - Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
 - Rename: all association query methods from the association name to `where_{association_name}`. (e.g. `UserQuery.new.posts` => `UserQuery.new.where_posts`)
 - Update: all association query methods no longer take a block. Pass the query in as an argument. (e.g. `UserQuery.new.posts { |post_query| }` => `UserQuery.new.where_posts(PostQuery.new)`)
-- Update: `where_{association_name}` methods no longer need to be preceeded by a `join_{assoc}`, unless you need a custom join (i.e. `left_join_{assoc}`). If you use a custom join, you will need to add the `auto_inner_join: false` option to your `where_{assoc}` method.
+- Update: `where_{association_name}` methods no longer need to be preceded by a `join_{assoc}`, unless you need a custom join (i.e. `left_join_{assoc}`). If you use a custom join, you will need to add the `auto_inner_join: false` option to your `where_{assoc}` method.
 
 ### Moving forms to operations
 - Rename: the `src/forms` directory to `src/operations`.
@@ -384,7 +848,7 @@ logger =
     # This sets the log formatter to JSON so you can parse the logs with
     # services like Logentries or Logstash.
     #
-    # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+    # If you want logs like in development use `Lucky::PrettyLogFormatter`.
     Dexter::Logger.new(
       io: STDOUT,
       level: Logger::Severity::INFO,
@@ -787,7 +1251,7 @@ https://github.com/luckyframework/lucky_cli/blob/a25472cc7461b1803735d086e57a632
 
 - Add default `Error::ShowSerializer`
 
-This is used for serializering errors to JSON. Add this to
+This is used for serializing errors to JSON. Add this to
 `src/serializers/errors/show_serializer.cr`
 
 ```crystal

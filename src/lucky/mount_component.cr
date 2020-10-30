@@ -6,11 +6,13 @@ module Lucky::MountComponent
   # starts and ends.
   #
   # ```
-  # mount MyComponent.new
+  # m(MyComponent)
+  # m(MyComponent, with_args: 123)
   # ```
-  def mount(component : Lucky::BaseComponent) : Nil
+  @[Deprecated("Use `#mount` instead. Example: mount(MyComponent, arg1: 123)")]
+  def m(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.view(view).render
+      component.new(*args, **named_args).view(view).render
     end
   end
 
@@ -22,23 +24,60 @@ module Lucky::MountComponent
   # starts and ends.
   #
   # ```
-  # mount MyComponent.new("jane") do |name|
+  # m(MyComponent, name: "Jane") do |name|
   #   text name.upcase
   # end
   # ```
-  def mount(component : Lucky::BaseComponent) : Nil
+  @[Deprecated("Use `#mount` instead. Example: mount(MyComponent, arg1: 123) do/end")]
+  def m(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.view(view).render do |*yield_args|
+      component.new(*args, **named_args).view(view).render do |*yield_args|
         yield *yield_args
       end
     end
   end
 
-  private def print_component_comment(component : Lucky::BaseComponent) : Nil
+  # Appends the `component` to the view.
+  #
+  # When `Lucky::HTMLPage.settings.render_component_comments` is
+  # set to `true`, it will render HTML comments showing where the component
+  # starts and ends.
+  #
+  # ```
+  # mount(MyComponent)
+  # mount(MyComponent, with_args: 123)
+  # ```
+  def mount(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
+    print_component_comment(component) do
+      component.new(*args, **named_args).view(view).render
+    end
+  end
+
+  # Appends the `component` to the view. Takes a block, and yields the
+  # args passed to the component.
+  #
+  # When `Lucky::HTMLPage.settings.render_component_comments` is
+  # set to `true`, it will render HTML comments showing where the component
+  # starts and ends.
+  #
+  # ```
+  # mount(MyComponent, name: "Jane") do |name|
+  #   text name.upcase
+  # end
+  # ```
+  def mount(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
+    print_component_comment(component) do
+      component.new(*args, **named_args).view(view).render do |*yield_args|
+        yield *yield_args
+      end
+    end
+  end
+
+  private def print_component_comment(component : Lucky::BaseComponent.class) : Nil
     if Lucky::HTMLPage.settings.render_component_comments
-      raw "<!-- Started: #{component.class.name} -->"
+      raw "<!-- BEGIN: #{component.name} #{component.file_location} -->"
       yield
-      raw "<!-- Finished: #{component.class.name} -->"
+      raw "<!-- END: #{component.name} -->"
     else
       yield
     end

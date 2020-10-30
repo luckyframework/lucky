@@ -9,9 +9,7 @@ Spec.before_each do
   ARGV.clear
 end
 
-Lucky.configure do |settings|
-  settings.logger = Dexter::Logger.new(nil)
-end
+Log.dexter.configure(:none)
 
 Lucky::Session.configure do |settings|
   settings.key = "_app_session"
@@ -31,7 +29,7 @@ class UnusedDatabase < Avram::Database
 end
 
 UnusedDatabase.configure do |settings|
-  settings.url = "unused"
+  settings.credentials = Avram::Credentials.void
 end
 
 Avram.configure do |settings|

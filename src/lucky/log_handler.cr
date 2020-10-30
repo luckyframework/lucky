@@ -2,6 +2,17 @@ require "colorize"
 
 class Lucky::LogHandler
   include HTTP::Handler
+  # These constants are used here and in the PrettyLogFormatter to make sure
+  # that the formatter looks for the right keys!
+  REQUEST_START_KEYS = {
+    method: "method",
+    path:   "path",
+  }
+
+  REQUEST_END_KEYS = {
+    status:   "status",
+    duration: "duration",
+  }
 
   Habitat.create do
     setting skip_if : Proc(HTTP::Server::Context, Bool)?
@@ -10,32 +21,36 @@ class Lucky::LogHandler
   delegate logger, to: Lucky
 
   def call(context)
-    time = Time.utc
+    start = Time.monotonic
     should_skip = settings.skip_if.try &.call(context)
 
     log_request_start(context) unless should_skip
     call_next(context)
-    log_request_end(context, duration: Time.utc - time) unless should_skip
+    log_request_end(context, duration: Time.monotonic - start) unless should_skip
   rescue e
-    log_exception(context, time, e)
+    log_exception(context, Time.utc, e)
     raise e
   end
 
   private def log_request_start(context) : Nil
-    logger.info({
-      method: context.request.method,
-      path:   context.request.resource,
-    })
+    Lucky::Log.dexter.info do
+      {
+        REQUEST_START_KEYS[:method] => context.request.method,
+        REQUEST_START_KEYS[:path]   => context.request.resource,
+      }
+    end
   end
 
   private def log_request_end(context, duration) : Nil
-    logger.info({
-      status:   context.response.status_code,
-      duration: Lucky::LoggerHelpers.elapsed_text(duration),
-    })
+    Lucky::Log.dexter.info do
+      {
+        REQUEST_END_KEYS[:status]   => context.response.status_code,
+        REQUEST_END_KEYS[:duration] => Lucky::LoggerHelpers.elapsed_text(duration),
+      }
+    end
   end
 
-  private def log_exception(context, time, e) : Nil
-    logger.error({unhandled_exception: e.inspect_with_backtrace})
+  private def log_exception(context : HTTP::Server::Context, time : Time, e : Exception) : Nil
+    Lucky::Log.error(exception: e) { "" }
   end
 end

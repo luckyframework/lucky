@@ -30,7 +30,7 @@ module Lucky
     def encrypt(value) : Bytes
       cipher = OpenSSL::Cipher.new(@cipher_algorithm)
       cipher.encrypt
-      cipher.key = @secret
+      set_cipher_key(cipher)
 
       # Rely on OpenSSL for the initialization vector
       iv = cipher.random_iv
@@ -49,13 +49,39 @@ module Lucky
       iv = value[value.size - @block_size, @block_size]
 
       cipher.decrypt
-      cipher.key = @secret
+      set_cipher_key(cipher)
       cipher.iv = iv
 
       decrypted_data = IO::Memory.new
       decrypted_data.write cipher.update(data)
       decrypted_data.write cipher.final
       decrypted_data.to_slice
+    end
+
+    private def set_cipher_key(cipher)
+      cipher.key = @secret
+    rescue error : ArgumentError
+      raise InvalidSecretKeyBase.new(<<-MESSAGE
+        The secret key is invalid:
+
+          #{error.message}
+
+        You can generate a new key using 'lucky gen.secret_key' in your terminal:
+
+          ▸ lucky gen.secret_key
+
+        Usually the key is set in 'config/server.cr'
+
+          Lucky::Server.configure do |settings|
+            settings.secret_key_base = "your-new-key"
+          end
+
+
+        MESSAGE
+      )
+    end
+
+    class InvalidSecretKeyBase < Exception
     end
   end
 end

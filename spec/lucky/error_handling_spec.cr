@@ -57,15 +57,16 @@ describe "Error handling" do
   describe "ErrorAction" do
     describe "show_debug_output setting is true" do
       it "renders debug output if request accepts HTML" do
-        handle_error(format: :html, show_debug_output: true) do |context, output|
+        handle_error(format: :html, show_debug_output: true, status_code: 500) do |context, output|
           context.response.headers["Content-Type"].should eq("text/html")
           output.should contain("code-explorer")
+          output.should contain("Error 500")
           context.response.status_code.should eq(500)
         end
       end
 
       it "does not render debug output if request is not HTML" do
-        handle_error(format: :json, show_debug_output: true) do |context, output|
+        handle_error(format: :json, show_debug_output: true, status_code: 500) do |context, output|
           context.response.headers["Content-Type"].should eq("text/plain")
           output.should_not contain("code-explorer")
           output.should contain("This is not a debug page")
@@ -74,9 +75,10 @@ describe "Error handling" do
       end
 
       it "renders debug page with the error's status" do
-        handle_error(format: :html, show_debug_output: true, error: CustomError.new) do |context, output|
+        handle_error(format: :html, show_debug_output: true, error: CustomError.new, status_code: 404) do |context, output|
           context.response.headers["Content-Type"].should eq("text/html")
           output.should contain("code-explorer")
+          output.should contain("Error 404")
           context.response.status_code.should eq(404)
         end
       end
@@ -84,7 +86,7 @@ describe "Error handling" do
 
     describe "show_debug_output setting is false" do
       it "does not render debug output" do
-        handle_error(format: :json, show_debug_output: false) do |context, output|
+        handle_error(format: :json, show_debug_output: false, status_code: 500) do |context, output|
           context.response.headers["Content-Type"].should eq("text/plain")
           output.should contain("This is not a debug page")
           context.response.status_code.should eq(500)
@@ -102,14 +104,14 @@ describe "Error handling" do
     end
 
     it "handles the error with an overloaded 'render' method if defined" do
-      handle_error(error: CustomError.new) do |context, _output|
+      handle_error(error: CustomError.new, status_code: 404) do |context, _output|
         context.response.headers["Content-Type"].should eq("")
         context.response.status_code.should eq(404)
       end
     end
 
     it "falls back to 'default_render' if there is no 'render' method for the exception" do
-      handle_error(error: UnhandledError.new) do |context, output|
+      handle_error(error: UnhandledError.new, status_code: 500) do |context, output|
         output.should contain("This is not a debug page")
         context.response.headers["Content-Type"].should eq("text/plain")
         context.response.status_code.should eq(500)
@@ -121,7 +123,8 @@ end
 private def handle_error(
   format : Symbol = :html,
   show_debug_output : Bool = false,
-  error : Exception = UnhandledError.new
+  error : Exception = UnhandledError.new,
+  status_code : Int32 = 200
 )
   Lucky::ErrorHandler.temp_config(show_debug_output: show_debug_output) do
     error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
@@ -129,6 +132,7 @@ private def handle_error(
     io = IO::Memory.new
     context = build_context_with_io(io)
     context._clients_desired_format = format
+    context.response.status_code = status_code
 
     context = error_handler.call(context).as(HTTP::Server::Context)
 

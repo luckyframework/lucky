@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ContextHelper
+
 class FormHelpers::Index < TestAction
   route { plain_text "foo " }
 end
@@ -41,34 +43,46 @@ private class TestPage
       text "foo"
     end
   end
+
+  def form_with_multipart
+    form_for FormHelpers::Create, multipart: true do
+      text "foo"
+    end
+  end
+
+  def form_with_multipart_false
+    form_for FormHelpers::Create, multipart: false do
+      text "foo"
+    end
+  end
 end
 
 describe Lucky::FormHelpers do
   it "renders a form tag" do
     without_csrf_protection do
-      view.inferred_put_form.to_s.should contain <<-HTML
+      view(&.inferred_put_form).should contain <<-HTML
       <form action="/form_helpers/fake_id" method="post"><input type="hidden" name="_method" value="put">foo</form>
       HTML
 
-      view.inferred_post_form.to_s.should contain <<-HTML
+      view(&.inferred_post_form).should contain <<-HTML
       <form action="/form_helpers" method="post">foo</form>
       HTML
 
-      view.inferred_get_form.to_s.should contain <<-HTML
+      view(&.inferred_get_form).should contain <<-HTML
       <form action="/form_helpers" method="get">foo</form>
       HTML
 
-      view.form_with_html_options.to_s.should contain <<-HTML
+      view(&.form_with_html_options).should contain <<-HTML
       <form action="/form_helpers" method="post" class="cool-form">foo</form>
       HTML
 
-      form = view.form_for(FormHelpers::Index) { }
-      form.to_s.should contain <<-HTML
+      form = view(&.form_for(FormHelpers::Index) { })
+      form.should contain <<-HTML
       <form action="/form_helpers" method="get"></form>
       HTML
 
-      form = view.form_for(FormHelpers::Index, class: "form-block") { }
-      form.to_s.should contain <<-HTML
+      form = view(&.form_for(FormHelpers::Index, class: "form-block") { })
+      form.should contain <<-HTML
       <form action="/form_helpers" method="get" class="form-block"></form>
       HTML
     end
@@ -78,11 +92,23 @@ describe Lucky::FormHelpers do
     context_with_csrf = build_context
     context_with_csrf.session.set(Lucky::ProtectFromForgery::SESSION_KEY, "my_token")
 
-    form = view(context_with_csrf).form_for(FormHelpers::Index) { }
+    form = view(context_with_csrf, &.form_for(FormHelpers::Index) { })
 
-    form.to_s.should contain <<-HTML
+    form.should contain <<-HTML
     <form action="/form_helpers" method="get"><input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token"></form>
     HTML
+  end
+
+  it "converts the multipart argument" do
+    without_csrf_protection do
+      view(&.form_with_multipart).should contain <<-HTML
+      <form action="/form_helpers" method="post" enctype="multipart/form-data">foo</form>
+      HTML
+
+      view(&.form_with_multipart_false).should contain <<-HTML
+      <form action="/form_helpers" method="post">foo</form>
+      HTML
+    end
   end
 end
 
@@ -93,5 +119,7 @@ private def without_csrf_protection
 end
 
 private def view(context : HTTP::Server::Context = build_context)
-  TestPage.new(context)
+  TestPage.new(context).tap do |page|
+    yield page
+  end.view.to_s
 end

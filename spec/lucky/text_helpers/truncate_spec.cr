@@ -3,19 +3,19 @@ require "./text_helpers_spec"
 class TextHelperTestPage
   def test_truncate
     truncate "Hello World", length: 8 do
-      link "Continue", "#"
+      a "Continue", href: "#"
     end
   end
 
   def text_truncate_with_block_invoked
     truncate("Here is a long test and I need a continue to read link", length: 27) do
-      link "Continue", "#"
+      a "Continue", href: "#"
     end
   end
 
   def text_truncate_without_block_invoked
     truncate("Hello World", length: 12) do
-      link "Continue", "#"
+      a "Continue", href: "#"
     end
   end
 end
@@ -27,6 +27,16 @@ describe Lucky::TextHelpers do
         .should eq "Hello World!"
       view.tap(&.truncate("Hello World!!", length: 12)).render
         .should eq "Hello Wor..."
+    end
+
+    it "escapes the text by default" do
+      view.tap(&.truncate("<span>escape me</span>", length: 12)).render
+        .should eq "&lt;span&gt;esc..."
+    end
+
+    it "allows leaving the text unescaped" do
+      view.tap(&.truncate("<span>leave me as-is</span>", length: 12, escape: false)).render
+        .should eq "<span>lea..."
     end
 
     it "truncates with default length of 30" do
