@@ -58,6 +58,6 @@ module Gen::ActionGenerator
   end
 
   private def success_message
-    "Done generating #{action_name.colorize(:green)} in #{output_path.colorize(:green)}"
+    "Done generating #{action_name.colorize.green} in #{output_path.colorize.green}"
   end
 end

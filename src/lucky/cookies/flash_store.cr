@@ -2,7 +2,7 @@ class Lucky::FlashStore
   SESSION_KEY = "_flash"
   alias Key = String | Symbol
 
-  delegate each, to: all
+  delegate any?, each, empty?, to: all
 
   @now = {} of String => String
   @next = {} of String => String
@@ -20,6 +20,10 @@ class Lucky::FlashStore
     self
   rescue e : JSON::ParseException
     raise Lucky::InvalidFlashJSONError.new(session.get?(SESSION_KEY))
+  end
+
+  def keep : Nil
+    @next = @now
   end
 
   private def all : Hash(String, String)

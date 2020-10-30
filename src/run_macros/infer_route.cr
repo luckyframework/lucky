@@ -1,6 +1,6 @@
 require "wordsmith"
 
-class InferRoute
+private class InferRoute
   getter? nested_route
   getter action_class_name
 

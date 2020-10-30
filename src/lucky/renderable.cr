@@ -35,7 +35,7 @@ module Lucky::Renderable
   #
   #   route do
   #     # Users::IndexPage receives users AND current_user
-  #     render IndexPage users: UserQuery.new
+  #     html IndexPage users: UserQuery.new
   #   end
   #
   #   private def current_user
@@ -56,6 +56,7 @@ module Lucky::Renderable
     )
   end
 
+  # :nodoc:
   macro validate_page_class!(page_class)
     {% if page_class && page_class.resolve? %}
       {% ancestors = page_class.resolve.ancestors %}
@@ -79,13 +80,38 @@ module Lucky::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
-    body = view.perform_render.to_s
     Lucky::TextResponse.new(
       context,
       "text/html",
-      body,
+      view.perform_render,
       debug_message: log_message(view),
+      enable_cookies: enable_cookies?
     )
+  end
+
+  # Disable cookies
+  #
+  # When `disable_cookies` is used, no `Set-Cookie` header will be written to
+  # the response.
+  #
+  # ```crystal
+  # class Events::Show < ApiAction
+  #   disable_cookies
+  #
+  #   get "/events/:id" do
+  #     ...
+  #   end
+  # end
+  # ```
+  #
+  macro disable_cookies
+    private def enable_cookies?
+      false
+    end
+  end
+
+  private def enable_cookies?
+    true
   end
 
   private def log_message(view) : String
@@ -103,87 +129,168 @@ module Lucky::Renderable
     response.print
   end
 
+  private def handle_response(_response : Nil)
+    {%
+      raise <<-ERROR
+
+
+      An action returned Nil
+
+      But it should return a Lucky::Response.
+
+      Try this...
+
+        ▸ Return a response with html, redirect, or json at the end of your action.
+        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
+
+      For example...
+
+        get "/admin/users" do
+          # Make sure there is a response in all conditional branches
+          if current_user.admin?
+            html IndexPage, users: UserQuery.new
+          else
+            redirect Home::Index
+          end
+        end
+
+      ERROR
+    %}
+  end
+
   private def handle_response(_response : T) forall T
     {%
       raise <<-ERROR
 
 
-      Your action returned #{T}
+      An action returned #{T}
 
       But it should return a Lucky::Response
 
       Try this...
 
-        ▸ Use a method like render/redirect/json at the end of your action.
-        ▸ Ensure all conditionals (like if/else) return a response with render/redirect/json/etc.
+        ▸ Return a response with html, redirect, or json at the end of your action.
+        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
+
+      For example...
+
+        get "/users" do
+          # Return a response with json, redirect, html, etc.
+          html IndexPage, users: UserQuery.new
+        end
+
       ERROR
     %}
   end
 
   private def log_response(response : Lucky::Response) : Nil
     response.debug_message.try do |message|
-      Lucky.logger.debug(message)
+      Lucky::Log.debug { message }
     end
   end
 
-  private def file(path : String,
-                   content_type : String? = nil,
-                   disposition : String = "attachment",
-                   filename : String? = nil,
-                   status : Int32? = nil) : Lucky::FileResponse
+  def file(
+    path : String,
+    content_type : String? = nil,
+    disposition : String = "attachment",
+    filename : String? = nil,
+    status : Int32? = nil
+  ) : Lucky::FileResponse
     Lucky::FileResponse.new(context, path, content_type, disposition, filename, status)
   end
 
-  private def file(path : String,
-                   content_type : String? = nil,
-                   disposition : String = "attachment",
-                   filename : String? = nil,
-                   status : HTTP::Status = HTTP::Status::OK) : Lucky::FileResponse
+  def file(
+    path : String,
+    content_type : String? = nil,
+    disposition : String = "attachment",
+    filename : String? = nil,
+    status : HTTP::Status = HTTP::Status::OK
+  ) : Lucky::FileResponse
     file(path, content_type, disposition, filename, status.value)
   end
 
-  private def send_text_response(body : String, content_type : String, status : Int32? = nil) : Lucky::TextResponse
-    Lucky::TextResponse.new(context, content_type, body, status: status)
+  def data(
+    data : String,
+    content_type : String = "application/octet-stream",
+    disposition : String = "attachment",
+    filename : String? = nil,
+    status : Int32? = nil
+  ) : Lucky::DataResponse
+    Lucky::DataResponse.new(context, data, content_type, disposition, filename, status)
   end
 
-  private def plain_text(body : String, status : Int32? = nil) : Lucky::TextResponse
+  def send_text_response(
+    body : String,
+    content_type : String,
+    status : Int32? = nil
+  ) : Lucky::TextResponse
+    Lucky::TextResponse.new(
+      context,
+      content_type,
+      body,
+      status: status,
+      enable_cookies: enable_cookies?
+    )
+  end
+
+  def plain_text(body : String, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body, "text/plain", status)
   end
 
-  private def plain_text(body : String, status : HTTP::Status) : Lucky::TextResponse
+  def plain_text(body : String, status : HTTP::Status) : Lucky::TextResponse
     plain_text(body, status: status.value)
   end
 
+  # :nodoc:
   private def text(*args, **named_args)
     {% raise "'text' in actions has been renamed to 'plain_text'" %}
   end
 
-  @[Deprecated("`render_text deprecated. Use `plain_text` instead")]
+  @[Deprecated("`render_text` deprecated. Use `plain_text` instead")]
   private def render_text(*args, **named_args) : Lucky::TextResponse
     plain_text(*args, **named_args)
   end
 
-  private def head(status : Int32) : Lucky::TextResponse
+  def head(status : Int32) : Lucky::TextResponse
     send_text_response(body: "", content_type: "", status: status)
   end
 
-  private def head(status : HTTP::Status) : Lucky::TextResponse
+  def head(status : HTTP::Status) : Lucky::TextResponse
     head(status.value)
   end
 
-  private def json(body, status : Int32? = nil) : Lucky::TextResponse
+  def json(body, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body.to_json, "application/json", status)
   end
 
-  private def json(body, status : HTTP::Status) : Lucky::TextResponse
+  def json(body, status : HTTP::Status) : Lucky::TextResponse
     json(body, status: status.value)
   end
 
-  private def xml(body : String, status : Int32? = nil) : Lucky::TextResponse
+  def xml(body : String, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body, "text/xml", status)
   end
 
-  private def xml(body, status : HTTP::Status) : Lucky::TextResponse
+  def xml(body, status : HTTP::Status) : Lucky::TextResponse
     xml(body, status: status.value)
+  end
+
+  # Render a Component as an HTML response.
+  #
+  # ```
+  # get "/foo" do
+  #   component MyComponent, with: :args
+  # end
+  # ```
+  def component(comp : Lucky::BaseComponent.class, status : Int32? = nil, **named_args) : Lucky::TextResponse
+    send_text_response(
+      comp.new(**named_args).render_to_string,
+      "text/html",
+      status
+    )
+  end
+
+  def component(comp : Lucky::BaseComponent.class, status : HTTP::Status, **named_args) : Lucky::TextResponse
+    component(comp, status.value, **named_args)
   end
 end

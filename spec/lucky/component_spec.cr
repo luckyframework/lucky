@@ -14,7 +14,7 @@ private class ComplexTestComponent < Lucky::BaseComponent
   def render
     text @title
     img src: asset("images/logo.png")
-    mount TestComponent.new
+    mount(TestComponent)
   end
 end
 
@@ -36,11 +36,11 @@ private class TestMountPage
   include Lucky::HTMLPage
 
   def render
-    mount ComplexTestComponent.new(title: "passed_in_title")
-    mount ComponentWithBlockAndNoBlockArgs.new do
+    mount(ComplexTestComponent, title: "passed_in_title")
+    mount(ComponentWithBlockAndNoBlockArgs) do
       text "Block without args"
     end
-    mount ComponentWithBlock.new("jane") do |name|
+    mount(ComponentWithBlock, "Jane") do |name|
       text name.upcase
     end
     view
@@ -68,10 +68,10 @@ describe "components rendering" do
   it "prints a comment when configured to do so" do
     Lucky::HTMLPage.temp_config(render_component_comments: true) do
       contents = TestMountPage.new(build_context).render.to_s
-      contents.should contain("<!-- Started: ComplexTestComponent -->")
-      contents.should contain("<!-- Finished: ComplexTestComponent -->")
-      contents.should contain("<!-- Started: ComponentWithBlock -->")
-      contents.should contain("<!-- Finished: ComponentWithBlock -->")
+      contents.should contain("<!-- BEGIN: ComplexTestComponent spec/lucky/component_spec.cr -->")
+      contents.should contain("<!-- END: ComplexTestComponent -->")
+      contents.should contain("<!-- BEGIN: ComponentWithBlock spec/lucky/component_spec.cr -->")
+      contents.should contain("<!-- END: ComponentWithBlock -->")
     end
   end
 end

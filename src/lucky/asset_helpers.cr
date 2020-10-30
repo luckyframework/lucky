@@ -1,3 +1,9 @@
+# Methods for returning the path to assets
+#
+# These methods will return fingerprinted paths, check assets at compile time,
+# and allow for setting a CDN.
+#
+# For an in-depth guide check: https://luckyframework.org/guides/frontend/asset-handling
 module Lucky::AssetHelpers
   ASSET_MANIFEST = {} of String => String
   CONFIG         = {has_loaded_manifest: false}
@@ -7,6 +13,24 @@ module Lucky::AssetHelpers
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
+  # Return the string path to an asset
+  #
+  # ```
+  # # In a page or component:
+  # # Will find the asset in `public/assets/images/logo.png`
+  # img src: asset("images/logo.png")
+  #
+  # # Can also be used elsewhere by prepending Lucky::AssetHelpers
+  # Lucky::AssetHelpers.asset("images/logo.png")
+  # ```
+  #
+  # Note that assets are checked at compile time so if it is not found, Lucky
+  # will let you know. It will also let you know if you had a typo and suggest an
+  # asset that is close to what you typed.
+  #
+  # NOTE: This macro requires a `StringLiteral`. That means you cannot
+  # interpolate strings like this: `asset("images/icon-#{service_name}.png")`.
+  # instead use `dynamic_asset` if you need string interpolation.
   macro asset(path)
     {% unless CONFIG[:has_loaded_manifest] %}
       {% raise "No manifest loaded. Call 'Lucky::AssetHelpers.load_manifest'" %}
@@ -45,6 +69,20 @@ module Lucky::AssetHelpers
     {% end %}
   end
 
+  # Return the string path to an asset (allows string interpolation)
+  #
+  # ```
+  # # In a page or component
+  # # Will find the asset in `public/assets/images/logo.png`
+  # img src: asset("images/logo.png")
+  #
+  # # Can also be used elsewhere by prepending Lucky::AssetHelpers
+  # Lucky::AssetHelpers.asset("images/logo.png")
+  # ```
+  #
+  # NOTE: This method does *not* check assets at compile time. The asset path
+  # is found at runtime so it is possible the asset does not exist. Be sure to
+  # manually test that the asset is returned as expected.
   def dynamic_asset(path)
     fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
     if fingerprinted_path

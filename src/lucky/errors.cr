@@ -46,7 +46,7 @@ module Lucky
 
       You can teach Lucky how to handle this header:
 
-          # Add this in config/mime_types.cr
+          #{"# Add this in config/mime_types.cr".colorize.dim}
           Lucky::MimeType.register "#{accept_header}", :custom_format
 
       Or use one of these headers Lucky knows about:
@@ -99,6 +99,28 @@ module Lucky
   class CookieOverflowError < Error
   end
 
+  # Raised when getting a cookie that doesn't exist.
+  class CookieNotFoundError < Error
+    include Lucky::RenderableError
+
+    getter :key
+
+    def initialize(@key : String | Symbol)
+    end
+
+    def message : String
+      "No cookie found with the key: '#{key}'"
+    end
+
+    def renderable_status : Int32
+      400
+    end
+
+    def renderable_message : String
+      message
+    end
+  end
+
   class InvalidSignatureError < Error
   end
 
@@ -135,7 +157,7 @@ module Lucky
     end
 
     def message : String
-      "Missing parameter: '#{param_name}''"
+      "Missing parameter: '#{param_name}'"
     end
 
     def renderable_status : Int32

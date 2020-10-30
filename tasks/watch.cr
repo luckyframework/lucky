@@ -81,7 +81,7 @@ module LuckySentry
 
       Try closing these programs...
 
-        #{io.to_s}
+        #{io}
       ERROR
     end
 
@@ -151,7 +151,7 @@ module LuckySentry
 
     private def stop_all_processes
       @app_processes.each do |process|
-        process.kill unless process.terminated?
+        process.signal(:term) unless process.terminated?
       end
     end
 
@@ -166,15 +166,16 @@ module LuckySentry
     end
 
     private def print_error_message
-      puts "There was a problem compiling. Watching for fixes...".colorize(:red)
       if successful_compilations.zero?
         puts <<-ERROR
 
-        Try this...
+        #{"---".colorize.dim}
 
-          #{green_arrow} If you haven't done it already, run #{"script/setup".colorize(:green)}
-          #{green_arrow} Run #{"shards install".colorize(:green)} to ensure dependencies are installed
-          #{green_arrow} Ask for help in #{"https://gitter.im/luckyframework/Lobby".colorize(:green)}
+        Feeling stuck? Try this...
+
+          ▸  Run setup: #{"script/setup".colorize.bold}
+          ▸  Reinstall shards: #{"rm -rf lib bin && shards install".colorize.bold}
+          ▸  Ask for help: #{"https://discord.gg/HeqJUcb".colorize.bold}
         ERROR
       end
     end
@@ -188,7 +189,6 @@ module LuckySentry
         if FILE_TIMESTAMPS[file]? && FILE_TIMESTAMPS[file] != timestamp
           FILE_TIMESTAMPS[file] = timestamp
           file_changed = true
-          puts "#{file} has changed".colorize(:yellow)
         elsif FILE_TIMESTAMPS[file]?.nil?
           FILE_TIMESTAMPS[file] = timestamp
           file_changed = true if (app_processes.none? &.terminated?)
@@ -202,12 +202,12 @@ end
 
 class Watch < LuckyCli::Task
   summary "Start and recompile project when files change"
-  @reload_browser : Bool = false
+  switch :reload_browser, "Reloads browser on changes using browser-sync", shortcut: "-r"
+  switch :error_trace, "Show full error trace"
 
   def call
-    parse_options
-
     build_commands = ["crystal build ./src/start_server.cr"]
+    build_commands[0] += " --error-trace" if error_trace?
     run_commands = ["./start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
@@ -215,7 +215,7 @@ class Watch < LuckyCli::Task
       files: files,
       build_commands: build_commands,
       run_commands: run_commands,
-      reload_browser: @reload_browser
+      reload_browser: reload_browser?
     )
 
     puts "Beginning to watch your project"
@@ -223,19 +223,6 @@ class Watch < LuckyCli::Task
     loop do
       process_runner.scan_files
       sleep 0.1
-    end
-  end
-
-  private def parse_options
-    OptionParser.parse do |parser|
-      parser.banner = "Usage: lucky watch [arguments]"
-      parser.on("-r", "--reload-browser", "Reloads browser on changes using browser-sync") {
-        @reload_browser = true
-      }
-      parser.on("-h", "--help", "Help here") {
-        puts parser
-        exit(0)
-      }
     end
   end
 end

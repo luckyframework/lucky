@@ -1,13 +1,13 @@
 module Lucky::SpecialtyTags
   # Generates an HTML5 doctype tag.
-  def html_doctype
+  def html_doctype : Nil
     view << "<!DOCTYPE html>"
   end
 
   # Generates a link tag for a stylesheet at the path *href*.
   #
   # Additional tag attributes can be passed in keyword arguments via *options*.
-  def css_link(href, **options)
+  def css_link(href, **options) : Nil
     options = {href: href, rel: "stylesheet", media: "screen"}.merge(options)
     empty_tag "link", **options
   end
@@ -16,7 +16,7 @@ module Lucky::SpecialtyTags
   #
   # Additional tag attributes can be passed in as keyword arguments via
   # *options*.
-  def js_link(src, **options)
+  def js_link(src, **options) : Nil
     options = {src: src}.merge(options)
     tag "script", **options
   end
@@ -26,7 +26,7 @@ module Lucky::SpecialtyTags
   # It is highly encouraged to specify the character encoding as early in a
   # page's `<head>` as possible as some browsers only look at the first 1024
   # bytes to determine the encoding.
-  def utf8_charset
+  def utf8_charset : Nil
     meta charset: "utf-8"
   end
 
@@ -37,9 +37,15 @@ module Lucky::SpecialtyTags
   # as specify additional properties. Please refer to [MDN's documentation on
   # the viewport meta tag](https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag)
   # for usage details.
-  def responsive_meta_tag(**options)
+  def responsive_meta_tag(**options) : Nil
     options = {width: "device-width", initial_scale: "1"}.merge(options)
     meta name: "viewport", content: build_viewport_properties(options)
+  end
+
+  # Generates a canonical link tag to specify the "canonical" or "preferred"
+  # version of a page.
+  def canonical_link(href : String) : Nil
+    empty_tag "link", href: href, rel: "canonical"
   end
 
   # Adds *string* directly to the rendered HTML with no escaping.
@@ -54,7 +60,7 @@ module Lucky::SpecialtyTags
   # NOTE: Should **never** be used to render unescaped user-generated data, as
   # this can leave one vulnerable to [cross-site scripting
   # attacks](https://en.wikipedia.org/wiki/Cross-site_scripting).
-  def raw(string : String)
+  def raw(string : String) : Nil
     view << string
   end
 
@@ -71,12 +77,12 @@ module Lucky::SpecialtyTags
   # link "About", to: About::Index
   # ```
   # Would generate `<a href="/">Home</a><span>&nbsp;|&nbsp;</span><a href="/about">About</a>`
-  def nbsp(how_many : Int32 = 1)
+  def nbsp(how_many : Int32 = 1) : Nil
     how_many.times { raw("&nbsp;") }
     view
   end
 
-  private def build_viewport_properties(options)
+  private def build_viewport_properties(options) : String
     String.build do |attrs|
       options.each_with_index do |key, value, index|
         attrs << ", " if index > 0

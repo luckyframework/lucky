@@ -11,12 +11,12 @@ abstract class Lucky::Action
   include Lucky::ActionDelegates
   include Lucky::RequestTypeHelpers
   include Lucky::Exposable
-  include Lucky::Memoizable
   include Lucky::Routable
   include Lucky::Renderable
   include Lucky::ParamHelpers
-  include Lucky::ActionCallbacks
+  include Lucky::ActionPipes
   include Lucky::Redirectable
+  include Lucky::RedirectableTurbolinksSupport
   include Lucky::VerifyAcceptsFormat
 
   # Must be defined here instead of in Renderable

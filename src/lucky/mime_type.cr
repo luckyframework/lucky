@@ -53,8 +53,6 @@ class Lucky::MimeType
 
       if usable_accept_header? && accept
         from_accept_header(accept)
-      elsif ajax?
-        :ajax
       elsif accepts_html? && default_accept_header_that_browsers_send?
         :html
       else
@@ -72,16 +70,14 @@ class Lucky::MimeType
       if accept == "*/*"
         default_format
       else
-        Lucky::MimeType.accept_header_formats.find do |accept_header_substring, format|
+        Lucky::MimeType.accept_header_formats.find do |accept_header_substring, _format|
           accept.includes?(accept_header_substring)
         end.try(&.[1])
       end
     end
 
     private def usable_accept_header? : Bool
-      !!(accept_header && !default_accept_header_that_browsers_send?) ||
-        # If an Ajax request, it should still be possible to accept a different format
-        !!(accept_header && ajax?)
+      !!(accept_header && !default_accept_header_that_browsers_send?)
     end
 
     private def accept_header : String?
@@ -100,10 +96,6 @@ class Lucky::MimeType
       accept = accept_header
 
       !!accept && !!(accept =~ /,\s*\*\/\*|\*\/\*\s*,/)
-    end
-
-    private def ajax? : Bool
-      request.headers["X-Requested-With"]?.try(&.downcase) == "xmlhttprequest"
     end
   end
 end

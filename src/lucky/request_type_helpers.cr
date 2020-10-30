@@ -2,8 +2,6 @@
 #
 # Generally the `Accept` header is checked, but some check other headers, such as `X-Requested-With`.
 module Lucky::RequestTypeHelpers
-  include Lucky::Memoizable
-
   private def default_format
     {% raise <<-TEXT
     Must set 'accepted_formats' or 'default_format' in #{@type} (or its parent class).
@@ -61,13 +59,6 @@ module Lucky::RequestTypeHelpers
     accepts?(:json)
   end
 
-  # Check if the request is AJAX
-  #
-  # This tests if the `X-Requested-With` header is `XMLHttpRequest`
-  def ajax? : Bool
-    accepts?(:ajax)
-  end
-
   # Check if the request is HTML
   #
   # Browsers typically send vague Accept headers. Because of that this will return `true` when:
@@ -91,6 +82,13 @@ module Lucky::RequestTypeHelpers
   # with the optional character set per W3 RFC1341 7.1
   def plain_text? : Bool
     accepts?(:plain_text)
+  end
+
+  # Check if the request is AJAX
+  #
+  # This tests if the `X-Requested-With` header is `XMLHttpRequest`
+  def ajax? : Bool
+    request.headers["X-Requested-With"]?.try(&.downcase) == "xmlhttprequest"
   end
 
   # :nodoc:

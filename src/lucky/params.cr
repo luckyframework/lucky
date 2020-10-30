@@ -4,10 +4,13 @@ class Lucky::Params
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
 
+  alias MultipartParams = Hash(String, String)
+  alias MultipartFiles = Hash(String, Lucky::UploadedFile)
+
   # :nodoc:
-  getter :request
+  private getter :request
   # :nodoc:
-  getter :route_params
+  private getter :route_params
 
   # Create a new params object
   #
@@ -25,25 +28,122 @@ class Lucky::Params
   def initialize(@request, @route_params = {} of String => String)
   end
 
-  # Retrieve a value from the params hash, raise if key is absent
+  # Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
+  #
+  # ```crystal
+  # # {"page": 1}
+  # params.from_json["page"].as_i # 1
+  # # {"users": [{"name": "Skyler"}]}
+  # params.from_json["users"][0]["name"].as_s # "Skyler"
+  # ```
+  #
+  # See the crystal docs on
+  # [`JSON::Any`](https://crystal-lang.org/api/JSON/Any.html) for more on using
+  # JSON in Crystal.
+  #
+  # > You can also get JSON params with `Lucky::Params#get/nested`. Sometimes
+  # > `Lucky::Params` are not flexible enough. In those cases this method opens
+  # > the possiblity to do just about anything with JSON.
+  def from_json : JSON::Any
+    parsed_json
+  end
+
+  # Returns just the query params as `HTTP::Params`
+  #
+  # Returns an `HTTP::Params` object for only the query params. This method is rarely
+  # helpful since you can get query params with `get`, but if you do need raw
+  # access to the query params this is the way to get them.
+  #
+  # ```crystal
+  # params.from_query["search"] # Will return the "search" query param
+  # ```
+  #
+  # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
+  def from_query : HTTP::Params
+    request.query_params
+  end
+
+  # Returns x-www-form-urlencoded body params as `HTTP::Params`
+  #
+  # Returns an `HTTP::Params` object for the request body. This method is rarely
+  # helpful since you can get query params with `get`, but if you do need raw
+  # access to the body params this is the way to get them.
+  #
+  # ```crystal
+  # params.from_form_data["name"]
+  # ```
+  #
+  # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
+  def from_form_data : HTTP::Params
+    form_params
+  end
+
+  # Returns multipart params and files.
+  #
+  # Return a Tuple with a hash of params and a hash of `Lucky::UploadedFile`.
+  # This method is rarely helpful since you can get params with `get` and files
+  # with `get_file`, but if you need something more custom you can use this method
+  # to get better access to the raw params.
+  #
+  # ```crystal
+  # form_params = params.from_multipart.last # Hash(String, String)
+  # form_params["name"]                      # "Kyle"
+  #
+  # files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
+  # files["avatar"]                    # Lucky::UploadedFile
+  # ```
+  def from_multipart : Tuple(MultipartParams, MultipartFiles)
+    parse_form_data
+  end
+
+  # Retrieve a trimmed value from the params hash, raise if key is absent
   #
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
-  # params.get("page")    # 1 : String
+  # params.get("name")    # "Paul" : String
+  # params.get("page")    # "1" : String
   # params.get("missing") # Missing parameter: missing
   # ```
   def get(key) : String
-    get?(key) || raise Lucky::MissingParamError.new(key.to_s)
+    get_raw(key).strip
   end
 
-  # Retrieve a value from the params hash, return nil if key is absent
+  # Retrieve a trimmed value from the params hash, return nil if key is absent
   #
   # ```crystal
-  # params.get?("page")    # 1 : (String | Nil)
   # params.get?("missing") # nil : (String | Nil)
+  # params.get?("page")    # "1" : (String | Nil)
+  # params.get?("name")    # "Paul" : (String | Nil)
   # ```
   def get?(key : String | Symbol) : String?
+    if value = get_raw?(key)
+      value.strip
+    end
+  end
+
+  # Retrieve a raw, untrimmed value from the params hash, raise if key is absent
+  #
+  # If no key is found a `Lucky::MissingParamError` will be raised:
+  #
+  # ```crystal
+  # params.get_raw("name")    # " Paul " : String
+  # params.get_raw("page")    # "1" : String
+  # params.get_raw("missing") # Missing parameter: missing
+  # ```
+  def get_raw(key) : String
+    get_raw?(key) || raise Lucky::MissingParamError.new(key.to_s)
+  end
+
+  # Retrieve a raw, untrimmed value from the params hash, return nil if key is
+  # absent
+  #
+  # ```crystal
+  # params.get_raw?("missing") # nil : (String | Nil)
+  # params.get_raw?("page")    # "1" : (String | Nil)
+  # params.get_raw?("name")    # " Paul " : (String | Nil)
+  # ```
+  def get_raw?(key : String | Symbol) : String?
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
@@ -52,8 +152,12 @@ class Lucky::Params
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
   # ```crystal
-  # params.get("avatar_file") # Lucky::UploadedFile
-  # params.get("missing")     # Missing parameter: missing
+  # params.get_file("missing") # Raise: Missing parameter: missing
+  #
+  # file = params.get_file("avatar_file") # Lucky::UploadedFile
+  # file.name                             # avatar.png
+  # file.metadata                         # HTTP::FormData::FileMetadata
+  # file.tempfile.read                    # Get the file contents
   # ```
   def get_file(key) : Lucky::UploadedFile
     get_file?(key) || raise Lucky::MissingParamError.new(key.to_s)
@@ -62,8 +166,12 @@ class Lucky::Params
   # Retrieve a file from the params hash, return nil if key is absent
   #
   # ```crystal
-  # params.get("avatar_file") # (Lucky::UploadedFile | Nil)
-  # params.get("missing")     # nil
+  # params.get_file?("missing") # nil
+  #
+  # file = params.get_file?("avatar_file") # Lucky::UploadedFile
+  # file.not_nil!.name                     # avatar.png
+  # file.not_nil!.metadata                 # HTTP::FormData::FileMetadata
+  # file.not_nil!.tempfile.read            # Get the file contents
   # ```
   def get_file?(key : String | Symbol) : Lucky::UploadedFile?
     multipart_files[key.to_s]?
@@ -214,7 +322,7 @@ class Lucky::Params
 
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
-    nested_key_json = parsed_json.as_h[nested_key]? || JSON.parse("{}")
+    nested_key_json = parsed_json[nested_key]? || JSON.parse("{}")
 
     nested_key_json.as_h.each do |key, value|
       nested_params[key.to_s] = value.to_s
@@ -228,7 +336,7 @@ class Lucky::Params
     source = multipart? ? multipart_params : form_params
     source.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
-        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+        nested_params[key.lchop(nested_key)] = value
       end
 
       nested_params
@@ -239,7 +347,7 @@ class Lucky::Params
     nested_key = "#{nested_key}:"
     query_params.to_h.reduce(empty_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
-        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+        nested_params[key.lchop(nested_key)] = value
       end
 
       nested_params
@@ -250,7 +358,7 @@ class Lucky::Params
     nested_key = "#{nested_key}:"
     multipart_files.to_h.reduce(empty_file_params) do |nested_params, (key, value)|
       if key.starts_with? nested_key
-        nested_params[key.gsub(/^#{Regex.escape(nested_key)}/, "")] = value
+        nested_params[key.lchop(nested_key)] = value
       end
 
       nested_params
@@ -278,7 +386,7 @@ class Lucky::Params
 
   private def many_nested_json_params(nested_key : String) : Array(Hash(String, String))
     many_nested_params = [] of Hash(String, String)
-    nested_key_json = parsed_json.as_h[nested_key]? || JSON.parse("[]")
+    nested_key_json = parsed_json[nested_key]? || JSON.parse("[]")
 
     nested_key_json.as_a.each do |nested_values|
       nested_params = {} of String => String
@@ -321,7 +429,7 @@ class Lucky::Params
 
   private def body_param(key : String)
     if json?
-      parsed_json.as_h[key]?.try(&.to_s)
+      parsed_json[key]?.try(&.to_s)
     elsif multipart?
       multipart_params[key]?
     else
@@ -339,33 +447,21 @@ class Lucky::Params
     end
   end
 
-  @_form_params : HTTP::Params?
-
-  private def form_params
-    @_form_params ||= HTTP::Params.parse(body)
+  private memoize def form_params : HTTP::Params
+    HTTP::Params.parse(body)
   end
 
-  @_multipart_params : Hash(String, String)?
-
-  private def multipart_params : Hash(String, String)
-    @_multipart_params ||= parse_multipart_request.first
+  private def multipart_params : MultipartParams
+    parse_form_data.first
   end
 
-  @_multipart_files : Hash(String, Lucky::UploadedFile)?
-
-  private def multipart_files : Hash(String, Lucky::UploadedFile)
-    @_multipart_files ||= parse_multipart_request.last
+  private def multipart_files : MultipartFiles
+    parse_form_data.last
   end
 
-  @_parsed_multipart_request : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))?
-
-  private def parse_multipart_request
-    @_parsed_multipart_request ||= parse_form_data
-  end
-
-  private def parse_form_data
-    multipart_params = {} of String => String
-    multipart_files = {} of String => Lucky::UploadedFile
+  private memoize def parse_form_data : Tuple(MultipartParams, MultipartFiles)
+    multipart_params = MultipartParams.new
+    multipart_files = MultipartFiles.new
     body_io = IO::Memory.new(body)
 
     boundary = MIME::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
@@ -382,35 +478,23 @@ class Lucky::Params
   end
 
   private def json?
-    content_type.try(&.match(/^application\/json/))
+    !!(/^application\/json/ =~ content_type)
   end
 
   private def multipart?
-    content_type.try(&.match(/^multipart\/form-data/))
+    !!(/^multipart\/form-data/ =~ content_type)
   end
 
   private def content_type : String?
     request.headers["Content-Type"]?
   end
 
-  @_parsed_json : JSON::Any?
-
-  private def parsed_json : JSON::Any
-    @_parsed_json ||= begin
-      if body.blank?
-        JSON.parse("{}")
-      else
-        JSON.parse(body)
-      end
-    end
-  rescue JSON::ParseException
-    raise Lucky::ParamParsingError.new(request)
+  private memoize def parsed_json : JSON::Any
+    Lucky::JsonBodyParser.new(body, request).parsed_json
   end
 
-  private def body
-    (request.body || IO::Memory.new).gets_to_end.tap do |request_body|
-      request.body = IO::Memory.new(request_body)
-    end
+  memoize def body : String
+    Lucky::RequestBodyReader.new(request).body
   end
 
   private def empty_params

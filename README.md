@@ -1,5 +1,13 @@
 [![github banner-short](https://user-images.githubusercontent.com/22394/26989908-dd99cc2c-4d22-11e7-9576-c6aeada2bd63.png)](http://luckyframework.org)
 
+[![Version](https://img.shields.io/github/tag/luckyframework/lucky.svg?maxAge=360&label=version)](https://github.com/luckyframework/lucky/releases/latest)
+[![License](https://img.shields.io/github/license/luckyframework/lucky.svg)](https://github.com/luckyframework/lucky/blob/master/LICENSE)
+
+[![API Documentation Website](https://img.shields.io/website?down_color=red&down_message=Offline&label=API%20Documentation&up_message=Online&url=https%3A%2F%2Fluckyframework.github.io%2Flucky%2F)](https://luckyframework.github.io/lucky)
+[![Lucky Guides Website](https://img.shields.io/website?down_color=red&down_message=Offline&label=Lucky%20Guides&up_message=Online&url=https%3A%2F%2Fluckyframework.org%2Fguides)](https://luckyframework.org/guides)
+
+[![Discord](https://img.shields.io/discord/743896265057632256)](https://discord.gg/HeqJUcb)
+
 The goal: prevent bugs, forget about most performance issues, and spend more
 time on code instead of debugging and fixing tests.
 
@@ -16,11 +24,15 @@ Lucky has a [fresh new set of guides](https://luckyframework.org/guides/) that
 make it easy to get started.
 
 Feel free to say hi or ask questions on our
-[chat room](https://gitter.im/luckyframework/Lobby).
+[chat room](https://discord.gg/HeqJUcb).
 
 ## Keep up-to-date
 
 Keep up to date by following [@luckyframework](https://twitter.com/luckyframework) on Twitter.
+
+## Documentation
+
+[API (master)](https://luckyframework.github.io/lucky/)
 
 ## What's it look like?
 
@@ -169,9 +181,21 @@ You need to make sure to install the Crystal dependencies.
 
 > Run specific tests with `script/test <path_to_spec>`
 
+### Lucky to have you!
+
+We love all of the community members that have put in hard work to make Lucky better.
+If you're one of those people, we want to give you a t-shirt!
+
+To get a shirt, we ask that you have made a significant contribution to Lucky.
+This includes things like submitting PRs with bug fixes and feature implementations, helping other members
+work through problems, and deploying real world applications using Lucky!
+
+To claim your shirt, [fill in this form](https://forms.gle/w3PJ4pww8WDAuJov5).
+
 ## Contributors
 
 - [paulcsmith](https://github.com/paulcsmith) Paul Smith - creator, maintainer
+- [Our wonderful community](https://github.com/luckyframework/lucky/graphs/contributors) - ❤️
 
 ## Thanks & attributions
 
