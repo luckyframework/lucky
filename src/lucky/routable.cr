@@ -191,6 +191,7 @@ module Lucky::Routable
   macro add_route(method, path, action)
     Lucky::Router.add({{ method }}, {{ ROUTE_SETTINGS[:prefix] + path }}, {{ @type.name.id }})
 
+    {% path = ROUTE_SETTINGS[:prefix] + path %}
     {% path_parts = path.split('/').reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(':')) %}
     {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
