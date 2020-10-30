@@ -149,10 +149,19 @@ class OptionalRouteParams::Index < TestAction
   end
 end
 
+class Tests::ActionWithPrefix < TestAction
+  route_prefix "/prefix"
+
+  get "/so_custom" do
+    plain_text "doesn't matter"
+  end
+end
+
 describe Lucky::Action do
   it "has a url helper" do
     Lucky::RouteHelper.temp_config(base_uri: "example.com") do
       Tests::Index.url.should eq "example.com/tests"
+      Tests::ActionWithPrefix.url.should eq "example.com/prefix/so_custom"
     end
   end
 
@@ -194,6 +203,7 @@ describe Lucky::Action do
       Tests::Update.with("test-id").should eq Lucky::RouteHelper.new(:put, "/tests/test-id")
       Tests::Create.path.should eq "/tests"
       Tests::Create.route.should eq Lucky::RouteHelper.new(:post, "/tests")
+      Tests::ActionWithPrefix.path.should eq "/prefix/so_custom"
     end
 
     it "escapes path params" do

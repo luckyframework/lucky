@@ -8,6 +8,14 @@ class RedirectAction < TestAction
   end
 end
 
+class ActionWithPrefix < TestAction
+  route_prefix "/prefix"
+
+  get "/redirect_test2" do
+    plain_text "does not matter"
+  end
+end
+
 describe Lucky::Action do
   it "redirects" do
     action = RedirectAction.new(build_context, params)
@@ -21,6 +29,10 @@ describe Lucky::Action do
     action = RedirectAction.new(build_context, params)
     action.redirect to: RedirectAction
     should_redirect(action, to: RedirectAction.path, status: 302)
+
+    action = RedirectAction.new(build_context, params)
+    action.redirect to: ActionWithPrefix
+    should_redirect(action, to: "/prefix/redirect_test2", status: 302)
   end
 
   it "redirects with custom status" do
