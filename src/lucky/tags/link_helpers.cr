@@ -1,8 +1,4 @@
 module Lucky::LinkHelpers
-  def link(text : UUID, to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    a text.to_s, merge_options(html_options, link_to_href(to)), attrs
-  end
-
   def link(text, to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
     a text, merge_options(html_options, link_to_href(to)), attrs
   end
