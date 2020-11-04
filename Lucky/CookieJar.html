@@ -896,10 +896,28 @@
       <li class="entry-summary">
         <a href="#clear:Void-instance-method" class="signature"><strong>#clear</strong> : Void</a>
         
+          <div class="summary"><p>Delete all cookies.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clear(&block:HTTP::Cookie-%3E):Void-instance-method" class="signature"><strong>#clear</strong>(&block : HTTP::Cookie -> ) : Void</a>
+        
+          <div class="summary"><p>Delete cookies with a block to add specific options.</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#delete(key:Key):Nil-instance-method" class="signature"><strong>#delete</strong>(key : Key) : Nil</a>
+        
+          <div class="summary"><p>https://tools.ietf.org/search/rfc6265#page-8 to remove a cookie, the server returns a Set-Cookie header with an expiration date in the past.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#delete(key:Key,&):Nil-instance-method" class="signature"><strong>#delete</strong>(key : Key, &) : Nil</a>
+        
+          <div class="summary"><p>Delete a specific cookie by name <code>key</code>.</p></div>
         
       </li>
     
@@ -1103,6 +1121,38 @@
         <a class="method-permalink" href="#clear:Void-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Delete all cookies.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clear(&block:HTTP::Cookie->):Void-instance-method">
+      <div class="signature">
+        
+        def <strong>clear</strong>(&block : <a href="../HTTP/Cookie.html">HTTP::Cookie</a> -> ) : Void
+
+        <a class="method-permalink" href="#clear(&block:HTTP::Cookie-%3E):Void-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Delete cookies with a block to add specific options.</p>
+
+<p>jar.clear do |cookie|
+  cookie.path("/")</p>
+
+<pre><code>    .http_only(<span class="n">true</span>)
+    .secure(<span class="n">true</span>)</code></pre>
+
+<p>end</p>
+        </div>
+      
       <br/>
       <div>
         
@@ -1116,6 +1166,36 @@
 
         <a class="method-permalink" href="#delete(key:Key):Nil-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>https://tools.ietf.org/search/rfc6265#page-8
+to remove a cookie, the server returns a Set-Cookie header
+with an expiration date in the past. The server will be successful
+in removing the cookie only if the Path and the Domain attribute in
+the Set-Cookie header match the values used when the cookie was
+created.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="delete(key:Key,&):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>delete</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>, &) : Nil
+
+        <a class="method-permalink" href="#delete(key:Key,&):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Delete a specific cookie by name <code>key</code>. Yield that cookie
+to the block so you can add additional options like domain, path, etc...</p>
+        </div>
       
       <br/>
       <div>
