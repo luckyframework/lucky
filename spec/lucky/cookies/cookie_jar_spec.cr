@@ -134,6 +134,28 @@ describe Lucky::CookieJar do
       jar.get_raw(:rules).expired?.should be_true
       jar.get_raw(:rules).value.should eq("")
     end
+
+    it "deletes a valid cookie with a block" do
+      jar = Lucky::CookieJar.empty_jar
+      jar.set(:rules, "no fighting!").domain("brawl.co")
+
+      jar.delete(:rules) do |cookie|
+        cookie.domain("brawl.co")
+      end
+
+      jar.deleted?(:rules).should be_true
+    end
+
+    it "ignores an invalid cookie when trying to delete" do
+      jar = Lucky::CookieJar.empty_jar
+      jar.set(:rules, "no fighting!").domain("brawl.co")
+
+      jar.delete(:burritos) do |cookie|
+        cookie.domain("brawl.co")
+      end
+
+      jar.deleted?(:rules).should be_false
+    end
   end
 
   describe "deleted?" do
@@ -167,6 +189,28 @@ describe Lucky::CookieJar do
       age.value.should eq("")
       name.expired?.should be_true
       age.expired?.should be_true
+    end
+
+    it "deletes cookies with options" do
+      headers = HTTP::Headers.new
+      headers["Cookie"] = "name=Rick%20James"
+
+      jar = Lucky::CookieJar.from_request_cookies(
+        HTTP::Cookies.from_headers(headers))
+
+      jar.clear do |cookie|
+        cookie.path("/")
+          .http_only(true)
+          .secure(true)
+          .domain(".example.com")
+      end
+
+      name = jar.get_raw(:name)
+      name.value.should eq("")
+      name.path.should eq("/")
+      name.domain.should eq(".example.com")
+      name.secure.should be_true
+      name.expired?.should be_true
     end
   end
 end

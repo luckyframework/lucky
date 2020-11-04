@@ -42,16 +42,44 @@ class Lucky::CookieJar
     {% raise "use CookieJar#delete instead of CookieJar#unset" %}
   end
 
+  # Delete all cookies.
   def clear : Void
+    clear { }
+  end
+
+  # Delete cookies with a block to add specific options.
+  #
+  # jar.clear do |cookie|
+  #   cookie.path("/")
+  #         .http_only(true)
+  #         .secure(true)
+  # end
+  def clear(&block : HTTP::Cookie ->) : Void
     cookies.each do |cookie|
+      yield cookie
       delete cookie.name
     end
   end
 
+  # https://tools.ietf.org/search/rfc6265#page-8
+  # to remove a cookie, the server returns a Set-Cookie header
+  # with an expiration date in the past. The server will be successful
+  # in removing the cookie only if the Path and the Domain attribute in
+  # the Set-Cookie header match the values used when the cookie was
+  # created.
   def delete(key : Key) : Nil
     if cookie = cookies[key.to_s]?
       cookie.expires(1.year.ago).value("")
       set_cookies[key.to_s] = cookie
+    end
+  end
+
+  # Delete a specific cookie by name `key`. Yield that cookie
+  # to the block so you can add additional options like domain, path, etc...
+  def delete(key : Key) : Nil
+    if cookie = cookies[key.to_s]?
+      yield cookie
+      delete cookie.name
     end
   end
 
