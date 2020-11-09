@@ -1,3 +1,6 @@
+### Changes
+- Fixed 'Raise helpful error if the same needs is not unique[#531](https://github.com/luckyframework/lucky/issues/531)
+
 ### Changes in 0.24
 
 - Fixed: `send_text_response` default status to nil [#1214](https://github.com/luckyframework/lucky/pull/1214)

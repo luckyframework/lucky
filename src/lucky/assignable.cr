@@ -30,6 +30,10 @@ module Lucky::Assignable
         {% raise "Using '?' in a 'needs' var name is no longer supported. Now Lucky generates a method ending in '?' if the type is 'Bool'." %}
       {% end %}
 
+      {% if ASSIGNS.any? { |d| d.var == declaration.var } %}
+        {% raise "Found duplicate needs definition '#{declaration}'" %}
+      {% end %}
+
       {% if declaration.type.stringify == "Bool" %}
         def {{ declaration.var }}?
           @{{ declaration.var }}
@@ -40,6 +44,7 @@ module Lucky::Assignable
         end
       {% end %}
 
+      
       {% ASSIGNS << declaration %}
     {% end %}
   end
