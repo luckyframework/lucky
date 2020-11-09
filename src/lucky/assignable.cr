@@ -33,14 +33,12 @@ module Lucky::Assignable
       # Ensure that the needs variable name has not been previously defined.
       {% previous_declaration = ASSIGNS.find { |d| d.var == declaration.var } %}
       {% if previous_declaration %}
-        
         {% raise <<-ERROR
           \n
           Duplicate needs definition: '#{declaration}' defined in #{declaration.filename}:#{declaration.line_number}:#{declaration.column_number}
           This needs is already defined as '#{previous_declaration}' in #{previous_declaration.filename}:#{previous_declaration.line_number}:#{previous_declaration.column_number}
           ERROR
         %}
-
       {% end %}
 
       {% if declaration.type.stringify == "Bool" %}
@@ -53,7 +51,6 @@ module Lucky::Assignable
         end
       {% end %}
 
-      
       {% ASSIGNS << declaration %}
     {% end %}
   end
