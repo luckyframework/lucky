@@ -30,8 +30,17 @@ module Lucky::Assignable
         {% raise "Using '?' in a 'needs' var name is no longer supported. Now Lucky generates a method ending in '?' if the type is 'Bool'." %}
       {% end %}
 
-      {% if ASSIGNS.any? { |d| d.var == declaration.var } %}
-        {% raise "Found duplicate needs definition '#{declaration}'" %}
+      # Ensure that the needs variable name has not been previously defined.
+      {% previous_declaration = ASSIGNS.find { |d| d.var == declaration.var } %}
+      {% if previous_declaration %}
+        
+        {% raise <<-ERROR
+          \n
+          Duplicate needs definition: '#{declaration}' defined in #{declaration.filename}:#{declaration.line_number}:#{declaration.column_number}
+          This needs is already defined as '#{previous_declaration}' in #{previous_declaration.filename}:#{previous_declaration.line_number}:#{previous_declaration.column_number}
+          ERROR
+        %}
+
       {% end %}
 
       {% if declaration.type.stringify == "Bool" %}

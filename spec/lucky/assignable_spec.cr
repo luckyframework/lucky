@@ -15,6 +15,7 @@ end
 class PageOne < BasePage
   needs title : String
   needs second : String
+  needs name : String
 
   def render
   end
