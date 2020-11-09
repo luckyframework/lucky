@@ -22,7 +22,6 @@ end
 
 class PageTwo < BasePage
   needs title : String
-  needs title : String
 
   def render
   end
