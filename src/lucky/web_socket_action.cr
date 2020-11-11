@@ -3,7 +3,7 @@ abstract class Lucky::WebSocketAction < Lucky::Action
 
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
     @websocket = Lucky::WebSocket.new(self.class) do |ws|
-      ws.on_message {|message| on_message(message) }
+      ws.on_message { |message| on_message(message) }
       ws.on_close { on_close }
       call(ws)
     end
