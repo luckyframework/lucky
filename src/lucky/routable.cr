@@ -68,7 +68,7 @@ module Lucky::Routable
       {% raise "ws takes a block with 1 arg." %}
     {% end %}
 
-    add_route({{method}}, {{ path }}, {{ @type.name.id }})
+    add_route(:ws, {{ path }}, {{ @type.name.id }})
 
     setup_ws_call_method(block)
   end
