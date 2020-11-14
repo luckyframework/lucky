@@ -25,8 +25,8 @@ describe Lucky::CustomTags do
       .to_s.should contain "<foo-tag></foo-tag>"
     view(&.tag("foo-tag", class: "my-class"))
       .to_s.should contain %(<foo-tag class="my-class"></foo-tag>)
-    view(&.tag("foo-tag", attrs: [:ng_strict_di], ng_app: "ngAppStrictDemo"))
-      .to_s.should contain %(<foo-tag ng-app="ngAppStrictDemo" ng-strict-di></foo-tag>)
+    view(&.tag("foo-tag", attrs: [:ng_strict_di], ng_app: "ngAppStrictDemo", name: "JSApp"))
+      .to_s.should contain %(<foo-tag ng-app="ngAppStrictDemo" name="JSApp" ng-strict-di></foo-tag>)
 
     view do |page|
       page.tag("foo-tag") do
