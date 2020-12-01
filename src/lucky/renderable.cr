@@ -71,6 +71,7 @@ module Lucky::Renderable
 
   # :nodoc:
   macro render_html_page(page_class, assigns)
+    # Found in {{ @type.name }}
     view = {{ page_class }}.new(
       context: context,
       {% for key, value in assigns %}
