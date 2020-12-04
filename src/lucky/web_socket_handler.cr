@@ -3,18 +3,15 @@ module Lucky
     include HTTP::Handler
 
     def call(context : HTTP::Server::Context)
-      if ws_route_found?(context) && websocket_upgrade_request?(context)
-        websocket_action.payload.new(context, websocket_action.params).websocket.call(context)
+      if (match = ws_route_found?(context)) && websocket_upgrade_request?(context)
+        action = match.payload.new(context, match.params)
+        action.websocket.call(context)
       else
         call_next(context)
       end
     end
 
     private def ws_route_found?(context)
-      !!websocket_action
-    end
-
-    memoize def websocket_action : LuckyRouter::Match(Lucky::Action.class)?
       Lucky::Router.find_action(:ws, context.request.path)
     end
 

@@ -1,4 +1,7 @@
-abstract class Lucky::WebSocketAction < Lucky::Action
+require "./*"
+
+abstract class Lucky::WebSocketAction
+  getter :context, :route_params
   getter websocket : Lucky::WebSocket
 
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
@@ -12,9 +15,11 @@ abstract class Lucky::WebSocketAction < Lucky::Action
 
   abstract def call(socket : HTTP::WebSocket)
 
-  def call
-    raise <<-ERROR
-    WebSocketAction must define `call(socket)`
-    ERROR
-  end
+  include Lucky::ActionDelegates
+  include Lucky::Exposable
+  include Lucky::Routable
+  include Lucky::Renderable
+  include Lucky::ParamHelpers
+  include Lucky::ActionPipes
+
 end
