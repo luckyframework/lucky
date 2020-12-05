@@ -275,7 +275,7 @@ module Lucky::Routable
     {% end %}
 
     {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
-         decl.value || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
+         !decl.value.is_a?(Nop) || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
        end %}
     {% params_without_defaults = PARAM_DECLARATIONS.reject do |decl|
          params_with_defaults.includes? decl
@@ -446,12 +446,15 @@ module Lucky::Routable
       val = params.get?(:{{ type_declaration.var.id }})
 
       if val.nil?
-        default_or_nil = {{ type_declaration.value || nil }}
+        default_or_nil = {{ type_declaration.value.is_a?(Nop) ? nil : type_declaration.value }}
         {% if is_nilable_type %}
           return default_or_nil
         {% else %}
-          return default_or_nil ||
+          if default_or_nil.nil?
             raise Lucky::MissingParamError.new("{{ type_declaration.var.id }}")
+          else
+            return default_or_nil
+          end
         {% end %}
       end
 
