@@ -102,9 +102,11 @@ end
 
 class RequiredParams::Index < TestAction
   param required_page : Int32
+  # This is to test that the default value of 'false' is not treated as 'nil'
+  param bool_with_false_default : Bool = false
 
   route do
-    plain_text "required param: #{required_page}"
+    plain_text "required param: #{required_page} #{bool_with_false_default}"
   end
 end
 
@@ -268,8 +270,9 @@ describe Lucky::Action do
     end
 
     it "returns required param declarations" do
-      RequiredParams::Index.query_param_declarations.size.should eq 1
-      RequiredParams::Index.query_param_declarations.first.should eq "required_page : Int32"
+      RequiredParams::Index.query_param_declarations.size.should eq 2
+      RequiredParams::Index.query_param_declarations.should contain "required_page : Int32"
+      RequiredParams::Index.query_param_declarations.should contain "bool_with_false_default : Bool"
     end
 
     it "returns optional param declarations" do
@@ -291,6 +294,7 @@ describe Lucky::Action do
 
     it "adds named arguments to the path" do
       RequiredParams::Index.path(required_page: 7).should eq "/required_params?required_page=7"
+      RequiredParams::Index.path(required_page: 7, bool_with_false_default: true).should eq "/required_params?required_page=7&bool_with_false_default=true"
     end
 
     it "adds named arguments to the route" do
