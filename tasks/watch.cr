@@ -206,9 +206,9 @@ class Watch < LuckyCli::Task
   switch :error_trace, "Show full error trace"
 
   def call
-    build_commands = ["crystal build ./src/start_server.cr"]
+    build_commands = ["crystal build ./src/start_server.cr -o bin/start_server"]
     build_commands[0] += " --error-trace" if error_trace?
-    run_commands = ["./start_server"]
+    run_commands = ["./bin/start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
     process_runner = LuckySentry::ProcessRunner.new(
