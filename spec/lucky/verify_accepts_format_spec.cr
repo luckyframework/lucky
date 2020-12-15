@@ -16,7 +16,7 @@ end
 private class ActionWithImplicitDefault < Lucky::Action
   accepted_formats [:html]
 
-  get "/test" do
+  get "/test2" do
     plain_text "yay"
   end
 
@@ -24,7 +24,7 @@ private class ActionWithImplicitDefault < Lucky::Action
 end
 
 private class ActionThatAcceptsAnyFormat < Lucky::Action
-  get "/test" do
+  get "/test3" do
     plain_text "yay"
   end
 
@@ -34,7 +34,7 @@ end
 private class ActionWithUnrecognizedFormat < Lucky::Action
   accepted_formats [:wut_is_this]
 
-  get "/test" do
+  get "/test4" do
     plain_text "not yay"
   end
 
