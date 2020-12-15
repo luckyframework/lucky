@@ -1,5 +1,5 @@
 name: lucky
-version: 0.24.0
+version: 0.25.0
 
 crystal: 0.35.1
 
@@ -31,7 +31,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.24.0
+    version: ~> 0.25.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.4
@@ -40,11 +40,10 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    branch: master
-    #version: ~> 0.17.0
+    version: ~> 0.18.0
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.3.0
+    version: ~> 0.4.0
   shell-table:
     github: luckyframework/shell-table.cr
     branch: refactor/setter
@@ -61,7 +60,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.13.2
+    version: ~> 0.13
 
 scripts:
   postinstall: script/precompile_tasks
