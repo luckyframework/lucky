@@ -20,6 +20,7 @@
 - Added: New generated Lucky projects will come with Github Actions out of the box. [#559 In Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/559)
 - Updated: front-end `package.json` dependencies. [#553](https://github.com/luckyframework/lucky_cli/pull/553)
 - Fixed: Signal trap is properly caught when running `lucky dev`. [#572 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/572)
+- Updated: the built-in seed tasks to better match the common structure. [#584 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/584)
 - Added: new `Lucky::Env.task?` method will return true if `ENV["LUCKY_TASK"] = "true"` is set. [#576 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/576)
 - Updated: Query objects no longer mutate which fixes calling aggregate methods without needing to `clone`. [#411 in Avram](https://github.com/luckyframework/avram/pull/411)
 - Updated: the error mesage when a required primary key is missing. [#454 in Avram](https://github.com/luckyframework/avram/pull/454)
