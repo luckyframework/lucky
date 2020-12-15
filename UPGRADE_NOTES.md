@@ -120,6 +120,7 @@ brew upgrade lucky
   ```
 - Update: any `call(io : IO)` method in your tasks, and use the `output` property instead for testing. [read more](https://github.com/luckyframework/lucky_cli/pull/557)
 - Update: your `package.json` with all the latest front-end updates. [read more](https://github.com/luckyframework/lucky_cli/pull/553)
+- Rename: your seed tasks `tasks/create_required_seeds.cr` -> `tasks/seed/db/required_data.cr`, and `tasks/create_sample_seeds.cr` -> `tasks/db/seed/sample_data.cr`
 
 
 ## Upgrading from 0.23 to 0.24
