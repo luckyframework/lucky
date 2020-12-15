@@ -38,19 +38,19 @@ class Rendering::JSON::WithStatus < TestAction
 end
 
 class Rendering::JSON::WithSymbolStatus < TestAction
-  get "/foo" do
+  get "/foo2" do
     json({name: "Paul"}, status: :created)
   end
 end
 
 class Rendering::HeadOnly < TestAction
-  get "/foo" do
+  get "/foo3" do
     head status: 204
   end
 end
 
 class Rendering::HeadOnly::WithSymbolStatus < TestAction
-  get "/foo" do
+  get "/foo4" do
     head status: :no_content
   end
 end
@@ -62,31 +62,31 @@ class Rendering::Text::Index < TestAction
 end
 
 class Rendering::Text::WithStatus < TestAction
-  get "/foo" do
+  get "/foo5" do
     plain_text "Anything", status: 201
   end
 end
 
 class Rendering::Text::WithSymbolStatus < TestAction
-  get "/foo" do
+  get "/foo6" do
     plain_text "Anything", status: :created
   end
 end
 
 class Rendering::Xml::Index < TestAction
-  get "/foo" do
+  get "/foo7" do
     xml "<anything />"
   end
 end
 
 class Rendering::Xml::WithStatus < TestAction
-  get "/foo" do
+  get "/foo8" do
     xml "<anything />", status: 418
   end
 end
 
 class Rendering::Xml::WithSymbolStatus < TestAction
-  get "/foo" do
+  get "/foo9" do
     xml "<anything />", status: :im_a_teapot
   end
 end
@@ -98,13 +98,13 @@ class Rendering::File < TestAction
 end
 
 class Rendering::File::Inline < TestAction
-  get "/foo" do
+  get "/foo10" do
     file "spec/fixtures/lucky_logo.png", disposition: "inline"
   end
 end
 
 class Rendering::File::CustomFilename < TestAction
-  get "/foo" do
+  get "/foo11" do
     file "spec/fixtures/lucky_logo.png",
       disposition: "attachment",
       filename: "custom.png"
@@ -112,7 +112,7 @@ class Rendering::File::CustomFilename < TestAction
 end
 
 class Rendering::File::CustomContentType < TestAction
-  get "/foo" do
+  get "/foo12" do
     file "spec/fixtures/plain_text",
       disposition: "attachment",
       filename: "custom.html",
@@ -121,7 +121,7 @@ class Rendering::File::CustomContentType < TestAction
 end
 
 class Rendering::File::Missing < TestAction
-  get "/foo" do
+  get "/foo13" do
     file "new_file_who_dis"
   end
 end
@@ -143,19 +143,19 @@ private class ComplexTestComponent < Lucky::BaseComponent
 end
 
 class Rendering::PlainComponent < TestAction
-  get "/foo" do
+  get "/foo14" do
     component PlainTestComponent
   end
 end
 
 class Rendering::ComplexComponent < TestAction
-  get "/foo" do
+  get "/foo15" do
     component ComplexTestComponent, title: "Getting Complex"
   end
 end
 
 class Rendering::PlainComponentWithCustomStatus < TestAction
-  get "/foo" do
+  get "/foo16" do
     component PlainTestComponent, status: :partial_content
   end
 end

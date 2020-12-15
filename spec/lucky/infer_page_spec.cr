@@ -12,7 +12,7 @@ class Rendering::CustomPage
 end
 
 class Rendering::Foo < TestAction
-  get "/foo" do
+  get "/rendering-foo" do
     html Rendering::CustomPage, title: "EditPage", arg2: "testing_multiple_args"
   end
 end
