@@ -1,7 +1,7 @@
 module Lucky::LoggerHelpers
   def self.colored_http_status(status_code : Int32) : String
     http_status = HTTP::Status.from_value?(status_code)
-    status_name = Wordsmith::Inflector.humanize(http_status.try(&.description) || "")
+    status_name = http_status.try(&.description) || ""
     message = "#{status_code} #{status_name}".colorize.bold
 
     case status_code
