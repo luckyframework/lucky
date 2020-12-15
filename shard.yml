@@ -40,7 +40,7 @@ dependencies:
     version: ~> 0.2.0
   avram:
     github: luckyframework/avram
-    branch: master
+    branch: releases/0.18.0
   lucky_router:
     github: luckyframework/lucky_router
     branch: master
