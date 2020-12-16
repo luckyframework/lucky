@@ -98,6 +98,28 @@ brew upgrade lucky
 
   UserQuery.new.to_sql #=> SELECT * FROM users WHERE admin = false
   ```
+- Update: any `has_many through` model association to include the new assocation chain.
+  ```crystal
+  # Before update
+  has_many posts : Post
+  has_many comments : Comment, through: :posts
+
+  # After update
+  # The first in the array is the association you're going through
+  # The second is that through's association.
+  has_many posts : Post
+  has_many comments : Comment, through: [:posts, :comments]
+  ```
+- Update: any query that used a `where_XXX` on a `belongs_to` from the pluralized name to singularized.
+  ```crystal
+  # assuming Post belongs_to User
+
+  # Before update
+  PostQuery.new.where_users(UserQuery.new)
+
+  # After update
+  PostQuery.new.where_user(UserQuery.new) # Notice the 'where_user' is single now
+  ```
 
 ### Optional updates
 
@@ -121,6 +143,7 @@ brew upgrade lucky
 - Update: any `call(io : IO)` method in your tasks, and use the `output` property instead for testing. [read more](https://github.com/luckyframework/lucky_cli/pull/557)
 - Update: your `package.json` with all the latest front-end updates. [read more](https://github.com/luckyframework/lucky_cli/pull/553)
 - Rename: your seed tasks `tasks/create_required_seeds.cr` -> `tasks/seed/db/required_data.cr`, and `tasks/create_sample_seeds.cr` -> `tasks/db/seed/sample_data.cr`
+- Update: `config/log.cr` to silence some of the query logging with `DB::Log.level = :info`.
 
 
 ## Upgrading from 0.23 to 0.24
