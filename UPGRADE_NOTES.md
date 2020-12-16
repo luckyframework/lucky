@@ -29,7 +29,7 @@ brew upgrade lucky
   - Your main instance method should be called `run`
   - The `run` method should return just the value you need. No more `yield self, thing` / `yield self, nil`.
   - Call the operation with `MyOperation.run(params)` instead of `MyOperation.new(params).submit`
-  - The `MyOperation.run` method class method takes a block that yields the operation, and your return value. Similar to `SaveOperation`.
+  - The `MyOperation.run` class method takes a block that yields the operation, and your return value. Similar to `SaveOperation`.
 
   ```crystal
   # Before Update
