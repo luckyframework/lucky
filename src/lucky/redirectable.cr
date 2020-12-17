@@ -155,10 +155,18 @@ module Lucky::Redirectable
   end
 
   private def allowed_host?(referer : String)
-    if referer_host = URI.parse(referer).host
-      referer_host == request.host
-    else
-      false
-    end
+    {% if compare_versions(Crystal::VERSION, "1.0.0-0") > 0 %}
+      if referer_host = URI.parse(referer).hostname
+        referer_host == request.hostname
+      else
+        false
+      end
+    {% else %}
+      if referer_host = URI.parse(referer).host
+        referer_host == request.host
+      else
+        false
+      end
+    {% end %}
   end
 end
