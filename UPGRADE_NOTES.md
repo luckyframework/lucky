@@ -1,3 +1,151 @@
+## Upgrading from 0.24 to 0.25
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.24.0&to=0.25.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.1`
+  - Lucky should be `~> 0.25.0`
+  - Authentic should be `~> 0.7.1`
+  - LuckyFlow should be `~> 0.7.1`
+
+- Run `shards update`
+
+### General updates
+
+- Update: all `Avram::Operation` to implement the new interface.
+  - Your main instance method should be called `run`
+  - The `run` method should return just the value you need. No more `yield self, thing` / `yield self, nil`.
+  - Call the operation with `MyOperation.run(params)` instead of `MyOperation.new(params).submit`
+  - The `MyOperation.run` class method takes a block that yields the operation, and your return value. Similar to `SaveOperation`.
+
+  ```crystal
+  # Before Update
+  class RequestPasswordReset < Avram::Operation
+    #...
+    def submit
+      if valid?
+        yield self, user
+      else
+        yield self, nil
+      end
+    end
+  end
+
+  # Use in your Action
+  SignInUser.new(params).submit do |operation, user|
+  end
+
+  # After Update
+  class RequestPasswordReset < Avram::Operation
+    #...
+    def run
+      if valid?
+        user
+      else
+        nil
+      end
+    end
+  end
+
+  # Use in your Action
+  SignInUser.run(params) do |operation, user|
+  end
+  ```
+- Rename: all usage of `with_defaults` to `tag_defaults`
+- Update: query objects to no longer rely on mutating the query.
+  ```crystal
+  # Before update
+  q = UserQuery.new
+  q.age.gte(21)
+  q.to_sql #=> SELECT * FROM users WHERE age >= 21
+
+  # After update
+  q = UserQuery.new
+  q.age.gte(21)
+  q.to_sql #=> SELECT * FROM users
+  ```
+- Rename: all usage of `raw_where` to `where`
+- Update: query objects that set a default query in the initializer to use the `defaults` method.
+  ```crystal
+  # Before update
+  class UserQuery < User::BaseQuery
+    def initialize
+      admin(false)
+    end
+  end
+
+  UserQuery.new.to_sql #=> SELECT * FROM users WHERE admin = false
+
+  # After update
+  class UserQuery < User::BaseQuery
+    def initialize
+      defaults &.admin(false)
+    end
+  end
+
+  UserQuery.new.to_sql #=> SELECT * FROM users WHERE admin = false
+  ```
+- Update: any `has_many through` model association to include the new assocation chain.
+  ```crystal
+  # Before update
+  has_many posts : Post
+  has_many comments : Comment, through: :posts
+
+  # After update
+  # The first in the array is the association you're going through
+  # The second is that through's association.
+  has_many posts : Post
+  has_many comments : Comment, through: [:posts, :comments]
+  ```
+- Update: any query that used a `where_XXX` on a `belongs_to` from the pluralized name to singularized.
+  ```crystal
+  # assuming Post belongs_to User
+
+  # Before update
+  PostQuery.new.where_users(UserQuery.new)
+
+  # After update
+  PostQuery.new.where_user(UserQuery.new) # Notice the 'where_user' is single now
+  ```
+
+### Optional updates
+
+- Update: any mention of `DB_URL` that we told you to use should actually be `DATABASE_URL`
+- Remove: any include for `include Lucky::Memoizable`. This is now included in `Object` and available everywhere
+- Update: HTML tags that display a `UUID` no longer need to cast to String. `link uuid, to: Whatever`
+- Remove: any `start_server` or `start_server.dwarf` files in the top-level directory. These are now built to your `bin/`
+- Update: `config/email.cr` to include a case for development to print emails.
+  ```crystal
+  # config/email.cr
+  BaseEmail.configure do |settings|
+    if Lucky::Env.production?
+      # ...
+    elsif Lucky::Env.development?
+      settings.adapter = Carbon::DevAdapter.new(print_emails: true)
+    else
+      # ...
+    end
+  end
+  ```
+- Update: any `call(io : IO)` method in your tasks, and use the `output` property instead for testing. [read more](https://github.com/luckyframework/lucky_cli/pull/557)
+- Update: your `package.json` with all the latest front-end updates. [read more](https://github.com/luckyframework/lucky_cli/pull/553)
+- Rename: your seed tasks `tasks/create_required_seeds.cr` -> `tasks/seed/db/required_data.cr`, and `tasks/create_sample_seeds.cr` -> `tasks/db/seed/sample_data.cr`
+- Update: `config/log.cr` to silence some of the query logging with `DB::Log.level = :info`.
+
+
 ## Upgrading from 0.23 to 0.24
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.23.0&to=0.24.0).
