@@ -49,7 +49,7 @@ module Lucky::UrlHelpers
 
     if value.match(/^\w+:\/\//)
       host_with_port = uri.port ? "#{uri.host}:#{uri.port}" : uri.host
-      "#{host_with_port}#{path}" == "#{request.host_with_port}#{resource}"
+      "#{host_with_port}#{path}" == "#{request.headers["Host"]?}#{resource}"
     else
       path == resource
     end

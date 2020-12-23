@@ -54,7 +54,7 @@ class Lucky::ForceSSLHandler
   private def redirect_to_secure_version(context : HTTP::Server::Context)
     context.response.status_code = settings.redirect_status
     context.response.headers["Location"] =
-      "https://#{context.request.host}#{context.request.resource}"
+      "#{URI.new("https", context.request.headers["Host"]?)}#{context.request.resource}"
   end
 
   # Read more about [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
