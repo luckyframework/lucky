@@ -196,6 +196,29 @@ describe Lucky::FlashStore do
       next_flash(flash_store).should be_empty
     end
   end
+
+  describe "#discard" do
+    it "marks a flash message to be discarded so that it isn't passed to the next request" do
+      flash_store = build_flash_store
+      flash_store.set(:name, "Paul")
+
+      flash_store.discard(:name)
+
+      flash_store.get(:name).should eq("Paul")
+      next_flash(flash_store).should be_empty
+    end
+  end
+
+  describe "#now" do
+    it "allows adding flash messages that are not serialized to the next request" do
+      flash_store = build_flash_store
+
+      flash_store.now.info = "hello"
+
+      flash_store.get(:info).should eq("hello")
+      next_flash(flash_store).should be_empty
+    end
+  end
 end
 
 private def build_flash_store(session_values = {} of String => String)
