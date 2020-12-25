@@ -2,10 +2,10 @@ class Lucky::FlashStore
   SESSION_KEY = "_flash"
   alias Key = String | Symbol
 
-  delegate any?, each, empty?, to: all
+  private getter flashes = {} of String => String
+  private getter discard = [] of String
 
-  @now = {} of String => String
-  @next = {} of String => String
+  delegate any?, each, empty?, to: flashes
 
   def self.from_session(session : Lucky::Session) : Lucky::FlashStore
     new.from_session(session)
@@ -14,7 +14,8 @@ class Lucky::FlashStore
   def from_session(session : Lucky::Session) : Lucky::FlashStore
     session.get?(SESSION_KEY).try do |json|
       JSON.parse(json).as_h.each do |key, value|
-        @now[key.to_s] = value.to_s
+        flashes[key.to_s] = value.to_s
+        discard << key.to_s
       end
     end
     self
@@ -23,11 +24,7 @@ class Lucky::FlashStore
   end
 
   def keep : Nil
-    @next = @now
-  end
-
-  private def all : Hash(String, String)
-    @now.merge(@next)
+    discard.clear
   end
 
   {% for shortcut in [:failure, :info, :success] %}
@@ -45,23 +42,24 @@ class Lucky::FlashStore
   {% end %}
 
   def to_json : String
-    @next.to_json
+    flashes.reject(discard).to_json
   end
 
   def clear : Nil
-    @now.clear
-    @next.clear
+    flashes.clear
+    discard.clear
   end
 
   def set(key : Key, value : String) : String
-    @next[key.to_s] = value
+    discard.delete(key.to_s)
+    flashes[key.to_s] = value
   end
 
   def get(key : Key) : String
-    all[key.to_s]
+    flashes[key.to_s]
   end
 
   def get?(key : Key) : String?
-    all[key.to_s]?
+    flashes[key.to_s]?
   end
 end
