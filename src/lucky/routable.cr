@@ -268,12 +268,6 @@ module Lucky::Routable
       Lucky::RouteHelper.new({{ method }}, path).url
     end
 
-    def self.route(
-    # required path variables
-    {% for param in path_params %}
-      {{ param.gsub(/:/, "").id }},
-    {% end %}
-
     {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
          !decl.value.is_a?(Nop) || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
        end %}
@@ -281,10 +275,15 @@ module Lucky::Routable
          params_with_defaults.includes? decl
        end %}
 
-    # params without a default value, could be nilable
+    def self.route(
+    # required path variables
+    {% for param in path_params %}
+      {{ param.gsub(/:/, "").id }},
+    {% end %}
+
+    # required params
     {% for param in params_without_defaults %}
-      {% is_nilable_type = param.type.is_a?(Union) %}
-      {{ param }}{% if is_nilable_type %} = nil{% end %},
+      {{ param }},
     {% end %}
 
     # params with a default value set are always nilable
@@ -321,6 +320,26 @@ module Lucky::Routable
       end
 
       Lucky::RouteHelper.new {{ method }}, path
+    end
+
+    def self.route(*_args, **_named_args) : Lucky::RouteHelper
+      {% requireds = path_params.map { |param| "#{param.gsub(/:/, "").id} (Path Variable)" } %}
+      {% params_without_defaults.each { |param| requireds << "#{param.var} (Param)" } %}
+      {% optionals = optional_path_params.map { |param| "#{param.gsub(/:/, "").id} (Path Variable)" } %}
+      {% params_with_defaults.each { |param| optionals << "#{param.var} (Param)" } %}
+      \{% raise <<-ERROR
+        Invalid usage of route {{ @type }}
+
+        {% if !requireds.empty? %}
+        Required arguments:
+        {% for req in requireds %}\n- {{ req.id }}{% end %}
+        {% end %}{% if !optionals.empty? %}
+        Optional arguments:
+        {% for opts in optionals %}\n- {{ opts.id }}{% end %}
+        {% end %}
+        For more information, refer to https://luckyframework.org/guides/http-and-routing/link-generation.
+        ERROR
+      %}
     end
 
     def self.with(*args, **named_args) : Lucky::RouteHelper
