@@ -14,8 +14,7 @@ class Lucky::FlashStore
   def from_session(session : Lucky::Session) : Lucky::FlashStore
     session.get?(SESSION_KEY).try do |json|
       JSON.parse(json).as_h.each do |key, value|
-        flashes[key.to_s] = value.to_s
-        discard << key.to_s
+        set(key, value.as_s)
       end
     end
     self
@@ -51,7 +50,7 @@ class Lucky::FlashStore
   end
 
   def set(key : Key, value : String) : String
-    discard.delete(key.to_s)
+    discard << key.to_s
     flashes[key.to_s] = value
   end
 

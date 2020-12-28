@@ -8,6 +8,7 @@ describe Lucky::TextResponse do
       it "writes the flash to the session" do
         context = build_context
         context.flash.success = "Yay!"
+        context.flash.keep
         flash_json = {success: "Yay!"}.to_json
 
         print_response_with_body(context)
@@ -34,6 +35,7 @@ describe Lucky::TextResponse do
       it "keeps the flash for the next request" do
         context_1 = build_context
         context_1.flash.success = "Yay!"
+        context_1.flash.keep
         next_json = context_1.flash.to_json
 
         print_response_with_body(context_1)

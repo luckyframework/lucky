@@ -133,15 +133,14 @@ describe Lucky::FlashStore do
       flash_store.set(:name, "Pauline")
 
       flash_store.get(:name).should eq("Pauline")
-      next_flash(flash_store)["name"]?.should eq("Pauline")
     end
 
-    it "is persisted into the next request" do
-      flash_store = build_flash_store({"success" => "Message saved!"})
+    it "is not persisted into the next request" do
+      flash_store = build_flash_store
 
       flash_store.set(:success, "Message saved again!")
 
-      next_flash(flash_store)["success"]?.should eq("Message saved again!")
+      next_flash(flash_store).should be_empty
     end
   end
 
@@ -161,23 +160,21 @@ describe Lucky::FlashStore do
       flash_store.get(:baker).should eq("Paul")
     end
 
-    it "does not affect the values for the next request" do
-      flash_store = build_flash_store({"cookie thief" => "Edward"})
+    it "works for kept messages" do
+      flash_store = build_flash_store
       flash_store.set("baker", "Paul")
+      flash_store.keep
 
-      flash_store.get(:baker)
-      flash_store.get("cookie thief")
-
-      next_flash = next_flash(flash_store)
-      next_flash["baker"]?.should eq("Paul")
-      next_flash["cookie thief"]?.should be_nil
+      flash_store.get(:baker).should eq("Paul")
+      next_flash(flash_store)["baker"]?.should eq("Paul")
     end
   end
 
   describe "#to_json" do
-    it "returns JSON for just the next request's flash messages" do
-      flash_store = build_flash_store({"current" => "should not carry over to next request"})
+    it "returns JSON for kept flash messages" do
+      flash_store = build_flash_store
       flash_store.set(:next, "should carry over")
+      flash_store.keep
 
       result = flash_store.to_json
 
