@@ -323,12 +323,12 @@ module Lucky::Routable
     end
 
     def self.route(*_args, **_named_args) : Lucky::RouteHelper
-      {% requireds = path_params.map { |param| "#{param.gsub(/:/, "").id} (Path Variable)" } %}
-      {% params_without_defaults.each { |param| requireds << "#{param.var} (Param)" } %}
-      {% optionals = optional_path_params.map { |param| "#{param.gsub(/:/, "").id} (Path Variable)" } %}
-      {% params_with_defaults.each { |param| optionals << "#{param.var} (Param)" } %}
+      {% requireds = path_params.map { |param| "#{param.gsub(/:/, "").id}" } %}
+      {% params_without_defaults.each { |param| requireds << "#{param.var}" } %}
+      {% optionals = optional_path_params.map { |param| "#{param.gsub(/^\?:/, "").id}" } %}
+      {% params_with_defaults.each { |param| optionals << "#{param.var}" } %}
       \{% raise <<-ERROR
-        Invalid usage of route {{ @type }}
+        Invalid call to {{ @type }}.route
 
         {% if !requireds.empty? %}
         Required arguments:
