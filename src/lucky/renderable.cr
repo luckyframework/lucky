@@ -44,33 +44,9 @@ module Lucky::Renderable
   # end
   # ```
   macro html(page_class = nil, **assigns)
+    {% page_class = page_class || "#{@type.name}Page".id %}
     validate_page_class!({{ page_class }})
 
-    render_html_page(
-      {{ page_class = page_class || "#{@type.name}Page".id }},
-      {% if assigns.empty? %}
-        {} of String => String
-      {% else %}
-        {{ assigns }}
-      {% end %}
-    )
-  end
-
-  # :nodoc:
-  macro validate_page_class!(page_class)
-    {% if page_class && page_class.resolve? %}
-      {% ancestors = page_class.resolve.ancestors %}
-
-      {% if ancestors.includes?(Lucky::Action) %}
-        {% page_class.raise "You accidentally rendered an action (#{page_class}) instead of an HTMLPage in the #{@type.name} action. Did you mean #{page_class}Page?" %}
-      {% elsif !ancestors.includes?(Lucky::HTMLPage) %}
-        {% page_class.raise "Couldn't render #{page_class} in #{@type.name} because it is not an HTMLPage" %}
-      {% end %}
-    {% end %}
-  end
-
-  # :nodoc:
-  macro render_html_page(page_class, assigns)
     # Found in {{ @type.name }}
     view = {{ page_class }}.new(
       context: context,
@@ -88,6 +64,17 @@ module Lucky::Renderable
       debug_message: log_message(view),
       enable_cookies: enable_cookies?
     )
+  end
+
+  # :nodoc:
+  macro validate_page_class!(page_class)
+    {% ancestors = page_class.resolve.ancestors %}
+
+    {% if ancestors.includes?(Lucky::Action) %}
+      {% page_class.raise "You accidentally rendered an action (#{page_class}) instead of an HTMLPage in the #{@type.name} action. Did you mean #{page_class}Page?" %}
+    {% elsif !ancestors.includes?(Lucky::HTMLPage) %}
+      {% page_class.raise "Couldn't render #{page_class} in #{@type.name} because it is not an HTMLPage" %}
+    {% end %}
   end
 
   # Disable cookies
