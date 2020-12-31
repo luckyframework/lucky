@@ -1,5 +1,5 @@
 module Gen::Mixins::MigrationWithColumns
-  SUPPORTED_TYPES = {"Bool", "Float64", "Int16", "Int32", "Int64", "String", "Time", "UUID"}
+  SUPPORTED_TYPES = {"Bool", "Float64", "Int16", "Int32", "Int64", "String", "Time", "UUID", "JSON::Any"}
 
   def create_migration
     Avram::Migrator::MigrationGenerator.new(
