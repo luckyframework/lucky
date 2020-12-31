@@ -25,6 +25,7 @@ describe Lucky::BaseTags do
     view(&.para(42)).should contain "<p>42</p>"
     view(&.para(MySpecialClass.new)).should contain "<p>it works</p>"
     view(&.para(1_i64)).should contain "<p>1</p>"
+    view(&.para({"class" => "empty-content"})).should contain "<p class=\"empty-content\"></p>"
     view(&.hr).should contain "<hr>"
   end
 

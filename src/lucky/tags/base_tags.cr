@@ -27,6 +27,10 @@ module Lucky::BaseTags
       end
     end
 
+    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
+      {{ method_name.id }}("", options, **other_options)
+    end
+
     def {{method_name.id}}(content : String | Lucky::AllowedInTags) : Nil
       {{method_name.id}}(EMPTY_HTML_ATTRS) do
         text content
