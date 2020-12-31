@@ -1,5 +1,5 @@
 class <%= pluralized_name %>::Update < BrowserAction
-  route do
+  <%= route("Update") %> do
     <%= underscored_resource %> = <%= query_class %>.find(<%= resource_id_method_name %>)
     <%= operation_class %>.update(<%= underscored_resource %>, params) do |operation, <%= underscored_resource %>|
       if operation.saved?
