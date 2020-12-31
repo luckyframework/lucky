@@ -109,72 +109,10 @@ module Lucky::Renderable
   # :nodoc:
   def perform_action : Nil
     response = call
-    handle_response(response)
-  end
-
-  private def handle_response(response : Lucky::Response) : Nil
-    log_response(response)
-    response.print
-  end
-
-  private def handle_response(_response : Nil)
-    {%
-      raise <<-ERROR
-
-
-      An action returned Nil
-
-      But it should return a Lucky::Response.
-
-      Try this...
-
-        ▸ Return a response with html, redirect, or json at the end of your action.
-        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
-
-      For example...
-
-        get "/admin/users" do
-          # Make sure there is a response in all conditional branches
-          if current_user.admin?
-            html IndexPage, users: UserQuery.new
-          else
-            redirect Home::Index
-          end
-        end
-
-      ERROR
-    %}
-  end
-
-  private def handle_response(_response : T) forall T
-    {%
-      raise <<-ERROR
-
-
-      An action returned #{T}
-
-      But it should return a Lucky::Response
-
-      Try this...
-
-        ▸ Return a response with html, redirect, or json at the end of your action.
-        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
-
-      For example...
-
-        get "/users" do
-          # Return a response with json, redirect, html, etc.
-          html IndexPage, users: UserQuery.new
-        end
-
-      ERROR
-    %}
-  end
-
-  private def log_response(response : Lucky::Response) : Nil
     response.debug_message.try do |message|
       Lucky::Log.debug { message }
     end
+    response.print
   end
 
   def file(

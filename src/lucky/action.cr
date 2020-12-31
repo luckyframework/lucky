@@ -6,7 +6,7 @@ abstract class Lucky::Action
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
   end
 
-  abstract def call
+  abstract def call : Lucky::Response
 
   include Lucky::ActionDelegates
   include Lucky::RequestTypeHelpers
