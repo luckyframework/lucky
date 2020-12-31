@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="lucky">
-  <title>Lucky::Action - lucky 0.25.0</title>
+  <title>Lucky::RouteInferrer - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -81,7 +81,7 @@
       
         <ul>
   
-  <li class=" current" data-id="lucky/Lucky/Action" data-name="lucky::action">
+  <li class=" " data-id="lucky/Lucky/Action" data-name="lucky::action">
       <a href="../Lucky/Action.html">Action</a>
       
     </li>
@@ -571,7 +571,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/RouteInferrer" data-name="lucky::routeinferrer">
+  <li class=" current" data-id="lucky/Lucky/RouteInferrer" data-name="lucky::routeinferrer">
       <a href="../Lucky/RouteInferrer.html">RouteInferrer</a>
       
     </li>
@@ -770,12 +770,12 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">abstract class</span> Lucky::Action
+  <span class="kind">class</span> Lucky::RouteInferrer
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/Action.html">Lucky::Action</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/RouteInferrer.html">Lucky::RouteInferrer</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
@@ -783,38 +783,6 @@
 
 
 
-
-  <h2>
-    <a id="included-modules" class="anchor" href="#included-modules">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Included Modules
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type">Lucky::ActionDelegates</li>
-    
-      <li class="other-type"><a href="../Lucky/ActionPipes.html">Lucky::ActionPipes</a></li>
-    
-      <li class="other-type"><a href="../Lucky/Exposable.html">Lucky::Exposable</a></li>
-    
-      <li class="other-type"><a href="../Lucky/ParamHelpers.html">Lucky::ParamHelpers</a></li>
-    
-      <li class="other-type"><a href="../Lucky/Redirectable.html">Lucky::Redirectable</a></li>
-    
-      <li class="other-type"><a href="../Lucky/RedirectableTurbolinksSupport.html">Lucky::RedirectableTurbolinksSupport</a></li>
-    
-      <li class="other-type"><a href="../Lucky/Renderable.html">Lucky::Renderable</a></li>
-    
-      <li class="other-type"><a href="../Lucky/RequestTypeHelpers.html">Lucky::RequestTypeHelpers</a></li>
-    
-      <li class="other-type"><a href="../Lucky/Routable.html">Lucky::Routable</a></li>
-    
-      <li class="other-type"><a href="../Lucky/VerifyAcceptsFormat.html">Lucky::VerifyAcceptsFormat</a></li>
-    
-  </ul>
 
 
 
@@ -837,50 +805,6 @@
 
 
 
-  
-    <h2>
-      <a id="constant-summary" class="anchor" href="#constant-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-      Constant Summary
-    </h2>
-  
-  <dl>
-    
-      <dt class="entry-const" id="AFTER_PIPES">
-        <strong>AFTER_PIPES</strong> = <code><span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span></code>
-      </dt>
-      
-    
-      <dt class="entry-const" id="BEFORE_PIPES">
-        <strong>BEFORE_PIPES</strong> = <code>[set_turbolinks_location_header_from_session, verify_accepted_format] <span class="k">of</span> <span class="t">Symbol</span></code>
-      </dt>
-      
-    
-      <dt class="entry-const" id="EXPOSURES">
-        <strong>EXPOSURES</strong> = <code><span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span></code>
-      </dt>
-      
-    
-      <dt class="entry-const" id="PARAM_DECLARATIONS">
-        <strong>PARAM_DECLARATIONS</strong> = <code><span class="o">[]</span> <span class="k">of</span> <span class="t">Crystal</span><span class="t">::</span><span class="t">Macros</span><span class="t">::</span><span class="t">TypeDeclaration</span></code>
-      </dt>
-      
-    
-      <dt class="entry-const" id="ROUTE_SETTINGS">
-        <strong>ROUTE_SETTINGS</strong> = <code>{prefix: <span class="s">&quot;&quot;</span>}</code>
-      </dt>
-      
-    
-      <dt class="entry-const" id="SKIPPED_PIPES">
-        <strong>SKIPPED_PIPES</strong> = <code><span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span></code>
-      </dt>
-      
-    
-  </dl>
-
 
 
   <h2>
@@ -894,35 +818,13 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(context:HTTP::Server::Context,route_params:Hash(String,String))-class-method" class="signature"><strong>.new</strong>(context : HTTP::Server::Context, route_params : Hash(String, String))</a>
+        <a href="#new(action_class_name:String,nested_route:Bool=false)-class-method" class="signature"><strong>.new</strong>(action_class_name : String, nested_route : Bool = <span class="n">false</span>)</a>
         
       </li>
     
   </ul>
 
 
-
-  <h2>
-    <a id="class-method-summary" class="anchor" href="#class-method-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Class Method Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#_accepted_formats-class-method" class="signature"><strong>._accepted_formats</strong></a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#query_param_declarations:Array(String)-class-method" class="signature"><strong>.query_param_declarations</strong> : Array(String)</a>
-        
-      </li>
-    
-  </ul>
 
 
 
@@ -937,67 +839,17 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#call-instance-method" class="signature"><strong>#call</strong></a>
+        <a href="#action_class_name:String-instance-method" class="signature"><strong>#action_class_name</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#context:HTTP::Server::Context-instance-method" class="signature"><strong>#context</strong> : HTTP::Server::Context</a>
+        <a href="#generate_inferred_route-instance-method" class="signature"><strong>#generate_inferred_route</strong></a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#cookies(*args,**options)-instance-method" class="signature"><strong>#cookies</strong>(*args, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#cookies(*args,**options,&)-instance-method" class="signature"><strong>#cookies</strong>(*args, **options, &)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#flash(*args,**options)-instance-method" class="signature"><strong>#flash</strong>(*args, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#flash(*args,**options,&)-instance-method" class="signature"><strong>#flash</strong>(*args, **options, &)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#request(*args,**options)-instance-method" class="signature"><strong>#request</strong>(*args, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#request(*args,**options,&)-instance-method" class="signature"><strong>#request</strong>(*args, **options, &)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#response(*args,**options)-instance-method" class="signature"><strong>#response</strong>(*args, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#response(*args,**options,&)-instance-method" class="signature"><strong>#response</strong>(*args, **options, &)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#route_params:Hash(String,String)-instance-method" class="signature"><strong>#route_params</strong> : Hash(String, String)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#session(*args,**options)-instance-method" class="signature"><strong>#session</strong>(*args, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#session(*args,**options,&)-instance-method" class="signature"><strong>#session</strong>(*args, **options, &)</a>
+        <a href="#nested_route?:Bool-instance-method" class="signature"><strong>#nested_route?</strong> : Bool</a>
         
       </li>
     
@@ -1008,225 +860,6 @@
 
 
 <div class="methods-inherited">
-  
-    
-
-  <h3>Instance methods inherited from module <code><a href="../Lucky/VerifyAcceptsFormat.html">Lucky::VerifyAcceptsFormat</a></code></h3>
-  
-  
-    <a href="../Lucky/VerifyAcceptsFormat.html#clients_desired_format:Symbol-instance-method" class="tooltip">
-      <span>clients_desired_format : Symbol</span>
-    clients_desired_format</a>
-    
-  
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from module <code><a href="../Lucky/Redirectable.html">Lucky::Redirectable</a></code></h3>
-  
-  
-    <a href="../Lucky/Redirectable.html#redirect(toroute:Lucky::RouteHelper,status=302):Lucky::TextResponse-instance-method" class="tooltip">
-      <span>redirect(to route : Lucky::RouteHelper, status = <span class="n">302</span>) : Lucky::TextResponse<br/>redirect(to action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>) : Lucky::TextResponse<br/>redirect(to path : String, status : HTTP::Status) : Lucky::TextResponse<br/>redirect(to path : String, status : Int32 = <span class="n">302</span>) : Lucky::TextResponse</span>
-    redirect</a>, 
-    
-  
-    <a href="../Lucky/Redirectable.html#redirect_back(*,fallback:Lucky::Action.class,status=302,allow_external=false)-instance-method" class="tooltip">
-      <span>redirect_back(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>)<br/>redirect_back(*, fallback : Lucky::RouteHelper, status = <span class="n">302</span>, allow_external = <span class="n">false</span>)<br/>redirect_back(*, fallback : String, status : HTTP::Status, allow_external = <span class="n">false</span>)<br/>redirect_back(*, fallback : String, status : Int32 = <span class="n">302</span>, allow_external : Bool = <span class="n">false</span>)</span>
-    redirect_back</a>
-    
-  
-
-
-    
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from module <code><a href="../Lucky/ActionPipes.html">Lucky::ActionPipes</a></code></h3>
-  
-  
-    <a href="../Lucky/ActionPipes.html#continue:Lucky::ActionPipes::Continue-instance-method" class="tooltip">
-      <span>continue : Lucky::ActionPipes::Continue</span>
-    continue</a>
-    
-  
-
-
-    
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from module <code><a href="../Lucky/ParamHelpers.html">Lucky::ParamHelpers</a></code></h3>
-  
-  
-    <a href="../Lucky/ParamHelpers.html#params:Lucky::Params-instance-method" class="tooltip">
-      <span>params : Lucky::Params</span>
-    params</a>
-    
-  
-
-
-    
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from module <code><a href="../Lucky/Renderable.html">Lucky::Renderable</a></code></h3>
-  
-  
-    <a href="../Lucky/Renderable.html#component(comp:Lucky::BaseComponent.class,status:Int32?=nil,**named_args):Lucky::TextResponse-instance-method" class="tooltip">
-      <span>component(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : Int32? = <span class="n">nil</span>, **named_args) : Lucky::TextResponse<br/>component(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : Lucky::TextResponse</span>
-    component</a>, 
-    
-  
-    <a href="../Lucky/Renderable.html#data(data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::DataResponse-instance-method" class="tooltip">
-      <span>data(data : String, content_type : String = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>) : Lucky::DataResponse</span>
-    data</a>, 
-    
-  
-    <a href="../Lucky/Renderable.html#file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::FileResponse-instance-method" class="tooltip">
-      <span>file(path : String, content_type : String? = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>) : Lucky::FileResponse<br/>file(path : String, content_type : String? = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : HTTP::Status = <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">OK</span>) : Lucky::FileResponse</span>
-    file</a>, 
-    
-  
-    <a href="../Lucky/Renderable.html#head(status:Int32):Lucky::TextResponse-instance-method" class="tooltip">
-      <span>head(status : Int32) : Lucky::TextResponse<br/>head(status : HTTP::Status) : Lucky::TextResponse</span>
-    head</a>, 
-    
-  
-    <a href="../Lucky/Renderable.html#json(body,status:Int32?=nil):Lucky::TextResponse-instance-method" class="tooltip">
-      <span>json(body, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse<br/>json(body, status : HTTP::Status) : Lucky::TextResponse</span>
-    json</a>, 
-    
-  
-    <a href="../Lucky/Renderable.html#plain_text(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method" class="tooltip">
-      <span>plain_text(body : String, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse<br/>plain_text(body : String, status : HTTP::Status) : Lucky::TextResponse</span>
-    plain_text</a>, 
-    
-  
-    <a href="../Lucky/Renderable.html#send_text_response(body:String,content_type:String,status:Int32?=nil):Lucky::TextResponse-instance-method" class="tooltip">
-      <span>send_text_response(body : String, content_type : String, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse</span>
-    send_text_response</a>, 
-    
-  
-    <a href="../Lucky/Renderable.html#xml(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method" class="tooltip">
-      <span>xml(body : String, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse<br/>xml(body, status : HTTP::Status) : Lucky::TextResponse</span>
-    xml</a>
-    
-  
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from module <code><a href="../Lucky/RequestTypeHelpers.html">Lucky::RequestTypeHelpers</a></code></h3>
-  
-  
-    <a href="../Lucky/RequestTypeHelpers.html#accepts?(format:Symbol):Bool-instance-method" class="tooltip">
-      <span>accepts?(format : Symbol) : Bool</span>
-    accepts?</a>, 
-    
-  
-    <a href="../Lucky/RequestTypeHelpers.html#ajax?:Bool-instance-method" class="tooltip">
-      <span>ajax? : Bool</span>
-    ajax?</a>, 
-    
-  
-    <a href="../Lucky/RequestTypeHelpers.html#html?:Bool-instance-method" class="tooltip">
-      <span>html? : Bool</span>
-    html?</a>, 
-    
-  
-    <a href="../Lucky/RequestTypeHelpers.html#json?:Bool-instance-method" class="tooltip">
-      <span>json? : Bool</span>
-    json?</a>, 
-    
-  
-    <a href="../Lucky/RequestTypeHelpers.html#plain_text?:Bool-instance-method" class="tooltip">
-      <span>plain_text? : Bool</span>
-    plain_text?</a>, 
-    
-  
-    <a href="../Lucky/RequestTypeHelpers.html#xml?:Bool-instance-method" class="tooltip">
-      <span>xml? : Bool</span>
-    xml?</a>
-    
-  
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
   
     
 
@@ -1260,12 +893,12 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(context:HTTP::Server::Context,route_params:Hash(String,String))-class-method">
+    <div class="entry-detail" id="new(action_class_name:String,nested_route:Bool=false)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(context : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>, route_params : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>))
+        def self.<strong>new</strong>(action_class_name : <a href="../String.html">String</a>, nested_route : <a href="../Bool.html">Bool</a> = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#new(context:HTTP::Server::Context,route_params:Hash(String,String))-class-method">#</a>
+        <a class="method-permalink" href="#new(action_class_name:String,nested_route:Bool=false)-class-method">#</a>
       </div>
       
       <br/>
@@ -1276,44 +909,6 @@
   
 
 
-
-  <h2>
-    <a id="class-method-detail" class="anchor" href="#class-method-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Class Method Detail
-  </h2>
-  
-    <div class="entry-detail" id="_accepted_formats-class-method">
-      <div class="signature">
-        
-        def self.<strong>_accepted_formats</strong>
-
-        <a class="method-permalink" href="#_accepted_formats-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="query_param_declarations:Array(String)-class-method">
-      <div class="signature">
-        
-        def self.<strong>query_param_declarations</strong> : Array(<a href="../String.html">String</a>)
-
-        <a class="method-permalink" href="#query_param_declarations:Array(String)-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
 
 
 
@@ -1326,12 +921,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="call-instance-method">
+    <div class="entry-detail" id="action_class_name:String-instance-method">
       <div class="signature">
-        abstract 
-        def <strong>call</strong>
+        
+        def <strong>action_class_name</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#call-instance-method">#</a>
+        <a class="method-permalink" href="#action_class_name:String-instance-method">#</a>
       </div>
       
       <br/>
@@ -1340,12 +935,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="context:HTTP::Server::Context-instance-method">
+    <div class="entry-detail" id="generate_inferred_route-instance-method">
       <div class="signature">
         
-        def <strong>context</strong> : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>
+        def <strong>generate_inferred_route</strong>
 
-        <a class="method-permalink" href="#context:HTTP::Server::Context-instance-method">#</a>
+        <a class="method-permalink" href="#generate_inferred_route-instance-method">#</a>
       </div>
       
       <br/>
@@ -1354,152 +949,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="cookies(*args,**options)-instance-method">
+    <div class="entry-detail" id="nested_route?:Bool-instance-method">
       <div class="signature">
         
-        def <strong>cookies</strong>(*args, **options)
+        def <strong>nested_route?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#cookies(*args,**options)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="cookies(*args,**options,&)-instance-method">
-      <div class="signature">
-        
-        def <strong>cookies</strong>(*args, **options, &)
-
-        <a class="method-permalink" href="#cookies(*args,**options,&)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="flash(*args,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>flash</strong>(*args, **options)
-
-        <a class="method-permalink" href="#flash(*args,**options)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="flash(*args,**options,&)-instance-method">
-      <div class="signature">
-        
-        def <strong>flash</strong>(*args, **options, &)
-
-        <a class="method-permalink" href="#flash(*args,**options,&)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="request(*args,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>request</strong>(*args, **options)
-
-        <a class="method-permalink" href="#request(*args,**options)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="request(*args,**options,&)-instance-method">
-      <div class="signature">
-        
-        def <strong>request</strong>(*args, **options, &)
-
-        <a class="method-permalink" href="#request(*args,**options,&)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="response(*args,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>response</strong>(*args, **options)
-
-        <a class="method-permalink" href="#response(*args,**options)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="response(*args,**options,&)-instance-method">
-      <div class="signature">
-        
-        def <strong>response</strong>(*args, **options, &)
-
-        <a class="method-permalink" href="#response(*args,**options,&)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="route_params:Hash(String,String)-instance-method">
-      <div class="signature">
-        
-        def <strong>route_params</strong> : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)
-
-        <a class="method-permalink" href="#route_params:Hash(String,String)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="session(*args,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>session</strong>(*args, **options)
-
-        <a class="method-permalink" href="#session(*args,**options)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="session(*args,**options,&)-instance-method">
-      <div class="signature">
-        
-        def <strong>session</strong>(*args, **options, &)
-
-        <a class="method-permalink" href="#session(*args,**options,&)-instance-method">#</a>
+        <a class="method-permalink" href="#nested_route?:Bool-instance-method">#</a>
       </div>
       
       <br/>
