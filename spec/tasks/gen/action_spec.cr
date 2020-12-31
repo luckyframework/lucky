@@ -37,6 +37,7 @@ describe Gen::Action do
 
       filename = "src/actions/users/announcements/index.cr"
       should_have_generated "#{valid_nested_action_name} < BrowserAction", inside: filename
+      should_have_generated %(get "/users/announcements"), inside: filename
 
       io.to_s.should contain(valid_nested_action_name)
       io.to_s.should contain("/src/actions/users/announcements")
@@ -54,15 +55,10 @@ describe Gen::Action do
     end
   end
 
-  it "snake cases filenames of a camel case action" do
-    with_cleanup do
-      valid_camel_case_action_name = "Users::HostedEvents"
-      io = generate valid_camel_case_action_name, Gen::Action::Browser
+  it "fails if called with non-resourceful action name" do
+    io = generate "Users::HostedEvents", Gen::Action::Browser
 
-      should_have_generated valid_camel_case_action_name, inside: "src/actions/users/hosted_events.cr"
-      io.to_s.should contain(valid_camel_case_action_name)
-      io.to_s.should contain("/src/actions/users")
-    end
+    io.to_s.should contain "Could not infer route for Users::HostedEvents"
   end
 
   it "displays an error if given no arguments" do

@@ -18,6 +18,14 @@ describe Gen::Resource::Browser do
           "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
           "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
         should_create_files_with_contents io,
+          "./src/actions/users/index.cr": %(get "/users"),
+          "./src/actions/users/show.cr": %(get "/users/:user_id"),
+          "./src/actions/users/new.cr": %(get "/users/new"),
+          "./src/actions/users/create.cr": %(post "/users"),
+          "./src/actions/users/edit.cr": %(get "/users/:user_id/edit"),
+          "./src/actions/users/update.cr": %(put "/users/:user_id"),
+          "./src/actions/users/delete.cr": %(delete "/users/:user_id")
+        should_create_files_with_contents io,
           "./src/actions/users/show.cr": "html ShowPage, user: UserQuery.find(user_id)",
           "./src/actions/users/edit.cr": "user = UserQuery.find(user_id)",
           "./src/actions/users/update.cr": "user = UserQuery.find(user_id)",
