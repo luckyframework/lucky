@@ -6,7 +6,7 @@ class Lucky::RouteInferrer
   end
 
   def generate_inferred_route
-    "#{http_method} \"#{path}\""
+    %(#{http_method} "#{path}")
   end
 
   private def http_method

@@ -37,7 +37,7 @@ describe Gen::Action do
 
       filename = "src/actions/users/announcements/index.cr"
       should_have_generated "#{valid_nested_action_name} < BrowserAction", inside: filename
-      should_have_generated " get \"/users/announcements\"", inside: filename
+      should_have_generated %(get "/users/announcements"), inside: filename
 
       io.to_s.should contain(valid_nested_action_name)
       io.to_s.should contain("/src/actions/users/announcements")
