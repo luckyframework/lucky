@@ -66,7 +66,7 @@ describe Gen::Resource::Browser do
 
     it "displays an error when given a more complex type" do
       io = IO::Memory.new
-      ARGV.push("Alphabet", "a:JSON::Any")
+      ARGV.push("Alphabet", "a:BigDecimal")
 
       Gen::Model.new.call(io)
 
