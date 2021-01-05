@@ -53,7 +53,7 @@ class Gen::Task < LuckyCli::Task
     #{summary}
 
     Example:
-      lucky gen.task email.monthhly_update
+      lucky gen.task email.monthly_update
 
     See Also: https://luckyframework.org/guides/command-line-tasks/custom-tasks
     TEXT
