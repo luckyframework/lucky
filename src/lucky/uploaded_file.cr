@@ -13,7 +13,8 @@ class Lucky::UploadedFile
   # be assigned the body of the HTTP::FormData::Part
   def initialize(part : HTTP::FormData::Part)
     @name = part.name
-    @tempfile = File.tempfile(part.name) do |tempfile|
+    @tempfile = File.tempfile(part.name)
+    File.open(@tempfile.path, "w") do |tempfile|
       IO.copy(part.body, tempfile)
     end
     @metadata =
