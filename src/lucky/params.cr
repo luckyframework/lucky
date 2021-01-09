@@ -4,9 +4,6 @@ class Lucky::Params
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
 
-  alias MultipartParams = Hash(String, String)
-  alias MultipartFiles = Hash(String, Lucky::UploadedFile)
-
   # :nodoc:
   private getter :request
   # :nodoc:
@@ -92,8 +89,9 @@ class Lucky::Params
   # files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
   # files["avatar"]                    # Lucky::UploadedFile
   # ```
-  def from_multipart : Tuple(MultipartParams, MultipartFiles)
-    parse_form_data
+  def from_multipart : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))
+    form_data = parse_form_data
+    {form_data.params.to_h, form_data.files.to_h}
   end
 
   # Retrieve a trimmed value from the params hash, raise if key is absent
@@ -451,30 +449,12 @@ class Lucky::Params
     HTTP::Params.parse(body)
   end
 
-  private def multipart_params : MultipartParams
-    parse_form_data.first
+  private def multipart_params
+    parse_form_data.params
   end
 
-  private def multipart_files : MultipartFiles
-    parse_form_data.last
-  end
-
-  private memoize def parse_form_data : Tuple(MultipartParams, MultipartFiles)
-    multipart_params = MultipartParams.new
-    multipart_files = MultipartFiles.new
-    body_io = IO::Memory.new(body)
-
-    boundary = MIME::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
-
-    HTTP::FormData.parse(body_io, boundary.to_s) do |part|
-      case part.headers
-      when .includes_word?("Content-Disposition", "filename")
-        multipart_files[part.name] = Lucky::UploadedFile.new(part)
-      else
-        multipart_params[part.name] = part.body.gets_to_end
-      end
-    end
-    {multipart_params, multipart_files}
+  private def multipart_files
+    parse_form_data.files
   end
 
   private def json?
@@ -487,6 +467,10 @@ class Lucky::Params
 
   private def content_type : String?
     request.headers["Content-Type"]?
+  end
+
+  private memoize def parse_form_data : Lucky::FormData
+    Lucky::FormDataParser.new(body, request).form_data
   end
 
   private memoize def parsed_json : JSON::Any
