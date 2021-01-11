@@ -11,7 +11,7 @@ class Lucky::FormDataParser
     form_data = Lucky::FormData.new
     boundary = MIME::Multipart.parse_boundary(request.headers["Content-Type"]).to_s
 
-    HTTP::FormData.parse(body_io, boundary.to_s) do |part|
+    HTTP::FormData.parse(body_io, boundary) do |part|
       form_data.add(part)
     end
     form_data

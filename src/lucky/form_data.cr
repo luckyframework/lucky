@@ -21,10 +21,6 @@ class Lucky::FormData
       @storage = {} of String => Array(T)
     end
 
-    def ==(other : self)
-      self.storage == other.storage
-    end
-
     def []?(key : String) : T?
       storage[key]?.try(&.first?)
     end
