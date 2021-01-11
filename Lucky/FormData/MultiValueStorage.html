@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="lucky">
-  <title>Lucky::Params::MultipartFiles - lucky 0.25.0</title>
+  <title>Lucky::FormData::MultiValueStorage(T) - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -251,6 +251,21 @@
       
     </li>
   
+  <li class="parent open current" data-id="lucky/Lucky/FormData" data-name="lucky::formdata">
+      <a href="../../Lucky/FormData.html">FormData</a>
+      
+        <ul>
+  
+  <li class=" current" data-id="lucky/Lucky/FormData/MultiValueStorage" data-name="lucky::formdata::multivaluestorage(t)">
+      <a href="../../Lucky/FormData/MultiValueStorage.html">MultiValueStorage</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="lucky/Lucky/FormHelpers" data-name="lucky::formhelpers">
       <a href="../../Lucky/FormHelpers.html">FormHelpers</a>
       
@@ -461,23 +476,8 @@
       
     </li>
   
-  <li class="parent open current" data-id="lucky/Lucky/Params" data-name="lucky::params">
+  <li class=" " data-id="lucky/Lucky/Params" data-name="lucky::params">
       <a href="../../Lucky/Params.html">Params</a>
-      
-        <ul>
-  
-  <li class=" current" data-id="lucky/Lucky/Params/MultipartFiles" data-name="lucky::params::multipartfiles">
-      <a href="../../Lucky/Params/MultipartFiles.html">MultipartFiles</a>
-      
-    </li>
-  
-  <li class=" " data-id="lucky/Lucky/Params/MultipartParams" data-name="lucky::params::multipartparams">
-      <a href="../../Lucky/Params/MultipartParams.html">MultipartParams</a>
-      
-    </li>
-  
-</ul>
-
       
     </li>
   
@@ -770,27 +770,44 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">alias</span> Lucky::Params::MultipartFiles
+  <span class="kind">class</span> Lucky::FormData::MultiValueStorage(T)
 
 </h1>
 
 
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Lucky/FormData/MultiValueStorage.html">Lucky::FormData::MultiValueStorage(T)</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../../Object.html">Object</a></li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Simpler, generic implementation of HTTP::Params</p>
 
 
 
 
 
   <h2>
-    <a id="alias-definition" class="anchor" href="#alias-definition">
+    <a id="included-modules" class="anchor" href="#included-modules">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Alias Definition
+    Included Modules
   </h2>
-  <code><a href="../../Hash.html">Hash</a>(<a href="../../String.html">String</a>, <a href="../../Lucky/UploadedFile.html">Lucky::UploadedFile</a>)</code>
-
-
+  <ul class="other-types-list">
+    
+      <li class="other-type">Enumerable({<a href="../../String.html">String</a>, T})</li>
+    
+  </ul>
 
 
 
@@ -815,9 +832,55 @@
 
 
 
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
+        
+      </li>
+    
+  </ul>
 
 
 
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#[]?(key:String):T?-instance-method" class="signature"><strong>#[]?</strong>(key : String) : T?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#add(key:String,value:T)-instance-method" class="signature"><strong>#add</strong>(key : String, value : T)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each(&)-instance-method" class="signature"><strong>#each</strong>(&)</a>
+        
+          <div class="summary"><p>Must yield this collection's elements to the block.</p></div>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -825,12 +888,127 @@
 
 <div class="methods-inherited">
   
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
 </div>
 
 
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>
+
+        <a class="method-permalink" href="#new-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
 
 
 
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="[]?(key:String):T?-instance-method">
+      <div class="signature">
+        
+        def <strong>[]?</strong>(key : <a href="../../String.html">String</a>) : T?
+
+        <a class="method-permalink" href="#[]?(key:String):T?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="add(key:String,value:T)-instance-method">
+      <div class="signature">
+        
+        def <strong>add</strong>(key : <a href="../../String.html">String</a>, value : T)
+
+        <a class="method-permalink" href="#add(key:String,value:T)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&)-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(&)
+
+        <a class="method-permalink" href="#each(&)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from module Enumerable({<a href="../../String.html">String</a>, T})
+            </div>
+          
+          <p>Must yield this collection's elements to the block.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
 
 
 
