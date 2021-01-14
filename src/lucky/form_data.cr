@@ -25,6 +25,10 @@ class Lucky::FormData
       storage[key]?.try(&.first?)
     end
 
+    def fetch_all(key : String) : Array(T)
+      storage.fetch(key) { [] of T }
+    end
+
     def add(key : String, value : T)
       storage[key] ||= [] of T
       storage[key] << value

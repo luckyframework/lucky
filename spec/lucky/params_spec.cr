@@ -252,6 +252,75 @@ describe Lucky::Params do
     end
   end
 
+  describe "#get_all" do
+    it "returns an empty array if no values found" do
+      request = build_request body: "", content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.get_all(:missing).should be_empty
+    end
+
+    it "does not return values from route params" do
+      request = build_request body: "", content_type: "application/x-www-form-urlencoded"
+      route_params = {"id" => "from_route"}
+
+      params = Lucky::Params.new(request, route_params)
+
+      params.get_all(:id).should be_empty
+    end
+
+    it "returns array from json if found" do
+      request = build_request body: {labels: ["crystal", "lucky"]}.to_json, content_type: "application/json"
+
+      params = Lucky::Params.new(request)
+
+      params.get_all(:labels).should eq(["crystal", "lucky"])
+    end
+
+    it "returns value to string in array if json value is not array" do
+      request = build_request body: {titles: "not a list"}.to_json, content_type: "application/json"
+
+      params = Lucky::Params.new(request)
+
+      params.get_all(:titles).should eq(["not a list"])
+    end
+
+    it "returns multipart params if found" do
+      request = build_multipart_request form_parts: {"from" => ["asher", "lila"]}
+
+      params = Lucky::Params.new(request)
+
+      params.get_all(:from).should eq(["asher", "lila"])
+    end
+
+    it "returns form encoded params if found" do
+      request = build_request body: "tags[]=funny&tags[]=complex", content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.get_all(:tags).should eq(["funny", "complex"])
+    end
+
+    it "returns query params if found" do
+      request = build_request body: "", content_type: ""
+      request.query = "referrers[]=social&referrers[]=email"
+
+      params = Lucky::Params.new(request)
+
+      params.get_all(:referrers).should eq(["social", "email"])
+    end
+
+    it "requires params to end with square brackets" do
+      request = build_request body: "", content_type: ""
+      request.query = "names=declan&names=nora"
+
+      params = Lucky::Params.new(request)
+
+      params.get_all(:names).should be_empty
+    end
+  end
+
   describe "nested" do
     it "gets nested form encoded params" do
       request = build_request body: "user:name=paul&user:twitter_handle=@paulcsmith&something:else=1",
