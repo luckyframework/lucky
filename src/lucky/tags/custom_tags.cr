@@ -16,18 +16,6 @@ module Lucky::CustomTags
     end
   end
 
-  def tag(tag_name : String, content : String | Lucky::AllowedInTags) : Nil
-    tag(EMPTY_HTML_ATTRS) do
-      text content
-    end
-  end
-
-  def tag(tag_name : String, &block) : Nil
-    tag(EMPTY_HTML_ATTRS) do
-      yield
-    end
-  end
-
   def tag(tag_name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
