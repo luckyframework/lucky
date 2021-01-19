@@ -918,6 +918,20 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#get_all(key:String%7CSymbol):Array(String)-instance-method" class="signature"><strong>#get_all</strong>(key : String | Symbol) : Array(String)</a>
+        
+          <div class="summary"><p>Retrieve values for a given key</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_all?(key:String%7CSymbol):Array(String)?-instance-method" class="signature"><strong>#get_all?</strong>(key : String | Symbol) : Array(String)?</a>
+        
+          <div class="summary"><p>Retrieve values for a given key, return nil if key is absent</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#get_file(key):Lucky::UploadedFile-instance-method" class="signature"><strong>#get_file</strong>(key) : Lucky::UploadedFile</a>
         
           <div class="summary"><p>Retrieve a file from the params hash, raise if key is absent</p></div>
@@ -1302,6 +1316,59 @@ params.get(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing
 <pre><code class="language-crystal">params.get?(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil : (String | Nil)</span>
 params.get?(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : (String | Nil)</span>
 params.get?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot;Paul&quot; : (String | Nil)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_all(key:String|Symbol):Array(String)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_all</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../String.html">String</a>)
+
+        <a class="method-permalink" href="#get_all(key:String%7CSymbol):Array(String)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Retrieve values for a given key</p>
+
+<p>Checks in places that could provide multiple values and returns first with values:</p>
+
+<ul><li>JSON body</li><li>multipart params</li><li>form encoded params</li><li>query params</li></ul>
+
+<p>For all params locations it appends square brackets
+so searching for "emails" in query params will look for values with a key of "emails[]"</p>
+
+<p>If no key is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised</p>
+
+<pre><code class="language-crystal">params.get_all(<span class="n">:names</span>)    <span class="c"># [&quot;Paul&quot;, &quot;Johnny&quot;] : Array(String)</span>
+params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_all?(key:String|Symbol):Array(String)?-instance-method">
+      <div class="signature">
+        
+        def <strong>get_all?</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../String.html">String</a>)?
+
+        <a class="method-permalink" href="#get_all?(key:String%7CSymbol):Array(String)?-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Retrieve values for a given key, return nil if key is absent</p>
+
+<pre><code class="language-crystal">params.get_all(<span class="n">:names</span>)    <span class="c"># [&quot;Paul&quot;, &quot;Johnny&quot;] : (Array(String) | Nil)</span>
+params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil : (Array(String) | Nil)</span></code></pre>
         </div>
       
       <br/>
