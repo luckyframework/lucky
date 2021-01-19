@@ -145,6 +145,47 @@ class Lucky::Params
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
+  # Retrieve values for a given key
+  #
+  # Checks in places that could provide multiple values and returns first with values:
+  # - JSON body
+  # - multipart params
+  # - form encoded params
+  # - query params
+  #
+  # For all params locations it appends square brackets
+  # so searching for "emails" in query params will look for values with a key of "emails[]"
+  #
+  # If no key is found a `Lucky::MissingParamError` will be raised
+  #
+  # ```crystal
+  # params.get_all(:names)    # ["Paul", "Johnny"] : Array(String)
+  # params.get_all("missing") # Missing parameter: missing
+  # ```
+  def get_all(key : String | Symbol) : Array(String)
+    get_all?(key) || raise Lucky::MissingParamError.new(key.to_s)
+  end
+
+  # Retrieve values for a given key, return nil if key is absent
+  #
+  # ```crystal
+  # params.get_all(:names)    # ["Paul", "Johnny"] : (Array(String) | Nil)
+  # params.get_all("missing") # nil : (Array(String) | Nil)
+  # ```
+  def get_all?(key : String | Symbol) : Array(String)?
+    key = key.to_s
+
+    body_values = if json?
+                    get_all_json(key)
+                  elsif multipart?
+                    get_all_params(multipart_params, key)
+                  else
+                    get_all_params(form_params, key)
+                  end
+
+    body_values || get_all_params(query_params, key)
+  end
+
   # Retrieve a file from the params hash, raise if key is absent
   #
   # If no key is found a `Lucky::MissingParamError` will be raised:
@@ -491,5 +532,21 @@ class Lucky::Params
 
   private def query_params
     request.query_params
+  end
+
+  private def get_all_json(key : String)
+    val = parsed_json[key]?
+    return if val.nil?
+
+    val.as_a?.try(&.map(&.to_s)) || [val.to_s]
+  end
+
+  private def get_all_params(params, key : String)
+    vals = params.fetch_all(key + "[]")
+    if vals.any?
+      vals
+    else
+      nil
+    end
   end
 end

@@ -1,5 +1,5 @@
 module MultipartHelper
-  alias Parts = Hash(String, String | Hash(String, String) | Array(Hash(String, String)))
+  alias Parts = Hash(String, String | Hash(String, String) | Array(Hash(String, String)) | Array(String))
 
   BLANK_PART = {} of String => String
 
@@ -35,6 +35,12 @@ module MultipartHelper
         nested_name = "#{name}[#{index}]:#{nested_key}"
         multipart_form_part(formdata, nested_name, nested_value)
       end
+    end
+  end
+
+  private def multipart_form_part(formdata : HTTP::FormData::Builder, name : String, value : Array(String))
+    value.each do |val|
+      formdata.field(name + "[]", val)
     end
   end
 
