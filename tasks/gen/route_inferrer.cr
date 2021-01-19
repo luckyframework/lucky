@@ -1,3 +1,5 @@
+require "wordsmith"
+
 class Lucky::RouteInferrer
   getter? nested_route
   getter action_class_name

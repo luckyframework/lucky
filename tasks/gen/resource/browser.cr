@@ -3,6 +3,7 @@ require "teeplate"
 require "wordsmith"
 require "avram"
 require "../mixins/migration_with_columns"
+require "../route_inferrer"
 
 class Gen::Resource::Browser < LuckyCli::Task
   include Gen::Mixins::MigrationWithColumns
