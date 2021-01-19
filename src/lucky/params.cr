@@ -145,7 +145,7 @@ class Lucky::Params
     route_params[key.to_s]? || body_param(key.to_s) || query_params[key.to_s]?
   end
 
-  # Retrieve values for a given key, returns an empty array if no values found
+  # Retrieve values for a given key
   #
   # Checks in places that could provide multiple values and returns first with values:
   # - JSON body
@@ -153,19 +153,25 @@ class Lucky::Params
   # - form encoded params
   # - query params
   #
-  # Does not check for path variables.
-  #
   # For all params locations it appends square brackets
   # so searching for "emails" in query params will look for values with a key of "emails[]"
   #
+  # If no key is found a `Lucky::MissingParamError` will be raised
+  #
   # ```crystal
   # params.get_all(:names)    # ["Paul", "Johnny"] : Array(String)
-  # params.get_all("missing") # [] of String : Array(String)
+  # params.get_all("missing") # Missing parameter: missing
   # ```
   def get_all(key : String | Symbol) : Array(String)
     get_all?(key) || raise Lucky::MissingParamError.new(key.to_s)
   end
 
+  # Retrieve values for a given key, return nil if key is absent
+  #
+  # ```crystal
+  # params.get_all(:names)    # ["Paul", "Johnny"] : (Array(String) | Nil)
+  # params.get_all("missing") # nil : (Array(String) | Nil)
+  # ```
   def get_all?(key : String | Symbol) : Array(String)?
     key = key.to_s
 
