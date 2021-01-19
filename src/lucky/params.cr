@@ -163,6 +163,10 @@ class Lucky::Params
   # params.get_all("missing") # [] of String : Array(String)
   # ```
   def get_all(key : String | Symbol) : Array(String)
+    get_all?(key) || raise Lucky::MissingParamError.new(key.to_s)
+  end
+
+  def get_all?(key : String | Symbol) : Array(String)?
     key = key.to_s
 
     body_values = if json?
@@ -173,7 +177,7 @@ class Lucky::Params
                     get_all_params(form_params, key)
                   end
 
-    body_values || get_all_params(query_params, key) || [] of String
+    body_values || get_all_params(query_params, key)
   end
 
   # Retrieve a file from the params hash, raise if key is absent

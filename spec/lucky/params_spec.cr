@@ -253,12 +253,14 @@ describe Lucky::Params do
   end
 
   describe "#get_all" do
-    it "returns an empty array if no values found" do
+    it "raises if no values found" do
       request = build_request body: "", content_type: "application/x-www-form-urlencoded"
 
       params = Lucky::Params.new(request)
 
-      params.get_all(:missing).should be_empty
+      expect_raises Lucky::MissingParamError do
+        params.get_all(:missing)
+      end
     end
 
     it "does not return values from route params" do
@@ -267,7 +269,9 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request, route_params)
 
-      params.get_all(:id).should be_empty
+      expect_raises Lucky::MissingParamError do
+        params.get_all(:id)
+      end
     end
 
     it "returns array from json if found" do
@@ -317,7 +321,19 @@ describe Lucky::Params do
 
       params = Lucky::Params.new(request)
 
-      params.get_all(:names).should be_empty
+      expect_raises Lucky::MissingParamError do
+        params.get_all(:names)
+      end
+    end
+  end
+
+  describe "#get_all?" do
+    it "returns nil if values not found" do
+      request = build_request body: "", content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.get_all?(:missing).should be_nil
     end
   end
 
