@@ -45,7 +45,7 @@ brew upgrade lucky
   end
 
   # Use in your Action
-  SignInUser.new(params).submit do |operation, user|
+  RequestPasswordReset.new(params).submit do |operation, user|
   end
 
   # After Update
@@ -61,7 +61,7 @@ brew upgrade lucky
   end
 
   # Use in your Action
-  SignInUser.run(params) do |operation, user|
+  RequestPasswordReset.run(params) do |operation, user|
   end
   ```
 - Rename: all usage of `with_defaults` to `tag_defaults`
@@ -142,7 +142,7 @@ brew upgrade lucky
   ```
 - Update: any `call(io : IO)` method in your tasks, and use the `output` property instead for testing. [read more](https://github.com/luckyframework/lucky_cli/pull/557)
 - Update: your `package.json` with all the latest front-end updates. [read more](https://github.com/luckyframework/lucky_cli/pull/553)
-- Rename: your seed tasks `tasks/create_required_seeds.cr` -> `tasks/seed/db/required_data.cr`, and `tasks/create_sample_seeds.cr` -> `tasks/db/seed/sample_data.cr`
+- Rename: your seed tasks `tasks/create_required_seeds.cr` -> `tasks/db/seed/required_data.cr`, and `tasks/create_sample_seeds.cr` -> `tasks/db/seed/sample_data.cr`
 - Update: `config/log.cr` to silence some of the query logging with `DB::Log.level = :info`.
 
 
