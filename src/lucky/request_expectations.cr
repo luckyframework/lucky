@@ -3,7 +3,7 @@ module Lucky::RequestExpectations
   # Test that the HTTP response has the expected status and JSON body
   #
   # ```
-  # user = UserBox.create
+  # user = UserFactory.create
   #
   # response = AppClient.new.exec(Users::Show.with(user.id))
   #
