@@ -3,21 +3,16 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="generator" content="Crystal Docs 0.35.1">
 <meta name="crystal_docs.project_version" content="0.25.0">
 <meta name="crystal_docs.project_name" content="lucky">
+
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="lucky">
+  <meta name="repository-name" content="lucky">
   <title>Lucky::Paginator - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
@@ -25,6 +20,11 @@
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -1278,7 +1278,7 @@ pages.path_to_page(<span class="n">2</span>) <span class="c"># &quot;/comments?p
 <p>series = pages.series(begin: 6)
 series # [1, 2, 3, 4, 5]</p>
 
-<pre><code>
+<pre><code class="language-crystal">
 <span class="t">As</span> mentioned above the <span class="o">**</span>actual<span class="o">**</span> objects <span class="k">in</span> the <span class="t">Array</span> are made up <span class="k">of</span>
 <span class="s">`Lucky::Paginator::Gap`</span>, <span class="s">`Lucky::Paginator::Page`</span>, and
 <span class="s">`Lucky::Paginator::CurrentPage`</span> objects.
@@ -1334,42 +1334,44 @@ series # [1, 2, 3, 4, 5]</p>
   </svg>
 </a>]</h1>
 
-<pre><code>
-<span class="t">The</span> <span class="s">`Page`</span> and <span class="s">`CurrentPage`</span> objects have a <span class="s">`number`</span> and <span class="s">`path`</span> method.
-<span class="s">`Page#number`</span> returns the number <span class="k">of</span> the page <span class="k">as</span> an <span class="t">Int</span>. <span class="t">The</span> <span class="s">`Page#path`</span> method
-<span class="t">Return</span> the path to the <span class="k">next</span> page.
+<pre><code class="language-crystal">
+The `Page` and `CurrentPage` objects have a `number` and `path` method.
+`Page#number` returns the number of the page as an Int. The `Page#path` method
+Return the path to the next page.
 
-<span class="t">The</span> <span class="s">`Gap`</span> object has no methods or instance variables. <span class="t">It</span> is there to
-represent a <span class="s">&quot;gap&quot;</span> <span class="k">of</span> pages.
+The `Gap` object has no methods or instance variables. It is there to
+represent a "gap" of pages.
 
-<span class="t">These</span> objects make it easy to use [method <span class="c"># overloading](https://crystal-lang.org/reference/syntax_and_semantics/overloading.html)</span>
-or <span class="s">`is_a?`</span> to determine how to render each item.
+These objects make it easy to use [method # overloading](https://crystal-lang.org/reference/syntax_and_semantics/overloading.html)
+or `is_a?` to determine how to render each item.
 
-<span class="t">Here</span></code></pre>
+Here's a quick example:
+</code></pre>
 
 <p>pages.series(begin: 1, end: 1).each do |item|
   case item
   when Lucky::Paginator::CurrentPage | Lucky::Paginator::Page</p>
 
-<pre><code>pp! item.number <span class="c"># Int32 representing the page number</span>
+<pre><code class="language-crystal">pp! item.number <span class="c"># Int32 representing the page number</span>
 pp! item.path   <span class="c"># &quot;/items?page=2&quot;</span></code></pre>
 
 <p>when Lucky::Paginator::Gap</p>
 
-<pre><code>puts <span class="s">&quot;...&quot;</span></code></pre>
+<pre><code class="language-crystal">puts <span class="s">&quot;...&quot;</span></code></pre>
 
 <p>end
 end</p>
 
-<pre><code>
-<span class="t">Or</span> use method overloading. <span class="t">This</span> will show an example using <span class="t">Lucky</span></code></pre>
+<pre><code class="language-crystal">
+Or use method overloading. This will show an example using Lucky's HTML methods:
+</code></pre>
 
 <p>class PageNav &lt; BaseComponent
   needs pages : Lucky::Paginator</p>
 
 <p>def render</p>
 
-<pre><code>pages.series(<span class="k">begin</span>: <span class="n">1</span>, <span class="k">end</span>: <span class="n">1</span>).each <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+<pre><code class="language-crystal">pages.series(<span class="k">begin</span>: <span class="n">1</span>, <span class="k">end</span>: <span class="n">1</span>).each <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
   page_item(item)
 <span class="k">end</span></code></pre>
 
@@ -1377,25 +1379,25 @@ end</p>
 
 <p>def page_item(page : Lucky::Paginator::CurrentPage)</p>
 
-<pre><code><span class="c"># If it is the current page, just display text and no link</span>
+<pre><code class="language-crystal"><span class="c"># If it is the current page, just display text and no link</span>
 text page.number</code></pre>
 
 <p>end</p>
 
 <p>def page_item(page : Lucky::Paginator::CurrentPage)</p>
 
-<pre><code>a page.number, href: page.path</code></pre>
+<pre><code class="language-crystal">a page.number, href: page.path</code></pre>
 
 <p>end</p>
 
 <p>def page_item(gap : Lucky::Paginator::Gap)</p>
 
-<pre><code>text <span class="s">&quot;..&quot;</span></code></pre>
+<pre><code class="language-crystal">text <span class="s">&quot;..&quot;</span></code></pre>
 
 <p>end
 end</p>
 
-<pre><code></code></pre>
+<pre><code class="language-crystal"></code></pre>
         </div>
       
       <br/>

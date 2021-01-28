@@ -3,21 +3,16 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="generator" content="Crystal Docs 0.35.1">
 <meta name="crystal_docs.project_version" content="0.25.0">
 <meta name="crystal_docs.project_name" content="lucky">
+
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="lucky">
+  <meta name="repository-name" content="lucky">
   <title>Lucky::InputHelpers - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
@@ -25,6 +20,11 @@
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -1271,7 +1271,7 @@
           <p>Similar to color_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>color_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">color_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;color&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1293,7 +1293,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a color input field.</p>
 
-<pre><code>color_input(attribute)
+<pre><code class="language-crystal">color_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;color&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1414,7 +1414,7 @@ through <code>attrs</code>.</p>
           <p>Similar to email_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>email_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">email_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;email&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1436,7 +1436,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a email input field.</p>
 
-<pre><code>email_input(attribute)
+<pre><code class="language-crystal">email_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;email&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1472,7 +1472,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a file input field.</p>
 
-<pre><code>file_input(attribute)
+<pre><code class="language-crystal">file_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;file&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1495,7 +1495,7 @@ through <code>attrs</code>.</p>
           <p>Similar to file_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>file_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">file_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;file&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1532,7 +1532,7 @@ through <code>attrs</code>.</p>
           <p>Similar to hidden_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>hidden_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">hidden_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;hidden&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1568,7 +1568,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a hidden input field.</p>
 
-<pre><code>hidden_input(attribute)
+<pre><code class="language-crystal">hidden_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;hidden&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1590,7 +1590,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a number input field.</p>
 
-<pre><code>number_input(attribute)
+<pre><code class="language-crystal">number_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;number&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1627,7 +1627,7 @@ through <code>attrs</code>.</p>
           <p>Similar to number_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>number_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">number_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;number&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1691,7 +1691,7 @@ through <code>attrs</code>.</p>
           
           <p>Similar to radio; this allows for Boolean attributes through <code>attrs</code>.</p>
 
-<pre><code>radio(attribute, <span class="s">&quot;checked_value&quot;</span>, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">radio(attribute, <span class="s">&quot;checked_value&quot;</span>, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;radio&quot; id=&quot;param_key_attribute_name_checked_value&quot; name=&quot;param_key:attribute_name&quot; value=&quot;checked_value&quot; checked=&quot;true&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1713,7 +1713,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a radio input field.</p>
 
-<pre><code>radio(attribute, <span class="s">&quot;checked_value&quot;</span>)
+<pre><code class="language-crystal">radio(attribute, <span class="s">&quot;checked_value&quot;</span>)
 <span class="c"># =&gt; &lt;input type=&quot;radio&quot; id=&quot;param_key_attribute_name_checked_value&quot; name=&quot;param_key:attribute_name&quot; value=&quot;checked_value&quot; checked=&quot;true&quot;&gt;</span></code></pre>
         </div>
       
@@ -1750,7 +1750,7 @@ through <code>attrs</code>.</p>
           <p>Similar to range_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>range_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">range_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;range&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1772,7 +1772,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a range input field.</p>
 
-<pre><code>range_input(attribute)
+<pre><code class="language-crystal">range_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;range&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1809,7 +1809,7 @@ through <code>attrs</code>.</p>
           <p>Similar to search_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>search_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">search_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;search&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1831,7 +1831,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a search input field.</p>
 
-<pre><code>search_input(attribute)
+<pre><code class="language-crystal">search_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;search&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1924,7 +1924,7 @@ through <code>attrs</code>.</p>
           <p>Similar to text_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>text_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">text_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;text&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       
@@ -1946,7 +1946,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a text input field.</p>
 
-<pre><code>text_input(attribute)
+<pre><code class="language-crystal">text_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;text&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -1996,7 +1996,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a textarea field.</p>
 
-<pre><code>textarea(attribute)
+<pre><code class="language-crystal">textarea(attribute)
 <span class="c"># =&gt; &lt;textarea id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot;&gt;&lt;/textarea&gt;</span></code></pre>
         </div>
       
@@ -2019,7 +2019,7 @@ through <code>attrs</code>.</p>
           <p>Similar to textarea; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>textarea(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">textarea(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;textarea id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; required&gt;&lt;/textarea&gt;</span></code></pre>
         </div>
       
@@ -2097,7 +2097,7 @@ through <code>attrs</code>.</p>
           
           <p>Returns a url input field.</p>
 
-<pre><code>url_input(attribute)
+<pre><code class="language-crystal">url_input(attribute)
 <span class="c"># =&gt; &lt;input type=&quot;url&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; /&gt;</span></code></pre>
         </div>
       
@@ -2120,7 +2120,7 @@ through <code>attrs</code>.</p>
           <p>Similar to url_input; this allows for Boolean attributes
 through <code>attrs</code>.</p>
 
-<pre><code>url_input(attribute, attrs: [<span class="n">:required</span>])
+<pre><code class="language-crystal">url_input(attribute, attrs: [<span class="n">:required</span>])
 <span class="c"># =&gt; &lt;input type=&quot;url&quot; id=&quot;param_key_attribute_name&quot; name=&quot;param_key:attribute_name&quot; value=&quot;&quot; required /&gt;</span></code></pre>
         </div>
       

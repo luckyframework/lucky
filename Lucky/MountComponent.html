@@ -3,21 +3,16 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="generator" content="Crystal Docs 0.35.1">
 <meta name="crystal_docs.project_version" content="0.25.0">
 <meta name="crystal_docs.project_name" content="lucky">
+
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="lucky">
+  <meta name="repository-name" content="lucky">
   <title>Lucky::MountComponent - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
@@ -25,6 +20,11 @@
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -904,7 +904,7 @@
 set to <code>true</code>, it will render HTML comments showing where the component
 starts and ends.</p>
 
-<pre><code>m(<span class="t">MyComponent</span>)
+<pre><code class="language-crystal">m(<span class="t">MyComponent</span>)
 m(<span class="t">MyComponent</span>, with_args: <span class="n">123</span>)</code></pre>
 
 <p><span class="flag red">DEPRECATED</span>  Use <code><a href="../Lucky/MountComponent.html#mount(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">#mount</a></code> instead. Example: mount(MyComponent, arg1: 123)</p>
@@ -935,7 +935,7 @@ args passed to the component.</p>
 set to <code>true</code>, it will render HTML comments showing where the component
 starts and ends.</p>
 
-<pre><code>m(<span class="t">MyComponent</span>, name: <span class="s">&quot;Jane&quot;</span>) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
+<pre><code class="language-crystal">m(<span class="t">MyComponent</span>, name: <span class="s">&quot;Jane&quot;</span>) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
   text name.upcase
 <span class="k">end</span></code></pre>
 
@@ -966,7 +966,7 @@ starts and ends.</p>
 set to <code>true</code>, it will render HTML comments showing where the component
 starts and ends.</p>
 
-<pre><code>mount(<span class="t">MyComponent</span>)
+<pre><code class="language-crystal">mount(<span class="t">MyComponent</span>)
 mount(<span class="t">MyComponent</span>, with_args: <span class="n">123</span>)</code></pre>
         </div>
       
@@ -993,7 +993,7 @@ args passed to the component.</p>
 set to <code>true</code>, it will render HTML comments showing where the component
 starts and ends.</p>
 
-<pre><code>mount(<span class="t">MyComponent</span>, name: <span class="s">&quot;Jane&quot;</span>) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
+<pre><code class="language-crystal">mount(<span class="t">MyComponent</span>, name: <span class="s">&quot;Jane&quot;</span>) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
   text name.upcase
 <span class="k">end</span></code></pre>
         </div>

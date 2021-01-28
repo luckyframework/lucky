@@ -3,21 +3,16 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="generator" content="Crystal Docs 0.35.1">
 <meta name="crystal_docs.project_version" content="0.25.0">
 <meta name="crystal_docs.project_name" content="lucky">
+
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="lucky">
+  <meta name="repository-name" content="lucky">
   <title>Lucky::Routable - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
@@ -25,6 +20,11 @@
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -967,7 +967,7 @@
 <p>Use these methods if you need a custom path or are using a non-restful
 route. For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
   delete <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
     <span class="c"># action code here</span>
   <span class="k">end</span>
@@ -977,7 +977,7 @@ route. For example:</p>
 
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
-<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing" target="_blank">Routing</a></li></ul>
+<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing">Routing</a></li></ul>
         </div>
       
       <br/>
@@ -1015,7 +1015,7 @@ route. For example:</p>
 <p>Use these methods if you need a custom path or are using a non-restful
 route. For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
   get <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
     <span class="c"># action code here</span>
   <span class="k">end</span>
@@ -1025,7 +1025,7 @@ route. For example:</p>
 
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
-<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing" target="_blank">Routing</a></li></ul>
+<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing">Routing</a></li></ul>
         </div>
       
       <br/>
@@ -1063,7 +1063,7 @@ route. For example:</p>
 <p>Use this method if you need to match a route with a custom HTTP method (verb).
 For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">Show</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">Show</span>
   match <span class="n">:options</span>, <span class="s">&quot;/profile&quot;</span> <span class="k">do</span>
     <span class="c"># action code here</span>
   <span class="k">end</span>
@@ -1094,7 +1094,7 @@ automatically</p>
 <p>This works similarly to <code><a href="../Lucky/Routable.html#route-macro">route</a></code> but it will provide multiple parameters.
 For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Comments</span><span class="t">::</span><span class="t">Show</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Comments</span><span class="t">::</span><span class="t">Show</span>
   nested_route <span class="k">do</span>
     plain_text <span class="s">&quot;Post: </span><span class="i">#{</span>post_id<span class="i">}</span><span class="s">, Comment: </span><span class="i">#{</span>comment_id<span class="i">}</span><span class="s">&quot;</span>
   <span class="k">end</span>
@@ -1126,7 +1126,7 @@ the params object. But accessing the param directly from the params object
 isn't type safe. Enter <code><a href="../Lucky/Routable.html#param(type_declaration)-macro">param</a></code>. It checks the given param's type and makes
 it easily available inside the action.</p>
 
-<pre><code><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   param page : <span class="t">Int32</span>?
 
   route <span class="k">do</span>
@@ -1156,7 +1156,7 @@ Int32.</p>
 <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> error if the required param is absent
 when making a request:</p>
 
-<pre><code><span class="k">class</span> <span class="t">UserConfirmations</span><span class="t">::</span><span class="t">New</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">UserConfirmations</span><span class="t">::</span><span class="t">New</span>
   param token : <span class="t">String</span> <span class="c"># this param is required!</span>
 
   route <span class="k">do</span>
@@ -1189,7 +1189,7 @@ when making a request:</p>
 <p>Use these methods if you need a custom path or are using a non-restful
 route. For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
   patch <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
     <span class="c"># action code here</span>
   <span class="k">end</span>
@@ -1199,7 +1199,7 @@ route. For example:</p>
 
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
-<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing" target="_blank">Routing</a></li></ul>
+<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing">Routing</a></li></ul>
         </div>
       
       <br/>
@@ -1223,7 +1223,7 @@ route. For example:</p>
 <p>Use these methods if you need a custom path or are using a non-restful
 route. For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
   post <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
     <span class="c"># action code here</span>
   <span class="k">end</span>
@@ -1233,7 +1233,7 @@ route. For example:</p>
 
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
-<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing" target="_blank">Routing</a></li></ul>
+<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing">Routing</a></li></ul>
         </div>
       
       <br/>
@@ -1257,7 +1257,7 @@ route. For example:</p>
 <p>Use these methods if you need a custom path or are using a non-restful
 route. For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
   put <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
     <span class="c"># action code here</span>
   <span class="k">end</span>
@@ -1267,7 +1267,7 @@ route. For example:</p>
 
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
-<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing" target="_blank">Routing</a></li></ul>
+<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing">Routing</a></li></ul>
         </div>
       
       <br/>
@@ -1288,7 +1288,7 @@ route. For example:</p>
           
           <p>Define a route that responds to the appropriate HTTP request automatically</p>
 
-<pre><code><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Show</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Show</span>
   route <span class="k">do</span>
     plain_text <span class="s">&quot;Post: </span><span class="i">#{</span>post_id<span class="i">}</span><span class="s">&quot;</span>
   <span class="k">end</span>
@@ -1314,7 +1314,7 @@ adding underscores. The method is found via the last part of the class name:</p>
 
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
-<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes" target="_blank">Automatically Generate RESTful Routes</a></li><li><a href="https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes" target="_blank">Examples of automatically generated routes</a></li></ul>
+<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes">Automatically Generate RESTful Routes</a></li><li><a href="https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes">Examples of automatically generated routes</a></li></ul>
         </div>
       
       <br/>
@@ -1358,7 +1358,7 @@ and http method (get, put, post, etc..) macros</p>
 <p>Use these methods if you need a custom path or are using a non-restful
 route. For example:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
   trace <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
     <span class="c"># action code here</span>
   <span class="k">end</span>
@@ -1368,7 +1368,7 @@ route. For example:</p>
 
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
-<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing" target="_blank">Routing</a></li></ul>
+<ul><li><a href="https://luckyframework.org/guides/actions-and-routing/#routing">Routing</a></li></ul>
         </div>
       
       <br/>

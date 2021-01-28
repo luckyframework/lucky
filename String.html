@@ -3,21 +3,16 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="generator" content="Crystal Docs 0.35.1">
 <meta name="crystal_docs.project_version" content="0.25.0">
 <meta name="crystal_docs.project_name" content="lucky">
+
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="lucky">
+  <meta name="repository-name" content="lucky">
   <title>String - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "";
@@ -25,6 +20,11 @@
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -789,11 +789,11 @@
 <p>A <code><a href="String.html">String</a></code> is typically created with a string literal, enclosing UTF-8 characters
 in double quotes:</p>
 
-<pre><code><span class="s">&quot;hello world&quot;</span></code></pre>
+<pre><code class="language-crystal"><span class="s">&quot;hello world&quot;</span></code></pre>
 
 <p>A backslash can be used to denote some characters inside the string:</p>
 
-<pre><code><span class="s">&quot;\&quot;&quot;</span> <span class="c"># double quote</span>
+<pre><code class="language-crystal"><span class="s">&quot;\&quot;&quot;</span> <span class="c"># double quote</span>
 <span class="s">&quot;\\&quot;</span> <span class="c"># backslash</span>
 <span class="s">&quot;\e&quot;</span> <span class="c"># escape</span>
 <span class="s">&quot;\f&quot;</span> <span class="c"># form feed</span>
@@ -804,28 +804,28 @@ in double quotes:</p>
 
 <p>You can use a backslash followed by an <em>u</em> and four hexadecimal characters to denote a unicode codepoint written:</p>
 
-<pre><code><span class="s">&quot;\u0041&quot;</span> <span class="c"># == &quot;A&quot;</span></code></pre>
+<pre><code class="language-crystal"><span class="s">&quot;\u0041&quot;</span> <span class="c"># == &quot;A&quot;</span></code></pre>
 
 <p>Or you can use curly braces and specify up to six hexadecimal numbers (0 to 10FFFF):</p>
 
-<pre><code><span class="s">&quot;\u{41}&quot;</span> <span class="c"># == &quot;A&quot;</span></code></pre>
+<pre><code class="language-crystal"><span class="s">&quot;\u{41}&quot;</span> <span class="c"># == &quot;A&quot;</span></code></pre>
 
 <p>A string can span multiple lines:</p>
 
-<pre><code><span class="s">&quot;hello
+<pre><code class="language-crystal"><span class="s">&quot;hello
       world&quot;</span> <span class="c"># same as &quot;hello\n      world&quot;</span></code></pre>
 
 <p>Note that in the above example trailing and leading spaces, as well as newlines,
 end up in the resulting string. To avoid this, you can split a string into multiple lines
 by joining multiple literals with a backslash:</p>
 
-<pre><code><span class="s">&quot;hello &quot;</span> \
+<pre><code class="language-crystal"><span class="s">&quot;hello &quot;</span> \
 <span class="s">&quot;world, &quot;</span> \
 <span class="s">&quot;no newlines&quot;</span> <span class="c"># same as &quot;hello world, no newlines&quot;</span></code></pre>
 
 <p>Alternatively, a backslash followed by a newline can be inserted inside the string literal:</p>
 
-<pre><code><span class="s">&quot;hello \
+<pre><code class="language-crystal"><span class="s">&quot;hello \
      world, \
      no newlines&quot;</span> <span class="c"># same as &quot;hello world, no newlines&quot;</span></code></pre>
 
@@ -834,7 +834,7 @@ by joining multiple literals with a backslash:</p>
 <p>If you need to write a string that has many double quotes, parentheses, or similar
 characters, you can use alternative literals:</p>
 
-<pre><code><span class="c"># Supports double quotes and nested parentheses</span>
+<pre><code class="language-crystal"><span class="c"># Supports double quotes and nested parentheses</span>
 <span class="s">%(hello (&quot;world&quot;))</span> <span class="c"># same as &quot;hello (\&quot;world\&quot;)&quot;</span>
 
 <span class="c"># Supports double quotes and nested brackets</span>
@@ -848,7 +848,7 @@ characters, you can use alternative literals:</p>
 
 <p>To create a <code><a href="String.html">String</a></code> with embedded expressions, you can use string interpolation:</p>
 
-<pre><code>a <span class="o">=</span> <span class="n">1</span>
+<pre><code class="language-crystal">a <span class="o">=</span> <span class="n">1</span>
 b <span class="o">=</span> <span class="n">2</span>
 <span class="s">&quot;sum = </span><span class="i">#{</span>a <span class="o">+</span> b<span class="i">}</span><span class="s">&quot;</span> <span class="c"># &quot;sum = 3&quot;</span></code></pre>
 
@@ -869,7 +869,7 @@ from <code>String.build</code> or <code>IO::Memory</code>. No exception will be 
 invalid byte sequences, when asked as chars, will use the unicode replacement
 char (value 0xFFFD). For example:</p>
 
-<pre><code><span class="c"># here 255 is not a valid byte value in the UTF-8 encoding</span>
+<pre><code class="language-crystal"><span class="c"># here 255 is not a valid byte value in the UTF-8 encoding</span>
 string <span class="o">=</span> <span class="t">String</span>.<span class="k">new</span>(<span class="t">Bytes</span>[<span class="n">255</span>, <span class="n">97</span>])
 string.valid_encoding? <span class="c"># =&gt; false</span>
 
@@ -879,7 +879,7 @@ string.chars <span class="c"># =&gt; [&#39;�&#39;, &#39;a&#39;]</span></code><
 <p>One can also create strings with specific byte value in them by
 using octal and hexadecimal escape sequences:</p>
 
-<pre><code><span class="c"># Octal escape sequences</span>
+<pre><code class="language-crystal"><span class="c"># Octal escape sequences</span>
 <span class="s">&quot;\101&quot;</span> <span class="c"># # =&gt; &quot;A&quot;</span>
 <span class="s">&quot;\12&quot;</span>  <span class="c"># # =&gt; &quot;\n&quot;</span>
 <span class="s">&quot;\1&quot;</span>   <span class="c"># string with one character with code point 1</span>

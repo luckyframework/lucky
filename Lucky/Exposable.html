@@ -3,21 +3,16 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="generator" content="Crystal Docs 0.35.1">
 <meta name="crystal_docs.project_version" content="0.25.0">
 <meta name="crystal_docs.project_name" content="lucky">
+
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="lucky">
+  <meta name="repository-name" content="lucky">
   <title>Lucky::Exposable - lucky 0.25.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
@@ -25,6 +20,11 @@
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -882,7 +882,7 @@ automatically.</p>
 
 <p>Here's what things might look like without <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code>:</p>
 
-<pre><code><span class="k">class</span> <span class="t">BrowserAction</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">BrowserAction</span>
   <span class="k">def</span> <span class="m">current_user</span>
     <span class="c"># some way to find the current user</span>
   <span class="k">end</span>
@@ -891,7 +891,7 @@ automatically.</p>
 <p>Each action must pass <code>current_user</code> manually. Note that each action
 inherits from <code>BrowserAction</code> and therefore has access to <code>current_user</code>:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   route <span class="k">do</span>
     html <span class="t">IndexPage</span>, current_user: current_user
   <span class="k">end</span>
@@ -906,7 +906,7 @@ inherits from <code>BrowserAction</code> and therefore has access to <code>curre
 <p>Passing <code>current_user: current_user</code> every time gets pretty old. Enter
 <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code>:</p>
 
-<pre><code><span class="k">class</span> <span class="t">BrowserAction</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">BrowserAction</span>
   expose current_user
 
   <span class="k">def</span> <span class="m">current_user</span>
@@ -917,7 +917,7 @@ inherits from <code>BrowserAction</code> and therefore has access to <code>curre
 <p>Now our actions are much nicer, especially when we start to have multiple
 arguments for each action:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   route <span class="k">do</span>
     html <span class="t">IndexPage</span>
   <span class="k">end</span>
@@ -937,7 +937,7 @@ arguments for each action:</p>
 
 <p>Also useful is the ability to make a private method available:</p>
 
-<pre><code><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Show</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Show</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   expose message
 
   route <span class="k">do</span>
@@ -952,7 +952,7 @@ arguments for each action:</p>
 <p>Using <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code> here will pass <code>message</code> to the <code>ShowPage</code>, while keeping the
 method private. Without <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code> the action would look like this:</p>
 
-<pre><code>route <span class="k">do</span>
+<pre><code class="language-crystal">route <span class="k">do</span>
   html <span class="t">ShowPage</span>, message: message
 <span class="k">end</span></code></pre>
         </div>
