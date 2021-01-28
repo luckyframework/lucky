@@ -72,7 +72,7 @@ module Lucky::BaseTags
   {% for tag in EMPTY_TAGS %}
     # Generates a `&lt;{{tag.id}}&gt;` tag.
     def {{tag.id}} : Nil
-      view << %(<{{tag.id}}> )
+      view << %(<{{tag.id}}>)
     end
 
     def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
