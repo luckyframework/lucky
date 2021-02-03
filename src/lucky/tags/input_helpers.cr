@@ -73,11 +73,11 @@ module Lucky::InputHelpers
     generate_input(field, "checkbox", html_options)
   end
 
-  def checkbox(field : Avram::PermittedAttribute(Bool?), **html_options) : Nil
+  def checkbox(field : Avram::PermittedAttribute(Bool), **html_options) : Nil
     checkbox field, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
   end
 
-  def checkbox(field : Avram::PermittedAttribute(Bool?), attrs : Array(Symbol), **html_options) : Nil
+  def checkbox(field : Avram::PermittedAttribute(Bool), attrs : Array(Symbol), **html_options) : Nil
     unchecked_value = "false"
     if field.value
       html_options = merge_options(html_options, {"checked" => "true"})
@@ -95,7 +95,7 @@ module Lucky::InputHelpers
   # radio(attribute, "checked_value")
   # # => <input type="radio" id="param_key_attribute_name_checked_value" name="param_key:attribute_name" value="checked_value" checked="true">
   # ```
-  def radio(field : Avram::PermittedAttribute(String?),
+  def radio(field : Avram::PermittedAttribute(String),
             checked_value : String,
             **html_options) : Nil
     radio field, checked_value, EMPTY_BOOLEAN_ATTRIBUTES, **html_options
@@ -107,7 +107,7 @@ module Lucky::InputHelpers
   # radio(attribute, "checked_value", attrs: [:required])
   # # => <input type="radio" id="param_key_attribute_name_checked_value" name="param_key:attribute_name" value="checked_value" checked="true" required />
   # ```
-  def radio(field : Avram::PermittedAttribute(String?),
+  def radio(field : Avram::PermittedAttribute(String),
             checked_value : String,
             attrs : Array(Symbol),
             **html_options) : Nil

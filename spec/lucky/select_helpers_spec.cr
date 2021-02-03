@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ContextHelper
+
 private class TestPage
   include Lucky::HTMLPage
 
@@ -29,7 +31,7 @@ end
 
 class SomeFormWithCompany
   def company_id
-    Avram::PermittedAttribute(Int32?).new(
+    Avram::PermittedAttribute(Int32).new(
       name: :company_id,
       param: "1",
       value: nil,
@@ -46,9 +48,9 @@ describe Lucky::SelectHelpers do
   end
 
   it "renders options" do
-    view.render_options(form.company_id, [{"Volvo", 2}, {"BMW", 3}])
+    view.render_options(form.company_id, [{"Volvo", 2}, {"BMW", 3}, {"None", nil}])
       .html.to_s.should eq <<-HTML
-      <option value="2">Volvo</option><option value="3">BMW</option>
+      <option value="2">Volvo</option><option value="3">BMW</option><option value="">None</option>
       HTML
   end
 
