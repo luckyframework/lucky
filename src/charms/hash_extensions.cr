@@ -5,7 +5,7 @@ class Hash
   # or Symbol. Internally this works by converting Symbols to Strings. See the
   # code below for an example. It returns `nil` if the value doesn't exist:
   #
-  # ```crystal
+  # ```
   # hash = {"name" => "Karin"}
   # hash.get(:name)  # => "Karin" : (String | Nil)
   # hash.get("name") # => "Karin" : (String | Nil)
@@ -22,7 +22,7 @@ class Hash
   # code below for an example. It throws a `KeyError` if the value doesn't
   # exist:
   #
-  # ```crystal
+  # ```
   # hash = {"name" => "Karin"}
   # hash.get(:name)  # => "Karin" : String
   # hash.get("name") # => "Karin" : String

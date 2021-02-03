@@ -21,7 +21,7 @@ module Lucky::HTMLTextHelpers
   # * `blk` (default: nil) A block to run after the text has been truncated.
   # Often used to add an action to read more text, like a "Read more" link.
   #
-  # ```crystal
+  # ```
   # truncate("Four score and seven years ago", length: 20) do
   #   link "Read more", to: "#"
   # end
@@ -49,7 +49,7 @@ module Lucky::HTMLTextHelpers
   # **Note: This method writes HTML directly to the page. It does not return a
   # String**
   #
-  # ```crystal
+  # ```
   # highlight("Crystal is type-safe and compiled.", phrases: ["type-safe", "compiled"])
   # ```
   # outputs:
@@ -59,7 +59,7 @@ module Lucky::HTMLTextHelpers
   #
   # **With a custom highlighter**
   #
-  # ```crystal
+  # ```
   # highlight(
   #   "You're such a nice and attractive person.",
   #   phrases: ["nice", "attractive"],
@@ -112,7 +112,7 @@ module Lucky::HTMLTextHelpers
   # **Note: This method writes HTML directly to the page. It does not return a
   # String**
   #
-  # ```crystal
+  # ```
   # simple_format("foo\n\nbar\n\nbaz") do |paragraph|
   #   text paragraph
   #   hr
@@ -140,7 +140,7 @@ module Lucky::HTMLTextHelpers
 
   # Wraps text in paragraphs based on line breaks
   #
-  # ```crystal
+  # ```
   # simple_format("foo\n\nbar\n\nbaz")
   # ```
   # outputs:

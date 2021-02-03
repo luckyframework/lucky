@@ -16,7 +16,7 @@ class Lucky::Params
   # [HTTP::Request](https://crystal-lang.org/api/latest/HTTP/Request.html)
   # class for more details.
   #
-  # ```crystal
+  # ```
   # request = HTTP::Request.new("GET", "/")
   # route_params = {"token" => "123"}
   #
@@ -27,7 +27,7 @@ class Lucky::Params
 
   # Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
   #
-  # ```crystal
+  # ```
   # # {"page": 1}
   # params.from_json["page"].as_i # 1
   # # {"users": [{"name": "Skyler"}]}
@@ -51,7 +51,7 @@ class Lucky::Params
   # helpful since you can get query params with `get`, but if you do need raw
   # access to the query params this is the way to get them.
   #
-  # ```crystal
+  # ```
   # params.from_query["search"] # Will return the "search" query param
   # ```
   #
@@ -66,7 +66,7 @@ class Lucky::Params
   # helpful since you can get query params with `get`, but if you do need raw
   # access to the body params this is the way to get them.
   #
-  # ```crystal
+  # ```
   # params.from_form_data["name"]
   # ```
   #
@@ -82,7 +82,7 @@ class Lucky::Params
   # with `get_file`, but if you need something more custom you can use this method
   # to get better access to the raw params.
   #
-  # ```crystal
+  # ```
   # form_params = params.from_multipart.last # Hash(String, String)
   # form_params["name"]                      # "Kyle"
   #
@@ -98,7 +98,7 @@ class Lucky::Params
   #
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
-  # ```crystal
+  # ```
   # params.get("name")    # "Paul" : String
   # params.get("page")    # "1" : String
   # params.get("missing") # Missing parameter: missing
@@ -109,7 +109,7 @@ class Lucky::Params
 
   # Retrieve a trimmed value from the params hash, return nil if key is absent
   #
-  # ```crystal
+  # ```
   # params.get?("missing") # nil : (String | Nil)
   # params.get?("page")    # "1" : (String | Nil)
   # params.get?("name")    # "Paul" : (String | Nil)
@@ -124,7 +124,7 @@ class Lucky::Params
   #
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
-  # ```crystal
+  # ```
   # params.get_raw("name")    # " Paul " : String
   # params.get_raw("page")    # "1" : String
   # params.get_raw("missing") # Missing parameter: missing
@@ -136,7 +136,7 @@ class Lucky::Params
   # Retrieve a raw, untrimmed value from the params hash, return nil if key is
   # absent
   #
-  # ```crystal
+  # ```
   # params.get_raw?("missing") # nil : (String | Nil)
   # params.get_raw?("page")    # "1" : (String | Nil)
   # params.get_raw?("name")    # " Paul " : (String | Nil)
@@ -158,7 +158,7 @@ class Lucky::Params
   #
   # If no key is found a `Lucky::MissingParamError` will be raised
   #
-  # ```crystal
+  # ```
   # params.get_all(:names)    # ["Paul", "Johnny"] : Array(String)
   # params.get_all("missing") # Missing parameter: missing
   # ```
@@ -168,7 +168,7 @@ class Lucky::Params
 
   # Retrieve values for a given key, return nil if key is absent
   #
-  # ```crystal
+  # ```
   # params.get_all(:names)    # ["Paul", "Johnny"] : (Array(String) | Nil)
   # params.get_all("missing") # nil : (Array(String) | Nil)
   # ```
@@ -190,7 +190,7 @@ class Lucky::Params
   #
   # If no key is found a `Lucky::MissingParamError` will be raised:
   #
-  # ```crystal
+  # ```
   # params.get_file("missing") # Raise: Missing parameter: missing
   #
   # file = params.get_file("avatar_file") # Lucky::UploadedFile
@@ -204,7 +204,7 @@ class Lucky::Params
 
   # Retrieve a file from the params hash, return nil if key is absent
   #
-  # ```crystal
+  # ```
   # params.get_file?("missing") # nil
   #
   # file = params.get_file?("avatar_file") # Lucky::UploadedFile
@@ -221,7 +221,7 @@ class Lucky::Params
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found a `Lucky::MissingParamError` will be raised:
   #
-  # ```crystal
+  # ```
   # body = "user:name=Alesia&user:age=35&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
   # params = Lucky::Params.new(request)
@@ -243,7 +243,7 @@ class Lucky::Params
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found an empty hash will be returned:
   #
-  # ```crystal
+  # ```
   # body = "user:name=Alesia&user:age=35&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
   # params = Lucky::Params.new(request)
@@ -264,7 +264,7 @@ class Lucky::Params
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found a `Lucky::MissingParamError` will be raised:
   #
-  # ```crystal
+  # ```
   # params.nested_file?("file")    # Lucky::UploadedFile
   # params.nested_file?("missing") # {}
   # ```
@@ -282,7 +282,7 @@ class Lucky::Params
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found an empty hash will be returned:
   #
-  # ```crystal
+  # ```
   # params.nested_file("file")    # Lucky::UploadedFile
   # params.nested_file("missing") # Missing parameter: missing
   # ```
@@ -295,7 +295,7 @@ class Lucky::Params
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found a `Lucky::MissingParamError` will be raised:
   #
-  # ```crystal
+  # ```
   # body = "users[0]:name=Alesia&users[0]:age=35&users[1]:name=Bob&users[1]:age=40&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
   # params = Lucky::Params.new(request)
@@ -318,7 +318,7 @@ class Lucky::Params
   # Nested params often appear in JSON requests or Form submissions. If no key
   # is found an empty array will be returned:
   #
-  # ```crystal
+  # ```
   # body = "users[0]:name=Alesia&users[0]:age=35&users[1]:name=Bob&users[1]:age=40&page=1"
   # request = HTTP::Request.new("POST", "/", body: body)
   # params = Lucky::Params.new(request)
@@ -335,7 +335,7 @@ class Lucky::Params
 
   # Converts the params in to a `Hash(String, String)`
   #
-  # ```crystal
+  # ```
   # request.query = "filter:name=trombone&page=1&per=50"
   # params = Lucky::Params.new(request)
   # params.to_h # {"filter" => {"name" => "trombone"}, "page" => "1", "per" => "50"}

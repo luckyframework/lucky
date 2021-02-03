@@ -5,7 +5,7 @@ module Lucky::Renderable
   # must match up with each `needs` declarations for that page. For example, if
   # we have a page like this:
   #
-  # ```crystal
+  # ```
   # class Users::IndexPage < MainLayout
   #   needs users : UserQuery
   #
@@ -19,7 +19,7 @@ module Lucky::Renderable
   #
   # Our action must pass a `users` key to the `html` method like this:
   #
-  # ```crystal
+  # ```
   # class Users::Index < BrowserAction
   #   route do
   #     html IndexPage, users: UserQuery.new
@@ -29,7 +29,7 @@ module Lucky::Renderable
   #
   # Note also that each piece of data is merged with any `expose` declarations:
   #
-  # ```crystal
+  # ```
   # class Users::Index < BrowserAction
   #   expose current_user
   #
@@ -82,7 +82,7 @@ module Lucky::Renderable
   # When `disable_cookies` is used, no `Set-Cookie` header will be written to
   # the response.
   #
-  # ```crystal
+  # ```
   # class Events::Show < ApiAction
   #   disable_cookies
   #

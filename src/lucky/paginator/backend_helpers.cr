@@ -6,7 +6,7 @@ module Lucky::Paginator::BackendHelpers
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # class Users::Index < BrowserAction
   #   get "/users" do
   #     # The 'UserQuery' will return just the records for the requested page
@@ -47,7 +47,7 @@ module Lucky::Paginator::BackendHelpers
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # class ListItems::Index < BrowserAction
   #   get "/items" do
   #     # The 'Array' will just show items for the requested page
@@ -91,7 +91,7 @@ module Lucky::Paginator::BackendHelpers
   #
   # ## Example
   #
-  # ```crystal
+  # ```
   # abstract class ApiAction < Lucky::Action
   #   include Lucky::Paginator::BackendHelpers
   #
@@ -111,7 +111,7 @@ module Lucky::Paginator::BackendHelpers
   #
   # ## Example
   #
-  # ```crystal
+  # ```
   # abstract class BrowserAction < Lucky::Action
   #   include Lucky::Paginator::BackendHelpers
   #

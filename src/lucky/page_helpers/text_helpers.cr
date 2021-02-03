@@ -7,7 +7,7 @@ module Lucky::TextHelpers
   # Unlike `truncate`, this method can be used inside of other tags because it
   # returns a String. See `truncate` method for argument documentation.
   #
-  # ```crystal
+  # ```
   # link "#" do
   #   text truncate_text("Four score and seven years ago", length: 27)
   # end
@@ -43,7 +43,7 @@ module Lucky::TextHelpers
   # * An `omission` string (default: `"..."`), which prepends and appends to
   # the excerpt.
   #
-  # ```crystal
+  # ```
   # lyrics = "We represent the Lolly pop Guild, The Lolly pop Guild"
   # excerpt(text, phrase: "Guild", radius: 10)
   # ```
