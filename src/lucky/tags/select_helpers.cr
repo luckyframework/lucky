@@ -5,7 +5,7 @@ module Lucky::SelectHelpers
     end
   end
 
-  def options_for_select(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(String, T)), **html_options) : Nil forall T
+  def options_for_select(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(String, T?)), **html_options) : Nil forall T
     select_options.each do |option_name, option_value|
       attributes = {"value" => option_value.to_s}
 
