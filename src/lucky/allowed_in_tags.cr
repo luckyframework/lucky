@@ -6,7 +6,7 @@
 #
 # For example:
 #
-# ```crystal
+# ```
 # class EmailAddress
 #   include Lucky::AllowedInTags
 #

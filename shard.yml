@@ -1,7 +1,7 @@
 name: lucky
 version: 0.25.0
 
-crystal: 0.35.1
+crystal: 0.36.1
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -57,7 +57,7 @@ dependencies:
     version: ~> 0.1.0
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.3.0
+    version: ~> 0.3.2
 
 development_dependencies:
   ameba:

@@ -6,7 +6,7 @@ module Lucky::Assignable
   #
   # ### Examples
   #
-  # ```crystal
+  # ```
   # class Users::IndexPage < MainLayout
   #   # This page needs a `User` or it will fail to compile
   #   # You can access it with `@user` or the getter method `user`

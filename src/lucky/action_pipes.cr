@@ -58,7 +58,7 @@ module Lucky::ActionPipes
   # method must return a `Lucky::Response` like `redirect`, `html`, `json`,
   # etc, or call `continue`:
   #
-  # ```crystal
+  # ```
   # class Users::Destroy < BrowserAction
   #   before check_if_signed_in
   #   before confirm_destroy
@@ -93,7 +93,7 @@ module Lucky::ActionPipes
   # either a `Lucky::Response` like `redirect`, `html`, `json`, etc, or call
   # `continue`:
   #
-  # ```crystal
+  # ```
   # class Purchases::Create < BrowserAction
   #   after log_transaction
   #

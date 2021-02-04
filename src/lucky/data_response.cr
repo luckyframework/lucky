@@ -16,7 +16,7 @@
 #
 # Examples:
 #
-# ```crystal
+# ```
 # class Reports::MyReport < ApiAction
 #   get "/reports/my_report" do
 #     result = CSV.build do |csv|

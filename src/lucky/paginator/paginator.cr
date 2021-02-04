@@ -83,7 +83,7 @@ class Lucky::Paginator
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # pages = Paginator.new(
   #   page: 1,
   #   per_page: 25,
@@ -115,7 +115,7 @@ class Lucky::Paginator
   # > `Gap|Page|CurrentPage` objects. We'll show an example with the real
   # objects further down
   #
-  # ```crystal
+  # ```
   # series = pages.series(begin: 1, left_of_current: 1, right_of_current: 1, end: 1)
   # series # [1, .., 4, 5, 6, .., 10]
 
@@ -138,7 +138,7 @@ class Lucky::Paginator
   # `Lucky::Paginator::Gap`, `Lucky::Paginator::Page`, and
   # `Lucky::Paginator::CurrentPage` objects.
   #
-  # ```crystal
+  # ```
   # pages.series(begin: 1, end: 1)
   # # Returns:
   # # [
@@ -162,7 +162,7 @@ class Lucky::Paginator
   #
   # Here's a quick example:
   #
-  # ``` crystal
+  # ```
   # pages.series(begin: 1, end: 1).each do |item|
   #   case item
   #   when Lucky::Paginator::CurrentPage | Lucky::Paginator::Page
@@ -176,7 +176,7 @@ class Lucky::Paginator
   #
   # Or use method overloading. This will show an example using Lucky's HTML methods:
   #
-  # ```crystal
+  # ```
   # class PageNav < BaseComponent
   #   needs pages : Lucky::Paginator
   #
