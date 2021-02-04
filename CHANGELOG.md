@@ -49,7 +49,7 @@
 - Added: ability to use a non Chrome browser in LuckyFlow. [#112 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/113)
 - Added: the `browser_binary` option back in which lets use specify a different Chrome based browser. [#114 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/114)
 - Added: new `pause` method for LuckyFlow to pause execution of flow for debugging. [#117 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/117)
-- Updated: compile-error for duplicate defined routes. [#45 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/45)
+- Updated: runtime-error for duplicate defined routes. [#45 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/45)
 - Added: `have_delivered_emails` spec expectation method for `Carbo`. [#45 in Carbon](https://github.com/luckyframework/carbon/pull/45)
 
 
