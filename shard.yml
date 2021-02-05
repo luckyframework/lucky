@@ -1,5 +1,5 @@
 name: lucky
-version: 0.25.0
+version: 0.26.0
 
 crystal: 0.36.1
 
@@ -33,7 +33,7 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.25.0
+    branch: master
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.4
