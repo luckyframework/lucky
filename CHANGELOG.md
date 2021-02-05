@@ -25,7 +25,7 @@
 - Added: equality operators (`==`, `===`) to `avram_enum`. [#566 in Avram](https://github.com/luckyframework/avram/pull/566)
 - Fixed: bug in associations that returned more records than they should have. [#574 in Avram](https://github.com/luckyframework/avram/pull/574)
 - Updated: error messages during migrations that were obscured. [#577 in Avram](https://github.com/luckyframework/avram/pull/577)
-- Added: `UUID` primary keys are now generated in the database instead of Crystal. [#578 in Avram](https://github.com/luckyframework/avram/pull/578)
+- Added: `UUID` primary keys are now generated in the database with a fallback using Crystal. [#578 in Avram](https://github.com/luckyframework/avram/pull/578)
 - Updated: `validate_size_of` to only take a `String` attribute. [#579 in Avram](https://github.com/luckyframework/avram/pull/579)
 - Added: new `validate_numeric` validation for validating numbers. [#580 in Avram](https://github.com/luckyframework/avram/pull/580)
 - Fixed: issue with `has_one` preloads not loading the correct records. [#581 in Avram](https://github.com/luckyframework/avram/pull/581)
