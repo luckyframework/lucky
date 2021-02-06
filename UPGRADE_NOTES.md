@@ -18,12 +18,13 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Crystal should be `0.36.1`
   - Lucky should be `~> 0.26.0`
+  - Authentic should be `~> 0.7.2`
+  - LuckyFlow should be `~> 0.7.2`
 
 - Run `shards update`
 
 ### General updates
 
-- Update: any calls made in Github CI config to `lucky db.create_required_seeds` to `lucky db.seed.required_data`. [read more](https://github.com/luckyframework/lucky_cli/pull/600)
 - Update: your `Procfile` web to point to `./bin/YOUR APP NAME` instead of `./app`. NOTE: this is dependant on how you deploy your app, so only required if you use the heroku_buildpack for Lucky. [read more](https://github.com/luckyframework/lucky_cli/pull/601) and [more](https://github.com/luckyframework/heroku-buildpack-crystal/pull/11)
 - Update: any references directly to an `Avram::Attribute(T)` generic. e.g. `Avram::Attribute(String?)` -> `Avram::Attribute(String)`. [read more](https://github.com/luckyframework/avram/pull/586)
 - Update: any custom database types to include the class method `adapter` that returns the `Lucky` constant. [read more](https://github.com/luckyframework/avram/pull/587)
@@ -35,6 +36,7 @@ brew upgrade lucky
 
 ### Optional updates
 
+- Update: any calls made in Github CI config to `lucky db.create_required_seeds` to `lucky db.seed.required_data`. [read more](https://github.com/luckyframework/lucky_cli/pull/600)
 - Update: any use of `route` or `nested_route` in your actions to explicitly specify the route. This isn't deprecated, yet, but will be in a future version and eventually removed.
 - Add: `DB::Log.level = :info` to your `config/log.cr` file to quiet the excessive "Executing query" notices
 - Update: your Laravel Mix to version 6. [read more](https://github.com/luckyframework/lucky_cli/pull/592)
@@ -47,6 +49,7 @@ def migrate
   execute("ALTER TABLE users ALTER COLUMN id SET DEFAULT gen_random_uuid();")
 end
 ```
+- Remove: all calls to `flash.keep` in your actions. [read more](https://github.com/luckyframework/lucky/pull/1374)
 
 ## Upgrading from 0.24 to 0.25
 
