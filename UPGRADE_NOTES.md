@@ -1,3 +1,56 @@
+## Upgrading from 0.25 to 0.26
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.25.0&to=0.26.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.36.1`
+  - Lucky should be `~> 0.26.0`
+  - Authentic should be `~> 0.7.2`
+  - LuckyFlow should be `~> 0.7.2`
+
+- Run `shards update`
+
+### General updates
+
+- Update: your `Procfile` web to point to `./bin/YOUR APP NAME` instead of `./app`. NOTE: this is dependant on how you deploy your app, so only required if you use the heroku_buildpack for Lucky. [read more](https://github.com/luckyframework/lucky_cli/pull/601) and [more](https://github.com/luckyframework/heroku-buildpack-crystal/pull/11)
+- Update: any references directly to an `Avram::Attribute(T)` generic. e.g. `Avram::Attribute(String?)` -> `Avram::Attribute(String)`. [read more](https://github.com/luckyframework/avram/pull/586)
+- Update: any custom database types to include the class method `adapter` that returns the `Lucky` constant. [read more](https://github.com/luckyframework/avram/pull/587)
+- Update: any custom database types to include the class method `criteria(query : T, column) forall T`. [read more](https://github.com/luckyframework/avram/pull/591)
+- Remove: any call to `after_completed` in a SaveOperation. The `after_save` and `after_commit` now run even if no change is updated. [read more](https://github.com/luckyframework/avram/pull/612)
+- Rename: all `Avram::Box` classes, filenames, and the `spec/support/boxes` directory (sorry 😬) to `Avram::Factory`, etc.... e.g. `UserBox` -> `UserFactory` [read more](https://github.com/luckyframework/avram/pull/614). [view discussion](https://github.com/luckyframework/lucky/discussions/1282)
+- Notice: the `Avram::Operation` now avoids calling `run` if there were validation errors in any `before_run`. This may change some of your logic, or create surprised. [read more](https://github.com/luckyframework/avram/pull/621)
+
+
+### Optional updates
+
+- Update: any calls made in Github CI config to `lucky db.create_required_seeds` to `lucky db.seed.required_data`. [read more](https://github.com/luckyframework/lucky_cli/pull/600)
+- Update: any use of `route` or `nested_route` in your actions to explicitly specify the route. This isn't deprecated, yet, but will be in a future version and eventually removed.
+- Add: `DB::Log.level = :info` to your `config/log.cr` file to quiet the excessive "Executing query" notices
+- Update: your Laravel Mix to version 6. [read more](https://github.com/luckyframework/lucky_cli/pull/592)
+- Add: a new migration to have UUID primary keys generated from the database for existing tables. [read more](https://github.com/luckyframework/avram/pull/578)
+```crystal
+# in a new migration file
+def migrate
+  enable_extension "pgcrypto"
+  execute("ALTER TABLE products ALTER COLUMN id SET DEFAULT gen_random_uuid();")
+  execute("ALTER TABLE users ALTER COLUMN id SET DEFAULT gen_random_uuid();")
+end
+```
+- Remove: all calls to `flash.keep` in your actions. [read more](https://github.com/luckyframework/lucky/pull/1374)
+
 ## Upgrading from 0.24 to 0.25
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.24.0&to=0.25.0).
