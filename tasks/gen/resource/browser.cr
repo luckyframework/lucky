@@ -34,7 +34,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   def call(@io : IO = STDOUT)
     validate!
     generate_resource
-    io.puts "\nRun generated migrations with #{"lucky db.migrate".colorize.green}"
+    io.puts "\nYou will need to run the #{"lucky db.migrate".colorize.green} task next"
     display_path_to_resource
   rescue e : InvalidOption
     io.puts e.message.colorize.red
