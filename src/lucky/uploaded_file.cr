@@ -1,7 +1,5 @@
 # This class represents an uploaded file from a form
 class Lucky::UploadedFile
-  include Avram::Uploadable
-
   getter name : String
   getter tempfile : File
   getter metadata : HTTP::FormData::FileMetadata

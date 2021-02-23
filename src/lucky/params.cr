@@ -1,6 +1,4 @@
 class Lucky::Params
-  include Avram::Paramable
-
   @request : HTTP::Request
   @route_params : Hash(String, String) = {} of String => String
 

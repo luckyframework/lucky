@@ -1,5 +1,4 @@
 require "wordsmith"
-require "avram"
 require "exception_page"
 require "habitat"
 require "cry"
@@ -20,6 +19,7 @@ require "./lucky/*"
 require "./lucky/paginator/paginator"
 require "./lucky/paginator/*"
 require "./lucky/paginator/components/*"
+require "./lucky_avram"
 
 module Lucky
   Log              = ::Log.for("lucky")

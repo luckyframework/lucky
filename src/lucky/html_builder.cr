@@ -7,9 +7,6 @@ module Lucky::HTMLBuilder
   include Lucky::CustomTags
   include Lucky::LinkHelpers
   include Lucky::FormHelpers
-  include Lucky::LabelHelpers
-  include Lucky::InputHelpers
-  include Lucky::SelectHelpers
   include Lucky::SpecialtyTags
   include Lucky::Assignable
   include Lucky::AssetHelpers
