@@ -127,9 +127,11 @@ module Lucky::ActionPipes
       #   end
 
       if pipe_result.is_a?(Lucky::Response)
+        publish_before_event("{{ pipe_method.id }}", continued: false)
         Lucky::ActionPipes.log_halted_pipe("{{ pipe_method.id }}")
         return pipe_result
       else
+        publish_before_event("{{ pipe_method.id }}", continued: true)
         Lucky::ActionPipes.log_continued_pipe("{{ pipe_method.id }}")
       end
     {% end %}
@@ -152,9 +154,11 @@ module Lucky::ActionPipes
       #   end
 
       if pipe_result.is_a?(Lucky::Response)
+        publish_after_event("{{ pipe_method.id }}", continued: false)
         Lucky::ActionPipes.log_halted_pipe("{{ pipe_method.id }}")
         return pipe_result
       else
+        publish_after_event("{{ pipe_method.id }}", continued: true)
         Lucky::ActionPipes.log_continued_pipe("{{ pipe_method.id }}")
       end
     {% end %}
@@ -177,5 +181,21 @@ module Lucky::ActionPipes
   # Call this in a pipe to continue to the next pipe or action
   def continue : Lucky::ActionPipes::Continue
     Lucky::ActionPipes::Continue.new
+  end
+
+  def publish_before_event(pipe_name : String, continued : Bool)
+    Lucky::Events::PipeEvent.publish(
+      name: pipe_name,
+      position: Lucky::Events::PipeEvent::Position::Before,
+      continued: continued
+    )
+  end
+
+  def publish_after_event(pipe_name : String, continued : Bool)
+    Lucky::Events::PipeEvent.publish(
+      name: pipe_name,
+      position: Lucky::Events::PipeEvent::Position::After,
+      continued: continued
+    )
   end
 end

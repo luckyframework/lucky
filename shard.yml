@@ -58,6 +58,9 @@ dependencies:
   dexter:
     github: luckyframework/dexter
     version: ~> 0.3.2
+  pulsar:
+    github: luckyframework/pulsar
+    version: ~> 0.2.0
 
 development_dependencies:
   ameba:
