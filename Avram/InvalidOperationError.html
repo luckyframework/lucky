@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::SelectHelpers - lucky 0.26.0</title>
+  <title>Avram::InvalidOperationError - lucky 0.26.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -51,12 +51,12 @@
   <div class="types-list">
     <ul>
   
-  <li class="parent " data-id="lucky/Avram" data-name="avram">
+  <li class="parent open current" data-id="lucky/Avram" data-name="avram">
       <a href="../Avram.html">Avram</a>
       
         <ul>
   
-  <li class=" " data-id="lucky/Avram/InvalidOperationError" data-name="avram::invalidoperationerror">
+  <li class=" current" data-id="lucky/Avram/InvalidOperationError" data-name="avram::invalidoperationerror">
       <a href="../Avram/InvalidOperationError.html">InvalidOperationError</a>
       
     </li>
@@ -106,7 +106,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="lucky/Lucky" data-name="lucky">
+  <li class="parent " data-id="lucky/Lucky" data-name="lucky">
       <a href="../Lucky.html">Lucky</a>
       
         <ul>
@@ -636,7 +636,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/SelectHelpers" data-name="lucky::selecthelpers">
+  <li class=" " data-id="lucky/Lucky/SelectHelpers" data-name="lucky::selecthelpers">
       <a href="../Lucky/SelectHelpers.html">SelectHelpers</a>
       
     </li>
@@ -795,37 +795,50 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::SelectHelpers
+  <span class="kind">class</span> Avram::InvalidOperationError
 
 </h1>
 
 
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Avram/InvalidOperationError.html">Avram::InvalidOperationError</a></li><li class="superclass">Avram::AvramError</li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
 
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
 
-
-
-
+  <p>Raised when using the create!, update!, or destroy! methods on an operation when it does not have the proper attributes</p>
 
 
 
 
 
   <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+    <a id="included-modules" class="anchor" href="#included-modules">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Direct including types
+    Included Modules
   </h2>
   <ul class="other-types-list">
     
-      <li class="other-type"><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></li>
+      <li class="other-type"><a href="../Lucky/RenderableError.html">Lucky::RenderableError</a></li>
     
   </ul>
+
+
+
+
+
+
 
 
 
@@ -859,19 +872,22 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#options_for_select(field:Avram::PermittedAttribute(T),select_options:Array(Tuple(String,T?)),**html_options):NilforallT-instance-method" class="signature"><strong>#options_for_select</strong>(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(String, T?)), **html_options) : Nil forall T</a>
+        <a href="#invalid_attribute_name:String-instance-method" class="signature"><strong>#invalid_attribute_name</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#select_input(field:Avram::PermittedAttribute,**html_options,&):Nil-instance-method" class="signature"><strong>#select_input</strong>(field : Avram::PermittedAttribute, **html_options, &) : Nil</a>
+        <a href="#renderable_details:String-instance-method" class="signature"><strong>#renderable_details</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#select_prompt(label:String):Nil-instance-method" class="signature"><strong>#select_prompt</strong>(label : String) : Nil</a>
+        <a href="#renderable_message:String-instance-method" class="signature"><strong>#renderable_message</strong> : String</a>
         
-          <div class="summary"><p>Renders an &lt;option> HTML tag with no value The text is set to <code>label</code>.</p></div>
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#renderable_status:Int32-instance-method" class="signature"><strong>#renderable_status</strong> : Int32</a>
         
       </li>
     
@@ -882,6 +898,70 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Lucky/RenderableError.html">Lucky::RenderableError</a></code></h3>
+  
+  
+    <a href="../Lucky/RenderableError.html#renderable_message:String-instance-method" class="tooltip">
+      <span>renderable_message : String</span>
+    renderable_message</a>, 
+    
+  
+    <a href="../Lucky/RenderableError.html#renderable_status:Int32-instance-method" class="tooltip">
+      <span>renderable_status : Int32</span>
+    renderable_status</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
   
 </div>
 
@@ -899,12 +979,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="options_for_select(field:Avram::PermittedAttribute(T),select_options:Array(Tuple(String,T?)),**html_options):NilforallT-instance-method">
+    <div class="entry-detail" id="invalid_attribute_name:String-instance-method">
       <div class="signature">
         
-        def <strong>options_for_select</strong>(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(<a href="../String.html">String</a>, T?)), **html_options) : Nil forall T
+        def <strong>invalid_attribute_name</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#options_for_select(field:Avram::PermittedAttribute(T),select_options:Array(Tuple(String,T?)),**html_options):NilforallT-instance-method">#</a>
+        <a class="method-permalink" href="#invalid_attribute_name:String-instance-method">#</a>
       </div>
       
       <br/>
@@ -913,12 +993,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="select_input(field:Avram::PermittedAttribute,**html_options,&):Nil-instance-method">
+    <div class="entry-detail" id="renderable_details:String-instance-method">
       <div class="signature">
         
-        def <strong>select_input</strong>(field : Avram::PermittedAttribute, **html_options, &) : Nil
+        def <strong>renderable_details</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#select_input(field:Avram::PermittedAttribute,**html_options,&):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#renderable_details:String-instance-method">#</a>
       </div>
       
       <br/>
@@ -927,19 +1007,27 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="select_prompt(label:String):Nil-instance-method">
+    <div class="entry-detail" id="renderable_message:String-instance-method">
       <div class="signature">
         
-        def <strong>select_prompt</strong>(label : <a href="../String.html">String</a>) : Nil
+        def <strong>renderable_message</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#select_prompt(label:String):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#renderable_message:String-instance-method">#</a>
       </div>
       
-        <div class="doc">
-          
-          <p>Renders an &lt;option> HTML tag with no value
-The text is set to <code>label</code>.</p>
-        </div>
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="renderable_status:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>renderable_status</strong> : <a href="../Int32.html">Int32</a>
+
+        <a class="method-permalink" href="#renderable_status:Int32-instance-method">#</a>
+      </div>
       
       <br/>
       <div>

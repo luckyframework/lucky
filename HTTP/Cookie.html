@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::SelectHelpers - lucky 0.26.0</title>
+  <title>HTTP::Cookie - lucky 0.26.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -76,12 +76,12 @@
       
     </li>
   
-  <li class="parent " data-id="lucky/HTTP" data-name="http">
+  <li class="parent open current" data-id="lucky/HTTP" data-name="http">
       <a href="../HTTP.html">HTTP</a>
       
         <ul>
   
-  <li class=" " data-id="lucky/HTTP/Cookie" data-name="http::cookie">
+  <li class=" current" data-id="lucky/HTTP/Cookie" data-name="http::cookie">
       <a href="../HTTP/Cookie.html">Cookie</a>
       
     </li>
@@ -106,7 +106,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="lucky/Lucky" data-name="lucky">
+  <li class="parent " data-id="lucky/Lucky" data-name="lucky">
       <a href="../Lucky.html">Lucky</a>
       
         <ul>
@@ -636,7 +636,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/SelectHelpers" data-name="lucky::selecthelpers">
+  <li class=" " data-id="lucky/Lucky/SelectHelpers" data-name="lucky::selecthelpers">
       <a href="../Lucky/SelectHelpers.html">SelectHelpers</a>
       
     </li>
@@ -795,37 +795,36 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::SelectHelpers
+  <span class="kind">class</span> HTTP::Cookie
 
 </h1>
 
 
-
-
-
-
-
-
-
-
-
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../HTTP/Cookie.html">HTTP::Cookie</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
 
   <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+    <a id="overview" class="anchor" href="#overview">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Direct including types
+    Overview
   </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></li>
-    
-  </ul>
+
+  <p>Represents a cookie with all its attributes. Provides convenient access and modification of them.</p>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -859,19 +858,47 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#options_for_select(field:Avram::PermittedAttribute(T),select_options:Array(Tuple(String,T?)),**html_options):NilforallT-instance-method" class="signature"><strong>#options_for_select</strong>(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(String, T?)), **html_options) : Nil forall T</a>
+        <a href="#domain(value:String):HTTP::Cookie-instance-method" class="signature"><strong>#domain</strong>(value : String) : HTTP::Cookie</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#select_input(field:Avram::PermittedAttribute,**html_options,&):Nil-instance-method" class="signature"><strong>#select_input</strong>(field : Avram::PermittedAttribute, **html_options, &) : Nil</a>
+        <a href="#expires(value:Time):HTTP::Cookie-instance-method" class="signature"><strong>#expires</strong>(value : Time) : HTTP::Cookie</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#select_prompt(label:String):Nil-instance-method" class="signature"><strong>#select_prompt</strong>(label : String) : Nil</a>
+        <a href="#http_only(value:Bool):HTTP::Cookie-instance-method" class="signature"><strong>#http_only</strong>(value : Bool) : HTTP::Cookie</a>
         
-          <div class="summary"><p>Renders an &lt;option> HTML tag with no value The text is set to <code>label</code>.</p></div>
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#name(value:String):HTTP::Cookie-instance-method" class="signature"><strong>#name</strong>(value : String) : HTTP::Cookie</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#path(value:String):HTTP::Cookie-instance-method" class="signature"><strong>#path</strong>(value : String) : HTTP::Cookie</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#permanent:HTTP::Cookie-instance-method" class="signature"><strong>#permanent</strong> : HTTP::Cookie</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#samesite(value:HTTP::Cookie::SameSite):HTTP::Cookie-instance-method" class="signature"><strong>#samesite</strong>(value : HTTP::Cookie::SameSite) : HTTP::Cookie</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#secure(value:Bool):HTTP::Cookie-instance-method" class="signature"><strong>#secure</strong>(value : Bool) : HTTP::Cookie</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#value(string:String):HTTP::Cookie-instance-method" class="signature"><strong>#value</strong>(string : String) : HTTP::Cookie</a>
         
       </li>
     
@@ -882,6 +909,26 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
   
 </div>
 
@@ -899,12 +946,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="options_for_select(field:Avram::PermittedAttribute(T),select_options:Array(Tuple(String,T?)),**html_options):NilforallT-instance-method">
+    <div class="entry-detail" id="domain(value:String):HTTP::Cookie-instance-method">
       <div class="signature">
         
-        def <strong>options_for_select</strong>(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(<a href="../String.html">String</a>, T?)), **html_options) : Nil forall T
+        def <strong>domain</strong>(value : <a href="../String.html">String</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
 
-        <a class="method-permalink" href="#options_for_select(field:Avram::PermittedAttribute(T),select_options:Array(Tuple(String,T?)),**html_options):NilforallT-instance-method">#</a>
+        <a class="method-permalink" href="#domain(value:String):HTTP::Cookie-instance-method">#</a>
       </div>
       
       <br/>
@@ -913,12 +960,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="select_input(field:Avram::PermittedAttribute,**html_options,&):Nil-instance-method">
+    <div class="entry-detail" id="expires(value:Time):HTTP::Cookie-instance-method">
       <div class="signature">
         
-        def <strong>select_input</strong>(field : Avram::PermittedAttribute, **html_options, &) : Nil
+        def <strong>expires</strong>(value : Time) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
 
-        <a class="method-permalink" href="#select_input(field:Avram::PermittedAttribute,**html_options,&):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#expires(value:Time):HTTP::Cookie-instance-method">#</a>
       </div>
       
       <br/>
@@ -927,19 +974,97 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="select_prompt(label:String):Nil-instance-method">
+    <div class="entry-detail" id="http_only(value:Bool):HTTP::Cookie-instance-method">
       <div class="signature">
         
-        def <strong>select_prompt</strong>(label : <a href="../String.html">String</a>) : Nil
+        def <strong>http_only</strong>(value : <a href="../Bool.html">Bool</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
 
-        <a class="method-permalink" href="#select_prompt(label:String):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#http_only(value:Bool):HTTP::Cookie-instance-method">#</a>
       </div>
       
-        <div class="doc">
-          
-          <p>Renders an &lt;option> HTML tag with no value
-The text is set to <code>label</code>.</p>
-        </div>
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="name(value:String):HTTP::Cookie-instance-method">
+      <div class="signature">
+        
+        def <strong>name</strong>(value : <a href="../String.html">String</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
+
+        <a class="method-permalink" href="#name(value:String):HTTP::Cookie-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="path(value:String):HTTP::Cookie-instance-method">
+      <div class="signature">
+        
+        def <strong>path</strong>(value : <a href="../String.html">String</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
+
+        <a class="method-permalink" href="#path(value:String):HTTP::Cookie-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="permanent:HTTP::Cookie-instance-method">
+      <div class="signature">
+        
+        def <strong>permanent</strong> : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
+
+        <a class="method-permalink" href="#permanent:HTTP::Cookie-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="samesite(value:HTTP::Cookie::SameSite):HTTP::Cookie-instance-method">
+      <div class="signature">
+        
+        def <strong>samesite</strong>(value : HTTP::Cookie::SameSite) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
+
+        <a class="method-permalink" href="#samesite(value:HTTP::Cookie::SameSite):HTTP::Cookie-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="secure(value:Bool):HTTP::Cookie-instance-method">
+      <div class="signature">
+        
+        def <strong>secure</strong>(value : <a href="../Bool.html">Bool</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
+
+        <a class="method-permalink" href="#secure(value:Bool):HTTP::Cookie-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="value(string:String):HTTP::Cookie-instance-method">
+      <div class="signature">
+        
+        def <strong>value</strong>(string : <a href="../String.html">String</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
+
+        <a class="method-permalink" href="#value(string:String):HTTP::Cookie-instance-method">#</a>
+      </div>
       
       <br/>
       <div>
