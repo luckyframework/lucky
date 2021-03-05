@@ -3,6 +3,8 @@ require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
 
+Pulsar.enable_test_mode!
+
 Lucky::AssetHelpers.load_manifest
 
 Spec.before_each do
