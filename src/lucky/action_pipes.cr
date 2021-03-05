@@ -183,7 +183,7 @@ module Lucky::ActionPipes
     Lucky::ActionPipes::Continue.new
   end
 
-  def publish_before_event(pipe_name : String, continued : Bool)
+  private def publish_before_event(pipe_name : String, continued : Bool)
     Lucky::Events::PipeEvent.publish(
       name: pipe_name,
       position: Lucky::Events::PipeEvent::Position::Before,
@@ -191,7 +191,7 @@ module Lucky::ActionPipes
     )
   end
 
-  def publish_after_event(pipe_name : String, continued : Bool)
+  private def publish_after_event(pipe_name : String, continued : Bool)
     Lucky::Events::PipeEvent.publish(
       name: pipe_name,
       position: Lucky::Events::PipeEvent::Position::After,
