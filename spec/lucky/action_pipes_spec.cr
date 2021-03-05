@@ -221,6 +221,7 @@ describe Lucky::Action do
       halted_pipe = events.find { |e| e.name == "redirect_me" }.not_nil!
       halted_pipe.continued.should eq false
       halted_pipe.position.to_s.should eq "Before"
+      halted_pipe.before?.should eq true
     end
 
     it "publishes an event on after when halted" do
@@ -232,6 +233,7 @@ describe Lucky::Action do
       halted_pipe = events.find { |e| e.name == "redirect_me" }.not_nil!
       halted_pipe.continued.should eq false
       halted_pipe.position.to_s.should eq "After"
+      halted_pipe.after?.should eq true
     end
   end
 end

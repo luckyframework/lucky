@@ -12,4 +12,12 @@ class Lucky::Events::PipeEvent < Pulsar::Event
     @continued : Bool
   )
   end
+
+  def before?
+    position == Position::Before
+  end
+
+  def after?
+    position == Position::After
+  end
 end
