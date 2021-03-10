@@ -1,12 +1,12 @@
 module Lucky::LinkHelpers
   def link(text, to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    link(to, attrs, **html_options) do
+    link(**html_options, to: to, attrs: attrs) do
       text text
     end
   end
 
   def link(to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    link(to, attrs, **html_options) {}
+    link(**html_options, to: to, attrs: attrs) {}
   end
 
   def link(to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
@@ -16,17 +16,17 @@ module Lucky::LinkHelpers
   end
 
   def link(text, to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    link(to, attrs, **html_options) do
+    link(**html_options, to: to, attrs: attrs) do
       text text
     end
   end
 
   def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    link(to, attrs, **html_options) {}
+    link(**html_options, to: to, attrs: attrs) {}
   end
 
   def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    link(to.route, attrs, **html_options) do
+    link(**html_options, to: to.route, attrs: attrs) do
       yield
     end
   end
