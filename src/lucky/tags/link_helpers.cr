@@ -6,25 +6,25 @@ module Lucky::LinkHelpers
   end
 
   def link(to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    link(**html_options, to: to, attrs: attrs) {}
+    link(**html_options, to: to, attrs: attrs) { }
   end
 
   def link(to : Lucky::RouteHelper, href : String, **html_options, &block) : Nil
     {%
-     raise <<-ERROR
-     'link' cannot be called with an href.
+      raise <<-ERROR
+      'link' cannot be called with an href.
 
-     Use 'a()' or remove the href argument.
+      Use 'a()' or remove the href argument.
 
-     Example:
+      Example:
 
-       a href: "/" do
-       end
+        a href: "/" do
+        end
 
-       link to: Home::Index do
-       end
+        link to: Home::Index do
+        end
 
-     ERROR
+      ERROR
     %}
   end
 
@@ -41,7 +41,7 @@ module Lucky::LinkHelpers
   end
 
   def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
-    link(**html_options, to: to, attrs: attrs) {}
+    link(**html_options, to: to, attrs: attrs) { }
   end
 
   def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
