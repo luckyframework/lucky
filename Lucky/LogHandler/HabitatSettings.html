@@ -870,7 +870,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#skip_if-class-method" class="signature"><strong>.skip_if</strong></a>
+        <a href="#skip_if:Proc(HTTP::Server::Context,Bool)?-class-method" class="signature"><strong>.skip_if</strong> : Proc(HTTP::Server::Context, Bool)?</a>
         
       </li>
     
@@ -881,6 +881,8 @@
     
       <li class="entry-summary">
         <a href="#skip_if?-class-method" class="signature"><strong>.skip_if?</strong></a>
+        
+          <div class="summary"><p>Used for checking missing settings on non-nilable types It's advised to use skip_if in your apps to ensure the propper type is checked.</p></div>
         
       </li>
     
@@ -935,12 +937,12 @@
     Class Method Detail
   </h2>
   
-    <div class="entry-detail" id="skip_if-class-method">
+    <div class="entry-detail" id="skip_if:Proc(HTTP::Server::Context,Bool)?-class-method">
       <div class="signature">
         
-        def self.<strong>skip_if</strong>
+        def self.<strong>skip_if</strong> : Proc(<a href="../../HTTP/Server/Context.html">HTTP::Server::Context</a>, <a href="../../Bool.html">Bool</a>)?
 
-        <a class="method-permalink" href="#skip_if-class-method">#</a>
+        <a class="method-permalink" href="#skip_if:Proc(HTTP::Server::Context,Bool)?-class-method">#</a>
       </div>
       
       <br/>
@@ -970,6 +972,13 @@
 
         <a class="method-permalink" href="#skip_if?-class-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Used for checking missing settings on non-nilable types
+It's advised to use skip_if in your apps to ensure
+the propper type is checked.</p>
+        </div>
       
       <br/>
       <div>

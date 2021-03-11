@@ -889,7 +889,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#link(text,to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method" class="signature"><strong>#link</strong>(text, to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil</a>
+        <a href="#link(to:Lucky::RouteHelper,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method" class="signature"><strong>#link</strong>(to : Lucky::RouteHelper, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#link(to:Lucky::RouteHelper,href:String,**html_options,&):Nil-instance-method" class="signature"><strong>#link</strong>(to : Lucky::RouteHelper, href : String, **html_options, &) : Nil</a>
         
       </li>
     
@@ -899,17 +904,17 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options,&):Nil-instance-method" class="signature"><strong>#link</strong>(to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options, &) : Nil</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#link(to:Lucky::RouteHelper,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method" class="signature"><strong>#link</strong>(to : Lucky::RouteHelper, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil</a>
+        <a href="#link(text,to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method" class="signature"><strong>#link</strong>(text, to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil</a>
         
       </li>
     
       <li class="entry-summary">
         <a href="#link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method" class="signature"><strong>#link</strong>(to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options,&):Nil-instance-method" class="signature"><strong>#link</strong>(to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options, &) : Nil</a>
         
       </li>
     
@@ -961,12 +966,26 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="link(text,to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">
+    <div class="entry-detail" id="link(to:Lucky::RouteHelper,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>link</strong>(text, to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil
+        def <strong>link</strong>(to : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil
 
-        <a class="method-permalink" href="#link(text,to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#link(to:Lucky::RouteHelper,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="link(to:Lucky::RouteHelper,href:String,**html_options,&):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>link</strong>(to : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, href : <a href="../String.html">String</a>, **html_options, &) : Nil
+
+        <a class="method-permalink" href="#link(to:Lucky::RouteHelper,href:String,**html_options,&):Nil-instance-method">#</a>
       </div>
       
       <br/>
@@ -989,26 +1008,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options,&):Nil-instance-method">
+    <div class="entry-detail" id="link(text,to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">
       <div class="signature">
         
-        def <strong>link</strong>(to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options, &) : Nil
+        def <strong>link</strong>(text, to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil
 
-        <a class="method-permalink" href="#link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options,&):Nil-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="link(to:Lucky::RouteHelper,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>link</strong>(to : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil
-
-        <a class="method-permalink" href="#link(to:Lucky::RouteHelper,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#link(text,to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">#</a>
       </div>
       
       <br/>
@@ -1023,6 +1028,20 @@
         def <strong>link</strong>(to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options) : Nil
 
         <a class="method-permalink" href="#link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options):Nil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options,&):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>link</strong>(to : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **html_options, &) : Nil
+
+        <a class="method-permalink" href="#link(to:Lucky::Action.class,attrs:Array(Symbol)=[]ofSymbol,**html_options,&):Nil-instance-method">#</a>
       </div>
       
       <br/>
