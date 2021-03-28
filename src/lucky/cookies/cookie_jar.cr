@@ -1,6 +1,6 @@
 class Lucky::CookieJar
   MAX_COOKIE_SIZE         = 4096
-  LUCKY_ENCRYPTION_PREFIX = Base64.encode("lucky") + "--"
+  LUCKY_ENCRYPTION_PREFIX = Base64.strict_encode("lucky") + "--"
   alias Key = String | Symbol
   private property cookies
   private property set_cookies
@@ -129,6 +129,8 @@ class Lucky::CookieJar
       raise Lucky::CookieOverflowError.new("size of '#{key}' cookie is too big")
     end
     cookies[key.to_s] = set_cookies[key.to_s] = raw_cookie
+  rescue IO::Error
+    raise InvalidCookieValueError.new(key)
   end
 
   private def encrypt(raw_value : String) : String
