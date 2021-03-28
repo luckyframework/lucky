@@ -8,9 +8,17 @@ on:
 
 jobs:
   check_format:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 0.36.1
+          - 1.0.0
+        experimental:
+          - false
     runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal:0.36.1
+    continue-on-error: ${{ matrix.experimental }}
+    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
     steps:
       - uses: actions/checkout@v1
       - name: Install shards
@@ -20,17 +28,25 @@ jobs:
       - name: Lint
         run: ./bin/ameba
   specs:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 0.36.1
+          - 1.0.0
+        experimental:
+          - false
     runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal:0.36.1
+    continue-on-error: ${{ matrix.experimental }}
+    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
     steps:
     - uses: actions/checkout@v2
-    - name: Install shards
-      run: shards install
     - name: Cache Crystal
       uses: actions/cache@v1
       with:
         path: ~/.cache/crystal
         key: ${{ runner.os }}-crystal
+    - name: Install shards
+      run: shards install
     - name: Run tests
       run: crystal spec
