@@ -73,6 +73,58 @@ module Lucky::MountComponent
     end
   end
 
+  # :nodoc:
+  def mount(_component : Lucky::BaseComponent, *args, **named_args) : Nil
+    {% raise <<-ERROR
+        'mount' requires a component class, not an instance of a component.
+
+        Try this...
+
+           ▸ mount MyComponent
+           ▸ mount_instance MyComponent.new
+        ERROR
+    %}
+  end
+
+  # :nodoc:
+  def mount(_component : Lucky::BaseComponent, *args, **named_args, &) : Nil
+    {% raise <<-ERROR
+        'mount' requires a component class, not an instance of a component.
+
+        Try this...
+
+           ▸ mount MyComponent
+           ▸ mount_instance MyComponent.new
+        ERROR
+    %}
+  end
+
+  # :nodoc:
+  def mount_instance(_component : Lucky::BaseComponent.class) : Nil
+    {% raise <<-ERROR
+        'mount_instance' requires an instance of a component, not component class.
+
+        Try this...
+
+           ▸ mount MyComponent
+           ▸ mount_instance MyComponent.new
+        ERROR
+    %}
+  end
+
+  # :nodoc:
+  def mount_instance(_component : Lucky::BaseComponent.class, &) : Nil
+    {% raise <<-ERROR
+        'mount_instance' requires an instance of a component, not component class.
+
+        Try this...
+
+           ▸ mount MyComponent
+           ▸ mount_instance MyComponent.new
+        ERROR
+    %}
+  end
+
   # Appends the `component` to the view.
   # The `component` is a previously initialized instance of a component.
   #
