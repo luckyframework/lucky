@@ -21,7 +21,8 @@ class Gen::Task < LuckyCli::Task
   positional_arg :task_name, "The name of the task to generate"
 
   def call
-    if (errors = error_messages).any?
+    errors = error_messages
+    if !errors.empty?
       output.puts errors
     else
       Lucky::TaskTemplate
