@@ -1,7 +1,7 @@
 name: lucky
 version: 0.26.0
 
-crystal: 0.36.1
+crystal: ">=0.36.1, < 2.0.0"
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -33,34 +33,34 @@ targets:
 dependencies:
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: ~> 0.26.0
+    branch: master
   habitat:
     github: luckyframework/habitat
-    version: ~> 0.4.4
+    branch: master
   wordsmith:
     github: luckyframework/wordsmith
-    version: ~> 0.2.0
+    branch: master
   avram:
     github: luckyframework/avram
-    version: ~> 0.19.0
+    branch: master
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.4.0
+    branch: master
   shell-table:
     github: luckyframework/shell-table.cr
-    branch: refactor/setter
+    branch: master
   cry:
     github: luckyframework/cry
-    version: ~> 0.4.0
+    branch: master
   exception_page:
-    github: crystal-loot/exception_page
-    version: ~> 0.1.0
+    github: Sija/exception_page
+    branch: crystal-1.0
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.3.2
+    branch: master
   pulsar:
     github: luckyframework/pulsar
-    version: ~> 0.2.0
+    branch: master
 
 development_dependencies:
   ameba:

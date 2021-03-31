@@ -14,20 +14,29 @@ describe Lucky::CookieJar do
   end
 
   it "sets and gets raw HTTP::Cookie object with indifferent access" do
-    value = "Nestle Tollhouse"
+    value = "Nestle_Tollhouse"
     jar = Lucky::CookieJar.empty_jar
 
     jar.set_raw("cookie", value)
-    jar.set_raw(:symbol, "symbol value")
+    jar.set_raw(:symbol, "symbol_value")
 
     jar.get_raw(:cookie).should be_a(HTTP::Cookie)
-    jar.get_raw("symbol").value.should eq("symbol value")
+    jar.get_raw("symbol").value.should eq("symbol_value")
     jar.get_raw(:cookie).value.should eq(value)
     jar.get_raw("cookie").value.should eq(value)
     jar.get_raw?(:cookie).not_nil!.value.should eq(value)
     jar.get_raw?("cookie").not_nil!.value.should eq(value)
     jar.get_raw?(:missing).should be_nil
     jar.get_raw?("missing").should be_nil
+  end
+
+  it "raises a nicer error for invalid cookie values" do
+    value = "Double Chocolate"
+    jar = Lucky::CookieJar.empty_jar
+
+    expect_raises(Lucky::InvalidCookieValueError, "Cookie value for 'cookie' is invalid") do
+      jar.set_raw("cookie", value)
+    end
   end
 
   it "raises CookieNotFoundError when getting a raw cookie that doesn't exist" do
@@ -80,7 +89,7 @@ describe Lucky::CookieJar do
         message = jar.get_raw(:message)
         message.http_only.should be_true
         message.expires.should be_nil
-        message.path.should eq "/"
+        message.path.should be_nil
         message.domain.should be_nil
         message.secure.should be_false
       end
@@ -117,7 +126,7 @@ describe Lucky::CookieJar do
     it "raises an error if the cookie is > 4096 bytes" do
       expect_raises(Lucky::CookieOverflowError) do
         jar = Lucky::CookieJar.empty_jar
-        jar.set_raw(:overflow, "x" * (4097 - 27)) # "overflow=x...x; path=/; HttpOnly",
+        jar.set_raw(:overflow, "x" * 4097) # "overflow=x...x; HttpOnly",
       end
     end
   end
@@ -196,7 +205,7 @@ describe Lucky::CookieJar do
       headers["Cookie"] = "name=Rick%20James"
 
       jar = Lucky::CookieJar.from_request_cookies(
-        HTTP::Cookies.from_headers(headers))
+        HTTP::Cookies.from_client_headers(headers))
 
       jar.clear do |cookie|
         cookie.path("/")
