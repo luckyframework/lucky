@@ -541,7 +541,7 @@ class Lucky::Params
 
   private def get_all_params(params, key : String)
     vals = params.fetch_all(key + "[]")
-    if vals.any?
+    if !vals.empty?
       vals
     else
       nil

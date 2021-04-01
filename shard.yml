@@ -65,7 +65,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.13.4
+    version: ~> 0.14.2
 
 scripts:
   postinstall: script/precompile_tasks

@@ -14,7 +14,7 @@ class Lucky::ModelTemplate < Teeplate::FileTree
   end
 
   def columns_list
-    (@columns.any? ? @columns : example_columns).map(&.name).join(", ")
+    (!@columns.empty? ? @columns : example_columns).map(&.name).join(", ")
   end
 
   private def example_columns

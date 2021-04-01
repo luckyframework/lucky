@@ -92,12 +92,14 @@ describe Lucky::FlashStore do
     it "returns true if there are key/value pairs" do
       flash_store = build_flash_store({"some_key" => "some_value"})
 
+      # ameba:disable Performance/AnyInsteadOfEmpty
       flash_store.any?.should be_true
     end
 
     it "returns false if there are no key/value pairs" do
       flash_store = build_flash_store
 
+      # ameba:disable Performance/AnyInsteadOfEmpty
       flash_store.any?.should be_false
     end
   end

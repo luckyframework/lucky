@@ -3,7 +3,6 @@ require "option_parser"
 require "colorize"
 require "yaml"
 require "../src/lucky/server_settings"
-require "option_parser"
 
 # Based on the sentry shard with some modifications to output and build process.
 module LuckySentry

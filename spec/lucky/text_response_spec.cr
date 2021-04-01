@@ -186,7 +186,7 @@ describe Lucky::TextResponse do
 
           context.response.headers["Content-Encoding"].should eq "gzip"
           expected_io = IO::Memory.new
-          Compress::Gzip::Writer.open(expected_io) { |gzw| gzw.print "some body" }
+          Compress::Gzip::Writer.open(expected_io, &.print("some body"))
           output.to_s.ends_with?(expected_io.to_s).should be_true
         end
       end
