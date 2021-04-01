@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::Renderable - lucky 0.26.0</title>
+  <title>Lucky::InvalidCookieValueError - lucky 0.26.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -371,7 +371,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/InvalidCookieValueError" data-name="lucky::invalidcookievalueerror">
+  <li class=" current" data-id="lucky/Lucky/InvalidCookieValueError" data-name="lucky::invalidcookievalueerror">
       <a href="../Lucky/InvalidCookieValueError.html">InvalidCookieValueError</a>
       
     </li>
@@ -571,7 +571,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/Renderable" data-name="lucky::renderable">
+  <li class=" " data-id="lucky/Lucky/Renderable" data-name="lucky::renderable">
       <a href="../Lucky/Renderable.html">Renderable</a>
       
     </li>
@@ -825,39 +825,37 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::Renderable
+  <span class="kind">class</span> Lucky::InvalidCookieValueError
 
 </h1>
 
 
-
-
-
-
-
-
-
-
-
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/InvalidCookieValueError.html">Lucky::InvalidCookieValueError</a></li><li class="superclass"><a href="../Lucky/Error.html">Lucky::Error</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
 
   <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+    <a id="overview" class="anchor" href="#overview">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Direct including types
+    Overview
   </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../Lucky/Action.html">Lucky::Action</a></li>
-    
-      <li class="other-type"><a href="../Lucky/ErrorAction.html">Lucky::ErrorAction</a></li>
-    
-  </ul>
+
+  <p>Crystal raises <code>Invalid cookie value (IO::Error)</code> by default.
+This provides a nicer error</p>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -872,7 +870,7 @@
   </h2>
   
     
-      lucky/renderable.cr
+      lucky/errors.cr
     
     <br/>
   
@@ -880,6 +878,23 @@
 
 
 
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(key:String%7CSymbol)-class-method" class="signature"><strong>.new</strong>(key : String | Symbol)</a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -896,113 +911,89 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#component(comp:Lucky::BaseComponent.class,status:Int32?=nil,**named_args):Lucky::TextResponse-instance-method" class="signature"><strong>#component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : Int32? = <span class="n">nil</span>, **named_args) : Lucky::TextResponse</a>
-        
-          <div class="summary"><p>Render a Component as an HTML response.</p></div>
+        <a href="#key:String%7CSymbol-instance-method" class="signature"><strong>#key</strong> : String | Symbol</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method" class="signature"><strong>#component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#data(data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::DataResponse-instance-method" class="signature"><strong>#data</strong>(data : String, content_type : String = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>) : Lucky::DataResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::FileResponse-instance-method" class="signature"><strong>#file</strong>(path : String, content_type : String? = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>) : Lucky::FileResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:HTTP::Status=HTTP::Status::OK):Lucky::FileResponse-instance-method" class="signature"><strong>#file</strong>(path : String, content_type : String? = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : HTTP::Status = <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">OK</span>) : Lucky::FileResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#head(status:Int32):Lucky::TextResponse-instance-method" class="signature"><strong>#head</strong>(status : Int32) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#head(status:HTTP::Status):Lucky::TextResponse-instance-method" class="signature"><strong>#head</strong>(status : HTTP::Status) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#json(body,status:Int32?=nil):Lucky::TextResponse-instance-method" class="signature"><strong>#json</strong>(body, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#json(body,status:HTTP::Status):Lucky::TextResponse-instance-method" class="signature"><strong>#json</strong>(body, status : HTTP::Status) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plain_text(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method" class="signature"><strong>#plain_text</strong>(body : String, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plain_text(body:String,status:HTTP::Status):Lucky::TextResponse-instance-method" class="signature"><strong>#plain_text</strong>(body : String, status : HTTP::Status) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#send_text_response(body:String,content_type:String,status:Int32?=nil):Lucky::TextResponse-instance-method" class="signature"><strong>#send_text_response</strong>(body : String, content_type : String, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#xml(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method" class="signature"><strong>#xml</strong>(body : String, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#xml(body,status:HTTP::Status):Lucky::TextResponse-instance-method" class="signature"><strong>#xml</strong>(body, status : HTTP::Status) : Lucky::TextResponse</a>
+        <a href="#message:String-instance-method" class="signature"><strong>#message</strong> : String</a>
         
       </li>
     
   </ul>
 
 
-
-  <h2>
-    <a id="macro-summary" class="anchor" href="#macro-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Macro Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#disable_cookies-macro" class="signature"><strong>disable_cookies</strong></a>
-        
-          <div class="summary"><p>Disable cookies</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#html(page_class=nil,**assigns)-macro" class="signature"><strong>html</strong>(page_class = <span class="n">nil</span>, **assigns)</a>
-        
-          <div class="summary"><p>Render a page and pass it data</p></div>
-        
-      </li>
-    
-  </ul>
 
 
 
 <div class="methods-inherited">
   
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
 </div>
 
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(key:String|Symbol)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(key : <a href="../String.html">String</a> | Symbol)
+
+        <a class="method-permalink" href="#new(key:String%7CSymbol)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
 
 
 
@@ -1017,35 +1008,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:Int32?=nil,**named_args):Lucky::TextResponse-instance-method">
+    <div class="entry-detail" id="key:String|Symbol-instance-method">
       <div class="signature">
         
-        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+        def <strong>key</strong> : <a href="../String.html">String</a> | Symbol
 
-        <a class="method-permalink" href="#component(comp:Lucky::BaseComponent.class,status:Int32?=nil,**named_args):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Render a Component as an HTML response.</p>
-
-<pre><code class="language-crystal">get <span class="s">&quot;/foo&quot;</span> <span class="k">do</span>
-  component <span class="t">MyComponent</span>, <span class="k">with</span>: <span class="n">:args</span>
-<span class="k">end</span></code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#key:String%7CSymbol-instance-method">#</a>
       </div>
       
       <br/>
@@ -1054,166 +1022,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="data(data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::DataResponse-instance-method">
+    <div class="entry-detail" id="message:String-instance-method">
       <div class="signature">
         
-        def <strong>data</strong>(data : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a>? = <span class="n">nil</span>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>) : <a href="../Lucky/DataResponse.html">Lucky::DataResponse</a>
+        def <strong>message</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#data(data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::DataResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::FileResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>file</strong>(path : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a>? = <span class="n">nil</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a>? = <span class="n">nil</span>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>) : <a href="../Lucky/FileResponse.html">Lucky::FileResponse</a>
-
-        <a class="method-permalink" href="#file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:Int32?=nil):Lucky::FileResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:HTTP::Status=HTTP::Status::OK):Lucky::FileResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>file</strong>(path : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a>? = <span class="n">nil</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a>? = <span class="n">nil</span>, status : HTTP::Status = <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">OK</span>) : <a href="../Lucky/FileResponse.html">Lucky::FileResponse</a>
-
-        <a class="method-permalink" href="#file(path:String,content_type:String?=nil,disposition:String=&quot;attachment&quot;,filename:String?=nil,status:HTTP::Status=HTTP::Status::OK):Lucky::FileResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="head(status:Int32):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>head</strong>(status : <a href="../Int32.html">Int32</a>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#head(status:Int32):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="head(status:HTTP::Status):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>head</strong>(status : HTTP::Status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#head(status:HTTP::Status):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="json(body,status:Int32?=nil):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>json</strong>(body, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#json(body,status:Int32?=nil):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="json(body,status:HTTP::Status):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>json</strong>(body, status : HTTP::Status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#json(body,status:HTTP::Status):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plain_text(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>plain_text</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#plain_text(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plain_text(body:String,status:HTTP::Status):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>plain_text</strong>(body : <a href="../String.html">String</a>, status : HTTP::Status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#plain_text(body:String,status:HTTP::Status):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="send_text_response(body:String,content_type:String,status:Int32?=nil):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>send_text_response</strong>(body : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#send_text_response(body:String,content_type:String,status:Int32?=nil):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="xml(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>xml</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#xml(body:String,status:Int32?=nil):Lucky::TextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="xml(body,status:HTTP::Status):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>xml</strong>(body, status : HTTP::Status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#xml(body,status:HTTP::Status):Lucky::TextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#message:String-instance-method">#</a>
       </div>
       
       <br/>
@@ -1224,102 +1038,6 @@
   
 
 
-
-  <h2>
-    <a id="macro-detail" class="anchor" href="#macro-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Macro Detail
-  </h2>
-  
-    <div class="entry-detail" id="disable_cookies-macro">
-      <div class="signature">
-        
-        macro <strong>disable_cookies</strong>
-
-        <a class="method-permalink" href="#disable_cookies-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Disable cookies</p>
-
-<p>When <code><a href="../Lucky/Renderable.html#disable_cookies-macro">disable_cookies</a></code> is used, no <code>Set-Cookie</code> header will be written to
-the response.</p>
-
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Events</span><span class="t">::</span><span class="t">Show</span> <span class="o">&lt;</span> <span class="t">ApiAction</span>
-  disable_cookies
-
-  get <span class="s">&quot;/events/:id&quot;</span> <span class="k">do</span>
-    ...
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="html(page_class=nil,**assigns)-macro">
-      <div class="signature">
-        
-        macro <strong>html</strong>(page_class = <span class="n">nil</span>, **assigns)
-
-        <a class="method-permalink" href="#html(page_class=nil,**assigns)-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Render a page and pass it data</p>
-
-<p><code><a href="../Lucky/Renderable.html#html(page_class=nil,**assigns)-macro">html</a></code> is used to pass data to a page and render it. Each key/value pair
-must match up with each <code>needs</code> declarations for that page. For example, if
-we have a page like this:</p>
-
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">IndexPage</span> <span class="o">&lt;</span> <span class="t">MainLayout</span>
-  needs users : <span class="t">UserQuery</span>
-
-  <span class="k">def</span> <span class="m">content</span>
-    @users.each <span class="k">do</span> <span class="o">|</span>user<span class="o">|</span>
-      <span class="c"># ...</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-
-<p>Our action must pass a <code>users</code> key to the <code><a href="../Lucky/Renderable.html#html(page_class=nil,**assigns)-macro">html</a></code> method like this:</p>
-
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  route <span class="k">do</span>
-    html <span class="t">IndexPage</span>, users: <span class="t">UserQuery</span>.<span class="k">new</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-
-<p>Note also that each piece of data is merged with any <code>expose</code> declarations:</p>
-
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  expose current_user
-
-  route <span class="k">do</span>
-    <span class="c"># Users::IndexPage receives users AND current_user</span>
-    html <span class="t">IndexPage</span> users: <span class="t">UserQuery</span>.<span class="k">new</span>
-  <span class="k">end</span>
-
-  <span class="k">private</span> <span class="k">def</span> <span class="m">current_user</span>
-    <span class="c"># ...</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
 
 
 </div>
