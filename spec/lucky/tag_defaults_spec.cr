@@ -44,9 +44,19 @@ private class TestTagDefaultsPage
       end
     end
 
+    {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
+      tag_defaults do |tag_builder|
+        tag_builder.div "@click": "onclick($event)" do
+          text "block content"
+        end
+      end
+    {% end %}
+
     view
   end
 end
+
+include ContextHelper
 
 describe "tag_defaults" do
   it "renders the component" do
@@ -70,6 +80,10 @@ describe "tag_defaults" do
       .should contain %(<div class="default">text content</div>)
     contents
       .should contain %(<div class="default">block content</div>)
+    {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
+      contents
+        .should contain %(<div @click="onclick($event)">block content</div>)
+    {% end %}
   end
 end
 
