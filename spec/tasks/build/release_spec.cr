@@ -25,10 +25,10 @@ describe Build::Release do
       File.write "./src/start_server.cr", %({{ raise "this build will fail" }})
 
       task = Build::Release.new
+      task.output = IO::Memory.new
       task.error_io = IO::Memory.new
       task.call
       task.error_io.to_s.should contain("this build will fail")
-      task.output.to_s
 
       File.exists?("./bin/start_server").should be_false
     end
