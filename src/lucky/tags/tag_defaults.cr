@@ -83,7 +83,7 @@ module Lucky::TagDefaults
 
       nargs = @named_args{% if named_args %}.merge(
         {% for arg in named_args %}
-          {{ arg.name }}: {{ arg.value }},
+          {{ arg }}
         {% end %}
       )
 
