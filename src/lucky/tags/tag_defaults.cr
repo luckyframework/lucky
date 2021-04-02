@@ -81,11 +81,7 @@ module Lucky::TagDefaults
         {% named_args = named_args.reject { |arg| arg.name == :replace_class } %}
       {% end %}
 
-      nargs = @named_args{% if named_args %}.merge(
-        {% for arg in named_args %}
-          {{ arg }}
-        {% end %}
-      )
+      nargs = @named_args{% if named_args %}.merge({{ named_args.splat }})
 
       # If there is no default class and we want to append/replace one, then
       # the compiler blows up because the @named_args type is a Union. Where
