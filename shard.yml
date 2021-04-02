@@ -39,28 +39,28 @@ dependencies:
     version: ~> 0.4.7
   wordsmith:
     github: luckyframework/wordsmith
-    branch: master
+    version: ~> 0.2.2
   avram:
     github: luckyframework/avram
     branch: master
   lucky_router:
     github: luckyframework/lucky_router
-    branch: master
+    version: ~> 0.4.2
   shell-table:
     github: luckyframework/shell-table.cr
     branch: master
   cry:
     github: luckyframework/cry
-    branch: master
+    version: ~> 0.4.3
   exception_page:
     github: Sija/exception_page
     branch: crystal-1.0
   dexter:
     github: luckyframework/dexter
-    branch: master
+    version: ~> 0.3.3
   pulsar:
     github: luckyframework/pulsar
-    branch: master
+    version: ~> 0.2.2
 
 development_dependencies:
   ameba:
