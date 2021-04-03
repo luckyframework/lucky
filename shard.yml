@@ -53,8 +53,8 @@ dependencies:
     github: luckyframework/cry
     version: ~> 0.4.3
   exception_page:
-    github: Sija/exception_page
-    branch: crystal-1.0
+    github: crystal-loot/exception_page
+    version: ~> 0.1.5
   dexter:
     github: luckyframework/dexter
     version: ~> 0.3.3
