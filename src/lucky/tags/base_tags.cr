@@ -125,6 +125,51 @@ module Lucky::BaseTags
       end
     end
 
+    def {{method_name.id}}(
+        content : Nil,
+        options = EMPTY_HTML_ATTRS,
+        attrs : Array(Symbol) = [] of Symbol,
+        **other_options
+      ) : Nil
+      \{%
+        raise <<-ERROR
+          HTML tags content must be a String or Lucky::AllowedInTags object, not nil.
+          Be sure the content isn't a nil value. For nested HTML tags, use the block
+          method overload
+
+          Example...
+
+            {{method_name.id}}(title, class: "header")
+
+            to
+
+            {{method_name.id}}(class: "header") do
+              title "My Site Title"
+            end
+
+          ERROR
+          %}
+    end
+
+    def {{method_name.id}}(
+        content : Time,
+        options = EMPTY_HTML_ATTRS,
+        attrs : Array(Symbol) = [] of Symbol,
+        **other_options
+      ) : Nil
+      \{%
+        raise <<-ERROR
+          HTML tags content must be a String or Lucky::AllowedInTags object.
+          {{method_name.id}} recieved a Time object which has an ambiguous display format.
+
+          Try this...
+
+            {{method_name.id}}(current_time.to_s("%F"), html_opts)
+
+          ERROR
+          %}
+    end
+
     def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
       {{ method_name.id }}("", options, **other_options)
     end

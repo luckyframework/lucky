@@ -27,6 +27,10 @@ describe Lucky::BaseTags do
     view(&.para(1_i64)).should contain "<p>1</p>"
     view(&.para({"class" => "empty-content"})).should contain "<p class=\"empty-content\"></p>"
     view(&.hr).should contain "<hr>"
+
+    # These throw compile-time error messages
+    # view(&.h1(nil, class: "text"))
+    # view(&.h1(Time.utc, class: "text"))
   end
 
   it "renders nested video with source tags and proper attributes" do
