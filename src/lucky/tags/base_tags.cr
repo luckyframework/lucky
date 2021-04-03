@@ -134,17 +134,11 @@ module Lucky::BaseTags
       \{%
         raise <<-ERROR
           HTML tags content must be a String or Lucky::AllowedInTags object, not nil.
-          Be sure the content isn't a nil value. For nested HTML tags, use the block
-          method overload
 
-          Example...
+          Try this...
 
-            {{method_name.id}}(title, class: "header")
-
-            to
-
-            {{method_name.id}}(class: "header") do
-              title "My Site Title"
+            if value = some_nilable_value
+              {{method_name.id}}(value, class: "header")
             end
 
           ERROR
