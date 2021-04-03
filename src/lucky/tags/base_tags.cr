@@ -160,7 +160,7 @@ module Lucky::BaseTags
       \{%
         raise <<-ERROR
           HTML tags content must be a String or Lucky::AllowedInTags object.
-          {{method_name.id}} recieved a Time object which has an ambiguous display format.
+          {{method_name.id}} received a Time object which has an ambiguous display format.
 
           Try this...
 
