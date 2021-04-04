@@ -1,4 +1,4 @@
-require "lucky_cli"
+require "lucky_task"
 require "teeplate"
 require "colorize"
 require "file_utils"
@@ -14,7 +14,7 @@ class Lucky::PageTemplate < Teeplate::FileTree
   end
 end
 
-class Gen::Page < LuckyCli::Task
+class Gen::Page < LuckyTask::Task
   summary "Generate a new HTML page"
 
   def call(io : IO = STDOUT)

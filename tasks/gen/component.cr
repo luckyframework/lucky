@@ -1,4 +1,4 @@
-require "lucky_cli"
+require "lucky_task"
 require "teeplate"
 require "colorize"
 require "file_utils"
@@ -13,7 +13,7 @@ class Lucky::ComponentTemplate < Teeplate::FileTree
   end
 end
 
-class Gen::Component < LuckyCli::Task
+class Gen::Component < LuckyTask::Task
   summary "Generate a new HTML component"
 
   def call(io : IO = STDOUT)

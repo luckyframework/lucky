@@ -1,4 +1,4 @@
-require "lucky_cli"
+require "lucky_task"
 require "option_parser"
 require "colorize"
 require "yaml"
@@ -10,7 +10,7 @@ module LuckySentry
   BROWSERSYNC_PORT = 3001
 
   class ProcessRunner
-    include LuckyCli::TextHelpers
+    include LuckyTask::TextHelpers
 
     getter app_processes = [] of Process
     property successful_compilations
@@ -199,7 +199,7 @@ module LuckySentry
   end
 end
 
-class Watch < LuckyCli::Task
+class Watch < LuckyTask::Task
   summary "Start and recompile project when files change"
   switch :reload_browser, "Reloads browser on changes using browser-sync", shortcut: "-r"
   switch :error_trace, "Show full error trace"

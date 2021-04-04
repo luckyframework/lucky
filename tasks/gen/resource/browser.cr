@@ -1,11 +1,11 @@
-require "lucky_cli"
+require "lucky_task"
 require "teeplate"
 require "wordsmith"
 require "avram"
 require "../mixins/migration_with_columns"
 require "../route_inferrer"
 
-class Gen::Resource::Browser < LuckyCli::Task
+class Gen::Resource::Browser < LuckyTask::Task
   include Gen::Mixins::MigrationWithColumns
 
   summary "Generate a resource (model, operation, query, actions, and pages)"

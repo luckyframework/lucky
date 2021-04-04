@@ -1,8 +1,8 @@
-require "lucky_cli"
+require "lucky_task"
 require "colorize"
 
-class Build::Release < LuckyCli::Task
-  include LuckyCli::TextHelpers
+class Build::Release < LuckyTask::Task
+  include LuckyTask::TextHelpers
 
   summary "Compile app for production"
 

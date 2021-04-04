@@ -1,7 +1,7 @@
-require "lucky_cli"
+require "lucky_task"
 require "./action_generator"
 
-class Gen::Action::Api < LuckyCli::Task
+class Gen::Action::Api < LuckyTask::Task
   include Gen::ActionGenerator
 
   summary "Generate a new api action"
