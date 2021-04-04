@@ -1,6 +1,6 @@
-require "lucky_cli"
+require "lucky_task"
 require "./src/lucky"
 require "./src/app/**"
 require "./tasks/**"
 
-LuckyCli::Runner.run
+LuckyTask::Runner.run

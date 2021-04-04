@@ -1,8 +1,8 @@
-require "lucky_cli"
+require "lucky_task"
 require "teeplate"
 require "./action_generator"
 
-class Gen::Action::Browser < LuckyCli::Task
+class Gen::Action::Browser < LuckyTask::Task
   include Gen::ActionGenerator
 
   summary "Generate a new browser action"

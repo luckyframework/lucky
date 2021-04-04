@@ -1,6 +1,6 @@
-require "lucky_cli"
+require "lucky_task"
 
-class Gen::SecretKey < LuckyCli::Task
+class Gen::SecretKey < LuckyTask::Task
   summary "Generate a new secret key"
 
   def call(io : IO = STDOUT)

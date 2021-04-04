@@ -31,8 +31,8 @@ targets:
     main: src/precompiled_tasks/gen/secret_key.cr
 
 dependencies:
-  lucky_cli:
-    github: luckyframework/lucky_cli
+  lucky_task:
+    github: luckyframework/lucky_task
     branch: master
   habitat:
     github: luckyframework/habitat

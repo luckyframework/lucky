@@ -1,4 +1,4 @@
-require "lucky_cli"
+require "lucky_task"
 require "teeplate"
 require "colorize"
 require "file_utils"
@@ -14,7 +14,7 @@ class Lucky::TaskTemplate < Teeplate::FileTree
   end
 end
 
-class Gen::Task < LuckyCli::Task
+class Gen::Task < LuckyTask::Task
   summary "Generate a lucky command line task"
 
   arg :task_summary, "The -h help text for the task", optional: true
