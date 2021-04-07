@@ -33,7 +33,7 @@ targets:
 dependencies:
   lucky_task:
     github: luckyframework/lucky_task
-    branch: master
+    version: ~> 0.1.0
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.7
