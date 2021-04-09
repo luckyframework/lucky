@@ -50,7 +50,17 @@ brew upgrade lucky
   LuckyTask::Runner.run
   ```
 - Update: all tasks in your `tasks/` directory to inherit from `LuckyTask::Task` instead of `LuckyCli::Task`. (e.g. `Db::Seed::RequiredData < LuckyCli::Task` -> `Db::Seed::RequiredData < LuckyTask::Task`)
+- Update: your `config/cookies.cr` with a default cookie path of `"/"`.
+  ```crystal
+  Lucky::CookieJar.configure do |settings|
+    settings.on_set = ->(cookie : HTTP::Cookie) {
+      # ... other defaults
 
+      # Add this line. See ref: https://github.com/crystal-lang/crystal/pull/10491
+      cookie.path("/")
+    }
+  end
+  ```
 
 ### Optional updates
 
