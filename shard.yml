@@ -1,5 +1,5 @@
 name: lucky
-version: 0.26.0
+version: 0.27.0
 
 crystal: ">=0.36.1, < 2.0.0"
 
@@ -42,7 +42,7 @@ dependencies:
     version: ~> 0.2.2
   avram:
     github: luckyframework/avram
-    branch: master
+    version: ~> 0.20.0
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.4.2
