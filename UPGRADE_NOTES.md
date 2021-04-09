@@ -38,6 +38,7 @@ brew upgrade lucky
 - Update: your `tasks.cr` file with the new require, and module name change:
   ```crystal
   # tasks.cr
+  ENV["LUCKY_TASK"] = "true"
   # Load Lucky and the app (actions, models, etc.)
   require "./src/app"
   require "lucky_task"
