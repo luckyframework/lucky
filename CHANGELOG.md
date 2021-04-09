@@ -1,4 +1,35 @@
-### Changes in 0.26
+### Changes in 0.27
+
+- Added: support for Crystal 1.0 🥳 [#1445](https://github.com/luckyframework/lucky/pull/1445)
+- Added: Pulsar events for tracking before/after action pipes. [#1423](https://github.com/luckyframework/lucky/pull/1423)
+- Updated: `link` to raise an exception when passing both `to` and `href`. [#1428](https://github.com/luckyframework/lucky/pull/1428)
+- Added: support for more HTML standard tags. [#1433](https://github.com/luckyframework/lucky/pull/1433)
+- Added: new `mount_instance` method to mount an instance of a Component. [#1446](https://github.com/luckyframework/lucky/pull/1446)
+- Fixed: bug when using VueJS type attributes on HTML tags. [#1452](https://github.com/luckyframework/lucky/pull/1452)
+- Updated: the exception page to look like it belongs in Lucky. [#1451](https://github.com/luckyframework/lucky/pull/1451)
+- Updated: HTML tags to allow passing in a raw hash of attributes. [#1453](https://github.com/luckyframework/lucky/pull/1453)
+- Updated: the `lucky build.release` task to build in to the `bin` directory. [#1454](https://github.com/luckyframework/lucky/pull/1454)
+- Fixed: error message when passing wrong type values to HTML tags. [#1456](https://github.com/luckyframework/lucky/pull/1456)
+- Updated: `lucky_cli` dependency with new `lucky_task` shard. [#1459](https://github.com/luckyframework/lucky/pull/1459)
+- Updated: generated apps so `LuckyFlow` is only a development dependency. [#608 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/608)
+- Updated: Auth modules in generated apps to be in an `auth/` directory. [#618 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/618)
+- Removed: `LuckyCli::Task` in to a separate shard. [#622 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/622)
+- Added: new `LuckyTask` shard to the ecosystem. [View LuckyTask](https://github.com/luckyframework/lucky_task)
+- Updated: `avram_enum` to allow parsing a String value. [#639 in Avram](https://github.com/luckyframework/avram/pull/639)
+- Fixed: bug when a column is defined as a `DOUBLE`, and using `Float64`. [#637 in Avram](https://github.com/luckyframework/avram/pull/637)
+- Updated: migrations to use `Int64` by default allowing for better CockroachDB support. [#641 in Avram](https://github.com/luckyframework/avram/pull/641)
+- Fixed: database transactions to not require a `Bool` return type. [#626 in Avram](https://github.com/luckyframework/avram/pull/626)
+- Removed: deprecated `raw_where` methods. [#653 in Avram](https://github.com/luckyframework/avram/pull/653)
+- Added: new `where(&)` method for wrapping queries in parenthesis. [#652 in Avram](https://github.com/luckyframework/avram/pull/652)
+- Added: new `drop_foreign_key` method. [#654 in Avram](https://github.com/luckyframework/avram/pull/654)
+- Updated: how table names are stored internally paving the way for faster compilation. [#660 in Avram](https://github.com/luckyframework/avram/pull/660)
+- Added: new `parameterize` method for string helpers. [#9 in Wordsmith](https://github.com/luckyframework/wordsmith/pull/9)
+- Added: new `Habitat.extend` macro for extending existing configuration settings. [#59 in Habitat](https://github.com/luckyframework/habitat/pull/59)
+- Added: new development dashboard shard `Breeze`. [View Breeze](https://github.com/luckyframework/breeze)
+- Added: new .env parsing shard `LuckyEnv`. [View LuckyEnv](https://github.com/luckyframework/lucky_env)
+
+
+### v0.26.0 (2021-02-06)
 
 - Updated: the compile-error for missing Page args. [#1373](https://github.com/luckyframework/lucky/pull/1373)
 - Fixed: flash messages to be discarded unless specifically kept. [#1374](https://github.com/luckyframework/lucky/pull/1374)
