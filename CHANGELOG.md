@@ -1,4 +1,8 @@
-### Changes in 0.27
+### v0.27.1 (2021-04-09)
+
+- Fixed: support for previous versions (<= 0.26.0) of encrypted cookies. [#1467](https://github.com/luckyframework/lucky/pull/1467)
+
+### v0.27.0 (2021-04-09)
 
 - Added: support for Crystal 1.0 🥳 [#1445](https://github.com/luckyframework/lucky/pull/1445)
 - Added: Pulsar events for tracking before/after action pipes. [#1423](https://github.com/luckyframework/lucky/pull/1423)
