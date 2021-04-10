@@ -1,3 +1,73 @@
+## Upgrading from 0.26 to 0.27
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.26.0&to=0.27.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `">= 0.36.1, < 2.0.0"`
+  - Lucky should be `~> 0.27.0`
+  - Authentic should be `~> 0.7.3`
+  - Carbon should be `~> 0.1.4`
+  - Dotenv should be `~> 1.0.0` or replace with [LuckyEnv 0.1.0](https://github.com/luckyframework/lucky_env)
+  - LuckyFlow should be `~> 0.7.3`
+  - JWT (if you use Auth) should be `~> 1.5.1`
+  - LuckyTask needs to be added as a dependency
+    ```
+    lucky_task:
+      github: luckyframework/lucky_task
+      version: ~> 0.1.0
+    ```
+
+- Run `shards update`
+
+### General updates
+
+- Add: the new `lucky_task` shard as a dependency.
+- Update: your `tasks.cr` file with the new require, and module name change:
+  ```crystal
+  # tasks.cr
+  ENV["LUCKY_TASK"] = "true"
+  # Load Lucky and the app (actions, models, etc.)
+  require "./src/app"
+  require "lucky_task"
+
+  require "./tasks/**"
+  require "./db/migrations/**"
+  require "lucky/tasks/**"
+
+  LuckyTask::Runner.run
+  ```
+- Update: all tasks in your `tasks/` directory to inherit from `LuckyTask::Task` instead of `LuckyCli::Task`. (e.g. `Db::Seed::RequiredData < LuckyCli::Task` -> `Db::Seed::RequiredData < LuckyTask::Task`)
+- Update: your `config/cookies.cr` with a default cookie path of `"/"`.
+  ```crystal
+  Lucky::CookieJar.configure do |settings|
+    settings.on_set = ->(cookie : HTTP::Cookie) {
+      # ... other defaults
+
+      # Add this line. See ref: https://github.com/crystal-lang/crystal/pull/10491
+      cookie.path("/")
+    }
+  end
+  ```
+
+### Optional updates
+
+- Update: to Crystal 1.0.0. You can continue to use Crystal 0.36.1 if you need.
+- Update: `LuckyFlow` to be a `development_dependency`.
+
+
 ## Upgrading from 0.25 to 0.26
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.25.0&to=0.26.0).
