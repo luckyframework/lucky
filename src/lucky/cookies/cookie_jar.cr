@@ -1,6 +1,6 @@
 class Lucky::CookieJar
-  MAX_COOKIE_SIZE                = 4096
-  LUCKY_ENCRYPTION_PREFIX        = Base64.strict_encode("lucky") + "--"
+  MAX_COOKIE_SIZE         = 4096
+  LUCKY_ENCRYPTION_PREFIX = Base64.strict_encode("lucky") + "--"
   alias Key = String | Symbol
   private property cookies
   private property set_cookies
