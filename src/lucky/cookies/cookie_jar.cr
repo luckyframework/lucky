@@ -180,9 +180,9 @@ class Lucky::CookieJar
   end
 
   private def update_from_legacy_value(value : String) : String
-    #decoded_value = URI.decode_www_form(value)
-    #LUCKY_ENCRYPTION_PREFIX + decoded_value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
-    LUCKY_ENCRYPTION_PREFIX + value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    decoded_value = URI.decode_www_form(value)
+    LUCKY_ENCRYPTION_PREFIX + decoded_value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    #LUCKY_ENCRYPTION_PREFIX + value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
   end
 
   private def encrypted_with_lucky?(value : String) : Bool
@@ -192,9 +192,9 @@ class Lucky::CookieJar
   # legacy encrypted values had a \n between the encoded lucky and -- and were also www form encoded
   # this allows apps made before 0.27.0 to not have to log all users out
   private def encrypted_with_legacy?(value : String) : Bool
-    #decoded_value = URI.decode_www_form(value)
-    #decoded_value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
-    value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    decoded_value = URI.decode_www_form(value)
+    decoded_value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    #value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
   end
 
   @_encryptor : Lucky::MessageEncryptor?
