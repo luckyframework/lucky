@@ -168,6 +168,9 @@ class Lucky::CookieJar
       raise <<-ERROR
       It looks like this cookie's value is not encrypted by Lucky. This likely means the cookie was set by something other than Lucky, like a client side script.
 
+      COOKIE VALUE:
+      #{cookie_value.inspect}
+
       You can access the raw value by using 'get_raw':
 
           cookies.get_raw(:#{cookie_name}).value
