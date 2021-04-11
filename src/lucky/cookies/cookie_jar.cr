@@ -151,8 +151,10 @@ class Lucky::CookieJar
       Lucky::Log.dexter.debug { { req: req_id, base_64_encrypted_part: base_64_encrypted_part, message: "AFTER LCHOP", encryption_prefix: LUCKY_ENCRYPTION_PREFIX} }
       begin
         decoded = Base64.decode(base_64_encrypted_part)
-        Lucky::Log.dexter.debug { { req: req_id, decoded: String.new(decoded), message: "BASE64 DECODE SUCCEEDED"} }
-        String.new(encryptor.decrypt(decoded))
+        Lucky::Log.dexter.debug { { req: req_id, decoded: String.new(decoded), message: "BASE64 DECODE SUCCEEDED. TRYING DECRYPT"} }
+        decrypted = encryptor.decrypt(decoded)
+        Lucky::Log.dexter.debug { { req: req_id, decrypted: String.new(decrypted), message: "DECRYPT SUCCEEDED"} }
+        String.new(decrypted)
       rescue e
         Lucky::Log.dexter.debug { { req: req_id, error: e.message, message: "BASE64 DECODE FAILED"} }
         raise OpenSSL::Cipher::Error.new
