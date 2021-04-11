@@ -144,25 +144,25 @@ class Lucky::CookieJar
   end
 
   private def decrypt(cookie_value : String, cookie_name : String) : String
-    req_id = "#{rand(10_000)}"
+    #req_id = "#{rand(10_000)}"
     if encrypted_with_lucky?(cookie_value)
-      Lucky::Log.dexter.info { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "NEW COOKIE. BEFORE LCHOP"} }
+      #Lucky::Log.dexter.info { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "NEW COOKIE. BEFORE LCHOP"} }
       base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
-      Lucky::Log.dexter.info { { req: req_id, base_64_encrypted_part: base_64_encrypted_part, message: "AFTER LCHOP", encryption_prefix: LUCKY_ENCRYPTION_PREFIX} }
-      begin
+      #Lucky::Log.dexter.info { { req: req_id, base_64_encrypted_part: base_64_encrypted_part, message: "AFTER LCHOP", encryption_prefix: LUCKY_ENCRYPTION_PREFIX} }
+      #begin
         decoded = Base64.decode(base_64_encrypted_part)
-        Lucky::Log.dexter.info { { req: req_id, decoded: String.new(decoded), message: "BASE64 DECODE SUCCEEDED. TRYING DECRYPT"} }
+        #Lucky::Log.dexter.info { { req: req_id, decoded: String.new(decoded), message: "BASE64 DECODE SUCCEEDED. TRYING DECRYPT"} }
         decrypted = encryptor.decrypt(decoded)
-        Lucky::Log.dexter.info { { req: req_id, decrypted: String.new(decrypted), message: "DECRYPT SUCCEEDED"} }
+        #Lucky::Log.dexter.info { { req: req_id, decrypted: String.new(decrypted), message: "DECRYPT SUCCEEDED"} }
         String.new(decrypted)
-      rescue e
-        Lucky::Log.dexter.info { { req: req_id, error: e.message, message: "BASE64 DECODE FAILED"} }
-        raise "WOMP WOMP"
-      end
+      #rescue e
+      #  Lucky::Log.dexter.info { { req: req_id, error: e.message, message: "BASE64 DECODE FAILED"} }
+      #  raise "WOMP WOMP"
+      #end
     elsif encrypted_with_legacy?(cookie_value)
-      Lucky::Log.dexter.info { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. BEFORE NEW COOKIE VALUE"} }
+      #Lucky::Log.dexter.info { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. BEFORE NEW COOKIE VALUE"} }
       new_cookie_value = update_from_legacy_value(cookie_value)
-      Lucky::Log.dexter.info { { req: req_id, cookie_value: new_cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. AFTER NEW COOKIE VALUE", encryption_prefix: LEGACY_LUCKY_ENCRYPTION_PREFIX} }
+      #Lucky::Log.dexter.info { { req: req_id, cookie_value: new_cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. AFTER NEW COOKIE VALUE", encryption_prefix: LEGACY_LUCKY_ENCRYPTION_PREFIX} }
       decrypt(new_cookie_value, cookie_name)
     else
       raise <<-ERROR
@@ -177,8 +177,9 @@ class Lucky::CookieJar
   end
 
   private def update_from_legacy_value(value : String) : String
-    decoded_value = URI.decode_www_form(value)
-    LUCKY_ENCRYPTION_PREFIX + decoded_value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    #decoded_value = URI.decode_www_form(value)
+    #LUCKY_ENCRYPTION_PREFIX + decoded_value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    LUCKY_ENCRYPTION_PREFIX + value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
   end
 
   private def encrypted_with_lucky?(value : String) : Bool
@@ -188,8 +189,9 @@ class Lucky::CookieJar
   # legacy encrypted values had a \n between the encoded lucky and -- and were also www form encoded
   # this allows apps made before 0.27.0 to not have to log all users out
   private def encrypted_with_legacy?(value : String) : Bool
-    decoded_value = URI.decode_www_form(value)
-    decoded_value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    #decoded_value = URI.decode_www_form(value)
+    #decoded_value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
   end
 
   @_encryptor : Lucky::MessageEncryptor?
