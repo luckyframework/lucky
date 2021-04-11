@@ -146,23 +146,23 @@ class Lucky::CookieJar
   private def decrypt(cookie_value : String, cookie_name : String) : String
     req_id = "#{rand(10_000)}"
     if encrypted_with_lucky?(cookie_value)
-      Lucky::Log.dexter.debug { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "NEW COOKIE. BEFORE LCHOP"} }
+      Lucky::Log.dexter.info { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "NEW COOKIE. BEFORE LCHOP"} }
       base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
-      Lucky::Log.dexter.debug { { req: req_id, base_64_encrypted_part: base_64_encrypted_part, message: "AFTER LCHOP", encryption_prefix: LUCKY_ENCRYPTION_PREFIX} }
+      Lucky::Log.dexter.info { { req: req_id, base_64_encrypted_part: base_64_encrypted_part, message: "AFTER LCHOP", encryption_prefix: LUCKY_ENCRYPTION_PREFIX} }
       begin
         decoded = Base64.decode(base_64_encrypted_part)
-        Lucky::Log.dexter.debug { { req: req_id, decoded: String.new(decoded), message: "BASE64 DECODE SUCCEEDED. TRYING DECRYPT"} }
+        Lucky::Log.dexter.info { { req: req_id, decoded: String.new(decoded), message: "BASE64 DECODE SUCCEEDED. TRYING DECRYPT"} }
         decrypted = encryptor.decrypt(decoded)
-        Lucky::Log.dexter.debug { { req: req_id, decrypted: String.new(decrypted), message: "DECRYPT SUCCEEDED"} }
+        Lucky::Log.dexter.info { { req: req_id, decrypted: String.new(decrypted), message: "DECRYPT SUCCEEDED"} }
         String.new(decrypted)
       rescue e
-        Lucky::Log.dexter.debug { { req: req_id, error: e.message, message: "BASE64 DECODE FAILED"} }
-        raise OpenSSL::Cipher::Error.new
+        Lucky::Log.dexter.info { { req: req_id, error: e.message, message: "BASE64 DECODE FAILED"} }
+        raise "WOMP WOMP"
       end
     elsif encrypted_with_legacy?(cookie_value)
-      Lucky::Log.dexter.debug { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. BEFORE NEW COOKIE VALUE"} }
+      Lucky::Log.dexter.info { { req: req_id, cookie_value: cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. BEFORE NEW COOKIE VALUE"} }
       new_cookie_value = update_from_legacy_value(cookie_value)
-      Lucky::Log.dexter.debug { { req: req_id, cookie_value: new_cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. AFTER NEW COOKIE VALUE", encryption_prefix: LEGACY_LUCKY_ENCRYPTION_PREFIX} }
+      Lucky::Log.dexter.info { { req: req_id, cookie_value: new_cookie_value, cookie_name: cookie_name, message: "LEGACY COOKIE. AFTER NEW COOKIE VALUE", encryption_prefix: LEGACY_LUCKY_ENCRYPTION_PREFIX} }
       decrypt(new_cookie_value, cookie_name)
     else
       raise <<-ERROR
