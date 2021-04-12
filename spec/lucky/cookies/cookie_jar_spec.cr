@@ -70,14 +70,26 @@ describe Lucky::CookieJar do
     jar.get?(:name).should be_nil
   end
 
-  it "raises helpful error if trying to read unencrypted values" do
+  it "returns nil if fails to decrypt value" do
     jar = Lucky::CookieJar.empty_jar
 
     jar.set_raw(:name, "Jane")
 
-    expect_raises Exception, "cookies.get_raw(:name).value" do
-      jar.get?(:name)
-    end
+    jar.get?(:name).should be_nil
+  end
+
+  it "parses encrypted cookies as expected" do
+    # meant to be a regression test to make sure we don't
+    # accidentally break cookie decryption
+    #
+    # this cookie was created with Lucky 0.27
+    cookie_key = "cookie_key"
+    cookie_value = "bHVja3k=--hY71kbRfob4pb9NS7wJpWKOBRhF+kwYPsHRQQanyXzGSKsCO6MIHCZfRBxDRqqm6"
+    cookies = HTTP::Cookies.new
+    cookies[cookie_key] = cookie_value
+    jar = Lucky::CookieJar.from_request_cookies(cookies)
+
+    JSON.parse(jar.get(cookie_key)).should eq({"key" => "value", "abc" => "123"})
   end
 
   describe "#set" do

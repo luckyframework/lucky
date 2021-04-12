@@ -1,7 +1,6 @@
 class Lucky::CookieJar
-  MAX_COOKIE_SIZE                = 4096
-  LUCKY_ENCRYPTION_PREFIX        = Base64.strict_encode("lucky") + "--"
-  LEGACY_LUCKY_ENCRYPTION_PREFIX = Base64.encode("lucky") + "--"
+  MAX_COOKIE_SIZE         = 4096
+  LUCKY_ENCRYPTION_PREFIX = Base64.strict_encode("lucky") + "--"
   alias Key = String | Symbol
   private property cookies
   private property set_cookies
@@ -143,39 +142,19 @@ class Lucky::CookieJar
     end
   end
 
-  private def decrypt(cookie_value : String, cookie_name : String) : String
-    if encrypted_with_lucky?(cookie_value)
-      base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
-      decoded = Base64.decode(base_64_encrypted_part)
-      String.new(encryptor.decrypt(decoded))
-    elsif encrypted_with_legacy?(cookie_value)
-      decrypt(update_from_legacy_value(cookie_value), cookie_name)
-    else
-      raise <<-ERROR
-      It looks like this cookie's value is not encrypted by Lucky. This likely means the cookie was set by something other than Lucky, like a client side script.
+  private def decrypt(cookie_value : String, cookie_name : String) : String?
+    return unless encrypted_with_lucky?(cookie_value)
 
-      You can access the raw value by using 'get_raw':
-
-          cookies.get_raw(:#{cookie_name}).value
-
-      ERROR
-    end
-  end
-
-  private def update_from_legacy_value(value : String) : String
-    decoded_value = URI.decode_www_form(value)
-    LUCKY_ENCRYPTION_PREFIX + decoded_value.lchop(LEGACY_LUCKY_ENCRYPTION_PREFIX)
+    base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
+    decoded = Base64.decode(base_64_encrypted_part)
+    String.new(encryptor.decrypt(decoded))
+  rescue e
+    # an error happened while decrypting the cookie
+    # we will treat that as if no cookie was passed
   end
 
   private def encrypted_with_lucky?(value : String) : Bool
     value.starts_with?(LUCKY_ENCRYPTION_PREFIX)
-  end
-
-  # legacy encrypted values had a \n between the encoded lucky and -- and were also www form encoded
-  # this allows apps made before 0.27.0 to not have to log all users out
-  private def encrypted_with_legacy?(value : String) : Bool
-    decoded_value = URI.decode_www_form(value)
-    decoded_value.starts_with?(LEGACY_LUCKY_ENCRYPTION_PREFIX)
   end
 
   @_encryptor : Lucky::MessageEncryptor?
