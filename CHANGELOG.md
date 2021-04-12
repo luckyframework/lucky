@@ -1,3 +1,8 @@
+### v0.27.2 (2021-04-12)
+
+- Removed: legacy ecrypted cookies handling. [#1470](https://github.com/luckyframework/lucky/pull/1470)
+- Updated: Cookies resulting in encryption failure are ignored. [#1470](https://github.com/luckyframework/lucky/pull/1470)
+
 ### v0.27.1 (2021-04-09)
 
 - Fixed: support for previous versions (<= 0.26.0) of encrypted cookies. [#1467](https://github.com/luckyframework/lucky/pull/1467)
