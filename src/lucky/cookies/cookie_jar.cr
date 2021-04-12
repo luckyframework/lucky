@@ -142,21 +142,15 @@ class Lucky::CookieJar
     end
   end
 
-  private def decrypt(cookie_value : String, cookie_name : String) : String
-    if encrypted_with_lucky?(cookie_value)
-      base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
-      decoded = Base64.decode(base_64_encrypted_part)
-      String.new(encryptor.decrypt(decoded))
-    else
-      raise <<-ERROR
-      It looks like this cookie's value is not encrypted by Lucky. This likely means the cookie was set by something other than Lucky, like a client side script.
+  private def decrypt(cookie_value : String, cookie_name : String) : String?
+    return unless encrypted_with_lucky?(cookie_value)
 
-      You can access the raw value by using 'get_raw':
-
-          cookies.get_raw(:#{cookie_name}).value
-
-      ERROR
-    end
+    base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
+    decoded = Base64.decode(base_64_encrypted_part)
+    String.new(encryptor.decrypt(decoded))
+  rescue e
+    # an error happened while decrypting the cookie
+    # we will treat that as if no cookie was passed
   end
 
   private def encrypted_with_lucky?(value : String) : Bool

@@ -9,18 +9,13 @@ class Lucky::Session
   end
 
   def self.from_cookie_jar(cookie_jar : Lucky::CookieJar) : Lucky::Session
-    session = new
-    begin
+    new.tap do |session|
       cookie_jar.get?(settings.key).try do |contents|
         JSON.parse(contents).as_h.each do |key, value|
           session.set key, value.as_s
         end
       end
-    rescue
-      # an error happened while pulling session from cookies
-      # ignore error and move along with a new/empty session
     end
-    session
   end
 
   def destroy
