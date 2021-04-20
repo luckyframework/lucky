@@ -82,7 +82,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
-           ▸ mount_with_defaults MyComponent.new
+           ▸ mount_with_defaults MyComponent
         ERROR
     %}
   end
@@ -96,7 +96,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
-           ▸ mount_with_defaults MyComponent.new
+           ▸ mount_with_defaults MyComponent
         ERROR
     %}
   end
@@ -110,7 +110,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
-           ▸ mount_with_defaults MyComponent.new
+           ▸ mount_with_defaults MyComponent
         ERROR
     %}
   end
@@ -124,7 +124,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
-           ▸ mount_with_defaults MyComponent.new
+           ▸ mount_with_defaults MyComponent
         ERROR
     %}
   end
@@ -177,7 +177,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
-           ▸ mount_with_defaults MyComponent.new
+           ▸ mount_with_defaults MyComponent
         ERROR
     %}
   end
@@ -191,7 +191,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
-           ▸ mount_with_defaults MyComponent.new
+           ▸ mount_with_defaults MyComponent
         ERROR
     %}
   end
@@ -200,7 +200,6 @@ module Lucky::MountComponent
   #
   # Includes the following common `needs` arguments:
   # * `context`
-  # * `current_user`
   #
   # When `Lucky::HTMLPage.settings.render_component_comments` is
   # set to `true`, it will render HTML comments showing where the component
@@ -212,7 +211,7 @@ module Lucky::MountComponent
   # ```
   def mount_with_defaults(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.new(*args, **named_args).view(view).render
+      component.new(*args, **named_args, context: @context).view(view).render
     end
   end
 
@@ -221,7 +220,6 @@ module Lucky::MountComponent
   #
   # Includes the following common `needs` arguments:
   # * `context`
-  # * `current_user`
   #
   # When `Lucky::HTMLPage.settings.render_component_comments` is
   # set to `true`, it will render HTML comments showing where the component
@@ -234,7 +232,7 @@ module Lucky::MountComponent
   # ```
   def mount_with_defaults(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.new(*args, **named_args).view(view).render do |*yield_args|
+      component.new(*args, **named_args, context: @context).view(view).render do |*yield_args|
         yield *yield_args
       end
     end
