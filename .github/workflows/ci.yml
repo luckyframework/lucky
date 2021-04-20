@@ -2,7 +2,7 @@ name: Lucky CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
     branches: "*"
 
@@ -11,18 +11,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        shard_file:
+          - shard.yml
         crystal_version:
           - 0.36.1
           - 1.0.0
         experimental:
           - false
+        include:
+          - shard_file: shard.edge.yml
+            crystal_version: 1.0.0
+            experimental: true
+          - shard_file: shard.yml
+            crystal_version: nightly
+            experimental: true
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
+    env:
+      SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
       - uses: actions/checkout@v1
       - name: Install shards
-        run: shards install
+        run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install
       - name: Format
         run: crystal tool format --check
       - name: Lint
@@ -31,22 +42,33 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        shard_file:
+          - shard.yml
         crystal_version:
           - 0.36.1
           - 1.0.0
         experimental:
           - false
+        include:
+          - shard_file: shard.edge.yml
+            crystal_version: 1.0.0
+            experimental: true
+          - shard_file: shard.yml
+            crystal_version: nightly
+            experimental: true
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
+    env:
+      SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
-    - uses: actions/checkout@v2
-    - name: Cache Crystal
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/crystal
-        key: ${{ runner.os }}-crystal
-    - name: Install shards
-      run: shards install
-    - name: Run tests
-      run: crystal spec
+      - uses: actions/checkout@v2
+      - name: Cache Crystal
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/crystal
+          key: ${{ runner.os }}-crystal
+      - name: Install shards
+        run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install --ignore-crystal-version
+      - name: Run tests
+        run: crystal spec
