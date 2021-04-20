@@ -82,6 +82,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
+           ▸ mount_with_defaults MyComponent.new
         ERROR
     %}
   end
@@ -95,6 +96,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
+           ▸ mount_with_defaults MyComponent.new
         ERROR
     %}
   end
@@ -108,6 +110,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
+           ▸ mount_with_defaults MyComponent.new
         ERROR
     %}
   end
@@ -121,6 +124,7 @@ module Lucky::MountComponent
 
            ▸ mount MyComponent
            ▸ mount_instance MyComponent.new
+           ▸ mount_with_defaults MyComponent.new
         ERROR
     %}
   end
@@ -159,6 +163,78 @@ module Lucky::MountComponent
   def mount_instance(component : Lucky::BaseComponent) : Nil
     print_component_comment(component.class) do
       component.view(view).render do |*yield_args|
+        yield *yield_args
+      end
+    end
+  end
+
+  # :nodoc:
+  def mount_with_defaults(_component : Lucky::BaseComponent.class) : Nil
+    {% raise <<-ERROR
+        'mount_with_defaults' requires an instance of a component, not component class.
+
+        Try this...
+
+           ▸ mount MyComponent
+           ▸ mount_instance MyComponent.new
+           ▸ mount_with_defaults MyComponent.new
+        ERROR
+    %}
+  end
+
+  # :nodoc:
+  def mount_with_defaults(_component : Lucky::BaseComponent.class, &) : Nil
+    {% raise <<-ERROR
+        'mount_with_defaults' requires an instance of a component, not component class.
+
+        Try this...
+
+           ▸ mount MyComponent
+           ▸ mount_instance MyComponent.new
+           ▸ mount_with_defaults MyComponent.new
+        ERROR
+    %}
+  end
+
+  # Appends the `component` to the view.
+  #
+  # Includes the following common `needs` arguments:
+  # * `context`
+  # * `current_user`
+  #
+  # When `Lucky::HTMLPage.settings.render_component_comments` is
+  # set to `true`, it will render HTML comments showing where the component
+  # starts and ends.
+  #
+  # ```
+  # mount_with_defaults(MyComponent)
+  # mount_with_defaults(MyComponent, with_args: 123)
+  # ```
+  def mount_with_defaults(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
+    print_component_comment(component) do
+      component.new(*args, **named_args).view(view).render
+    end
+  end
+
+  # Appends the `component` to the view. Takes a block, and yields the
+  # args passed to the component.
+  #
+  # Includes the following common `needs` arguments:
+  # * `context`
+  # * `current_user`
+  #
+  # When `Lucky::HTMLPage.settings.render_component_comments` is
+  # set to `true`, it will render HTML comments showing where the component
+  # starts and ends.
+  #
+  # ```
+  # mount_with_defaults(MyComponent, name: "Jane") do |name|
+  #   text name.upcase
+  # end
+  # ```
+  def mount_with_defaults(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
+    print_component_comment(component) do
+      component.new(*args, **named_args).view(view).render do |*yield_args|
         yield *yield_args
       end
     end
