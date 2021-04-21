@@ -1,5 +1,4 @@
 module Lucky::Renderable
-
   # Disable cookies
   #
   # When `disable_cookies` is used, no `Set-Cookie` header will be written to
