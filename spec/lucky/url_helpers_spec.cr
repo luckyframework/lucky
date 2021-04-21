@@ -160,6 +160,9 @@ end
 
 private class TestPage
   include Lucky::HTMLPage
+
+  def initialize(@context : HTTP::Server::Context)
+  end
 end
 
 class Pages::Index < TestAction

@@ -60,7 +60,7 @@ include ContextHelper
 
 describe "tag_defaults" do
   it "renders the component" do
-    contents = TestTagDefaultsPage.new(build_context).render.to_s
+    contents = TestTagDefaultsPage.new.render.to_s
 
     contents
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="form-control">)

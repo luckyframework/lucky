@@ -55,5 +55,5 @@ describe Lucky::NumberToCurrency do
 end
 
 private def view
-  TestPage.new(build_context)
+  TestPage.new
 end

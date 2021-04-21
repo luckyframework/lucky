@@ -4,8 +4,10 @@ class Lucky::WelcomePage
 
   SIGN_UP_ACTION = SignUps::New
 
+  getter context : HTTP::Server::Context
+
   # Accept a context and all other exposed data
-  def initialize(@context : HTTP::Server::Context, *args, **named_args)
+  def initialize(@context)
   end
 
   macro render_auth_button

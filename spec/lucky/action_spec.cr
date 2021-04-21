@@ -54,7 +54,7 @@ end
 
 class Tests::Index < TestAction
   route do
-    html
+    html IndexPage.new
   end
 end
 

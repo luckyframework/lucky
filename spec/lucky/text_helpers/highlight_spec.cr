@@ -64,7 +64,7 @@ describe Lucky::TextHelpers do
 end
 
 def view
-  HighlightTestPage.new(build_context).tap do |page|
+  HighlightTestPage.new.tap do |page|
     yield page
   end.view.to_s
 end

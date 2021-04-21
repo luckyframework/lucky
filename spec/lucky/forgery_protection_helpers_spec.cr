@@ -5,6 +5,9 @@ include ContextHelper
 private class TestPage
   include Lucky::HTMLPage
 
+  def initialize(@context : HTTP::Server::Context)
+  end
+
   def render
   end
 end

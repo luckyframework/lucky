@@ -3,7 +3,10 @@
 # Typically you would copy paste this component source into your app
 # and modify it to suite your needs.
 class Lucky::Paginator::SimpleNav < Lucky::BaseComponent
-  needs pages : Lucky::Paginator
+  getter pages : Lucky::Paginator
+
+  def initialize(@pages)
+  end
 
   def render
     nav aria_label: "pagination", role: "navigation" do

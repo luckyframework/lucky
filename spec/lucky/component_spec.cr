@@ -9,7 +9,8 @@ private class TestComponent < Lucky::BaseComponent
 end
 
 private class ComplexTestComponent < Lucky::BaseComponent
-  needs title : String
+  def initialize(@title : String)
+  end
 
   def render
     text @title
@@ -19,7 +20,8 @@ private class ComplexTestComponent < Lucky::BaseComponent
 end
 
 private class ComplexInstanceTestComponent < Lucky::BaseComponent
-  needs title : String
+  def initialize(@title : String)
+  end
 
   def render
     text @title
@@ -30,7 +32,8 @@ private class ComplexInstanceTestComponent < Lucky::BaseComponent
 end
 
 private class ComponentWithBlock < Lucky::BaseComponent
-  needs name : String
+  def initialize(@name : String)
+  end
 
   def render
     yield @name
@@ -81,7 +84,7 @@ end
 
 describe "components rendering" do
   it "renders to a page" do
-    contents = TestMountPage.new(build_context).render.to_s
+    contents = TestMountPage.new.render.to_s
 
     contents.should contain("passed_in_title")
     contents.should contain("TestComponent")
@@ -99,7 +102,7 @@ describe "components rendering" do
 
   it "prints a comment when configured to do so" do
     Lucky::HTMLPage.temp_config(render_component_comments: true) do
-      contents = TestMountPage.new(build_context).render.to_s
+      contents = TestMountPage.new.render.to_s
       contents.should contain("<!-- BEGIN: ComplexTestComponent spec/lucky/component_spec.cr -->")
       contents.should contain("<!-- END: ComplexTestComponent -->")
       contents.should contain("<!-- BEGIN: ComponentWithBlock spec/lucky/component_spec.cr -->")
@@ -109,7 +112,7 @@ describe "components rendering" do
 
   context "mounted instance" do
     it "renders to a page" do
-      contents = TestMountInstancePage.new(build_context).render.to_s
+      contents = TestMountInstancePage.new.render.to_s
 
       contents.should contain("passed_in_title")
       contents.should contain("TestComponent")
@@ -127,7 +130,7 @@ describe "components rendering" do
 
     it "prints a comment when configured to do so" do
       Lucky::HTMLPage.temp_config(render_component_comments: true) do
-        contents = TestMountInstancePage.new(build_context).render.to_s
+        contents = TestMountInstancePage.new.render.to_s
         contents.should contain("<!-- BEGIN: ComplexInstanceTestComponent spec/lucky/component_spec.cr -->")
         contents.should contain("<!-- END: ComplexInstanceTestComponent -->")
         contents.should contain("<!-- BEGIN: ComponentWithBlock spec/lucky/component_spec.cr -->")

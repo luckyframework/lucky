@@ -2,7 +2,10 @@
 #
 # https://getbootstrap.com/docs/4.0/components/pagination/
 class Lucky::Paginator::BootstrapNav < Lucky::BaseComponent
-  needs pages : Lucky::Paginator
+  getter pages : Lucky::Paginator
+
+  def initialize(@pages)
+  end
 
   def render
     nav aria_label: "pagination", role: "navigation" do

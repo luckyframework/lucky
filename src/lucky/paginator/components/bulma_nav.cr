@@ -2,7 +2,10 @@
 #
 # https://bulma.io/documentation/components/pagination/
 class Lucky::Paginator::BulmaNav < Lucky::BaseComponent
-  needs pages : Lucky::Paginator
+  getter pages : Lucky::Paginator
+
+  def initialize(@pages)
+  end
 
   def render
     nav aria_label: "pagination", class: "pagination", role: "navigation" do

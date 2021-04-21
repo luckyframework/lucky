@@ -5,8 +5,11 @@ include ContextHelper
 class Rendering::IndexPage
   include Lucky::HTMLPage
 
-  needs title : String
-  needs arg2 : String
+  getter title : String
+  getter arg2 : String
+
+  def initialize(@title, @arg2)
+  end
 
   def render
     text @title
@@ -15,13 +18,13 @@ end
 
 class Rendering::Index < TestAction
   route do
-    html title: "Anything", arg2: "testing multiple args"
+    html IndexPage.new(title: "Anything", arg2: "testing multiple args")
   end
 end
 
 class Namespaced::Rendering::Index < TestAction
   route do
-    html ::Rendering::IndexPage, title: "Anything", arg2: "testing multiple args"
+    html ::Rendering::IndexPage.new(title: "Anything", arg2: "testing multiple args")
   end
 end
 
@@ -133,7 +136,8 @@ private class PlainTestComponent < Lucky::BaseComponent
 end
 
 private class ComplexTestComponent < Lucky::BaseComponent
-  needs title : String
+  def initialize(@title : String)
+  end
 
   def render
     text @title
@@ -144,19 +148,19 @@ end
 
 class Rendering::PlainComponent < TestAction
   get "/foo14" do
-    component PlainTestComponent
+    component PlainTestComponent.new
   end
 end
 
 class Rendering::ComplexComponent < TestAction
   get "/foo15" do
-    component ComplexTestComponent, title: "Getting Complex"
+    component ComplexTestComponent.new(title: "Getting Complex")
   end
 end
 
 class Rendering::PlainComponentWithCustomStatus < TestAction
   get "/foo16" do
-    component PlainTestComponent, status: :partial_content
+    component PlainTestComponent.new, status: :partial_content
   end
 end
 

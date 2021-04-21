@@ -17,6 +17,11 @@ end
 private class TestPage
   include Lucky::HTMLPage
 
+  getter context : HTTP::Server::Context
+
+  def initialize(@context)
+  end
+
   def render
   end
 

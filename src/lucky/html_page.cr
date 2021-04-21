@@ -5,11 +5,8 @@ module Lucky::HTMLPage
     setting render_component_comments : Bool = false
   end
 
-  macro included
-    include Lucky::HTMLBuilder
-    getter view = IO::Memory.new
-    needs context : HTTP::Server::Context
-  end
+  include Lucky::HTMLBuilder
+  getter view = IO::Memory.new
 
   def to_s(io)
     io << view

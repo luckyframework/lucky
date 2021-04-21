@@ -10,7 +10,6 @@ abstract class Lucky::Action
 
   include Lucky::ActionDelegates
   include Lucky::RequestTypeHelpers
-  include Lucky::Exposable
   include Lucky::Routable
   include Lucky::Renderable
   include Lucky::ParamHelpers

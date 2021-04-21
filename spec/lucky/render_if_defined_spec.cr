@@ -22,8 +22,8 @@ end
 
 describe "render_if_defined" do
   it "renders if the method is defined, otherwise it does nothing" do
-    page_with_sidebar = PageWithSidebar.new(build_context)
-    page_without_sidebar = PageWithoutSidebar.new(build_context)
+    page_with_sidebar = PageWithSidebar.new
+    page_without_sidebar = PageWithoutSidebar.new
 
     page_with_sidebar.render.to_s.should eq "In the sidebar"
     page_without_sidebar.render.to_s.should eq ""

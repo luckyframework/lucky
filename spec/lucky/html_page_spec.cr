@@ -55,7 +55,8 @@ abstract class MainLayout
 end
 
 class InnerPage < MainLayout
-  needs foo : String
+  def initialize(@foo : String)
+  end
 
   def inner
     text "Inner text"
@@ -68,11 +69,14 @@ class InnerPage < MainLayout
 end
 
 class LessNeedyDefaultsPage < MainLayout
-  needs a_string : String = "string default"
-  needs bool : Bool = false
-  needs nil_default : String? = nil
-  needs inferred_nil_default : String?
-  needs inferred_nil_default2 : String | Nil
+  getter a_string : String
+  getter bool : Bool
+  getter nil_default : String?
+  getter inferred_nil_default : String?
+  getter inferred_nil_default2 : String | Nil
+
+  def initialize(@a_string = "string default", @bool = false, @nil_default = nil, @inferred_nil_default = nil, @inferred_nil_default2 = nil)
+  end
 
   def inner
     div @a_string
@@ -111,7 +115,7 @@ describe Lucky::HTMLPage do
 
   describe "HTML escaping" do
     it "escapes text" do
-      UnsafePage.new(build_context).render.should eq "&lt;script&gt;not safe&lt;/span&gt;"
+      UnsafePage.new.render.should eq "&lt;script&gt;not safe&lt;/span&gt;"
     end
 
     it "escapes HTML attributes" do
@@ -124,7 +128,7 @@ describe Lucky::HTMLPage do
   end
 
   it "renders complicated HTML syntax" do
-    TestRender.new(build_context).render.should be_a(String)
+    TestRender.new.render.should be_a(String)
   end
 
   it "can render raw strings" do
@@ -133,40 +137,36 @@ describe Lucky::HTMLPage do
 
   describe "can be used to render layouts" do
     it "renders layouts and needs" do
-      InnerPage.new(build_context, foo: "bar").render.should contain %(<title>A great title</title>)
-      InnerPage.new(build_context, foo: "bar").render.should contain %(<body>Inner textbar</body>)
+      InnerPage.new(foo: "bar").render.should contain %(<title>A great title</title>)
+      InnerPage.new(foo: "bar").render.should contain %(<body>Inner textbar</body>)
     end
   end
 
   describe "needs with defaults" do
     it "allows default values to needs" do
-      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>string default</div>)
+      LessNeedyDefaultsPage.new.render.should contain %(<div>string default</div>)
     end
 
     it "allows false as default value to needs" do
-      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>bool default</div>)
+      LessNeedyDefaultsPage.new.render.should contain %(<div>bool default</div>)
     end
 
     it "allows nil as default value to needs" do
-      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>nil default</div>)
+      LessNeedyDefaultsPage.new.render.should contain %(<div>nil default</div>)
     end
 
     it "infers the default value from nilable needs" do
-      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>inferred nil default</div>)
+      LessNeedyDefaultsPage.new.render.should contain %(<div>inferred nil default</div>)
     end
 
     it "infers the default value from nilable needs" do
-      LessNeedyDefaultsPage.new(build_context).render.should contain %(<div>inferred nil default 2</div>)
+      LessNeedyDefaultsPage.new.render.should contain %(<div>inferred nil default 2</div>)
     end
-  end
-
-  it "accepts extra arguments so pages are more flexible with exposures" do
-    InnerPage.new(build_context, foo: "bar", ignore_me: true)
   end
 end
 
 private def view
-  TestRender.new(build_context).tap do |page|
+  TestRender.new.tap do |page|
     yield page
   end.view.to_s
 end

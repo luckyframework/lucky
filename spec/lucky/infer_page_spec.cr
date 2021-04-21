@@ -3,8 +3,11 @@ require "../spec_helper"
 class Rendering::CustomPage
   include Lucky::HTMLPage
 
-  needs title : String
-  needs arg2 : String
+  getter title : String
+  getter arg2 : String
+
+  def initialize(@title, @arg2)
+  end
 
   def render
     text @title
@@ -13,13 +16,13 @@ end
 
 class Rendering::Foo < TestAction
   get "/rendering-foo" do
-    html Rendering::CustomPage, title: "EditPage", arg2: "testing_multiple_args"
+    html Rendering::CustomPage.new(title: "EditPage", arg2: "testing_multiple_args")
   end
 end
 
 class Rendering::WithinSameNameSpace < TestAction
   get "/in-namespace" do
-    html CustomPage, title: "WithinSameNameSpace", arg2: "testing_multiple_args"
+    html CustomPage.new(title: "WithinSameNameSpace", arg2: "testing_multiple_args")
   end
 end
 
