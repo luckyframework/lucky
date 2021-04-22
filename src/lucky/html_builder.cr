@@ -67,18 +67,6 @@ module Lucky::HTMLBuilder
     {% end %}
   end
 
-  macro generate_getters
-    {% if !@type.abstract? %}
-      {% for declaration in ASSIGNS %}
-        {% if declaration.type.stringify == "Bool" %}
-          getter? {{ declaration }}
-        {% else %}
-          getter {{ declaration }}
-        {% end %}
-      {% end %}
-    {% end %}
-  end
-
   def perform_render : IO
     render
     view
