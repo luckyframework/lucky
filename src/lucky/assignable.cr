@@ -58,17 +58,19 @@ module Lucky::Assignable
   macro inherit_assigns
     macro included
       inherit_assigns
-
-      macro inherited
-        inherit_assigns
-      end
     end
-    ASSIGNS = [] of Nil
 
-    {% verbatim do %}
-      {% if @type.ancestors.first && @type.ancestors.first.has_constant? :ASSIGNS %}
-        {% for declaration in @type.ancestors.first.constant :ASSIGNS %}
-          {% ASSIGNS << declaration %}
+    macro inherited
+      inherit_assigns
+    end
+
+    {% if !@type.has_constant?(:ASSIGNS) %}
+      ASSIGNS = [] of Nil
+      {% verbatim do %}
+        {% if @type.ancestors.first %}
+          {% for declaration in @type.ancestors.first.constant(:ASSIGNS) %}
+            {% ASSIGNS << declaration %}
+          {% end %}
         {% end %}
       {% end %}
     {% end %}
