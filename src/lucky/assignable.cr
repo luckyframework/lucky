@@ -1,10 +1,4 @@
 module Lucky::Assignable
-  # :nodoc:
-  macro included
-    setup_initializer_hook
-    inherit_assigns
-  end
-
   # Declare what a class needs in order to be initialized.
   #
   # This will declare an instance variable and getter automatically. It will
@@ -112,4 +106,7 @@ module Lucky::Assignable
       end
     {% end %}
   end
+
+  setup_initializer_hook
+  inherit_assigns
 end
