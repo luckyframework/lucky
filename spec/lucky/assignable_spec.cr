@@ -81,6 +81,16 @@ class OverrideGetterPage
   end
 end
 
+class NonPageClass
+  include Lucky::Assignable
+
+  needs param : String
+end
+
+class InheritedNonPageClass < NonPageClass
+  needs other_param : String
+end
+
 describe "Assigns within multiple pages with the same name" do
   it "should only appear once in the initializer" do
     PageOne.new build_context, title: "foo", name: "Paul", second: "second"
@@ -91,5 +101,7 @@ describe "Assigns within multiple pages with the same name" do
     PageWithMetaclass.new(build_context, string_class: String)
       .perform_render.to_s.should contain("called from an auto-generated getter")
     OverrideGetterPage.new(build_context).perform_render.to_s.should eq("Joe")
+    NonPageClass.new(param: "foo").param.should eq("foo")
+    InheritedNonPageClass.new(param: "foo", other_param: "bar").other_param.should eq("bar")
   end
 end
