@@ -845,8 +845,6 @@
   </h2>
   <ul class="other-types-list">
     
-      <li class="other-type"><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></li>
-    
       <li class="other-type"><a href="../Lucky/HTMLPage.html">Lucky::HTMLPage</a></li>
     
   </ul>
@@ -891,11 +889,6 @@
     
       <dt class="entry-const" id="ASSIGNS">
         <strong>ASSIGNS</strong> = <code>[context : <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>] <span class="k">of</span> <span class="t">Nil</span></code>
-      </dt>
-      
-    
-      <dt class="entry-const" id="SETTINGS">
-        <strong>SETTINGS</strong> = <code>{} <span class="k">of</span> <span class="t">Nil</span> => <span class="t">Nil</span></code>
       </dt>
       
     
@@ -947,19 +940,9 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#context:HTTP::Server::Context-instance-method" class="signature"><strong>#context</strong> : HTTP::Server::Context</a>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#render-instance-method" class="signature"><strong>#render</strong></a>
         
           <div class="summary"><p>Renders the Welcome Page</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#view:IO::Memory-instance-method" class="signature"><strong>#view</strong> : IO::Memory</a>
         
       </li>
     
@@ -990,6 +973,83 @@
   
     
 
+  <h3>Instance methods inherited from module <code><a href="../Lucky/HTMLPage.html">Lucky::HTMLPage</a></code></h3>
+  
+  
+    <a href="../Lucky/HTMLPage.html#context-instance-method" class="tooltip">
+      <span>context</span>
+    context</a>, 
+    
+  
+    <a href="../Lucky/HTMLPage.html#settings-instance-method" class="tooltip">
+      <span>settings</span>
+    settings</a>, 
+    
+  
+    <a href="../Lucky/HTMLPage.html#to_s(io)-instance-method" class="tooltip">
+      <span>to_s(io)</span>
+    to_s</a>, 
+    
+  
+    <a href="../Lucky/HTMLPage.html#view:IO-instance-method" class="tooltip">
+      <span>view : IO</span>
+    view</a>
+    
+  
+
+
+    
+
+  <h3>Constructor methods inherited from module <code><a href="../Lucky/HTMLPage.html">Lucky::HTMLPage</a></code></h3>
+  
+  
+    <a href="../Lucky/HTMLPage.html#new(context:HTTP::Server::Context,**unused_exposures)-class-method" class="tooltip">
+      <span>new(context : HTTP::Server::Context, **unused_exposures)</span>
+    new</a>
+    
+  
+
+
+    
+
+  <h3>Class methods inherited from module <code><a href="../Lucky/HTMLPage.html">Lucky::HTMLPage</a></code></h3>
+  
+  
+    <a href="../Lucky/HTMLPage.html#configure(&)-class-method" class="tooltip">
+      <span>configure(&)</span>
+    configure</a>, 
+    
+  
+    <a href="../Lucky/HTMLPage.html#settings-class-method" class="tooltip">
+      <span>settings</span>
+    settings</a>
+    
+  
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
   <h3>Instance methods inherited from module <code><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></code></h3>
   
   
@@ -998,14 +1058,23 @@
     perform_render</a>, 
     
   
-    <a href="../Lucky/HTMLBuilder.html#view-instance-method" class="tooltip">
-      <span>view</span>
+    <a href="../Lucky/HTMLBuilder.html#view:IO-instance-method" class="tooltip">
+      <span>view : IO</span>
     view</a>
     
   
 
 
     
+
+  <h3>Constructor methods inherited from module <code><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></code></h3>
+  
+  
+    <a href="../Lucky/HTMLBuilder.html#new(**unused_exposures)-class-method" class="tooltip">
+      <span>new(**unused_exposures)</span>
+    new</a>
+    
+  
 
 
     
@@ -1429,6 +1498,15 @@
 
 
     
+
+  <h3>Constructor methods inherited from module <code><a href="../Lucky/Assignable.html">Lucky::Assignable</a></code></h3>
+  
+  
+    <a href="../Lucky/Assignable.html#new(**unused_exposures)-class-method" class="tooltip">
+      <span>new(**unused_exposures)</span>
+    new</a>
+    
+  
 
 
     
@@ -2161,64 +2239,6 @@
   
     
 
-  <h3>Instance methods inherited from module <code><a href="../Lucky/HTMLPage.html">Lucky::HTMLPage</a></code></h3>
-  
-  
-    <a href="../Lucky/HTMLPage.html#settings-instance-method" class="tooltip">
-      <span>settings</span>
-    settings</a>, 
-    
-  
-    <a href="../Lucky/HTMLPage.html#to_s(io)-instance-method" class="tooltip">
-      <span>to_s(io)</span>
-    to_s</a>
-    
-  
-
-
-    
-
-
-    
-
-  <h3>Class methods inherited from module <code><a href="../Lucky/HTMLPage.html">Lucky::HTMLPage</a></code></h3>
-  
-  
-    <a href="../Lucky/HTMLPage.html#configure(&)-class-method" class="tooltip">
-      <span>configure(&)</span>
-    configure</a>, 
-    
-  
-    <a href="../Lucky/HTMLPage.html#settings-class-method" class="tooltip">
-      <span>settings</span>
-    settings</a>
-    
-  
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
 
     
 
@@ -2296,20 +2316,6 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="context:HTTP::Server::Context-instance-method">
-      <div class="signature">
-        
-        def <strong>context</strong> : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>
-
-        <a class="method-permalink" href="#context:HTTP::Server::Context-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
     <div class="entry-detail" id="render-instance-method">
       <div class="signature">
         
@@ -2322,20 +2328,6 @@
           
           <p>Renders the Welcome Page</p>
         </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="view:IO::Memory-instance-method">
-      <div class="signature">
-        
-        def <strong>view</strong> : IO::Memory
-
-        <a class="method-permalink" href="#view:IO::Memory-instance-method">#</a>
-      </div>
       
       <br/>
       <div>

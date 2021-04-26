@@ -862,7 +862,43 @@
 
 
 
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="ASSIGNS">
+        <strong>ASSIGNS</strong> = <code><span class="o">[]</span> <span class="k">of</span> <span class="t">Nil</span></code>
+      </dt>
+      
+    
+  </dl>
 
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(**unused_exposures)-class-method" class="signature"><strong>.new</strong>(**unused_exposures)</a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -881,9 +917,19 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#generate_needy_initializer-macro" class="signature"><strong>generate_needy_initializer</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#needs(*type_declarations)-macro" class="signature"><strong>needs</strong>(*type_declarations)</a>
         
-          <div class="summary"><p>Declare what a page needs in order to be initialized.</p></div>
+          <div class="summary"><p>Declare what a class needs in order to be initialized.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#setup_initializer_hook-macro" class="signature"><strong>setup_initializer_hook</strong></a>
         
       </li>
     
@@ -895,6 +941,30 @@
   
 </div>
 
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(**unused_exposures)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(**unused_exposures)
+
+        <a class="method-permalink" href="#new(**unused_exposures)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
 
 
 
@@ -911,6 +981,20 @@
     Macro Detail
   </h2>
   
+    <div class="entry-detail" id="generate_needy_initializer-macro">
+      <div class="signature">
+        
+        macro <strong>generate_needy_initializer</strong>
+
+        <a class="method-permalink" href="#generate_needy_initializer-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="needs(*type_declarations)-macro">
       <div class="signature">
         
@@ -921,7 +1005,7 @@
       
         <div class="doc">
           
-          <p>Declare what a page needs in order to be initialized.</p>
+          <p>Declare what a class needs in order to be initialized.</p>
 
 <p>This will declare an instance variable and getter automatically. It will
 also add arguments to an <code>initialize</code> method at the end of compilation.</p>
@@ -946,6 +1030,20 @@ also add arguments to an <code>initialize</code> method at the end of compilatio
   needs should_show_sidebar : <span class="t">Bool</span> <span class="o">=</span> <span class="n">true</span>
 <span class="k">end</span></code></pre>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="setup_initializer_hook-macro">
+      <div class="signature">
+        
+        macro <strong>setup_initializer_hook</strong>
+
+        <a class="method-permalink" href="#setup_initializer_hook-macro">#</a>
+      </div>
       
       <br/>
       <div>
