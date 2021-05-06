@@ -272,7 +272,7 @@ module Lucky::Renderable
   # ```
   def component(comp : Lucky::BaseComponent.class, status : Int32? = nil, **named_args) : Lucky::TextResponse
     send_text_response(
-      comp.new(**named_args).render_to_string,
+      comp.new(**named_args).context(context).render_to_string,
       "text/html",
       status
     )
