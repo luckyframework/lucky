@@ -12,7 +12,7 @@ module Lucky::MountComponent
   @[Deprecated("Use `#mount` instead. Example: mount(MyComponent, arg1: 123)")]
   def m(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.new(*args, **named_args).view(view).render
+      component.new(*args, **named_args).view(view).context(@context).render
     end
   end
 
@@ -31,7 +31,7 @@ module Lucky::MountComponent
   @[Deprecated("Use `#mount` instead. Example: mount(MyComponent, arg1: 123) do/end")]
   def m(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.new(*args, **named_args).view(view).render do |*yield_args|
+      component.new(*args, **named_args).view(view).context(@context).render do |*yield_args|
         yield *yield_args
       end
     end
@@ -49,7 +49,7 @@ module Lucky::MountComponent
   # ```
   def mount(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.new(*args, **named_args).view(view).render
+      component.new(*args, **named_args).view(view).context(@context).render
     end
   end
 
@@ -67,7 +67,7 @@ module Lucky::MountComponent
   # ```
   def mount(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
     print_component_comment(component) do
-      component.new(*args, **named_args).view(view).render do |*yield_args|
+      component.new(*args, **named_args).view(view).context(@context).render do |*yield_args|
         yield *yield_args
       end
     end
@@ -138,7 +138,7 @@ module Lucky::MountComponent
   # ```
   def mount_instance(component : Lucky::BaseComponent) : Nil
     print_component_comment(component.class) do
-      component.view(view).render
+      component.view(view).context(@context).render
     end
   end
 
@@ -158,7 +158,7 @@ module Lucky::MountComponent
   # ```
   def mount_instance(component : Lucky::BaseComponent) : Nil
     print_component_comment(component.class) do
-      component.view(view).render do |*yield_args|
+      component.view(view).context(@context).render do |*yield_args|
         yield *yield_args
       end
     end

@@ -8,7 +8,7 @@ module Lucky::ForgeryProtectionHelpers
   def csrf_hidden_input : Nil
     input type: "hidden",
       name: ProtectFromForgery::PARAM_KEY,
-      value: ProtectFromForgery.get_token(@context)
+      value: ProtectFromForgery.get_token(context)
   end
 
   # Meta tags used for submitting AJAX links and forms
@@ -20,6 +20,6 @@ module Lucky::ForgeryProtectionHelpers
     meta name: "csrf-param",
       content: ProtectFromForgery::PARAM_KEY
     meta name: "csrf-token",
-      content: ProtectFromForgery.get_token(@context)
+      content: ProtectFromForgery.get_token(context)
   end
 end

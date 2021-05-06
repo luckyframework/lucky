@@ -28,7 +28,7 @@ module Lucky::UrlHelpers
     value : String,
     check_query_params : Bool = false
   ) : Bool
-    request = @context.request
+    request = context.request
 
     return false unless {"GET", "HEAD"}.includes?(request.method)
 
