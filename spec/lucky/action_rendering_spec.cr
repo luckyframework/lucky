@@ -31,6 +31,12 @@ class Rendering::JSON::Index < TestAction
   end
 end
 
+class Rendering::JSON::WithStringBody < TestAction
+  get "/foo1" do
+    json("{\"name\":\"Paul\"}")
+  end
+end
+
 class Rendering::JSON::WithStatus < TestAction
   get "/foo" do
     json({name: "Paul"}, status: 201)
@@ -200,6 +206,10 @@ describe Lucky::Action do
 
   it "renders JSON" do
     response = Rendering::JSON::Index.new(build_context, params).call
+    response.body.to_s.should eq %({"name":"Paul"})
+    response.status.should eq 200
+
+    response = Rendering::JSON::WithStringBody.new(build_context, params).call
     response.body.to_s.should eq %({"name":"Paul"})
     response.status.should eq 200
 

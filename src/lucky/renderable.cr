@@ -247,6 +247,11 @@ module Lucky::Renderable
     head(status.value)
   end
 
+  # allows json-compatible string to be returned directly
+  def json(body : String, status : Int32? = nil) : Lucky::TextResponse
+    send_text_response(body, "application/json", status)
+  end
+
   def json(body, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body.to_json, "application/json", status)
   end
