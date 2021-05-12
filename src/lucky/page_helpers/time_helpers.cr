@@ -40,7 +40,7 @@ module Lucky::TimeHelpers
     distance_of_time_in_words(from, Time.utc)
   end
 
-  # Returns a `String` with approximate distance in time between current moment and `future_date`.
+  # Returns a `String` with approximate distance in time between current moment and future date.
   #
   # ```
   # time_from_now_in_words(Time.utc(2022, 8, 30)) # => "about a year"
@@ -49,8 +49,8 @@ module Lucky::TimeHelpers
   # ```
   #
   # See more examples in `#distance_of_time_in_words`.
-  def time_from_now_in_words(future_date : Time) : String
-    distance_of_time_in_words(Time.utc, future_date)
+  def time_from_now_in_words(to : Time) : String
+    distance_of_time_in_words(Time.utc, to)
   end  
 
   private def distance_in_days(distance : Int) : String
