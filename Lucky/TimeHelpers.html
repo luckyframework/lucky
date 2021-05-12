@@ -892,6 +892,13 @@
         
       </li>
     
+      <li class="entry-summary">
+        <a href="#time_from_now_in_words(to:Time):String-instance-method" class="signature"><strong>#time_from_now_in_words</strong>(to : Time) : String</a>
+        
+          <div class="summary"><p>Returns a <code><a href="../String.html">String</a></code> with approximate distance in time between current moment and future date.</p></div>
+        
+      </li>
+    
   </ul>
 
 
@@ -963,6 +970,31 @@ distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</
 <pre><code class="language-crystal">time_ago_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">30</span>)) <span class="c"># =&gt; &quot;about a month&quot;</span>
 <span class="c"># gives the same result as:</span>
 distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">30</span>), <span class="t">Time</span>.utc) <span class="c"># =&gt; &quot;about a month&quot;</span></code></pre>
+
+<p>See more examples in <code><a href="../Lucky/TimeHelpers.html#distance_of_time_in_words(from:Time,to:Time):String-instance-method">#distance_of_time_in_words</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="time_from_now_in_words(to:Time):String-instance-method">
+      <div class="signature">
+        
+        def <strong>time_from_now_in_words</strong>(to : Time) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#time_from_now_in_words(to:Time):String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a <code><a href="../String.html">String</a></code> with approximate distance in time between current moment and future date.</p>
+
+<pre><code class="language-crystal">time_from_now_in_words(<span class="t">Time</span>.utc(<span class="n">2022</span>, <span class="n">8</span>, <span class="n">30</span>)) <span class="c"># =&gt; &quot;about a year&quot;</span>
+<span class="c"># gives the same result as:</span>
+distance_of_time_in_words(<span class="t">Time</span>.utc, <span class="t">Time</span>.utc(<span class="n">2022</span>, <span class="n">8</span>, <span class="n">30</span>)) <span class="c"># =&gt; &quot;about a year&quot;</span></code></pre>
 
 <p>See more examples in <code><a href="../Lucky/TimeHelpers.html#distance_of_time_in_words(from:Time,to:Time):String-instance-method">#distance_of_time_in_words</a></code>.</p>
         </div>
