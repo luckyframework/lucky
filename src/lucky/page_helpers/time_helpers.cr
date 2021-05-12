@@ -51,7 +51,7 @@ module Lucky::TimeHelpers
   # See more examples in `#distance_of_time_in_words`.
   def time_from_now_in_words(to : Time) : String
     distance_of_time_in_words(Time.utc, to)
-  end  
+  end
 
   private def distance_in_days(distance : Int) : String
     case distance
