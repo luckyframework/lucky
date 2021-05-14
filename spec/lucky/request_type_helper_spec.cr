@@ -71,7 +71,7 @@ describe Lucky::RequestTypeHelpers do
     action = FakeAction.new
     action.multipart?.should(be_false)
 
-    action.context.request.headers["Content-Type"] = "multipart/form-data"
+    action.context.request.headers["Content-Type"] = "multipart/form-data; boundary="
     action.multipart?.should(be_true)
   end
 end

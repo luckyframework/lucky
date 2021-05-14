@@ -95,7 +95,7 @@ module Lucky::RequestTypeHelpers
   #
   # This tests if the `Content-Type` header is `multipart/form-data`
   def multipart? : Bool
-    request.headers["Content-Type"]?.try(&.downcase) == "multipart/form-data"
+    !!request.headers["Content-Type"]?.try(&.downcase.starts_with?("multipart/form-data"))
   end
 
   # :nodoc:
