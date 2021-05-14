@@ -91,6 +91,13 @@ module Lucky::RequestTypeHelpers
     request.headers["X-Requested-With"]?.try(&.downcase) == "xmlhttprequest"
   end
 
+  # Check if the request is multipart
+  #
+  # This tests if the `Content-Type` header is `multipart/form-data`
+  def multipart? : Bool
+    request.headers["Content-Type"]?.try(&.downcase) == "multipart/form-data"
+  end
+
   # :nodoc:
   def plain?
     {% raise "This method has been renamed to 'plain_text?'" %}
