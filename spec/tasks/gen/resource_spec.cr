@@ -16,7 +16,7 @@ describe Gen::Resource::Browser do
           "./src/actions/users/create.cr": "class Users::Create < BrowserAction",
           "./src/actions/users/edit.cr": "class Users::Edit < BrowserAction",
           "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
-          "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
+          "./src/actions/users/delete.cr": "class Users::DeleteOperation < BrowserAction"
         should_create_files_with_contents io,
           "./src/actions/users/index.cr": %(get "/users"),
           "./src/actions/users/show.cr": %(get "/users/:user_id"),
