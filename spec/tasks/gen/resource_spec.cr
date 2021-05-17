@@ -16,7 +16,7 @@ describe Gen::Resource::Browser do
           "./src/actions/users/create.cr": "class Users::Create < BrowserAction",
           "./src/actions/users/edit.cr": "class Users::Edit < BrowserAction",
           "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
-          "./src/actions/users/delete.cr": "class Users::DeleteOperation < BrowserAction"
+          "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
         should_create_files_with_contents io,
           "./src/actions/users/index.cr": %(get "/users"),
           "./src/actions/users/show.cr": %(get "/users/:user_id"),
@@ -29,7 +29,7 @@ describe Gen::Resource::Browser do
           "./src/actions/users/show.cr": "html ShowPage, user: UserQuery.find(user_id)",
           "./src/actions/users/edit.cr": "user = UserQuery.find(user_id)",
           "./src/actions/users/update.cr": "user = UserQuery.find(user_id)",
-          "./src/actions/users/delete.cr": "UserQuery.find(user_id).delete"
+          "./src/actions/users/delete.cr": "User::DeleteOperation.destroy(user)"
         should_create_files_with_contents io,
           "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
           "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",

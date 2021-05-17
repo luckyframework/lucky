@@ -1,7 +1,9 @@
-class <%= pluralized_name %>::DeleteOperation < BrowserAction
+class <%= pluralized_name %>::Delete < BrowserAction
   <%= route("Delete") %> do
-    <%= query_class %>.find(<%= resource_id_method_name %>).delete
-    flash.success = "Deleted the record"
-    redirect Index
+    <%= underscored_resource %>  = <%= query_class %>.find(<%= resource_id_method_name %>)
+    <%= resource %>::DeleteOperation.destroy(<%= underscored_resource %>) do |operation, deleted|
+      flash.success = "Deleted the record"
+      redirect Index
+    end 
   end
 end
