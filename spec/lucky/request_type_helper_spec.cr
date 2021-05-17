@@ -66,6 +66,14 @@ describe Lucky::RequestTypeHelpers do
     action.context.request.headers["X-Requested-With"] = "XMLHttpRequest"
     action.ajax?.should(be_true)
   end
+
+  it "checks if request is multipart" do
+    action = FakeAction.new
+    action.multipart?.should(be_false)
+
+    action.context.request.headers["Content-Type"] = "multipart/form-data; boundary="
+    action.multipart?.should(be_true)
+  end
 end
 
 private def override_format(format : Symbol?)
