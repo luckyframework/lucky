@@ -119,10 +119,14 @@ module Lucky::BaseTags
         attrs : Array(Symbol) = [] of Symbol,
         **other_options
       ) : Nil
+      boolean_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
-      {{method_name.id}}(attrs, merged_options) do
-        text content
-      end
+      tag_attrs = build_tag_attrs(merged_options)
+      view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">" << HTML.escape(content.to_s) << "</{{tag.id}}>"
+    end
+
+    def {{method_name.id}}(content : Lucky::AllowedInTags | String) : Nil
+      view << "<{{tag.id}}>" << HTML.escape(content.to_s) << "</{{tag.id}}>"
     end
 
     def {{method_name.id}}(
@@ -164,20 +168,8 @@ module Lucky::BaseTags
           %}
     end
 
-    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
+    def {{method_name.id}}(options, **other_options) : Nil
       {{ method_name.id }}("", options, **other_options)
-    end
-
-    def {{method_name.id}}(content : String | Lucky::AllowedInTags) : Nil
-      {{method_name.id}}(EMPTY_HTML_ATTRS) do
-        text content
-      end
-    end
-
-    def {{method_name.id}}(&block) : Nil
-      {{method_name.id}}(EMPTY_HTML_ATTRS) do
-        yield
-      end
     end
 
     def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
@@ -193,6 +185,12 @@ module Lucky::BaseTags
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
       view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
+      check_tag_content!(yield)
+      view << "</{{tag.id}}>"
+    end
+
+    def {{method_name.id}}(&block) : Nil
+      view << "<{{tag.id}}>"
       check_tag_content!(yield)
       view << "</{{tag.id}}>"
     end
@@ -252,6 +250,8 @@ module Lucky::BaseTags
   end
 
   private def build_tag_attrs(options)
+    return "" if options.empty?
+
     tag_attrs = String.build do |attrs|
       options.each do |key, value|
         attrs << " " << Wordsmith::Inflector.dasherize(key.to_s) << "=\""
@@ -262,6 +262,8 @@ module Lucky::BaseTags
   end
 
   private def build_boolean_attrs(options)
+    return "" if options.empty?
+
     String.build do |attrs|
       options.each do |value|
         attrs << " " << Wordsmith::Inflector.dasherize(value.to_s)
