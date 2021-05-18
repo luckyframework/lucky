@@ -28,7 +28,7 @@ class Routes < LuckyTask::Task
 
     Routing documentation:
 
-    https://luckyframework.org/guides/http-and-routing/routing-and-params
+      https://luckyframework.org/guides/http-and-routing/routing-and-params
     TEXT
   end
 end
