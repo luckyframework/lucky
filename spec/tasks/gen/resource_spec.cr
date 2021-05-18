@@ -29,7 +29,7 @@ describe Gen::Resource::Browser do
           "./src/actions/users/show.cr": "html ShowPage, user: UserQuery.find(user_id)",
           "./src/actions/users/edit.cr": "user = UserQuery.find(user_id)",
           "./src/actions/users/update.cr": "user = UserQuery.find(user_id)",
-          "./src/actions/users/delete.cr": "User::DeleteOperation.destroy(user)"
+          "./src/actions/users/delete.cr": "DeleteUser.destroy(user)"
         should_create_files_with_contents io,
           "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
           "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
@@ -39,7 +39,8 @@ describe Gen::Resource::Browser do
         should_create_files_with_contents io,
           "./src/models/user.cr": "class User < BaseModel",
           "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
-          "./src/operations/save_user.cr": "class SaveUser < User::SaveOperation"
+          "./src/operations/save_user.cr": "class SaveUser < User::SaveOperation",
+          "./src/operations/delete_user.cr": "class DeleteUser < User::DeleteOperation"
         should_create_files_with_contents io,
           "./src/operations/save_user.cr": "permit_columns name, notes, signed_up"
         should_generate_migration named: "create_users.cr"
