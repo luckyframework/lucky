@@ -1,6 +1,6 @@
 class <%= pluralized_name %>::Create < BrowserAction
   <%= route("Create") %> do
-    <%= operation_class %>.create(params) do |operation, <%= underscored_resource %>|
+    Save<%= resource %>create(params) do |operation, <%= underscored_resource %>|
       if <%= underscored_resource %>
         flash.success = "The record has been saved"
         redirect Show.with(<%= underscored_resource %>.id)

@@ -1,5 +1,5 @@
 class <%= pluralized_name %>::NewPage < MainLayout
-  needs operation : <%= operation_class %>
+  needs operation : Save<%= resource %>
   quick_def page_title, "New <%= resource %>"
 
   def content

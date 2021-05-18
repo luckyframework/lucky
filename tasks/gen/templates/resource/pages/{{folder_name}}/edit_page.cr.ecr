@@ -1,5 +1,5 @@
 class <%= pluralized_name %>::EditPage < MainLayout
-  needs operation : <%= operation_class %>
+  needs operation : Save<%= resource %>
   needs <%= underscored_resource %> : <%= resource %>
   quick_def page_title, "Edit <%= resource %> with id: #{<%= underscored_resource %>.id}"
 
