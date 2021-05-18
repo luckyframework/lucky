@@ -171,10 +171,6 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
     "#{resource}Query"
   end
 
-  private def operation_class
-    "Save#{resource}"
-  end
-
   private def route(action)
     Lucky::RouteInferrer.new(action_class_name: "#{pluralized_name}::#{action}").generate_inferred_route
   end

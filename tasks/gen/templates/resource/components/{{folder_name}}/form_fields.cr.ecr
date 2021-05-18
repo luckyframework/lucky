@@ -1,5 +1,5 @@
 class <%= pluralized_name %>::FormFields < BaseComponent
-  needs operation : <%= operation_class %>
+  needs operation : Save<%= resource %>
 
   def render
     <%- columns.each_with_index do |column, index| -%>
