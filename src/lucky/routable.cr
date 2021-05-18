@@ -50,7 +50,7 @@ module Lucky::Routable
     # will respond to an `HTTP {{ http_method.id.upcase }}` request.
     #
     # **See also** our guides for more information and examples:
-    # * [Routing](https://luckyframework.org/guides/actions-and-routing/#routing)
+    # * [Routing](https://luckyframework.org/guides/http-and-routing/routing-and-params#routing)
     macro {{ http_method.id }}(path)
       match(:{{ http_method.id }}, \{{ path }}) do
         \{{ yield }}
@@ -169,8 +169,8 @@ module Lucky::Routable
   # ```
   #
   # **See also** our guides for more information and examples:
-  # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes)
-  # * [Examples of automatically generated routes](https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes)
+  # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/http-and-routing/routing-and-params#automatically-generate-restful-routes)
+  # * [Examples of automatically generated routes](https://luckyframework.org/guides/http-and-routing/routing-and-params#examples-of-automatically-generated-routes)
   macro route
     infer_route
 

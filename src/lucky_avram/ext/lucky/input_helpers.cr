@@ -13,7 +13,7 @@ module Lucky::InputHelpers
 
       View more about 'permit_columns'
 
-        https://luckyframework.org/guides/database/validating-saving#perma-permitting-columns
+      https://luckyframework.org/guides/database/saving-records#perma-permitting-columns
 
       Q. Why aren't database attributes permitted by default?
       A. Malicious users could submit any value they want. For example: you
