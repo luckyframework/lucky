@@ -248,8 +248,27 @@ module Lucky::Renderable
   end
 
   # allows json-compatible string to be returned directly
-  def json(body : String, status : Int32? = nil) : Lucky::TextResponse
+  def raw_json(body : String, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body, "application/json", status)
+  end
+
+  def raw_json(body : String, status : HTTP::Status) : Lucky::TextResponse
+    raw_json(body, status: status.value)
+  end
+
+  # :nodoc:
+  def json(raw_string : String, status : Int32? = nil) : Lucky::TextResponse
+    {%
+      raise <<-ERROR
+
+      Looks like your trying to pass a string to json response.
+
+      Use `raw_json(body, ...)` instead.
+
+      NOTE: `raw_json` doesn't validate JSON string validity/integrity, use at your own risk.
+
+      ERROR
+    %}
   end
 
   def json(body, status : Int32? = nil) : Lucky::TextResponse
