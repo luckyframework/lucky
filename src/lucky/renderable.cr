@@ -257,7 +257,7 @@ module Lucky::Renderable
   end
 
   # :nodoc:
-  def json(raw_string : String, status : Int32? = nil) : Lucky::TextResponse
+  def json(body : String, status : Int32? = nil) : Lucky::TextResponse
     {%
       raise <<-ERROR
 
