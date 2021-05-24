@@ -26,7 +26,7 @@ class Lucky::MimeType
   end
 
   def self.known_formats : Array(Symbol)
-    accept_header_formats.values.uniq
+    accept_header_formats.values.uniq!
   end
 
   def self.registered?(format : Symbol) : Bool

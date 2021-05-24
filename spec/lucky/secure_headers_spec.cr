@@ -5,7 +5,7 @@ include ContextHelper
 class FrameGuardRoutes::WithSameorigin < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
-  get "/so_custom" do
+  get "/secure_path1" do
     plain_text "test"
   end
 
@@ -17,7 +17,7 @@ end
 class FrameGuardRoutes::WithDeny < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
-  get "/so_custom" do
+  get "/secure_path2" do
     plain_text "test"
   end
 
@@ -29,7 +29,7 @@ end
 class FrameGuardRoutes::WithURL < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
-  get "/so_custom" do
+  get "/secure_path3" do
     plain_text "test"
   end
 
@@ -41,7 +41,7 @@ end
 class FrameGuardRoutes::WithBadValue < TestAction
   include Lucky::SecureHeaders::SetFrameGuard
 
-  get "/so_custom" do
+  get "/secure_path4" do
     plain_text "test"
   end
 
@@ -53,7 +53,7 @@ end
 class XSSGuardRoutes::Index < TestAction
   include Lucky::SecureHeaders::SetXSSGuard
 
-  get "/so_custom" do
+  get "/secure_path5" do
     plain_text "test"
   end
 end
@@ -61,7 +61,7 @@ end
 class SniffGuardRoutes::Index < TestAction
   include Lucky::SecureHeaders::SetSniffGuard
 
-  get "/so_custom" do
+  get "/secure_path6" do
     plain_text "test"
   end
 end

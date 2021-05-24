@@ -1,8 +1,8 @@
 class <%= pluralized_name %>::Edit < BrowserAction
-  route do
+  <%= route("Edit") %> do
     <%= underscored_resource %> = <%= query_class %>.find(<%= resource_id_method_name %>)
     html EditPage,
-      operation: <%= operation_class %>.new(<%= underscored_resource %>),
+      operation: Save<%= resource %>.new(<%= underscored_resource %>),
       <%= underscored_resource %>: <%= underscored_resource %>
   end
 end

@@ -14,6 +14,10 @@ describe Lucky::UploadedFile do
     it "returns the tempfile" do
       uploaded_file.tempfile.should be_a(File)
     end
+
+    it "can be read" do
+      uploaded_file.tempfile.gets_to_end.should eq("welcome file contents")
+    end
   end
 
   describe "#metadata" do

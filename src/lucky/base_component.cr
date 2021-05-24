@@ -21,6 +21,15 @@ abstract class Lucky::BaseComponent
     self
   end
 
+  private def context : HTTP::Server::Context
+    @context || raise "No context was set in #{self.class.name}. Use 'mount' or set it with 'context(@context)' before rendering."
+  end
+
+  def context(@context : HTTP::Server::Context?)
+    # This is used by Lucky::MountComponent to set the context.
+    self
+  end
+
   def render_to_string : String
     String.build do |io|
       view(io)

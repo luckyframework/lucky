@@ -17,7 +17,7 @@
 #
 # Examples:
 #
-# ```crystal
+# ```
 # class Rendering::File < Lucky::Action
 #   get "/file" do
 #     file "spec/fixtures/lucky_logo.png"
@@ -28,7 +28,7 @@
 # For a plain text file with no extension, have it downloaded with the file
 # named "custom.html" and the content_type "text/html":
 #
-# ```crystal
+# ```
 # class Rendering::File::CustomContentType < Lucky::Action
 #   get "/foo" do
 #     file "spec/fixtures/plain_text",

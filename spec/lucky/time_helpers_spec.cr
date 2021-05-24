@@ -35,6 +35,12 @@ describe Lucky::TimeHelpers do
       view.time_ago_in_words(Time.local - 13.months).should eq "about a year"
     end
   end
+
+  describe "time_from_now_in_words" do
+    it "returns the distance between now and future date" do
+      view.time_from_now_in_words(Time.local + 13.months).should eq "about a year"
+    end
+  end
 end
 
 private def view

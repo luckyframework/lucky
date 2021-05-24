@@ -1,8 +1,8 @@
 require "cry"
 require "habitat"
-require "lucky_cli"
+require "lucky_task"
 
-class Lucky::Exec < LuckyCli::Task
+class Lucky::Exec < LuckyTask::Task
   name "exec"
   summary "Execute code. Use this in place of a console/REPL"
   arg :editor, "Which editor to use", shortcut: "-e", optional: true

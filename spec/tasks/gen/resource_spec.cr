@@ -18,10 +18,18 @@ describe Gen::Resource::Browser do
           "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
           "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
         should_create_files_with_contents io,
+          "./src/actions/users/index.cr": %(get "/users"),
+          "./src/actions/users/show.cr": %(get "/users/:user_id"),
+          "./src/actions/users/new.cr": %(get "/users/new"),
+          "./src/actions/users/create.cr": %(post "/users"),
+          "./src/actions/users/edit.cr": %(get "/users/:user_id/edit"),
+          "./src/actions/users/update.cr": %(put "/users/:user_id"),
+          "./src/actions/users/delete.cr": %(delete "/users/:user_id")
+        should_create_files_with_contents io,
           "./src/actions/users/show.cr": "html ShowPage, user: UserQuery.find(user_id)",
           "./src/actions/users/edit.cr": "user = UserQuery.find(user_id)",
           "./src/actions/users/update.cr": "user = UserQuery.find(user_id)",
-          "./src/actions/users/delete.cr": "UserQuery.find(user_id).delete"
+          "./src/actions/users/delete.cr": "DeleteUser.destroy(user)"
         should_create_files_with_contents io,
           "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
           "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
@@ -31,7 +39,8 @@ describe Gen::Resource::Browser do
         should_create_files_with_contents io,
           "./src/models/user.cr": "class User < BaseModel",
           "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
-          "./src/operations/save_user.cr": "class SaveUser < User::SaveOperation"
+          "./src/operations/save_user.cr": "class SaveUser < User::SaveOperation",
+          "./src/operations/delete_user.cr": "class DeleteUser < User::DeleteOperation"
         should_create_files_with_contents io,
           "./src/operations/save_user.cr": "permit_columns name, notes, signed_up"
         should_generate_migration named: "create_users.cr"
@@ -66,7 +75,7 @@ describe Gen::Resource::Browser do
 
     it "displays an error when given a more complex type" do
       io = IO::Memory.new
-      ARGV.push("Alphabet", "a:JSON::Any")
+      ARGV.push("Alphabet", "a:BigDecimal")
 
       Gen::Model.new.call(io)
 

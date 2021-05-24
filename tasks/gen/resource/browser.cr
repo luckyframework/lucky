@@ -1,10 +1,11 @@
-require "lucky_cli"
+require "lucky_task"
 require "teeplate"
 require "wordsmith"
 require "avram"
 require "../mixins/migration_with_columns"
+require "../route_inferrer"
 
-class Gen::Resource::Browser < LuckyCli::Task
+class Gen::Resource::Browser < LuckyTask::Task
   include Gen::Mixins::MigrationWithColumns
 
   summary "Generate a resource (model, operation, query, actions, and pages)"
@@ -33,7 +34,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   def call(@io : IO = STDOUT)
     validate!
     generate_resource
-    io.puts "\nRun generated migrations with #{"lucky db.migrate".colorize.green}"
+    io.puts "\nYou will need to run the #{"lucky db.migrate".colorize.green} task next"
     display_path_to_resource
   rescue e : InvalidOption
     io.puts e.message.colorize.red
@@ -102,6 +103,7 @@ class Gen::Resource::Browser < LuckyCli::Task
   private def display_success_messages
     success_message(resource_name, "./src/models/#{underscored_resource}.cr")
     success_message("Save" + resource_name, "./src/operations/save_#{underscored_resource}.cr")
+    success_message("Delete" + resource_name, "./src/operations/delete_#{underscored_resource}.cr")
     success_message(resource_name + "Query", "./src/queries/#{underscored_resource}_query.cr")
     %w(index show new create edit update delete).each do |action|
       success_message(
@@ -147,13 +149,11 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
   directory "#{__DIR__}/../templates/resource"
 
   getter resource, columns
-  getter operation_filename : String,
-    query_filename : String,
+  getter query_filename : String,
     underscored_resource : String,
     folder_name : String
 
   def initialize(@resource : String, @columns : Array(Lucky::GeneratedColumn))
-    @operation_filename = operation_class.underscore
     @query_filename = query_class.underscore
     @underscored_resource = @resource.underscore
     @folder_name = pluralized_name.underscore
@@ -171,7 +171,7 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
     "#{resource}Query"
   end
 
-  private def operation_class
-    "Save#{resource}"
+  private def route(action)
+    Lucky::RouteInferrer.new(action_class_name: "#{pluralized_name}::#{action}").generate_inferred_route
   end
 end

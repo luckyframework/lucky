@@ -3,7 +3,7 @@ module Lucky::CustomTags
   EMPTY_HTML_ATTRS = {} of String => String
 
   def tag(
-    name : String,
+    tag_name : String,
     content : Lucky::AllowedInTags | String? = "",
     options = EMPTY_HTML_ATTRS,
     attrs : Array(Symbol) = [] of Symbol,
@@ -11,37 +11,33 @@ module Lucky::CustomTags
   ) : Nil
     merged_options = merge_options(other_options, options)
 
-    tag(name, attrs, merged_options) do
+    tag(tag_name, attrs, merged_options) do
       text content
     end
   end
 
-  def tag(name : String, content : String | Lucky::AllowedInTags) : Nil
-    tag(EMPTY_HTML_ATTRS) do
-      text content
-    end
+  def tag(
+    tag_name : String,
+    options = EMPTY_HTML_ATTRS,
+    **other_options
+  ) : Nil
+    tag(tag_name, "", options, **other_options)
   end
 
-  def tag(name : String, &block) : Nil
-    tag(EMPTY_HTML_ATTRS) do
-      yield
-    end
-  end
-
-  def tag(name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
+  def tag(tag_name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
     boolean_attrs = build_boolean_attrs(attrs)
-    view << "<#{name}" << tag_attrs << boolean_attrs << ">"
+    view << "<#{tag_name}" << tag_attrs << boolean_attrs << ">"
     check_tag_content!(yield)
-    view << "</#{name}>"
+    view << "</#{tag_name}>"
   end
 
   # Outputs a custom tag with no tag closing.
   # `empty_tag("br")` => `<br>`
-  def empty_tag(name : String, options = EMPTY_HTML_ATTRS, **other_options) : Nil
+  def empty_tag(tag_name : String, options = EMPTY_HTML_ATTRS, **other_options) : Nil
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
-    view << "<#{name}" << tag_attrs << ">"
+    view << "<#{tag_name}" << tag_attrs << ">"
   end
 end

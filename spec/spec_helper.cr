@@ -3,6 +3,8 @@ require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
 
+Pulsar.enable_test_mode!
+
 Lucky::AssetHelpers.load_manifest
 
 Spec.before_each do
@@ -16,7 +18,7 @@ Lucky::Session.configure do |settings|
 end
 
 Lucky::Server.configure do |settings|
-  settings.secret_key_base = Random::Secure.base64(32)
+  settings.secret_key_base = "EPzB4/PA/JZxEhISPr7Ad5X+G73exX+qg8IKFjqwdx0="
   settings.host = "0.0.0.0"
   settings.port = 8080
 end

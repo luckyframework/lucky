@@ -1,9 +1,8 @@
-require "lucky_cli"
+require "lucky_task"
 require "option_parser"
 require "colorize"
 require "yaml"
 require "../src/lucky/server_settings"
-require "option_parser"
 
 # Based on the sentry shard with some modifications to output and build process.
 module LuckySentry
@@ -11,7 +10,7 @@ module LuckySentry
   BROWSERSYNC_PORT = 3001
 
   class ProcessRunner
-    include LuckyCli::TextHelpers
+    include LuckyTask::TextHelpers
 
     getter app_processes = [] of Process
     property successful_compilations
@@ -200,15 +199,15 @@ module LuckySentry
   end
 end
 
-class Watch < LuckyCli::Task
+class Watch < LuckyTask::Task
   summary "Start and recompile project when files change"
   switch :reload_browser, "Reloads browser on changes using browser-sync", shortcut: "-r"
   switch :error_trace, "Show full error trace"
 
   def call
-    build_commands = ["crystal build ./src/start_server.cr"]
+    build_commands = ["crystal build ./src/start_server.cr -o bin/start_server"]
     build_commands[0] += " --error-trace" if error_trace?
-    run_commands = ["./start_server"]
+    run_commands = ["./bin/start_server"]
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
 
     process_runner = LuckySentry::ProcessRunner.new(

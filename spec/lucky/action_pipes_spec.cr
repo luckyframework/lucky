@@ -197,4 +197,43 @@ describe Lucky::Action do
       action.pipe_data[3].should eq("yellow")
     end
   end
+
+  describe "events" do
+    it "publishes an event when continued" do
+      events = [] of Lucky::Events::PipeEvent
+      Lucky::Events::PipeEvent.subscribe do |event|
+        events << event
+      end
+      Pipes::Index.new(build_context, params).call
+      pipe_names = events.map(&.name)
+      pipe_names.should contain("set_before_cookie")
+      pipe_names.should contain("overwrite_after_cookie")
+      pipe_names.should contain("set_second_before_cookie")
+      pipe_names.should contain("set_second_after_cookie")
+    end
+
+    it "publishes an event on before when halted" do
+      events = [] of Lucky::Events::PipeEvent
+      Lucky::Events::PipeEvent.subscribe do |event|
+        events << event
+      end
+      Pipes::HaltedBefore.new(build_context, params).call
+      halted_pipe = events.find { |e| e.name == "redirect_me" }.not_nil!
+      halted_pipe.continued.should eq false
+      halted_pipe.position.to_s.should eq "Before"
+      halted_pipe.before?.should eq true
+    end
+
+    it "publishes an event on after when halted" do
+      events = [] of Lucky::Events::PipeEvent
+      Lucky::Events::PipeEvent.subscribe do |event|
+        events << event
+      end
+      Pipes::HaltedAfter.new(build_context, params).call
+      halted_pipe = events.find { |e| e.name == "redirect_me" }.not_nil!
+      halted_pipe.continued.should eq false
+      halted_pipe.position.to_s.should eq "After"
+      halted_pipe.after?.should eq true
+    end
+  end
 end

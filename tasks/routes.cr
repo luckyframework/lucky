@@ -1,7 +1,7 @@
-require "lucky_cli"
+require "lucky_task"
 require "colorize"
 
-class Routes < LuckyCli::Task
+class Routes < LuckyTask::Task
   summary "Show all the routes for the app"
 
   def call

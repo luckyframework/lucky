@@ -14,14 +14,14 @@ describe Lucky::CookieJar do
   end
 
   it "sets and gets raw HTTP::Cookie object with indifferent access" do
-    value = "Nestle Tollhouse"
+    value = "Nestle_Tollhouse"
     jar = Lucky::CookieJar.empty_jar
 
     jar.set_raw("cookie", value)
-    jar.set_raw(:symbol, "symbol value")
+    jar.set_raw(:symbol, "symbol_value")
 
     jar.get_raw(:cookie).should be_a(HTTP::Cookie)
-    jar.get_raw("symbol").value.should eq("symbol value")
+    jar.get_raw("symbol").value.should eq("symbol_value")
     jar.get_raw(:cookie).value.should eq(value)
     jar.get_raw("cookie").value.should eq(value)
     jar.get_raw?(:cookie).not_nil!.value.should eq(value)
@@ -29,6 +29,17 @@ describe Lucky::CookieJar do
     jar.get_raw?(:missing).should be_nil
     jar.get_raw?("missing").should be_nil
   end
+
+  {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
+    it "raises a nicer error for invalid cookie values" do
+      value = "Double Chocolate"
+      jar = Lucky::CookieJar.empty_jar
+
+      expect_raises(Lucky::InvalidCookieValueError, "Cookie value for 'cookie' is invalid") do
+        jar.set_raw("cookie", value)
+      end
+    end
+  {% end %}
 
   it "raises CookieNotFoundError when getting a raw cookie that doesn't exist" do
     jar = Lucky::CookieJar.empty_jar
@@ -59,14 +70,26 @@ describe Lucky::CookieJar do
     jar.get?(:name).should be_nil
   end
 
-  it "raises helpful error if trying to read unencrypted values" do
+  it "returns nil if fails to decrypt value" do
     jar = Lucky::CookieJar.empty_jar
 
     jar.set_raw(:name, "Jane")
 
-    expect_raises Exception, "cookies.get_raw(:name).value" do
-      jar.get?(:name)
-    end
+    jar.get?(:name).should be_nil
+  end
+
+  it "parses encrypted cookies as expected" do
+    # meant to be a regression test to make sure we don't
+    # accidentally break cookie decryption
+    #
+    # this cookie was created with Lucky 0.27
+    cookie_key = "cookie_key"
+    cookie_value = "bHVja3k=--hY71kbRfob4pb9NS7wJpWKOBRhF+kwYPsHRQQanyXzGSKsCO6MIHCZfRBxDRqqm6"
+    cookies = HTTP::Cookies.new
+    cookies[cookie_key] = cookie_value
+    jar = Lucky::CookieJar.from_request_cookies(cookies)
+
+    JSON.parse(jar.get(cookie_key)).should eq({"key" => "value", "abc" => "123"})
   end
 
   describe "#set" do
@@ -80,7 +103,11 @@ describe Lucky::CookieJar do
         message = jar.get_raw(:message)
         message.http_only.should be_true
         message.expires.should be_nil
-        message.path.should eq "/"
+        {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
+          message.path.should be_nil
+        {% else %}
+          message.path.should eq "/"
+        {% end %}
         message.domain.should be_nil
         message.secure.should be_false
       end
@@ -117,7 +144,7 @@ describe Lucky::CookieJar do
     it "raises an error if the cookie is > 4096 bytes" do
       expect_raises(Lucky::CookieOverflowError) do
         jar = Lucky::CookieJar.empty_jar
-        jar.set_raw(:overflow, "x" * (4097 - 27)) # "overflow=x...x; path=/; HttpOnly",
+        jar.set_raw(:overflow, "x" * 4097) # "overflow=x...x; HttpOnly",
       end
     end
   end
@@ -194,9 +221,13 @@ describe Lucky::CookieJar do
     it "deletes cookies with options" do
       headers = HTTP::Headers.new
       headers["Cookie"] = "name=Rick%20James"
+      cookies = {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
+                  HTTP::Cookies.from_client_headers(headers)
+                {% else %}
+                  HTTP::Cookies.from_headers(headers)
+                {% end %}
 
-      jar = Lucky::CookieJar.from_request_cookies(
-        HTTP::Cookies.from_headers(headers))
+      jar = Lucky::CookieJar.from_request_cookies(cookies)
 
       jar.clear do |cookie|
         cookie.path("/")

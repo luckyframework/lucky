@@ -1,25 +1,24 @@
-require "lucky_cli"
+require "lucky_task"
 require "colorize"
 
-class Build::Release < LuckyCli::Task
-  include LuckyCli::TextHelpers
+class Build::Release < LuckyTask::Task
+  include LuckyTask::TextHelpers
 
   summary "Compile app for production"
 
-  def initialize(@io : IO = STDOUT, @error_io : IO = STDERR)
-  end
+  property error_io : IO = STDERR
 
   def call
-    command = "crystal build --release src/start_server.cr"
+    command = "crystal build --release src/start_server.cr -o bin/start_server"
 
     log "Building binary with '#{command}"
-    process = Process.run(command, shell: true, output: @io, error: @error_io)
+    process = Process.run(command, shell: true, output: output, error: error_io)
     if process.success?
-      log "Build succeeded - binary saved at './start_server'"
+      log "Build succeeded - binary saved at './bin/start_server'"
     end
   end
 
   def log(message)
-    @io.puts "  #{green_arrow} #{message}"
+    output.puts "  #{green_arrow} #{message}"
   end
 end

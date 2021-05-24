@@ -121,6 +121,27 @@ module Lucky
     end
   end
 
+  # Crystal raises `Invalid cookie value (IO::Error)` by default.
+  # This provides a nicer error
+  class InvalidCookieValueError < Error
+    getter :key
+
+    def initialize(@key : String | Symbol)
+    end
+
+    def message : String
+      <<-ERROR
+      Cookie value for '#{key}' is invalid.
+
+      Be sure the value does not contain any blank characters,
+      comma, double quote, semicolon, or double backslash.
+
+      See https://tools.ietf.org/html/rfc6265#section-4.1.1 for valid
+      characters
+      ERROR
+    end
+  end
+
   class InvalidSignatureError < Error
   end
 

@@ -1,6 +1,104 @@
 module Lucky::BaseTags
   include Lucky::CheckTagContent
-  TAGS             = %i(a abbr address article aside b bdi body button code details dialog div dd dl dt em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header html i iframe label li main mark menuitem meter nav ol option pre progress rp rt ruby s script section small span strong summary table tbody td template textarea tfoot th thead time title tr u ul video wbr)
+  TAGS = %i(
+    a
+    abbr
+    address
+    area
+    article
+    aside
+    b
+    bdi
+    bdo
+    blockquote
+    body
+    button
+    caption
+    cite
+    code
+    col
+    colgroup
+    data
+    datalist
+    del
+    details
+    dfn
+    dialog
+    div
+    dd
+    dl
+    dt
+    em
+    embed
+    fieldset
+    figcaption
+    figure
+    footer
+    form
+    h1
+    h2
+    h3
+    h4
+    h5
+    h6
+    head
+    header
+    html
+    i
+    iframe
+    ins
+    kbd
+    label
+    legend
+    li
+    main
+    map
+    mark
+    menuitem
+    meter
+    nav
+    noscript
+    object
+    ol
+    optgroup
+    option
+    output
+    param
+    picture
+    pre
+    progress
+    q
+    rp
+    rt
+    ruby
+    s
+    samp
+    script
+    section
+    slot
+    small
+    span
+    strong
+    sub
+    summary
+    sup
+    table
+    tbody
+    td
+    template
+    textarea
+    tfoot
+    th
+    thead
+    time
+    title
+    tr
+    track
+    u
+    ul
+    video
+    wbr
+  )
   RENAMED_TAGS     = {"para": "p", "select_tag": "select"}
   EMPTY_TAGS       = %i(img br hr input meta source)
   EMPTY_HTML_ATTRS = {} of String => String
@@ -21,22 +119,57 @@ module Lucky::BaseTags
         attrs : Array(Symbol) = [] of Symbol,
         **other_options
       ) : Nil
+      boolean_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
-      {{method_name.id}}(attrs, merged_options) do
-        text content
-      end
+      tag_attrs = build_tag_attrs(merged_options)
+      view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">" << HTML.escape(content.to_s) << "</{{tag.id}}>"
     end
 
-    def {{method_name.id}}(content : String | Lucky::AllowedInTags) : Nil
-      {{method_name.id}}(EMPTY_HTML_ATTRS) do
-        text content
-      end
+    def {{method_name.id}}(content : Lucky::AllowedInTags | String) : Nil
+      view << "<{{tag.id}}>" << HTML.escape(content.to_s) << "</{{tag.id}}>"
     end
 
-    def {{method_name.id}}(&block) : Nil
-      {{method_name.id}}(EMPTY_HTML_ATTRS) do
-        yield
-      end
+    def {{method_name.id}}(
+        content : Nil,
+        options = EMPTY_HTML_ATTRS,
+        attrs : Array(Symbol) = [] of Symbol,
+        **other_options
+      ) : Nil
+      \{%
+        raise <<-ERROR
+          HTML tags content must be a String or Lucky::AllowedInTags object, not nil.
+
+          Try this...
+
+            if value = some_nilable_value
+              {{method_name.id}}(value, class: "header")
+            end
+
+          ERROR
+          %}
+    end
+
+    def {{method_name.id}}(
+        content : Time,
+        options = EMPTY_HTML_ATTRS,
+        attrs : Array(Symbol) = [] of Symbol,
+        **other_options
+      ) : Nil
+      \{%
+        raise <<-ERROR
+          HTML tags content must be a String or Lucky::AllowedInTags object.
+          {{method_name.id}} received a Time object which has an ambiguous display format.
+
+          Try this...
+
+            {{method_name.id}}(current_time.to_s("%F"), html_opts)
+
+          ERROR
+          %}
+    end
+
+    def {{method_name.id}}(options, **other_options) : Nil
+      {{ method_name.id }}("", options, **other_options)
     end
 
     def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
@@ -55,6 +188,12 @@ module Lucky::BaseTags
       check_tag_content!(yield)
       view << "</{{tag.id}}>"
     end
+
+    def {{method_name.id}}(&block) : Nil
+      view << "<{{tag.id}}>"
+      check_tag_content!(yield)
+      view << "</{{tag.id}}>"
+    end
   end
 
   {% for tag in TAGS %}
@@ -68,7 +207,7 @@ module Lucky::BaseTags
   {% for tag in EMPTY_TAGS %}
     # Generates a `&lt;{{tag.id}}&gt;` tag.
     def {{tag.id}} : Nil
-      view << %(<{{tag.id}}> )
+      view << %(<{{tag.id}}>)
     end
 
     def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
@@ -111,6 +250,8 @@ module Lucky::BaseTags
   end
 
   private def build_tag_attrs(options)
+    return "" if options.empty?
+
     tag_attrs = String.build do |attrs|
       options.each do |key, value|
         attrs << " " << Wordsmith::Inflector.dasherize(key.to_s) << "=\""
@@ -121,6 +262,8 @@ module Lucky::BaseTags
   end
 
   private def build_boolean_attrs(options)
+    return "" if options.empty?
+
     String.build do |attrs|
       options.each do |value|
         attrs << " " << Wordsmith::Inflector.dasherize(value.to_s)

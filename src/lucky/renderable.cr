@@ -5,7 +5,7 @@ module Lucky::Renderable
   # must match up with each `needs` declarations for that page. For example, if
   # we have a page like this:
   #
-  # ```crystal
+  # ```
   # class Users::IndexPage < MainLayout
   #   needs users : UserQuery
   #
@@ -19,7 +19,7 @@ module Lucky::Renderable
   #
   # Our action must pass a `users` key to the `html` method like this:
   #
-  # ```crystal
+  # ```
   # class Users::Index < BrowserAction
   #   route do
   #     html IndexPage, users: UserQuery.new
@@ -29,7 +29,7 @@ module Lucky::Renderable
   #
   # Note also that each piece of data is merged with any `expose` declarations:
   #
-  # ```crystal
+  # ```
   # class Users::Index < BrowserAction
   #   expose current_user
   #
@@ -44,33 +44,10 @@ module Lucky::Renderable
   # end
   # ```
   macro html(page_class = nil, **assigns)
+    {% page_class = page_class || "#{@type.name}Page".id %}
     validate_page_class!({{ page_class }})
 
-    render_html_page(
-      {{ page_class = page_class || "#{@type.name}Page".id }},
-      {% if assigns.empty? %}
-        {} of String => String
-      {% else %}
-        {{ assigns }}
-      {% end %}
-    )
-  end
-
-  # :nodoc:
-  macro validate_page_class!(page_class)
-    {% if page_class && page_class.resolve? %}
-      {% ancestors = page_class.resolve.ancestors %}
-
-      {% if ancestors.includes?(Lucky::Action) %}
-        {% page_class.raise "You accidentally rendered an action (#{page_class}) instead of an HTMLPage in the #{@type.name} action. Did you mean #{page_class}Page?" %}
-      {% elsif !ancestors.includes?(Lucky::HTMLPage) %}
-        {% page_class.raise "Couldn't render #{page_class} in #{@type.name} because it is not an HTMLPage" %}
-      {% end %}
-    {% end %}
-  end
-
-  # :nodoc:
-  macro render_html_page(page_class, assigns)
+    # Found in {{ @type.name }}
     view = {{ page_class }}.new(
       context: context,
       {% for key, value in assigns %}
@@ -89,12 +66,23 @@ module Lucky::Renderable
     )
   end
 
+  # :nodoc:
+  macro validate_page_class!(page_class)
+    {% ancestors = page_class.resolve.ancestors %}
+
+    {% if ancestors.includes?(Lucky::Action) %}
+      {% page_class.raise "You accidentally rendered an action (#{page_class}) instead of an HTMLPage in the #{@type.name} action. Did you mean #{page_class}Page?" %}
+    {% elsif !ancestors.includes?(Lucky::HTMLPage) %}
+      {% page_class.raise "Couldn't render #{page_class} in #{@type.name} because it is not an HTMLPage" %}
+    {% end %}
+  end
+
   # Disable cookies
   #
   # When `disable_cookies` is used, no `Set-Cookie` header will be written to
   # the response.
   #
-  # ```crystal
+  # ```
   # class Events::Show < ApiAction
   #   disable_cookies
   #
@@ -259,6 +247,30 @@ module Lucky::Renderable
     head(status.value)
   end
 
+  # allows json-compatible string to be returned directly
+  def raw_json(body : String, status : Int32? = nil) : Lucky::TextResponse
+    send_text_response(body, "application/json", status)
+  end
+
+  def raw_json(body : String, status : HTTP::Status) : Lucky::TextResponse
+    raw_json(body, status: status.value)
+  end
+
+  # :nodoc:
+  def json(body : String, status : Int32? = nil) : Lucky::TextResponse
+    {%
+      raise <<-ERROR
+
+      Looks like your trying to pass a string to json response.
+
+      Use `raw_json(body, ...)` instead.
+
+      NOTE: `raw_json` doesn't validate JSON string validity/integrity, use at your own risk.
+
+      ERROR
+    %}
+  end
+
   def json(body, status : Int32? = nil) : Lucky::TextResponse
     send_text_response(body.to_json, "application/json", status)
   end
@@ -284,7 +296,7 @@ module Lucky::Renderable
   # ```
   def component(comp : Lucky::BaseComponent.class, status : Int32? = nil, **named_args) : Lucky::TextResponse
     send_text_response(
-      comp.new(**named_args).render_to_string,
+      comp.new(**named_args).context(context).render_to_string,
       "text/html",
       status
     )

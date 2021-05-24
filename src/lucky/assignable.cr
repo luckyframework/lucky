@@ -1,12 +1,12 @@
 module Lucky::Assignable
-  # Declare what a page needs in order to be initialized.
+  # Declare what a class needs in order to be initialized.
   #
   # This will declare an instance variable and getter automatically. It will
   # also add arguments to an `initialize` method at the end of compilation.
   #
   # ### Examples
   #
-  # ```crystal
+  # ```
   # class Users::IndexPage < MainLayout
   #   # This page needs a `User` or it will fail to compile
   #   # You can access it with `@user` or the getter method `user`
@@ -26,9 +26,6 @@ module Lucky::Assignable
       {% unless declaration.is_a?(TypeDeclaration) %}
         {% raise "'needs' expects a type declaration like 'name : String', instead got: '#{declaration}'" %}
       {% end %}
-      {% if declaration.var.stringify.ends_with?("?") %}
-        {% raise "Using '?' in a 'needs' var name is no longer supported. Now Lucky generates a method ending in '?' if the type is 'Bool'." %}
-      {% end %}
 
       # Ensure that the needs variable name has not been previously defined.
       {% previous_declaration = ASSIGNS.find { |d| d.var == declaration.var } %}
@@ -42,13 +39,9 @@ module Lucky::Assignable
       {% end %}
 
       {% if declaration.type.stringify == "Bool" %}
-        def {{ declaration.var }}?
-          @{{ declaration.var }}
-        end
+        getter? {{ declaration.var }}
       {% else %}
-        def {{ declaration.var }}
-          @{{ declaration.var }}
-        end
+        getter {{ declaration.var }}
       {% end %}
 
       {% ASSIGNS << declaration %}
@@ -56,30 +49,64 @@ module Lucky::Assignable
   end
 
   # :nodoc:
-  macro included
-    SETTINGS = {} of Nil => Nil
-    ASSIGNS = [] of Nil
+  macro inherit_assigns
+    macro included
+      inherit_assigns
+    end
+
+    macro inherited
+      inherit_assigns
+    end
+
+    {% if !@type.has_constant?(:ASSIGNS) %}
+      ASSIGNS = [] of Nil
+      {% verbatim do %}
+        {% if @type.ancestors.first %}
+          {% for declaration in @type.ancestors.first.constant(:ASSIGNS) %}
+            {% ASSIGNS << declaration %}
+          {% end %}
+        {% end %}
+      {% end %}
+    {% end %}
+  end
+
+  macro setup_initializer_hook
+    macro finished
+      generate_needy_initializer
+    end
 
     macro included
-      inherit_page_settings
+      setup_initializer_hook
+    end
 
-      macro inherited
-        inherit_page_settings
-      end
+    macro inherited
+      setup_initializer_hook
     end
   end
 
-  # :nodoc:
-  macro inherit_page_settings
-    SETTINGS = {} of Nil => Nil
-    ASSIGNS = [] of Nil
-
-    \{% for declaration in @type.ancestors.first.constant :ASSIGNS %}
-      \{% ASSIGNS << declaration %}
-    \{% end %}
-
-    \{% for k, v in @type.ancestors.first.constant :SETTINGS %}
-      \{% SETTINGS[k] = v %}
-    \{% end %}
+  macro generate_needy_initializer
+    {% if !@type.abstract? %}
+      {% sorted_assigns = ASSIGNS.sort_by { |dec|
+           has_explicit_value =
+             dec.type.is_a?(Metaclass) ||
+               dec.type.types.map(&.id).includes?(Nil.id) ||
+               !dec.value.is_a?(Nop)
+           has_explicit_value ? 1 : 0
+         } %}
+      def initialize(
+        {% for declaration in sorted_assigns %}
+          {% var = declaration.var %}
+          {% type = declaration.type %}
+          {% value = declaration.value %}
+          {% value = nil if type.stringify.ends_with?("Nil") && !value %}
+          @{{ var.id }} : {{ type }}{% if !value.is_a?(Nop) %} = {{ value }}{% end %},
+        {% end %}
+        **unused_exposures
+        )
+      end
+    {% end %}
   end
+
+  setup_initializer_hook
+  inherit_assigns
 end

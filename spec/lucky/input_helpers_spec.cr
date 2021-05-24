@@ -19,7 +19,7 @@ class InputTestForm
   end
 
   def eula(value : String)
-    Avram::PermittedAttribute(String?).new(
+    Avram::PermittedAttribute(String).new(
       name: :eula,
       param: nil,
       value: value,
@@ -28,7 +28,7 @@ class InputTestForm
   end
 
   def admin(checked : Bool)
-    Avram::PermittedAttribute(Bool?).new(
+    Avram::PermittedAttribute(Bool).new(
       name: :admin,
       param: nil,
       value: checked,
@@ -37,7 +37,7 @@ class InputTestForm
   end
 
   def joined_at
-    Avram::PermittedAttribute(Time?).new(
+    Avram::PermittedAttribute(Time).new(
       name: :joined_at,
       param: nil,
       value: Time.utc(2016, 2, 15, 10, 20, 30),
@@ -46,7 +46,7 @@ class InputTestForm
   end
 
   def status(value : String)
-    Avram::PermittedAttribute(String?).new(
+    Avram::PermittedAttribute(String).new(
       name: :status,
       param: nil,
       value: value,

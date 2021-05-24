@@ -2,7 +2,7 @@
 #
 # There are multiple ways to redirect inside of an action. The most common ways are to redirect to a `Lucky::Action` class, or a URL/path `String`. Both use the `redirect` method:
 #
-# ```crystal
+# ```
 # redirect to: Users::Index
 # redirect to: Users::Show.with(user.id)
 # redirect to: "https://luckyframework.org/"
@@ -11,7 +11,7 @@
 #
 # By default, the method will set the status code to `302` A.K.A. "Found". If you want to customize the status code, you can pass it directly:
 #
-# ```crystal
+# ```
 # redirect to: Users::Index, status: 301
 #
 # # or use the built in enum value
@@ -26,7 +26,7 @@
 module Lucky::Redirectable
   # Redirect back with a `Lucky::Action` fallback
   #
-  # ```crystal
+  # ```
   # redirect_back fallback: Users::Index
   # ```
   def redirect_back(*, fallback : Lucky::Action.class, status = 302, allow_external = false)
@@ -35,7 +35,7 @@ module Lucky::Redirectable
 
   # Redirect back with a `Lucky::RouteHelper` fallback
   #
-  # ```crystal
+  # ```
   # redirect_back fallback: Users::Show.with(user.id)
   # ```
   def redirect_back(*, fallback : Lucky::RouteHelper, status = 302, allow_external = false)
@@ -44,7 +44,7 @@ module Lucky::Redirectable
 
   # Redirect back with a human friendly status
   #
-  # ```crystal
+  # ```
   # redirect_back fallback: "/users", status: HTTP::Status::MOVED_PERMANENTLY
   # ```
   def redirect_back(*, fallback : String, status : HTTP::Status, allow_external = false)
@@ -59,13 +59,13 @@ module Lucky::Redirectable
   # the request. This is an optional header, and if the request
   # is missing this header the *fallback* will be used.
   #
-  # ```crystal
+  # ```
   # redirect_back fallback: "/users"
   # ```
   #
   # A redirect status can be specified
   #
-  # ```crystal
+  # ```
   # redirect_back fallback: "/home", status: 301
   # ```
   #
@@ -86,7 +86,7 @@ module Lucky::Redirectable
 
   # Redirect using a `Lucky::RouteHelper`
   #
-  # ```crystal
+  # ```
   # redirect to: Users::Show.with(user.id), status: 301
   # ```
   def redirect(to route : Lucky::RouteHelper, status = 302) : Lucky::TextResponse
@@ -95,7 +95,7 @@ module Lucky::Redirectable
 
   # Redirect to a `Lucky::Action`
   #
-  # ```crystal
+  # ```
   # redirect to: Users::Index
   # ```
   def redirect(to action : Lucky::Action.class, status = 302) : Lucky::TextResponse
@@ -104,7 +104,7 @@ module Lucky::Redirectable
 
   # Redirect to the given path, with a human friendly status
   #
-  # ```crystal
+  # ```
   # redirect to: "/users", status: :moved_permanently
   # ```
   # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
@@ -114,7 +114,7 @@ module Lucky::Redirectable
 
   # Redirect to the given path, with an optional `Int32` status
   #
-  # ```crystal
+  # ```
   # redirect to: "/users"
   # redirect to: "/users/1", status: 301
   # ```
@@ -155,10 +155,18 @@ module Lucky::Redirectable
   end
 
   private def allowed_host?(referer : String)
-    if referer_host = URI.parse(referer).host
-      referer_host == request.host
-    else
-      false
-    end
+    {% if compare_versions(Crystal::VERSION, "0.36.0-0") > 0 %}
+      if referer_host = URI.parse(referer).hostname
+        referer_host == request.hostname
+      else
+        false
+      end
+    {% else %}
+      if referer_host = URI.parse(referer).host
+        referer_host == request.host
+      else
+        false
+      end
+    {% end %}
   end
 end

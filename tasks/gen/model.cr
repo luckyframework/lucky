@@ -1,11 +1,11 @@
-require "lucky_cli"
+require "lucky_task"
 require "teeplate"
 require "avram"
 require "./templates/model_template"
 require "wordsmith"
 require "./mixins/migration_with_columns"
 
-class Gen::Model < LuckyCli::Task
+class Gen::Model < LuckyTask::Task
   include Gen::Mixins::MigrationWithColumns
 
   summary "Generate a model, query, and save operation"

@@ -1,5 +1,5 @@
 class <%= @name %> < <%= @inherit_from %>
-  route do
+  <%= @route %> do
     plain_text "Render something in <%= @name %>"
   end
 end

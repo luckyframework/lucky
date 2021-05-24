@@ -1,3 +1,274 @@
+## Upgrading from 0.26 to 0.27
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.26.0&to=0.27.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `">= 0.36.1, < 2.0.0"`
+  - Lucky should be `~> 0.27.0`
+  - Authentic should be `~> 0.7.3`
+  - Carbon should be `~> 0.1.4`
+  - Dotenv should be `~> 1.0.0` or replace with [LuckyEnv 0.1.0](https://github.com/luckyframework/lucky_env)
+  - LuckyFlow should be `~> 0.7.3`
+  - JWT (if you use Auth) should be `~> 1.5.1`
+  - LuckyTask needs to be added as a dependency
+    ```
+    lucky_task:
+      github: luckyframework/lucky_task
+      version: ~> 0.1.0
+    ```
+
+- Run `shards update`
+
+### General updates
+
+- Add: the new `lucky_task` shard as a dependency.
+- Update: your `tasks.cr` file with the new require, and module name change:
+  ```crystal
+  # tasks.cr
+  ENV["LUCKY_TASK"] = "true"
+  # Load Lucky and the app (actions, models, etc.)
+  require "./src/app"
+  require "lucky_task"
+
+  require "./tasks/**"
+  require "./db/migrations/**"
+  require "lucky/tasks/**"
+
+  LuckyTask::Runner.run
+  ```
+- Update: all tasks in your `tasks/` directory to inherit from `LuckyTask::Task` instead of `LuckyCli::Task`. (e.g. `Db::Seed::RequiredData < LuckyCli::Task` -> `Db::Seed::RequiredData < LuckyTask::Task`)
+- Update: your `config/cookies.cr` with a default cookie path of `"/"`.
+  ```crystal
+  Lucky::CookieJar.configure do |settings|
+    settings.on_set = ->(cookie : HTTP::Cookie) {
+      # ... other defaults
+
+      # Add this line. See ref: https://github.com/crystal-lang/crystal/pull/10491
+      cookie.path("/")
+    }
+  end
+  ```
+
+### Optional updates
+
+- Update: to Crystal 1.0.0. You can continue to use Crystal 0.36.1 if you need.
+- Update: `LuckyFlow` to be a `development_dependency`.
+
+
+## Upgrading from 0.25 to 0.26
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.25.0&to=0.26.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.36.1`
+  - Lucky should be `~> 0.26.0`
+  - Authentic should be `~> 0.7.2`
+  - LuckyFlow should be `~> 0.7.2`
+
+- Run `shards update`
+
+### General updates
+
+- Update: your `Procfile` web to point to `./bin/YOUR APP NAME` instead of `./app`. NOTE: this is dependant on how you deploy your app, so only required if you use the heroku_buildpack for Lucky. [read more](https://github.com/luckyframework/lucky_cli/pull/601) and [more](https://github.com/luckyframework/heroku-buildpack-crystal/pull/11)
+- Update: any references directly to an `Avram::Attribute(T)` generic. e.g. `Avram::Attribute(String?)` -> `Avram::Attribute(String)`. [read more](https://github.com/luckyframework/avram/pull/586)
+- Update: any custom database types to include the class method `adapter` that returns the `Lucky` constant. [read more](https://github.com/luckyframework/avram/pull/587)
+- Update: any custom database types to include the class method `criteria(query : T, column) forall T`. [read more](https://github.com/luckyframework/avram/pull/591)
+- Remove: any call to `after_completed` in a SaveOperation. The `after_save` and `after_commit` now run even if no change is updated. [read more](https://github.com/luckyframework/avram/pull/612)
+- Rename: all `Avram::Box` classes, filenames, and the `spec/support/boxes` directory (sorry 😬) to `Avram::Factory`, etc.... e.g. `UserBox` -> `UserFactory` [read more](https://github.com/luckyframework/avram/pull/614). [view discussion](https://github.com/luckyframework/lucky/discussions/1282)
+- Notice: the `Avram::Operation` now avoids calling `run` if there were validation errors in any `before_run`. This may change some of your logic, or create surprised. [read more](https://github.com/luckyframework/avram/pull/621)
+
+
+### Optional updates
+
+- Update: any calls made in Github CI config to `lucky db.create_required_seeds` to `lucky db.seed.required_data`. [read more](https://github.com/luckyframework/lucky_cli/pull/600)
+- Update: any use of `route` or `nested_route` in your actions to explicitly specify the route. This isn't deprecated, yet, but will be in a future version and eventually removed.
+- Add: `DB::Log.level = :info` to your `config/log.cr` file to quiet the excessive "Executing query" notices
+- Update: your Laravel Mix to version 6. [read more](https://github.com/luckyframework/lucky_cli/pull/592)
+- Add: a new migration to have UUID primary keys generated from the database for existing tables. [read more](https://github.com/luckyframework/avram/pull/578)
+```crystal
+# in a new migration file
+def migrate
+  enable_extension "pgcrypto"
+  execute("ALTER TABLE products ALTER COLUMN id SET DEFAULT gen_random_uuid();")
+  execute("ALTER TABLE users ALTER COLUMN id SET DEFAULT gen_random_uuid();")
+end
+```
+- Remove: all calls to `flash.keep` in your actions. [read more](https://github.com/luckyframework/lucky/pull/1374)
+
+## Upgrading from 0.24 to 0.25
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.24.0&to=0.25.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `0.35.1`
+  - Lucky should be `~> 0.25.0`
+  - Authentic should be `~> 0.7.1`
+  - LuckyFlow should be `~> 0.7.1`
+
+- Run `shards update`
+
+### General updates
+
+- Update: all `Avram::Operation` to implement the new interface.
+  - Your main instance method should be called `run`
+  - The `run` method should return just the value you need. No more `yield self, thing` / `yield self, nil`.
+  - Call the operation with `MyOperation.run(params)` instead of `MyOperation.new(params).submit`
+  - The `MyOperation.run` class method takes a block that yields the operation, and your return value. Similar to `SaveOperation`.
+
+  ```crystal
+  # Before Update
+  class RequestPasswordReset < Avram::Operation
+    #...
+    def submit
+      if valid?
+        yield self, user
+      else
+        yield self, nil
+      end
+    end
+  end
+
+  # Use in your Action
+  RequestPasswordReset.new(params).submit do |operation, user|
+  end
+
+  # After Update
+  class RequestPasswordReset < Avram::Operation
+    #...
+    def run
+      if valid?
+        user
+      else
+        nil
+      end
+    end
+  end
+
+  # Use in your Action
+  RequestPasswordReset.run(params) do |operation, user|
+  end
+  ```
+- Rename: all usage of `with_defaults` to `tag_defaults`
+- Update: query objects to no longer rely on mutating the query.
+  ```crystal
+  # Before update
+  q = UserQuery.new
+  q.age.gte(21)
+  q.to_sql #=> SELECT * FROM users WHERE age >= 21
+
+  # After update
+  q = UserQuery.new
+  q.age.gte(21)
+  q.to_sql #=> SELECT * FROM users
+  ```
+- Rename: all usage of `raw_where` to `where`
+- Update: query objects that set a default query in the initializer to use the `defaults` method.
+  ```crystal
+  # Before update
+  class UserQuery < User::BaseQuery
+    def initialize
+      admin(false)
+    end
+  end
+
+  UserQuery.new.to_sql #=> SELECT * FROM users WHERE admin = false
+
+  # After update
+  class UserQuery < User::BaseQuery
+    def initialize
+      defaults &.admin(false)
+    end
+  end
+
+  UserQuery.new.to_sql #=> SELECT * FROM users WHERE admin = false
+  ```
+- Update: any `has_many through` model association to include the new assocation chain.
+  ```crystal
+  # Before update
+  has_many posts : Post
+  has_many comments : Comment, through: :posts
+
+  # After update
+  # The first in the array is the association you're going through
+  # The second is that through's association.
+  has_many posts : Post
+  has_many comments : Comment, through: [:posts, :comments]
+  ```
+- Update: any query that used a `where_XXX` on a `belongs_to` from the pluralized name to singularized.
+  ```crystal
+  # assuming Post belongs_to User
+
+  # Before update
+  PostQuery.new.where_users(UserQuery.new)
+
+  # After update
+  PostQuery.new.where_user(UserQuery.new) # Notice the 'where_user' is single now
+  ```
+
+### Optional updates
+
+- Update: any mention of `DB_URL` that we told you to use should actually be `DATABASE_URL`
+- Remove: any include for `include Lucky::Memoizable`. This is now included in `Object` and available everywhere
+- Update: HTML tags that display a `UUID` no longer need to cast to String. `link uuid, to: Whatever`
+- Remove: any `start_server` or `start_server.dwarf` files in the top-level directory. These are now built to your `bin/`
+- Update: `config/email.cr` to include a case for development to print emails.
+  ```crystal
+  # config/email.cr
+  BaseEmail.configure do |settings|
+    if Lucky::Env.production?
+      # ...
+    elsif Lucky::Env.development?
+      settings.adapter = Carbon::DevAdapter.new(print_emails: true)
+    else
+      # ...
+    end
+  end
+  ```
+- Update: any `call(io : IO)` method in your tasks, and use the `output` property instead for testing. [read more](https://github.com/luckyframework/lucky_cli/pull/557)
+- Update: your `package.json` with all the latest front-end updates. [read more](https://github.com/luckyframework/lucky_cli/pull/553)
+- Rename: your seed tasks `tasks/create_required_seeds.cr` -> `tasks/db/seed/required_data.cr`, and `tasks/create_sample_seeds.cr` -> `tasks/db/seed/sample_data.cr`
+- Update: `config/log.cr` to silence some of the query logging with `DB::Log.level = :info`.
+
+
 ## Upgrading from 0.23 to 0.24
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.23.0&to=0.24.0).

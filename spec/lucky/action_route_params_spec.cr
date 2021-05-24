@@ -9,19 +9,19 @@ private class TestParamAction < TestAction
 end
 
 private class TestOptionalParamAction < TestAction
-  get "/complex_posts/:required/?:optional_1/?:optional_2" do
+  get "/test-complex_posts/:required/?:optional_1/?:optional_2" do
     plain_text "test"
   end
 end
 
 private class TestGlobAction < TestAction
-  get "/complex_posts/*" do
+  get "/test-complex_posts_glob/*" do
     plain_text "test"
   end
 end
 
 private class TestNamedGlobAction < TestAction
-  get "/complex_posts/*:leftover" do
+  get "/test-complex_posts_named_glob/*:leftover" do
     plain_text "test"
   end
 end

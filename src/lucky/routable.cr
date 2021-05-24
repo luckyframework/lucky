@@ -50,7 +50,7 @@ module Lucky::Routable
     # will respond to an `HTTP {{ http_method.id.upcase }}` request.
     #
     # **See also** our guides for more information and examples:
-    # * [Routing](https://luckyframework.org/guides/actions-and-routing/#routing)
+    # * [Routing](https://luckyframework.org/guides/http-and-routing/routing-and-params#routing)
     macro {{ http_method.id }}(path)
       match(:{{ http_method.id }}, \{{ path }}) do
         \{{ yield }}
@@ -213,8 +213,8 @@ module Lucky::Routable
   # ```
   #
   # **See also** our guides for more information and examples:
-  # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/actions-and-routing/#automatically-generate-restful-routes)
-  # * [Examples of automatically generated routes](https://luckyframework.org/guides/actions-and-routing/#examples-of-automatically-generated-routes)
+  # * [Automatically Generate RESTful Routes](https://luckyframework.org/guides/http-and-routing/routing-and-params#automatically-generate-restful-routes)
+  # * [Examples of automatically generated routes](https://luckyframework.org/guides/http-and-routing/routing-and-params#examples-of-automatically-generated-routes)
   macro route
     infer_route
 
@@ -312,23 +312,22 @@ module Lucky::Routable
       Lucky::RouteHelper.new({{ method }}, path).url
     end
 
+    {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
+         !decl.value.is_a?(Nop) || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
+       end %}
+    {% params_without_defaults = PARAM_DECLARATIONS.reject do |decl|
+         params_with_defaults.includes? decl
+       end %}
+
     def self.route(
     # required path variables
     {% for param in path_params %}
       {{ param.gsub(/:/, "").id }},
     {% end %}
 
-    {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
-         decl.value || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
-       end %}
-    {% params_without_defaults = PARAM_DECLARATIONS.reject do |decl|
-         params_with_defaults.includes? decl
-       end %}
-
-    # params without a default value, could be nilable
+    # required params
     {% for param in params_without_defaults %}
-      {% is_nilable_type = param.type.is_a?(Union) %}
-      {{ param }}{% if is_nilable_type %} = nil{% end %},
+      {{ param }},
     {% end %}
 
     # params with a default value set are always nilable
@@ -365,6 +364,26 @@ module Lucky::Routable
       end
 
       Lucky::RouteHelper.new {{ method }}, path
+    end
+
+    def self.route(*_args, **_named_args) : Lucky::RouteHelper
+      {% requireds = path_params.map { |param| "#{param.gsub(/:/, "").id}" } %}
+      {% params_without_defaults.each { |param| requireds << "#{param.var}" } %}
+      {% optionals = optional_path_params.map { |param| "#{param.gsub(/^\?:/, "").id}" } %}
+      {% params_with_defaults.each { |param| optionals << "#{param.var}" } %}
+      \{% raise <<-ERROR
+        Invalid call to {{ @type }}.route
+
+        {% if !requireds.empty? %}
+        Required arguments:
+        {% for req in requireds %}\n- {{ req.id }}{% end %}
+        {% end %}{% if !optionals.empty? %}
+        Optional arguments:
+        {% for opts in optionals %}\n- {{ opts.id }}{% end %}
+        {% end %}
+        For more information, refer to https://luckyframework.org/guides/http-and-routing/link-generation.
+        ERROR
+      %}
     end
 
     def self.with(*args, **named_args) : Lucky::RouteHelper
@@ -490,12 +509,15 @@ module Lucky::Routable
       val = params.get?(:{{ type_declaration.var.id }})
 
       if val.nil?
-        default_or_nil = {{ type_declaration.value || nil }}
+        default_or_nil = {{ type_declaration.value.is_a?(Nop) ? nil : type_declaration.value }}
         {% if is_nilable_type %}
           return default_or_nil
         {% else %}
-          return default_or_nil ||
+          if default_or_nil.nil?
             raise Lucky::MissingParamError.new("{{ type_declaration.var.id }}")
+          else
+            return default_or_nil
+          end
         {% end %}
       end
 
