@@ -1,18 +1,19 @@
 module Lucky
-  class WebSocketHandler
+  class WebSocketRouteHandler
     include HTTP::Handler
 
     def call(context : HTTP::Server::Context)
-      if (match = ws_route_found?(context)) && websocket_upgrade_request?(context)
-        action = match.payload.new(context, match.params)
-        action.websocket.call(context)
+      if websocket_upgrade_request?(context)
+        handler = Lucky::Router.find_action(:ws, context.request.path)
+        if handler
+          Lucky::Log.dexter.debug { {handled_by: handler.payload.to_s} }
+          handler.payload.new(context, handler.params).as(Lucky::WebSocketAction).perform_websocket_action
+        else
+          call_next(context)
+        end
       else
         call_next(context)
       end
-    end
-
-    private def ws_route_found?(context)
-      Lucky::Router.find_action(:ws, context.request.path)
     end
 
     private def websocket_upgrade_request?(context)

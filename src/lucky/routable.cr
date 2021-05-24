@@ -64,10 +64,6 @@ module Lucky::Routable
       {% path.raise "Path must start with a slash. Example: '/#{path}'" %}
     {% end %}
 
-    {% if block.args.size != 1 %}
-      {% raise "ws takes a block with 1 arg." %}
-    {% end %}
-
     add_route(:ws, {{ path }}, {{ @type.name.id }})
 
     setup_ws_call_method(block)
@@ -106,7 +102,7 @@ module Lucky::Routable
     abstract def on_message(message)
     abstract def on_close
 
-    def call(socket : Lucky::WebSocket)
+    def call
       # Ensure clients_desired_format is cached by calling it
       clients_desired_format
 
@@ -115,8 +111,8 @@ module Lucky::Routable
       %response = if %pipe_result.is_a?(Lucky::Response)
         %pipe_result
       else
-        {{ block.args.first }} = socket
         {{ block.body }}
+        send_text_response "", content_type: "plain/text"
       end
 
       %pipe_result = run_after_pipes

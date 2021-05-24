@@ -1,25 +1,20 @@
-require "./*"
-
-abstract class Lucky::WebSocketAction
-  getter :context, :route_params
-  getter websocket : Lucky::WebSocket
+abstract class Lucky::WebSocketAction < Lucky::Action
+  @socket : HTTP::WebSocket?
+  @handler : HTTP::WebSocketHandler
 
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
-    @websocket = Lucky::WebSocket.new(self.class) do |ws|
-      ws.on_ping { ws.pong(@context.request.path) }
-      ws.on_message { |message| on_message(message) }
-      ws.on_close { on_close }
-      call(ws)
+    @handler = HTTP::WebSocketHandler.new do |ws|
+      @socket = ws
+      ws.on_ping { ws.pong("PONG") }
+      call
     end
   end
 
-  abstract def call(socket : HTTP::WebSocket)
+  def perform_websocket_action
+    @handler.call(@context)
+  end
 
-  include Lucky::ActionDelegates
-  include Lucky::Exposable
-  include Lucky::Routable
-  include Lucky::Renderable
-  include Lucky::ParamHelpers
-  include Lucky::ActionPipes
-
+  def socket : HTTP::WebSocket
+    @socket.not_nil!
+  end
 end
