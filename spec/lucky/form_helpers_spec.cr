@@ -3,15 +3,15 @@ require "../spec_helper"
 include ContextHelper
 
 class FormHelpers::Index < TestAction
-  route { plain_text "foo " }
+  get "/form_helpers" { plain_text "foo " }
 end
 
 class FormHelpers::Update < TestAction
-  route { plain_text "foo " }
+  put "/form_helpers/:id" { plain_text "foo " }
 end
 
 class FormHelpers::Create < TestAction
-  route { plain_text "foo" }
+  post "/form_helpers" { plain_text "foo" }
 end
 
 private class TestPage

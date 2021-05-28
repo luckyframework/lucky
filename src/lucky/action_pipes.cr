@@ -97,7 +97,7 @@ module Lucky::ActionPipes
   # class Purchases::Create < BrowserAction
   #   after log_transaction
   #
-  #   route do
+  #   post "/purchases" do
   #     # purchase the product
   #   end
   #

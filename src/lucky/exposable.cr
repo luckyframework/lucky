@@ -38,13 +38,13 @@ module Lucky::Exposable
   #
   # ```
   # class Messages::Index < BrowserAction
-  #   route do
+  #   get "/messages" do
   #     html IndexPage, current_user: current_user
   #   end
   # end
   #
   # class Messages::New < BrowserAction
-  #   route do
+  #   get "/messages/new" do
   #     html NewPage, current_user: current_user
   #   end
   # end
@@ -68,13 +68,13 @@ module Lucky::Exposable
   #
   # ```
   # class Messages::Index < BrowserAction
-  #   route do
+  #   get "/messages" do
   #     html IndexPage
   #   end
   # end
   #
   # class Messages::New < BrowserAction
-  #   route do
+  #   get "/messages/new" do
   #     html NewPage
   #   end
   # end
@@ -88,7 +88,7 @@ module Lucky::Exposable
   # class Messages::Show < BrowserAction
   #   expose message
   #
-  #   route do
+  #   get "/messages/:id" do
   #     html ShowPage
   #   end
   #
@@ -102,7 +102,7 @@ module Lucky::Exposable
   # method private. Without `expose` the action would look like this:
   #
   # ```
-  # route do
+  # get "/messages/:id" do
   #   html ShowPage, message: message
   # end
   # ```

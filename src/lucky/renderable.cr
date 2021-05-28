@@ -21,7 +21,7 @@ module Lucky::Renderable
   #
   # ```
   # class Users::Index < BrowserAction
-  #   route do
+  #   get "/users" do
   #     html IndexPage, users: UserQuery.new
   #   end
   # end
@@ -33,7 +33,7 @@ module Lucky::Renderable
   # class Users::Index < BrowserAction
   #   expose current_user
   #
-  #   route do
+  #   get "/users" do
   #     # Users::IndexPage receives users AND current_user
   #     html IndexPage users: UserQuery.new
   #   end

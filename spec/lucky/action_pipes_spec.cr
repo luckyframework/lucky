@@ -5,7 +5,7 @@ include ContextHelper
 class PipeFromActionMacro::Index < TestAction
   before set_before_cookie
 
-  route do
+  get "/pipe_from_action_macro" do
     plain_text "Body"
   end
 
