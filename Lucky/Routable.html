@@ -928,13 +928,6 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#nested_route-macro" class="signature"><strong>nested_route</strong></a>
-        
-          <div class="summary"><p>Define a nested route that responds to the appropriate HTTP request automatically</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#param(type_declaration)-macro" class="signature"><strong>param</strong>(type_declaration)</a>
         
           <div class="summary"><p>Access query and POST parameters</p></div>
@@ -959,13 +952,6 @@
         <a href="#put(path)-macro" class="signature"><strong>put</strong>(path)</a>
         
           <div class="summary"><p>Define a route that responds to a PUT request</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#route-macro" class="signature"><strong>route</strong></a>
-        
-          <div class="summary"><p>Define a route that responds to the appropriate HTTP request automatically</p></div>
         
       </li>
     
@@ -1133,37 +1119,6 @@ For example:</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="nested_route-macro">
-      <div class="signature">
-        
-        macro <strong>nested_route</strong>
-
-        <a class="method-permalink" href="#nested_route-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a nested route that responds to the appropriate HTTP request
-automatically</p>
-
-<p>This works similarly to <code><a href="../Lucky/Routable.html#route-macro">route</a></code> but it will provide multiple parameters.
-For example:</p>
-
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Comments</span><span class="t">::</span><span class="t">Show</span>
-  nested_route <span class="k">do</span>
-    plain_text <span class="s">&quot;Post: </span><span class="i">#{</span>post_id<span class="i">}</span><span class="s">, Comment: </span><span class="i">#{</span>comment_id<span class="i">}</span><span class="s">&quot;</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-
-<p>This action responds to the <code>/posts/:post_id/comments/:comment_id</code> path.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
     <div class="entry-detail" id="param(type_declaration)-macro">
       <div class="signature">
         
@@ -1184,7 +1139,7 @@ it easily available inside the action.</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   param page : <span class="t">Int32</span>?
 
-  route <span class="k">do</span>
+  get <span class="s">&quot;/posts&quot;</span> <span class="k">do</span>
     plain_text <span class="s">&quot;Posts - Page </span><span class="i">#{</span>page || <span class="n">1</span><span class="i">}</span><span class="s">&quot;</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
@@ -1211,10 +1166,10 @@ Int32.</p>
 <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> error if the required param is absent
 when making a request:</p>
 
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">UserConfirmations</span><span class="t">::</span><span class="t">New</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">UserConfirmations</span><span class="t">::</span><span class="t">New</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   param token : <span class="t">String</span> <span class="c"># this param is required!</span>
 
-  route <span class="k">do</span>
+  get <span class="s">&quot;/user_confirmations/new&quot;</span> <span class="k">do</span>
     <span class="c"># confirm the user with their `token`</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
@@ -1323,53 +1278,6 @@ route. For example:</p>
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
 <ul><li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li></ul>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="route-macro">
-      <div class="signature">
-        
-        macro <strong>route</strong>
-
-        <a class="method-permalink" href="#route-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route that responds to the appropriate HTTP request automatically</p>
-
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Show</span>
-  route <span class="k">do</span>
-    plain_text <span class="s">&quot;Post: </span><span class="i">#{</span>post_id<span class="i">}</span><span class="s">&quot;</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-
-<p>This action responds to the <code>/posts/:post_id</code> path.</p>
-
-<p>Each route needs a few pieces of information to be created:</p>
-
-<ul><li>The HTTP method, like <code>GET</code>, <code>POST</code>, <code>DELETE</code>, etc.</li><li>The path, such as <code>/users/:user_id</code></li><li>The class to route to, like <code>Users::Show</code></li></ul>
-
-<p>The <code><a href="../Lucky/Routable.html#route-macro">route</a></code> method will try to determine these pieces of information based
-the class name. After it knows the class, Lucky will transform the full
-class name to figure out the path, i.e. removing the <code>::</code> separators and
-adding underscores. The method is found via the last part of the class name:</p>
-
-<ul><li><code>Index</code> -> <code>GET</code></li><li><code>Show</code> -> <code>GET</code></li><li><code>New</code> -> <code>GET</code></li><li><code>Create</code> -> <code>POST</code></li><li><code>Edit</code> -> <code>GET</code></li><li><code>Update</code> -> <code>PUT</code></li><li><code>Delete</code> -> <code>DELETE</code></li></ul>
-
-<p>If you are using a non-restful action name you should use the <code><a href="../Lucky/Routable.html#get(path)-macro">get</a></code>, <code><a href="../Lucky/Routable.html#put(path)-macro">put</a></code>,
-<code><a href="../Lucky/Routable.html#post(path)-macro">post</a></code>, or <code><a href="../Lucky/Routable.html#delete(path)-macro">delete</a></code> methods. Otherwise you will see an error like this:</p>
-
-<pre><code class="language-text">Could not infer route for User::ImageUploads</code></pre>
-
-<p><strong>See also</strong> our guides for more information and examples:</p>
-
-<ul><li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#automatically-generate-restful-routes">Automatically Generate RESTful Routes</a></li><li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#examples-of-automatically-generated-routes">Examples of automatically generated routes</a></li></ul>
         </div>
       
       <br/>

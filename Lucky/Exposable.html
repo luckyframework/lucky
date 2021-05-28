@@ -947,13 +947,13 @@ automatically.</p>
 inherits from <code>BrowserAction</code> and therefore has access to <code>current_user</code>:</p>
 
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  route <span class="k">do</span>
+  get <span class="s">&quot;/messages&quot;</span> <span class="k">do</span>
     html <span class="t">IndexPage</span>, current_user: current_user
   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">New</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  route <span class="k">do</span>
+  get <span class="s">&quot;/messages/new&quot;</span> <span class="k">do</span>
     html <span class="t">NewPage</span>, current_user: current_user
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
@@ -973,13 +973,13 @@ inherits from <code>BrowserAction</code> and therefore has access to <code>curre
 arguments for each action:</p>
 
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  route <span class="k">do</span>
+  get <span class="s">&quot;/messages&quot;</span> <span class="k">do</span>
     html <span class="t">IndexPage</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">New</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  route <span class="k">do</span>
+  get <span class="s">&quot;/messages/new&quot;</span> <span class="k">do</span>
     html <span class="t">NewPage</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
@@ -995,7 +995,7 @@ arguments for each action:</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Show</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   expose message
 
-  route <span class="k">do</span>
+  get <span class="s">&quot;/messages/:id&quot;</span> <span class="k">do</span>
     html <span class="t">ShowPage</span>
   <span class="k">end</span>
 
@@ -1007,7 +1007,7 @@ arguments for each action:</p>
 <p>Using <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code> here will pass <code>message</code> to the <code>ShowPage</code>, while keeping the
 method private. Without <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code> the action would look like this:</p>
 
-<pre><code class="language-crystal">route <span class="k">do</span>
+<pre><code class="language-crystal">get <span class="s">&quot;/messages/:id&quot;</span> <span class="k">do</span>
   html <span class="t">ShowPage</span>, message: message
 <span class="k">end</span></code></pre>
         </div>
