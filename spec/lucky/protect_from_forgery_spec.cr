@@ -5,7 +5,7 @@ include ContextHelper
 class ProtectedAction::Index < TestAction
   include Lucky::ProtectFromForgery
 
-  route { plain_text "Passed" }
+  get "/protected_action" { plain_text "Passed" }
 end
 
 describe Lucky::ProtectFromForgery do

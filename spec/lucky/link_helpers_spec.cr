@@ -1,11 +1,11 @@
 require "../spec_helper"
 
 class LinkHelpers::Index < TestAction
-  route { plain_text "foo" }
+  get "/link_helpers" { plain_text "foo" }
 end
 
 class LinkHelpers::Create < TestAction
-  route { plain_text "foo" }
+  post "/link_helpers" { plain_text "foo" }
 end
 
 private class TestPage

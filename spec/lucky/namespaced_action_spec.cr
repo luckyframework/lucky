@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 class Admin::MultiWord::Users::Show < TestAction
-  route do
+  get "/admin/multi_word/users/:user_id" do
     plain_text "plain"
   end
 end

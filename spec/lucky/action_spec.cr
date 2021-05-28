@@ -53,49 +53,49 @@ class Tests::IndexPage
 end
 
 class Tests::Index < TestAction
-  route do
+  get "/tests" do
     html
   end
 end
 
 class Tests::New < TestAction
-  route do
+  get "/tests/new" do
     plain_text "test"
   end
 end
 
 class Tests::Edit < TestAction
-  route do
+  get "/tests/:test_id/edit" do
     plain_text "test"
   end
 end
 
 class Tests::Show < TestAction
-  route do
+  get "/tests/:test_id" do
     plain_text "test"
   end
 end
 
 class Tests::Delete < TestAction
-  route do
+  delete "/tests/:test_id" do
     plain_text "test"
   end
 end
 
 class Tests::Update < TestAction
-  route do
+  put "/tests/:test_id" do
     plain_text "test"
   end
 end
 
 class Tests::Create < TestAction
-  route do
+  post "/tests" do
     plain_text "test"
   end
 end
 
 class PlainText::Index < TestAction
-  route do
+  get "/plain_text" do
     plain_text "plain"
   end
 end
@@ -105,7 +105,7 @@ class RequiredParams::Index < TestAction
   # This is to test that the default value of 'false' is not treated as 'nil'
   param bool_with_false_default : Bool = false
 
-  route do
+  get "/required_params" do
     plain_text "required param: #{required_page} #{bool_with_false_default}"
   end
 end
@@ -115,7 +115,7 @@ abstract class BaseActionWithParams < TestAction
 end
 
 class InheritedParams::Index < BaseActionWithParams
-  route do
+  get "/inherited_params" do
     plain_text "inherited param: #{inherit_me}"
   end
 end
@@ -130,7 +130,7 @@ class OptionalParams::Index < TestAction
   # This is to test that an explicit 'nil' can be assigned for nilable types
   param nilable_with_explicit_nil : Int32? = nil
 
-  route do
+  get "/optional_params" do
     plain_text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
   end
 end

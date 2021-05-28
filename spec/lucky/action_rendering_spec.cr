@@ -14,19 +14,19 @@ class Rendering::IndexPage
 end
 
 class Rendering::Index < TestAction
-  route do
+  get "/rendering" do
     html title: "Anything", arg2: "testing multiple args"
   end
 end
 
 class Namespaced::Rendering::Index < TestAction
-  route do
+  get "/namespaced/rendering" do
     html ::Rendering::IndexPage, title: "Anything", arg2: "testing multiple args"
   end
 end
 
 class Rendering::JSON::Index < TestAction
-  route do
+  get "/rendering/json" do
     json({name: "Paul"})
   end
 end
@@ -68,7 +68,7 @@ class Rendering::HeadOnly::WithSymbolStatus < TestAction
 end
 
 class Rendering::Text::Index < TestAction
-  route do
+  get "/rendering/text" do
     plain_text "Anything"
   end
 end
