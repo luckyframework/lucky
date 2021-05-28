@@ -66,6 +66,14 @@ class SniffGuardRoutes::Index < TestAction
   end
 end
 
+class FLoCGGuardRoutes::Index < TestAction
+  include Lucky::SecureHeaders::DisableFLoC
+
+  get "/secure_path7" do
+    plain_text "test"
+  end
+end
+
 describe Lucky::SecureHeaders do
   describe "SetFrameGuard" do
     it "sets the X-Frame-Options header with sameorigin" do
@@ -108,6 +116,13 @@ describe Lucky::SecureHeaders do
     it "sets the X-Content-Type-Options to nosniff" do
       route = SniffGuardRoutes::Index.new(build_context, params).call
       route.context.response.headers["X-Content-Type-Options"].should eq "nosniff"
+    end
+  end
+
+  describe "DisableFLoC" do
+    it "sets the Permissions-Policy to interest-cohort=()" do
+      route = FLoCGGuardRoutes::Index.new(build_context, params).call
+      route.context.response.headers["Permissions-Policy"].should eq "interest-cohort=()"
     end
   end
 end
