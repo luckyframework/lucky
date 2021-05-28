@@ -55,6 +55,12 @@ private class TestPage
       text "foo"
     end
   end
+
+  def form_with_bool_attr
+    form_for FormHelpers::Create, attrs: [:novalidate], class: "even-cooler-form" do
+      text "foo"
+    end
+  end
 end
 
 describe Lucky::FormHelpers do
@@ -84,6 +90,10 @@ describe Lucky::FormHelpers do
       form = view(&.form_for(FormHelpers::Index, class: "form-block") { })
       form.should contain <<-HTML
       <form action="/form_helpers" method="get" class="form-block"></form>
+      HTML
+
+      view(&.form_with_bool_attr).should contain <<-HTML
+      <form action="/form_helpers" method="post" class="even-cooler-form" novalidate>foo</form>
       HTML
     end
   end
