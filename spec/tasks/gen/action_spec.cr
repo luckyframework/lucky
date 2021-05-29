@@ -22,11 +22,11 @@ describe Gen::Action do
       valid_action_name = "Users::Index"
       io = generate valid_action_name, Gen::Action::Api
 
-      filename = "./src/actions/users/index.cr"
+      filename = "./src/actions/api/users/index.cr"
       should_have_generated "#{valid_action_name} < ApiAction", inside: filename
 
       io.to_s.should contain(valid_action_name)
-      io.to_s.should contain("/src/actions/users")
+      io.to_s.should contain("/src/actions/api/users")
     end
   end
 
@@ -47,11 +47,11 @@ describe Gen::Action do
       valid_nested_action_name = "Users::Announcements::Index"
       io = generate valid_nested_action_name, Gen::Action::Api
 
-      filename = "src/actions/users/announcements/index.cr"
+      filename = "src/actions/api/users/announcements/index.cr"
       should_have_generated "#{valid_nested_action_name} < ApiAction", inside: filename
 
       io.to_s.should contain(valid_nested_action_name)
-      io.to_s.should contain("/src/actions/users/announcements")
+      io.to_s.should contain("/src/actions/api/users/announcements")
     end
   end
 

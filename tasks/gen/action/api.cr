@@ -19,4 +19,13 @@ class Gen::Action::Api < LuckyTask::Task
   def call(io : IO = STDOUT)
     render_action_template(io, inherit_from: "ApiAction")
   end
+
+  private def action_name
+    name = ARGV.first
+    if name.downcase.starts_with?("api")
+      name
+    else
+      "Api::#{name}"
+    end
+  end
 end
