@@ -887,7 +887,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(request,route_params=%7B%7DofString=%3EString)-class-method" class="signature"><strong>.new</strong>(request, route_params = {} <span class="k">of</span> <span class="t">String</span> => <span class="t">String</span>)</a>
+        <a href="#new(request:HTTP::Request,route_params:Hash(String,String)=empty_params)-class-method" class="signature"><strong>.new</strong>(request : HTTP::Request, route_params : Hash(String, String) = empty_params)</a>
         
           <div class="summary"><p>Create a new params object</p></div>
         
@@ -1057,6 +1057,11 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#route_params=(route_params)-instance-method" class="signature"><strong>#route_params=</strong>(route_params)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#to_h-instance-method" class="signature"><strong>#to_h</strong></a>
         
           <div class="summary"><p>Converts the params in to a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code></p></div>
@@ -1113,12 +1118,12 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(request,route_params={}ofString=>String)-class-method">
+    <div class="entry-detail" id="new(request:HTTP::Request,route_params:Hash(String,String)=empty_params)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(request, route_params = {} <span class="k">of</span> <span class="t">String</span> => <span class="t">String</span>)
+        def self.<strong>new</strong>(request : HTTP::Request, route_params : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>) = empty_params)
 
-        <a class="method-permalink" href="#new(request,route_params=%7B%7DofString=%3EString)-class-method">#</a>
+        <a class="method-permalink" href="#new(request:HTTP::Request,route_params:Hash(String,String)=empty_params)-class-method">#</a>
       </div>
       
         <div class="doc">
@@ -1696,6 +1701,20 @@ is found an empty hash will be returned:</p>
 <pre><code class="language-crystal">params.nested_file(<span class="s">&quot;file&quot;</span>)    <span class="c"># Lucky::UploadedFile</span>
 params.nested_file(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="route_params=(route_params)-instance-method">
+      <div class="signature">
+        
+        def <strong>route_params=</strong>(route_params)
+
+        <a class="method-permalink" href="#route_params=(route_params)-instance-method">#</a>
+      </div>
       
       <br/>
       <div>
