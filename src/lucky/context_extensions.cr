@@ -24,4 +24,10 @@ class HTTP::Server::Context
   def flash : Lucky::FlashStore
     @_flash ||= Lucky::FlashStore.from_session(session)
   end
+
+  @_params : Lucky::Params?
+
+  def params : Lucky::Params
+    @_params ||= Lucky::Params.new(request)
+  end
 end

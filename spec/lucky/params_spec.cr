@@ -683,4 +683,17 @@ describe Lucky::Params do
       params.should eq({"filter" => {"name" => "euphonium"}, "page" => "1", "per" => "50"})
     end
   end
+
+  describe "Setting route_params later" do
+    it "returns the correct values for get?" do
+      request = build_request body: "", content_type: ""
+      route_params = {"id" => "from_route"}
+      params = Lucky::Params.new(request)
+
+      params.get?(:id).should eq nil
+
+      params.route_params = route_params
+      params.get?(:id).should eq "from_route"
+    end
+  end
 end

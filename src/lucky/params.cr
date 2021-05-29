@@ -1,11 +1,9 @@
 class Lucky::Params
-  @request : HTTP::Request
-  @route_params : Hash(String, String) = {} of String => String
-
   # :nodoc:
-  private getter :request
+  private getter request : HTTP::Request
   # :nodoc:
-  private getter :route_params
+  private getter route_params : Hash(String, String)
+  setter :route_params
 
   # Create a new params object
   #
@@ -20,7 +18,7 @@ class Lucky::Params
   #
   # Lucky::Params.new(request, route_params)
   # ```
-  def initialize(@request, @route_params = {} of String => String)
+  def initialize(@request : HTTP::Request, @route_params : Hash(String, String) = empty_params)
   end
 
   # Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
