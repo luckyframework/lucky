@@ -20,12 +20,6 @@ describe Lucky::UploadedFile do
     end
   end
 
-  describe "#metadata" do
-    it "returns the metadata object" do
-      uploaded_file.metadata.should be_a(HTTP::FormData::FileMetadata)
-    end
-  end
-
   describe "#path" do
     it "returns the file path" do
       uploaded_file.path.starts_with?(Dir.tempdir).should be_true
@@ -36,7 +30,6 @@ describe Lucky::UploadedFile do
   describe "#filename" do
     it "returns the original file from the metadata object" do
       uploaded_file.filename.should eq("welcome_file")
-      uploaded_file.filename.should eq(uploaded_file.metadata.filename)
     end
   end
 

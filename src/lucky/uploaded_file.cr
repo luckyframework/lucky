@@ -1,22 +1,20 @@
 # This class represents an uploaded file from a form
 class Lucky::UploadedFile
-  getter name : String
+  private getter part : HTTP::FormData::Part
   getter tempfile : File
-  getter metadata : HTTP::FormData::FileMetadata
+
+  delegate name, creation_time, modification_time, read_time, size, to: @part
 
   # Creates an UploadedFile using a HTTP::FormData::Part.
   #
   # The new file will be assigned the **name** of the
   # provided HTTP::FormData::Part and the **tempfile** will
   # be assigned the body of the HTTP::FormData::Part
-  def initialize(part : HTTP::FormData::Part)
-    @name = part.name
-    @tempfile = File.tempfile(part.name)
+  def initialize(@part : HTTP::FormData::Part)
+    @tempfile = File.tempfile(@part.name)
     File.open(@tempfile.path, "w") do |tempfile|
-      IO.copy(part.body, tempfile)
+      IO.copy(@part.body, tempfile)
     end
-    @metadata =
-      HTTP::FormData.parse_content_disposition(part.headers["Content-Disposition"]).last
   end
 
   # Returns the path of the File as a String
@@ -34,7 +32,7 @@ class Lucky::UploadedFile
   # uploaded_file_object.filename # => String
   # ```
   def filename : String
-    metadata.filename.to_s
+    part.filename.to_s
   end
 
   # Tests if the file name is blank, which typically means no file was selected
@@ -45,5 +43,10 @@ class Lucky::UploadedFile
   # ```
   def blank? : Bool
     filename.blank?
+  end
+
+  @[Deprecated("`metadata` deprecated. Each method on metadata is accessible directly on Lucky::UploadedFile")]
+  def metadata : HTTP::FormData::FileMetadata
+    HTTP::FormData::FileMetadata.new(filename, creation_time, modification_time, read_time, size)
   end
 end
