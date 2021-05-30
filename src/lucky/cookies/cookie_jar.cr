@@ -43,7 +43,7 @@ class Lucky::CookieJar
   end
 
   # Delete all cookies.
-  def clear : Void
+  def clear : Nil
     clear { }
   end
 
@@ -54,7 +54,7 @@ class Lucky::CookieJar
   #         .http_only(true)
   #         .secure(true)
   # end
-  def clear(&block : HTTP::Cookie ->) : Void
+  def clear(&block : HTTP::Cookie ->) : Nil
     cookies.each do |cookie|
       yield cookie
       delete cookie.name

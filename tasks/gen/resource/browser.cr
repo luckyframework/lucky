@@ -54,7 +54,7 @@ class Gen::Resource::Browser < LuckyTask::Task
     "/" + pluralized_name.underscore
   end
 
-  private def validate! : Void
+  private def validate! : Nil
     validate_name_is_present!
     validate_not_namespaced!
     validate_name_is_singular!
@@ -132,7 +132,7 @@ class Gen::Resource::Browser < LuckyTask::Task
     Wordsmith::Inflector.pluralize resource_name
   end
 
-  private def success_message(class_name : String, filename : String) : Void
+  private def success_message(class_name : String, filename : String) : Nil
     io.puts "Generated #{class_name.colorize.bold} in #{filename.colorize.bold}"
   end
 

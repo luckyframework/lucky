@@ -38,7 +38,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
       res
     end
 
-    private def add_arrow : Void
+    private def add_arrow : Nil
       io << " #{arrow} "
     end
 
