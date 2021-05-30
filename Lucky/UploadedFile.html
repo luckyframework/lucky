@@ -928,6 +928,16 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#creation_time(*args,**options)-instance-method" class="signature"><strong>#creation_time</strong>(*args, **options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#creation_time(*args,**options,&)-instance-method" class="signature"><strong>#creation_time</strong>(*args, **options, &)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#filename:String-instance-method" class="signature"><strong>#filename</strong> : String</a>
         
           <div class="summary"><p>Returns the original name of the file</p></div>
@@ -937,10 +947,29 @@
       <li class="entry-summary">
         <a href="#metadata:HTTP::FormData::FileMetadata-instance-method" class="signature"><strong>#metadata</strong> : HTTP::FormData::FileMetadata</a>
         
+          <div class="summary"><p><span class="flag red">DEPRECATED</span>  <code><a href="../Lucky/UploadedFile.html#metadata:HTTP::FormData::FileMetadata-instance-method">#metadata</a></code> deprecated. Each method on metadata is accessible directly on Lucky::UploadedFile</p>
+
+</div>
+        
       </li>
     
       <li class="entry-summary">
-        <a href="#name:String-instance-method" class="signature"><strong>#name</strong> : String</a>
+        <a href="#modification_time(*args,**options)-instance-method" class="signature"><strong>#modification_time</strong>(*args, **options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#modification_time(*args,**options,&)-instance-method" class="signature"><strong>#modification_time</strong>(*args, **options, &)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#name(*args,**options)-instance-method" class="signature"><strong>#name</strong>(*args, **options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#name(*args,**options,&)-instance-method" class="signature"><strong>#name</strong>(*args, **options, &)</a>
         
       </li>
     
@@ -948,6 +977,26 @@
         <a href="#path:String-instance-method" class="signature"><strong>#path</strong> : String</a>
         
           <div class="summary"><p>Returns the path of the File as a String</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read_time(*args,**options)-instance-method" class="signature"><strong>#read_time</strong>(*args, **options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read_time(*args,**options,&)-instance-method" class="signature"><strong>#read_time</strong>(*args, **options, &)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size(*args,**options)-instance-method" class="signature"><strong>#size</strong>(*args, **options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size(*args,**options,&)-instance-method" class="signature"><strong>#size</strong>(*args, **options, &)</a>
         
       </li>
     
@@ -1065,6 +1114,34 @@ at the time the form was submitted.</p>
       </div>
     </div>
   
+    <div class="entry-detail" id="creation_time(*args,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>creation_time</strong>(*args, **options)
+
+        <a class="method-permalink" href="#creation_time(*args,**options)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="creation_time(*args,**options,&)-instance-method">
+      <div class="signature">
+        
+        def <strong>creation_time</strong>(*args, **options, &)
+
+        <a class="method-permalink" href="#creation_time(*args,**options,&)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="filename:String-instance-method">
       <div class="signature">
         
@@ -1094,18 +1171,67 @@ at the time the form was submitted.</p>
         <a class="method-permalink" href="#metadata:HTTP::FormData::FileMetadata-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p><span class="flag red">DEPRECATED</span>  <code><a href="../Lucky/UploadedFile.html#metadata:HTTP::FormData::FileMetadata-instance-method">#metadata</a></code> deprecated. Each method on metadata is accessible directly on Lucky::UploadedFile</p>
+
+
+        </div>
+      
       <br/>
       <div>
         
       </div>
     </div>
   
-    <div class="entry-detail" id="name:String-instance-method">
+    <div class="entry-detail" id="modification_time(*args,**options)-instance-method">
       <div class="signature">
         
-        def <strong>name</strong> : <a href="../String.html">String</a>
+        def <strong>modification_time</strong>(*args, **options)
 
-        <a class="method-permalink" href="#name:String-instance-method">#</a>
+        <a class="method-permalink" href="#modification_time(*args,**options)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="modification_time(*args,**options,&)-instance-method">
+      <div class="signature">
+        
+        def <strong>modification_time</strong>(*args, **options, &)
+
+        <a class="method-permalink" href="#modification_time(*args,**options,&)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="name(*args,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>name</strong>(*args, **options)
+
+        <a class="method-permalink" href="#name(*args,**options)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="name(*args,**options,&)-instance-method">
+      <div class="signature">
+        
+        def <strong>name</strong>(*args, **options, &)
+
+        <a class="method-permalink" href="#name(*args,**options,&)-instance-method">#</a>
       </div>
       
       <br/>
@@ -1128,6 +1254,62 @@ at the time the form was submitted.</p>
 
 <pre><code class="language-crystal">uploaded_file_object.path <span class="c"># =&gt; String</span></code></pre>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read_time(*args,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>read_time</strong>(*args, **options)
+
+        <a class="method-permalink" href="#read_time(*args,**options)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read_time(*args,**options,&)-instance-method">
+      <div class="signature">
+        
+        def <strong>read_time</strong>(*args, **options, &)
+
+        <a class="method-permalink" href="#read_time(*args,**options,&)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size(*args,**options)-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong>(*args, **options)
+
+        <a class="method-permalink" href="#size(*args,**options)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size(*args,**options,&)-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong>(*args, **options, &)
+
+        <a class="method-permalink" href="#size(*args,**options,&)-instance-method">#</a>
+      </div>
       
       <br/>
       <div>
