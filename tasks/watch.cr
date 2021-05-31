@@ -20,7 +20,7 @@ module LuckySentry
     @app_built : Bool = false
     @successful_compilations : Int32 = 0
 
-    def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String), @reload_browser : Bool)
+    def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String), @reload_browser : Bool, @skip_browsersync_checks : Bool)
       @build_commands = build_commands
       @run_commands = run_commands
       @files = files
@@ -63,7 +63,7 @@ module LuckySentry
     end
 
     private def browsersync_port_is_available? : Bool
-      if File.executable?(`which lsof`.chomp)
+      if !@skip_browsersync_checks || File.executable?(`which lsof`.chomp)
         io = IO::Memory.new
         Process.run("lsof -i :#{BROWSERSYNC_PORT}", output: io, error: STDERR, shell: true)
         io.to_s.empty?
@@ -203,6 +203,7 @@ class Watch < LuckyTask::Task
   summary "Start and recompile project when files change"
   switch :reload_browser, "Reloads browser on changes using browser-sync", shortcut: "-r"
   switch :error_trace, "Show full error trace"
+  switch :skip_browsersync_checks, "Disables checking if the browsersync port is available."
 
   def call
     build_commands = ["crystal build ./src/start_server.cr -o bin/start_server"]
@@ -214,7 +215,8 @@ class Watch < LuckyTask::Task
       files: files,
       build_commands: build_commands,
       run_commands: run_commands,
-      reload_browser: reload_browser?
+      reload_browser: reload_browser?,
+      skip_browsersync_checks: skip_browsersync_checks?
     )
 
     puts "Beginning to watch your project"
