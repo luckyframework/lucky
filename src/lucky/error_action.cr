@@ -78,11 +78,10 @@ abstract class Lucky::ErrorAction
   end
 
   def render_exception_page(error : Exception, status : Int) : Lucky::Response
-    Lucky::TextResponse.new(
-      context: context,
-      status: status,
+    send_text_response(
+      body: Lucky::ExceptionPage.for_runtime_exception(context, error).to_s,
       content_type: "text/html",
-      body: Lucky::ExceptionPage.for_runtime_exception(context, error).to_s
+      status: status
     )
   end
 end
