@@ -49,21 +49,21 @@ class Lucky::TextResponse < Lucky::Response
     {% end %}
   end
 
-  private def write_flash : Void
+  private def write_flash : Nil
     context.session.set(
       Lucky::FlashStore::SESSION_KEY,
       context.flash.to_json
     )
   end
 
-  private def write_session : Void
+  private def write_session : Nil
     context.cookies.set(
       Lucky::Session.settings.key,
       context.session.to_json
     )
   end
 
-  private def write_cookies : Void
+  private def write_cookies : Nil
     response = context.response
 
     context.cookies.updated.each do |cookie|

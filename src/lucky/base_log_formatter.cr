@@ -5,5 +5,5 @@ abstract class Lucky::BaseLogFormatter
     progname : String,
     data : NamedTuple,
     io : IO
-  ) : Void
+  ) : Nil
 end
