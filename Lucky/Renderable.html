@@ -991,9 +991,16 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#html(page_class=nil,**assigns)-macro" class="signature"><strong>html</strong>(page_class = <span class="n">nil</span>, **assigns)</a>
+        <a href="#html(page_class=nil,_with_status_code=200,**assigns)-macro" class="signature"><strong>html</strong>(page_class = <span class="n">nil</span>, _with_status_code = <span class="n">200</span>, **assigns)</a>
         
           <div class="summary"><p>Render a page and pass it data</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#html_with_status(page_class,status,**assigns)-macro" class="signature"><strong>html_with_status</strong>(page_class, status, **assigns)</a>
+        
+          <div class="summary"><p>Render an HTMLPage with a status other than 200</p></div>
         
       </li>
     
@@ -1299,19 +1306,19 @@ the response.</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="html(page_class=nil,**assigns)-macro">
+    <div class="entry-detail" id="html(page_class=nil,_with_status_code=200,**assigns)-macro">
       <div class="signature">
         
-        macro <strong>html</strong>(page_class = <span class="n">nil</span>, **assigns)
+        macro <strong>html</strong>(page_class = <span class="n">nil</span>, _with_status_code = <span class="n">200</span>, **assigns)
 
-        <a class="method-permalink" href="#html(page_class=nil,**assigns)-macro">#</a>
+        <a class="method-permalink" href="#html(page_class=nil,_with_status_code=200,**assigns)-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Render a page and pass it data</p>
 
-<p><code><a href="../Lucky/Renderable.html#html(page_class=nil,**assigns)-macro">html</a></code> is used to pass data to a page and render it. Each key/value pair
+<p><code><a href="../Lucky/Renderable.html#html(page_class=nil,_with_status_code=200,**assigns)-macro">html</a></code> is used to pass data to a page and render it. Each key/value pair
 must match up with each <code>needs</code> declarations for that page. For example, if
 we have a page like this:</p>
 
@@ -1325,7 +1332,7 @@ we have a page like this:</p>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
 
-<p>Our action must pass a <code>users</code> key to the <code><a href="../Lucky/Renderable.html#html(page_class=nil,**assigns)-macro">html</a></code> method like this:</p>
+<p>Our action must pass a <code>users</code> key to the <code><a href="../Lucky/Renderable.html#html(page_class=nil,_with_status_code=200,**assigns)-macro">html</a></code> method like this:</p>
 
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   get <span class="s">&quot;/users&quot;</span> <span class="k">do</span>
@@ -1345,6 +1352,31 @@ we have a page like this:</p>
 
   <span class="k">private</span> <span class="k">def</span> <span class="m">current_user</span>
     <span class="c"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="html_with_status(page_class,status,**assigns)-macro">
+      <div class="signature">
+        
+        macro <strong>html_with_status</strong>(page_class, status, **assigns)
+
+        <a class="method-permalink" href="#html_with_status(page_class,status,**assigns)-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Render an HTMLPage with a status other than 200</p>
+
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">SecretAgents</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
+  get <span class="s">&quot;/shhhh&quot;</span> <span class="k">do</span>
+    html_with_status <span class="t">IndexPage</span>, <span class="n">472</span>, message: <span class="s">&quot;This page can only be seen with special goggles&quot;</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
         </div>
