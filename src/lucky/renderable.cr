@@ -43,7 +43,7 @@ module Lucky::Renderable
   #   end
   # end
   # ```
-  macro html(page_class = nil, **assigns)
+  macro html(page_class = nil, _with_status_code = 200, **assigns)
     {% page_class = page_class || "#{@type.name}Page".id %}
     validate_page_class!({{ page_class }})
 
@@ -61,9 +61,37 @@ module Lucky::Renderable
       context,
       "text/html",
       view.perform_render,
+      status: {{ _with_status_code }},
       debug_message: log_message(view),
       enable_cookies: enable_cookies?
     )
+  end
+
+  # Render an HTMLPage with a status other than 200
+  #
+  # ```
+  # class SecretAgents::Index < BrowserAction
+  #   get "/shhhh" do
+  #     html_with_status IndexPage, 472, message: "This page can only be seen with special goggles"
+  #   end
+  # end
+  # ```
+  macro html_with_status(page_class, status, **assigns)
+    {% if !status.is_a?(NumberLiteral) %}
+      {% raise <<-ERROR
+
+      #{@type.name} called `html_with_status #{page_class}` with status '#{status}'.
+      The `status` value should be a Number, or use `html` to render a Page with a 200 status
+
+      Try this...
+
+        ▸ html_with_status #{page_class}, 419, arg1: "...", arg2: "..."
+        ▸ html #{page_class}, arg1: "...", arg2: "..."
+
+      ERROR
+      %}
+    {% end %}
+    html {{ page_class }}, _with_status_code: {{ status }}, {{ **assigns }}
   end
 
   # :nodoc:

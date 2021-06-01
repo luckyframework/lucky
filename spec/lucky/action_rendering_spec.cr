@@ -19,6 +19,12 @@ class Rendering::Index < TestAction
   end
 end
 
+class Rendering::Show < TestAction
+  get "/rendering/:nothing" do
+    html_with_status IndexPage, 419, title: "Closing Time", arg2: "You don't have to go home but you can't stay here"
+  end
+end
+
 class Namespaced::Rendering::Index < TestAction
   get "/namespaced/rendering" do
     html ::Rendering::IndexPage, title: "Anything", arg2: "testing multiple args"
@@ -179,6 +185,15 @@ describe Lucky::Action do
 
       response.body.to_s.should contain "Anything"
       response.debug_message.to_s.should contain "Rendering::IndexPage"
+      response.status.should eq 200
+    end
+
+    it "renders with a different status code" do
+      response = Rendering::Show.new(build_context, params).call
+
+      response.body.to_s.should contain "Closing Time"
+      response.debug_message.to_s.should contain "Rendering::IndexPage"
+      response.status.should eq 419
     end
   end
 
