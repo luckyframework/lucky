@@ -34,6 +34,8 @@ class ComplexParams
   property default : Bool = true
   @[Lucky::ParamField(param_key: :override)]
   property version : Float64
+  @[Lucky::ParamField(ignore: true)]
+  property internal : Int32 = 4
 end
 
 class CrashingParams
@@ -111,7 +113,7 @@ describe Lucky::ParamSerializable do
 
     it "parses more complex param types" do
       request = build_request
-      request.query = "complex_params:tags[]=one&complex_params:tags[]=two&complex_params:numbers[]=1&complex_params:numbers[]=2&override:version=0.1"
+      request.query = "complex_params:tags[]=one&complex_params:tags[]=two&complex_params:numbers[]=1&complex_params:numbers[]=2&override:version=0.1&complex_params:internal=2"
 
       run_complext_assertions(request)
     end
@@ -193,4 +195,5 @@ private def run_complext_assertions(req : HTTP::Request)
   complex_params.numbers.should eq([1, 2])
   complex_params.default.should eq(true)
   complex_params.version.should eq(0.1)
+  complex_params.internal.should eq(4)
 end
