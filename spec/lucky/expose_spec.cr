@@ -3,7 +3,7 @@ require "../spec_helper"
 include ContextHelper
 
 class OnlyExpose < TestAction
-  expose :name
+  expose name
 
   get "/expose" do
     html OnlyExposePage
