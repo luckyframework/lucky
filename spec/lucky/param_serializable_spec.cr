@@ -47,6 +47,13 @@ class CrashingParams
   property wrong : Bool
 end
 
+class ParamsWithFile
+  include Lucky::ParamSerializable
+  param_key :data
+
+  property avatar : Lucky::UploadedFile
+end
+
 # {
 #   "query":{
 #     "bool":{
@@ -167,6 +174,20 @@ describe Lucky::ParamSerializable do
       }
 
       run_complex_assertions(request)
+    end
+
+    describe "with files" do
+      it "parses with an UploadedFile" do
+        request = build_multipart_request file_parts: {
+          "data:avatar" => "file_contents",
+        }
+
+        params = Lucky::Params.new(request)
+        file_params = ParamsWithFile.from_params(params)
+
+        file_params.avatar.should be_a(Lucky::UploadedFile)
+        File.read(file_params.avatar.path).should eq "file_contents"
+      end
     end
   end
 end

@@ -41,10 +41,10 @@ module Lucky
           {% ignore_var = ann && ann[:ignore] %}
           {% unless ignore_var %}
             {% is_nilable_type = ivar.type.nilable? %}
-            {% type = is_nilable_type ? ivar.type.union_types.reject(&.==(Nil)).first : ivar.type %}
-            {% is_array = type.name.starts_with?("Array") %}
-            {% type = is_array ? type.type_vars.first : type %}
-
+            {% base_type = is_nilable_type ? ivar.type.union_types.reject(&.==(Nil)).first : ivar.type %}
+            {% is_array = base_type.name.starts_with?("Array") %}
+            {% type = is_array ? base_type.type_vars.first : base_type %}
+            {% is_file = type.name.starts_with?("Lucky::UploadedFile") %}
 
             param_key_value = {{ ann && ann[:param_key] ? ann[:param_key].id.stringify : nil }} || param_key
 
@@ -57,10 +57,10 @@ module Lucky
             end
             {% else %}
             val = if param_key_value
-              data = params.nested?(param_key_value.not_nil!)
+              data = params.nested{% if is_file %}_file{% end %}?(param_key_value.not_nil!)
               data.get(:{{ ivar.id }})
             else
-              params.get?(:{{ ivar.id }})
+              params.get{% if is_file %}_file{% end %}?(:{{ ivar.id }})
             end
             {% end %}
 
@@ -79,10 +79,10 @@ module Lucky
               {% end %}
             else
               # NOTE: these come from Avram directly
-              result = {{ type }}.adapter.parse(val)
+              result = {{ type }}::Lucky.parse(val)
 
               if result.is_a? Avram::Type::SuccessfulCast
-                @{{ ivar.id }} = result.value
+                @{{ ivar.id }} = result.value.as({{ base_type }})
               else
                 raise Lucky::InvalidParamError.new(
                   param_name: "{{ ivar.id }}",
