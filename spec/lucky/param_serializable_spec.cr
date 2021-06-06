@@ -115,7 +115,7 @@ describe Lucky::ParamSerializable do
       request = build_request
       request.query = "complex_params:tags[]=one&complex_params:tags[]=two&complex_params:numbers[]=1&complex_params:numbers[]=2&override:version=0.1&complex_params:internal=2"
 
-      run_complext_assertions(request)
+      run_complex_assertions(request)
     end
   end
 
