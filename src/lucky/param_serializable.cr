@@ -18,18 +18,18 @@ module Lucky
       end
     end
 
-    def param_key
+    private def param_key
       @_param_key ||= Wordsmith::Inflector.underscore({{ @type.name.stringify }})
     end
 
     macro param_key(key)
-      def param_key
+      private def param_key
         {{ key.id.stringify }}
       end
     end
 
     macro skip_param_key
-      def param_key
+      private def param_key
         nil
       end
     end

@@ -84,7 +84,6 @@ describe Lucky::ParamSerializable do
       params = Lucky::Params.new(request)
       user_params = UserWithKeyParams.from_params(params)
 
-      user_params.param_key.should eq "user"
       user_params.name.should eq("Gandalf")
       user_params.age.should eq(11000)
       user_params.fellowship.should be_nil
@@ -131,7 +130,7 @@ describe Lucky::ParamSerializable do
       request = build_request body: "complex_params:tags[]=one&complex_params:tags[]=two&complex_params:numbers[]=1&complex_params:numbers[]=2&override:version=0.1",
         content_type: "application/x-www-form-urlencoded"
 
-      run_complext_assertions(request)
+      run_complex_assertions(request)
     end
   end
 
@@ -147,7 +146,7 @@ describe Lucky::ParamSerializable do
       json = {complex_params: {tags: ["one", "two"], numbers: [1, 2]}, override: {version: 0.1}}
       request = build_request body: json.to_json, content_type: "application/json"
 
-      run_complext_assertions(request)
+      run_complex_assertions(request)
     end
   end
 
@@ -167,7 +166,7 @@ describe Lucky::ParamSerializable do
         "override:version" => "0.1",
       }
 
-      run_complext_assertions(request)
+      run_complex_assertions(request)
     end
   end
 end
@@ -187,7 +186,7 @@ private def run_basic_assertions(req : HTTP::Request)
   user_params.responds_to?(:fellowship).should be_false
 end
 
-private def run_complext_assertions(req : HTTP::Request)
+private def run_complex_assertions(req : HTTP::Request)
   params = Lucky::Params.new(req)
   complex_params = ComplexParams.from_params(params)
 
