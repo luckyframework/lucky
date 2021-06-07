@@ -21,6 +21,13 @@ class Lucky::Params
   def initialize(@request : HTTP::Request, @route_params : Hash(String, String) = empty_params)
   end
 
+  def self.from_hash(data : Hash(String, String | Array(String))) : self
+    request = HTTP::Request.new("GET", "/", body: "", headers: HTTP::Headers.new)
+    request.query = URI::Params.encode(data)
+
+    self.new(request)
+  end
+
   # Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
   #
   # ```

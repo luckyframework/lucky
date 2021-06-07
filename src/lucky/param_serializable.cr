@@ -45,6 +45,7 @@ module Lucky
             {% is_array = base_type.name.starts_with?("Array") %}
             {% type = is_array ? base_type.type_vars.first : base_type %}
             {% is_file = type.name.starts_with?("Lucky::UploadedFile") %}
+            {% is_param_serializable = type.resolve < Lucky::ParamSerializable %}
 
             param_key_value = {{ ann && ann[:param_key] ? ann[:param_key].id.stringify : nil }} || param_key
 
@@ -58,7 +59,12 @@ module Lucky
             {% else %}
             val = if param_key_value
               data = params.nested{% if is_file %}_file{% end %}?(param_key_value.not_nil!)
+
+              {% if is_param_serializable %}
+              Lucky::Params.from_hash(data)
+              {% else %}
               data.get(:{{ ivar.id }})
+              {% end %}
             else
               params.get{% if is_file %}_file{% end %}?(:{{ ivar.id }})
             end
@@ -78,6 +84,9 @@ module Lucky
               end
               {% end %}
             else
+              {% if is_param_serializable %}
+              @{{ ivar.id }} = {{ type }}.from_params(val.as(Lucky::Params))
+              {% else %}
               # NOTE: these come from Avram directly
               result = {{ type }}::Lucky.parse(val)
 
@@ -90,6 +99,7 @@ module Lucky
                   param_type: "{{ type }}"
                 )
               end
+              {% end %}
             end
           {% end %}
         {% end %}

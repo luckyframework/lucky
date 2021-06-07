@@ -55,33 +55,28 @@ class ParamsWithFile
   property docs : Array(Lucky::UploadedFile)
 end
 
-# {
-#   "query":{
-#     "bool":{
-#       "must":[
-#          {"terms":{"brand":["micromax","samsung"]}}
-#       ] ,
-#       "should":[
-#          { "range": { "price": { "gte": 6000, "lte": 10000 } } },
-#          { "range": { "price": { "gte": 16000, "lte": 30000 } } }
-#       ]
-#     }
-#   }
-# }
+class LocationParams
+  include Lucky::ParamSerializable
+  param_key :location
 
-# class SearchParams
-#   include Lucky::ParamSerializable
+  property lat : Float64
+  property lng : Float64
+end
 
-#   property q : String
-#   property page : Int32
-#   property per : Int32 = 50
-#   property sort : Array(String)
-#   @[Lucky::ParamField(param_key: :filter)]
-#   property active : Bool = false
-#   @[Lucky::ParamField(param_key: :filter)]
-#   property city : String
+class HomeOwnerParams
+  include Lucky::ParamSerializable
+  param_key :owner
 
-# end
+  property name : String
+end
+
+class AddressParams
+  include Lucky::ParamSerializable
+  param_key :address
+
+  property street : String
+  property location : LocationParams
+end
 
 describe Lucky::ParamSerializable do
   describe "param_key" do
@@ -192,6 +187,21 @@ describe Lucky::ParamSerializable do
         File.read(file_params.avatar.path).should eq "file_contents"
         File.read(file_params.docs.last.path).should eq "file2"
       end
+    end
+  end
+
+  context "with associated objects" do
+    it "serializes the associated object" do
+      request = build_request
+      request.query = "address:street=123+street&address:location:lat=1.1&address:location:lng=-1.2"
+
+      params = Lucky::Params.new(request)
+      address_params = AddressParams.from_params(params)
+
+      address_params.street.should eq("123 street")
+      address_params.location.should be_a(LocationParams)
+      address_params.location.lat.should eq(1.1)
+      address_params.location.lng.should eq(-1.2)
     end
   end
 end
