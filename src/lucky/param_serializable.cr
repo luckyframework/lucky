@@ -50,10 +50,10 @@ module Lucky
 
             {% if is_array %}
             val = if param_key_value
-              data = params.nested_array?(param_key_value)
+              data = params.nested_array{% if is_file %}_files{% end %}?(param_key_value)
               data.get(:{{ ivar.id }})
             else
-              params.get_all?(:{{ ivar.id }})
+              params.get_all{% if is_file %}_files{% end %}?(:{{ ivar.id }})
             end
             {% else %}
             val = if param_key_value

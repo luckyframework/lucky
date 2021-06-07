@@ -52,6 +52,7 @@ class ParamsWithFile
   param_key :data
 
   property avatar : Lucky::UploadedFile
+  property docs : Array(Lucky::UploadedFile)
 end
 
 # {
@@ -180,13 +181,16 @@ describe Lucky::ParamSerializable do
       it "parses with an UploadedFile" do
         request = build_multipart_request file_parts: {
           "data:avatar" => "file_contents",
+          "data:docs"   => ["file1", "file2"],
         }
 
         params = Lucky::Params.new(request)
         file_params = ParamsWithFile.from_params(params)
 
         file_params.avatar.should be_a(Lucky::UploadedFile)
+        file_params.docs.size.should eq(2)
         File.read(file_params.avatar.path).should eq "file_contents"
+        File.read(file_params.docs.last.path).should eq "file2"
       end
     end
   end
