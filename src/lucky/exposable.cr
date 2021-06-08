@@ -107,16 +107,17 @@ module Lucky::Exposable
   # end
   # ```
   macro expose(method_name)
-    {% if method_name.ends_with?('?') || method_name.ends_with?('!') %}
+    {% method_name_str = method_name.stringify %}
+    {% if method_name_str.ends_with?('?') || method_name_str.ends_with?('!') %}
       {% method_name.raise <<-ERROR
 
       Methods ending in '?' or '!' cannot be exposed to pages.
-      #{@type.name} called `expose #{method_name.id}`
+      #{@type.name} called `expose #{method_name_str.id}`
 
       Try this...
 
         ▸ Define your method without ? or ! then...
-        ▸ expose #{method_name.gsub(/[!?]$/, "").id}
+        ▸ expose #{method_name_str.gsub(/[!?]$/, "").id}
       ERROR
       %}
     {% end %}

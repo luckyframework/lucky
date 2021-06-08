@@ -48,9 +48,9 @@ class Lucky::Params
     parsed_json
   end
 
-  # Returns just the query params as `HTTP::Params`
+  # Returns just the query params as `URI::Params`
   #
-  # Returns an `HTTP::Params` object for only the query params. This method is rarely
+  # Returns a `URI::Params` object for only the query params. This method is rarely
   # helpful since you can get query params with `get`, but if you do need raw
   # access to the query params this is the way to get them.
   #
@@ -59,13 +59,13 @@ class Lucky::Params
   # ```
   #
   # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
-  def from_query : HTTP::Params
+  def from_query : URI::Params
     request.query_params
   end
 
-  # Returns x-www-form-urlencoded body params as `HTTP::Params`
+  # Returns x-www-form-urlencoded body params as `URI::Params`
   #
-  # Returns an `HTTP::Params` object for the request body. This method is rarely
+  # Returns a `URI::Params` object for the request body. This method is rarely
   # helpful since you can get query params with `get`, but if you do need raw
   # access to the body params this is the way to get them.
   #
@@ -73,8 +73,8 @@ class Lucky::Params
   # params.from_form_data["name"]
   # ```
   #
-  # See the docs on [`HTTP::Params`](https://crystal-lang.org/api/HTTP/Params.html) for more information.
-  def from_form_data : HTTP::Params
+  # See the docs on [`URI::Params`](https://crystal-lang.org/api/URI/Params.html) for more information.
+  def from_form_data : URI::Params
     form_params
   end
 
@@ -610,11 +610,11 @@ class Lucky::Params
     parse_form_data.files
   end
 
-  private def json?
+  private def json? : Bool
     !!(/^application\/json/ =~ content_type)
   end
 
-  private def multipart?
+  private def multipart? : Bool
     !!(/^multipart\/form-data/ =~ content_type)
   end
 
