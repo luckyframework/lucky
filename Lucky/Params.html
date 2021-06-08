@@ -931,9 +931,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#from_form_data:HTTP::Params-instance-method" class="signature"><strong>#from_form_data</strong> : HTTP::Params</a>
+        <a href="#from_form_data:URI::Params-instance-method" class="signature"><strong>#from_form_data</strong> : URI::Params</a>
         
-          <div class="summary"><p>Returns x-www-form-urlencoded body params as <code>HTTP::Params</code></p></div>
+          <div class="summary"><p>Returns x-www-form-urlencoded body params as <code>URI::Params</code></p></div>
         
       </li>
     
@@ -952,9 +952,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#from_query:HTTP::Params-instance-method" class="signature"><strong>#from_query</strong> : HTTP::Params</a>
+        <a href="#from_query:URI::Params-instance-method" class="signature"><strong>#from_query</strong> : URI::Params</a>
         
-          <div class="summary"><p>Returns just the query params as <code>HTTP::Params</code></p></div>
+          <div class="summary"><p>Returns just the query params as <code>URI::Params</code></p></div>
         
       </li>
     
@@ -1220,25 +1220,25 @@ or the arguments do not match</p>
       </div>
     </div>
   
-    <div class="entry-detail" id="from_form_data:HTTP::Params-instance-method">
+    <div class="entry-detail" id="from_form_data:URI::Params-instance-method">
       <div class="signature">
         
-        def <strong>from_form_data</strong> : HTTP::Params
+        def <strong>from_form_data</strong> : URI::Params
 
-        <a class="method-permalink" href="#from_form_data:HTTP::Params-instance-method">#</a>
+        <a class="method-permalink" href="#from_form_data:URI::Params-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns x-www-form-urlencoded body params as <code>HTTP::Params</code></p>
+          <p>Returns x-www-form-urlencoded body params as <code>URI::Params</code></p>
 
-<p>Returns an <code>HTTP::Params</code> object for the request body. This method is rarely
+<p>Returns a <code>URI::Params</code> object for the request body. This method is rarely
 helpful since you can get query params with <code><a href="../Lucky/Params.html#get(key):String-instance-method">#get</a></code>, but if you do need raw
 access to the body params this is the way to get them.</p>
 
 <pre><code class="language-crystal">params.from_form_data[<span class="s">&quot;name&quot;</span>]</code></pre>
 
-<p>See the docs on <a href="https://crystal-lang.org/api/HTTP/Params.html"><code>HTTP::Params</code></a> for more information.</p>
+<p>See the docs on <a href="https://crystal-lang.org/api/URI/Params.html"><code>URI::Params</code></a> for more information.</p>
         </div>
       
       <br/>
@@ -1309,19 +1309,19 @@ files[<span class="s">&quot;avatar&quot;</span>]                    <span class=
       </div>
     </div>
   
-    <div class="entry-detail" id="from_query:HTTP::Params-instance-method">
+    <div class="entry-detail" id="from_query:URI::Params-instance-method">
       <div class="signature">
         
-        def <strong>from_query</strong> : HTTP::Params
+        def <strong>from_query</strong> : URI::Params
 
-        <a class="method-permalink" href="#from_query:HTTP::Params-instance-method">#</a>
+        <a class="method-permalink" href="#from_query:URI::Params-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns just the query params as <code>HTTP::Params</code></p>
+          <p>Returns just the query params as <code>URI::Params</code></p>
 
-<p>Returns an <code>HTTP::Params</code> object for only the query params. This method is rarely
+<p>Returns a <code>URI::Params</code> object for only the query params. This method is rarely
 helpful since you can get query params with <code><a href="../Lucky/Params.html#get(key):String-instance-method">#get</a></code>, but if you do need raw
 access to the query params this is the way to get them.</p>
 
