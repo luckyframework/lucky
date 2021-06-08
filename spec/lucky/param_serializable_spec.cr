@@ -63,19 +63,20 @@ class LocationParams
   property lng : Float64
 end
 
-class HomeOwnerParams
-  include Lucky::ParamSerializable
-  param_key :owner
-
-  property name : String
-end
-
 class AddressParams
   include Lucky::ParamSerializable
   param_key :address
 
   property street : String
   property location : LocationParams
+end
+
+class ActorParams
+  include Lucky::ParamSerializable
+  param_key :actor
+
+  property name : String = "George"
+  property age : Int32?
 end
 
 describe Lucky::ParamSerializable do
@@ -90,6 +91,31 @@ describe Lucky::ParamSerializable do
       user_params.name.should eq("Gandalf")
       user_params.age.should eq(11000)
       user_params.fellowship.should be_nil
+    end
+  end
+
+  describe "original_source" do
+    it "returns the original params used to create the object" do
+      request = build_request
+      params = Lucky::Params.new(request)
+      actor_params = ActorParams.from_params(params)
+
+      actor_params.original_source.should eq(params)
+    end
+  end
+
+  describe "has_source?" do
+    it "returns true when the original_source received the key" do
+      request = build_request
+      request.query = "actor:name=Jim"
+
+      params = Lucky::Params.new(request)
+      actor_params = ActorParams.from_params(params)
+
+      actor_params.name.should eq("Jim")
+      actor_params.age.should eq(nil)
+      actor_params.has_source?("name").should be_true
+      actor_params.has_source?("age").should be_false
     end
   end
 

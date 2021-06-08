@@ -409,6 +409,10 @@ class Lucky::Params
     end
   end
 
+  def has_key?(key : String)
+    route_params.has_key?(key) || query_params.has_key?(key) || !!body_param(key)
+  end
+
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
     nested_key_json = parsed_json[nested_key]? || JSON.parse("{}")
