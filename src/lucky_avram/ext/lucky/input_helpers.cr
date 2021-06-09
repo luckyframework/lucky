@@ -208,16 +208,45 @@ module Lucky::InputHelpers
       "type"  => type,
       "id"    => input_id(field),
       "name"  => input_name(field),
-      "value" => field.param.to_s,
+      "value" => input_value(field),
     }.merge(input_overrides)
+    update_array_id_counter!(field)
     input attrs, merge_options(html_options, input_options)
+  end
+
+  private property array_id_counter : Hash(Symbol, Int32) do
+    Hash(Symbol, Int32).new { |h, k| h[k] = 0 }
+  end
+
+  private def update_array_id_counter!(field) : Nil
+    nil
+  end
+
+  private def update_array_id_counter!(field : Avram::PermittedAttribute(Array)) : Nil
+    array_id_counter[field.name] += 1
+  end
+
+  private def input_value(field) : String
+    field.param.to_s
+  end
+
+  private def input_value(field : Avram::PermittedAttribute(Array)) : String
+    field.value.try(&.[array_id_counter[field.name]]?).to_s
   end
 
   private def input_name(field)
     "#{field.param_key}:#{field.name}"
   end
 
+  private def input_name(field : Avram::PermittedAttribute(Array))
+    "#{field.param_key}:#{field.name}[]"
+  end
+
   private def input_id(field)
     "#{field.param_key}_#{field.name}"
+  end
+
+  private def input_id(field : Avram::PermittedAttribute(Array))
+    "#{field.param_key}_#{field.name}_#{array_id_counter[field.name]}"
   end
 end

@@ -25,4 +25,8 @@ module Lucky::SelectHelpers
   private def input_name(field)
     "#{field.param_key}:#{field.name}"
   end
+
+  private def input_name(field : Avram::PermittedAttribute(Array))
+    "#{field.param_key}:#{field.name}[]"
+  end
 end
