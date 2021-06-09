@@ -48,4 +48,8 @@ module Lucky::SelectHelpers
       name << "[]" if array
     end
   end
+
+  private def input_name(field : Avram::PermittedAttribute(Array))
+    "#{field.param_key}:#{field.name}[]"
+  end
 end
