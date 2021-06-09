@@ -5,8 +5,8 @@ module Lucky::SelectHelpers
     end
   end
 
-  def multi_select_input(field : Avram::PermittedAttribute, **html_options) : Nil
-    select_tag [:multiple], merge_options(html_options, {"name" => input_name(field, array: true)}) do
+  def multi_select_input(field : Avram::PermittedAttribute(Array), **html_options) : Nil
+    select_tag [:multiple], merge_options(html_options, {"name" => input_name(field)}) do
       yield
     end
   end
@@ -22,7 +22,7 @@ module Lucky::SelectHelpers
     end
   end
 
-  def options_for_multi_select(field : Avram::PermittedAttribute(Array(T)), select_options : Array(Tuple(String, T)), **html_options) : Nil forall T
+  def options_for_select(field : Avram::PermittedAttribute(Array(T)), select_options : Array(Tuple(String, T)), **html_options) : Nil forall T
     select_options.each do |option_name, option_value|
       attributes = {"value" => option_value.to_s}
       bool_attrs = [] of Symbol
@@ -42,11 +42,8 @@ module Lucky::SelectHelpers
     option(label, value: "")
   end
 
-  private def input_name(field, *, array : Bool = false)
-    String.build do |name|
-      name << "#{field.param_key}:#{field.name}"
-      name << "[]" if array
-    end
+  private def input_name(field)
+    "#{field.param_key}:#{field.name}"
   end
 
   private def input_name(field : Avram::PermittedAttribute(Array))

@@ -25,11 +25,6 @@ private class TestPage
     self
   end
 
-  def render_multi_select_options(field, options)
-    options_for_multi_select(field, options)
-    self
-  end
-
   def render_prompt(label)
     select_prompt(label)
     self
@@ -81,7 +76,7 @@ describe Lucky::SelectHelpers do
   end
 
   it "renders multi-select options" do
-    view.render_multi_select_options(form.tags, [{"One", "one"}, {"Two", "two"}, {"Three", "three"}])
+    view.render_options(form.tags, [{"One", "one"}, {"Two", "two"}, {"Three", "three"}])
       .html.to_s.should eq <<-HTML
       <option value="one" selected>One</option><option value="two" selected>Two</option><option value="three">Three</option>
       HTML
