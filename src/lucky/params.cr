@@ -212,6 +212,14 @@ class Lucky::Params
     multipart_files[key.to_s]?
   end
 
+  def get_all_files(key : String | Symbol) : Array(Lucky::UploadedFile)
+    get_all_files?(key) || raise Lucky::MissingParamError.new(key.to_s)
+  end
+
+  def get_all_files?(key : String | Symbol) : Array(Lucky::UploadedFile)
+    multipart_files.fetch_all(key.to_s)
+  end
+
   # Retrieve a nested value from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
@@ -255,6 +263,36 @@ class Lucky::Params
     end
   end
 
+  # Retrieve a nested array from the params
+  #
+  # Nested params often appear in JSON requests or Form submissions. If no key
+  # is found a `Lucky::MissingParamError` will be raised:
+  #
+  # ```
+  # params.nested_array("tags")    # {"tags" => ["Lucky", "Crystal"]}
+  # params.nested_array("missing") # Missing parameter: missing
+  # ```
+  def nested_arrays(nested_key : String | Symbol) : Hash(String, Array(String))
+    nested_params = nested_arrays?(nested_key)
+    if nested_params.keys.empty?
+      raise Lucky::MissingNestedParamError.new nested_key
+    else
+      nested_params
+    end
+  end
+
+  def nested_arrays?(nested_key : String | Symbol) : Hash(String, Array(String))
+    if json?
+      nested_array_json_params(nested_key.to_s).merge(nested_array_query_params(nested_key.to_s)) do |_k, v1, v2|
+        v1 + v2
+      end
+    else
+      nested_array_form_params(nested_key.to_s).merge(nested_array_query_params(nested_key.to_s)) do |_k, v1, v2|
+        v1 + v2
+      end
+    end
+  end
+
   # Retrieve a nested file from the params
   #
   # Nested params often appear in JSON requests or Form submissions. If no key
@@ -284,6 +322,19 @@ class Lucky::Params
   # ```
   def nested_file?(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?
     nested_file_params(nested_key.to_s)
+  end
+
+  def nested_array_files(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))
+    nested_file_params = nested_array_files?(nested_key)
+    if nested_file_params.keys.empty?
+      raise Lucky::MissingNestedParamError.new nested_key
+    else
+      nested_file_params
+    end
+  end
+
+  def nested_array_files?(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))?
+    nested_array_file_params(nested_key.to_s)
   end
 
   # Retrieve nested values from the params
@@ -357,10 +408,23 @@ class Lucky::Params
 
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
-    nested_key_json = parsed_json[nested_key]? || JSON.parse("{}")
+    nested_key_json = parsed_json[nested_key]? || JSON::Any.new({} of String => JSON::Any)
 
     nested_key_json.as_h.each do |key, value|
       nested_params[key.to_s] = value.to_s
+    end
+
+    nested_params
+  end
+
+  private def nested_array_json_params(nested_key : String) : Hash(String, Array(String))
+    nested_params = {} of String => Array(String)
+    nested_key_json = parsed_json[nested_key]? || JSON::Any.new({} of String => JSON::Any)
+
+    nested_key_json.as_h.each do |key, value|
+      if array_value = value.as_a?
+        nested_params[key.to_s] = array_value.map(&.to_s)
+      end
     end
 
     nested_params
@@ -378,6 +442,22 @@ class Lucky::Params
     end
   end
 
+  private def nested_array_form_params(nested_key : String) : Hash(String, Array(String))
+    nested_key = "#{nested_key}:"
+    nested_params = {} of String => Array(String)
+
+    source = multipart? ? multipart_params : form_params
+    source.each do |key, value|
+      if key.starts_with?(nested_key) && key.ends_with?("[]")
+        new_key = key.lchop(nested_key).rchop("[]")
+        nested_params[new_key.to_s] ||= [] of String
+        nested_params[new_key.to_s] << value
+      end
+    end
+
+    nested_params
+  end
+
   private def nested_query_params(nested_key : String) : Hash(String, String)
     nested_key = "#{nested_key}:"
     query_params.to_h.reduce(empty_params) do |nested_params, (key, value)|
@@ -389,6 +469,20 @@ class Lucky::Params
     end
   end
 
+  private def nested_array_query_params(nested_key : String) : Hash(String, Array(String))
+    nested_key = "#{nested_key}:"
+    nested_params = {} of String => Array(String)
+    query_params.each do |key, value|
+      if key.starts_with?(nested_key) && key.ends_with?("[]")
+        new_key = key.lchop(nested_key).rchop("[]")
+        nested_params[new_key.to_s] ||= [] of String
+        nested_params[new_key.to_s] << value
+      end
+    end
+
+    nested_params
+  end
+
   private def nested_file_params(nested_key : String) : Hash(String, Lucky::UploadedFile)
     nested_key = "#{nested_key}:"
     multipart_files.to_h.reduce(empty_file_params) do |nested_params, (key, value)|
@@ -398,6 +492,21 @@ class Lucky::Params
 
       nested_params
     end
+  end
+
+  private def nested_array_file_params(nested_key : String) : Hash(String, Array(Lucky::UploadedFile))
+    nested_key = "#{nested_key}:"
+    nested_params = {} of String => Array(Lucky::UploadedFile)
+
+    multipart_files.each do |key, value|
+      if key.starts_with?(nested_key) && key.ends_with?("[]")
+        new_key = key.lchop(nested_key).rchop("[]")
+        nested_params[new_key.to_s] ||= [] of Lucky::UploadedFile
+        nested_params[new_key.to_s] << value
+      end
+    end
+
+    nested_params
   end
 
   private def zipped_many_nested_params(nested_key : String)
