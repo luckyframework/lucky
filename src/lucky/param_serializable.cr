@@ -5,13 +5,15 @@ module Lucky
   module ParamSerializable
     macro included
       @[Lucky::ParamField(ignore: true)]
-      property original_source : Lucky::Params
+      @_original_source : Lucky::Params?
 
       @[Lucky::ParamField(ignore: true)]
       @_param_key : String?
 
       @[Lucky::ParamField(ignore: true)]
-      @metadata : Hash(String, Hash(String, String?))
+      getter metadata : Hash(String, Hash(String, String?)) do
+        {} of String => Hash(String, String?)
+      end
 
       def self.from_params(param_data : Lucky::Params)
         new_from_params(param_data)
@@ -42,12 +44,15 @@ module Lucky
     end
 
     def has_source?(key : String) : Bool
-      @metadata[key]["received_data"]? == "true"
+      metadata[key]["received_data"]? == "true"
+    end
+
+    def original_source : Lucky::Params
+      @_original_source.not_nil!
     end
 
     def initialize(*, __param_data params : Lucky::Params)
-      @original_source = params
-      @metadata = {} of String => Hash(String, String?)
+      @_original_source = params
       {% begin %}
         {% for ivar in @type.instance_vars %}
           {% ann = ivar.annotation(::Lucky::ParamField) %}
@@ -62,16 +67,16 @@ module Lucky
 
             param_key_value = {{ ann && ann[:param_key] ? ann[:param_key].id.stringify : nil }} || param_key
 
-            @metadata[{{ ivar.id.stringify }}] = {} of String => String?
-            @metadata[{{ ivar.id.stringify }}]["param_key"] = param_key_value
+            metadata[{{ ivar.id.stringify }}] = {} of String => String?
+            metadata[{{ ivar.id.stringify }}]["param_key"] = param_key_value
 
             {% if is_array %}
             val = if param_key_value
               data = params.nested_array{% if is_file %}_files{% end %}?(param_key_value)
-              @metadata[{{ ivar.id.stringify }}]["received_data"] = data.has_key?({{ ivar.id.stringify }}).to_s
+              metadata[{{ ivar.id.stringify }}]["received_data"] = data.has_key?({{ ivar.id.stringify }}).to_s
               data.get(:{{ ivar.id }})
             else
-              @metadata[{{ ivar.id.stringify }}]["received_data"] = params.has_key?("{{ ivar.id }}[]").to_s
+              metadata[{{ ivar.id.stringify }}]["received_data"] = params.has_key?("{{ ivar.id }}[]").to_s
               params.get_all{% if is_file %}_files{% end %}?(:{{ ivar.id }})
             end
             {% else %}
@@ -79,14 +84,14 @@ module Lucky
               data = params.nested{% if is_file %}_file{% end %}?(param_key_value.not_nil!)
 
               {% if is_param_serializable %}
-              @metadata[{{ ivar.id.stringify }}]["received_data"] = data.keys.any?(&.starts_with?({{ ivar.id.stringify }})).to_s
+              metadata[{{ ivar.id.stringify }}]["received_data"] = data.keys.any?(&.starts_with?({{ ivar.id.stringify }})).to_s
               Lucky::Params.from_hash(data)
               {% else %}
-              @metadata[{{ ivar.id.stringify }}]["received_data"] = data.has_key?({{ ivar.id.stringify }}).to_s
+              metadata[{{ ivar.id.stringify }}]["received_data"] = data.has_key?({{ ivar.id.stringify }}).to_s
               data.get(:{{ ivar.id }})
               {% end %}
             else
-              @metadata[{{ ivar.id.stringify }}]["received_data"] = params.has_key?("{{ ivar.id }}").to_s
+              metadata[{{ ivar.id.stringify }}]["received_data"] = params.has_key?("{{ ivar.id }}").to_s
               params.get{% if is_file %}_file{% end %}?(:{{ ivar.id }})
             end
             {% end %}
