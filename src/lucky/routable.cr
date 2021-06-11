@@ -401,7 +401,7 @@ module Lucky::Routable
   # ```
   #
   # When visiting this page, the path _must_ contain the token parameter:
-  # `/user_confirmations?token=abc123`
+  # `/user_confirmations/new?token=abc123`
   macro param(type_declaration)
     {% unless type_declaration.is_a?(TypeDeclaration) %}
       {% raise "'param' expects a type declaration like 'name : String', instead got: '#{type_declaration}'" %}
