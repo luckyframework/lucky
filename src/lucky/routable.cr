@@ -410,7 +410,7 @@ module Lucky::Routable
     {% PARAM_DECLARATIONS << type_declaration %}
     @@query_param_declarations << "{{ type_declaration.var }} : {{ type_declaration.type }}"
 
-    def {{ type_declaration.var }} : {{ type_declaration.type }}
+    getter {{ type_declaration.var }} : {{ type_declaration.type }} do
       {% is_nilable_type = type_declaration.type.resolve.nilable? %}
       {% base_type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
       {% is_array = base_type.is_a?(Generic) %}
