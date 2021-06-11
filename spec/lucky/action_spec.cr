@@ -129,6 +129,8 @@ class OptionalParams::Index < TestAction
   param bool_with_false_default : Bool? = false
   # This is to test that an explicit 'nil' can be assigned for nilable types
   param nilable_with_explicit_nil : Int32? = nil
+  param nilable_array_with_default : Array(String)? = [] of String
+  param with_array_default : Array(Int32) = [26, 37, 44]
 
   get "/optional_params" do
     plain_text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
@@ -276,7 +278,7 @@ describe Lucky::Action do
     end
 
     it "returns optional param declarations" do
-      OptionalParams::Index.query_param_declarations.size.should eq 6
+      OptionalParams::Index.query_param_declarations.size.should eq 8
       OptionalParams::Index.query_param_declarations.should contain "bool_with_false_default : Bool | ::Nil"
     end
   end
@@ -387,6 +389,21 @@ describe Lucky::Action do
       expect_raises Lucky::InvalidParamError, "Required param 'with_int_never_nil' with value 'no_int' couldn't be parsed to a 'Int32'" do
         OptionalParams::Index.new(build_context(path: "/?with_int_never_nil=no_int"), params()).call
       end
+    end
+
+    it "allows nilable arrays with defaults" do
+      action = OptionalParams::Index.new(build_context(path: "/?page=3"), params)
+      action.nilable_array_with_default.should eq([] of String)
+    end
+
+    it "sets a value to a nilable array" do
+      action = OptionalParams::Index.new(build_context(path: "/?nilable_array_with_default[]=1&nilable_array_with_default[]=2"), params)
+      action.nilable_array_with_default.should eq(["1", "2"])
+    end
+
+    it "allows required arrays with defaults" do
+      action = OptionalParams::Index.new(build_context(path: "/?with_array_default=2222222"), params)
+      action.with_array_default.should eq([26, 37, 44])
     end
   end
 end

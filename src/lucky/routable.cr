@@ -403,14 +403,24 @@ module Lucky::Routable
   # When visiting this page, the path _must_ contain the token parameter:
   # `/user_confirmations?token=abc123`
   macro param(type_declaration)
+    {% unless type_declaration.is_a?(TypeDeclaration) %}
+      {% raise "'param' expects a type declaration like 'name : String', instead got: '#{type_declaration}'" %}
+    {% end %}
+
     {% PARAM_DECLARATIONS << type_declaration %}
     @@query_param_declarations << "{{ type_declaration.var }} : {{ type_declaration.type }}"
 
     def {{ type_declaration.var }} : {{ type_declaration.type }}
-      {% is_nilable_type = type_declaration.type.is_a?(Union) %}
-      {% type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
+      {% is_nilable_type = type_declaration.type.resolve.nilable? %}
+      {% base_type = is_nilable_type ? type_declaration.type.types.first : type_declaration.type %}
+      {% is_array = base_type.is_a?(Generic) %}
+      {% type = is_array ? base_type.type_vars.first : base_type %}
 
+      {% if is_array %}
+      val = params.get_all?(:{{ type_declaration.var.id }})
+      {% else %}
       val = params.get?(:{{ type_declaration.var.id }})
+      {% end %}
 
       if val.nil?
         default_or_nil = {{ type_declaration.value.is_a?(Nop) ? nil : type_declaration.value }}
@@ -425,9 +435,9 @@ module Lucky::Routable
         {% end %}
       end
 
-      result = {{ type }}::Lucky.parse(val)
+      result = {{ base_type }}.adapter.parse(val)
 
-      if result.is_a? {{ type }}::Lucky::SuccessfulCast
+      if result.is_a? Avram::Type::SuccessfulCast
         result.value
       else
         raise Lucky::InvalidParamError.new(
