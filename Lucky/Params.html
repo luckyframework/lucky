@@ -987,6 +987,16 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#get_all_files(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method" class="signature"><strong>#get_all_files</strong>(key : String | Symbol) : Array(Lucky::UploadedFile)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_all_files?(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method" class="signature"><strong>#get_all_files?</strong>(key : String | Symbol) : Array(Lucky::UploadedFile)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#get_file(key):Lucky::UploadedFile-instance-method" class="signature"><strong>#get_file</strong>(key) : Lucky::UploadedFile</a>
         
           <div class="summary"><p>Retrieve a file from the params hash, raise if key is absent</p></div>
@@ -1039,6 +1049,28 @@
         <a href="#nested?(nested_key:String%7CSymbol):Hash(String,String)-instance-method" class="signature"><strong>#nested?</strong>(nested_key : String | Symbol) : Hash(String, String)</a>
         
           <div class="summary"><p>Retrieve a nested value from the params</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nested_array_files(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))-instance-method" class="signature"><strong>#nested_array_files</strong>(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nested_array_files?(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))?-instance-method" class="signature"><strong>#nested_array_files?</strong>(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nested_arrays(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method" class="signature"><strong>#nested_arrays</strong>(nested_key : String | Symbol) : Hash(String, Array(String))</a>
+        
+          <div class="summary"><p>Retrieve a nested array from the params</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nested_arrays?(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method" class="signature"><strong>#nested_arrays?</strong>(nested_key : String | Symbol) : Hash(String, Array(String))</a>
         
       </li>
     
@@ -1437,6 +1469,34 @@ params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil
       </div>
     </div>
   
+    <div class="entry-detail" id="get_all_files(key:String|Symbol):Array(Lucky::UploadedFile)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_all_files</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>)
+
+        <a class="method-permalink" href="#get_all_files(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_all_files?(key:String|Symbol):Array(Lucky::UploadedFile)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_all_files?</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>)
+
+        <a class="method-permalink" href="#get_all_files?(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="get_file(key):Lucky::UploadedFile-instance-method">
       <div class="signature">
         
@@ -1651,6 +1711,73 @@ params <span class="o">=</span> <span class="t">Lucky</span><span class="t">::</
 params.nested(<span class="s">&quot;user&quot;</span>)    <span class="c"># {&quot;name&quot; =&gt; &quot;Alesia&quot;, &quot;age&quot; =&gt; &quot;35&quot;}</span>
 params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># {}</span></code></pre>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nested_array_files(nested_key:String|Symbol):Hash(String,Array(Lucky::UploadedFile))-instance-method">
+      <div class="signature">
+        
+        def <strong>nested_array_files</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>))
+
+        <a class="method-permalink" href="#nested_array_files(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nested_array_files?(nested_key:String|Symbol):Hash(String,Array(Lucky::UploadedFile))?-instance-method">
+      <div class="signature">
+        
+        def <strong>nested_array_files?</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>))?
+
+        <a class="method-permalink" href="#nested_array_files?(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nested_arrays(nested_key:String|Symbol):Hash(String,Array(String))-instance-method">
+      <div class="signature">
+        
+        def <strong>nested_arrays</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../String.html">String</a>))
+
+        <a class="method-permalink" href="#nested_arrays(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Retrieve a nested array from the params</p>
+
+<p>Nested params often appear in JSON requests or Form submissions. If no key
+is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
+
+<pre><code class="language-crystal">params.nested_array(<span class="s">&quot;tags&quot;</span>)    <span class="c"># {&quot;tags&quot; =&gt; [&quot;Lucky&quot;, &quot;Crystal&quot;]}</span>
+params.nested_array(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nested_arrays?(nested_key:String|Symbol):Hash(String,Array(String))-instance-method">
+      <div class="signature">
+        
+        def <strong>nested_arrays?</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../String.html">String</a>))
+
+        <a class="method-permalink" href="#nested_arrays?(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method">#</a>
+      </div>
       
       <br/>
       <div>
