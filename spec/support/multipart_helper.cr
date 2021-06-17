@@ -57,4 +57,10 @@ module MultipartHelper
       multipart_file_part(formdata, nested_name, nested_value)
     end
   end
+
+  private def multipart_file_part(formdata : HTTP::FormData::Builder, name : String, value : Array(String))
+    value.each do |val|
+      multipart_file_part(formdata, name + "[]", val)
+    end
+  end
 end

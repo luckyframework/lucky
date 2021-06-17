@@ -82,11 +82,11 @@ describe Lucky::Params do
 
     params = Lucky::Params.new(request)
 
-    params.nested?(:user)
-    params.nested?(:user)
+    params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
+    params.nested?(:user).should eq({"name" => "Paul", "age" => "28"})
   end
 
-  it "works when parsing multipart params twice" do
+  it "works when parsing json params twice" do
     request = build_request body: {page: 1}.to_json,
       content_type: "application/json",
       fixed_length: true
@@ -443,6 +443,109 @@ describe Lucky::Params do
     end
   end
 
+  describe "nested_arrays" do
+    it "gets nested arrays from form encoded params" do
+      request = build_request body: "user:name=paul&user:langs[]=ruby&user:langs[]=elixir",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:user).should eq({"langs" => ["ruby", "elixir"]})
+    end
+
+    it "gets nested arrays from JSON params" do
+      request = build_request body: {user: {name: "Paul", langs: ["ruby", "elixir"]}}.to_json,
+        content_type: "application/json"
+      request.query = "from=query"
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:user).should eq({"langs" => ["ruby", "elixir"]})
+    end
+
+    it "gets empty JSON params when nested key is missing" do
+      request = build_request body: "{}",
+        content_type: "application/json"
+      request.query = "from=query"
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:user).should eq({} of String => JSON::Any)
+    end
+
+    it "handles JSON with charset directive in Content-Type header" do
+      request = build_request body: {user: {name: "Paul", langs: ["ruby", "elixir"]}}.to_json,
+        content_type: "application/json; charset=UTF-8"
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:user).should eq({"langs" => ["ruby", "elixir"]})
+    end
+
+    it "gets nested array JSON params mixed with query params" do
+      request = build_request body: {user: {name: "Bunyan", tags: ["tall"]}}.to_json,
+        content_type: "application/json"
+      request.query = "user:tags[]=tale"
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:user).should eq({"tags" => ["tall", "tale"]})
+    end
+
+    it "gets nested arrays from multipart params" do
+      request = build_multipart_request form_parts: {
+        "user:name" => "Paul", "user:langs" => ["ruby", "elixir"],
+      }
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:user).should eq({"langs" => ["ruby", "elixir"]})
+    end
+
+    it "gets nested arrays from query params" do
+      request = build_request body: "filter:toppings[]=sausage", content_type: ""
+      request.query = "filter:toppings[]=black_olive"
+      params = Lucky::Params.new(request)
+      params.nested_arrays?("filter").should eq({"toppings" => ["sausage", "black_olive"]})
+    end
+
+    it "returns an empty hash when no nested array is found" do
+      request = build_request body: "", content_type: ""
+      request.query = "a[]=1"
+      params = Lucky::Params.new(request)
+      params.nested_arrays?("a").empty?.should eq true
+    end
+
+    it "gets nested array params after unescaping" do
+      request = build_request body: "post%3Atags[]=coding",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:post).should eq({"tags" => ["coding"]})
+    end
+
+    it "raises if nested array params are missing" do
+      request = build_request body: "",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      expect_raises Lucky::MissingNestedParamError do
+        params.nested_arrays(:missing)
+      end
+    end
+
+    it "returns empty hash if nested array params are missing" do
+      request = build_request body: "",
+        content_type: "application/x-www-form-urlencoded"
+
+      params = Lucky::Params.new(request)
+
+      params.nested_arrays?(:missing).should eq({} of String => Array(String))
+    end
+  end
+
   describe "get_file" do
     it "gets files" do
       request = build_multipart_request file_parts: {
@@ -521,6 +624,39 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       params.nested_file?(:missing).should eq({} of String => File)
+    end
+  end
+
+  describe "nested_array_files" do
+    it "gets multipart nested array params" do
+      request = build_multipart_request file_parts: {
+        "user:photos" => ["cat", "dog"],
+      }
+
+      params = Lucky::Params.new(request)
+
+      files = params.nested_array_files(:user)["photos"]
+      files.size.should eq(2)
+      File.read(files[0].path).should eq("cat")
+      File.read(files[1].path).should eq("dog")
+    end
+
+    it "raises if nested array files are missing" do
+      request = build_multipart_request form_parts: {"this" => "that"}
+
+      params = Lucky::Params.new(request)
+
+      expect_raises Lucky::MissingNestedParamError do
+        params.nested_array_files(:missing)
+      end
+    end
+
+    it "returns empty hash if nested array files are missing" do
+      request = build_multipart_request form_parts: {"this" => "that"}
+
+      params = Lucky::Params.new(request)
+
+      params.nested_array_files?(:missing).should eq({} of String => Array(Lucky::UploadedFile))
     end
   end
 
