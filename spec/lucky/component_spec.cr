@@ -43,6 +43,19 @@ private class ComponentWithBlockAndNoBlockArgs < Lucky::BaseComponent
   end
 end
 
+private class NoAction < TestAction
+  get "/nothing-to-do" do
+    plain_text "blip"
+  end
+end
+
+private class ComponentWithAForm < Lucky::BaseComponent
+  def render
+    form_for NoAction do
+    end
+  end
+end
+
 private class TestMountPage
   include Lucky::HTMLPage
 
@@ -54,6 +67,7 @@ private class TestMountPage
     mount(ComponentWithBlock, "Jane") do |name|
       text name.upcase
     end
+    mount(ComponentWithAForm)
     view
   end
 end
@@ -81,7 +95,7 @@ end
 
 describe "components rendering" do
   it "renders to a page" do
-    contents = TestMountPage.new(build_context).render.to_s
+    contents = TestMountPage.new(context_with_csrf).render.to_s
 
     contents.should contain("passed_in_title")
     contents.should contain("TestComponent")
@@ -99,7 +113,7 @@ describe "components rendering" do
 
   it "prints a comment when configured to do so" do
     Lucky::HTMLPage.temp_config(render_component_comments: true) do
-      contents = TestMountPage.new(build_context).render.to_s
+      contents = TestMountPage.new(context_with_csrf).render.to_s
       contents.should contain("<!-- BEGIN: ComplexTestComponent spec/lucky/component_spec.cr -->")
       contents.should contain("<!-- END: ComplexTestComponent -->")
       contents.should contain("<!-- BEGIN: ComponentWithBlock spec/lucky/component_spec.cr -->")
@@ -135,4 +149,17 @@ describe "components rendering" do
       end
     end
   end
+
+  it "uses context from being mounted" do
+    contents = TestMountPage.new(context_with_csrf).render.to_s
+    contents.should contain <<-HTML
+    input type="hidden" name="_csrf"
+    HTML
+  end
+end
+
+private def context_with_csrf : HTTP::Server::Context
+  context = build_context
+  context.session.set(Lucky::ProtectFromForgery::SESSION_KEY, "my_token")
+  context
 end

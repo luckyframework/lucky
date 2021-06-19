@@ -276,11 +276,11 @@ class Lucky::Params
   # is found a `Lucky::MissingParamError` will be raised:
   #
   # ```
-  # params.nested_array("tags")    # {"tags" => ["Lucky", "Crystal"]}
-  # params.nested_array("missing") # Missing parameter: missing
+  # params.nested_arrays("tags")    # {"tags" => ["Lucky", "Crystal"]}
+  # params.nested_arrays("missing") # Missing parameter: missing
   # ```
-  def nested_array(nested_key : String | Symbol) : Hash(String, Array(String))
-    nested_params = nested_array?(nested_key)
+  def nested_arrays(nested_key : String | Symbol) : Hash(String, Array(String))
+    nested_params = nested_arrays?(nested_key)
     if nested_params.keys.empty?
       raise Lucky::MissingNestedParamError.new nested_key
     else
@@ -288,11 +288,15 @@ class Lucky::Params
     end
   end
 
-  def nested_array?(nested_key : String | Symbol) : Hash(String, Array(String))
+  def nested_arrays?(nested_key : String | Symbol) : Hash(String, Array(String))
     if json?
-      nested_array_json_params(nested_key.to_s).merge(nested_array_query_params(nested_key.to_s))
+      nested_array_json_params(nested_key.to_s).merge(nested_array_query_params(nested_key.to_s)) do |_k, v1, v2|
+        v1 + v2
+      end
     else
-      nested_array_form_params(nested_key.to_s).merge(nested_array_query_params(nested_key.to_s))
+      nested_array_form_params(nested_key.to_s).merge(nested_array_query_params(nested_key.to_s)) do |_k, v1, v2|
+        v1 + v2
+      end
     end
   end
 
@@ -415,7 +419,7 @@ class Lucky::Params
 
   private def nested_json_params(nested_key : String) : Hash(String, String)
     nested_params = {} of String => String
-    nested_key_json = parsed_json[nested_key]? || JSON.parse("{}")
+    nested_key_json = parsed_json[nested_key]? || JSON::Any.new({} of String => JSON::Any)
 
     nested_key_json.as_h.each do |key, value|
       nested_params[key.to_s] = value.to_s

@@ -72,7 +72,11 @@ module Lucky
 
             {% if is_array %}
             val = if param_key_value
-              data = params.nested_array{% if is_file %}_files{% end %}?(param_key_value)
+              {% if is_file %}
+              data = params.nested_array_files?(param_key_value)
+              {% else %}
+              data = params.nested_arrays?(param_key_value)
+              {% end %}
               metadata[{{ ivar.id.stringify }}]["received_data"] = data.has_key?({{ ivar.id.stringify }}).to_s
               data.get(:{{ ivar.id }})
             else
