@@ -6,19 +6,26 @@ module Lucky::EnforceUnderscoredRoute
   macro enforce_route_style(path, action)
     {% if path.includes?("-") %}
       {% raise <<-ERROR
-      #{path} defined in #{action} includes a dash, but should use an underscore.
+      #{path} defined in '#{action}' should use an underscore.
 
-      Try this...
+      In '#{action}'
 
-        ▸ Change #{path} to #{path.gsub(/-/, "_")}
+        ▸ Change #{path}
+        ▸ To #{path.gsub(/-/, "_")}
 
-      Or, skip checking this action...
+      Or, skip the style check for this action
 
           class #{action}
-            include Lucky::SkipPathStyleCheck
+        +  include Lucky::SkipRouteStyleCheck
           end
 
-      Or, skip checking all actions by removing `Lucky::EnforceUnderscoredRoute` from `BrowserAction` and `ApiAction`
+      Or, skip checking all actions by removing 'Lucky::EnforceUnderscoredRoute'
+
+          # Remove from both BrowserAction and ApiAction
+          class BrowserAction/ApiAction
+        -  include Lucky::EnforceUnderscoredRoute
+          end
+
 
       ERROR
       %}
