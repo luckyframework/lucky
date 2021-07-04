@@ -135,11 +135,19 @@ module Lucky::Routable
     {{ run "../run_macros/infer_route", @type.name, has_parent }}
   end
 
+  # Implement this macro in your action to check the path for a particular style.
+  macro check_path_style(path)
+    # no-op by default
+  end
+
   # :nodoc:
   macro add_route(method, path, action)
-    Lucky::Router.add({{ method }}, {{ ROUTE_SETTINGS[:prefix] + path }}, {{ @type.name.id }})
-
     {% path = ROUTE_SETTINGS[:prefix] + path %}
+
+    check_path_style({{ path }})
+
+    Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
+
     {% path_parts = path.split('/').reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(':')) %}
     {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
