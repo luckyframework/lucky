@@ -31,13 +31,28 @@ already been submitted.
 
 [gist]: https://gist.github.com/
 
-## Cleaning up issues
+## Cleaning Up Issues
 
 * Issues that have no response from the submitter will be closed after 30 days.
 * Issues will be closed once they're assumed to be fixed or answered. If the
   maintainer is wrong, it can be opened again.
 * If your issue is closed by mistake, please understand and explain the issue.
   We will happily reopen the issue.
+
+## Setting Up Local Environment
+
+1. Fork it ( https://github.com/luckyframework/web/fork )
+1. Create your feature branch (git checkout -b my-new-feature)
+1. Install docker and docker-compose: https://docs.docker.com/compose/install/
+1. Run `script/setup` to build the Docker containers with everything you need.
+1. Make your changes
+1. Make sure specs pass: `script/test`.
+1. Add a note to the CHANGELOG
+1. Commit your changes (git commit -am 'Add some feature')
+1. Push to the branch (git push origin my-new-feature)
+1. Create a new Pull Request
+
+> Run specific tests with `script/test <path_to_spec>`
 
 ## Submitting a Pull Request
 1. [Fork][fork] the [official repository][repo].
