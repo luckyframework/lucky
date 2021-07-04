@@ -33,39 +33,39 @@ class PrefixedActions < TestAction
 end
 
 abstract class TestApiPrefixAction < TestAction
-  route_prefix "/parent-api"
+  route_prefix "/parent_api"
 end
 
 class ChildApiWithParentPrefix < TestApiPrefixAction
-  get "/has-parent-prefix" do
+  get "/has_parent_prefix" do
     plain_text "child route prefixed"
   end
 end
 
 class ChildApiWithOwnPrefix < TestApiPrefixAction
-  route_prefix "/child-api"
+  route_prefix "/child_api"
 
-  get "/has-own-prefix" do
+  get "/has_own_prefix" do
     plain_text "child route prefixed"
   end
 end
 
 module ApiPrefixModule
   macro included
-    route_prefix "/module-prefix"
+    route_prefix "/module_prefix"
   end
 end
 
 class ActionIncludingModulePrefix < TestAction
   include ApiPrefixModule
 
-  get "/has-module-prefix" do
+  get "/has_module_prefix" do
     plain_text "child route prefixed"
   end
 end
 
 class ActionNotIncludingModulePrefix < TestAction
-  get "/no-prefix" do
+  get "/no_prefix" do
     plain_text "no prefix"
   end
 end
@@ -82,13 +82,13 @@ describe "prefixing routes" do
   end
 
   it "correctly prefixes through inheritance" do
-    assert_route_added? Lucky::Route.new :get, "/parent-api/has-parent-prefix", ChildApiWithParentPrefix
-    assert_route_added? Lucky::Route.new :get, "/child-api/has-own-prefix", ChildApiWithOwnPrefix
+    assert_route_added? Lucky::Route.new :get, "/parent_api/has_parent_prefix", ChildApiWithParentPrefix
+    assert_route_added? Lucky::Route.new :get, "/child_api/has_own_prefix", ChildApiWithOwnPrefix
   end
 
   it "correctly prefixes action through included modules" do
-    assert_route_added? Lucky::Route.new :get, "/module-prefix/has-module-prefix", ActionIncludingModulePrefix
-    assert_route_added? Lucky::Route.new :get, "/no-prefix", ActionNotIncludingModulePrefix
+    assert_route_added? Lucky::Route.new :get, "/module_prefix/has_module_prefix", ActionIncludingModulePrefix
+    assert_route_added? Lucky::Route.new :get, "/no_prefix", ActionNotIncludingModulePrefix
   end
 end
 

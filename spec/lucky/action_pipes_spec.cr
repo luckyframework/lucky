@@ -33,7 +33,7 @@ end
 class Pipes::Skipped < InheritablePipes
   skip set_before_cookie, overwrite_after_cookie
 
-  get "/skipped-pipes" do
+  get "/skipped_pipes" do
     plain_text "Body"
   end
 end

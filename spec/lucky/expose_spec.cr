@@ -42,7 +42,7 @@ end
 class MultipleExposeAndAssigns < InheritedExposureAction
   expose :expose_three
 
-  get "/mutli-expose" do
+  get "/multi_expose" do
     html arg1: "arg1", arg2: "arg2"
     html MultipleExposeAndAssignsPage, arg1: "arg1", arg2: "arg2"
   end

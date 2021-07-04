@@ -44,7 +44,7 @@ private class ComponentWithBlockAndNoBlockArgs < Lucky::BaseComponent
 end
 
 private class NoAction < TestAction
-  get "/nothing-to-do" do
+  get "/nothing_to_do" do
     plain_text "blip"
   end
 end

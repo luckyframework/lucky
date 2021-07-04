@@ -3,8 +3,7 @@ require "../spec_helper"
 include ContextHelper
 
 class CustomRoutes::Index < TestAction
-  include Lucky::EnforceUnderscoredRoute
-  get "/so_custom-foo" do
+  get "/so_custom" do
     plain_text "test"
   end
 end
@@ -143,7 +142,7 @@ class ParamsWithDefaultParamsLast < TestAction
   param has_nil_default : String?
   param no_default : String
 
-  get "/args-with-defaults" do
+  get "/args_with_defaults" do
     plain_text "doesn't matter"
   end
 end

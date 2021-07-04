@@ -12,13 +12,13 @@ class Rendering::CustomPage
 end
 
 class Rendering::Foo < TestAction
-  get "/rendering-foo" do
+  get "/rendering_foo" do
     html Rendering::CustomPage, title: "EditPage", arg2: "testing_multiple_args"
   end
 end
 
 class Rendering::WithinSameNameSpace < TestAction
-  get "/in-namespace" do
+  get "/in_namespace" do
     html CustomPage, title: "WithinSameNameSpace", arg2: "testing_multiple_args"
   end
 end
