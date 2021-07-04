@@ -168,18 +168,7 @@ You need to make sure to install the Crystal dependencies.
 
 ## Contributing
 
-1. Fork it ( https://github.com/luckyframework/web/fork )
-1. Create your feature branch (git checkout -b my-new-feature)
-1. Install docker and docker-compose: https://docs.docker.com/compose/install/
-1. Run `script/setup` to build the Docker containers with everything you need.
-1. Make your changes
-1. Make sure specs pass: `script/test`.
-1. Add a note to the CHANGELOG
-1. Commit your changes (git commit -am 'Add some feature')
-1. Push to the branch (git push origin my-new-feature)
-1. Create a new Pull Request
-
-> Run specific tests with `script/test <path_to_spec>`
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### Lucky to have you!
 
