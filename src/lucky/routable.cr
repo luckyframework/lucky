@@ -136,7 +136,12 @@ module Lucky::Routable
   end
 
   # Implement this macro in your action to check the path for a particular style.
-  macro check_path_style(path)
+  #
+  # By default Lucky ships with a `Lucky::EnforceUnderscoredRoute` that is included
+  # in your `BrowserAction` and `ApiAction` (as of Lucky 0.28)
+  #
+  # See the docs for `Lucky::EnforceUnderscoredRoute` to learn how to use it or disable it.
+  macro enforce_route_style(path, action)
     # no-op by default
   end
 
@@ -144,7 +149,7 @@ module Lucky::Routable
   macro add_route(method, path, action)
     {% path = ROUTE_SETTINGS[:prefix] + path %}
 
-    check_path_style({{ path }})
+    enforce_route_style({{ path }}, {{ @type.name.id }})
 
     Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
 
