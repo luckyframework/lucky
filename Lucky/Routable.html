@@ -191,6 +191,11 @@
       
     </li>
   
+  <li class=" " data-id="lucky/Lucky/EnforceUnderscoredRoute" data-name="lucky::enforceunderscoredroute">
+      <a href="../Lucky/EnforceUnderscoredRoute.html">EnforceUnderscoredRoute</a>
+      
+    </li>
+  
   <li class=" " data-id="lucky/Lucky/Error" data-name="lucky::error">
       <a href="../Lucky/Error.html">Error</a>
       
@@ -706,6 +711,11 @@
       
     </li>
   
+  <li class=" " data-id="lucky/Lucky/SkipRouteStyleCheck" data-name="lucky::skiproutestylecheck">
+      <a href="../Lucky/SkipRouteStyleCheck.html">SkipRouteStyleCheck</a>
+      
+    </li>
+  
   <li class=" " data-id="lucky/Lucky/SpecialtyTags" data-name="lucky::specialtytags">
       <a href="../Lucky/SpecialtyTags.html">SpecialtyTags</a>
       
@@ -904,6 +914,13 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#enforce_route_style(path,action)-macro" class="signature"><strong>enforce_route_style</strong>(path, action)</a>
+        
+          <div class="summary"><p>Implement this macro in your action to check the path for a particular style.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#fallback-macro" class="signature"><strong>fallback</strong></a>
         
       </li>
@@ -1019,6 +1036,30 @@ route. For example:</p>
 <p><strong>See also</strong> our guides for more information and examples:</p>
 
 <ul><li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li></ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="enforce_route_style(path,action)-macro">
+      <div class="signature">
+        
+        macro <strong>enforce_route_style</strong>(path, action)
+
+        <a class="method-permalink" href="#enforce_route_style(path,action)-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Implement this macro in your action to check the path for a particular style.</p>
+
+<p>By default Lucky ships with a <code><a href="../Lucky/EnforceUnderscoredRoute.html">Lucky::EnforceUnderscoredRoute</a></code> that is included
+in your <code>BrowserAction</code> and <code>ApiAction</code> (as of Lucky 0.28)</p>
+
+<p>See the docs for <code><a href="../Lucky/EnforceUnderscoredRoute.html">Lucky::EnforceUnderscoredRoute</a></code> to learn how to use it or disable it.</p>
         </div>
       
       <br/>
