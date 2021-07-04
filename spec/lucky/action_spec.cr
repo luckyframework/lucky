@@ -3,7 +3,8 @@ require "../spec_helper"
 include ContextHelper
 
 class CustomRoutes::Index < TestAction
-  get "/so_custom" do
+  include Lucky::EnforceUnderscoredRoute
+  get "/so_custom-foo" do
     plain_text "test"
   end
 end
