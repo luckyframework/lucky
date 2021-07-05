@@ -145,6 +145,10 @@ module Lucky::Routable
     # no-op by default
   end
 
+  macro enforce_route_uniqueness(path)
+    {% puts path %}
+  end
+
   # :nodoc:
   macro add_route(method, path, action)
     {% path = ROUTE_SETTINGS[:prefix] + path %}
@@ -153,6 +157,9 @@ module Lucky::Routable
 
     Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
 
+    # Regex for capturing the param part for normalization
+    #
+    enforce_route_uniqueness({{ path.gsub(/(\:\w*)/, ":normalized") }})
     {% path_parts = path.split('/').reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(':')) %}
     {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
