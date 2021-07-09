@@ -71,7 +71,7 @@ module Lucky::Subdomain
     if result
       continue
     else
-      raise InvalidSubdomainError.new
+      raise InvalidSubdomainError.new(host: request.hostname, expected: matcher)
     end
   end
 end
