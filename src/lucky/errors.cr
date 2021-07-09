@@ -237,4 +237,7 @@ module Lucky
       MESSAGE
     end
   end
+
+  class InvalidSubdomainError < Error
+  end
 end
