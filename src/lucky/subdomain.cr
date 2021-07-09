@@ -15,16 +15,22 @@ module Lucky::Subdomain
   # Sets up a subdomain requirement for an action
   #
   # ```
-  # register_subdomain                                    # subdomain required but can be anything
-  # register_subdomain "admin"                            # subdomain required and must equal "admin"
-  # register_subdomain /(dev|qa|prod)/                    # subdomain required and must match regex
-  # register_subdomain ["tenant1", "tenant2", /tenant\d/] # subdomain required and must match one of the items in the array
+  # require_subdomain                                    # subdomain required but can be anything
+  # require_subdomain "admin"                            # subdomain required and must equal "admin"
+  # require_subdomain /(dev|qa|prod)/                    # subdomain required and must match regex
+  # require_subdomain ["tenant1", "tenant2", /tenant\d/] # subdomain required and must match one of the items in the array
   # ```
-  macro register_subdomain(matcher = true)
+  #
+  # The subdomain can then be accessed from within the route block by calling `subdomain`.
+  #
+  # If you don't want to require a subdomain but still want to check if one is passed
+  # you can still call `subdomain?` without using `require_subdomain`.
+  # Just know that `subdomain?` is nilable.
+  macro require_subdomain(matcher = true)
     before _match_subdomain
 
     private def subdomain : String
-      _fetch_subdomain.not_nil!
+      subdomain?.not_nil!
     end
 
     private def _match_subdomain
@@ -32,11 +38,11 @@ module Lucky::Subdomain
     end
   end
 
-  def subdomain : String
-    {% raise "No subdomain available without calling `register_subdomain` first." %}
+  private def subdomain : String
+    {% raise "No subdomain available without calling `require_subdomain` first." %}
   end
 
-  private def _fetch_subdomain : String?
+  private def subdomain? : String?
     host = request.hostname
     return if host.nil? || IP_HOST_REGEXP.matches?(host)
 
@@ -50,7 +56,7 @@ module Lucky::Subdomain
     expected = [matcher].flatten.compact
     return continue if expected.empty?
 
-    actual = _fetch_subdomain
+    actual = subdomain?
     result = expected.any? do |expected_subdomain|
       case expected_subdomain
       when true

@@ -8,15 +8,21 @@ abstract class BaseAction < Lucky::Action
 end
 
 class Simple::Index < BaseAction
-  register_subdomain
+  require_subdomain
 
   get "/simple" do
     plain_text subdomain
   end
 end
 
+class OptionalSubdomain::Index < BaseAction
+  get "/optional" do
+    plain_text subdomain? || "none"
+  end
+end
+
 class Specific::Index < BaseAction
-  register_subdomain "foo"
+  require_subdomain "foo"
 
   get "/specific" do
     plain_text subdomain
@@ -24,7 +30,7 @@ class Specific::Index < BaseAction
 end
 
 class Regex::Index < BaseAction
-  register_subdomain /www\d/
+  require_subdomain /www\d/
 
   get "/regex" do
     plain_text subdomain
@@ -32,7 +38,7 @@ class Regex::Index < BaseAction
 end
 
 class Multiple::Index < BaseAction
-  register_subdomain ["test", "staging", /(prod|production)/]
+  require_subdomain ["test", "staging", /(prod|production)/]
 
   get "/multiple" do
     plain_text subdomain
@@ -44,6 +50,16 @@ describe Lucky::Subdomain do
     request = build_request(host: "foo.example.com")
     response = Simple::Index.new(build_context(request), params).call
     response.body.should eq "foo"
+  end
+
+  it "handles optional subdomain" do
+    request = build_request(host: "qa.example.com")
+    response = OptionalSubdomain::Index.new(build_context(request), params).call
+    response.body.should eq "qa"
+
+    request = build_request(host: "example.com")
+    response = OptionalSubdomain::Index.new(build_context(request), params).call
+    response.body.should eq "none"
   end
 
   it "raises error if subdomain missing" do
