@@ -156,7 +156,7 @@ module Lucky::Routable
 
     {% if already_used_route = NORMALIZED_ROUTES.find { |route| route[:normalized_path] == normalized_path && route[:method] == method } %}
       {% raise <<-ERROR
-      #{already_used_route[:original_path]} in '#{already_used_route[:action]}' collides with the route in '#{@type.name}'
+      #{original_path} in '#{@type.name}' collides with the path in '#{already_used_route[:action]}'
 
       Try this...
 
@@ -164,17 +164,9 @@ module Lucky::Routable
 
       Or, skip the uniqueness check
 
-          # Only do this if you are sure the route is actually unique
+          # Only do this if you are sure the route is unique
           class #{@type.name}
         +  include Lucky::SkipUniqueRouteCheck
-          end
-
-      Or, skip checking all actions by adding 'Lucky::SkipUniqueRouteCheck'
-
-          # Add to both BrowserAction and ApiAction
-          # Only do this if you are sure the route is actually unique
-          class BrowserAction/ApiAction
-        -  include Lucky::SkipUniqueRouteCheck
           end
 
 
