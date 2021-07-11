@@ -18,18 +18,6 @@ class Lucky::Session
     end
   end
 
-  def destroy
-    {% raise "Session#destroy has been renamed to Session#clear to match Hash#clear" %}
-  end
-
-  def reset
-    {% raise "use Session#clear to reset the session" %}
-  end
-
-  def unset(*args)
-    {% raise "use Session#delete instead of Session#unset" %}
-  end
-
   def delete(key : Key) : String?
     store.delete key.to_s
   end
