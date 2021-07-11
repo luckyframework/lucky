@@ -97,9 +97,4 @@ module Lucky::RequestTypeHelpers
   def multipart? : Bool
     !!request.headers["Content-Type"]?.try(&.downcase.starts_with?("multipart/form-data"))
   end
-
-  # :nodoc:
-  def plain?
-    {% raise "This method has been renamed to 'plain_text?'" %}
-  end
 end

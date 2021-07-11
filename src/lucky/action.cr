@@ -19,10 +19,4 @@ abstract class Lucky::Action
   include Lucky::Redirectable
   include Lucky::RedirectableTurbolinksSupport
   include Lucky::VerifyAcceptsFormat
-
-  # Must be defined here instead of in Renderable
-  # Otherwise it clashes with ErrorAction#render
-  private def render(page_class, **named_args)
-    {% raise "'render' in actions has been renamed to 'html'" %}
-  end
 end

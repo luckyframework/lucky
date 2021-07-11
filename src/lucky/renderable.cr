@@ -257,16 +257,6 @@ module Lucky::Renderable
     plain_text(body, status: status.value)
   end
 
-  # :nodoc:
-  private def text(*args, **named_args)
-    {% raise "'text' in actions has been renamed to 'plain_text'" %}
-  end
-
-  @[Deprecated("`render_text` deprecated. Use `plain_text` instead")]
-  private def render_text(*args, **named_args) : Lucky::TextResponse
-    plain_text(*args, **named_args)
-  end
-
   def head(status : Int32) : Lucky::TextResponse
     send_text_response(body: "", content_type: "", status: status)
   end
