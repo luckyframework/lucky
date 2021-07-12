@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::TextResponse - lucky 0.27.2</title>
+  <title>Lucky::InvalidSubdomainError - lucky 0.27.2</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -386,7 +386,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/InvalidSubdomainError" data-name="lucky::invalidsubdomainerror">
+  <li class=" current" data-id="lucky/Lucky/InvalidSubdomainError" data-name="lucky::invalidsubdomainerror">
       <a href="../Lucky/InvalidSubdomainError.html">InvalidSubdomainError</a>
       
     </li>
@@ -791,7 +791,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/TextResponse" data-name="lucky::textresponse">
+  <li class=" " data-id="lucky/Lucky/TextResponse" data-name="lucky::textresponse">
       <a href="../Lucky/TextResponse.html">TextResponse</a>
       
     </li>
@@ -855,30 +855,15 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Lucky::TextResponse
+  <span class="kind">class</span> Lucky::InvalidSubdomainError
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/TextResponse.html">Lucky::TextResponse</a></li><li class="superclass"><a href="../Lucky/Response.html">Lucky::Response</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/InvalidSubdomainError.html">Lucky::InvalidSubdomainError</a></li><li class="superclass"><a href="../Lucky/Error.html">Lucky::Error</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
-
-  <h2>
-    <a id="overview" class="anchor" href="#overview">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Overview
-  </h2>
-
-  <p>Writes the <em>content_type</em>, <em>status</em>, and <em>body</em> to the <em>context</em> for text responses.</p>
-
-<p>There are two settings in <code><a href="../Lucky/Server.html#settings-class-method">Lucky::Server.settings</a></code> that determine if
-the text response is gzip encoded; <code><a href="../Lucky/Server.html#settings-class-method">Lucky::Server.settings</a>.gzip_enabled</code> and <code><a href="../Lucky/Server.html#settings-class-method">Lucky::Server.settings</a>.gzip_content_types</code>.
-These settings can be adjusted in your Lucky app under config/server.cr</p>
 
 
 
@@ -903,31 +888,12 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
   </h2>
   
     
-      lucky/text_response.cr
+      lucky/errors.cr
     
     <br/>
   
 
 
-
-  
-    <h2>
-      <a id="constant-summary" class="anchor" href="#constant-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-      Constant Summary
-    </h2>
-  
-  <dl>
-    
-      <dt class="entry-const" id="DEFAULT_STATUS">
-        <strong>DEFAULT_STATUS</strong> = <code><span class="n">200</span></code>
-      </dt>
-      
-    
-  </dl>
 
 
 
@@ -942,7 +908,7 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(context:HTTP::Server::Context,content_type:String,body:String%7CIO,status:Int32?=nil,debug_message:String?=nil,enable_cookies:Bool=true)-class-method" class="signature"><strong>.new</strong>(context : HTTP::Server::Context, content_type : String, body : String | IO, status : Int32? = <span class="n">nil</span>, debug_message : String? = <span class="n">nil</span>, enable_cookies : Bool = <span class="n">true</span>)</a>
+        <a href="#new(host:String?,expected:Lucky::Subdomain::Matcher)-class-method" class="signature"><strong>.new</strong>(host : String?, expected : Lucky::Subdomain::Matcher)</a>
         
       </li>
     
@@ -963,37 +929,7 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#body:IO%7CString-instance-method" class="signature"><strong>#body</strong> : IO | String</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#content_type:String-instance-method" class="signature"><strong>#content_type</strong> : String</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#context:HTTP::Server::Context-instance-method" class="signature"><strong>#context</strong> : HTTP::Server::Context</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#debug_message:String?-instance-method" class="signature"><strong>#debug_message</strong> : String?</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#enable_cookies:Bool-instance-method" class="signature"><strong>#enable_cookies</strong> : Bool</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#print:Nil-instance-method" class="signature"><strong>#print</strong> : Nil</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#status:Int-instance-method" class="signature"><strong>#status</strong> : Int</a>
+        <a href="#message:String-instance-method" class="signature"><strong>#message</strong> : String</a>
         
       </li>
     
@@ -1007,19 +943,15 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
   
     
 
-  <h3>Instance methods inherited from class <code><a href="../Lucky/Response.html">Lucky::Response</a></code></h3>
-  
-  
-    <a href="../Lucky/Response.html#print-instance-method" class="tooltip">
-      <span>print</span>
-    print</a>, 
+
     
-  
-    <a href="../Lucky/Response.html#status:Int-instance-method" class="tooltip">
-      <span>status : Int</span>
-    status</a>
+
+
     
+
+
   
+    
 
 
     
@@ -1061,12 +993,12 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(context:HTTP::Server::Context,content_type:String,body:String|IO,status:Int32?=nil,debug_message:String?=nil,enable_cookies:Bool=true)-class-method">
+    <div class="entry-detail" id="new(host:String?,expected:Lucky::Subdomain::Matcher)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(context : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>, content_type : <a href="../String.html">String</a>, body : <a href="../String.html">String</a> | IO, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>, debug_message : <a href="../String.html">String</a>? = <span class="n">nil</span>, enable_cookies : <a href="../Bool.html">Bool</a> = <span class="n">true</span>)
+        def self.<strong>new</strong>(host : <a href="../String.html">String</a>?, expected : <a href="../Lucky/Subdomain/Matcher.html">Lucky::Subdomain::Matcher</a>)
 
-        <a class="method-permalink" href="#new(context:HTTP::Server::Context,content_type:String,body:String%7CIO,status:Int32?=nil,debug_message:String?=nil,enable_cookies:Bool=true)-class-method">#</a>
+        <a class="method-permalink" href="#new(host:String?,expected:Lucky::Subdomain::Matcher)-class-method">#</a>
       </div>
       
       <br/>
@@ -1089,96 +1021,12 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="body:IO|String-instance-method">
+    <div class="entry-detail" id="message:String-instance-method">
       <div class="signature">
         
-        def <strong>body</strong> : IO | <a href="../String.html">String</a>
+        def <strong>message</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#body:IO%7CString-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="content_type:String-instance-method">
-      <div class="signature">
-        
-        def <strong>content_type</strong> : <a href="../String.html">String</a>
-
-        <a class="method-permalink" href="#content_type:String-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="context:HTTP::Server::Context-instance-method">
-      <div class="signature">
-        
-        def <strong>context</strong> : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>
-
-        <a class="method-permalink" href="#context:HTTP::Server::Context-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="debug_message:String?-instance-method">
-      <div class="signature">
-        
-        def <strong>debug_message</strong> : <a href="../String.html">String</a>?
-
-        <a class="method-permalink" href="#debug_message:String?-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="enable_cookies:Bool-instance-method">
-      <div class="signature">
-        
-        def <strong>enable_cookies</strong> : <a href="../Bool.html">Bool</a>
-
-        <a class="method-permalink" href="#enable_cookies:Bool-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="print:Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>print</strong> : Nil
-
-        <a class="method-permalink" href="#print:Nil-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="status:Int-instance-method">
-      <div class="signature">
-        
-        def <strong>status</strong> : Int
-
-        <a class="method-permalink" href="#status:Int-instance-method">#</a>
+        <a class="method-permalink" href="#message:String-instance-method">#</a>
       </div>
       
       <br/>
