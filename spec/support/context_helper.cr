@@ -5,11 +5,12 @@ module ContextHelper
     method = "GET",
     body = "",
     content_type = "",
-    fixed_length : Bool = false
+    fixed_length : Bool = false,
+    host = "example.com"
   ) : HTTP::Request
     headers = HTTP::Headers.new
     headers.add("Content-Type", content_type)
-    headers.add("Host", "example.com")
+    headers.add("Host", host)
     if fixed_length
       body = HTTP::FixedLengthContent.new(IO::Memory.new(body), body.size)
     end

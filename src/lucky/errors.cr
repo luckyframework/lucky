@@ -237,4 +237,22 @@ module Lucky
       MESSAGE
     end
   end
+
+  class InvalidSubdomainError < Error
+    def initialize(@host : String?, @expected : Lucky::Subdomain::Matcher)
+    end
+
+    def message : String
+      if @host.nil?
+        "Expected to find a subdomain but did not find a hostname on the request."
+      elsif @expected == true
+        "Expected request to have a subdomain but did not find one."
+      else
+        <<-MESSAGE
+          Expected subdomain matcher(s): #{@expected.pretty_inspect}
+          Did not match host: #{@host}
+        MESSAGE
+      end
+    end
+  end
 end
