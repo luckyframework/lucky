@@ -145,14 +145,51 @@ module Lucky::Routable
     # no-op by default
   end
 
+  NORMALIZED_ROUTES = [] of Nil # types are not resolved in macros
+
+  # :nodoc:
+  macro enforce_route_uniqueness(method, original_path)
+    # Regex for capturing the param part for normalization
+    #
+    # So "/users/:user_id" is changed to "/users/:normalized"
+    {% normalized_path = original_path.gsub(/(\:\w*)/, ":normalized") %}
+
+    {% if already_used_route = NORMALIZED_ROUTES.find { |route| route[:normalized_path] == normalized_path && route[:method] == method } %}
+      {% raise <<-ERROR
+      #{original_path} in '#{@type.name}' collides with the path in '#{already_used_route[:action]}'
+
+      Try this...
+
+        ▸ Change the paths in one of the actions to something unique
+
+      Or, skip the uniqueness check
+
+          # Only do this if you are sure the route is unique
+          class #{@type.name}
+        +  include Lucky::SkipUniqueRouteCheck
+          end
+
+
+      ERROR
+      %}
+    {% else %}
+      {% NORMALIZED_ROUTES << {
+           normalized_path: normalized_path,
+           original_path:   original_path,
+           method:          method,
+           action:          @type.name,
+         } %}
+    {% end %}
+  end
+
   # :nodoc:
   macro add_route(method, path, action)
     {% path = ROUTE_SETTINGS[:prefix] + path %}
 
     enforce_route_style({{ path }}, {{ @type.name.id }})
+    enforce_route_uniqueness({{method}}, {{ path }})
 
     Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
-
     {% path_parts = path.split('/').reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(':')) %}
     {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
