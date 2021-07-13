@@ -145,7 +145,7 @@ module Lucky::Routable
     # no-op by default
   end
 
-  NORMALIZED_ROUTES = [] of Nil # types are not resolved in macros
+  private NORMALIZED_ROUTES = {} of _ => _
 
   # :nodoc:
   macro enforce_route_uniqueness(method, original_path)
@@ -153,8 +153,9 @@ module Lucky::Routable
     #
     # So "/users/:user_id" is changed to "/users/:normalized"
     {% normalized_path = original_path.gsub(/(\:\w*)/, ":normalized") %}
+    {% normalized_key = "#{method.id} #{normalized_path.id}" %}
 
-    {% if already_used_route = NORMALIZED_ROUTES.find { |route| route[:normalized_path] == normalized_path && route[:method] == method } %}
+    {% if already_used_route = NORMALIZED_ROUTES[normalized_key] %}
       {% raise <<-ERROR
       #{original_path} in '#{@type.name}' collides with the path in '#{already_used_route[:action]}'
 
@@ -173,7 +174,7 @@ module Lucky::Routable
       ERROR
       %}
     {% else %}
-      {% NORMALIZED_ROUTES << {
+      {% NORMALIZED_ROUTES[normalized_key] = {
            normalized_path: normalized_path,
            original_path:   original_path,
            method:          method,
