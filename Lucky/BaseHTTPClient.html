@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.36.1">
-<meta name="crystal_docs.project_version" content="0.27.2">
+<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::BaseHTTPClient - lucky 0.27.2</title>
+  <title>Lucky::BaseHTTPClient - lucky master</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        0.27.2
+        master
       </span>
     </div>
   </div>
@@ -901,7 +901,9 @@
   </h2>
   
     
-      lucky/base_http_client.cr
+      <a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L6" target="_blank">
+        lucky/base_http_client.cr
+      </a>
     
     <br/>
   
@@ -994,12 +996,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#delete(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#delete</strong>(path : String, **params) : HTTP::Client::Response</a>
+        <a href="#delete(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#delete</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#delete(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#delete</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
+        <a href="#delete(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#delete</strong>(path : String, **params) : HTTP::Client::Response</a>
         
       </li>
     
@@ -1025,22 +1027,22 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#get(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#get</strong>(path : String, **params) : HTTP::Client::Response</a>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#get(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#get</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#head(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#head</strong>(path : String, **params) : HTTP::Client::Response</a>
+        <a href="#get(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#get</strong>(path : String, **params) : HTTP::Client::Response</a>
         
       </li>
     
       <li class="entry-summary">
         <a href="#head(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#head</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#head(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#head</strong>(path : String, **params) : HTTP::Client::Response</a>
         
       </li>
     
@@ -1062,12 +1064,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#patch(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#patch</strong>(path : String, **params) : HTTP::Client::Response</a>
+        <a href="#patch(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#patch</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#patch(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#patch</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
+        <a href="#patch(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#patch</strong>(path : String, **params) : HTTP::Client::Response</a>
         
       </li>
     
@@ -1082,12 +1084,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#put(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#put</strong>(path : String, **params) : HTTP::Client::Response</a>
+        <a href="#put(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#put</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#put(path:String,params:NamedTuple):HTTP::Client::Response-instance-method" class="signature"><strong>#put</strong>(path : String, params : NamedTuple) : HTTP::Client::Response</a>
+        <a href="#put(path:String,**params):HTTP::Client::Response-instance-method" class="signature"><strong>#put</strong>(path : String, **params) : HTTP::Client::Response</a>
         
       </li>
     
@@ -1142,6 +1144,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L11" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1168,6 +1172,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1181,6 +1187,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1196,6 +1204,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1209,6 +1219,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1224,6 +1236,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1237,6 +1251,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1252,6 +1268,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1265,6 +1283,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1281,6 +1301,22 @@
     Instance Method Detail
   </h2>
   
+    <div class="entry-detail" id="delete(path:String,params:NamedTuple):HTTP::Client::Response-instance-method">
+      <div class="signature">
+        
+        def <strong>delete</strong>(path : <a href="../String.html">String</a>, params : NamedTuple) : HTTP::Client::Response
+
+        <a class="method-permalink" href="#delete(path:String,params:NamedTuple):HTTP::Client::Response-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="delete(path:String,**params):HTTP::Client::Response-instance-method">
       <div class="signature">
         
@@ -1292,19 +1328,7 @@
       <br/>
       <div>
         
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="delete(path:String,params:NamedTuple):HTTP::Client::Response-instance-method">
-      <div class="signature">
-        
-        def <strong>delete</strong>(path : <a href="../String.html">String</a>, params : NamedTuple) : HTTP::Client::Response
-
-        <a class="method-permalink" href="#delete(path:String,params:NamedTuple):HTTP::Client::Response-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1324,6 +1348,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L89" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1353,6 +1379,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L79" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1372,19 +1400,7 @@
       <br/>
       <div>
         
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="get(path:String,**params):HTTP::Client::Response-instance-method">
-      <div class="signature">
-        
-        def <strong>get</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
-
-        <a class="method-permalink" href="#get(path:String,**params):HTTP::Client::Response-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L84" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1400,19 +1416,23 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+        
       </div>
     </div>
   
-    <div class="entry-detail" id="head(path:String,**params):HTTP::Client::Response-instance-method">
+    <div class="entry-detail" id="get(path:String,**params):HTTP::Client::Response-instance-method">
       <div class="signature">
         
-        def <strong>head</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
+        def <strong>get</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
 
-        <a class="method-permalink" href="#head(path:String,**params):HTTP::Client::Response-instance-method">#</a>
+        <a class="method-permalink" href="#get(path:String,**params):HTTP::Client::Response-instance-method">#</a>
       </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1427,6 +1447,24 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="head(path:String,**params):HTTP::Client::Response-instance-method">
+      <div class="signature">
+        
+        def <strong>head</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
+
+        <a class="method-permalink" href="#head(path:String,**params):HTTP::Client::Response-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1469,6 +1507,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L58" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1482,6 +1522,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1497,19 +1539,7 @@
       <br/>
       <div>
         
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="patch(path:String,**params):HTTP::Client::Response-instance-method">
-      <div class="signature">
-        
-        def <strong>patch</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
-
-        <a class="method-permalink" href="#patch(path:String,**params):HTTP::Client::Response-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1525,6 +1555,24 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="patch(path:String,**params):HTTP::Client::Response-instance-method">
+      <div class="signature">
+        
+        def <strong>patch</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
+
+        <a class="method-permalink" href="#patch(path:String,**params):HTTP::Client::Response-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -1538,6 +1586,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1553,19 +1603,7 @@
       <br/>
       <div>
         
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="put(path:String,**params):HTTP::Client::Response-instance-method">
-      <div class="signature">
-        
-        def <strong>put</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
-
-        <a class="method-permalink" href="#put(path:String,**params):HTTP::Client::Response-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1580,6 +1618,24 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="put(path:String,**params):HTTP::Client::Response-instance-method">
+      <div class="signature">
+        
+        def <strong>put</strong>(path : <a href="../String.html">String</a>, **params) : HTTP::Client::Response
+
+        <a class="method-permalink" href="#put(path:String,**params):HTTP::Client::Response-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/b242dfe82293691fce87439968b587006da58d7d/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
