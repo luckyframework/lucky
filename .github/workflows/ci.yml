@@ -68,8 +68,9 @@ jobs:
       - name: Cache shards
         uses: actions/cache@v2
         with:
-          path: lib
-          key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
+          path: ~/.cache/shards
+          key: ${{ runner.os }}-shards-${{ hashFiles('shard.yml') }}
+          restore-keys: ${{ runner.os }}-shards-
       - name: Install shards
         run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install --ignore-crystal-version
       - name: Run tests
