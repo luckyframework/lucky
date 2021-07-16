@@ -26,11 +26,13 @@ jobs:
             experimental: true
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
     env:
       SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
       - uses: actions/checkout@v1
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{matrix.crystal_version}}
       - name: Install shards
         run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install
       - name: Format
@@ -56,16 +58,13 @@ jobs:
             experimental: true
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
     env:
       SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
       - uses: actions/checkout@v2
-      - name: Cache Crystal
-        uses: actions/cache@v1
+      - uses: crystal-lang/install-crystal@v1
         with:
-          path: ~/.cache/crystal
-          key: ${{ runner.os }}-crystal
+          crystal: ${{matrix.crystal_version}}
       - name: Install shards
         run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install --ignore-crystal-version
       - name: Run tests
