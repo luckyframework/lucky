@@ -29,7 +29,7 @@ describe Gen::Resource::Browser do
           "./src/actions/users/show.cr": "html ShowPage, user: UserQuery.find(user_id)",
           "./src/actions/users/edit.cr": "user = UserQuery.find(user_id)",
           "./src/actions/users/update.cr": "user = UserQuery.find(user_id)",
-          "./src/actions/users/delete.cr": "DeleteUser.destroy(user)"
+          "./src/actions/users/delete.cr": "DeleteUser.delete(user)"
         should_create_files_with_contents io,
           "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
           "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
