@@ -1,3 +1,87 @@
+## Upgrading from 0.27 to 0.28
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.27.0&to=0.28.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Crystal should be `">= 1.0.0"`
+  - Lucky should be `~> 0.28.0`
+  - Dotenv should be replace with [LuckyEnv 0.1.2](https://github.com/luckyframework/lucky_env)
+
+- Run `shards update`
+
+### General updates
+
+- Remove: `needs context : HTTP::Server::Context` from any component, as well as passing it in to the `mount()` for the components. [See PR for details](https://github.com/luckyframework/lucky/pull/1488)
+- Rename: all call to `DeleteOperation.destroy` -> `DeleteOperation.delete`
+- Update: `avram_enum` to use the Crystal `enum`. [See PR for details](https://github.com/luckyframework/avram/pull/698)
+```diff
+# Models get this update
+- avram_enum State do
++ enum State
+    Started
+    Ended
+  end
+
+# Factories get this update
+- state Thing::State.new(:started)
++ state Thing::State::Started
+
+# Operations get this update
+- SaveThing.create(state: Thing::State.new(:started)) do |op, t|
++ SaveThing.create(state: Thing::State::Started) do |op, t|
+
+# Queries get this update
+- ThingQuery.new.state(Thing::State.new(:started).value)
++ ThingQuery.new.state(Thing::State::Started)
+```
+- Update: your `config/env.cr` to this.
+```crystal
+# Environments are managed using `LuckyEnv`. By default, development, production
+# and test are supported.
+
+# If you need additional environment support, add it here
+# LuckyEnv.add_env :staging
+```
+- Update: any use of `Lucky::Env` to use `LuckyEnv`. (e.g. `Lucky::Env.test?` -> `LuckyEnv.test?`). [See PR for details](https://github.com/luckyframework/lucky_cli/pull/655)
+- Update: any use of `route` or `nested_route`, and replace them with the generated routes. Use `lucky routes` to view all generated routes. If you still need this, you can use the [Lucky legacy route](https://github.com/matthewmcgarvey/lucky_legacy_routing) shard.
+- Add: the [luckyframework/carbon_sendgrid_adapter](https://github.com/luckyframework/carbon_sendgrid_adapter) shard if you're using Sendgrid to send mail.
+
+
+### Optional updates
+
+- Update: all routes to use underscore (`_`) instead of dash (`-`) as word separator. Include the `Lucky::EnforceUnderscoredRoute` module in your base actions.
+```crystal
+class BrowserAction < Lucky::Action
+  include Lucky::EnforceUnderscoredRoute
+  # ...
+end
+```
+- Update: `send_text_response()` responses if you're passing a raw JSON string to use `raw_json()` instead.
+- Add: `include Lucky::SecureHeaders::DisableFLoC` to your `BrowserAction` to disable FLoC.
+```crystal
+class BrowserAction < Lucky::Action
+  include Lucky::SecureHeaders::DisableFLoC
+  # ...
+end
+```
+- Remove: `normalize-scss` from your `package.json` and replace with `modern-normalize` if you're using `normalize-scss`.
+- Update: any query where you write code like `if SomeQuery.new.first?` to `if SomeQuery.new.any?`. `.any?` returns a Bool instead of loading the whole object which has a small performance gain.
+- Add: the [Breeze](https://github.com/luckyframework/breeze) shard to your development workflow!
+
+
 ## Upgrading from 0.26 to 0.27
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.26.0&to=0.27.0).
