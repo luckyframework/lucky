@@ -4,6 +4,6 @@ class <%= pluralized_name %>::Delete < BrowserAction
     Delete<%= resource %>.delete(<%= underscored_resource %>) do |_operation, _deleted|
       flash.success = "Deleted the <%= underscored_resource %>"
       redirect Index
-    end 
+    end
   end
 end
