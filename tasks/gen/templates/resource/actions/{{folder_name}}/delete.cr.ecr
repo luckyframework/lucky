@@ -1,6 +1,6 @@
 class <%= pluralized_name %>::Delete < BrowserAction
   <%= route("Delete") %> do
-    <%= underscored_resource %>  = <%= query_class %>.find(<%= resource_id_method_name %>)
+    <%= underscored_resource %> = <%= query_class %>.find(<%= resource_id_method_name %>)
     Delete<%= resource %>.delete(<%= underscored_resource %>) do |_operation, _deleted|
       flash.success = "Deleted the <%= underscored_resource %>"
       redirect Index
