@@ -18,14 +18,14 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Crystal should be `">= 1.0.0"`
   - Lucky should be `~> 0.28.0`
-  - Dotenv should be replace with [LuckyEnv 0.1.2](https://github.com/luckyframework/lucky_env)
+  - Dotenv should be replaced with [LuckyEnv 0.1.2](https://github.com/luckyframework/lucky_env)
 
 - Run `shards update`
 
 ### General updates
 
 - Remove: `needs context : HTTP::Server::Context` from any component, as well as passing it in to the `mount()` for the components. [See PR for details](https://github.com/luckyframework/lucky/pull/1488)
-- Rename: all call to `DeleteOperation.destroy` -> `DeleteOperation.delete`
+- Rename: all `DeleteOperation.destroy` calls to `DeleteOperation.delete`
 - Update: `avram_enum` to use the Crystal `enum`. [See PR for details](https://github.com/luckyframework/avram/pull/698)
 ```diff
 # Models get this update
