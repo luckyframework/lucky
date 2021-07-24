@@ -27,7 +27,7 @@ targets:
     main: src/precompiled_tasks/gen/component.cr
   lucky.gen.task:
     main: src/precompiled_tasks/gen/task.cr
-  lucky.secret_key:
+  lucky.gen.secret_key:
     main: src/precompiled_tasks/gen/secret_key.cr
 
 dependencies:
