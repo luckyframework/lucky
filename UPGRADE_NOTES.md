@@ -58,6 +58,7 @@ brew upgrade lucky
 # LuckyEnv.add_env :staging
 ```
 - Update: any use of `Lucky::Env` to use `LuckyEnv`. (e.g. `Lucky::Env.test?` -> `LuckyEnv.test?`). [See PR for details](https://github.com/luckyframework/lucky_cli/pull/655)
+- Update: any use of `Lucky::Env.name` to use `LuckyEnv.environment`.
 - Update: any use of `route` or `nested_route`, and replace them with the generated routes. Use `lucky routes` to view all generated routes. If you still need this, you can use the [Lucky Legacy Routing](https://github.com/matthewmcgarvey/lucky_legacy_routing) shard.
 - Add: the [luckyframework/carbon_sendgrid_adapter](https://github.com/luckyframework/carbon_sendgrid_adapter) shard if you're using Sendgrid to send mail.
 
