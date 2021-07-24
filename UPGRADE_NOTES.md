@@ -1,6 +1,6 @@
 ## Upgrading from 0.27 to 0.28
 
-For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.27.0&to=0.28.0).
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.27.2&to=0.28.0).
 
 - Upgrade Lucky CLI (homebrew)
 
