@@ -20,6 +20,7 @@ brew upgrade lucky
   - Lucky should be `~> 0.28.0`
   - Authentic should be `~> 0.8.0`
   - Carbon should be `~> 0.2.0`
+  - Caron SendgidAdapter should be `~> 0.1.0` if you're using SendGrid
   - Dotenv should be replaced with [LuckyEnv ~> 0.1.3](https://github.com/luckyframework/lucky_env)
 
 - Run `shards update`
@@ -60,7 +61,7 @@ brew upgrade lucky
 - Update: any use of `Lucky::Env` to use `LuckyEnv`. (e.g. `Lucky::Env.test?` -> `LuckyEnv.test?`). [See PR for details](https://github.com/luckyframework/lucky_cli/pull/655)
 - Update: any use of `Lucky::Env.name` to use `LuckyEnv.environment`.
 - Update: any use of `route` or `nested_route`, and replace them with the generated routes. Use `lucky routes` to view all generated routes. If you still need this, you can use the [Lucky Legacy Routing](https://github.com/matthewmcgarvey/lucky_legacy_routing) shard.
-- Add: the [luckyframework/carbon_sendgrid_adapter](https://github.com/luckyframework/carbon_sendgrid_adapter) shard if you're using Sendgrid to send mail.
+- Add: the [luckyframework/carbon_sendgrid_adapter](https://github.com/luckyframework/carbon_sendgrid_adapter) shard if you're using Sendgrid to send mail. Be sure to `require "carbon_sendgrid_adapter"` in `config/email.cr`.
 
 
 ### Optional updates
