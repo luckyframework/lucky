@@ -19,9 +19,21 @@ class Rendering::Index < TestAction
   end
 end
 
-class Rendering::Show < TestAction
+class Rendering::Show::WithStatus < TestAction
   get "/rendering/:nothing" do
     html_with_status IndexPage, 419, title: "Closing Time", arg2: "You don't have to go home but you can't stay here"
+  end
+end
+
+class Rendering::Show::WithSymbolStatus < TestAction
+  get "/rendering1/:nothing" do
+    html_with_status IndexPage, :unauthorized, title: "Closing Time", arg2: "You don't have to go home but you can't stay here"
+  end
+end
+
+class Rendering::Show::WithEnumStatus < TestAction
+  get "/rendering2/:nothing" do
+    html_with_status IndexPage, HTTP::Status::UNPROCESSABLE_ENTITY, title: "Closing Time", arg2: "You don't have to go home but you can't stay here"
   end
 end
 
@@ -189,11 +201,17 @@ describe Lucky::Action do
     end
 
     it "renders with a different status code" do
-      response = Rendering::Show.new(build_context, params).call
+      response = Rendering::Show::WithStatus.new(build_context, params).call
 
       response.body.to_s.should contain "Closing Time"
       response.debug_message.to_s.should contain "Rendering::IndexPage"
       response.status.should eq 419
+
+      status = Rendering::Show::WithSymbolStatus.new(build_context, params).call.status
+      status.should eq 401
+
+      status = Rendering::Show::WithEnumStatus.new(build_context, params).call.status
+      status.should eq 422
     end
   end
 
