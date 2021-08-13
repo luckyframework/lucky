@@ -86,7 +86,7 @@ module Lucky::Renderable
       html {{ page_class }}, _with_status_code: {{ status }}, {{ **assigns }}
     {% elsif status.is_a?(SymbolLiteral) %}
       html {{ page_class }}, _with_status_code: HTTP::Status::{{ status.upcase.id }}.value, {{ **assigns }}
-    {% elsif status.resolve.is_a?(NumberLiteral) %}
+    {% elsif status.is_a?(Path) && status.names.join("::").starts_with?("HTTP::Status::") %}
       html {{ page_class }}, _with_status_code: {{ status.resolve }}, {{ **assigns }}
     {% else %}
       {% raise <<-ERROR
