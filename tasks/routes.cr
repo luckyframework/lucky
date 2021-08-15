@@ -1,22 +1,57 @@
 require "lucky_task"
 require "colorize"
+require "shell-table"
 
 class Routes < LuckyTask::Task
   summary "Show all the routes for the app"
 
+  switch :with_params, "Include action params with each route", shortcut: "-p"
+
+  def help_message
+    <<-TEXT
+    #{summary}
+
+    Optionally, you can pass the --with-params flag (-p) to print out
+    the available params for each Action.
+
+    example: lucky routes --with-params
+
+    #{print_banner_message}
+    TEXT
+  end
+
   def call
-    table = String.build do |output|
-      output << "#{print_banner_message}\n\n"
-      Lucky::Router.routes.map do |route|
-        output << "#{route.method.to_s.upcase} #{route.path.colorize.bold.underline} #{dim_arrow} #{route.action.colorize.green}\n"
+    routes = [] of Array(String)
+
+    Lucky::Router.routes.each do |route|
+      row = [] of String
+      row << route.method.to_s.upcase
+      row << route.path.colorize.green.to_s
+      row << route.action.name
+      routes << row
+
+      if with_params?
         route.action.query_param_declarations.each do |param|
-          output << " #{dim_arrow} #{param}\n"
+          param_row = [] of String
+          param_row << " "
+          param_row << " #{dim_arrow} #{param}"
+          param_row << " "
+          routes << param_row
         end
-        output << "\n\n"
       end
     end
 
-    puts table
+    table = ShellTable.new(
+      labels: ["Verb", "URI", "Action"],
+      label_color: :white,
+      rows: routes
+    )
+
+    output.puts <<-TEXT
+    #{print_banner_message}
+
+    #{table}
+    TEXT
   end
 
   private def dim_arrow
