@@ -267,6 +267,25 @@ module Lucky::Routable
       Lucky::RouteHelper.new({{ method }}, path).url
     end
 
+    def self.path_without_query_params(
+    {% for param in path_params %}
+      {{ param.gsub(/:/, "").id }},
+    {% end %}
+    {% for param in optional_path_params %}
+      {{ param.gsub(/^\?:/, "").id }} = nil,
+    {% end %}
+    )
+      path = path_from_parts(
+        {% for param in path_params %}
+          {{ param.gsub(/:/, "").id }},
+        {% end %}
+        {% for param in optional_path_params %}
+          {{ param.gsub(/^\?:/, "").id }},
+        {% end %}
+      )
+      Lucky::RouteHelper.new({{ method }}, path).path
+    end
+
     {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
          !decl.value.is_a?(Nop) || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
        end %}
