@@ -2,15 +2,17 @@ require "json"
 require "colorize"
 
 private class AssetManifestBuilder
-  MANIFEST_PATH = File.expand_path("./public/mix-manifest.json")
-  MAX_RETRIES   =   20
-  RETRY_AFTER   = 0.25
+  MAX_RETRIES =   20
+  RETRY_AFTER = 0.25
 
   property retries
   @retries : Int32 = 0
+  @manifest_path : String = File.expand_path("./public/mix-manifest.json")
 
-  def self.build_with_retry
-    new.build_with_retry
+  def initialize
+  end
+
+  def initialize(@manifest_path)
   end
 
   def build_with_retry
@@ -32,7 +34,7 @@ private class AssetManifestBuilder
   end
 
   private def build
-    manifest_file = File.read(MANIFEST_PATH)
+    manifest_file = File.read(@manifest_path)
     manifest = JSON.parse(manifest_file)
 
     manifest.as_h.each do |key, value|
@@ -42,17 +44,25 @@ private class AssetManifestBuilder
   end
 
   private def manifest_exists?
-    File.exists?(MANIFEST_PATH)
+    File.exists?(@manifest_path)
   end
 
   private def raise_missing_manifest_error
-    puts "Manifest at #{AssetManifestBuilder::MANIFEST_PATH} does not exist".colorize(:red)
+    puts "Manifest at #{@manifest_path} does not exist".colorize(:red)
     puts "Make sure you have compiled your assets".colorize(:red)
   end
 end
 
 begin
-  AssetManifestBuilder.build_with_retry
+  manifest_path = ARGV[0]
+
+  builder = if manifest_path.blank?
+              AssetManifestBuilder.new
+            else
+              AssetManifestBuilder.new(manifest_path)
+            end
+
+  builder.build_with_retry
 rescue ex
   puts ex.message.colorize(:red)
   raise ex
