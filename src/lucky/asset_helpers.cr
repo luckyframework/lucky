@@ -8,8 +8,8 @@ module Lucky::AssetHelpers
   ASSET_MANIFEST = {} of String => String
   CONFIG         = {has_loaded_manifest: false}
 
-  macro load_manifest
-    {{ run "../run_macros/generate_asset_helpers" }}
+  macro load_manifest(manifest_file = "")
+    {{ run "../run_macros/generate_asset_helpers", manifest_file }}
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
