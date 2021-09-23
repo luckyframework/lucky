@@ -82,29 +82,12 @@ module Lucky::Renderable
   # [HTTP::Status](https://crystal-lang.org/api/latest/HTTP/Status.html)
   # enum for more available http status codes.
   macro html_with_status(page_class, status, **assigns)
-    {% if status.is_a?(NumberLiteral) %}
-      html {{ page_class }}, _with_status_code: {{ status }}, {{ **assigns }}
-    {% elsif status.is_a?(SymbolLiteral) %}
+    {% if status.is_a?(SymbolLiteral) %}
       html {{ page_class }}, _with_status_code: HTTP::Status::{{ status.upcase.id }}.value, {{ **assigns }}
     {% elsif status.is_a?(Path) && status.names.join("::").starts_with?("HTTP::Status::") %}
       html {{ page_class }}, _with_status_code: {{ status.resolve }}, {{ **assigns }}
     {% else %}
-      {% raise <<-ERROR
-
-      #{@type.name} called `html_with_status #{page_class}` with status '#{status}'.
-      The `status` value should either be a Number, a HTTP::Status or a Symbol that corresponds to the HTTP::Status.
-      If you want to render a page with status code 200 you can also use `html`
-
-
-      Try this...
-
-        ▸ html_with_status #{page_class}, 419, arg1: "...", arg2: "..."
-        ▸ html_with_status #{page_class}, HTTP::Status::FORBIDDEN, arg1: "...", arg2: "..."
-        ▸ html_with_status #{page_class}, :unprocessable_entity, arg1: "...", arg2: "..."
-        ▸ html #{page_class}, arg1: "...", arg2: "..."
-
-      ERROR
-      %}
+      html {{ page_class }}, _with_status_code: {{ status }}, {{ **assigns }}
     {% end %}
   end
 

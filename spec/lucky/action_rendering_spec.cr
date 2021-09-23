@@ -21,7 +21,8 @@ end
 
 class Rendering::Show::WithStatus < TestAction
   get "/rendering/:nothing" do
-    html_with_status IndexPage, 419, title: "Closing Time", arg2: "You don't have to go home but you can't stay here"
+    gather_status = 419
+    html_with_status IndexPage, gather_status, title: "Closing Time", arg2: "You don't have to go home but you can't stay here"
   end
 end
 
