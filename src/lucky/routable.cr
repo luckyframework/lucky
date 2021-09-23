@@ -311,7 +311,7 @@ module Lucky::Routable
 
     # optional path variables are nilable
     {% for param in optional_path_params %}
-      {{ param.gsub(/^\?:/, "").id }} : String? = nil,
+      {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
     anchor : String? = nil
       ) : Lucky::RouteHelper
