@@ -26,6 +26,13 @@ make it easy to get started.
 Feel free to say hi or ask questions on our
 [chat room](https://discord.gg/HeqJUcb).
 
+Or you can copy a real working app with [Lucky JumpStart](https://github.com/stephendolan/lucky_jumpstart/).
+
+## Installing Lucky
+
+To install Lucky, read the [Installing Lucky](https://luckyframework.org/guides/getting-started/installing) guides for your Operating System.
+The guide will walk you through installing a command-line utility used for generating new Lucky applications.
+
 ## Keep up-to-date
 
 Keep up to date by following [@luckyframework](https://twitter.com/luckyframework) on Twitter.
