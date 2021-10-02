@@ -33,8 +33,8 @@ class Gen::Model < LuckyTask::Task
 
   private def valid?
     resource_name_is_present &&
-      resource_name_is_camelcase &&
       resource_name_matches_format &&
+      resource_name_is_camelcase &&
       columns_are_supported &&
       resource_name_not_taken
   end
@@ -45,14 +45,15 @@ class Gen::Model < LuckyTask::Task
   end
 
   private def resource_name_is_camelcase
-    @error = "Model name should be camel case. Example: lucky gen.model #{resource_name.camelcase}"
-    resource_name.camelcase == resource_name
+    camelcased = resource_name.split("::").map!(&.camelcase).join("::")
+    @error = "Model name should be camel case. Example: lucky gen.model #{camelcased}"
+    camelcased == resource_name
   end
 
   private def resource_name_matches_format
-    formatted = resource_name.gsub(/[^\w]/, "")
-    @error = "Model name should only contain letters. Example: lucky gen.model #{formatted}"
-    resource_name == formatted
+    formatted = resource_name.gsub(/[^\w:]/, "")
+    @error = "Model name should only contain letters, and possibly a namespace. Example: lucky gen.model #{formatted}"
+    resource_name =~ /^([a-z]\w*::)*[a-z]\w*$/i
   end
 
   private def columns_are_supported
@@ -61,8 +62,8 @@ class Gen::Model < LuckyTask::Task
   end
 
   private def resource_name_not_taken
-    @error = "'#{resource_name.camelcase}' model already exists at #{"./src/models/#{template.underscored_name}.cr"}."
-    !File.exists?("./src/models/#{template.underscored_name}.cr")
+    @error = "'#{resource_name}' model already exists at #{"./src/models/#{template.underscored_namespace_path}#{template.underscored_name}.cr"}."
+    !File.exists?("./src/models/#{template.underscored_namespace_path}#{template.underscored_name}.cr")
   end
 
   private def template
@@ -70,9 +71,9 @@ class Gen::Model < LuckyTask::Task
   end
 
   private def display_success_messages
-    io.puts success_message("./src/models/#{underscored_name}.cr")
-    io.puts success_message("./src/operations/save_#{underscored_name}.cr", "Operation")
-    io.puts success_message("./src/queries/#{underscored_name}_query.cr", "Query")
+    io.puts success_message("./src/models/#{template.underscored_namespace_path}#{template.underscored_name}.cr")
+    io.puts success_message("./src/operations/#{template.underscored_namespace_path}save_#{template.underscored_name}.cr", "Operation")
+    io.puts success_message("./src/queries/#{template.underscored_namespace_path}#{template.underscored_name}_query.cr", "Query")
   end
 
   private def success_message(filename, type = nil)
@@ -84,10 +85,6 @@ class Gen::Model < LuckyTask::Task
   end
 
   private def pluralized_name
-    Wordsmith::Inflector.pluralize(resource_name)
-  end
-
-  private def underscored_name
-    template.underscored_name
+    Wordsmith::Inflector.pluralize(resource_name.gsub("::", ""))
   end
 end

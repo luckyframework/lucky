@@ -1,4 +1,4 @@
-class <%= @name %> < BaseModel
+class <%= @namespace %><%= @name %> < BaseModel
   table do
     <%- @columns.each do |column| -%>
     column <%= column.name %> : <%= column.type %>
