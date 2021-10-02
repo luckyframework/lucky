@@ -1,16 +1,19 @@
 class Lucky::ModelTemplate < Teeplate::FileTree
   @name : String
+  @namespace : String
   @columns : Array(Lucky::GeneratedColumn)
-  @pluralized_name : String
   @underscored_name : String
+  @underscored_namespace_path : String
 
   getter underscored_name
+  getter underscored_namespace_path
 
   directory "#{__DIR__}/model/"
 
-  def initialize(@name : String, @columns : Array(Lucky::GeneratedColumn))
+  def initialize(full_name : String, @columns : Array(Lucky::GeneratedColumn))
+    @namespace, _, @name = full_name.partition(/\b(?=\w+$)/)
     @underscored_name = @name.underscore
-    @pluralized_name = Wordsmith::Inflector.pluralize(@underscored_name)
+    @underscored_namespace_path = @namespace.underscore.gsub("::", "/")
   end
 
   def columns_list
