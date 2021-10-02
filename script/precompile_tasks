@@ -3,7 +3,15 @@
 # Precompile tasks if not in production and not in CI
 # Also allow skipping precompilation with an ENV var
 if [ "$LUCKY_ENV" != "production" ] && [ -z "$CI" ] && [ -z "$SKIP_LUCKY_TASK_PRECOMPILATION" ]; then
-    shards build
+    # This is to prevent Lucky's development dependencies being installed
+    # from an external source like running `shards install` from a Lucky app.
+    # Install shards and build shard targets.
+    if [ -z "$BUILD_WITHOUT_DEVELOPMENT" ]; then
+        shards build
+    else
+        shards build --without-development
+    fi
+
     mkdir -p ../../bin
     cp -r "$PWD/bin" "$PWD/../.."
 fi
