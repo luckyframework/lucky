@@ -71,6 +71,6 @@ development_dependencies:
     version: ~> 0.14.2
 
 scripts:
-  postinstall: script/precompile_tasks
+  postinstall: BUILD_WITHOUT_DEVELOPMENT=true script/precompile_tasks
 
 license: MIT
