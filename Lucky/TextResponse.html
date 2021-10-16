@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -875,7 +875,6 @@
   </h2>
 
   <p>Writes the <em>content_type</em>, <em>status</em>, and <em>body</em> to the <em>context</em> for text responses.</p>
-
 <p>There are two settings in <code><a href="../Lucky/Server.html#settings-class-method">Lucky::Server.settings</a></code> that determine if
 the text response is gzip encoded; <code><a href="../Lucky/Server.html#settings-class-method">Lucky::Server.settings</a>.gzip_enabled</code> and <code><a href="../Lucky/Server.html#settings-class-method">Lucky::Server.settings</a>.gzip_content_types</code>.
 These settings can be adjusted in your Lucky app under config/server.cr</p>
@@ -903,7 +902,7 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L10" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L10" target="_blank">
         lucky/text_response.cr
       </a>
     
@@ -944,7 +943,7 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(context:HTTP::Server::Context,content_type:String,body:String%7CIO,status:Int32?=nil,debug_message:String?=nil,enable_cookies:Bool=true)-class-method" class="signature"><strong>.new</strong>(context : HTTP::Server::Context, content_type : String, body : String | IO, status : Int32? = <span class="n">nil</span>, debug_message : String? = <span class="n">nil</span>, enable_cookies : Bool = <span class="n">true</span>)</a>
+        <a href="#new%28context%3AHTTP%3A%3AServer%3A%3AContext%2Ccontent_type%3AString%2Cbody%3AString%7CIO%2Cstatus%3AInt32%3F%3Dnil%2Cdebug_message%3AString%3F%3Dnil%2Cenable_cookies%3ABool%3Dtrue%29-class-method" class="signature"><strong>.new</strong>(context : HTTP::Server::Context, content_type : String, body : String | IO, status : Int32? = <span class="n">nil</span>, debug_message : String? = <span class="n">nil</span>, enable_cookies : Bool = <span class="n">true</span>)</a>
         
       </li>
     
@@ -965,37 +964,37 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#body:IO%7CString-instance-method" class="signature"><strong>#body</strong> : IO | String</a>
+        <a href="#body%3AIO%7CString-instance-method" class="signature"><strong>#body</strong> : IO | String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#content_type:String-instance-method" class="signature"><strong>#content_type</strong> : String</a>
+        <a href="#content_type%3AString-instance-method" class="signature"><strong>#content_type</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#context:HTTP::Server::Context-instance-method" class="signature"><strong>#context</strong> : HTTP::Server::Context</a>
+        <a href="#context%3AHTTP%3A%3AServer%3A%3AContext-instance-method" class="signature"><strong>#context</strong> : HTTP::Server::Context</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#debug_message:String?-instance-method" class="signature"><strong>#debug_message</strong> : String?</a>
+        <a href="#debug_message%3AString%3F-instance-method" class="signature"><strong>#debug_message</strong> : String?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#enable_cookies:Bool-instance-method" class="signature"><strong>#enable_cookies</strong> : Bool</a>
+        <a href="#enable_cookies%3ABool-instance-method" class="signature"><strong>#enable_cookies</strong> : Bool</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#print:Nil-instance-method" class="signature"><strong>#print</strong> : Nil</a>
+        <a href="#print%3ANil-instance-method" class="signature"><strong>#print</strong> : Nil</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#status:Int-instance-method" class="signature"><strong>#status</strong> : Int</a>
+        <a href="#status%3AInt-instance-method" class="signature"><strong>#status</strong> : Int</a>
         
       </li>
     
@@ -1017,7 +1016,7 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
     print</a>, 
     
   
-    <a href="../Lucky/Response.html#status:Int-instance-method" class="tooltip">
+    <a href="../Lucky/Response.html#status%3AInt-instance-method" class="tooltip">
       <span>status : Int</span>
     status</a>
     
@@ -1068,13 +1067,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def self.<strong>new</strong>(context : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>, content_type : <a href="../String.html">String</a>, body : <a href="../String.html">String</a> | IO, status : <a href="../Int32.html">Int32</a>? = <span class="n">nil</span>, debug_message : <a href="../String.html">String</a>? = <span class="n">nil</span>, enable_cookies : <a href="../Bool.html">Bool</a> = <span class="n">true</span>)
 
-        <a class="method-permalink" href="#new(context:HTTP::Server::Context,content_type:String,body:String%7CIO,status:Int32?=nil,debug_message:String?=nil,enable_cookies:Bool=true)-class-method">#</a>
+        <a class="method-permalink" href="#new%28context%3AHTTP%3A%3AServer%3A%3AContext%2Ccontent_type%3AString%2Cbody%3AString%7CIO%2Cstatus%3AInt32%3F%3Dnil%2Cdebug_message%3AString%3F%3Dnil%2Cenable_cookies%3ABool%3Dtrue%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1098,13 +1097,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def <strong>body</strong> : IO | <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#body:IO%7CString-instance-method">#</a>
+        <a class="method-permalink" href="#body%3AIO%7CString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1114,13 +1113,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def <strong>content_type</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#content_type:String-instance-method">#</a>
+        <a class="method-permalink" href="#content_type%3AString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1130,13 +1129,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def <strong>context</strong> : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>
 
-        <a class="method-permalink" href="#context:HTTP::Server::Context-instance-method">#</a>
+        <a class="method-permalink" href="#context%3AHTTP%3A%3AServer%3A%3AContext-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1146,13 +1145,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def <strong>debug_message</strong> : <a href="../String.html">String</a>?
 
-        <a class="method-permalink" href="#debug_message:String?-instance-method">#</a>
+        <a class="method-permalink" href="#debug_message%3AString%3F-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1162,13 +1161,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def <strong>enable_cookies</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#enable_cookies:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#enable_cookies%3ABool-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1178,13 +1177,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def <strong>print</strong> : Nil
 
-        <a class="method-permalink" href="#print:Nil-instance-method">#</a>
+        <a class="method-permalink" href="#print%3ANil-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1194,13 +1193,13 @@ These settings can be adjusted in your Lucky app under config/server.cr</p>
         
         def <strong>status</strong> : Int
 
-        <a class="method-permalink" href="#status:Int-instance-method">#</a>
+        <a class="method-permalink" href="#status%3AInt-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/text_response.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/text_response.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>

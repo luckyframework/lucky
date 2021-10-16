@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -875,30 +875,23 @@
   </h2>
 
   <p>A <code><a href="Hash.html">Hash</a></code> represents a collection of key-value mappings, similar to a dictionary.</p>
-
 <p>Main operations are storing a key-value mapping (<code>#[]=</code>) and
 querying the value associated to a key (<code>#[]</code>). Key-value mappings can also be
 deleted (<code>#delete</code>).
 Keys are unique within a hash. When adding a key-value mapping with a key that
 is already in use, the old value will be forgotten.</p>
-
 <pre><code class="language-crystal"><span class="c"># Create a new Hash for mapping String to Int32</span>
 hash <span class="o">=</span> <span class="t">Hash</span>(<span class="t">String</span>, <span class="t">Int32</span>).<span class="k">new</span>
 hash[<span class="s">&quot;one&quot;</span>] <span class="o">=</span> <span class="n">1</span>
 hash[<span class="s">&quot;two&quot;</span>] <span class="o">=</span> <span class="n">2</span>
 hash[<span class="s">&quot;one&quot;</span>] <span class="c"># =&gt; 1</span></code></pre>
-
 <p><a href="https://crystal-lang.org/reference/syntax_and_semantics/literals/hash.html">Hash literals</a>
 can also be used to create a <code><a href="Hash.html">Hash</a></code>:</p>
-
 <pre><code class="language-crystal">{<span class="s">&quot;one&quot;</span> => <span class="n">1</span>, <span class="s">&quot;two&quot;</span> => <span class="n">2</span>}</code></pre>
-
 <p>Implementation is based on an open hash table.
 Two objects refer to the same hash key when their hash value (<code>Object#hash</code>)
 is identical and both objects are equal to each other (<code>Object#==</code>).</p>
-
 <p>Enumeration follows the order that the corresponding keys were inserted.</p>
-
 <p><span class="flag purple">NOTE</span>  When using mutable data types as keys, changing the value of a key after
 it was inserted into the <code><a href="Hash.html">Hash</a></code> may lead to undefined behaviour. This can be
 restored by re-indexing the hash with <code>#rehash</code>.</p>
@@ -942,7 +935,7 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/charms/hash_extensions.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/charms/hash_extensions.cr#L1" target="_blank">
         charms/hash_extensions.cr
       </a>
     
@@ -968,14 +961,14 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#get(key:String%7CSymbol)-instance-method" class="signature"><strong>#get</strong>(key : String | Symbol)</a>
+        <a href="#get%28key%3AString%7CSymbol%29-instance-method" class="signature"><strong>#get</strong>(key : String | Symbol)</a>
         
           <div class="summary"><p>Return the <strong>nilable</strong> value of a hash key</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get!(key:String%7CSymbol)-instance-method" class="signature"><strong>#get!</strong>(key : String | Symbol)</a>
+        <a href="#get%21%28key%3AString%7CSymbol%29-instance-method" class="signature"><strong>#get!</strong>(key : String | Symbol)</a>
         
           <div class="summary"><p>Return the value of a hash key</p></div>
         
@@ -1050,17 +1043,15 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
         
         def <strong>get</strong>(key : <a href="String.html">String</a> | Symbol)
 
-        <a class="method-permalink" href="#get(key:String%7CSymbol)-instance-method">#</a>
+        <a class="method-permalink" href="#get%28key%3AString%7CSymbol%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Return the <strong>nilable</strong> value of a hash key</p>
-
 <p>This returns a value stored in a hash. The key can be specified as a String
 or Symbol. Internally this works by converting Symbols to Strings. See the
 code below for an example. It returns <code>nil</code> if the value doesn't exist:</p>
-
 <pre><code class="language-crystal">hash <span class="o">=</span> {<span class="s">&quot;name&quot;</span> => <span class="s">&quot;Karin&quot;</span>}
 hash.get(<span class="n">:name</span>)  <span class="c"># =&gt; &quot;Karin&quot; : (String | Nil)</span>
 hash.get(<span class="s">&quot;name&quot;</span>) <span class="c"># =&gt; &quot;Karin&quot; : (String | Nil)</span>
@@ -1070,7 +1061,7 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; nil : (String | 
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/charms/hash_extensions.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/charms/hash_extensions.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1080,18 +1071,16 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; nil : (String | 
         
         def <strong>get!</strong>(key : <a href="String.html">String</a> | Symbol)
 
-        <a class="method-permalink" href="#get!(key:String%7CSymbol)-instance-method">#</a>
+        <a class="method-permalink" href="#get%21%28key%3AString%7CSymbol%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Return the value of a hash key</p>
-
 <p>This returns a value stored in a hash. The key can be specified as a String
 or Symbol. Internally this works by converting Symbols to Strings. See the
 code below for an example. It throws a <code>KeyError</code> if the value doesn't
 exist:</p>
-
 <pre><code class="language-crystal">hash <span class="o">=</span> {<span class="s">&quot;name&quot;</span> => <span class="s">&quot;Karin&quot;</span>}
 hash.get(<span class="n">:name</span>)  <span class="c"># =&gt; &quot;Karin&quot; : String</span>
 hash.get(<span class="s">&quot;name&quot;</span>) <span class="c"># =&gt; &quot;Karin&quot; : String</span>
@@ -1101,7 +1090,7 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; KeyError</span><
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/charms/hash_extensions.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/charms/hash_extensions.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>

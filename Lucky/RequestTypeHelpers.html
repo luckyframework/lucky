@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -872,8 +872,7 @@
     Overview
   </h2>
 
-  <p>These helpers check HTTP headers to determine "request MIME type".</p>
-
+  <p>These helpers check HTTP headers to determine &quot;request MIME type&quot;.</p>
 <p>Generally the <code>Accept</code> header is checked, but some check other headers, such as <code>X-Requested-With</code>.</p>
 
 
@@ -913,7 +912,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L4" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L4" target="_blank">
         lucky/request_type_helpers.cr
       </a>
     
@@ -939,49 +938,49 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#accepts?(format:Symbol):Bool-instance-method" class="signature"><strong>#accepts?</strong>(format : Symbol) : Bool</a>
+        <a href="#accepts%3F%28format%3ASymbol%29%3ABool-instance-method" class="signature"><strong>#accepts?</strong>(format : Symbol) : Bool</a>
         
           <div class="summary"><p>Check whether the request wants the passed in format</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#ajax?:Bool-instance-method" class="signature"><strong>#ajax?</strong> : Bool</a>
+        <a href="#ajax%3F%3ABool-instance-method" class="signature"><strong>#ajax?</strong> : Bool</a>
         
           <div class="summary"><p>Check if the request is AJAX</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#html?:Bool-instance-method" class="signature"><strong>#html?</strong> : Bool</a>
+        <a href="#html%3F%3ABool-instance-method" class="signature"><strong>#html?</strong> : Bool</a>
         
           <div class="summary"><p>Check if the request is HTML</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#json?:Bool-instance-method" class="signature"><strong>#json?</strong> : Bool</a>
+        <a href="#json%3F%3ABool-instance-method" class="signature"><strong>#json?</strong> : Bool</a>
         
           <div class="summary"><p>Check if the request is JSON</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#multipart?:Bool-instance-method" class="signature"><strong>#multipart?</strong> : Bool</a>
+        <a href="#multipart%3F%3ABool-instance-method" class="signature"><strong>#multipart?</strong> : Bool</a>
         
           <div class="summary"><p>Check if the request is multipart</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#plain_text?:Bool-instance-method" class="signature"><strong>#plain_text?</strong> : Bool</a>
+        <a href="#plain_text%3F%3ABool-instance-method" class="signature"><strong>#plain_text?</strong> : Bool</a>
         
           <div class="summary"><p>Check if the request is plain text</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#xml?:Bool-instance-method" class="signature"><strong>#xml?</strong> : Bool</a>
+        <a href="#xml%3F%3ABool-instance-method" class="signature"><strong>#xml?</strong> : Bool</a>
         
           <div class="summary"><p>Check if the request is XML</p></div>
         
@@ -1002,7 +1001,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#default_format(format)-macro" class="signature"><strong>default_format</strong>(format)</a>
+        <a href="#default_format%28format%29-macro" class="signature"><strong>default_format</strong>(format)</a>
         
           <div class="summary"><p>If Lucky doesn't find a format then default to the given format</p></div>
         
@@ -1035,7 +1034,7 @@
         
         def <strong>accepts?</strong>(format : Symbol) : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#accepts?(format:Symbol):Bool-instance-method">#</a>
+        <a class="method-permalink" href="#accepts%3F%28format%3ASymbol%29%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1046,7 +1045,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1056,20 +1055,19 @@
         
         def <strong>ajax?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#ajax?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#ajax%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Check if the request is AJAX</p>
-
 <p>This tests if the <code>X-Requested-With</code> header is <code>XMLHttpRequest</code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L90" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L90" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1079,22 +1077,23 @@
         
         def <strong>html?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#html?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#html%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Check if the request is HTML</p>
-
 <p>Browsers typically send vague Accept headers. Because of that this will return <code>true</code> when:</p>
-
-<ul><li>The <code>accepted_formats</code> includes <code>:html</code></li><li>And the <code>Accept</code> header is the browser default. For example `text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8</li></ul>
+<ul>
+<li>The <code>accepted_formats</code> includes <code>:html</code></li>
+<li>And the <code>Accept</code> header is the browser default. For example `text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8</li>
+</ul>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L68" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L68" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1104,20 +1103,19 @@
         
         def <strong>json?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#json?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#json%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Check if the request is JSON</p>
-
 <p>This tests if the request type is <code>application/json</code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1127,20 +1125,19 @@
         
         def <strong>multipart?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#multipart?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#multipart%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Check if the request is multipart</p>
-
 <p>This tests if the <code>Content-Type</code> header is <code>multipart/form-data</code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L97" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L97" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1150,13 +1147,12 @@
         
         def <strong>plain_text?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#plain_text?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#plain_text%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Check if the request is plain text</p>
-
 <p>This tests if the <code>Accept</code> header type is <code>text/plain</code> or
 with the optional character set per W3 RFC1341 7.1</p>
         </div>
@@ -1164,7 +1160,7 @@ with the optional character set per W3 RFC1341 7.1</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L83" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L83" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1174,20 +1170,19 @@ with the optional character set per W3 RFC1341 7.1</p>
         
         def <strong>xml?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#xml?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#xml%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Check if the request is XML</p>
-
 <p>This tests if the request type is <code>application/xml</code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L75" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L75" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1209,20 +1204,19 @@ with the optional character set per W3 RFC1341 7.1</p>
         
         macro <strong>default_format</strong>(format)
 
-        <a class="method-permalink" href="#default_format(format)-macro">#</a>
+        <a class="method-permalink" href="#default_format%28format%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>If Lucky doesn't find a format then default to the given format</p>
-
 <pre><code class="language-crystal">default_format <span class="n">:html</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_type_helpers.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_type_helpers.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>

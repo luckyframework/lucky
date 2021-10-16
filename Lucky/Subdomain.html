@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -902,7 +902,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/subdomain.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/subdomain.cr#L1" target="_blank">
         lucky/subdomain.cr
       </a>
     
@@ -954,7 +954,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#configure(&)-class-method" class="signature"><strong>.configure</strong>(&)</a>
+        <a href="#configure%28%26%29-class-method" class="signature"><strong>.configure</strong>(&)</a>
         
       </li>
     
@@ -997,7 +997,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#require_subdomain(matcher=true)-macro" class="signature"><strong>require_subdomain</strong>(matcher = <span class="n">true</span>)</a>
+        <a href="#require_subdomain%28matcher%3Dtrue%29-macro" class="signature"><strong>require_subdomain</strong>(matcher = <span class="n">true</span>)</a>
         
           <div class="summary"><p>Sets up a subdomain requirement for an action</p></div>
         
@@ -1048,13 +1048,13 @@
         
         def self.<strong>configure</strong>(&)
 
-        <a class="method-permalink" href="#configure(&)-class-method">#</a>
+        <a class="method-permalink" href="#configure%28%26%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1070,7 +1070,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1098,7 +1098,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1120,29 +1120,26 @@
         
         macro <strong>require_subdomain</strong>(matcher = <span class="n">true</span>)
 
-        <a class="method-permalink" href="#require_subdomain(matcher=true)-macro">#</a>
+        <a class="method-permalink" href="#require_subdomain%28matcher%3Dtrue%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Sets up a subdomain requirement for an action</p>
-
 <pre><code class="language-crystal">require_subdomain                                    <span class="c"># subdomain required but can be anything</span>
 require_subdomain <span class="s">&quot;admin&quot;</span>                            <span class="c"># subdomain required and must equal &quot;admin&quot;</span>
 require_subdomain <span class="s">/(dev|qa|prod)/</span>                    <span class="c"># subdomain required and must match regex</span>
 require_subdomain [<span class="s">&quot;tenant1&quot;</span>, <span class="s">&quot;tenant2&quot;</span>, <span class="s">/tenant\d/</span>] <span class="c"># subdomain required and must match one of the items in the array</span></code></pre>
-
 <p>The subdomain can then be accessed from within the route block by calling <code>subdomain</code>.</p>
-
 <p>If you don't want to require a subdomain but still want to check if one is passed
-you can still call <code>subdomain?</code> without using <code><a href="../Lucky/Subdomain.html#require_subdomain(matcher=true)-macro">require_subdomain</a></code>.
+you can still call <code>subdomain?</code> without using <code><a href="../Lucky/Subdomain.html#require_subdomain%28matcher%3Dtrue%29-macro">require_subdomain</a></code>.
 Just know that <code>subdomain?</code> is nilable.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/subdomain.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/subdomain.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>

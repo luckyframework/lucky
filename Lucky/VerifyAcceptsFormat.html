@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -911,7 +911,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/verify_accepts_format.cr#L2" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/verify_accepts_format.cr#L2" target="_blank">
         lucky/verify_accepts_format.cr
       </a>
     
@@ -937,7 +937,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#clients_desired_format:Symbol-instance-method" class="signature"><strong>#clients_desired_format</strong> : Symbol</a>
+        <a href="#clients_desired_format%3ASymbol-instance-method" class="signature"><strong>#clients_desired_format</strong> : Symbol</a>
         
       </li>
     
@@ -956,14 +956,14 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#accepted_formats(formats)-macro" class="signature"><strong>accepted_formats</strong>(formats)</a>
+        <a href="#accepted_formats%28formats%29-macro" class="signature"><strong>accepted_formats</strong>(formats)</a>
         
           <div class="summary"><p>Set the single format that the Action accepts.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#accepted_formats(formats,default)-macro" class="signature"><strong>accepted_formats</strong>(formats, default)</a>
+        <a href="#accepted_formats%28formats%2Cdefault%29-macro" class="signature"><strong>accepted_formats</strong>(formats, default)</a>
         
           <div class="summary"><p>Set what formats the Action accepts.</p></div>
         
@@ -996,13 +996,13 @@
         abstract 
         def <strong>clients_desired_format</strong> : Symbol
 
-        <a class="method-permalink" href="#clients_desired_format:Symbol-instance-method">#</a>
+        <a class="method-permalink" href="#clients_desired_format%3ASymbol-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/verify_accepts_format.cr#L3" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/verify_accepts_format.cr#L3" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1024,21 +1024,18 @@
         
         macro <strong>accepted_formats</strong>(formats)
 
-        <a class="method-permalink" href="#accepted_formats(formats)-macro">#</a>
+        <a class="method-permalink" href="#accepted_formats%28formats%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Set the single format that the Action accepts.</p>
-
-<p>Same as <code><a href="../Lucky/VerifyAcceptsFormat.html#accepted_formats(formats)-macro">accepted_formats</a></code> but this one only accepts one format and no
+<p>Same as <code><a href="../Lucky/VerifyAcceptsFormat.html#accepted_formats%28formats%29-macro">accepted_formats</a></code> but this one only accepts one format and no
 default. If you pass an empty array or more than one format, you must
-use the other <code><a href="../Lucky/VerifyAcceptsFormat.html#accepted_formats(formats)-macro">accepted_formats</a></code> so you can tell Lucky what the <code>default</code>
+use the other <code><a href="../Lucky/VerifyAcceptsFormat.html#accepted_formats%28formats%29-macro">accepted_formats</a></code> so you can tell Lucky what the <code>default</code>
 format should be.</p>
-
 <p>If something other than the accepted formats are requested, Lucky will raise
 a <code><a href="../Lucky/NotAcceptableError.html">Lucky::NotAcceptableError</a></code> error.</p>
-
 <pre><code class="language-crystal"><span class="c"># Default is set to :html since there is just one format</span>
 accepted_formats [<span class="n">:html</span>]
 
@@ -1052,7 +1049,7 @@ accepted_formats [<span class="n">:html</span>, <span class="n">:json</span>], d
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/verify_accepts_format.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/verify_accepts_format.cr#L33" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1062,23 +1059,21 @@ accepted_formats [<span class="n">:html</span>, <span class="n">:json</span>], d
         
         macro <strong>accepted_formats</strong>(formats, default)
 
-        <a class="method-permalink" href="#accepted_formats(formats,default)-macro">#</a>
+        <a class="method-permalink" href="#accepted_formats%28formats%2Cdefault%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Set what formats the Action accepts.</p>
-
 <p>If something other than the accepted formats are requested, Lucky will raise
 a <code><a href="../Lucky/NotAcceptableError.html">Lucky::NotAcceptableError</a></code> error.</p>
-
 <pre><code class="language-crystal">accepted_formats [<span class="n">:html</span>, <span class="n">:json</span>], default: <span class="n">:json</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/verify_accepts_format.cr#L53" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/verify_accepts_format.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>

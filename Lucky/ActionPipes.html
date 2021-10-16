@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -900,7 +900,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/action_pipes.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/action_pipes.cr#L1" target="_blank">
         lucky/action_pipes.cr
       </a>
     
@@ -926,7 +926,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#continue:Lucky::ActionPipes::Continue-instance-method" class="signature"><strong>#continue</strong> : Lucky::ActionPipes::Continue</a>
+        <a href="#continue%3ALucky%3A%3AActionPipes%3A%3AContinue-instance-method" class="signature"><strong>#continue</strong> : Lucky::ActionPipes::Continue</a>
         
           <div class="summary"><p>Call this in a pipe to continue to the next pipe or action</p></div>
         
@@ -947,21 +947,21 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#after(method_name)-macro" class="signature"><strong>after</strong>(method_name)</a>
+        <a href="#after%28method_name%29-macro" class="signature"><strong>after</strong>(method_name)</a>
         
           <div class="summary"><p>Run a method after an action ends</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#before(method_name)-macro" class="signature"><strong>before</strong>(method_name)</a>
+        <a href="#before%28method_name%29-macro" class="signature"><strong>before</strong>(method_name)</a>
         
           <div class="summary"><p>Run a method before an action is called</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#skip(*pipes)-macro" class="signature"><strong>skip</strong>(*pipes)</a>
+        <a href="#skip%28%2Apipes%29-macro" class="signature"><strong>skip</strong>(*pipes)</a>
         
           <div class="summary"><p>Skips before or after pipes</p></div>
         
@@ -994,7 +994,7 @@
         
         def <strong>continue</strong> : Lucky::ActionPipes::Continue
 
-        <a class="method-permalink" href="#continue:Lucky::ActionPipes::Continue-instance-method">#</a>
+        <a class="method-permalink" href="#continue%3ALucky%3A%3AActionPipes%3A%3AContinue-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1005,7 +1005,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/action_pipes.cr#L182" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/action_pipes.cr#L182" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1027,19 +1027,17 @@
         
         macro <strong>after</strong>(method_name)
 
-        <a class="method-permalink" href="#after(method_name)-macro">#</a>
+        <a class="method-permalink" href="#after%28method_name%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Run a method after an action ends</p>
-
-<p><code><a href="../Lucky/ActionPipes.html#after(method_name)-macro">after</a></code> isn't as common as <code><a href="../Lucky/ActionPipes.html#before(method_name)-macro">before</a></code> but can still be useful. One example
+<p><code><a href="../Lucky/ActionPipes.html#after%28method_name%29-macro">after</a></code> isn't as common as <code><a href="../Lucky/ActionPipes.html#before%28method_name%29-macro">before</a></code> but can still be useful. One example
 would be to log a successful transaction to analytics. Methods will run in
-the order that each <code><a href="../Lucky/ActionPipes.html#after(method_name)-macro">after</a></code> is defined. Also, each method must return
+the order that each <code><a href="../Lucky/ActionPipes.html#after%28method_name%29-macro">after</a></code> is defined. Also, each method must return
 either a <code><a href="../Lucky/Response.html">Lucky::Response</a></code> like <code>redirect</code>, <code>html</code>, <code>json</code>, etc, or call
-<code><a href="../Lucky/ActionPipes.html#continue:Lucky::ActionPipes::Continue-instance-method">#continue</a></code>:</p>
-
+<code><a href="../Lucky/ActionPipes.html#continue%3ALucky%3A%3AActionPipes%3A%3AContinue-instance-method">#continue</a></code>:</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Purchases</span><span class="t">::</span><span class="t">Create</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   after log_transaction
 
@@ -1057,7 +1055,7 @@ either a <code><a href="../Lucky/Response.html">Lucky::Response</a></code> like 
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/action_pipes.cr#L110" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/action_pipes.cr#L110" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1067,17 +1065,15 @@ either a <code><a href="../Lucky/Response.html">Lucky::Response</a></code> like 
         
         macro <strong>before</strong>(method_name)
 
-        <a class="method-permalink" href="#before(method_name)-macro">#</a>
+        <a class="method-permalink" href="#before%28method_name%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Run a method before an action is called</p>
-
-<p>Methods will run in the order that each <code><a href="../Lucky/ActionPipes.html#before(method_name)-macro">before</a></code> is defined. Also, each
+<p>Methods will run in the order that each <code><a href="../Lucky/ActionPipes.html#before%28method_name%29-macro">before</a></code> is defined. Also, each
 method must return a <code><a href="../Lucky/Response.html">Lucky::Response</a></code> like <code>redirect</code>, <code>html</code>, <code>json</code>,
-etc, or call <code><a href="../Lucky/ActionPipes.html#continue:Lucky::ActionPipes::Continue-instance-method">#continue</a></code>:</p>
-
+etc, or call <code><a href="../Lucky/ActionPipes.html#continue%3ALucky%3A%3AActionPipes%3A%3AContinue-instance-method">#continue</a></code>:</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">Destroy</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   before check_if_signed_in
   before confirm_destroy
@@ -1104,7 +1100,7 @@ etc, or call <code><a href="../Lucky/ActionPipes.html#continue:Lucky::ActionPipe
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/action_pipes.cr#L84" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/action_pipes.cr#L84" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1114,20 +1110,19 @@ etc, or call <code><a href="../Lucky/ActionPipes.html#continue:Lucky::ActionPipe
         
         macro <strong>skip</strong>(*pipes)
 
-        <a class="method-permalink" href="#skip(*pipes)-macro">#</a>
+        <a class="method-permalink" href="#skip%28%2Apipes%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Skips before or after pipes</p>
-
 <pre><code class="language-crystal">skip require_sign_in, require_organization</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/action_pipes.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/action_pipes.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>

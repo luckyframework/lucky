@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -902,7 +902,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/exposable.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/exposable.cr#L1" target="_blank">
         lucky/exposable.cr
       </a>
     
@@ -930,7 +930,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#expose(method_name)-macro" class="signature"><strong>expose</strong>(method_name)</a>
+        <a href="#expose%28method_name%29-macro" class="signature"><strong>expose</strong>(method_name)</a>
         
           <div class="summary"><p>Sends the result of a method to the page as if it was passed as an argument.</p></div>
         
@@ -965,29 +965,24 @@
         
         macro <strong>expose</strong>(method_name)
 
-        <a class="method-permalink" href="#expose(method_name)-macro">#</a>
+        <a class="method-permalink" href="#expose%28method_name%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Sends the result of a method to the page as if it was passed as an argument.</p>
-
 <p>Imagine having data that is used by many actions across your app, such
 as the current user. It can get tedious to pass that data for every action.
-The <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code> macro will make sure that whatever data you need is passed
+The <code><a href="../Lucky/Exposable.html#expose%28method_name%29-macro">expose</a></code> macro will make sure that whatever data you need is passed
 automatically.</p>
-
-<p>Here's what things might look like without <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code>:</p>
-
+<p>Here's what things might look like without <code><a href="../Lucky/Exposable.html#expose%28method_name%29-macro">expose</a></code>:</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">BrowserAction</span>
   <span class="k">def</span> <span class="m">current_user</span>
     <span class="c"># some way to find the current user</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
 <p>Each action must pass <code>current_user</code> manually. Note that each action
 inherits from <code>BrowserAction</code> and therefore has access to <code>current_user</code>:</p>
-
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   get <span class="s">&quot;/messages&quot;</span> <span class="k">do</span>
     html <span class="t">IndexPage</span>, current_user: current_user
@@ -999,10 +994,8 @@ inherits from <code>BrowserAction</code> and therefore has access to <code>curre
     html <span class="t">NewPage</span>, current_user: current_user
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
 <p>Passing <code>current_user: current_user</code> every time gets pretty old. Enter
-<code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code>:</p>
-
+<code><a href="../Lucky/Exposable.html#expose%28method_name%29-macro">expose</a></code>:</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">BrowserAction</span>
   expose current_user
 
@@ -1010,10 +1003,8 @@ inherits from <code>BrowserAction</code> and therefore has access to <code>curre
     <span class="c"># some way to find the current user</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
 <p>Now our actions are much nicer, especially when we start to have multiple
 arguments for each action:</p>
-
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   get <span class="s">&quot;/messages&quot;</span> <span class="k">do</span>
     html <span class="t">IndexPage</span>
@@ -1025,15 +1016,12 @@ arguments for each action:</p>
     html <span class="t">NewPage</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
 <h2><a id="exposing-private-methods" class="anchor" href="#exposing-private-methods">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Exposing private methods</h2>
-
 <p>Also useful is the ability to make a private method available:</p>
-
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Messages</span><span class="t">::</span><span class="t">Show</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   expose message
 
@@ -1045,10 +1033,8 @@ arguments for each action:</p>
     <span class="t">MessageQuery</span>.find(id)
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
-<p>Using <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code> here will pass <code>message</code> to the <code>ShowPage</code>, while keeping the
-method private. Without <code><a href="../Lucky/Exposable.html#expose(method_name)-macro">expose</a></code> the action would look like this:</p>
-
+<p>Using <code><a href="../Lucky/Exposable.html#expose%28method_name%29-macro">expose</a></code> here will pass <code>message</code> to the <code>ShowPage</code>, while keeping the
+method private. Without <code><a href="../Lucky/Exposable.html#expose%28method_name%29-macro">expose</a></code> the action would look like this:</p>
 <pre><code class="language-crystal">get <span class="s">&quot;/messages/:id&quot;</span> <span class="k">do</span>
   html <span class="t">ShowPage</span>, message: message
 <span class="k">end</span></code></pre>
@@ -1057,7 +1043,7 @@ method private. Without <code><a href="../Lucky/Exposable.html#expose(method_nam
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/exposable.cr#L109" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/exposable.cr#L109" target="_blank">View source</a>]
         
       </div>
     </div>

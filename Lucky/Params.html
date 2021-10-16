@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -902,14 +902,14 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L1" target="_blank">
         lucky/params.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky_avram/ext/lucky/params.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky_avram/ext/lucky/params.cr#L1" target="_blank">
         lucky_avram/ext/lucky/params.cr
       </a>
     
@@ -931,7 +931,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(request:HTTP::Request,route_params:Hash(String,String)=empty_params)-class-method" class="signature"><strong>.new</strong>(request : HTTP::Request, route_params : Hash(String, String) = empty_params)</a>
+        <a href="#new%28request%3AHTTP%3A%3ARequest%2Croute_params%3AHash%28String%2CString%29%3Dempty_params%29-class-method" class="signature"><strong>.new</strong>(request : HTTP::Request, route_params : Hash(String, String) = empty_params)</a>
         
           <div class="summary"><p>Create a new params object</p></div>
         
@@ -954,186 +954,186 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#body:String-instance-method" class="signature"><strong>#body</strong> : String</a>
+        <a href="#body%3AString-instance-method" class="signature"><strong>#body</strong> : String</a>
         
           <div class="summary"><p>Returns cached value</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#body__tuple_cached:Tuple(String)-instance-method" class="signature"><strong>#body__tuple_cached</strong> : Tuple(String)</a>
+        <a href="#body__tuple_cached%3ATuple%28String%29-instance-method" class="signature"><strong>#body__tuple_cached</strong> : Tuple(String)</a>
         
           <div class="summary"><p>Checks the passed arguments against the memoized args and runs the method body if it is the very first call or the arguments do not match</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#body__uncached:String-instance-method" class="signature"><strong>#body__uncached</strong> : String</a>
+        <a href="#body__uncached%3AString-instance-method" class="signature"><strong>#body__uncached</strong> : String</a>
         
           <div class="summary"><p>Returns uncached value</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#from_form_data:URI::Params-instance-method" class="signature"><strong>#from_form_data</strong> : URI::Params</a>
+        <a href="#from_form_data%3AURI%3A%3AParams-instance-method" class="signature"><strong>#from_form_data</strong> : URI::Params</a>
         
           <div class="summary"><p>Returns x-www-form-urlencoded body params as <code>URI::Params</code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#from_json:JSON::Any-instance-method" class="signature"><strong>#from_json</strong> : JSON::Any</a>
+        <a href="#from_json%3AJSON%3A%3AAny-instance-method" class="signature"><strong>#from_json</strong> : JSON::Any</a>
         
           <div class="summary"><p>Parses the request body as <code>JSON::Any</code> or raises <code><a href="../Lucky/ParamParsingError.html">Lucky::ParamParsingError</a></code> if JSON is invalid.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#from_multipart:Tuple(Hash(String,String),Hash(String,Lucky::UploadedFile))-instance-method" class="signature"><strong>#from_multipart</strong> : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))</a>
+        <a href="#from_multipart%3ATuple%28Hash%28String%2CString%29%2CHash%28String%2CLucky%3A%3AUploadedFile%29%29-instance-method" class="signature"><strong>#from_multipart</strong> : Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))</a>
         
           <div class="summary"><p>Returns multipart params and files.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#from_query:URI::Params-instance-method" class="signature"><strong>#from_query</strong> : URI::Params</a>
+        <a href="#from_query%3AURI%3A%3AParams-instance-method" class="signature"><strong>#from_query</strong> : URI::Params</a>
         
           <div class="summary"><p>Returns just the query params as <code>URI::Params</code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get(key):String-instance-method" class="signature"><strong>#get</strong>(key) : String</a>
+        <a href="#get%28key%29%3AString-instance-method" class="signature"><strong>#get</strong>(key) : String</a>
         
           <div class="summary"><p>Retrieve a trimmed value from the params hash, raise if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get?(key:String%7CSymbol):String?-instance-method" class="signature"><strong>#get?</strong>(key : String | Symbol) : String?</a>
+        <a href="#get%3F%28key%3AString%7CSymbol%29%3AString%3F-instance-method" class="signature"><strong>#get?</strong>(key : String | Symbol) : String?</a>
         
           <div class="summary"><p>Retrieve a trimmed value from the params hash, return nil if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_all(key:String%7CSymbol):Array(String)-instance-method" class="signature"><strong>#get_all</strong>(key : String | Symbol) : Array(String)</a>
+        <a href="#get_all%28key%3AString%7CSymbol%29%3AArray%28String%29-instance-method" class="signature"><strong>#get_all</strong>(key : String | Symbol) : Array(String)</a>
         
           <div class="summary"><p>Retrieve values for a given key</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_all?(key:String%7CSymbol):Array(String)?-instance-method" class="signature"><strong>#get_all?</strong>(key : String | Symbol) : Array(String)?</a>
+        <a href="#get_all%3F%28key%3AString%7CSymbol%29%3AArray%28String%29%3F-instance-method" class="signature"><strong>#get_all?</strong>(key : String | Symbol) : Array(String)?</a>
         
           <div class="summary"><p>Retrieve values for a given key, return nil if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_all_files(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method" class="signature"><strong>#get_all_files</strong>(key : String | Symbol) : Array(Lucky::UploadedFile)</a>
+        <a href="#get_all_files%28key%3AString%7CSymbol%29%3AArray%28Lucky%3A%3AUploadedFile%29-instance-method" class="signature"><strong>#get_all_files</strong>(key : String | Symbol) : Array(Lucky::UploadedFile)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_all_files?(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method" class="signature"><strong>#get_all_files?</strong>(key : String | Symbol) : Array(Lucky::UploadedFile)</a>
+        <a href="#get_all_files%3F%28key%3AString%7CSymbol%29%3AArray%28Lucky%3A%3AUploadedFile%29-instance-method" class="signature"><strong>#get_all_files?</strong>(key : String | Symbol) : Array(Lucky::UploadedFile)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_file(key):Lucky::UploadedFile-instance-method" class="signature"><strong>#get_file</strong>(key) : Lucky::UploadedFile</a>
+        <a href="#get_file%28key%29%3ALucky%3A%3AUploadedFile-instance-method" class="signature"><strong>#get_file</strong>(key) : Lucky::UploadedFile</a>
         
           <div class="summary"><p>Retrieve a file from the params hash, raise if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_file?(key:String%7CSymbol):Lucky::UploadedFile?-instance-method" class="signature"><strong>#get_file?</strong>(key : String | Symbol) : Lucky::UploadedFile?</a>
+        <a href="#get_file%3F%28key%3AString%7CSymbol%29%3ALucky%3A%3AUploadedFile%3F-instance-method" class="signature"><strong>#get_file?</strong>(key : String | Symbol) : Lucky::UploadedFile?</a>
         
           <div class="summary"><p>Retrieve a file from the params hash, return nil if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_raw(key):String-instance-method" class="signature"><strong>#get_raw</strong>(key) : String</a>
+        <a href="#get_raw%28key%29%3AString-instance-method" class="signature"><strong>#get_raw</strong>(key) : String</a>
         
           <div class="summary"><p>Retrieve a raw, untrimmed value from the params hash, raise if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_raw?(key:String%7CSymbol):String?-instance-method" class="signature"><strong>#get_raw?</strong>(key : String | Symbol) : String?</a>
+        <a href="#get_raw%3F%28key%3AString%7CSymbol%29%3AString%3F-instance-method" class="signature"><strong>#get_raw?</strong>(key : String | Symbol) : String?</a>
         
           <div class="summary"><p>Retrieve a raw, untrimmed value from the params hash, return nil if key is absent</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#many_nested(nested_key:String%7CSymbol):Array(Hash(String,String))-instance-method" class="signature"><strong>#many_nested</strong>(nested_key : String | Symbol) : Array(Hash(String, String))</a>
+        <a href="#many_nested%28nested_key%3AString%7CSymbol%29%3AArray%28Hash%28String%2CString%29%29-instance-method" class="signature"><strong>#many_nested</strong>(nested_key : String | Symbol) : Array(Hash(String, String))</a>
         
           <div class="summary"><p>Retrieve nested values from the params</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#many_nested?(nested_key:String%7CSymbol):Array(Hash(String,String))-instance-method" class="signature"><strong>#many_nested?</strong>(nested_key : String | Symbol) : Array(Hash(String, String))</a>
+        <a href="#many_nested%3F%28nested_key%3AString%7CSymbol%29%3AArray%28Hash%28String%2CString%29%29-instance-method" class="signature"><strong>#many_nested?</strong>(nested_key : String | Symbol) : Array(Hash(String, String))</a>
         
           <div class="summary"><p>Retrieve nested values from the params</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested(nested_key:String%7CSymbol):Hash(String,String)-instance-method" class="signature"><strong>#nested</strong>(nested_key : String | Symbol) : Hash(String, String)</a>
+        <a href="#nested%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CString%29-instance-method" class="signature"><strong>#nested</strong>(nested_key : String | Symbol) : Hash(String, String)</a>
         
           <div class="summary"><p>Retrieve a nested value from the params</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested?(nested_key:String%7CSymbol):Hash(String,String)-instance-method" class="signature"><strong>#nested?</strong>(nested_key : String | Symbol) : Hash(String, String)</a>
+        <a href="#nested%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CString%29-instance-method" class="signature"><strong>#nested?</strong>(nested_key : String | Symbol) : Hash(String, String)</a>
         
           <div class="summary"><p>Retrieve a nested value from the params</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested_array_files(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))-instance-method" class="signature"><strong>#nested_array_files</strong>(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))</a>
+        <a href="#nested_array_files%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28Lucky%3A%3AUploadedFile%29%29-instance-method" class="signature"><strong>#nested_array_files</strong>(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested_array_files?(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))?-instance-method" class="signature"><strong>#nested_array_files?</strong>(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))?</a>
+        <a href="#nested_array_files%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28Lucky%3A%3AUploadedFile%29%29%3F-instance-method" class="signature"><strong>#nested_array_files?</strong>(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested_arrays(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method" class="signature"><strong>#nested_arrays</strong>(nested_key : String | Symbol) : Hash(String, Array(String))</a>
+        <a href="#nested_arrays%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28String%29%29-instance-method" class="signature"><strong>#nested_arrays</strong>(nested_key : String | Symbol) : Hash(String, Array(String))</a>
         
           <div class="summary"><p>Retrieve a nested array from the params</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested_arrays?(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method" class="signature"><strong>#nested_arrays?</strong>(nested_key : String | Symbol) : Hash(String, Array(String))</a>
+        <a href="#nested_arrays%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28String%29%29-instance-method" class="signature"><strong>#nested_arrays?</strong>(nested_key : String | Symbol) : Hash(String, Array(String))</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested_file(nested_key:String%7CSymbol):Hash(String,Lucky::UploadedFile)-instance-method" class="signature"><strong>#nested_file</strong>(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)</a>
+        <a href="#nested_file%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CLucky%3A%3AUploadedFile%29-instance-method" class="signature"><strong>#nested_file</strong>(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)</a>
         
           <div class="summary"><p>Retrieve a nested file from the params</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#nested_file?(nested_key:String%7CSymbol):Hash(String,Lucky::UploadedFile)?-instance-method" class="signature"><strong>#nested_file?</strong>(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?</a>
+        <a href="#nested_file%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CLucky%3A%3AUploadedFile%29%3F-instance-method" class="signature"><strong>#nested_file?</strong>(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?</a>
         
           <div class="summary"><p>Retrieve a nested file from the params</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#route_params=(route_params)-instance-method" class="signature"><strong>#route_params=</strong>(route_params)</a>
+        <a href="#route_params%3D%28route_params%29-instance-method" class="signature"><strong>#route_params=</strong>(route_params)</a>
         
       </li>
     
@@ -1199,18 +1199,16 @@
         
         def self.<strong>new</strong>(request : HTTP::Request, route_params : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>) = empty_params)
 
-        <a class="method-permalink" href="#new(request:HTTP::Request,route_params:Hash(String,String)=empty_params)-class-method">#</a>
+        <a class="method-permalink" href="#new%28request%3AHTTP%3A%3ARequest%2Croute_params%3AHash%28String%2CString%29%3Dempty_params%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Create a new params object</p>
-
 <p>The params object is initialized with an <code>HTTP::Request</code> and a hash of
 params. The request object has many optional parameters. See Crystal's
 <a href="https://crystal-lang.org/api/latest/HTTP/Request.html">HTTP::Request</a>
 class for more details.</p>
-
 <pre><code class="language-crystal">request <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Request</span>.<span class="k">new</span>(<span class="s">&quot;GET&quot;</span>, <span class="s">&quot;/&quot;</span>)
 route_params <span class="o">=</span> {<span class="s">&quot;token&quot;</span> => <span class="s">&quot;123&quot;</span>}
 
@@ -1220,7 +1218,7 @@ route_params <span class="o">=</span> {<span class="s">&quot;token&quot;</span> 
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1244,7 +1242,7 @@ route_params <span class="o">=</span> {<span class="s">&quot;token&quot;</span> 
         
         def <strong>body</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#body:String-instance-method">#</a>
+        <a class="method-permalink" href="#body%3AString-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1255,7 +1253,7 @@ route_params <span class="o">=</span> {<span class="s">&quot;token&quot;</span> 
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L626" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L626" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1265,7 +1263,7 @@ route_params <span class="o">=</span> {<span class="s">&quot;token&quot;</span> 
         
         def <strong>body__tuple_cached</strong> : Tuple(<a href="../String.html">String</a>)
 
-        <a class="method-permalink" href="#body__tuple_cached:Tuple(String)-instance-method">#</a>
+        <a class="method-permalink" href="#body__tuple_cached%3ATuple%28String%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1278,7 +1276,7 @@ or the arguments do not match</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L626" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L626" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1288,7 +1286,7 @@ or the arguments do not match</p>
         
         def <strong>body__uncached</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#body__uncached:String-instance-method">#</a>
+        <a class="method-permalink" href="#body__uncached%3AString-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1299,7 +1297,7 @@ or the arguments do not match</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L626" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L626" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1309,26 +1307,23 @@ or the arguments do not match</p>
         
         def <strong>from_form_data</strong> : URI::Params
 
-        <a class="method-permalink" href="#from_form_data:URI::Params-instance-method">#</a>
+        <a class="method-permalink" href="#from_form_data%3AURI%3A%3AParams-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Returns x-www-form-urlencoded body params as <code>URI::Params</code></p>
-
 <p>Returns a <code>URI::Params</code> object for the request body. This method is rarely
-helpful since you can get query params with <code><a href="../Lucky/Params.html#get(key):String-instance-method">#get</a></code>, but if you do need raw
+helpful since you can get query params with <code><a href="../Lucky/Params.html#get%28key%29%3AString-instance-method">#get</a></code>, but if you do need raw
 access to the body params this is the way to get them.</p>
-
 <pre><code class="language-crystal">params.from_form_data[<span class="s">&quot;name&quot;</span>]</code></pre>
-
 <p>See the docs on <a href="https://crystal-lang.org/api/URI/Params.html"><code>URI::Params</code></a> for more information.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1338,31 +1333,30 @@ access to the body params this is the way to get them.</p>
         
         def <strong>from_json</strong> : JSON::Any
 
-        <a class="method-permalink" href="#from_json:JSON::Any-instance-method">#</a>
+        <a class="method-permalink" href="#from_json%3AJSON%3A%3AAny-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Parses the request body as <code>JSON::Any</code> or raises <code><a href="../Lucky/ParamParsingError.html">Lucky::ParamParsingError</a></code> if JSON is invalid.</p>
-
 <pre><code class="language-crystal"><span class="c"># {&quot;page&quot;: 1}</span>
 params.from_json[<span class="s">&quot;page&quot;</span>].as_i <span class="c"># 1</span>
 <span class="c"># {&quot;users&quot;: [{&quot;name&quot;: &quot;Skyler&quot;}]}</span>
 params.from_json[<span class="s">&quot;users&quot;</span>][<span class="n">0</span>][<span class="s">&quot;name&quot;</span>].as_s <span class="c"># &quot;Skyler&quot;</span></code></pre>
-
 <p>See the crystal docs on
 <a href="https://crystal-lang.org/api/JSON/Any.html"><code>JSON::Any</code></a> for more on using
 JSON in Crystal.</p>
-
-<blockquote>You can also get JSON params with <code>Lucky::Params#get/nested</code>. Sometimes
-> <code><a href="../Lucky/Params.html">Lucky::Params</a></code> are not flexible enough. In those cases this method opens
-> the possiblity to do just about anything with JSON.</blockquote>
+<blockquote>
+<p>You can also get JSON params with <code>Lucky::Params#get/nested</code>. Sometimes
+<code><a href="../Lucky/Params.html">Lucky::Params</a></code> are not flexible enough. In those cases this method opens
+the possiblity to do just about anything with JSON.</p>
+</blockquote>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1372,18 +1366,16 @@ JSON in Crystal.</p>
         
         def <strong>from_multipart</strong> : Tuple(<a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>), <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>))
 
-        <a class="method-permalink" href="#from_multipart:Tuple(Hash(String,String),Hash(String,Lucky::UploadedFile))-instance-method">#</a>
+        <a class="method-permalink" href="#from_multipart%3ATuple%28Hash%28String%2CString%29%2CHash%28String%2CLucky%3A%3AUploadedFile%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Returns multipart params and files.</p>
-
 <p>Return a Tuple with a hash of params and a hash of <code><a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a></code>.
-This method is rarely helpful since you can get params with <code><a href="../Lucky/Params.html#get(key):String-instance-method">#get</a></code> and files
-with <code><a href="../Lucky/Params.html#get_file(key):Lucky::UploadedFile-instance-method">#get_file</a></code>, but if you need something more custom you can use this method
+This method is rarely helpful since you can get params with <code><a href="../Lucky/Params.html#get%28key%29%3AString-instance-method">#get</a></code> and files
+with <code><a href="../Lucky/Params.html#get_file%28key%29%3ALucky%3A%3AUploadedFile-instance-method">#get_file</a></code>, but if you need something more custom you can use this method
 to get better access to the raw params.</p>
-
 <pre><code class="language-crystal">form_params <span class="o">=</span> params.from_multipart.last <span class="c"># Hash(String, String)</span>
 form_params[<span class="s">&quot;name&quot;</span>]                      <span class="c"># &quot;Kyle&quot;</span>
 
@@ -1394,7 +1386,7 @@ files[<span class="s">&quot;avatar&quot;</span>]                    <span class=
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1404,26 +1396,23 @@ files[<span class="s">&quot;avatar&quot;</span>]                    <span class=
         
         def <strong>from_query</strong> : URI::Params
 
-        <a class="method-permalink" href="#from_query:URI::Params-instance-method">#</a>
+        <a class="method-permalink" href="#from_query%3AURI%3A%3AParams-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Returns just the query params as <code>URI::Params</code></p>
-
 <p>Returns a <code>URI::Params</code> object for only the query params. This method is rarely
-helpful since you can get query params with <code><a href="../Lucky/Params.html#get(key):String-instance-method">#get</a></code>, but if you do need raw
+helpful since you can get query params with <code><a href="../Lucky/Params.html#get%28key%29%3AString-instance-method">#get</a></code>, but if you do need raw
 access to the query params this is the way to get them.</p>
-
 <pre><code class="language-crystal">params.from_query[<span class="s">&quot;search&quot;</span>] <span class="c"># Will return the &quot;search&quot; query param</span></code></pre>
-
 <p>See the docs on <a href="https://crystal-lang.org/api/HTTP/Params.html"><code>HTTP::Params</code></a> for more information.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L55" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1433,15 +1422,13 @@ access to the query params this is the way to get them.</p>
         
         def <strong>get</strong>(key) : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#get(key):String-instance-method">#</a>
+        <a class="method-permalink" href="#get%28key%29%3AString-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a trimmed value from the params hash, raise if key is absent</p>
-
 <p>If no key is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
-
 <pre><code class="language-crystal">params.get(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot;Paul&quot; : String</span>
 params.get(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : String</span>
 params.get(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
@@ -1450,7 +1437,7 @@ params.get(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L102" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L102" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1460,13 +1447,12 @@ params.get(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing
         
         def <strong>get?</strong>(key : <a href="../String.html">String</a> | Symbol) : <a href="../String.html">String</a>?
 
-        <a class="method-permalink" href="#get?(key:String%7CSymbol):String?-instance-method">#</a>
+        <a class="method-permalink" href="#get%3F%28key%3AString%7CSymbol%29%3AString%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a trimmed value from the params hash, return nil if key is absent</p>
-
 <pre><code class="language-crystal">params.get?(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil : (String | Nil)</span>
 params.get?(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : (String | Nil)</span>
 params.get?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot;Paul&quot; : (String | Nil)</span></code></pre>
@@ -1475,7 +1461,7 @@ params.get?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot;
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L113" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L113" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1485,22 +1471,22 @@ params.get?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot;
         
         def <strong>get_all</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../String.html">String</a>)
 
-        <a class="method-permalink" href="#get_all(key:String%7CSymbol):Array(String)-instance-method">#</a>
+        <a class="method-permalink" href="#get_all%28key%3AString%7CSymbol%29%3AArray%28String%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve values for a given key</p>
-
 <p>Checks in places that could provide multiple values and returns first with values:</p>
-
-<ul><li>JSON body</li><li>multipart params</li><li>form encoded params</li><li>query params</li></ul>
-
+<ul>
+<li>JSON body</li>
+<li>multipart params</li>
+<li>form encoded params</li>
+<li>query params</li>
+</ul>
 <p>For all params locations it appends square brackets
-so searching for "emails" in query params will look for values with a key of "emails[]"</p>
-
+so searching for &quot;emails&quot; in query params will look for values with a key of &quot;emails[]&quot;</p>
 <p>If no key is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised</p>
-
 <pre><code class="language-crystal">params.get_all(<span class="n">:names</span>)    <span class="c"># [&quot;Paul&quot;, &quot;Johnny&quot;] : Array(String)</span>
 params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
         </div>
@@ -1508,7 +1494,7 @@ params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># Mis
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L161" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L161" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1518,13 +1504,12 @@ params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># Mis
         
         def <strong>get_all?</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../String.html">String</a>)?
 
-        <a class="method-permalink" href="#get_all?(key:String%7CSymbol):Array(String)?-instance-method">#</a>
+        <a class="method-permalink" href="#get_all%3F%28key%3AString%7CSymbol%29%3AArray%28String%29%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve values for a given key, return nil if key is absent</p>
-
 <pre><code class="language-crystal">params.get_all(<span class="n">:names</span>)    <span class="c"># [&quot;Paul&quot;, &quot;Johnny&quot;] : (Array(String) | Nil)</span>
 params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil : (Array(String) | Nil)</span></code></pre>
         </div>
@@ -1532,7 +1517,7 @@ params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L171" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L171" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1542,13 +1527,13 @@ params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil
         
         def <strong>get_all_files</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>)
 
-        <a class="method-permalink" href="#get_all_files(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method">#</a>
+        <a class="method-permalink" href="#get_all_files%28key%3AString%7CSymbol%29%3AArray%28Lucky%3A%3AUploadedFile%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L215" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L215" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1558,13 +1543,13 @@ params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil
         
         def <strong>get_all_files?</strong>(key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>)
 
-        <a class="method-permalink" href="#get_all_files?(key:String%7CSymbol):Array(Lucky::UploadedFile)-instance-method">#</a>
+        <a class="method-permalink" href="#get_all_files%3F%28key%3AString%7CSymbol%29%3AArray%28Lucky%3A%3AUploadedFile%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L219" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L219" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1574,15 +1559,13 @@ params.get_all(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil
         
         def <strong>get_file</strong>(key) : <a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>
 
-        <a class="method-permalink" href="#get_file(key):Lucky::UploadedFile-instance-method">#</a>
+        <a class="method-permalink" href="#get_file%28key%29%3ALucky%3A%3AUploadedFile-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a file from the params hash, raise if key is absent</p>
-
 <p>If no key is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
-
 <pre><code class="language-crystal">params.get_file(<span class="s">&quot;missing&quot;</span>) <span class="c"># Raise: Missing parameter: missing</span>
 
 file <span class="o">=</span> params.get_file(<span class="s">&quot;avatar_file&quot;</span>) <span class="c"># Lucky::UploadedFile</span>
@@ -1594,7 +1577,7 @@ file.tempfile.read                    <span class="c"># Get the file contents</s
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L197" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L197" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1604,13 +1587,12 @@ file.tempfile.read                    <span class="c"># Get the file contents</s
         
         def <strong>get_file?</strong>(key : <a href="../String.html">String</a> | Symbol) : <a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>?
 
-        <a class="method-permalink" href="#get_file?(key:String%7CSymbol):Lucky::UploadedFile?-instance-method">#</a>
+        <a class="method-permalink" href="#get_file%3F%28key%3AString%7CSymbol%29%3ALucky%3A%3AUploadedFile%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a file from the params hash, return nil if key is absent</p>
-
 <pre><code class="language-crystal">params.get_file?(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil</span>
 
 file <span class="o">=</span> params.get_file?(<span class="s">&quot;avatar_file&quot;</span>) <span class="c"># Lucky::UploadedFile</span>
@@ -1622,7 +1604,7 @@ file.not_nil!.tempfile.read            <span class="c"># Get the file contents</
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L211" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L211" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1632,15 +1614,13 @@ file.not_nil!.tempfile.read            <span class="c"># Get the file contents</
         
         def <strong>get_raw</strong>(key) : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#get_raw(key):String-instance-method">#</a>
+        <a class="method-permalink" href="#get_raw%28key%29%3AString-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a raw, untrimmed value from the params hash, raise if key is absent</p>
-
 <p>If no key is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
-
 <pre><code class="language-crystal">params.get_raw(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot; Paul &quot; : String</span>
 params.get_raw(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : String</span>
 params.get_raw(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
@@ -1649,7 +1629,7 @@ params.get_raw(<span class="s">&quot;missing&quot;</span>) <span class="c"># Mis
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L128" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L128" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1659,14 +1639,13 @@ params.get_raw(<span class="s">&quot;missing&quot;</span>) <span class="c"># Mis
         
         def <strong>get_raw?</strong>(key : <a href="../String.html">String</a> | Symbol) : <a href="../String.html">String</a>?
 
-        <a class="method-permalink" href="#get_raw?(key:String%7CSymbol):String?-instance-method">#</a>
+        <a class="method-permalink" href="#get_raw%3F%28key%3AString%7CSymbol%29%3AString%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a raw, untrimmed value from the params hash, return nil if key is
 absent</p>
-
 <pre><code class="language-crystal">params.get_raw?(<span class="s">&quot;missing&quot;</span>) <span class="c"># nil : (String | Nil)</span>
 params.get_raw?(<span class="s">&quot;page&quot;</span>)    <span class="c"># &quot;1&quot; : (String | Nil)</span>
 params.get_raw?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &quot; Paul &quot; : (String | Nil)</span></code></pre>
@@ -1675,7 +1654,7 @@ params.get_raw?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &q
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L140" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L140" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1685,16 +1664,14 @@ params.get_raw?(<span class="s">&quot;name&quot;</span>)    <span class="c"># &q
         
         def <strong>many_nested</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>))
 
-        <a class="method-permalink" href="#many_nested(nested_key:String%7CSymbol):Array(Hash(String,String))-instance-method">#</a>
+        <a class="method-permalink" href="#many_nested%28nested_key%3AString%7CSymbol%29%3AArray%28Hash%28String%2CString%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve nested values from the params</p>
-
 <p>Nested params often appear in JSON requests or Form submissions. If no key
 is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
-
 <pre><code class="language-crystal">body <span class="o">=</span> <span class="s">&quot;users[0]:name=Alesia&amp;users[0]:age=35&amp;users[1]:name=Bob&amp;users[1]:age=40&amp;page=1&quot;</span>
 request <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Request</span>.<span class="k">new</span>(<span class="s">&quot;POST&quot;</span>, <span class="s">&quot;/&quot;</span>, body: body)
 params <span class="o">=</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">Params</span>.<span class="k">new</span>(request)
@@ -1707,7 +1684,7 @@ params.many_nested(<span class="s">&quot;missing&quot;</span>) <span class="c">#
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L354" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L354" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1717,16 +1694,14 @@ params.many_nested(<span class="s">&quot;missing&quot;</span>) <span class="c">#
         
         def <strong>many_nested?</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : Array(<a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>))
 
-        <a class="method-permalink" href="#many_nested?(nested_key:String%7CSymbol):Array(Hash(String,String))-instance-method">#</a>
+        <a class="method-permalink" href="#many_nested%3F%28nested_key%3AString%7CSymbol%29%3AArray%28Hash%28String%2CString%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve nested values from the params</p>
-
 <p>Nested params often appear in JSON requests or Form submissions. If no key
 is found an empty array will be returned:</p>
-
 <pre><code class="language-crystal">body <span class="o">=</span> <span class="s">&quot;users[0]:name=Alesia&amp;users[0]:age=35&amp;users[1]:name=Bob&amp;users[1]:age=40&amp;page=1&quot;</span>
 request <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Request</span>.<span class="k">new</span>(<span class="s">&quot;POST&quot;</span>, <span class="s">&quot;/&quot;</span>, body: body)
 params <span class="o">=</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">Params</span>.<span class="k">new</span>(request)
@@ -1739,7 +1714,7 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># []</
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L377" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L377" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1749,16 +1724,14 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># []</
         
         def <strong>nested</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)
 
-        <a class="method-permalink" href="#nested(nested_key:String%7CSymbol):Hash(String,String)-instance-method">#</a>
+        <a class="method-permalink" href="#nested%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CString%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a nested value from the params</p>
-
 <p>Nested params often appear in JSON requests or Form submissions. If no key
 is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
-
 <pre><code class="language-crystal">body <span class="o">=</span> <span class="s">&quot;user:name=Alesia&amp;user:age=35&amp;page=1&quot;</span>
 request <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Request</span>.<span class="k">new</span>(<span class="s">&quot;POST&quot;</span>, <span class="s">&quot;/&quot;</span>, body: body)
 params <span class="o">=</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">Params</span>.<span class="k">new</span>(request)
@@ -1770,7 +1743,7 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># Miss
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L236" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L236" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1780,16 +1753,14 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># Miss
         
         def <strong>nested?</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)
 
-        <a class="method-permalink" href="#nested?(nested_key:String%7CSymbol):Hash(String,String)-instance-method">#</a>
+        <a class="method-permalink" href="#nested%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CString%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a nested value from the params</p>
-
 <p>Nested params often appear in JSON requests or Form submissions. If no key
 is found an empty hash will be returned:</p>
-
 <pre><code class="language-crystal">body <span class="o">=</span> <span class="s">&quot;user:name=Alesia&amp;user:age=35&amp;page=1&quot;</span>
 request <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Request</span>.<span class="k">new</span>(<span class="s">&quot;POST&quot;</span>, <span class="s">&quot;/&quot;</span>, body: body)
 params <span class="o">=</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">Params</span>.<span class="k">new</span>(request)
@@ -1801,7 +1772,7 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># {}</
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L258" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L258" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1811,13 +1782,13 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># {}</
         
         def <strong>nested_array_files</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>))
 
-        <a class="method-permalink" href="#nested_array_files(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))-instance-method">#</a>
+        <a class="method-permalink" href="#nested_array_files%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28Lucky%3A%3AUploadedFile%29%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L327" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L327" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1827,13 +1798,13 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># {}</
         
         def <strong>nested_array_files?</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>))?
 
-        <a class="method-permalink" href="#nested_array_files?(nested_key:String%7CSymbol):Hash(String,Array(Lucky::UploadedFile))?-instance-method">#</a>
+        <a class="method-permalink" href="#nested_array_files%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28Lucky%3A%3AUploadedFile%29%29%3F-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L336" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L336" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1843,16 +1814,14 @@ params.nested(<span class="s">&quot;missing&quot;</span>) <span class="c"># {}</
         
         def <strong>nested_arrays</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../String.html">String</a>))
 
-        <a class="method-permalink" href="#nested_arrays(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method">#</a>
+        <a class="method-permalink" href="#nested_arrays%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28String%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a nested array from the params</p>
-
 <p>Nested params often appear in JSON requests or Form submissions. If no key
 is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
-
 <pre><code class="language-crystal">params.nested_array(<span class="s">&quot;tags&quot;</span>)    <span class="c"># {&quot;tags&quot; =&gt; [&quot;Lucky&quot;, &quot;Crystal&quot;]}</span>
 params.nested_array(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
         </div>
@@ -1860,7 +1829,7 @@ params.nested_array(<span class="s">&quot;missing&quot;</span>) <span class="c">
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1870,13 +1839,13 @@ params.nested_array(<span class="s">&quot;missing&quot;</span>) <span class="c">
         
         def <strong>nested_arrays?</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, Array(<a href="../String.html">String</a>))
 
-        <a class="method-permalink" href="#nested_arrays?(nested_key:String%7CSymbol):Hash(String,Array(String))-instance-method">#</a>
+        <a class="method-permalink" href="#nested_arrays%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CArray%28String%29%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L284" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L284" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1886,16 +1855,14 @@ params.nested_array(<span class="s">&quot;missing&quot;</span>) <span class="c">
         
         def <strong>nested_file</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>)
 
-        <a class="method-permalink" href="#nested_file(nested_key:String%7CSymbol):Hash(String,Lucky::UploadedFile)-instance-method">#</a>
+        <a class="method-permalink" href="#nested_file%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CLucky%3A%3AUploadedFile%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a nested file from the params</p>
-
 <p>Nested params often appear in JSON requests or Form submissions. If no key
 is found a <code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> will be raised:</p>
-
 <pre><code class="language-crystal">params.nested_file?(<span class="s">&quot;file&quot;</span>)    <span class="c"># Lucky::UploadedFile</span>
 params.nested_file?(<span class="s">&quot;missing&quot;</span>) <span class="c"># {}</span></code></pre>
         </div>
@@ -1903,7 +1870,7 @@ params.nested_file?(<span class="s">&quot;missing&quot;</span>) <span class="c">
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L305" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L305" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1913,16 +1880,14 @@ params.nested_file?(<span class="s">&quot;missing&quot;</span>) <span class="c">
         
         def <strong>nested_file?</strong>(nested_key : <a href="../String.html">String</a> | Symbol) : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../Lucky/UploadedFile.html">Lucky::UploadedFile</a>)?
 
-        <a class="method-permalink" href="#nested_file?(nested_key:String%7CSymbol):Hash(String,Lucky::UploadedFile)?-instance-method">#</a>
+        <a class="method-permalink" href="#nested_file%3F%28nested_key%3AString%7CSymbol%29%3AHash%28String%2CLucky%3A%3AUploadedFile%29%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Retrieve a nested file from the params</p>
-
 <p>Nested params often appear in JSON requests or Form submissions. If no key
 is found an empty hash will be returned:</p>
-
 <pre><code class="language-crystal">params.nested_file(<span class="s">&quot;file&quot;</span>)    <span class="c"># Lucky::UploadedFile</span>
 params.nested_file(<span class="s">&quot;missing&quot;</span>) <span class="c"># Missing parameter: missing</span></code></pre>
         </div>
@@ -1930,7 +1895,7 @@ params.nested_file(<span class="s">&quot;missing&quot;</span>) <span class="c">#
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L323" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L323" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1940,13 +1905,13 @@ params.nested_file(<span class="s">&quot;missing&quot;</span>) <span class="c">#
         
         def <strong>route_params=</strong>(route_params)
 
-        <a class="method-permalink" href="#route_params=(route_params)-instance-method">#</a>
+        <a class="method-permalink" href="#route_params%3D%28route_params%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1962,7 +1927,6 @@ params.nested_file(<span class="s">&quot;missing&quot;</span>) <span class="c">#
         <div class="doc">
           
           <p>Converts the params in to a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code></p>
-
 <pre><code class="language-crystal">request.query <span class="o">=</span> <span class="s">&quot;filter:name=trombone&amp;page=1&amp;per=50&quot;</span>
 params <span class="o">=</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">Params</span>.<span class="k">new</span>(request)
 params.to_h <span class="c"># {&quot;filter&quot; =&gt; {&quot;name&quot; =&gt; &quot;trombone&quot;}, &quot;page&quot; =&gt; &quot;1&quot;, &quot;per&quot; =&gt; &quot;50&quot;}</span></code></pre>
@@ -1971,7 +1935,7 @@ params.to_h <span class="c"># {&quot;filter&quot; =&gt; {&quot;name&quot; =&gt; 
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/params.cr#L390" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/params.cr#L390" target="_blank">View source</a>]
         
       </div>
     </div>

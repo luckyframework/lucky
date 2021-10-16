@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -904,7 +904,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L1" target="_blank">
         lucky/cookies/cookie_jar.cr
       </a>
     
@@ -957,17 +957,17 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#configure(&)-class-method" class="signature"><strong>.configure</strong>(&)</a>
+        <a href="#configure%28%26%29-class-method" class="signature"><strong>.configure</strong>(&)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#empty_jar:Lucky::CookieJar-class-method" class="signature"><strong>.empty_jar</strong> : Lucky::CookieJar</a>
+        <a href="#empty_jar%3ALucky%3A%3ACookieJar-class-method" class="signature"><strong>.empty_jar</strong> : Lucky::CookieJar</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#from_request_cookies(cookies:HTTP::Cookies):Lucky::CookieJar-class-method" class="signature"><strong>.from_request_cookies</strong>(cookies : HTTP::Cookies) : Lucky::CookieJar</a>
+        <a href="#from_request_cookies%28cookies%3AHTTP%3A%3ACookies%29%3ALucky%3A%3ACookieJar-class-method" class="signature"><strong>.from_request_cookies</strong>(cookies : HTTP::Cookies) : Lucky::CookieJar</a>
         
       </li>
     
@@ -991,72 +991,72 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#clear:Nil-instance-method" class="signature"><strong>#clear</strong> : Nil</a>
+        <a href="#clear%3ANil-instance-method" class="signature"><strong>#clear</strong> : Nil</a>
         
           <div class="summary"><p>Delete all cookies.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#clear(&block:HTTP::Cookie-%3E):Nil-instance-method" class="signature"><strong>#clear</strong>(&block : HTTP::Cookie -> ) : Nil</a>
+        <a href="#clear%28%26block%3AHTTP%3A%3ACookie-%3E%29%3ANil-instance-method" class="signature"><strong>#clear</strong>(&block : HTTP::Cookie -> ) : Nil</a>
         
           <div class="summary"><p>Delete cookies with a block to add specific options.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#delete(key:Key):Nil-instance-method" class="signature"><strong>#delete</strong>(key : Key) : Nil</a>
+        <a href="#delete%28key%3AKey%29%3ANil-instance-method" class="signature"><strong>#delete</strong>(key : Key) : Nil</a>
         
           <div class="summary"><p>https://tools.ietf.org/search/rfc6265#page-8 to remove a cookie, the server returns a Set-Cookie header with an expiration date in the past.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#delete(key:Key,&):Nil-instance-method" class="signature"><strong>#delete</strong>(key : Key, &) : Nil</a>
+        <a href="#delete%28key%3AKey%2C%26%29%3ANil-instance-method" class="signature"><strong>#delete</strong>(key : Key, &) : Nil</a>
         
           <div class="summary"><p>Delete a specific cookie by name <code>key</code>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#deleted?(key:Key):Bool-instance-method" class="signature"><strong>#deleted?</strong>(key : Key) : Bool</a>
+        <a href="#deleted%3F%28key%3AKey%29%3ABool-instance-method" class="signature"><strong>#deleted?</strong>(key : Key) : Bool</a>
         
           <div class="summary"><p>Returns <code>true</code> if the cookie has been expired, and has no value.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get(key:Key):String-instance-method" class="signature"><strong>#get</strong>(key : Key) : String</a>
+        <a href="#get%28key%3AKey%29%3AString-instance-method" class="signature"><strong>#get</strong>(key : Key) : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get?(key:Key):String?-instance-method" class="signature"><strong>#get?</strong>(key : Key) : String?</a>
+        <a href="#get%3F%28key%3AKey%29%3AString%3F-instance-method" class="signature"><strong>#get?</strong>(key : Key) : String?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_raw(key:Key):HTTP::Cookie-instance-method" class="signature"><strong>#get_raw</strong>(key : Key) : HTTP::Cookie</a>
+        <a href="#get_raw%28key%3AKey%29%3AHTTP%3A%3ACookie-instance-method" class="signature"><strong>#get_raw</strong>(key : Key) : HTTP::Cookie</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get_raw?(key:Key):HTTP::Cookie?-instance-method" class="signature"><strong>#get_raw?</strong>(key : Key) : HTTP::Cookie?</a>
+        <a href="#get_raw%3F%28key%3AKey%29%3AHTTP%3A%3ACookie%3F-instance-method" class="signature"><strong>#get_raw?</strong>(key : Key) : HTTP::Cookie?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#raw:HTTP::Cookies-instance-method" class="signature"><strong>#raw</strong> : HTTP::Cookies</a>
+        <a href="#raw%3AHTTP%3A%3ACookies-instance-method" class="signature"><strong>#raw</strong> : HTTP::Cookies</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#set(key:Key,value:String):HTTP::Cookie-instance-method" class="signature"><strong>#set</strong>(key : Key, value : String) : HTTP::Cookie</a>
+        <a href="#set%28key%3AKey%2Cvalue%3AString%29%3AHTTP%3A%3ACookie-instance-method" class="signature"><strong>#set</strong>(key : Key, value : String) : HTTP::Cookie</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#set_raw(key:Key,value:String):HTTP::Cookie-instance-method" class="signature"><strong>#set_raw</strong>(key : Key, value : String) : HTTP::Cookie</a>
+        <a href="#set_raw%28key%3AKey%2Cvalue%3AString%29%3AHTTP%3A%3ACookie-instance-method" class="signature"><strong>#set_raw</strong>(key : Key, value : String) : HTTP::Cookie</a>
         
       </li>
     
@@ -1066,7 +1066,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#updated:HTTP::Cookies-instance-method" class="signature"><strong>#updated</strong> : HTTP::Cookies</a>
+        <a href="#updated%3AHTTP%3A%3ACookies-instance-method" class="signature"><strong>#updated</strong> : HTTP::Cookies</a>
         
       </li>
     
@@ -1137,13 +1137,13 @@
         
         def self.<strong>configure</strong>(&)
 
-        <a class="method-permalink" href="#configure(&)-class-method">#</a>
+        <a class="method-permalink" href="#configure%28%26%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1153,13 +1153,13 @@
         
         def self.<strong>empty_jar</strong> : <a href="../Lucky/CookieJar.html">Lucky::CookieJar</a>
 
-        <a class="method-permalink" href="#empty_jar:Lucky::CookieJar-class-method">#</a>
+        <a class="method-permalink" href="#empty_jar%3ALucky%3A%3ACookieJar-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L16" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L16" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1169,13 +1169,13 @@
         
         def self.<strong>from_request_cookies</strong>(cookies : HTTP::Cookies) : <a href="../Lucky/CookieJar.html">Lucky::CookieJar</a>
 
-        <a class="method-permalink" href="#from_request_cookies(cookies:HTTP::Cookies):Lucky::CookieJar-class-method">#</a>
+        <a class="method-permalink" href="#from_request_cookies%28cookies%3AHTTP%3A%3ACookies%29%3ALucky%3A%3ACookieJar-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1191,7 +1191,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1213,7 +1213,7 @@
         
         def <strong>clear</strong> : Nil
 
-        <a class="method-permalink" href="#clear:Nil-instance-method">#</a>
+        <a class="method-permalink" href="#clear%3ANil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1224,7 +1224,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1234,26 +1234,23 @@
         
         def <strong>clear</strong>(&block : <a href="../HTTP/Cookie.html">HTTP::Cookie</a> -> ) : Nil
 
-        <a class="method-permalink" href="#clear(&block:HTTP::Cookie-%3E):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#clear%28%26block%3AHTTP%3A%3ACookie-%3E%29%3ANil-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Delete cookies with a block to add specific options.</p>
-
 <p>jar.clear do |cookie|
-  cookie.path("/")</p>
-
-<pre><code class="language-crystal">    .http_only(<span class="n">true</span>)
-    .secure(<span class="n">true</span>)</code></pre>
-
-<p>end</p>
+cookie.path(&quot;/&quot;)
+.http_only(true)
+.secure(true)
+end</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L49" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L49" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1263,7 +1260,7 @@
         
         def <strong>delete</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>) : Nil
 
-        <a class="method-permalink" href="#delete(key:Key):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#delete%28key%3AKey%29%3ANil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1279,7 +1276,7 @@ created.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L62" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L62" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1289,7 +1286,7 @@ created.</p>
         
         def <strong>delete</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>, &) : Nil
 
-        <a class="method-permalink" href="#delete(key:Key,&):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#delete%28key%3AKey%2C%26%29%3ANil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1301,7 +1298,7 @@ to the block so you can add additional options like domain, path, etc...</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L71" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L71" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1311,7 +1308,7 @@ to the block so you can add additional options like domain, path, etc...</p>
         
         def <strong>deleted?</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>) : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#deleted?(key:Key):Bool-instance-method">#</a>
+        <a class="method-permalink" href="#deleted%3F%28key%3AKey%29%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1323,7 +1320,7 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L80" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L80" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1333,13 +1330,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>get</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>) : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#get(key:Key):String-instance-method">#</a>
+        <a class="method-permalink" href="#get%28key%3AKey%29%3AString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L96" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L96" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1349,13 +1346,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>get?</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>) : <a href="../String.html">String</a>?
 
-        <a class="method-permalink" href="#get?(key:Key):String?-instance-method">#</a>
+        <a class="method-permalink" href="#get%3F%28key%3AKey%29%3AString%3F-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L100" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L100" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1365,13 +1362,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>get_raw</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
 
-        <a class="method-permalink" href="#get_raw(key:Key):HTTP::Cookie-instance-method">#</a>
+        <a class="method-permalink" href="#get_raw%28key%3AKey%29%3AHTTP%3A%3ACookie-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1381,13 +1378,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>get_raw?</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>?
 
-        <a class="method-permalink" href="#get_raw?(key:Key):HTTP::Cookie?-instance-method">#</a>
+        <a class="method-permalink" href="#get_raw%3F%28key%3AKey%29%3AHTTP%3A%3ACookie%3F-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L92" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L92" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1397,13 +1394,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>raw</strong> : HTTP::Cookies
 
-        <a class="method-permalink" href="#raw:HTTP::Cookies-instance-method">#</a>
+        <a class="method-permalink" href="#raw%3AHTTP%3A%3ACookies-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1413,13 +1410,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>set</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>, value : <a href="../String.html">String</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
 
-        <a class="method-permalink" href="#set(key:Key,value:String):HTTP::Cookie-instance-method">#</a>
+        <a class="method-permalink" href="#set%28key%3AKey%2Cvalue%3AString%29%3AHTTP%3A%3ACookie-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L108" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L108" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1429,13 +1426,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>set_raw</strong>(key : <a href="../Lucky/CookieJar/Key.html">Key</a>, value : <a href="../String.html">String</a>) : <a href="../HTTP/Cookie.html">HTTP::Cookie</a>
 
-        <a class="method-permalink" href="#set_raw(key:Key,value:String):HTTP::Cookie-instance-method">#</a>
+        <a class="method-permalink" href="#set_raw%28key%3AKey%2Cvalue%3AString%29%3AHTTP%3A%3ACookie-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L112" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L112" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1451,7 +1448,7 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1461,13 +1458,13 @@ Will return <code>false</code> if the cookie does not exist, or is valid.</p>
         
         def <strong>updated</strong> : HTTP::Cookies
 
-        <a class="method-permalink" href="#updated:HTTP::Cookies-instance-method">#</a>
+        <a class="method-permalink" href="#updated%3AHTTP%3A%3ACookies-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/cookies/cookie_jar.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/cookies/cookie_jar.cr#L33" target="_blank">View source</a>]
         
       </div>
     </div>

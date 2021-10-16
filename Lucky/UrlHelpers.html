@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -900,7 +900,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/page_helpers/url_helpers.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/page_helpers/url_helpers.cr#L1" target="_blank">
         lucky/page_helpers/url_helpers.cr
       </a>
     
@@ -926,14 +926,14 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#current_page?(value:String,check_query_params:Bool=false):Bool-instance-method" class="signature"><strong>#current_page?</strong>(value : String, check_query_params : Bool = <span class="n">false</span>) : Bool</a>
+        <a href="#current_page%3F%28value%3AString%2Ccheck_query_params%3ABool%3Dfalse%29%3ABool-instance-method" class="signature"><strong>#current_page?</strong>(value : String, check_query_params : Bool = <span class="n">false</span>) : Bool</a>
         
           <div class="summary"><p>Tests if the given path matches the current request path.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#current_page?(action:Lucky::Action.class%7CLucky::RouteHelper,check_query_params:Bool=false):Bool-instance-method" class="signature"><strong>#current_page?</strong>(action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span> | Lucky::RouteHelper, check_query_params : Bool = <span class="n">false</span>) : Bool</a>
+        <a href="#current_page%3F%28action%3ALucky%3A%3AAction.class%7CLucky%3A%3ARouteHelper%2Ccheck_query_params%3ABool%3Dfalse%29%3ABool-instance-method" class="signature"><strong>#current_page?</strong>(action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span> | Lucky::RouteHelper, check_query_params : Bool = <span class="n">false</span>) : Bool</a>
         
           <div class="summary"><p>Tests if the given path matches the current request path.</p></div>
         
@@ -968,13 +968,12 @@
         
         def <strong>current_page?</strong>(value : <a href="../String.html">String</a>, check_query_params : <a href="../Bool.html">Bool</a> = <span class="n">false</span>) : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#current_page?(value:String,check_query_params:Bool=false):Bool-instance-method">#</a>
+        <a class="method-permalink" href="#current_page%3F%28value%3AString%2Ccheck_query_params%3ABool%3Dfalse%29%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Tests if the given path matches the current request path.</p>
-
 <pre><code class="language-crystal"><span class="c"># Let&#39;s say we are visiting https://example.com/shop/products?order=desc&amp;page=1</span>
 current_page?(<span class="s">&quot;/shop/checkout&quot;</span>)
 <span class="c"># =&gt; false</span>
@@ -1001,7 +1000,7 @@ current_page?(<span class="s">&quot;https://example.com/shop/products?order=desc
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/page_helpers/url_helpers.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/page_helpers/url_helpers.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1011,13 +1010,12 @@ current_page?(<span class="s">&quot;https://example.com/shop/products?order=desc
         
         def <strong>current_page?</strong>(action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span> | <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, check_query_params : <a href="../Bool.html">Bool</a> = <span class="n">false</span>) : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#current_page?(action:Lucky::Action.class%7CLucky::RouteHelper,check_query_params:Bool=false):Bool-instance-method">#</a>
+        <a class="method-permalink" href="#current_page%3F%28action%3ALucky%3A%3AAction.class%7CLucky%3A%3ARouteHelper%2Ccheck_query_params%3ABool%3Dfalse%29%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Tests if the given path matches the current request path.</p>
-
 <pre><code class="language-crystal"><span class="c"># Visiting https://example.com/pages/123</span>
 current_page?(<span class="t">Pages</span><span class="t">::</span><span class="t">Show</span>.<span class="k">with</span>(<span class="n">123</span>))
 <span class="c"># =&gt; true</span>
@@ -1042,7 +1040,7 @@ current_page?(<span class="t">Pages</span><span class="t">::</span><span class="
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/page_helpers/url_helpers.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/page_helpers/url_helpers.cr#L81" target="_blank">View source</a>]
         
       </div>
     </div>

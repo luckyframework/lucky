@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -873,13 +873,10 @@
   </h2>
 
   <p>Include this module in a type to allow it to be output in tags</p>
-
 <p>Lucky already includes this in a few common types like <code>Int</code> and <code><a href="../Bool.html">Bool</a></code>.
 Typically this is enough but if you have a type you want to allow in tags, you
 can do so.</p>
-
 <p>For example:</p>
-
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">EmailAddress</span>
   <span class="k">include</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">AllowedInTags</span>
 
@@ -890,9 +887,7 @@ can do so.</p>
     io.puts @value
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
 <p>Now an <code>EmailAddress</code> can be used for tag content without calling <code>to_s</code>:</p>
-
 <pre><code class="language-crystal">h1 <span class="t">EmailAddress</span>.<span class="k">new</span>(<span class="s">&quot;myemail.com&quot;</span>)</code></pre>
 
 
@@ -940,7 +935,7 @@ can do so.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/allowed_in_tags.cr#L27" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/allowed_in_tags.cr#L27" target="_blank">
         lucky/allowed_in_tags.cr
       </a>
     

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -888,7 +888,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L1" target="_blank">
         lucky/paginator/paginator.cr
       </a>
     
@@ -910,7 +910,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(page,per_page,item_count,full_path)-class-method" class="signature"><strong>.new</strong>(page, per_page, item_count, full_path)</a>
+        <a href="#new%28page%2Cper_page%2Citem_count%2Cfull_path%29-class-method" class="signature"><strong>.new</strong>(page, per_page, item_count, full_path)</a>
         
       </li>
     
@@ -931,101 +931,100 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#first_page?:Bool-instance-method" class="signature"><strong>#first_page?</strong> : Bool</a>
+        <a href="#first_page%3F%3ABool-instance-method" class="signature"><strong>#first_page?</strong> : Bool</a>
         
-          <div class="summary"><p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page:Int32-instance-method">#page</a></code> is the first one.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#full_path:String-instance-method" class="signature"><strong>#full_path</strong> : String</a>
+          <div class="summary"><p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page%3AInt32-instance-method">#page</a></code> is the first one.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#item_count:Int32%7CInt64-instance-method" class="signature"><strong>#item_count</strong> : Int32 | Int64</a>
+        <a href="#full_path%3AString-instance-method" class="signature"><strong>#full_path</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#item_range:Range-instance-method" class="signature"><strong>#item_range</strong> : Range</a>
+        <a href="#item_count%3AInt32%7CInt64-instance-method" class="signature"><strong>#item_count</strong> : Int32 | Int64</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#item_range%3ARange-instance-method" class="signature"><strong>#item_range</strong> : Range</a>
         
           <div class="summary"><p>Returns the <code>Range</code> of items on this page.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#last_page?:Bool-instance-method" class="signature"><strong>#last_page?</strong> : Bool</a>
+        <a href="#last_page%3F%3ABool-instance-method" class="signature"><strong>#last_page?</strong> : Bool</a>
         
-          <div class="summary"><p>Returns <code>true</code> if current <code><a href="../Lucky/Paginator.html#page:Int32-instance-method">#page</a></code> is the last one.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#offset:Int32-instance-method" class="signature"><strong>#offset</strong> : Int32</a>
+          <div class="summary"><p>Returns <code>true</code> if current <code><a href="../Lucky/Paginator.html#page%3AInt32-instance-method">#page</a></code> is the last one.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#one_page?:Bool-instance-method" class="signature"><strong>#one_page?</strong> : Bool</a>
+        <a href="#offset%3AInt32-instance-method" class="signature"><strong>#offset</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#one_page%3F%3ABool-instance-method" class="signature"><strong>#one_page?</strong> : Bool</a>
         
           <div class="summary"><p>Returns <code>true</code> if there is just one page.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#overflowed?:Bool-instance-method" class="signature"><strong>#overflowed?</strong> : Bool</a>
+        <a href="#overflowed%3F%3ABool-instance-method" class="signature"><strong>#overflowed?</strong> : Bool</a>
         
-          <div class="summary"><p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page:Int32-instance-method">#page</a></code> is past the last page.</p></div>
+          <div class="summary"><p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page%3AInt32-instance-method">#page</a></code> is past the last page.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#page:Int32-instance-method" class="signature"><strong>#page</strong> : Int32</a>
+        <a href="#page%3AInt32-instance-method" class="signature"><strong>#page</strong> : Int32</a>
         
           <div class="summary"><p>Returns the current page.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#path_to_next:String?-instance-method" class="signature"><strong>#path_to_next</strong> : String?</a>
+        <a href="#path_to_next%3AString%3F-instance-method" class="signature"><strong>#path_to_next</strong> : String?</a>
         
           <div class="summary"><p>Returns the path with a 'page' query param for the previous page.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#path_to_page(page_number:Int):String-instance-method" class="signature"><strong>#path_to_page</strong>(page_number : Int) : String</a>
+        <a href="#path_to_page%28page_number%3AInt%29%3AString-instance-method" class="signature"><strong>#path_to_page</strong>(page_number : Int) : String</a>
         
           <div class="summary"><p>Generate a page with the 'page' query param set to the passed in <code>page_number</code>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#path_to_previous:String?-instance-method" class="signature"><strong>#path_to_previous</strong> : String?</a>
+        <a href="#path_to_previous%3AString%3F-instance-method" class="signature"><strong>#path_to_previous</strong> : String?</a>
         
           <div class="summary"><p>Returns the path with a 'page' query param for the previous page.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#per_page:Int32-instance-method" class="signature"><strong>#per_page</strong> : Int32</a>
+        <a href="#per_page%3AInt32-instance-method" class="signature"><strong>#per_page</strong> : Int32</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#series(beginbeginning:Int32=0,left_of_current:Int32=0,right_of_current:Int32=0,endending:Int32=0):Array(SeriesItem)-instance-method" class="signature"><strong>#series</strong>(begin beginning : Int32 = <span class="n">0</span>, left_of_current : Int32 = <span class="n">0</span>, right_of_current : Int32 = <span class="n">0</span>, end ending : Int32 = <span class="n">0</span>) : Array(SeriesItem)</a>
+        <a href="#series%28beginbeginning%3AInt32%3D0%2Cleft_of_current%3AInt32%3D0%2Cright_of_current%3AInt32%3D0%2Cendending%3AInt32%3D0%29%3AArray%28SeriesItem%29-instance-method" class="signature"><strong>#series</strong>(begin beginning : Int32 = <span class="n">0</span>, left_of_current : Int32 = <span class="n">0</span>, right_of_current : Int32 = <span class="n">0</span>, end ending : Int32 = <span class="n">0</span>) : Array(SeriesItem)</a>
         
-          <div class="summary"><h1><a id="the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap." class="anchor" href="#the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap.">
-  <svg class="octicon-link" aria-hidden="true">
+          <div class="summary"><h1><a id="the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap." class="anchor" href="#the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap.">  <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>The <code><a href="../Lucky/Paginator.html#series(beginbeginning:Int32=0,left_of_current:Int32=0,right_of_current:Int32=0,endending:Int32=0):Array(SeriesItem)-instance-method">#series</a></code> method is smart and will not add gaps if there is no gap.</h1></div>
+</a>The <code><a href="../Lucky/Paginator.html#series%28beginbeginning%3AInt32%3D0%2Cleft_of_current%3AInt32%3D0%2Cright_of_current%3AInt32%3D0%2Cendending%3AInt32%3D0%29%3AArray%28SeriesItem%29-instance-method">#series</a></code> method is smart and will not add gaps if there is no gap.</h1></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#total:Int64-instance-method" class="signature"><strong>#total</strong> : Int64</a>
+        <a href="#total%3AInt64-instance-method" class="signature"><strong>#total</strong> : Int64</a>
         
           <div class="summary"><p>Returns the total number of pages.</p></div>
         
@@ -1076,13 +1075,13 @@
         
         def self.<strong>new</strong>(page, per_page, item_count, full_path)
 
-        <a class="method-permalink" href="#new(page,per_page,item_count,full_path)-class-method">#</a>
+        <a class="method-permalink" href="#new%28page%2Cper_page%2Citem_count%2Cfull_path%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L9" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L9" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1106,18 +1105,18 @@
         
         def <strong>first_page?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#first_page?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#first_page%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page:Int32-instance-method">#page</a></code> is the first one.</p>
+          <p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page%3AInt32-instance-method">#page</a></code> is the first one.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L42" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L42" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1127,13 +1126,13 @@
         
         def <strong>full_path</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#full_path:String-instance-method">#</a>
+        <a class="method-permalink" href="#full_path%3AString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1143,13 +1142,13 @@
         
         def <strong>item_count</strong> : <a href="../Int32.html">Int32</a> | <a href="../Int64.html">Int64</a>
 
-        <a class="method-permalink" href="#item_count:Int32%7CInt64-instance-method">#</a>
+        <a class="method-permalink" href="#item_count%3AInt32%7CInt64-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1159,16 +1158,14 @@
         
         def <strong>item_range</strong> : Range
 
-        <a class="method-permalink" href="#item_range:Range-instance-method">#</a>
+        <a class="method-permalink" href="#item_range%3ARange-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Returns the <code>Range</code> of items on this page.</p>
-
 <p>For example if you have 50 records, showing 20 per page, and
 you are on the 2nd page this method will return a range of 21-40.</p>
-
 <p>You can get the beginning and end by calling <code>begin</code> or <code>end</code> on the
 returned <code>Range</code>.</p>
         </div>
@@ -1176,7 +1173,7 @@ returned <code>Range</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1186,18 +1183,18 @@ returned <code>Range</code>.</p>
         
         def <strong>last_page?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#last_page?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#last_page%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if current <code><a href="../Lucky/Paginator.html#page:Int32-instance-method">#page</a></code> is the last one.</p>
+          <p>Returns <code>true</code> if current <code><a href="../Lucky/Paginator.html#page%3AInt32-instance-method">#page</a></code> is the last one.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1207,13 +1204,13 @@ returned <code>Range</code>.</p>
         
         def <strong>offset</strong> : <a href="../Int32.html">Int32</a>
 
-        <a class="method-permalink" href="#offset:Int32-instance-method">#</a>
+        <a class="method-permalink" href="#offset%3AInt32-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1223,7 +1220,7 @@ returned <code>Range</code>.</p>
         
         def <strong>one_page?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#one_page?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#one_page%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1234,7 +1231,7 @@ returned <code>Range</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1244,18 +1241,18 @@ returned <code>Range</code>.</p>
         
         def <strong>overflowed?</strong> : <a href="../Bool.html">Bool</a>
 
-        <a class="method-permalink" href="#overflowed?:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#overflowed%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page:Int32-instance-method">#page</a></code> is past the last page.</p>
+          <p>Returns <code>true</code> if the current <code><a href="../Lucky/Paginator.html#page%3AInt32-instance-method">#page</a></code> is past the last page.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L47" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1265,18 +1262,18 @@ returned <code>Range</code>.</p>
         
         def <strong>page</strong> : <a href="../Int32.html">Int32</a>
 
-        <a class="method-permalink" href="#page:Int32-instance-method">#</a>
+        <a class="method-permalink" href="#page%3AInt32-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns the current page. Return <code>1</code> if the passed in <code><a href="../Lucky/Paginator.html#page:Int32-instance-method">#page</a></code> is lower than <code>1</code>.</p>
+          <p>Returns the current page. Return <code>1</code> if the passed in <code><a href="../Lucky/Paginator.html#page%3AInt32-instance-method">#page</a></code> is lower than <code>1</code>.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1286,20 +1283,19 @@ returned <code>Range</code>.</p>
         
         def <strong>path_to_next</strong> : <a href="../String.html">String</a>?
 
-        <a class="method-permalink" href="#path_to_next:String?-instance-method">#</a>
+        <a class="method-permalink" href="#path_to_next%3AString%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Returns the path with a 'page' query param for the previous page.</p>
-
 <p>Return nil if there is no previous page</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L76" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L76" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1309,19 +1305,17 @@ returned <code>Range</code>.</p>
         
         def <strong>path_to_page</strong>(page_number : Int) : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#path_to_page(page_number:Int):String-instance-method">#</a>
+        <a class="method-permalink" href="#path_to_page%28page_number%3AInt%29%3AString-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Generate a page with the 'page' query param set to the passed in <code>page_number</code>.</p>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">pages <span class="o">=</span> <span class="t">Paginator</span>.<span class="k">new</span>(
   page: <span class="n">1</span>,
   per_page: <span class="n">25</span>,
@@ -1334,7 +1328,7 @@ pages.path_to_page(<span class="n">2</span>) <span class="c"># &quot;/comments?p
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1344,20 +1338,19 @@ pages.path_to_page(<span class="n">2</span>) <span class="c"># &quot;/comments?p
         
         def <strong>path_to_previous</strong> : <a href="../String.html">String</a>?
 
-        <a class="method-permalink" href="#path_to_previous:String?-instance-method">#</a>
+        <a class="method-permalink" href="#path_to_previous%3AString%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Returns the path with a 'page' query param for the previous page.</p>
-
 <p>Return nil if there is no previous page</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L67" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L67" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1367,13 +1360,13 @@ pages.path_to_page(<span class="n">2</span>) <span class="c"># &quot;/comments?p
         
         def <strong>per_page</strong> : <a href="../Int32.html">Int32</a>
 
-        <a class="method-permalink" href="#per_page:Int32-instance-method">#</a>
+        <a class="method-permalink" href="#per_page%3AInt32-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L3" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L3" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1383,82 +1376,68 @@ pages.path_to_page(<span class="n">2</span>) <span class="c"># &quot;/comments?p
         
         def <strong>series</strong>(begin beginning : <a href="../Int32.html">Int32</a> = <span class="n">0</span>, left_of_current : <a href="../Int32.html">Int32</a> = <span class="n">0</span>, right_of_current : <a href="../Int32.html">Int32</a> = <span class="n">0</span>, end ending : <a href="../Int32.html">Int32</a> = <span class="n">0</span>) : Array(<a href="../Lucky/Paginator/SeriesItem.html">SeriesItem</a>)
 
-        <a class="method-permalink" href="#series(beginbeginning:Int32=0,left_of_current:Int32=0,right_of_current:Int32=0,endending:Int32=0):Array(SeriesItem)-instance-method">#</a>
+        <a class="method-permalink" href="#series%28beginbeginning%3AInt32%3D0%2Cleft_of_current%3AInt32%3D0%2Cright_of_current%3AInt32%3D0%2Cendending%3AInt32%3D0%29%3AArray%28SeriesItem%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <h1><a id="the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap." class="anchor" href="#the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap.">
-  <svg class="octicon-link" aria-hidden="true">
+          <h1><a id="the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap." class="anchor" href="#the-series-method-is-smart-and-will-not-add-gaps-if-there-is-no-gap.">  <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>The <code><a href="../Lucky/Paginator.html#series(beginbeginning:Int32=0,left_of_current:Int32=0,right_of_current:Int32=0,endending:Int32=0):Array(SeriesItem)-instance-method">#series</a></code> method is smart and will not add gaps if there is no gap.</h1>
-
+</a>The <code><a href="../Lucky/Paginator.html#series%28beginbeginning%3AInt32%3D0%2Cleft_of_current%3AInt32%3D0%2Cright_of_current%3AInt32%3D0%2Cendending%3AInt32%3D0%29%3AArray%28SeriesItem%29-instance-method">#series</a></code> method is smart and will not add gaps if there is no gap.</h1>
 <h1><a id="it-will-also-not-add-items-past-the-current-page." class="anchor" href="#it-will-also-not-add-items-past-the-current-page.">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>It will also not add items past the current page.</h1>
-
 <p>series = pages.series(begin: 6)
 series # [1, 2, 3, 4, 5]</p>
-
 <pre><code class="language-crystal">
 <span class="t">As</span> mentioned above the <span class="o">**</span>actual<span class="o">**</span> objects <span class="k">in</span> the <span class="t">Array</span> are made up <span class="k">of</span>
 <span class="s">`Lucky::Paginator::Gap`</span>, <span class="s">`Lucky::Paginator::Page`</span>, and
 <span class="s">`Lucky::Paginator::CurrentPage`</span> objects.
 </code></pre>
-
 <p>pages.series(begin: 1, end: 1)</p>
-
 <h1><a id="returns" class="anchor" href="#returns">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Returns:</h1>
-
 <h1><a id="" class="anchor" href="#">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>[</h1>
-
 <h1><a id="luckypaginatorpage1" class="anchor" href="#luckypaginatorpage1">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Lucky::Paginator::Page(1),</h1>
-
 <h1><a id="luckypaginatorgap" class="anchor" href="#luckypaginatorgap">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Lucky::Paginator::Gap,</h1>
-
 <h1><a id="luckypaginatorcurrent-page5" class="anchor" href="#luckypaginatorcurrent-page5">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Lucky::Paginator::CurrentPage(5),</h1>
-
-<h1><a id="luckypaginatorgap" class="anchor" href="#luckypaginatorgap">
+<h1><a id="luckypaginatorgap-1" class="anchor" href="#luckypaginatorgap-1">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Lucky::Paginator::Gap,</h1>
-
 <h1><a id="luckypaginatorpage10" class="anchor" href="#luckypaginatorpage10">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Lucky::Paginator::Page(10),</h1>
-
-<h1><a id="" class="anchor" href="#">
+<h1><a id="-1" class="anchor" href="#-1">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>]</h1>
-
 <pre><code class="language-crystal">
 The `Page` and `CurrentPage` objects have a `number` and `path` method.
 `Page#number` returns the number of the page as an Int. The `Page#path` method
@@ -1472,63 +1451,43 @@ or `is_a?` to determine how to render each item.
 
 Here's a quick example:
 </code></pre>
-
 <p>pages.series(begin: 1, end: 1).each do |item|
-  case item
-  when Lucky::Paginator::CurrentPage | Lucky::Paginator::Page</p>
-
-<pre><code class="language-crystal">pp! item.number <span class="c"># Int32 representing the page number</span>
-pp! item.path   <span class="c"># &quot;/items?page=2&quot;</span></code></pre>
-
-<p>when Lucky::Paginator::Gap</p>
-
-<pre><code class="language-crystal">puts <span class="s">&quot;...&quot;</span></code></pre>
-
-<p>end
+case item
+when Lucky::Paginator::CurrentPage | Lucky::Paginator::Page
+pp! item.number # Int32 representing the page number
+pp! item.path   # &quot;/items?page=2&quot;
+when Lucky::Paginator::Gap
+puts &quot;...&quot;
+end
 end</p>
-
 <pre><code class="language-crystal">
 Or use method overloading. This will show an example using Lucky's HTML methods:
 </code></pre>
-
 <p>class PageNav &lt; BaseComponent
-  needs pages : Lucky::Paginator</p>
-
-<p>def render</p>
-
-<pre><code class="language-crystal">pages.series(<span class="k">begin</span>: <span class="n">1</span>, <span class="k">end</span>: <span class="n">1</span>).each <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
-  page_item(item)
-<span class="k">end</span></code></pre>
-
-<p>end</p>
-
-<p>def page_item(page : Lucky::Paginator::CurrentPage)</p>
-
-<pre><code class="language-crystal"><span class="c"># If it is the current page, just display text and no link</span>
-text page.number</code></pre>
-
-<p>end</p>
-
-<p>def page_item(page : Lucky::Paginator::CurrentPage)</p>
-
-<pre><code class="language-crystal">a page.number, href: page.path</code></pre>
-
-<p>end</p>
-
-<p>def page_item(gap : Lucky::Paginator::Gap)</p>
-
-<pre><code class="language-crystal">text <span class="s">&quot;..&quot;</span></code></pre>
-
-<p>end
+needs pages : Lucky::Paginator</p>
+<p>def render
+pages.series(begin: 1, end: 1).each do |item|
+page_item(item)
+end
 end</p>
-
+<p>def page_item(page : Lucky::Paginator::CurrentPage)
+# If it is the current page, just display text and no link
+text page.number
+end</p>
+<p>def page_item(page : Lucky::Paginator::CurrentPage)
+a page.number, href: page.path
+end</p>
+<p>def page_item(gap : Lucky::Paginator::Gap)
+text &quot;..&quot;
+end
+end</p>
 <pre><code class="language-crystal"></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L203" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L203" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1538,7 +1497,7 @@ end</p>
         
         def <strong>total</strong> : <a href="../Int64.html">Int64</a>
 
-        <a class="method-permalink" href="#total:Int64-instance-method">#</a>
+        <a class="method-permalink" href="#total%3AInt64-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1549,7 +1508,7 @@ end</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/paginator/paginator.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/paginator/paginator.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>

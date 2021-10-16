@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -900,7 +900,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/assignable.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/assignable.cr#L1" target="_blank">
         lucky/assignable.cr
       </a>
     
@@ -941,7 +941,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(**unused_exposures)-class-method" class="signature"><strong>.new</strong>(**unused_exposures)</a>
+        <a href="#new%28%2A%2Aunused_exposures%29-class-method" class="signature"><strong>.new</strong>(**unused_exposures)</a>
         
       </li>
     
@@ -969,7 +969,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#needs(*type_declarations)-macro" class="signature"><strong>needs</strong>(*type_declarations)</a>
+        <a href="#needs%28%2Atype_declarations%29-macro" class="signature"><strong>needs</strong>(*type_declarations)</a>
         
           <div class="summary"><p>Declare what a class needs in order to be initialized.</p></div>
         
@@ -1003,7 +1003,7 @@
         
         def self.<strong>new</strong>(**unused_exposures)
 
-        <a class="method-permalink" href="#new(**unused_exposures)-class-method">#</a>
+        <a class="method-permalink" href="#new%28%2A%2Aunused_exposures%29-class-method">#</a>
       </div>
       
       <br/>
@@ -1039,7 +1039,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/assignable.cr#L87" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/assignable.cr#L87" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1049,22 +1049,19 @@
         
         macro <strong>needs</strong>(*type_declarations)
 
-        <a class="method-permalink" href="#needs(*type_declarations)-macro">#</a>
+        <a class="method-permalink" href="#needs%28%2Atype_declarations%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Declare what a class needs in order to be initialized.</p>
-
 <p>This will declare an instance variable and getter automatically. It will
 also add arguments to an <code>initialize</code> method at the end of compilation.</p>
-
 <h3><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h3>
-
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">IndexPage</span> <span class="o">&lt;</span> <span class="t">MainLayout</span>
   <span class="c"># This page needs a `User` or it will fail to compile</span>
   <span class="c"># You can access it with `@user` or the getter method `user`</span>
@@ -1083,7 +1080,7 @@ also add arguments to an <code>initialize</code> method at the end of compilatio
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/assignable.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/assignable.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1099,7 +1096,7 @@ also add arguments to an <code>initialize</code> method at the end of compilatio
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/assignable.cr#L73" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/assignable.cr#L73" target="_blank">View source</a>]
         
       </div>
     </div>

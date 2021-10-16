@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -873,10 +873,8 @@
   </h2>
 
   <p>Methods for returning the path to assets</p>
-
 <p>These methods will return fingerprinted paths, check assets at compile time,
 and allow for setting a CDN.</p>
-
 <p>For an in-depth guide check: https://luckyframework.org/guides/frontend/asset-handling</p>
 
 
@@ -916,7 +914,7 @@ and allow for setting a CDN.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/asset_helpers.cr#L7" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/asset_helpers.cr#L7" target="_blank">
         lucky/asset_helpers.cr
       </a>
     
@@ -966,7 +964,7 @@ and allow for setting a CDN.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#dynamic_asset(path)-instance-method" class="signature"><strong>#dynamic_asset</strong>(path)</a>
+        <a href="#dynamic_asset%28path%29-instance-method" class="signature"><strong>#dynamic_asset</strong>(path)</a>
         
           <div class="summary"><p>Return the string path to an asset (allows string interpolation)</p></div>
         
@@ -987,14 +985,14 @@ and allow for setting a CDN.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#asset(path)-macro" class="signature"><strong>asset</strong>(path)</a>
+        <a href="#asset%28path%29-macro" class="signature"><strong>asset</strong>(path)</a>
         
           <div class="summary"><p>Return the string path to an asset</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#load_manifest(manifest_file=%22%22)-macro" class="signature"><strong>load_manifest</strong>(manifest_file = <span class="s">&quot;&quot;</span>)</a>
+        <a href="#load_manifest%28manifest_file%3D%22%22%29-macro" class="signature"><strong>load_manifest</strong>(manifest_file = <span class="s">&quot;&quot;</span>)</a>
         
       </li>
     
@@ -1025,20 +1023,18 @@ and allow for setting a CDN.</p>
         
         def <strong>dynamic_asset</strong>(path)
 
-        <a class="method-permalink" href="#dynamic_asset(path)-instance-method">#</a>
+        <a class="method-permalink" href="#dynamic_asset%28path%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Return the string path to an asset (allows string interpolation)</p>
-
 <pre><code class="language-crystal"><span class="c"># In a page or component</span>
 <span class="c"># Will find the asset in `public/assets/images/logo.png`</span>
 img src: asset(<span class="s">&quot;images/logo.png&quot;</span>)
 
 <span class="c"># Can also be used elsewhere by prepending Lucky::AssetHelpers</span>
 <span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.asset(<span class="s">&quot;images/logo.png&quot;</span>)</code></pre>
-
 <p><span class="flag purple">NOTE</span>  This method does <em>not</em> check assets at compile time. The asset path
 is found at runtime so it is possible the asset does not exist. Be sure to
 manually test that the asset is returned as expected.</p>
@@ -1047,7 +1043,7 @@ manually test that the asset is returned as expected.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/asset_helpers.cr#L86" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/asset_helpers.cr#L86" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1069,33 +1065,30 @@ manually test that the asset is returned as expected.</p>
         
         macro <strong>asset</strong>(path)
 
-        <a class="method-permalink" href="#asset(path)-macro">#</a>
+        <a class="method-permalink" href="#asset%28path%29-macro">#</a>
       </div>
       
         <div class="doc">
           
           <p>Return the string path to an asset</p>
-
 <pre><code class="language-crystal"><span class="c"># In a page or component:</span>
 <span class="c"># Will find the asset in `public/assets/images/logo.png`</span>
 img src: asset(<span class="s">&quot;images/logo.png&quot;</span>)
 
 <span class="c"># Can also be used elsewhere by prepending Lucky::AssetHelpers</span>
 <span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.asset(<span class="s">&quot;images/logo.png&quot;</span>)</code></pre>
-
 <p>Note that assets are checked at compile time so if it is not found, Lucky
 will let you know. It will also let you know if you had a typo and suggest an
 asset that is close to what you typed.</p>
-
 <p><span class="flag purple">NOTE</span>  This macro requires a <code>StringLiteral</code>. That means you cannot
-interpolate strings like this: <code><a href="../Lucky/AssetHelpers.html#asset(path)-macro">asset("images/icon-#{service_name}.png")</a></code>.
-instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset(path)-instance-method">#dynamic_asset</a></code> if you need string interpolation.</p>
+interpolate strings like this: <code><a href="../Lucky/AssetHelpers.html#asset%28path%29-macro">asset("images/icon-#{service_name}.png")</a></code>.
+instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset%28path%29-instance-method">#dynamic_asset</a></code> if you need string interpolation.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/asset_helpers.cr#L34" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/asset_helpers.cr#L34" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1105,13 +1098,13 @@ instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset(path)-instan
         
         macro <strong>load_manifest</strong>(manifest_file = <span class="s">&quot;&quot;</span>)
 
-        <a class="method-permalink" href="#load_manifest(manifest_file=%22%22)-macro">#</a>
+        <a class="method-permalink" href="#load_manifest%28manifest_file%3D%22%22%29-macro">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/asset_helpers.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/asset_helpers.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>

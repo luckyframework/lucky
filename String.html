@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -875,16 +875,11 @@
   </h2>
 
   <p>A <code><a href="String.html">String</a></code> represents an immutable sequence of UTF-8 characters.</p>
-
 <p>A <code><a href="String.html">String</a></code> is typically created with a string literal, enclosing UTF-8 characters
 in double quotes:</p>
-
 <pre><code class="language-crystal"><span class="s">&quot;hello world&quot;</span></code></pre>
-
 <p>See <a href="https://crystal-lang.org/reference/syntax_and_semantics/literals/string.html"><code>String</code> literals</a> in the language reference.</p>
-
 <p>A backslash can be used to denote some characters inside the string:</p>
-
 <pre><code class="language-crystal"><span class="s">&quot;\&quot;&quot;</span> <span class="c"># double quote</span>
 <span class="s">&quot;\\&quot;</span> <span class="c"># backslash</span>
 <span class="s">&quot;\e&quot;</span> <span class="c"># escape</span>
@@ -893,39 +888,26 @@ in double quotes:</p>
 <span class="s">&quot;\r&quot;</span> <span class="c"># carriage return</span>
 <span class="s">&quot;\t&quot;</span> <span class="c"># tab</span>
 <span class="s">&quot;\v&quot;</span> <span class="c"># vertical tab</span></code></pre>
-
 <p>You can use a backslash followed by an <em>u</em> and four hexadecimal characters to denote a unicode codepoint written:</p>
-
 <pre><code class="language-crystal"><span class="s">&quot;\u0041&quot;</span> <span class="c"># == &quot;A&quot;</span></code></pre>
-
 <p>Or you can use curly braces and specify up to six hexadecimal numbers (0 to 10FFFF):</p>
-
 <pre><code class="language-crystal"><span class="s">&quot;\u{41}&quot;</span> <span class="c"># == &quot;A&quot;</span></code></pre>
-
 <p>A string can span multiple lines:</p>
-
 <pre><code class="language-crystal"><span class="s">&quot;hello
       world&quot;</span> <span class="c"># same as &quot;hello\n      world&quot;</span></code></pre>
-
 <p>Note that in the above example trailing and leading spaces, as well as newlines,
 end up in the resulting string. To avoid this, you can split a string into multiple lines
 by joining multiple literals with a backslash:</p>
-
 <pre><code class="language-crystal"><span class="s">&quot;hello &quot;</span> \
 <span class="s">&quot;world, &quot;</span> \
 <span class="s">&quot;no newlines&quot;</span> <span class="c"># same as &quot;hello world, no newlines&quot;</span></code></pre>
-
 <p>Alternatively, a backslash followed by a newline can be inserted inside the string literal:</p>
-
 <pre><code class="language-crystal"><span class="s">&quot;hello \
      world, \
      no newlines&quot;</span> <span class="c"># same as &quot;hello world, no newlines&quot;</span></code></pre>
-
 <p>In this case, leading whitespace is not included in the resulting string.</p>
-
 <p>If you need to write a string that has many double quotes, parentheses, or similar
 characters, you can use alternative literals:</p>
-
 <pre><code class="language-crystal"><span class="c"># Supports double quotes and nested parentheses</span>
 <span class="s">%(hello (&quot;world&quot;))</span> <span class="c"># same as &quot;hello (\&quot;world\&quot;)&quot;</span>
 
@@ -937,40 +919,31 @@ characters, you can use alternative literals:</p>
 
 <span class="c"># Supports double quotes and nested angles</span>
 <span class="s">%&lt;hello &lt;&quot;world&quot;&gt;&gt;</span> <span class="c"># same as &quot;hello &lt;\&quot;world\&quot;&gt;&quot;</span></code></pre>
-
 <p>To create a <code><a href="String.html">String</a></code> with embedded expressions, you can use string interpolation:</p>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="n">1</span>
 b <span class="o">=</span> <span class="n">2</span>
 <span class="s">&quot;sum = </span><span class="i">#{</span>a <span class="o">+</span> b<span class="i">}</span><span class="s">&quot;</span> <span class="c"># &quot;sum = 3&quot;</span></code></pre>
-
 <p>This ends up invoking <code>Object#to_s(IO)</code> on each expression enclosed by <code>#{...}</code>.</p>
-
 <p>If you need to dynamically build a string, use <code>String#build</code> or <code>IO::Memory</code>.</p>
-
 <h3><a id="non-utf-8-valid-strings" class="anchor" href="#non-utf-8-valid-strings">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Non UTF-8 valid strings</h3>
-
 <p>String might end up being conformed of bytes which are an invalid
 byte sequence according to UTF-8. This can happen if the string is created
 via one of the constructors that accept bytes, or when getting a string
 from <code>String.build</code> or <code>IO::Memory</code>. No exception will be raised, but
 invalid byte sequences, when asked as chars, will use the unicode replacement
 char (value 0xFFFD). For example:</p>
-
 <pre><code class="language-crystal"><span class="c"># here 255 is not a valid byte value in the UTF-8 encoding</span>
 string <span class="o">=</span> <span class="t">String</span>.<span class="k">new</span>(<span class="t">Bytes</span>[<span class="n">255</span>, <span class="n">97</span>])
 string.valid_encoding? <span class="c"># =&gt; false</span>
 
 <span class="c"># The first char here is the unicode replacement char</span>
 string.chars <span class="c"># =&gt; [&#39;�&#39;, &#39;a&#39;]</span></code></pre>
-
 <p>One can also create strings with specific byte value in them by
 using octal and hexadecimal escape sequences:</p>
-
 <pre><code class="language-crystal"><span class="c"># Octal escape sequences</span>
 <span class="s">&quot;\101&quot;</span> <span class="c"># # =&gt; &quot;A&quot;</span>
 <span class="s">&quot;\12&quot;</span>  <span class="c"># # =&gt; &quot;\n&quot;</span>
@@ -980,7 +953,6 @@ using octal and hexadecimal escape sequences:</p>
 <span class="c"># Hexadecimal escape sequences</span>
 <span class="s">&quot;\x41&quot;</span> <span class="c"># # =&gt; &quot;A&quot;</span>
 <span class="s">&quot;\xFF&quot;</span> <span class="c"># string with one byte with value 255</span></code></pre>
-
 <p>The reason for allowing strings that don't have a valid UTF-8 sequence
 is that the world is full of content that isn't properly encoded,
 and having a program raise an exception or stop because of this
@@ -1024,14 +996,14 @@ show a replacement character when there's an error in incoming data.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/lib/avram/src/avram/charms/string_extensions.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/lib/avram/src/avram/charms/string_extensions.cr#L1" target="_blank">
         lib/avram/src/avram/charms/string_extensions.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/charms/string_extensions.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/charms/string_extensions.cr#L1" target="_blank">
         charms/string_extensions.cr
       </a>
     
@@ -1057,14 +1029,14 @@ show a replacement character when there's an error in incoming data.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#squish:String-instance-method" class="signature"><strong>#squish</strong> : String</a>
+        <a href="#squish%3AString-instance-method" class="signature"><strong>#squish</strong> : String</a>
         
           <div class="summary"><p>Returns a new string with whitespace and newlines squish to a single space.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#to_param:String-instance-method" class="signature"><strong>#to_param</strong> : String</a>
+        <a href="#to_param%3AString-instance-method" class="signature"><strong>#to_param</strong> : String</a>
         
       </li>
     
@@ -1127,14 +1099,13 @@ show a replacement character when there's an error in incoming data.</p>
         
         def <strong>squish</strong> : <a href="String.html">String</a>
 
-        <a class="method-permalink" href="#squish:String-instance-method">#</a>
+        <a class="method-permalink" href="#squish%3AString-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Returns a new string with whitespace and newlines squish to a single space.</p>
-
-<p><code><a href="String.html#squish:String-instance-method">String#squish</a></code> strips whitespace at the end of the string, and changes
+<p><code><a href="String.html#squish%3AString-instance-method">String#squish</a></code> strips whitespace at the end of the string, and changes
 consecutive whitespace groups into one space each. For example, it will
 replace newlines with a single space and convert mutiple spaces to just one
 space.</p>
@@ -1143,7 +1114,7 @@ space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/charms/string_extensions.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/charms/string_extensions.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1153,13 +1124,13 @@ space.</p>
         
         def <strong>to_param</strong> : <a href="String.html">String</a>
 
-        <a class="method-permalink" href="#to_param:String-instance-method">#</a>
+        <a class="method-permalink" href="#to_param%3AString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/charms/string_extensions.cr#L2" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/charms/string_extensions.cr#L2" target="_blank">View source</a>]
         
       </div>
     </div>

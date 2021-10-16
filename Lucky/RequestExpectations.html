@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -897,7 +897,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_expectations.cr#L2" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_expectations.cr#L2" target="_blank">
         lucky/request_expectations.cr
       </a>
     
@@ -923,7 +923,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#send_json(status,**expected)-instance-method" class="signature"><strong>#send_json</strong>(status, **expected)</a>
+        <a href="#send_json%28status%2C%2A%2Aexpected%29-instance-method" class="signature"><strong>#send_json</strong>(status, **expected)</a>
         
           <div class="summary"><p>Test that the HTTP response has the expected status and JSON body</p></div>
         
@@ -958,13 +958,12 @@
         
         def <strong>send_json</strong>(status, **expected)
 
-        <a class="method-permalink" href="#send_json(status,**expected)-instance-method">#</a>
+        <a class="method-permalink" href="#send_json%28status%2C%2A%2Aexpected%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Test that the HTTP response has the expected status and JSON body</p>
-
 <pre><code class="language-crystal">user <span class="o">=</span> <span class="t">UserFactory</span>.create
 
 response <span class="o">=</span> <span class="t">AppClient</span>.<span class="k">new</span>.exec(<span class="t">Users</span><span class="t">::</span><span class="t">Show</span>.<span class="k">with</span>(user.id))
@@ -975,7 +974,7 @@ response.should send_json(<span class="n">200</span>, name: user.name, age: user
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/request_expectations.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/request_expectations.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -875,10 +875,8 @@
   <p>This module sets the HTTP header <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>.
 It's job is responsible for deciding which site can call your site from within a frame.
 For more information, read up on <a href="https://en.wikipedia.org/wiki/Clickjacking">Clickjacking</a>.</p>
-
 <p>Include this module in the actions you want to add this to.
-A required method <code><a href="../../Lucky/SecureHeaders/SetFrameGuard.html#frame_guard_value:String-instance-method">#frame_guard_value</a></code> must be defined`</p>
-
+A required method <code><a href="../../Lucky/SecureHeaders/SetFrameGuard.html#frame_guard_value%3AString-instance-method">#frame_guard_value</a></code> must be defined`</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">BrowserAction</span> <span class="o">&lt;</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>
   <span class="k">include</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">SecureHeaders</span><span class="t">::</span><span class="t">SetFrameGuard</span>
 
@@ -886,17 +884,18 @@ A required method <code><a href="../../Lucky/SecureHeaders/SetFrameGuard.html#fr
     <span class="s">&quot;deny&quot;</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
 <h3><a id="options" class="anchor" href="#options">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Options</h3>
-
-<p>The <code><a href="../../Lucky/SecureHeaders/SetFrameGuard.html#frame_guard_value:String-instance-method">#frame_guard_value</a></code> method must be defined and return a <code><a href="../../String.html">String</a></code>
+<p>The <code><a href="../../Lucky/SecureHeaders/SetFrameGuard.html#frame_guard_value%3AString-instance-method">#frame_guard_value</a></code> method must be defined and return a <code><a href="../../String.html">String</a></code>
 It can have one of 3 String values:</p>
-
-<ul><li><code>"sameorigin"</code></li><li><code>"deny"</code></li><li>a valid URL e.g. <code>"https://mysite.com"</code></li></ul>
+<ul>
+<li><code>"sameorigin"</code></li>
+<li><code>"deny"</code></li>
+<li>a valid URL e.g. <code>"https://mysite.com"</code></li>
+</ul>
 
 
 
@@ -921,7 +920,7 @@ It can have one of 3 String values:</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/secure_headers/set_frame_guard.cr#L25" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/secure_headers/set_frame_guard.cr#L25" target="_blank">
         lucky/secure_headers/set_frame_guard.cr
       </a>
     
@@ -947,7 +946,7 @@ It can have one of 3 String values:</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#frame_guard_value:String-instance-method" class="signature"><strong>#frame_guard_value</strong> : String</a>
+        <a href="#frame_guard_value%3AString-instance-method" class="signature"><strong>#frame_guard_value</strong> : String</a>
         
       </li>
     
@@ -980,13 +979,13 @@ It can have one of 3 String values:</p>
         abstract 
         def <strong>frame_guard_value</strong> : <a href="../../String.html">String</a>
 
-        <a class="method-permalink" href="#frame_guard_value:String-instance-method">#</a>
+        <a class="method-permalink" href="#frame_guard_value%3AString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/secure_headers/set_frame_guard.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/secure_headers/set_frame_guard.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>

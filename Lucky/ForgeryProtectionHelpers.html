@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -900,7 +900,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/tags/forgery_protection_helpers.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/tags/forgery_protection_helpers.cr#L1" target="_blank">
         lucky/tags/forgery_protection_helpers.cr
       </a>
     
@@ -926,14 +926,14 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#csrf_hidden_input:Nil-instance-method" class="signature"><strong>#csrf_hidden_input</strong> : Nil</a>
+        <a href="#csrf_hidden_input%3ANil-instance-method" class="signature"><strong>#csrf_hidden_input</strong> : Nil</a>
         
           <div class="summary"><p>Generate a hidden input with the request CSRF token</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#csrf_meta_tags:Nil-instance-method" class="signature"><strong>#csrf_meta_tags</strong> : Nil</a>
+        <a href="#csrf_meta_tags%3ANil-instance-method" class="signature"><strong>#csrf_meta_tags</strong> : Nil</a>
         
           <div class="summary"><p>Meta tags used for submitting AJAX links and forms</p></div>
         
@@ -968,15 +968,14 @@
         
         def <strong>csrf_hidden_input</strong> : Nil
 
-        <a class="method-permalink" href="#csrf_hidden_input:Nil-instance-method">#</a>
+        <a class="method-permalink" href="#csrf_hidden_input%3ANil-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Generate a hidden input with the request CSRF token</p>
-
 <p>This input is automatically generated when using
-<code><a href="../Lucky/FormHelpers.html#form_for(route:Lucky::RouteHelper,attrs:Array(Symbol)=[]ofSymbol,**html_options,&):Nil-instance-method">Lucky::FormHelpers#form_for</a></code>. It creates a hidden input with the CSRF
+<code><a href="../Lucky/FormHelpers.html#form_for%28route%3ALucky%3A%3ARouteHelper%2Cattrs%3AArray%28Symbol%29%3D%5B%5DofSymbol%2C%2A%2Ahtml_options%2C%26%29%3ANil-instance-method">Lucky::FormHelpers#form_for</a></code>. It creates a hidden input with the CSRF
 token. THis ensures that the form is safe. If you try to submit a form
 without a CSRF token it will fail with a 403 forbidden status code.</p>
         </div>
@@ -984,7 +983,7 @@ without a CSRF token it will fail with a 403 forbidden status code.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/tags/forgery_protection_helpers.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/tags/forgery_protection_helpers.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -994,13 +993,12 @@ without a CSRF token it will fail with a 403 forbidden status code.</p>
         
         def <strong>csrf_meta_tags</strong> : Nil
 
-        <a class="method-permalink" href="#csrf_meta_tags:Nil-instance-method">#</a>
+        <a class="method-permalink" href="#csrf_meta_tags%3ANil-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Meta tags used for submitting AJAX links and forms</p>
-
 <p>These tags are automatically added to MainLayout when generating a new
 project. They are used by Rails UJS to safely submit forms and non-GET AJAX
 requests</p>
@@ -1009,7 +1007,7 @@ requests</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/tags/forgery_protection_helpers.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/tags/forgery_protection_helpers.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>

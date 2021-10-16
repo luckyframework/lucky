@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -873,7 +873,6 @@
   </h2>
 
   <p>Set up defaults arguments for HTML tags.</p>
-
 <p>This is automatically included in Pages and Components.</p>
 
 
@@ -913,7 +912,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/tags/tag_defaults.cr#L4" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/tags/tag_defaults.cr#L4" target="_blank">
         lucky/tags/tag_defaults.cr
       </a>
     
@@ -939,7 +938,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#tag_defaults(**named_args,&)-instance-method" class="signature"><strong>#tag_defaults</strong>(**named_args, &)</a>
+        <a href="#tag_defaults%28%2A%2Anamed_args%2C%26%29-instance-method" class="signature"><strong>#tag_defaults</strong>(**named_args, &)</a>
         
           <div class="summary"><p>This is typically used in components and helper methods to set up defaults for reusable components.</p></div>
         
@@ -974,31 +973,25 @@
         
         def <strong>tag_defaults</strong>(**named_args, &)
 
-        <a class="method-permalink" href="#tag_defaults(**named_args,&)-instance-method">#</a>
+        <a class="method-permalink" href="#tag_defaults%28%2A%2Anamed_args%2C%26%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>This is typically used in components and helper methods to set up defaults for
 reusable components.</p>
-
 <p>Example in a page or component:</p>
-
-<p>tag_defaults field: form.email, class: "input" do |tag_builder|</p>
-
-<pre><code class="language-crystal"> tag_builder.email_input placeholder: <span class="s">&quot;Email&quot;</span></code></pre>
-
-<p>end</p>
-
+<p>tag_defaults field: form.email, class: &quot;input&quot; do |tag_builder|
+tag_builder.email_input placeholder: &quot;Email&quot;
+end</p>
 <p>Is the same as:</p>
-
 <pre><code class="language-crystal">email_input field: form.email, <span class="k">class</span>: <span class="s">&quot;input&quot;</span>, placeholder: <span class="s">&quot;Email&quot;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/b6f68bdc78b0b6831e801cac3ba0c97f83159e81/src/lucky/tags/tag_defaults.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7b58205e40e4b1a2855e7c30a3275afc61591f7e/src/lucky/tags/tag_defaults.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
