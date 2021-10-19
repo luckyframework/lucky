@@ -9,7 +9,7 @@ class Build::Release < LuckyTask::Task
   property error_io : IO = STDERR
 
   def call
-    command = "crystal build --release src/start_server.cr -o bin/start_server"
+    command = "shards build --production"
 
     log "Building binary with '#{command}"
     process = Process.run(command, shell: true, output: output, error: error_io)
