@@ -8,7 +8,7 @@ require "./mixins/migration_with_columns"
 class Gen::Model < LuckyTask::Task
   include Gen::Mixins::MigrationWithColumns
 
-  summary "Generate a model, query, and save operation"
+  summary "Generate a model, query, and operations (save and delete)"
   getter io : IO = STDOUT
 
   def call(@io : IO = STDOUT)
@@ -71,13 +71,14 @@ class Gen::Model < LuckyTask::Task
   end
 
   private def display_success_messages
-    io.puts success_message("./src/models/#{template.underscored_namespace_path}#{template.underscored_name}.cr")
-    io.puts success_message("./src/operations/#{template.underscored_namespace_path}save_#{template.underscored_name}.cr", "Operation")
-    io.puts success_message("./src/queries/#{template.underscored_namespace_path}#{template.underscored_name}_query.cr", "Query")
+    io.puts success_message(resource_name, "./src/models/#{template.underscored_namespace_path}#{template.underscored_name}.cr")
+    io.puts success_message("Save#{resource_name}", "./src/operations/#{template.underscored_namespace_path}save_#{template.underscored_name}.cr")
+    io.puts success_message("Delete#{resource_name}", "./src/operations/#{template.underscored_namespace_path}delete_#{template.underscored_name}.cr")
+    io.puts success_message("#{resource_name}Query", "./src/queries/#{template.underscored_namespace_path}#{template.underscored_name}_query.cr")
   end
 
-  private def success_message(filename, type = nil)
-    "Generated #{resource_name.colorize.green}#{type.colorize.green} in #{filename.colorize.green}"
+  private def success_message(class_name : String, filename : String)
+    "Generated #{class_name.colorize.green} in #{filename.colorize.green}"
   end
 
   private def resource_name
