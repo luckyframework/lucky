@@ -11,7 +11,7 @@ module Lucky
     end
 
     def verified(signed_message : String) : String?
-      data, digest = signed_message.split("--")
+      data, digest = signed_message.split("--", 2)
       if valid_message?(data, digest)
         String.new(decode(data))
       end
@@ -25,7 +25,7 @@ module Lucky
     end
 
     def verify_raw(signed_message : String) : Bytes
-      data, digest = signed_message.split("--")
+      data, digest = signed_message.split("--", 2)
       if valid_message?(data, digest)
         decode(data)
       else
