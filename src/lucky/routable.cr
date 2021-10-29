@@ -109,32 +109,6 @@ module Lucky::Routable
     end
   end
 
-  # :nodoc:
-  @[Deprecated("`nested_route` deprecated. Define your routes manually instead.")]
-  macro nested_route
-    infer_nested_route
-
-    setup_call_method({{ yield }})
-  end
-
-  # :nodoc:
-  @[Deprecated("`route` deprecated. Define your routes manually instead.")]
-  macro route
-    infer_route
-
-    setup_call_method({{ yield }})
-  end
-
-  # :nodoc:
-  macro infer_nested_route
-    infer_route(has_parent: true)
-  end
-
-  # :nodoc:
-  macro infer_route(has_parent = false)
-    {{ run "../run_macros/infer_route", @type.name, has_parent }}
-  end
-
   # Implement this macro in your action to check the path for a particular style.
   #
   # By default Lucky ships with a `Lucky::EnforceUnderscoredRoute` that is included
