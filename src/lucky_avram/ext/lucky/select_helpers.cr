@@ -14,11 +14,12 @@ module Lucky::SelectHelpers
   def options_for_select(field : Avram::PermittedAttribute(T), select_options : Array(Tuple(String, T?)), **html_options) : Nil forall T
     select_options.each do |option_name, option_value|
       attributes = {"value" => option_value.to_s}
+      bool_attrs = [] of Symbol
 
       is_selected = option_value.to_s == field.param.to_s
-      attributes["selected"] = "true" if is_selected
+      bool_attrs << :selected if is_selected
 
-      option(option_name, merge_options(html_options, attributes))
+      option(option_name, attrs: bool_attrs, options: merge_options(html_options, attributes))
     end
   end
 
