@@ -61,6 +61,7 @@ describe Lucky::RequestTypeHelpers do
 
   it "checks if request send via AJAX" do
     action = FakeAction.new
+    action.context._clients_desired_format = :ajax
     action.ajax?.should(be_false)
 
     action.context.request.headers["X-Requested-With"] = "XMLHttpRequest"
