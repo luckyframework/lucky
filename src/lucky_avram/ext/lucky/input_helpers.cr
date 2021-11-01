@@ -65,12 +65,13 @@ module Lucky::InputHelpers
                unchecked_value : String,
                checked_value : String,
                **html_options) : Nil forall T
+    attrs = [] of Symbol
     if field.param == checked_value
-      html_options = merge_options(html_options, {"checked" => "true"})
+      attrs = attrs | [:checked]
     end
     html_options = merge_options(html_options, {"value" => checked_value})
     generate_input(field, "hidden", {"id" => ""}, {"value" => unchecked_value})
-    generate_input(field, "checkbox", html_options)
+    generate_input(field, "checkbox", html_options, attrs: attrs)
   end
 
   def checkbox(field : Avram::PermittedAttribute(Bool), **html_options) : Nil
@@ -80,7 +81,7 @@ module Lucky::InputHelpers
   def checkbox(field : Avram::PermittedAttribute(Bool), attrs : Array(Symbol), **html_options) : Nil
     unchecked_value = "false"
     if field.value
-      html_options = merge_options(html_options, {"checked" => "true"})
+      attrs = attrs | [:checked]
     end
     html_options = merge_options(html_options, {"value" => "true"})
     generate_input(field, "hidden", {"id" => ""}, {"value" => unchecked_value})
@@ -112,7 +113,7 @@ module Lucky::InputHelpers
             attrs : Array(Symbol),
             **html_options) : Nil
     if field.value == checked_value
-      html_options = merge_options(html_options, {"checked" => "true"})
+      attrs = attrs | [:checked]
     end
     overrides = {"id" => input_id(field) + "_#{checked_value}", "value" => checked_value}
     html_options = merge_options(html_options, overrides)
@@ -211,6 +212,7 @@ module Lucky::InputHelpers
       "value" => input_value(field),
     }.merge(input_overrides)
     update_array_id_counter!(field)
+    attrs.uniq!
     input attrs, merge_options(html_options, input_options)
   end
 
