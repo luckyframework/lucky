@@ -21,18 +21,26 @@ class Lucky::LogHandler
   delegate logger, to: Lucky
 
   def call(context)
-    start = Time.monotonic
-    should_skip = settings.skip_if.try &.call(context)
+    should_skip_logging = settings.skip_if.try &.call(context)
 
-    log_request_start(context) unless should_skip
-    call_next(context)
-    log_request_end(context, duration: Time.monotonic - start) unless should_skip
+    if should_skip_logging
+      call_next(context)
+    else
+      log_request_start(context)
+
+      duration = Time.measure do
+        call_next(context)
+      end
+
+      log_request_end(context, duration: duration)
+      Lucky::Events::RequestCompleteEvent.publish(duration)
+    end
   rescue e
     log_exception(context, Time.utc, e)
     raise e
   end
 
-  private def log_request_start(context) : Nil
+  private def log_request_start(context : HTTP::Server::Context) : Nil
     Lucky::Log.dexter.info do
       {
         REQUEST_START_KEYS[:method] => context.request.method,
@@ -41,7 +49,7 @@ class Lucky::LogHandler
     end
   end
 
-  private def log_request_end(context, duration) : Nil
+  private def log_request_end(context : HTTP::Server::Context, duration : Time::Span) : Nil
     Lucky::Log.dexter.info do
       {
         REQUEST_END_KEYS[:status]   => context.response.status_code,

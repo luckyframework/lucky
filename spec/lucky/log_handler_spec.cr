@@ -42,6 +42,20 @@ describe Lucky::LogHandler do
     log_output = log_io.to_s
     log_output.should contain("an error")
   end
+
+  it "publishes the request_complete_event" do
+    Lucky::Events::RequestCompleteEvent.subscribe do |event|
+      event.duration.should_not be_nil
+    end
+
+    called = false
+    log_io = IO::Memory.new
+    context = build_context_with_io(log_io)
+
+    call_log_handler_with(log_io, context) { called = true }
+
+    called.should be_true
+  end
 end
 
 private def call_log_handler_with(io : IO, context : HTTP::Server::Context, &block)
