@@ -17,6 +17,21 @@ class Lucky::Exec < LuckyTask::Task
     setting template_path : String = "#{__DIR__}/exec_template.cr.template"
   end
 
+  def help_message
+    <<-TEXT
+    #{summary}
+
+    Options:
+      --editor=EDITOR, -e EDITOR    Use the EDITOR for editing code
+      --back=NUMBER, -b NUMBER      Load code NUMBER sessions back
+      --once, -o                    Only run this code once then exit
+
+    example: lucky exec -e emacs -b 3 -o
+
+    Run this task with 'lucky #{name} [OPTIONS]'
+    TEXT
+  end
+
   def call
     editor_to_use = editor || settings.editor
     repeat = !once?
