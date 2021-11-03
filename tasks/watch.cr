@@ -12,6 +12,7 @@ module LuckySentry
   class ProcessRunner
     include LuckyTask::TextHelpers
 
+    getter build_processes = [] of Process
     getter app_processes = [] of Process
     property successful_compilations
     property app_built
@@ -26,9 +27,18 @@ module LuckySentry
       @files = files
     end
 
-    private def build_app_processes
-      @build_commands.map do |command|
-        Process.run(command, shell: true, output: STDOUT, error: STDERR)
+    private def build_app_processes_and_start
+      @build_processes.clear
+      @build_commands.each do |command|
+        @build_processes << Process.new(command, shell: true, output: STDOUT, error: STDERR)
+      end
+      build_processes_copy = @build_processes.dup
+      spawn do
+        build_statuses = build_processes_copy.map(&.wait)
+        success = build_statuses.all?(&.success?)
+        if build_processes == build_processes_copy # if this build was not aborted in #stop_all_processes
+          start_all_processes(success)
+        end
       end
     end
 
@@ -142,20 +152,24 @@ module LuckySentry
       File.info(file).modification_time.to_s("%Y%m%d%H%M%S")
     end
 
-    def start_app
+    def restart_app
+      build_in_progress = !@build_processes.empty?
       stop_all_processes
-      puts "Compiling..."
-      start_all_processes
+      puts build_in_progress ? "Recompiling..." : "Compiling..."
+      build_app_processes_and_start
     end
 
     private def stop_all_processes
+      @build_processes.each do |process|
+        process.terminate unless process.terminated?
+      end
       @app_processes.each do |process|
-        process.signal(:term) unless process.terminated?
+        process.terminate unless process.terminated?
       end
     end
 
-    private def start_all_processes
-      if build_app_processes.all? &.success?
+    private def start_all_processes(build_success : Bool)
+      if build_success
         self.app_built = true
         create_app_processes()
         puts "Done compiling"
@@ -194,7 +208,7 @@ module LuckySentry
         end
       end
 
-      start_app() if file_changed # (file_changed || app_processes.empty?)
+      restart_app() if file_changed # (file_changed || app_processes.empty?)
     end
   end
 end
