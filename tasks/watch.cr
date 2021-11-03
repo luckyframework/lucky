@@ -153,7 +153,7 @@ module LuckySentry
     end
 
     def restart_app
-      build_in_progress = !@build_processes.empty?
+      build_in_progress = @build_processes.any?(&.exists?)
       stop_all_processes
       puts build_in_progress ? "Recompiling..." : "Compiling..."
       build_app_processes_and_start
