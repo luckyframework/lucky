@@ -9,6 +9,8 @@ class Lucky::MimeType
   register "text/json", :json
   register "application/jsonrequest", :json
   register "text/javascript", :js
+  # It's a JS request, but not JSON, or XML
+  register "text/plain", :ajax
   register "application/xml", :xml
   register "application/rss+xml", :rss
   register "application/atom+xml", :atom
