@@ -54,6 +54,12 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
         arrow.colorize.dim
       end
     end
+
+    private def add_request_id : Nil
+      if id = local_context["request_id"]
+        io << " (#{id.colorize.dim})"
+      end
+    end
   end
 
   private class RequestStartedFormatter < EntryFormatter
@@ -63,6 +69,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
 
     def write : Nil
       io << "\n#{local_context["method"]} #{local_context["path"].colorize.underline}"
+      add_request_id
     end
   end
 
@@ -75,6 +82,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
       add_arrow
       http_status = Lucky::LoggerHelpers.colored_http_status(local_context["status"].as_i)
       io << "Sent #{http_status} (#{local_context["duration"]})"
+      add_request_id
     end
   end
 
