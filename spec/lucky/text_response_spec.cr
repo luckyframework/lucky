@@ -2,6 +2,17 @@ require "../spec_helper"
 
 include ContextHelper
 
+# Monkey patch HTTP::Server::Response to allow accessing the response body directly.
+class HTTP::Server::Response
+  getter body_io : IO = IO::Memory.new
+
+  def write(slice : Bytes) : Nil
+    @body_io.write slice
+
+    previous_def
+  end
+end
+
 describe Lucky::TextResponse do
   describe "#print" do
     context "flash" do
@@ -169,7 +180,7 @@ describe Lucky::TextResponse do
         context = build_context("HEAD")
         print_response_with_body(context, "Body", status: nil)
         context.request.method.should eq "HEAD"
-        context.request.body.to_s.should eq ""
+        context.response.body_io.to_s.should eq("")
         context.response.status_code.should eq 200
       end
     end
