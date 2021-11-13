@@ -92,6 +92,24 @@ describe Lucky::Paginator do
     end
   end
 
+  describe "#previous_page" do
+    it "returns the next page" do
+      build_pages(page: 0, per_page: 3, item_count: 10).previous_page.should be_nil
+      build_pages(page: 1, per_page: 3, item_count: 10).previous_page.should be_nil
+      build_pages(page: 3, per_page: 3, item_count: 10).previous_page.should eq(2)
+      build_pages(page: 4, per_page: 3, item_count: 10).previous_page.should eq(3)
+    end
+  end
+
+  describe "#next_page" do
+    it "returns the next page" do
+      build_pages(page: 1, per_page: 3, item_count: 10).next_page.should eq(2)
+      build_pages(page: 3, per_page: 3, item_count: 10).next_page.should eq(4)
+      build_pages(page: 4, per_page: 3, item_count: 10).next_page.should be_nil
+      build_pages(page: 9, per_page: 3, item_count: 10).next_page.should be_nil
+    end
+  end
+
   describe "#path_to_page" do
     it "adds a query param to the path" do
       path = build_pages(full_path: "/comments").path_to_page(1)
