@@ -61,12 +61,22 @@ class Lucky::Paginator
     Range.new(starting_item_number, ending_item_number)
   end
 
+  # Returns the previous page number or nil if the current page is the first one.
+  def previous_page : Int32?
+    page - 1 unless first_page?
+  end
+
+  # Returns the next page number or nil if the current page is the last one.
+  def next_page : Int32?
+    page + 1 unless last_page? || overflowed?
+  end
+
   # Returns the path with a 'page' query param for the previous page.
   #
   # Return nil if there is no previous page
   def path_to_previous : String?
-    unless first_page?
-      path_to_page(page - 1)
+    if page_number = previous_page
+      path_to_page(page_number)
     end
   end
 
@@ -74,8 +84,8 @@ class Lucky::Paginator
   #
   # Return nil if there is no previous page
   def path_to_next : String?
-    unless last_page?
-      path_to_page(page + 1)
+    if page_number = next_page
+      path_to_page(page_number)
     end
   end
 
