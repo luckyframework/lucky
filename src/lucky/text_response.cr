@@ -29,7 +29,9 @@ class Lucky::TextResponse < Lucky::Response
     context.response.content_type = content_type
     context.response.status_code = status
     gzip if should_gzip?
-    context.response.print body
+    context.response.print(body) if should_print?
+  rescue e : IO::Error
+    Lucky::Log.error(exception: e) { "Broken Pipe: Maybe the client navigated away?" }
   end
 
   def status : Int
@@ -47,6 +49,10 @@ class Lucky::TextResponse < Lucky::Response
         context.request.headers.includes_word?("Accept-Encoding", "gzip") &&
         Lucky::Server.settings.gzip_content_types.includes?(content_type)
     {% end %}
+  end
+
+  private def should_print? : Bool
+    context.request.method.downcase != "head"
   end
 
   private def write_flash : Nil
