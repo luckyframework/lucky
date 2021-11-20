@@ -479,17 +479,17 @@ module Lucky::Routable
         {% end %}
       end
 
-      result = {{ base_type }}.adapter.parse(val)
+      result = Lucky::ParamParser.parse(val, {{ base_type }})
 
-      if result.is_a? Avram::Type::SuccessfulCast
-        result.value
-      else
+      if result.nil?
         raise Lucky::InvalidParamError.new(
           param_name: "{{ type_declaration.var.id }}",
           param_value: val.to_s,
           param_type: "{{ type }}"
         )
       end
+
+      result
     end
   end
 end
