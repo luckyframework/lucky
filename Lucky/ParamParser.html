@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::MountComponent - lucky master</title>
+  <title>Lucky::ParamParser - lucky master</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -466,7 +466,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/MountComponent" data-name="lucky::mountcomponent">
+  <li class=" " data-id="lucky/Lucky/MountComponent" data-name="lucky::mountcomponent">
       <a href="../Lucky/MountComponent.html">MountComponent</a>
       
     </li>
@@ -531,7 +531,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/ParamParser" data-name="lucky::paramparser">
+  <li class=" current" data-id="lucky/Lucky/ParamParser" data-name="lucky::paramparser">
       <a href="../Lucky/ParamParser.html">ParamParser</a>
       
     </li>
@@ -865,7 +865,7 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::MountComponent
+  <span class="kind">module</span> Lucky::ParamParser
 
 </h1>
 
@@ -883,20 +883,6 @@
 
 
 
-  <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Direct including types
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></li>
-    
-  </ul>
-
 
 
 
@@ -910,8 +896,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/mount_component.cr#L1" target="_blank">
-        lucky/mount_component.cr
+      <a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L1" target="_blank">
+        lucky/param_parser.cr
       </a>
     
     <br/>
@@ -919,51 +905,87 @@
 
 
 
-
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="TIME_FORMATS">
+        <strong>TIME_FORMATS</strong> = <code>[<span class="t">Time</span><span class="t">::</span><span class="t">Format</span><span class="t">::</span><span class="t">ISO_8601_DATE_TIME</span>, <span class="t">Time</span><span class="t">::</span><span class="t">Format</span><span class="t">::</span><span class="t">RFC_2822</span>, <span class="t">Time</span><span class="t">::</span><span class="t">Format</span><span class="t">::</span><span class="t">RFC_3339</span>, <span class="t">Time</span><span class="t">::</span><span class="t">Format</span>.<span class="k">new</span>(<span class="s">&quot;%Y-%m-%dT%H:%M:%S&quot;</span>, <span class="t">Time</span><span class="t">::</span><span class="t">Location</span><span class="t">::</span><span class="t">UTC</span>), <span class="t">Time</span><span class="t">::</span><span class="t">Format</span>.<span class="k">new</span>(<span class="s">&quot;%Y-%m-%dT%H:%M&quot;</span>, <span class="t">Time</span><span class="t">::</span><span class="t">Location</span><span class="t">::</span><span class="t">UTC</span>), <span class="t">Time</span><span class="t">::</span><span class="t">Format</span><span class="t">::</span><span class="t">HTTP_DATE</span>, <span class="t">Time</span><span class="t">::</span><span class="t">Format</span><span class="t">::</span><span class="t">ISO_8601_DATE</span>, <span class="t">Time</span><span class="t">::</span><span class="t">Format</span><span class="t">::</span><span class="t">ISO_8601_TIME</span>]</code>
+      </dt>
+      
+    
+  </dl>
 
 
 
 
 
   <h2>
-    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Instance Method Summary
+    Class Method Summary
   </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#mount%28component%3ALucky%3A%3ABaseComponent.class%2C%2Aargs%2C%2A%2Anamed_args%29%3ANil-instance-method" class="signature"><strong>#mount</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args) : Nil</a>
-        
-          <div class="summary"><p>Appends the <code>component</code> to the view.</p></div>
+        <a href="#parse%28param%3AString%2Cklass%3AString.class%29%3AString-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">String</span>.<span class="k">class</span>) : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#mount%28component%3ALucky%3A%3ABaseComponent.class%2C%2Aargs%2C%2A%2Anamed_args%2C%26%29%3ANil-instance-method" class="signature"><strong>#mount</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args, &) : Nil</a>
-        
-          <div class="summary"><p>Appends the <code>component</code> to the view.</p></div>
+        <a href="#parse%28param%3AString%2Cklass%3AInt16.class%29%3AInt16%3F-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">Int16</span>.<span class="k">class</span>) : Int16?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#mount_instance%28component%3ALucky%3A%3ABaseComponent%29%3ANil-instance-method" class="signature"><strong>#mount_instance</strong>(component : Lucky::BaseComponent) : Nil</a>
-        
-          <div class="summary"><p>Appends the <code>component</code> to the view.</p></div>
+        <a href="#parse%28param%3AString%2Cklass%3AInt32.class%29%3AInt32%3F-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">Int32</span>.<span class="k">class</span>) : Int32?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#mount_instance%28component%3ALucky%3A%3ABaseComponent%2C%26%29%3ANil-instance-method" class="signature"><strong>#mount_instance</strong>(component : Lucky::BaseComponent, &) : Nil</a>
+        <a href="#parse%28param%3AString%2Cklass%3AInt64.class%29%3AInt64%3F-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">Int64</span>.<span class="k">class</span>) : Int64?</a>
         
-          <div class="summary"><p>Appends the <code>component</code> to the view.</p></div>
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse%28param%3AString%2Cklass%3AFloat64.class%29%3AFloat64%3F-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">Float64</span>.<span class="k">class</span>) : Float64?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse%28param%3AString%2Cklass%3ABool.class%29%3ABool%3F-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">Bool</span>.<span class="k">class</span>) : Bool?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse%28param%3AString%2Cklass%3AUUID.class%29%3AUUID%3F-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">UUID</span>.<span class="k">class</span>) : UUID?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse%28param%3AString%2Cklass%3ATime.class%29%3ATime%3F-class-method" class="signature"><strong>.parse</strong>(param : String, klass : <span class="t">Time</span>.<span class="k">class</span>) : Time?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse%28param%3AArray%28String%29%2Cklass%3AArray%28T%29.class%29%3AArray%28T%29%3FforallT-class-method" class="signature"><strong>.parse</strong>(param : Array(String), klass : <span class="t">Array</span>(<span class="t">T</span>).<span class="k">class</span>) : Array(T)? forall T</a>
         
       </li>
     
   </ul>
+
+
 
 
 
@@ -976,128 +998,161 @@
 
 
 
-
-
   <h2>
-    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Instance Method Detail
+    Class Method Detail
   </h2>
   
-    <div class="entry-detail" id="mount(component:Lucky::BaseComponent.class,*args,**named_args):Nil-instance-method">
+    <div class="entry-detail" id="parse(param:String,klass:String.class):String-class-method">
       <div class="signature">
         
-        def <strong>mount</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args) : Nil
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">String</span>.<span class="k">class</span>) : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#mount%28component%3ALucky%3A%3ABaseComponent.class%2C%2Aargs%2C%2A%2Anamed_args%29%3ANil-instance-method">#</a>
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3AString.class%29%3AString-class-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Appends the <code>component</code> to the view.</p>
-<p>When <code><a href="../Lucky/HTMLPage.html#settings-class-method">Lucky::HTMLPage.settings</a>.render_component_comments</code> is
-set to <code>true</code>, it will render HTML comments showing where the component
-starts and ends.</p>
-<pre><code class="language-crystal">mount(<span class="t">MyComponent</span>)
-mount(<span class="t">MyComponent</span>, with_args: <span class="n">123</span>)</code></pre>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/mount_component.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="mount(component:Lucky::BaseComponent.class,*args,**named_args,&amp;):Nil-instance-method">
+    <div class="entry-detail" id="parse(param:String,klass:Int16.class):Int16?-class-method">
       <div class="signature">
         
-        def <strong>mount</strong>(component : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, *args, **named_args, &) : Nil
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">Int16</span>.<span class="k">class</span>) : <a href="../Int16.html">Int16</a>?
 
-        <a class="method-permalink" href="#mount%28component%3ALucky%3A%3ABaseComponent.class%2C%2Aargs%2C%2A%2Anamed_args%2C%26%29%3ANil-instance-method">#</a>
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3AInt16.class%29%3AInt16%3F-class-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Appends the <code>component</code> to the view. Takes a block, and yields the
-args passed to the component.</p>
-<p>When <code><a href="../Lucky/HTMLPage.html#settings-class-method">Lucky::HTMLPage.settings</a>.render_component_comments</code> is
-set to <code>true</code>, it will render HTML comments showing where the component
-starts and ends.</p>
-<pre><code class="language-crystal">mount(<span class="t">MyComponent</span>, name: <span class="s">&quot;Jane&quot;</span>) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
-  text name.upcase
-<span class="k">end</span></code></pre>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/mount_component.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="mount_instance(component:Lucky::BaseComponent):Nil-instance-method">
+    <div class="entry-detail" id="parse(param:String,klass:Int32.class):Int32?-class-method">
       <div class="signature">
         
-        def <strong>mount_instance</strong>(component : <a href="../Lucky/BaseComponent.html">Lucky::BaseComponent</a>) : Nil
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">Int32</span>.<span class="k">class</span>) : <a href="../Int32.html">Int32</a>?
 
-        <a class="method-permalink" href="#mount_instance%28component%3ALucky%3A%3ABaseComponent%29%3ANil-instance-method">#</a>
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3AInt32.class%29%3AInt32%3F-class-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Appends the <code>component</code> to the view.
-The <code>component</code> is a previously initialized instance of a component.</p>
-<p>When <code><a href="../Lucky/HTMLPage.html#settings-class-method">Lucky::HTMLPage.settings</a>.render_component_comments</code> is
-set to <code>true</code>, it will render HTML comments showing where the component
-starts and ends.</p>
-<pre><code class="language-crystal">component <span class="o">=</span> <span class="t">MyComponent</span>.<span class="k">new</span>(name: <span class="s">&quot;Jane&quot;</span>)
-mount_instance(component)</code></pre>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/mount_component.cr#L101" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L25" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="mount_instance(component:Lucky::BaseComponent,&amp;):Nil-instance-method">
+    <div class="entry-detail" id="parse(param:String,klass:Int64.class):Int64?-class-method">
       <div class="signature">
         
-        def <strong>mount_instance</strong>(component : <a href="../Lucky/BaseComponent.html">Lucky::BaseComponent</a>, &) : Nil
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">Int64</span>.<span class="k">class</span>) : <a href="../Int64.html">Int64</a>?
 
-        <a class="method-permalink" href="#mount_instance%28component%3ALucky%3A%3ABaseComponent%2C%26%29%3ANil-instance-method">#</a>
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3AInt64.class%29%3AInt64%3F-class-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Appends the <code>component</code> to the view. Takes a block, and yields the
-args passed to the component.
-The <code>component</code> is a previously initialized instance of a component.</p>
-<p>When <code><a href="../Lucky/HTMLPage.html#settings-class-method">Lucky::HTMLPage.settings</a>.render_component_comments</code> is
-set to <code>true</code>, it will render HTML comments showing where the component
-starts and ends.</p>
-<pre><code class="language-crystal">component <span class="o">=</span> <span class="t">MyComponent</span>.<span class="k">new</span>(name: <span class="s">&quot;Jane&quot;</span>)
-mount_instance(component) <span class="k">do</span> <span class="o">|</span>name<span class="o">|</span>
-  text name.upcase
-<span class="k">end</span></code></pre>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/mount_component.cr#L121" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
   
+    <div class="entry-detail" id="parse(param:String,klass:Float64.class):Float64?-class-method">
+      <div class="signature">
+        
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">Float64</span>.<span class="k">class</span>) : Float64?
+
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3AFloat64.class%29%3AFloat64%3F-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse(param:String,klass:Bool.class):Bool?-class-method">
+      <div class="signature">
+        
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">Bool</span>.<span class="k">class</span>) : <a href="../Bool.html">Bool</a>?
+
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3ABool.class%29%3ABool%3F-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L37" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse(param:String,klass:UUID.class):UUID?-class-method">
+      <div class="signature">
+        
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">UUID</span>.<span class="k">class</span>) : <a href="../UUID.html">UUID</a>?
+
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3AUUID.class%29%3AUUID%3F-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse(param:String,klass:Time.class):Time?-class-method">
+      <div class="signature">
+        
+        def self.<strong>parse</strong>(param : <a href="../String.html">String</a>, klass : <span class="t">Time</span>.<span class="k">class</span>) : Time?
+
+        <a class="method-permalink" href="#parse%28param%3AString%2Cklass%3ATime.class%29%3ATime%3F-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L53" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse(param:Array(String),klass:Array(T).class):Array(T)?forallT-class-method">
+      <div class="signature">
+        
+        def self.<strong>parse</strong>(param : Array(<a href="../String.html">String</a>), klass : <span class="t">Array</span>(<span class="t">T</span>).<span class="k">class</span>) : Array(T)? forall T
+
+        <a class="method-permalink" href="#parse%28param%3AArray%28String%29%2Cklass%3AArray%28T%29.class%29%3AArray%28T%29%3FforallT-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e13a8a6a7f1d31c47324943ec4fa14df834cd6e3/src/lucky/param_parser.cr#L64" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
 
 
 
