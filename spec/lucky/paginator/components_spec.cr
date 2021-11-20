@@ -1,4 +1,4 @@
-require "../spec_helper"
+require "../../spec_helper"
 
 describe "Lucky::Paginator Components" do
   it "compiles and renders the components successfully" do
