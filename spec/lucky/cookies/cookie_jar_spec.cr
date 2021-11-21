@@ -30,16 +30,14 @@ describe Lucky::CookieJar do
     jar.get_raw?("missing").should be_nil
   end
 
-  {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
-    it "raises a nicer error for invalid cookie values" do
-      value = "Double Chocolate"
-      jar = Lucky::CookieJar.empty_jar
+  it "raises a nicer error for invalid cookie values" do
+    value = "Double Chocolate"
+    jar = Lucky::CookieJar.empty_jar
 
-      expect_raises(Lucky::InvalidCookieValueError, "Cookie value for 'cookie' is invalid") do
-        jar.set_raw("cookie", value)
-      end
+    expect_raises(Lucky::InvalidCookieValueError, "Cookie value for 'cookie' is invalid") do
+      jar.set_raw("cookie", value)
     end
-  {% end %}
+  end
 
   it "raises CookieNotFoundError when getting a raw cookie that doesn't exist" do
     jar = Lucky::CookieJar.empty_jar
@@ -103,11 +101,7 @@ describe Lucky::CookieJar do
         message = jar.get_raw(:message)
         message.http_only.should be_true
         message.expires.should be_nil
-        {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
-          message.path.should be_nil
-        {% else %}
-          message.path.should eq "/"
-        {% end %}
+        message.path.should be_nil
         message.domain.should be_nil
         message.secure.should be_false
       end
@@ -221,12 +215,7 @@ describe Lucky::CookieJar do
     it "deletes cookies with options" do
       headers = HTTP::Headers.new
       headers["Cookie"] = "name=Rick%20James"
-      cookies = {% if compare_versions(Crystal::VERSION, "0.36.1") > 0 %}
-                  HTTP::Cookies.from_client_headers(headers)
-                {% else %}
-                  HTTP::Cookies.from_headers(headers)
-                {% end %}
-
+      cookies = HTTP::Cookies.from_client_headers(headers)
       jar = Lucky::CookieJar.from_request_cookies(cookies)
 
       jar.clear do |cookie|
