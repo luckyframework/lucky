@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::MissingFileError - lucky master</title>
+  <title>Lucky::RouteInferrer - lucky master</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -456,7 +456,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/MissingFileError" data-name="lucky::missingfileerror">
+  <li class=" " data-id="lucky/Lucky/MissingFileError" data-name="lucky::missingfileerror">
       <a href="../Lucky/MissingFileError.html">MissingFileError</a>
       
     </li>
@@ -641,7 +641,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/RouteInferrer" data-name="lucky::routeinferrer">
+  <li class=" current" data-id="lucky/Lucky/RouteInferrer" data-name="lucky::routeinferrer">
       <a href="../Lucky/RouteInferrer.html">RouteInferrer</a>
       
     </li>
@@ -880,12 +880,12 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Lucky::MissingFileError
+  <span class="kind">class</span> Lucky::RouteInferrer
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/MissingFileError.html">Lucky::MissingFileError</a></li><li class="superclass"><a href="../Lucky/Error.html">Lucky::Error</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/RouteInferrer.html">Lucky::RouteInferrer</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
@@ -913,8 +913,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/errors.cr#L214" target="_blank">
-        lucky/errors.cr
+      <a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/route_inferrer.cr#L3" target="_blank">
+        lucky/route_inferrer.cr
       </a>
     
     <br/>
@@ -935,7 +935,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28path%3AString%29-class-method" class="signature"><strong>.new</strong>(path : String)</a>
+        <a href="#new%28action_class_name%3AString%2Cnested_route%3ABool%3Dfalse%29-class-method" class="signature"><strong>.new</strong>(action_class_name : String, nested_route : Bool = <span class="n">false</span>)</a>
         
       </li>
     
@@ -956,12 +956,17 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#message%3AString-instance-method" class="signature"><strong>#message</strong> : String</a>
+        <a href="#action_class_name%3AString-instance-method" class="signature"><strong>#action_class_name</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#path%3AString-instance-method" class="signature"><strong>#path</strong> : String</a>
+        <a href="#generate_inferred_route-instance-method" class="signature"><strong>#generate_inferred_route</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nested_route%3F%3ABool-instance-method" class="signature"><strong>#nested_route?</strong> : Bool</a>
         
       </li>
     
@@ -972,26 +977,6 @@
 
 
 <div class="methods-inherited">
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
   
     
 
@@ -1025,18 +1010,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(path:String)-class-method">
+    <div class="entry-detail" id="new(action_class_name:String,nested_route:Bool=false)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(path : <a href="../String.html">String</a>)
+        def self.<strong>new</strong>(action_class_name : <a href="../String.html">String</a>, nested_route : <a href="../Bool.html">Bool</a> = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#new%28path%3AString%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28action_class_name%3AString%2Cnested_route%3ABool%3Dfalse%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/errors.cr#L217" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/route_inferrer.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1055,34 +1040,50 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="message:String-instance-method">
+    <div class="entry-detail" id="action_class_name:String-instance-method">
       <div class="signature">
         
-        def <strong>message</strong> : <a href="../String.html">String</a>
+        def <strong>action_class_name</strong> : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#message%3AString-instance-method">#</a>
+        <a class="method-permalink" href="#action_class_name%3AString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/errors.cr#L220" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/route_inferrer.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="path:String-instance-method">
+    <div class="entry-detail" id="generate_inferred_route-instance-method">
       <div class="signature">
         
-        def <strong>path</strong> : <a href="../String.html">String</a>
+        def <strong>generate_inferred_route</strong>
 
-        <a class="method-permalink" href="#path%3AString-instance-method">#</a>
+        <a class="method-permalink" href="#generate_inferred_route-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/errors.cr#L215" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/route_inferrer.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nested_route?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>nested_route?</strong> : <a href="../Bool.html">Bool</a>
+
+        <a class="method-permalink" href="#nested_route%3F%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/7c26b686e49c4261922929db55d03235b7a7c671/src/lucky/route_inferrer.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>
