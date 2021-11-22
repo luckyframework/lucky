@@ -1,7 +1,7 @@
 require "colorize"
 require "file_utils"
 require "teeplate"
-require "../route_inferrer"
+require "../../../src/lucky/route_inferrer"
 
 class Lucky::ActionTemplate < Teeplate::FileTree
   @name : String
