@@ -1,5 +1,0 @@
-class <%= pluralized_name %>::Index < BrowserAction
-  <%= route("Index") %> do
-    html IndexPage, <%= pluralized_name.underscore %>: <%= query_class %>.new
-  end
-end

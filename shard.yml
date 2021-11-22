@@ -11,16 +11,12 @@ targets:
     main: src/precompiled_tasks/exec.cr
   lucky.watch:
     main: src/precompiled_tasks/watch.cr
-  lucky.gen.model:
-    main: src/precompiled_tasks/gen/model.cr
   lucky.gen.action:
     main: src/precompiled_tasks/gen/action/helpful_error.cr
   lucky.gen.action.browser:
     main: src/precompiled_tasks/gen/action/browser.cr
   lucky.gen.action.api:
     main: src/precompiled_tasks/gen/action/api.cr
-  lucky.gen.resource.browser:
-    main: src/precompiled_tasks/gen/resource/browser.cr
   lucky.gen.page:
     main: src/precompiled_tasks/gen/page.cr
   lucky.gen.component:
@@ -40,9 +36,6 @@ dependencies:
   wordsmith:
     github: luckyframework/wordsmith
     version: ~> 0.3.0
-  avram:
-    github: luckyframework/avram
-    version: ~> 0.22.0
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.5.1

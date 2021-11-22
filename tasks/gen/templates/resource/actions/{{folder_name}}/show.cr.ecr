@@ -1,5 +1,0 @@
-class <%= pluralized_name %>::Show < BrowserAction
-  <%= route("Show") %> do
-    html ShowPage, <%= underscored_resource %>: <%= query_class %>.find(<%= resource_id_method_name %>)
-  end
-end
