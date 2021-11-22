@@ -1,4 +1,4 @@
-require "../spec_helper"
+require "../../spec_helper"
 
 private def build_pages(page = 1, per_page = 1, item_count = 1, full_path = "/items")
   Lucky::Paginator.new \
