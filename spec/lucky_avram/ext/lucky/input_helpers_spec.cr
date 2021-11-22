@@ -62,16 +62,6 @@ private class TestPage
 end
 
 describe Lucky::InputHelpers do
-  it "renders submit input" do
-    view(&.submit("Save")).should contain <<-HTML
-    <input type="submit" value="Save">
-    HTML
-
-    view(&.submit("Save", class: "cool")).should contain <<-HTML
-    <input type="submit" value="Save" class="cool">
-    HTML
-  end
-
   describe "checkbox inputs" do
     it "works for non-booleans" do
       checked_field = form.eula("yes")

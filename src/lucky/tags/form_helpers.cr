@@ -15,6 +15,10 @@ module Lucky::FormHelpers
     form_for action.route, attrs, **html_options, &block
   end
 
+  def submit(text : String, **html_options) : Nil
+    input merge_options(html_options, {"type" => "submit", "value" => text})
+  end
+
   private def form_method(route) : String
     if route.method == :get
       "get"
