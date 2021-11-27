@@ -20,8 +20,7 @@ abstract class Lucky::BaseAppServer
 
   # :nodoc:
   def listen : Nil
-    server.bind_tcp host, port
-    server.listen
+    server.listen(host, port)
   end
 
   # :nodoc:
