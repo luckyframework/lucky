@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::Session - lucky master</title>
+  <title>Lucky::RequestIdHandler - lucky master</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -601,7 +601,7 @@
       
     </li>
   
-  <li class="parent " data-id="lucky/Lucky/RequestIdHandler" data-name="lucky::requestidhandler">
+  <li class="parent open current" data-id="lucky/Lucky/RequestIdHandler" data-name="lucky::requestidhandler">
       <a href="../Lucky/RequestIdHandler.html">RequestIdHandler</a>
       
         <ul>
@@ -731,7 +731,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="lucky/Lucky/Session" data-name="lucky::session">
+  <li class="parent " data-id="lucky/Lucky/Session" data-name="lucky::session">
       <a href="../Lucky/Session.html">Session</a>
       
         <ul>
@@ -895,15 +895,34 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Lucky::Session
+  <span class="kind">class</span> Lucky::RequestIdHandler
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/Session.html">Lucky::Session</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/RequestIdHandler.html">Lucky::RequestIdHandler</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Sets the HTTP::Server::Context#request_id value</p>
+<p>Configure the <code>set_request_id</code> Proc to return a
+new <code><a href="../String.html">String</a></code> value on each request. This can be
+used to group logs and such that may be ran asynchronously.</p>
+<pre><code class="language-crystal"><span class="t">Lucky</span><span class="t">::</span><span class="t">RequestIdHandler</span>.configure <span class="k">do</span> <span class="o">|</span>settings<span class="o">|</span>
+  settings.set_request_id <span class="o">=</span> ->(context : <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>) {
+    <span class="t">UUID</span>.random.to_s
+  }
+<span class="k">end</span></code></pre>
 
 
 
@@ -922,6 +941,8 @@
       <li class="other-type">Habitat::SettingsHelpers</li>
     
       <li class="other-type">Habitat::TempConfig</li>
+    
+      <li class="other-type">HTTP::Handler</li>
     
   </ul>
 
@@ -944,8 +965,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L1" target="_blank">
-        lucky/cookies/session.cr
+      <a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/request_id_handler.cr#L14" target="_blank">
+        lucky/request_id_handler.cr
       </a>
     
     <br/>
@@ -966,7 +987,7 @@
   <dl>
     
       <dt class="entry-const" id="HABITAT_SETTINGS">
-        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: key : <span class="t">String</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
+        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: set_request_id : <span class="t">Proc</span>(<span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>, <span class="t">String</span>) <span class="o">|</span> <span class="t">::</span><span class="t">Nil</span> <span class="o">=</span> <span class="n">nil</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
       </dt>
       
     
@@ -992,11 +1013,6 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#from_cookie_jar%28cookie_jar%3ALucky%3A%3ACookieJar%29%3ALucky%3A%3ASession-class-method" class="signature"><strong>.from_cookie_jar</strong>(cookie_jar : Lucky::CookieJar) : Lucky::Session</a>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#settings-class-method" class="signature"><strong>.settings</strong></a>
         
       </li>
@@ -1016,47 +1032,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#clear%28%2Aargs%2C%2A%2Aoptions%29-instance-method" class="signature"><strong>#clear</strong>(*args, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#clear%28%2Aargs%2C%2A%2Aoptions%2C%26%29-instance-method" class="signature"><strong>#clear</strong>(*args, **options, &)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#delete%28key%3AKey%29%3AString%3F-instance-method" class="signature"><strong>#delete</strong>(key : Key) : String?</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#get%28key%3AKey%29%3AString-instance-method" class="signature"><strong>#get</strong>(key : Key) : String</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#get%3F%28key%3AKey%29%3AString%3F-instance-method" class="signature"><strong>#get?</strong>(key : Key) : String?</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#set%28key%3AKey%2Cvalue%3AString%29%3AString-instance-method" class="signature"><strong>#set</strong>(key : Key, value : String) : String</a>
+        <a href="#call%28context%29-instance-method" class="signature"><strong>#call</strong>(context)</a>
         
       </li>
     
       <li class="entry-summary">
         <a href="#settings-instance-method" class="signature"><strong>#settings</strong></a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#to_json%28%2Aargs%2C%2A%2Aoptions%29-instance-method" class="signature"><strong>#to_json</strong>(*args, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#to_json%28%2Aargs%2C%2A%2Aoptions%2C%26%29-instance-method" class="signature"><strong>#to_json</strong>(*args, **options, &)</a>
         
       </li>
     
@@ -1067,6 +1048,16 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
   
     
 
@@ -1133,23 +1124,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L7" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="from_cookie_jar(cookie_jar:Lucky::CookieJar):Lucky::Session-class-method">
-      <div class="signature">
-        
-        def self.<strong>from_cookie_jar</strong>(cookie_jar : <a href="../Lucky/CookieJar.html">Lucky::CookieJar</a>) : <a href="../Lucky/Session.html">Lucky::Session</a>
-
-        <a class="method-permalink" href="#from_cookie_jar%28cookie_jar%3ALucky%3A%3ACookieJar%29%3ALucky%3A%3ASession-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1165,7 +1140,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1182,98 +1157,18 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="clear(*args,**options)-instance-method">
+    <div class="entry-detail" id="call(context)-instance-method">
       <div class="signature">
         
-        def <strong>clear</strong>(*args, **options)
+        def <strong>call</strong>(context)
 
-        <a class="method-permalink" href="#clear%28%2Aargs%2C%2A%2Aoptions%29-instance-method">#</a>
+        <a class="method-permalink" href="#call%28context%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L5" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="clear(*args,**options,&amp;)-instance-method">
-      <div class="signature">
-        
-        def <strong>clear</strong>(*args, **options, &)
-
-        <a class="method-permalink" href="#clear%28%2Aargs%2C%2A%2Aoptions%2C%26%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L5" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="delete(key:Key):String?-instance-method">
-      <div class="signature">
-        
-        def <strong>delete</strong>(key : <a href="../Lucky/Session/Key.html">Key</a>) : <a href="../String.html">String</a>?
-
-        <a class="method-permalink" href="#delete%28key%3AKey%29%3AString%3F-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L21" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="get(key:Key):String-instance-method">
-      <div class="signature">
-        
-        def <strong>get</strong>(key : <a href="../Lucky/Session/Key.html">Key</a>) : <a href="../String.html">String</a>
-
-        <a class="method-permalink" href="#get%28key%3AKey%29%3AString-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L29" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="get?(key:Key):String?-instance-method">
-      <div class="signature">
-        
-        def <strong>get?</strong>(key : <a href="../Lucky/Session/Key.html">Key</a>) : <a href="../String.html">String</a>?
-
-        <a class="method-permalink" href="#get%3F%28key%3AKey%29%3AString%3F-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L33" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="set(key:Key,value:String):String-instance-method">
-      <div class="signature">
-        
-        def <strong>set</strong>(key : <a href="../Lucky/Session/Key.html">Key</a>, value : <a href="../String.html">String</a>) : <a href="../String.html">String</a>
-
-        <a class="method-permalink" href="#set%28key%3AKey%2Cvalue%3AString%29%3AString-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L25" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/request_id_handler.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1289,39 +1184,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L7" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="to_json(*args,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>to_json</strong>(*args, **options)
-
-        <a class="method-permalink" href="#to_json%28%2Aargs%2C%2A%2Aoptions%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L5" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="to_json(*args,**options,&amp;)-instance-method">
-      <div class="signature">
-        
-        def <strong>to_json</strong>(*args, **options, &)
-
-        <a class="method-permalink" href="#to_json%28%2Aargs%2C%2A%2Aoptions%2C%26%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/cookies/session.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/a7c7d71896c415e403d23a6deec3f9c9a291ee59/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
