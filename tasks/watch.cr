@@ -161,7 +161,11 @@ module LuckySentry
 
     private def stop_all_processes
       @build_processes.each do |process|
-        process.terminate unless process.terminated?
+        unless process.terminated?
+          # kill child process, because we started build process with shell option
+          Process.run("pkill -P #{process.pid}", shell: true)
+          process.terminate
+        end
       end
       @app_processes.each do |process|
         process.terminate unless process.terminated?
