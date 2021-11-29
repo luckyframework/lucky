@@ -6,16 +6,30 @@ describe Lucky::PrettyLogFormatter do
   context "special cases" do
     it "pretty formats data for the start of an HTTP request" do
       io = IO::Memory.new
-      format(io, {method: "GET", path: "/foo"})
+      format(io, {method: "GET", path: "/foo", request_id: nil})
 
       io.to_s.chomp.should start_with("\nGET #{"/foo".colorize.underline}")
     end
 
     it "pretty formats data for the end of an HTTP request" do
       io = IO::Memory.new
-      format(io, {status: 200, duration: "1.4ms"})
+      format(io, {status: 200, duration: "1.4ms", request_id: nil})
 
       io.to_s.chomp.should start_with(" #{"▸".colorize.dim} Sent #{"200 OK".colorize.bold} (1.4ms)")
+    end
+
+    it "includes the request_id in the start of an HTTP request" do
+      io = IO::Memory.new
+      format(io, {method: "GET", path: "/foo", request_id: "abc123"})
+
+      io.to_s.chomp.should start_with("\nGET #{"/foo".colorize.underline} (#{"abc123".colorize.dim})")
+    end
+
+    it "includes the request_id in the end of an HTTP request" do
+      io = IO::Memory.new
+      format(io, {status: 200, duration: "1.4ms", request_id: "abc123"})
+
+      io.to_s.chomp.should start_with(" #{"▸".colorize.dim} Sent #{"200 OK".colorize.bold} (1.4ms) (#{"abc123".colorize.dim})")
     end
   end
 

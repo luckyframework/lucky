@@ -7,6 +7,13 @@ class HTTP::Server::Context
   # to figure it out again.
   property _clients_desired_format : Symbol? = nil
 
+  # :nodoc:
+  #
+  # This value should be unique between each request.
+  # Use this to help group logging output to a single request.
+  # It can be set through the `RequestIdHandler` config.
+  property request_id : String? = nil
+
   @_cookies : Lucky::CookieJar?
 
   def cookies : Lucky::CookieJar
