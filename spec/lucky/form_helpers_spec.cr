@@ -120,6 +120,16 @@ describe Lucky::FormHelpers do
       HTML
     end
   end
+
+  it "renders submit input" do
+    view(&.submit("Save")).should contain <<-HTML
+    <input type="submit" value="Save">
+    HTML
+
+    view(&.submit("Save", class: "cool")).should contain <<-HTML
+    <input type="submit" value="Save" class="cool">
+    HTML
+  end
 end
 
 private def without_csrf_protection

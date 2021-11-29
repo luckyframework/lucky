@@ -31,10 +31,6 @@ module Lucky::InputHelpers
     end
   end
 
-  def submit(text : String, **html_options) : Nil
-    input merge_options(html_options, {"type" => "submit", "value" => text})
-  end
-
   generate_helpful_error_for textarea
 
   # Returns a textarea field.

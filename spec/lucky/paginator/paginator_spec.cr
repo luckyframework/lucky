@@ -1,4 +1,4 @@
-require "../spec_helper"
+require "../../spec_helper"
 
 private def build_pages(page = 1, per_page = 1, item_count = 1, full_path = "/items")
   Lucky::Paginator.new \
@@ -89,6 +89,24 @@ describe Lucky::Paginator do
       item_range = build_pages(page: 3, per_page: 5, item_count: 12).item_range
       item_range.begin.should eq(11)
       item_range.end.should eq(12)
+    end
+  end
+
+  describe "#previous_page" do
+    it "returns the next page" do
+      build_pages(page: 0, per_page: 3, item_count: 10).previous_page.should be_nil
+      build_pages(page: 1, per_page: 3, item_count: 10).previous_page.should be_nil
+      build_pages(page: 3, per_page: 3, item_count: 10).previous_page.should eq(2)
+      build_pages(page: 4, per_page: 3, item_count: 10).previous_page.should eq(3)
+    end
+  end
+
+  describe "#next_page" do
+    it "returns the next page" do
+      build_pages(page: 1, per_page: 3, item_count: 10).next_page.should eq(2)
+      build_pages(page: 3, per_page: 3, item_count: 10).next_page.should eq(4)
+      build_pages(page: 4, per_page: 3, item_count: 10).next_page.should be_nil
+      build_pages(page: 9, per_page: 3, item_count: 10).next_page.should be_nil
     end
   end
 
