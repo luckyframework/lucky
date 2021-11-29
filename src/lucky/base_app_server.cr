@@ -3,6 +3,7 @@ abstract class Lucky::BaseAppServer
   private getter server
 
   abstract def middleware : Array(HTTP::Handler)
+  abstract def listen
 
   def initialize
     @server = HTTP::Server.new(middleware)
@@ -16,12 +17,6 @@ abstract class Lucky::BaseAppServer
   # :nodoc:
   def port : Int32
     Lucky::Server.settings.port
-  end
-
-  # :nodoc:
-  def listen : Nil
-    server.bind_tcp host, port
-    server.listen
   end
 
   # :nodoc:
