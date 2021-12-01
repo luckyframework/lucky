@@ -38,6 +38,12 @@ brew upgrade lucky
 - Update: your `package.json` (Full Apps only) to use `yarn run mix` instead of just `mix`. [See PR for details](https://github.com/luckyframework/lucky_cli/pull/682)
 - Update: your `src/app_server.cr` middleware stack with `Lucky::RequestIdHandler.new` at the top of the stack before `Lucky::ForceSSLHandler.new`. [See PR for details](https://github.com/luckyframework/lucky_cli/pull/700)
 - Update: any usage of `add_belongs_to` with namespaced models to specify the `references` option. [See PR for details](https://github.com/luckyframework/avram/pull/742)
+- Update: the `error_html` method in `src/actions/errors/show.cr`. Replace the following code
+```diff
+- html Errors::ShowPage, message: message, status: status
++ html_with_status Errors::ShowPage, status, message: message, status_code: status
+```
+- Rename: the `status` variable to `status_code` in `src/pages/errors/show_page.cr`
 
 
 ### Optional updates
