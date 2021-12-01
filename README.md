@@ -47,19 +47,14 @@ Keep up to date by following [@luckyframework](https://twitter.com/luckyframewor
 
 ```crystal
 class Api::Users::Show < ApiAction
-  route do
-    json user_json
-  end
-
-  private def user_json
+  get "/api/users/:user_id" do
     user = UserQuery.find(user_id)
-    {name: user.name, email: user.email}
+    json UserSerializer.new(user)
   end
 end
 ```
 
-- `route` sets up a route for `"/api/users/:user_id"` automatically.
-- If you want you can set up custom routes like `get "sign_in"` for non REST routes.
+- If you want you can set up custom routes like `get "/sign_in"` for non REST routes.
 - A `user_id` method is generated because there is a `user_id` route parameter.
 - Use `json` to render JSON. [Extract
   serializers](https://luckyframework.org/guides/writing-json-apis/#respond-with-json)
@@ -70,7 +65,7 @@ end
 ```crystal
 # Set up the model
 class User < BaseModel
-  table :users do
+  table do
     column last_active_at : Time
     column last_name : String
     column nickname : String?
@@ -117,7 +112,7 @@ UserQuery.new.recently_active.sorted_by_last_name
 
 ```crystal
 class Users::Index < BrowserAction
-  route do
+  get "/users" do
     users = UserQuery.new.sorted_by_last_name
     render IndexPage, users: users
   end
@@ -137,7 +132,7 @@ class Users::IndexPage < MainLayout
 
   private def render_user_list
     ul class: "user-list" do
-      @users.each do |user|
+      users.each do |user|
         li do
           link user.name, to: Users::Show.with(user.id)
           text " - "
