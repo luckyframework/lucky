@@ -951,18 +951,13 @@ The guide will walk you through installing a command-line utility used for gener
   </svg>
 </a>JSON endpoint:</h3>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Api</span><span class="t">::</span><span class="t">Users</span><span class="t">::</span><span class="t">Show</span> <span class="o">&lt;</span> <span class="t">ApiAction</span>
-  route <span class="k">do</span>
-    json user_json
-  <span class="k">end</span>
-
-  <span class="k">private</span> <span class="k">def</span> <span class="m">user_json</span>
+  get <span class="s">&quot;/api/users/:user_id&quot;</span> <span class="k">do</span>
     user <span class="o">=</span> <span class="t">UserQuery</span>.find(user_id)
-    {name: user.name, email: user.email}
+    json <span class="t">UserSerializer</span>.<span class="k">new</span>(user)
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
 <ul>
-<li><code>route</code> sets up a route for <code>"/api/users/:user_id"</code> automatically.</li>
-<li>If you want you can set up custom routes like <code>get "sign_in"</code> for non REST routes.</li>
+<li>If you want you can set up custom routes like <code>get "/sign_in"</code> for non REST routes.</li>
 <li>A <code>user_id</code> method is generated because there is a <code>user_id</code> route parameter.</li>
 <li>Use <code>json</code> to render JSON. <a href="https://luckyframework.org/guides/writing-json-apis/#respond-with-json">Extract
 serializers</a>
@@ -975,7 +970,7 @@ for reusable JSON responses.</li>
 </a>Database models</h3>
 <pre><code class="language-crystal"><span class="c"># Set up the model</span>
 <span class="k">class</span> <span class="t">User</span> <span class="o">&lt;</span> <span class="t">BaseModel</span>
-  table <span class="n">:users</span> <span class="k">do</span>
+  table <span class="k">do</span>
     column last_active_at : <span class="t">Time</span>
     column last_name : <span class="t">String</span>
     column nickname : <span class="t">String</span>?
@@ -1024,7 +1019,7 @@ methods (like <code>lower</code>).</li>
   </svg>
 </a>Rendering HTML:</h3>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  route <span class="k">do</span>
+  get <span class="s">&quot;/users&quot;</span> <span class="k">do</span>
     users <span class="o">=</span> <span class="t">UserQuery</span>.<span class="k">new</span>.sorted_by_last_name
     render <span class="t">IndexPage</span>, users: users
   <span class="k">end</span>
@@ -1044,7 +1039,7 @@ methods (like <code>lower</code>).</li>
 
   <span class="k">private</span> <span class="k">def</span> <span class="m">render_user_list</span>
     ul <span class="k">class</span>: <span class="s">&quot;user-list&quot;</span> <span class="k">do</span>
-      @users.each <span class="k">do</span> <span class="o">|</span>user<span class="o">|</span>
+      users.each <span class="k">do</span> <span class="o">|</span>user<span class="o">|</span>
         li <span class="k">do</span>
           link user.name, to: <span class="t">Users</span><span class="t">::</span><span class="t">Show</span>.<span class="k">with</span>(user.id)
           text <span class="s">&quot; - &quot;</span>
