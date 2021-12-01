@@ -18,23 +18,27 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Crystal should be `">= 1.0.0"`
   - Lucky should be `~> 0.29.0`
+  - Authentic should be `~> 0.8.1`
   - Caron SendgidAdapter should be `~> 0.2.0` if you're using SendGrid
+  - LuckyEnv should be `~> 0.1.4`
+  - LuckyTask should be `~> 0.1.1`
+  - JWT should be `~> 1.6.0`
 
 - Run `shards update`
 
 ### General updates
 
 - Remove: any usage of the `lucky build.release` task. Use `shards build --release --production` instead. [See PR for details](https://github.com/luckyframework/lucky/pull/1612)
-- Update: to Crystal version 1.0.0 or greater. Versions below 1.0 are no longer supported. [See PR](https://github.com/luckyframework/lucky/pull/1618)
-- Update: your `AppServer` in `src/app_server.cr` to have a `listen` method defined. This method is now abstract on `Lucky::BaseAppServer`. [See PR](https://github.com/luckyframework/lucky/pull/1622)
-- Update: if you use UUID for primary keys in your models, ensure you've added the "pgcrypto" extension to your DB. The `id` value will no longer be generated on the Crystal side. [See PR](https://github.com/luckyframework/avram/pull/725)
-- Update: any usage of the `Status` enums in your SaveOperations to be `OperationStatus`. [See PR](https://github.com/luckyframework/avram/pull/759)
-- Remove: any usage of `route` or `nested_route` from your actions, and replace them with the actual route. (Optionally, you can use the [Legacy Routing Shard](https://github.com/matthewmcgarvey/lucky_legacy_routing)) [See PR](https://github.com/luckyframework/lucky/pull/1597)
-- Update: your `src/app.cr`, and move the requires for `config/server` and `config/**` to the top of the require stack. [See PR](https://github.com/luckyframework/lucky_cli/pull/676)
-- Update: your `package.json` (Full Apps only) to use `yarn run mix` instead of just `mix`. [See PR](https://github.com/luckyframework/lucky_cli/pull/682)
-- Update: your `src/app_server.cr` middleware stack with `Lucky::RequestIdHandler.new` at the top of the stack before `Lucky::ForceSSLHandler.new`. [See PR](https://github.com/luckyframework/lucky_cli/pull/700)
-- Update: any usage of `add_belongs_to` with namespaced models to specify the `references` option. [See PR](https://github.com/luckyframework/avram/pull/742)
--
+- Update: to Crystal version 1.0.0 or greater. Versions below 1.0 are no longer supported. [See PR for details](https://github.com/luckyframework/lucky/pull/1618)
+- Update: your `AppServer` in `src/app_server.cr` to have a `listen` method defined. This method is now abstract on `Lucky::BaseAppServer`. [See PR for details](https://github.com/luckyframework/lucky/pull/1622)
+- Update: if you use UUID for primary keys in your models, ensure you've added the "pgcrypto" extension to your DB. The `id` value will no longer be generated on the Crystal side. [See PR for details](https://github.com/luckyframework/avram/pull/725)
+- Update: any usage of the `Status` enums in your SaveOperations to be `OperationStatus`. [See PR for details](https://github.com/luckyframework/avram/pull/759)
+- Remove: any usage of `route` or `nested_route` from your actions, and replace them with the actual route. (Optionally, you can use the [Legacy Routing Shard](https://github.com/matthewmcgarvey/lucky_legacy_routing)) [See PR for details](https://github.com/luckyframework/lucky/pull/1597)
+- Update: your `src/app.cr`, and move the requires for `config/server` and `config/**` to the top of the require stack. [See PR for details](https://github.com/luckyframework/lucky_cli/pull/676)
+- Update: your `package.json` (Full Apps only) to use `yarn run mix` instead of just `mix`. [See PR for details](https://github.com/luckyframework/lucky_cli/pull/682)
+- Update: your `src/app_server.cr` middleware stack with `Lucky::RequestIdHandler.new` at the top of the stack before `Lucky::ForceSSLHandler.new`. [See PR for details](https://github.com/luckyframework/lucky_cli/pull/700)
+- Update: any usage of `add_belongs_to` with namespaced models to specify the `references` option. [See PR for details](https://github.com/luckyframework/avram/pull/742)
+
 
 ### Optional updates
 
@@ -48,7 +52,7 @@ Lucky::RequestIdHandler.configure do |settings|
   }
 end
 ```
-- Add: query cache to `config/database.cr`. [See PR for more info](https://github.com/luckyframework/avram/pull/763)
+- Add: query cache to `config/database.cr`. [See PR for details](https://github.com/luckyframework/avram/pull/763)
 ```crystal
 Avram.configure do |settings|
   settings.database_to_migrate = AppDatabase
