@@ -50,6 +50,7 @@
 - Added: new `default_validations` block macro. [#751 in Avram](https://github.com/luckyframework/avram/pull/751)
 - Added: new `validate_format_of` validation method. [#752 in Avram](https://github.com/luckyframework/avram/pull/752)
 - Fixed: sort order of migrations. [#756 in Avram](https://github.com/luckyframework/avram/pull/756)
+- Added: new `Avram::I18nBackend` for setting language translations. [#757 in Avram](https://github.com/luckyframework/avram/pull/757)
 - **Breaking change** Renamed: `Operation::Status` enums to `Operation::OperationStatus`. [#759 in Avram](https://github.com/luckyframework/avram/pull/759)
 - Added: new query cache mechanism. [#763 in Avram](https://github.com/luckyframework/avram/pull/763)
 - Added: brand new [LuckyCache](https://github.com/luckyframework/lucky_cache) shard.
