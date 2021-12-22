@@ -56,7 +56,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
     end
 
     private def add_request_id : Nil
-      if id = local_context["request_id"]
+      if id = local_context["request_id"].to_s.presence
         io << " (#{id.colorize.dim})"
       end
     end
