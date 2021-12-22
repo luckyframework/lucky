@@ -31,6 +31,15 @@ describe Lucky::PrettyLogFormatter do
 
       io.to_s.chomp.should start_with(" #{"▸".colorize.dim} Sent #{"200 OK".colorize.bold} (1.4ms) (#{"abc123".colorize.dim})")
     end
+
+    context "when request_id is empty" do
+      it "does not include empty () in the end of an HTTP request" do
+        io = IO::Memory.new
+        format(io, {status: 200, duration: "1.4ms", request_id: ""})
+
+        io.to_s.chomp.should eq(" #{"▸".colorize.dim} Sent #{"200 OK".colorize.bold} (1.4ms)")
+      end
+    end
   end
 
   context "when given data that is not the start/end of an HTTP request " do
