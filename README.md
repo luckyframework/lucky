@@ -24,7 +24,7 @@ Lucky has a [fresh new set of guides](https://luckyframework.org/guides/) that
 make it easy to get started.
 
 Feel free to say hi or ask questions on our
-[chat room](https://discord.gg/HeqJUcb).
+[chat room](https://luckyframework.org/chat).
 
 Or you can copy a real working app with [Lucky JumpStart](https://github.com/stephendolan/lucky_jumpstart/).
 

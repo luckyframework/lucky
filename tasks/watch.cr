@@ -192,7 +192,7 @@ module LuckySentry
 
           ▸  Run setup: #{"script/setup".colorize.bold}
           ▸  Reinstall shards: #{"rm -rf lib bin && shards install".colorize.bold}
-          ▸  Ask for help: #{"https://discord.gg/HeqJUcb".colorize.bold}
+          ▸  Ask for help: #{"https://luckyframework.org/chat".colorize.bold}
         ERROR
       end
     end
