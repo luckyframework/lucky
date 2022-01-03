@@ -69,15 +69,15 @@ class Lucky::WelcomePage
         tr do
           td "Ask for ideas in our chatroom", class: "left-column"
           td class: "right-column" do
-            a discord_url, href: discord_url, target: "_blank"
+            a chat_url, href: chat_url, target: "_blank"
           end
         end
       end
     end
   end
 
-  private def discord_url
-    "https://discord.gg/HeqJUcb"
+  private def chat_url
+    "https://luckyframework.org/chat"
   end
 
   private def welcome_page_styles
