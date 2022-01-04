@@ -319,17 +319,17 @@ module Lucky::Routable
       {% for param in path_params %}
         {{ param.gsub(/:/, "").id }},
       {% end %}
-  
+
       # required params
       {% for param in params_without_defaults %}
         {{ param }},
       {% end %}
-  
+
       # params with a default value set are always nilable
       {% for param in params_with_defaults %}
         {{ param.var }} = nil,
       {% end %}
-  
+
       # optional path variables are nilable
       {% for param in optional_path_params %}
         {{ param.gsub(/^\?:/, "").id }} = nil,
