@@ -336,23 +336,13 @@ module Lucky::Routable
       {% end %}
       anchor : String? = nil
         ) : Lucky::RouteHelper
+        \{% begin %}
         route(
-          {% for param in path_params %}
-            {% temp = param.gsub(/:/, "").id %}
-            {{ temp }}: {{ temp }},
-          {% end %}
-
-          {% for param in PARAM_DECLARATIONS %}
-            {{ param.var }}: {{ param.var }},
-          {% end %}
-
-          # optional path variables are nilable
-          {% for param in optional_path_params %}
-            {% temp = param.gsub(/^\?:/, "").id %}
-            {{ temp }}: {{ temp }},
-          {% end %}
-          anchor: anchor
+          \{% for arg in @def.args %}
+            \{{ arg.name }}: \{{ arg.internal_name }},
+          \{% end %}
         )
+        \{% end %}
       end
 
 
