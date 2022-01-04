@@ -336,14 +336,14 @@ module Lucky::Routable
       {% end %}
       anchor : String? = nil
         ) : Lucky::RouteHelper
-        \{% begin %}
-        route(
-          \{% for arg in @def.args %}
-            \{{ arg.name }}: \{{ arg.internal_name }},
-          \{% end %}
-        )
+      \{% begin %}
+      route(
+        \{% for arg in @def.args %}
+          \{{ arg.name }}: \{{ arg.internal_name }},
         \{% end %}
-      end
+      )
+      \{% end %}
+    end
 
 
     private def self.path_from_parts(
