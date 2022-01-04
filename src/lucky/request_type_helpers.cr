@@ -29,10 +29,6 @@ module Lucky::RequestTypeHelpers
   # default_format :html
   # ```
   macro default_format(format)
-    {% unless format.is_a?(SymbolLiteral) %}
-      {% raise "The default format in #{@type} must be a Symbol. Instead got #{format}" %}
-    {% end %}
-
     private def default_format : Symbol
       {{ format }}
     end
