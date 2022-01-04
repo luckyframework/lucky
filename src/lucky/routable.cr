@@ -314,33 +314,37 @@ module Lucky::Routable
       Lucky::RouteHelper.new {{ method }}, path
     end
 
-    def self.route(*_args, **_named_args) : Lucky::RouteHelper
-      {% requireds = path_params.map { |param| "#{param.gsub(/:/, "").id}" } %}
-      {% params_without_defaults.each { |param| requireds << "#{param.var}" } %}
-      {% optionals = optional_path_params.map { |param| "#{param.gsub(/^\?:/, "").id}" } %}
-      {% params_with_defaults.each { |param| optionals << "#{param.var}" } %}
-      \{% raise <<-ERROR
-        Invalid call to {{ @type }}.route
+    def self.with(
+      # required path variables
+      {% for param in path_params %}
+        {{ param.gsub(/:/, "").id }},
+      {% end %}
 
-        {% if !requireds.empty? %}
-        Required arguments:
-        {% for req in requireds %}\n- {{ req.id }}{% end %}
-        {% end %}{% if !optionals.empty? %}
-        Optional arguments:
-        {% for opts in optionals %}\n- {{ opts.id }}{% end %}
-        {% end %}
-        For more information, refer to https://luckyframework.org/guides/http-and-routing/link-generation.
-        ERROR
-      %}
+      # required params
+      {% for param in params_without_defaults %}
+        {{ param }},
+      {% end %}
+
+      # params with a default value set are always nilable
+      {% for param in params_with_defaults %}
+        {{ param.var }} = nil,
+      {% end %}
+
+      # optional path variables are nilable
+      {% for param in optional_path_params %}
+        {{ param.gsub(/^\?:/, "").id }} = nil,
+      {% end %}
+      anchor : String? = nil
+        ) : Lucky::RouteHelper
+      \{% begin %}
+      route(
+        \{% for arg in @def.args %}
+          \{{ arg.name }}: \{{ arg.internal_name }},
+        \{% end %}
+      )
+      \{% end %}
     end
 
-    def self.with(*args, **named_args) : Lucky::RouteHelper
-      route(*args, **named_args)
-    end
-
-    def self.with
-      \{% raise "Use `route` instead of `with` if the route doesn't need params" %}
-    end
 
     private def self.path_from_parts(
         {% for param in path_params %}
