@@ -149,7 +149,7 @@ describe Lucky::UrlHelpers do
 
   describe "#previous_url" do
     it "returns the previous url from referer header when present" do
-      view_for("/pages/456", headers: { "Referer" => "http://luckyframework.org/pages/123" } )
+      view_for("/pages/456", headers: {"Referer" => "http://luckyframework.org/pages/123"})
         .previous_url(Pages::Index)
         .should eq "http://luckyframework.org/pages/123"
     end
