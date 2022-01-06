@@ -146,15 +146,39 @@ describe Lucky::UrlHelpers do
       end
     end
   end
+
+  describe "#previous_url" do
+    it "returns the previous url from referer header when present" do
+      view_for("/pages/456", headers: { "Referer" => "http://luckyframework.org/pages/123" } )
+        .previous_url(Pages::Index)
+        .should eq "http://luckyframework.org/pages/123"
+    end
+
+    it "falls back to passed Lucky::Action when referer header is not present" do
+      view_for("/pages/123")
+        .previous_url(Pages::Index)
+        .should eq "/pages"
+    end
+
+    it "falls back to passed Lucky::RouteHelper when referer header is not present" do
+      view_for("/pages/123")
+        .previous_url(Pages::Show.with(456))
+        .should eq "/pages/456"
+    end
+  end
 end
 
 private def view_for(
   path : String,
   method : String = "GET",
-  host_with_port : String = "example.com"
+  host_with_port : String = "example.com",
+  headers : Hash(String, String) = {} of String => String
 )
   request = HTTP::Request.new(method, path)
   request.headers["Host"] = host_with_port
+  headers.each do |header, value|
+    request.headers[header] = value
+  end
   TestPage.new(build_context(path: path, request: request))
 end
 
