@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.1.1">
+<meta name="generator" content="Crystal Docs 1.2.2">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -954,7 +954,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L1" target="_blank">
         lucky/tags/base_tags.cr
       </a>
     
@@ -976,7 +976,7 @@
   <dl>
     
       <dt class="entry-const" id="EMPTY_HTML_ATTRS">
-        <strong>EMPTY_HTML_ATTRS</strong> = <code>{} <span class="k">of</span> <span class="t">String</span> => <span class="t">String</span></code>
+        <strong>EMPTY_HTML_ATTRS</strong> = <code>{} <span class="k">of</span> <span class="t">String</span> =&gt; <span class="t">String</span></code>
       </dt>
       
     
@@ -5380,7 +5380,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">a(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;a class=&quot;cls-1 red&quot; required&gt;Sample&lt;/a&gt;</span></code></pre>
+<pre><code class="language-crystal">a(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;a class=&quot;cls-1 red&quot; required&gt;Sample&lt;/a&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -5503,7 +5503,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">abbr(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;abbr class=&quot;cls-1 red&quot; required&gt;Sample&lt;/abbr&gt;</span></code></pre>
+<pre><code class="language-crystal">abbr(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;abbr class=&quot;cls-1 red&quot; required&gt;Sample&lt;/abbr&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -5626,7 +5626,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">address(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;address class=&quot;cls-1 red&quot; required&gt;Sample&lt;/address&gt;</span></code></pre>
+<pre><code class="language-crystal">address(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;address class=&quot;cls-1 red&quot; required&gt;Sample&lt;/address&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -5749,7 +5749,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">area(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;area class=&quot;cls-1 red&quot; required&gt;Sample&lt;/area&gt;</span></code></pre>
+<pre><code class="language-crystal">area(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;area class=&quot;cls-1 red&quot; required&gt;Sample&lt;/area&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -5872,7 +5872,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">article(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;article class=&quot;cls-1 red&quot; required&gt;Sample&lt;/article&gt;</span></code></pre>
+<pre><code class="language-crystal">article(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;article class=&quot;cls-1 red&quot; required&gt;Sample&lt;/article&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -5995,7 +5995,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">aside(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;aside class=&quot;cls-1 red&quot; required&gt;Sample&lt;/aside&gt;</span></code></pre>
+<pre><code class="language-crystal">aside(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;aside class=&quot;cls-1 red&quot; required&gt;Sample&lt;/aside&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -6118,7 +6118,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">b(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;b class=&quot;cls-1 red&quot; required&gt;Sample&lt;/b&gt;</span></code></pre>
+<pre><code class="language-crystal">b(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;b class=&quot;cls-1 red&quot; required&gt;Sample&lt;/b&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -6241,7 +6241,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">bdi(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;bdi class=&quot;cls-1 red&quot; required&gt;Sample&lt;/bdi&gt;</span></code></pre>
+<pre><code class="language-crystal">bdi(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;bdi class=&quot;cls-1 red&quot; required&gt;Sample&lt;/bdi&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -6364,7 +6364,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">bdo(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;bdo class=&quot;cls-1 red&quot; required&gt;Sample&lt;/bdo&gt;</span></code></pre>
+<pre><code class="language-crystal">bdo(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;bdo class=&quot;cls-1 red&quot; required&gt;Sample&lt;/bdo&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -6487,7 +6487,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">blockquote(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;blockquote class=&quot;cls-1 red&quot; required&gt;Sample&lt;/blockquote&gt;</span></code></pre>
+<pre><code class="language-crystal">blockquote(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;blockquote class=&quot;cls-1 red&quot; required&gt;Sample&lt;/blockquote&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -6610,7 +6610,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">body(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;body class=&quot;cls-1 red&quot; required&gt;Sample&lt;/body&gt;</span></code></pre>
+<pre><code class="language-crystal">body(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;body class=&quot;cls-1 red&quot; required&gt;Sample&lt;/body&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -6718,13 +6718,13 @@
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">br([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;br class=&quot;cls-1&quot; required&gt;</span></code></pre>
+<pre><code class="language-crystal">br([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;br class=&quot;cls-1&quot; required&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6745,7 +6745,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6761,7 +6761,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6796,7 +6796,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">button(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;button class=&quot;cls-1 red&quot; required&gt;Sample&lt;/button&gt;</span></code></pre>
+<pre><code class="language-crystal">button(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;button class=&quot;cls-1 red&quot; required&gt;Sample&lt;/button&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -6919,7 +6919,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">caption(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;caption class=&quot;cls-1 red&quot; required&gt;Sample&lt;/caption&gt;</span></code></pre>
+<pre><code class="language-crystal">caption(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;caption class=&quot;cls-1 red&quot; required&gt;Sample&lt;/caption&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7042,7 +7042,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">cite(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;cite class=&quot;cls-1 red&quot; required&gt;Sample&lt;/cite&gt;</span></code></pre>
+<pre><code class="language-crystal">cite(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;cite class=&quot;cls-1 red&quot; required&gt;Sample&lt;/cite&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7165,7 +7165,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">code(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;code class=&quot;cls-1 red&quot; required&gt;Sample&lt;/code&gt;</span></code></pre>
+<pre><code class="language-crystal">code(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;code class=&quot;cls-1 red&quot; required&gt;Sample&lt;/code&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7288,7 +7288,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">col(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;col class=&quot;cls-1 red&quot; required&gt;Sample&lt;/col&gt;</span></code></pre>
+<pre><code class="language-crystal">col(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;col class=&quot;cls-1 red&quot; required&gt;Sample&lt;/col&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7411,7 +7411,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">colgroup(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;colgroup class=&quot;cls-1 red&quot; required&gt;Sample&lt;/colgroup&gt;</span></code></pre>
+<pre><code class="language-crystal">colgroup(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;colgroup class=&quot;cls-1 red&quot; required&gt;Sample&lt;/colgroup&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7534,7 +7534,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">data(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;data class=&quot;cls-1 red&quot; required&gt;Sample&lt;/data&gt;</span></code></pre>
+<pre><code class="language-crystal">data(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;data class=&quot;cls-1 red&quot; required&gt;Sample&lt;/data&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7657,7 +7657,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">datalist(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;datalist class=&quot;cls-1 red&quot; required&gt;Sample&lt;/datalist&gt;</span></code></pre>
+<pre><code class="language-crystal">datalist(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;datalist class=&quot;cls-1 red&quot; required&gt;Sample&lt;/datalist&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7780,7 +7780,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">dd(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dd class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dd&gt;</span></code></pre>
+<pre><code class="language-crystal">dd(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dd class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dd&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -7903,7 +7903,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">del(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;del class=&quot;cls-1 red&quot; required&gt;Sample&lt;/del&gt;</span></code></pre>
+<pre><code class="language-crystal">del(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;del class=&quot;cls-1 red&quot; required&gt;Sample&lt;/del&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8026,7 +8026,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">details(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;details class=&quot;cls-1 red&quot; required&gt;Sample&lt;/details&gt;</span></code></pre>
+<pre><code class="language-crystal">details(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;details class=&quot;cls-1 red&quot; required&gt;Sample&lt;/details&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8149,7 +8149,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">dfn(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dfn class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dfn&gt;</span></code></pre>
+<pre><code class="language-crystal">dfn(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dfn class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dfn&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8272,7 +8272,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">dialog(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dialog class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dialog&gt;</span></code></pre>
+<pre><code class="language-crystal">dialog(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dialog class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dialog&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8395,7 +8395,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">div(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;div class=&quot;cls-1 red&quot; required&gt;Sample&lt;/div&gt;</span></code></pre>
+<pre><code class="language-crystal">div(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;div class=&quot;cls-1 red&quot; required&gt;Sample&lt;/div&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8518,7 +8518,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">dl(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dl class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dl&gt;</span></code></pre>
+<pre><code class="language-crystal">dl(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dl class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dl&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8641,7 +8641,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">dt(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dt class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dt&gt;</span></code></pre>
+<pre><code class="language-crystal">dt(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;dt class=&quot;cls-1 red&quot; required&gt;Sample&lt;/dt&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8764,7 +8764,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">em(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;em class=&quot;cls-1 red&quot; required&gt;Sample&lt;/em&gt;</span></code></pre>
+<pre><code class="language-crystal">em(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;em class=&quot;cls-1 red&quot; required&gt;Sample&lt;/em&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -8887,7 +8887,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">embed(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;embed class=&quot;cls-1 red&quot; required&gt;Sample&lt;/embed&gt;</span></code></pre>
+<pre><code class="language-crystal">embed(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;embed class=&quot;cls-1 red&quot; required&gt;Sample&lt;/embed&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9010,7 +9010,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">fieldset(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;fieldset class=&quot;cls-1 red&quot; required&gt;Sample&lt;/fieldset&gt;</span></code></pre>
+<pre><code class="language-crystal">fieldset(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;fieldset class=&quot;cls-1 red&quot; required&gt;Sample&lt;/fieldset&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9133,7 +9133,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">figcaption(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;figcaption class=&quot;cls-1 red&quot; required&gt;Sample&lt;/figcaption&gt;</span></code></pre>
+<pre><code class="language-crystal">figcaption(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;figcaption class=&quot;cls-1 red&quot; required&gt;Sample&lt;/figcaption&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9256,7 +9256,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">figure(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;figure class=&quot;cls-1 red&quot; required&gt;Sample&lt;/figure&gt;</span></code></pre>
+<pre><code class="language-crystal">figure(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;figure class=&quot;cls-1 red&quot; required&gt;Sample&lt;/figure&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9379,7 +9379,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">footer(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;footer class=&quot;cls-1 red&quot; required&gt;Sample&lt;/footer&gt;</span></code></pre>
+<pre><code class="language-crystal">footer(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;footer class=&quot;cls-1 red&quot; required&gt;Sample&lt;/footer&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9502,7 +9502,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">form(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;form class=&quot;cls-1 red&quot; required&gt;Sample&lt;/form&gt;</span></code></pre>
+<pre><code class="language-crystal">form(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;form class=&quot;cls-1 red&quot; required&gt;Sample&lt;/form&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9625,7 +9625,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">h1(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h1 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h1&gt;</span></code></pre>
+<pre><code class="language-crystal">h1(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h1 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h1&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9748,7 +9748,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">h2(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h2 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h2&gt;</span></code></pre>
+<pre><code class="language-crystal">h2(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h2 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h2&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9871,7 +9871,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">h3(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h3 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h3&gt;</span></code></pre>
+<pre><code class="language-crystal">h3(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h3 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h3&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -9994,7 +9994,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">h4(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h4 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h4&gt;</span></code></pre>
+<pre><code class="language-crystal">h4(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h4 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h4&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -10117,7 +10117,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">h5(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h5 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h5&gt;</span></code></pre>
+<pre><code class="language-crystal">h5(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h5 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h5&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -10240,7 +10240,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">h6(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h6 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h6&gt;</span></code></pre>
+<pre><code class="language-crystal">h6(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;h6 class=&quot;cls-1 red&quot; required&gt;Sample&lt;/h6&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -10363,7 +10363,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">head(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;head class=&quot;cls-1 red&quot; required&gt;Sample&lt;/head&gt;</span></code></pre>
+<pre><code class="language-crystal">head(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;head class=&quot;cls-1 red&quot; required&gt;Sample&lt;/head&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -10486,7 +10486,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">header(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;header class=&quot;cls-1 red&quot; required&gt;Sample&lt;/header&gt;</span></code></pre>
+<pre><code class="language-crystal">header(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;header class=&quot;cls-1 red&quot; required&gt;Sample&lt;/header&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -10594,13 +10594,13 @@
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">hr([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;hr class=&quot;cls-1&quot; required&gt;</span></code></pre>
+<pre><code class="language-crystal">hr([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;hr class=&quot;cls-1&quot; required&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10621,7 +10621,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10637,7 +10637,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10672,7 +10672,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">html(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;html class=&quot;cls-1 red&quot; required&gt;Sample&lt;/html&gt;</span></code></pre>
+<pre><code class="language-crystal">html(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;html class=&quot;cls-1 red&quot; required&gt;Sample&lt;/html&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -10795,7 +10795,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">i(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;i class=&quot;cls-1 red&quot; required&gt;Sample&lt;/i&gt;</span></code></pre>
+<pre><code class="language-crystal">i(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;i class=&quot;cls-1 red&quot; required&gt;Sample&lt;/i&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -10918,7 +10918,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">iframe(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;iframe class=&quot;cls-1 red&quot; required&gt;Sample&lt;/iframe&gt;</span></code></pre>
+<pre><code class="language-crystal">iframe(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;iframe class=&quot;cls-1 red&quot; required&gt;Sample&lt;/iframe&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -11026,13 +11026,13 @@
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">img([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;img class=&quot;cls-1&quot; required&gt;</span></code></pre>
+<pre><code class="language-crystal">img([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;img class=&quot;cls-1&quot; required&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11053,7 +11053,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11069,7 +11069,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11089,13 +11089,13 @@
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">input([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;input class=&quot;cls-1&quot; required&gt;</span></code></pre>
+<pre><code class="language-crystal">input([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;input class=&quot;cls-1&quot; required&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11116,7 +11116,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11132,7 +11132,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11167,7 +11167,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">ins(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ins class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ins&gt;</span></code></pre>
+<pre><code class="language-crystal">ins(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ins class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ins&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -11290,7 +11290,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">kbd(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;kbd class=&quot;cls-1 red&quot; required&gt;Sample&lt;/kbd&gt;</span></code></pre>
+<pre><code class="language-crystal">kbd(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;kbd class=&quot;cls-1 red&quot; required&gt;Sample&lt;/kbd&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -11413,7 +11413,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">label(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;label class=&quot;cls-1 red&quot; required&gt;Sample&lt;/label&gt;</span></code></pre>
+<pre><code class="language-crystal">label(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;label class=&quot;cls-1 red&quot; required&gt;Sample&lt;/label&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -11536,7 +11536,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">legend(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;legend class=&quot;cls-1 red&quot; required&gt;Sample&lt;/legend&gt;</span></code></pre>
+<pre><code class="language-crystal">legend(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;legend class=&quot;cls-1 red&quot; required&gt;Sample&lt;/legend&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -11659,7 +11659,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">li(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;li class=&quot;cls-1 red&quot; required&gt;Sample&lt;/li&gt;</span></code></pre>
+<pre><code class="language-crystal">li(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;li class=&quot;cls-1 red&quot; required&gt;Sample&lt;/li&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -11782,7 +11782,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">main(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;main class=&quot;cls-1 red&quot; required&gt;Sample&lt;/main&gt;</span></code></pre>
+<pre><code class="language-crystal">main(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;main class=&quot;cls-1 red&quot; required&gt;Sample&lt;/main&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -11905,7 +11905,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">map(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;map class=&quot;cls-1 red&quot; required&gt;Sample&lt;/map&gt;</span></code></pre>
+<pre><code class="language-crystal">map(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;map class=&quot;cls-1 red&quot; required&gt;Sample&lt;/map&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12028,7 +12028,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">mark(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;mark class=&quot;cls-1 red&quot; required&gt;Sample&lt;/mark&gt;</span></code></pre>
+<pre><code class="language-crystal">mark(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;mark class=&quot;cls-1 red&quot; required&gt;Sample&lt;/mark&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12151,7 +12151,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">menuitem(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;menuitem class=&quot;cls-1 red&quot; required&gt;Sample&lt;/menuitem&gt;</span></code></pre>
+<pre><code class="language-crystal">menuitem(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;menuitem class=&quot;cls-1 red&quot; required&gt;Sample&lt;/menuitem&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12259,13 +12259,13 @@
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">meta([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;meta class=&quot;cls-1&quot; required&gt;</span></code></pre>
+<pre><code class="language-crystal">meta([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;meta class=&quot;cls-1&quot; required&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -12286,7 +12286,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -12302,7 +12302,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -12337,7 +12337,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">meter(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;meter class=&quot;cls-1 red&quot; required&gt;Sample&lt;/meter&gt;</span></code></pre>
+<pre><code class="language-crystal">meter(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;meter class=&quot;cls-1 red&quot; required&gt;Sample&lt;/meter&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12460,7 +12460,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">nav(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;nav class=&quot;cls-1 red&quot; required&gt;Sample&lt;/nav&gt;</span></code></pre>
+<pre><code class="language-crystal">nav(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;nav class=&quot;cls-1 red&quot; required&gt;Sample&lt;/nav&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12583,7 +12583,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">noscript(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;noscript class=&quot;cls-1 red&quot; required&gt;Sample&lt;/noscript&gt;</span></code></pre>
+<pre><code class="language-crystal">noscript(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;noscript class=&quot;cls-1 red&quot; required&gt;Sample&lt;/noscript&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12706,7 +12706,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">object(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;object class=&quot;cls-1 red&quot; required&gt;Sample&lt;/object&gt;</span></code></pre>
+<pre><code class="language-crystal">object(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;object class=&quot;cls-1 red&quot; required&gt;Sample&lt;/object&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12829,7 +12829,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">ol(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ol class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ol&gt;</span></code></pre>
+<pre><code class="language-crystal">ol(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ol class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ol&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -12952,7 +12952,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">optgroup(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;optgroup class=&quot;cls-1 red&quot; required&gt;Sample&lt;/optgroup&gt;</span></code></pre>
+<pre><code class="language-crystal">optgroup(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;optgroup class=&quot;cls-1 red&quot; required&gt;Sample&lt;/optgroup&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13075,7 +13075,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">option(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;option class=&quot;cls-1 red&quot; required&gt;Sample&lt;/option&gt;</span></code></pre>
+<pre><code class="language-crystal">option(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;option class=&quot;cls-1 red&quot; required&gt;Sample&lt;/option&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13198,7 +13198,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">output(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;output class=&quot;cls-1 red&quot; required&gt;Sample&lt;/output&gt;</span></code></pre>
+<pre><code class="language-crystal">output(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;output class=&quot;cls-1 red&quot; required&gt;Sample&lt;/output&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13321,7 +13321,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">para(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;para class=&quot;cls-1 red&quot; required&gt;Sample&lt;/para&gt;</span></code></pre>
+<pre><code class="language-crystal">para(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;para class=&quot;cls-1 red&quot; required&gt;Sample&lt;/para&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13444,7 +13444,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">param(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;param class=&quot;cls-1 red&quot; required&gt;Sample&lt;/param&gt;</span></code></pre>
+<pre><code class="language-crystal">param(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;param class=&quot;cls-1 red&quot; required&gt;Sample&lt;/param&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13567,7 +13567,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">picture(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;picture class=&quot;cls-1 red&quot; required&gt;Sample&lt;/picture&gt;</span></code></pre>
+<pre><code class="language-crystal">picture(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;picture class=&quot;cls-1 red&quot; required&gt;Sample&lt;/picture&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13690,7 +13690,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">pre(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;pre class=&quot;cls-1 red&quot; required&gt;Sample&lt;/pre&gt;</span></code></pre>
+<pre><code class="language-crystal">pre(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;pre class=&quot;cls-1 red&quot; required&gt;Sample&lt;/pre&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13813,7 +13813,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">progress(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;progress class=&quot;cls-1 red&quot; required&gt;Sample&lt;/progress&gt;</span></code></pre>
+<pre><code class="language-crystal">progress(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;progress class=&quot;cls-1 red&quot; required&gt;Sample&lt;/progress&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -13936,7 +13936,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">q(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;q class=&quot;cls-1 red&quot; required&gt;Sample&lt;/q&gt;</span></code></pre>
+<pre><code class="language-crystal">q(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;q class=&quot;cls-1 red&quot; required&gt;Sample&lt;/q&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14059,7 +14059,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">rp(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;rp class=&quot;cls-1 red&quot; required&gt;Sample&lt;/rp&gt;</span></code></pre>
+<pre><code class="language-crystal">rp(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;rp class=&quot;cls-1 red&quot; required&gt;Sample&lt;/rp&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14182,7 +14182,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">rt(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;rt class=&quot;cls-1 red&quot; required&gt;Sample&lt;/rt&gt;</span></code></pre>
+<pre><code class="language-crystal">rt(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;rt class=&quot;cls-1 red&quot; required&gt;Sample&lt;/rt&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14305,7 +14305,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">ruby(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ruby class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ruby&gt;</span></code></pre>
+<pre><code class="language-crystal">ruby(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ruby class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ruby&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14428,7 +14428,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">s(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;s class=&quot;cls-1 red&quot; required&gt;Sample&lt;/s&gt;</span></code></pre>
+<pre><code class="language-crystal">s(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;s class=&quot;cls-1 red&quot; required&gt;Sample&lt;/s&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14551,7 +14551,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">samp(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;samp class=&quot;cls-1 red&quot; required&gt;Sample&lt;/samp&gt;</span></code></pre>
+<pre><code class="language-crystal">samp(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;samp class=&quot;cls-1 red&quot; required&gt;Sample&lt;/samp&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14674,7 +14674,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">script(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;script class=&quot;cls-1 red&quot; required&gt;Sample&lt;/script&gt;</span></code></pre>
+<pre><code class="language-crystal">script(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;script class=&quot;cls-1 red&quot; required&gt;Sample&lt;/script&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14797,7 +14797,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">section(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;section class=&quot;cls-1 red&quot; required&gt;Sample&lt;/section&gt;</span></code></pre>
+<pre><code class="language-crystal">section(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;section class=&quot;cls-1 red&quot; required&gt;Sample&lt;/section&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -14920,7 +14920,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">select_tag(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;select_tag class=&quot;cls-1 red&quot; required&gt;Sample&lt;/select_tag&gt;</span></code></pre>
+<pre><code class="language-crystal">select_tag(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;select_tag class=&quot;cls-1 red&quot; required&gt;Sample&lt;/select_tag&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15043,7 +15043,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">slot(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;slot class=&quot;cls-1 red&quot; required&gt;Sample&lt;/slot&gt;</span></code></pre>
+<pre><code class="language-crystal">slot(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;slot class=&quot;cls-1 red&quot; required&gt;Sample&lt;/slot&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15166,7 +15166,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">small(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;small class=&quot;cls-1 red&quot; required&gt;Sample&lt;/small&gt;</span></code></pre>
+<pre><code class="language-crystal">small(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;small class=&quot;cls-1 red&quot; required&gt;Sample&lt;/small&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15274,13 +15274,13 @@
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">source([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;source class=&quot;cls-1&quot; required&gt;</span></code></pre>
+<pre><code class="language-crystal">source([<span class="n">:required</span>], {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1&quot;</span>}) <span class="c">#=&gt; &lt;source class=&quot;cls-1&quot; required&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -15301,7 +15301,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -15317,7 +15317,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -15352,7 +15352,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">span(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;span class=&quot;cls-1 red&quot; required&gt;Sample&lt;/span&gt;</span></code></pre>
+<pre><code class="language-crystal">span(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;span class=&quot;cls-1 red&quot; required&gt;Sample&lt;/span&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15475,7 +15475,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">strong(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;strong class=&quot;cls-1 red&quot; required&gt;Sample&lt;/strong&gt;</span></code></pre>
+<pre><code class="language-crystal">strong(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;strong class=&quot;cls-1 red&quot; required&gt;Sample&lt;/strong&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15585,7 +15585,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L248" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L248" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -15620,7 +15620,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">sub(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;sub class=&quot;cls-1 red&quot; required&gt;Sample&lt;/sub&gt;</span></code></pre>
+<pre><code class="language-crystal">sub(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;sub class=&quot;cls-1 red&quot; required&gt;Sample&lt;/sub&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15743,7 +15743,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">summary(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;summary class=&quot;cls-1 red&quot; required&gt;Sample&lt;/summary&gt;</span></code></pre>
+<pre><code class="language-crystal">summary(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;summary class=&quot;cls-1 red&quot; required&gt;Sample&lt;/summary&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15866,7 +15866,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">sup(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;sup class=&quot;cls-1 red&quot; required&gt;Sample&lt;/sup&gt;</span></code></pre>
+<pre><code class="language-crystal">sup(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;sup class=&quot;cls-1 red&quot; required&gt;Sample&lt;/sup&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -15989,7 +15989,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">table(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;table class=&quot;cls-1 red&quot; required&gt;Sample&lt;/table&gt;</span></code></pre>
+<pre><code class="language-crystal">table(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;table class=&quot;cls-1 red&quot; required&gt;Sample&lt;/table&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16112,7 +16112,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">tbody(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;tbody class=&quot;cls-1 red&quot; required&gt;Sample&lt;/tbody&gt;</span></code></pre>
+<pre><code class="language-crystal">tbody(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;tbody class=&quot;cls-1 red&quot; required&gt;Sample&lt;/tbody&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16235,7 +16235,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">td(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;td class=&quot;cls-1 red&quot; required&gt;Sample&lt;/td&gt;</span></code></pre>
+<pre><code class="language-crystal">td(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;td class=&quot;cls-1 red&quot; required&gt;Sample&lt;/td&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16358,7 +16358,7 @@
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">template(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;template class=&quot;cls-1 red&quot; required&gt;Sample&lt;/template&gt;</span></code></pre>
+<pre><code class="language-crystal">template(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;template class=&quot;cls-1 red&quot; required&gt;Sample&lt;/template&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16469,7 +16469,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L239" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L239" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -16504,7 +16504,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">textarea(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;textarea class=&quot;cls-1 red&quot; required&gt;Sample&lt;/textarea&gt;</span></code></pre>
+<pre><code class="language-crystal">textarea(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;textarea class=&quot;cls-1 red&quot; required&gt;Sample&lt;/textarea&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16627,7 +16627,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">tfoot(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;tfoot class=&quot;cls-1 red&quot; required&gt;Sample&lt;/tfoot&gt;</span></code></pre>
+<pre><code class="language-crystal">tfoot(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;tfoot class=&quot;cls-1 red&quot; required&gt;Sample&lt;/tfoot&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16750,7 +16750,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">th(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;th class=&quot;cls-1 red&quot; required&gt;Sample&lt;/th&gt;</span></code></pre>
+<pre><code class="language-crystal">th(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;th class=&quot;cls-1 red&quot; required&gt;Sample&lt;/th&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16873,7 +16873,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">thead(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;thead class=&quot;cls-1 red&quot; required&gt;Sample&lt;/thead&gt;</span></code></pre>
+<pre><code class="language-crystal">thead(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;thead class=&quot;cls-1 red&quot; required&gt;Sample&lt;/thead&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -16996,7 +16996,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">time(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;time class=&quot;cls-1 red&quot; required&gt;Sample&lt;/time&gt;</span></code></pre>
+<pre><code class="language-crystal">time(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;time class=&quot;cls-1 red&quot; required&gt;Sample&lt;/time&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17119,7 +17119,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">title(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;title class=&quot;cls-1 red&quot; required&gt;Sample&lt;/title&gt;</span></code></pre>
+<pre><code class="language-crystal">title(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;title class=&quot;cls-1 red&quot; required&gt;Sample&lt;/title&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17242,7 +17242,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">tr(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;tr class=&quot;cls-1 red&quot; required&gt;Sample&lt;/tr&gt;</span></code></pre>
+<pre><code class="language-crystal">tr(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;tr class=&quot;cls-1 red&quot; required&gt;Sample&lt;/tr&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17365,7 +17365,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">track(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;track class=&quot;cls-1 red&quot; required&gt;Sample&lt;/track&gt;</span></code></pre>
+<pre><code class="language-crystal">track(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;track class=&quot;cls-1 red&quot; required&gt;Sample&lt;/track&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17488,7 +17488,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">u(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;u class=&quot;cls-1 red&quot; required&gt;Sample&lt;/u&gt;</span></code></pre>
+<pre><code class="language-crystal">u(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;u class=&quot;cls-1 red&quot; required&gt;Sample&lt;/u&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17611,7 +17611,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">ul(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ul class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ul&gt;</span></code></pre>
+<pre><code class="language-crystal">ul(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;ul class=&quot;cls-1 red&quot; required&gt;Sample&lt;/ul&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17734,7 +17734,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">video(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;video class=&quot;cls-1 red&quot; required&gt;Sample&lt;/video&gt;</span></code></pre>
+<pre><code class="language-crystal">video(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;video class=&quot;cls-1 red&quot; required&gt;Sample&lt;/video&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17857,7 +17857,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
 <li>The <em>options</em> argument is a <code><a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)</code> of any HTML attribute that has a key/value like <code>class</code>, <code>id</code>, <code>type</code>, etc...</li>
 <li>The <em>attrs</em> argument is an <code>Array(Symbol)</code> for specifying <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes">Boolean Attributes</a> such as <code>required</code>, <code>disabled</code>, <code>autofocus</code>, etc...</li>
 </ul>
-<pre><code class="language-crystal">wbr(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> => <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;wbr class=&quot;cls-1 red&quot; required&gt;Sample&lt;/wbr&gt;</span></code></pre>
+<pre><code class="language-crystal">wbr(<span class="s">&quot;Sample&quot;</span>, {<span class="s">&quot;class&quot;</span> =&gt; <span class="s">&quot;cls-1 red&quot;</span>}, [<span class="n">:required</span>]) <span class="c">#=&gt; &lt;wbr class=&quot;cls-1 red&quot; required&gt;Sample&lt;/wbr&gt;</span></code></pre>
         </div>
       
       <br/>
@@ -17973,7 +17973,7 @@ text(<span class="s">&quot;&lt;div&gt;&quot;</span>) <span class="c"># =&gt; &am
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/tags/base_tags.cr#L106" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/tags/base_tags.cr#L106" target="_blank">View source</a>]
         
       </div>
     </div>

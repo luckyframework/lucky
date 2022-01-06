@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.1.1">
+<meta name="generator" content="Crystal Docs 1.2.2">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -940,7 +940,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/page_helpers/url_helpers.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/page_helpers/url_helpers.cr#L1" target="_blank">
         lucky/page_helpers/url_helpers.cr
       </a>
     
@@ -976,6 +976,13 @@
         <a href="#current_page%3F%28action%3ALucky%3A%3AAction.class%7CLucky%3A%3ARouteHelper%2Ccheck_query_params%3ABool%3Dfalse%29%3ABool-instance-method" class="signature"><strong>#current_page?</strong>(action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span> | Lucky::RouteHelper, check_query_params : Bool = <span class="n">false</span>) : Bool</a>
         
           <div class="summary"><p>Tests if the given path matches the current request path.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#previous_url%28fallback%3ALucky%3A%3AAction.class%7CLucky%3A%3ARouteHelper%29-instance-method" class="signature"><strong>#previous_url</strong>(fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span> | Lucky::RouteHelper)</a>
+        
+          <div class="summary"><p>Returns the url of the page that issued the request (the referrer) if possible, otherwise redirects to the provided default fallback location.</p></div>
         
       </li>
     
@@ -1040,7 +1047,7 @@ current_page?(<span class="s">&quot;https://example.com/shop/products?order=desc
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/page_helpers/url_helpers.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/page_helpers/url_helpers.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1080,7 +1087,36 @@ current_page?(<span class="t">Pages</span><span class="t">::</span><span class="
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/page_helpers/url_helpers.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/page_helpers/url_helpers.cr#L81" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="previous_url(fallback:Lucky::Action.class|Lucky::RouteHelper)-instance-method">
+      <div class="signature">
+        
+        def <strong>previous_url</strong>(fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span> | <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>)
+
+        <a class="method-permalink" href="#previous_url%28fallback%3ALucky%3A%3AAction.class%7CLucky%3A%3ARouteHelper%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the url of the page that issued the request (the referrer)
+if possible, otherwise redirects to the provided default fallback
+location.</p>
+<p>The referrer information is pulled from the 'Referer' header on
+the request. This is an optional header, and if the request
+is missing this header the <em>fallback</em> will be used.</p>
+<p>Ex. within a Lucky Page, previous_url can be used to provide an href
+to an anchor element that would allow the user to go back.</p>
+<pre><code class="language-crystal">a <span class="s">&quot;Back&quot;</span>, href: previous_url(fallback: <span class="t">Users</span><span class="t">::</span><span class="t">Index</span>)</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/page_helpers/url_helpers.cr#L101" target="_blank">View source</a>]
         
       </div>
     </div>

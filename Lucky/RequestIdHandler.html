@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.1.1">
+<meta name="generator" content="Crystal Docs 1.2.2">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -919,7 +919,7 @@
 new <code><a href="../String.html">String</a></code> value on each request. This can be
 used to group logs and such that may be ran asynchronously.</p>
 <pre><code class="language-crystal"><span class="t">Lucky</span><span class="t">::</span><span class="t">RequestIdHandler</span>.configure <span class="k">do</span> <span class="o">|</span>settings<span class="o">|</span>
-  settings.set_request_id <span class="o">=</span> ->(context : <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>) {
+  settings.set_request_id <span class="o">=</span> -&gt;(context : <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>) {
     <span class="t">UUID</span>.random.to_s
   }
 <span class="k">end</span></code></pre>
@@ -965,7 +965,7 @@ used to group logs and such that may be ran asynchronously.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/request_id_handler.cr#L14" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/request_id_handler.cr#L14" target="_blank">
         lucky/request_id_handler.cr
       </a>
     
@@ -1124,7 +1124,7 @@ used to group logs and such that may be ran asynchronously.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1140,7 +1140,7 @@ used to group logs and such that may be ran asynchronously.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1168,7 +1168,7 @@ used to group logs and such that may be ran asynchronously.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/request_id_handler.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/request_id_handler.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1184,7 +1184,7 @@ used to group logs and such that may be ran asynchronously.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/lucky/request_id_handler.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.1.1">
+<meta name="generator" content="Crystal Docs 1.2.2">
 <meta name="crystal_docs.project_version" content="master">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -927,7 +927,7 @@ hash[<span class="s">&quot;two&quot;</span>] <span class="o">=</span> <span clas
 hash[<span class="s">&quot;one&quot;</span>] <span class="c"># =&gt; 1</span></code></pre>
 <p><a href="https://crystal-lang.org/reference/syntax_and_semantics/literals/hash.html">Hash literals</a>
 can also be used to create a <code><a href="Hash.html">Hash</a></code>:</p>
-<pre><code class="language-crystal">{<span class="s">&quot;one&quot;</span> => <span class="n">1</span>, <span class="s">&quot;two&quot;</span> => <span class="n">2</span>}</code></pre>
+<pre><code class="language-crystal">{<span class="s">&quot;one&quot;</span> =&gt; <span class="n">1</span>, <span class="s">&quot;two&quot;</span> =&gt; <span class="n">2</span>}</code></pre>
 <p>Implementation is based on an open hash table.
 Two objects refer to the same hash key when their hash value (<code>Object#hash</code>)
 is identical and both objects are equal to each other (<code>Object#==</code>).</p>
@@ -975,7 +975,7 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/charms/hash_extensions.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/charms/hash_extensions.cr#L1" target="_blank">
         charms/hash_extensions.cr
       </a>
     
@@ -1092,7 +1092,7 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
 <p>This returns a value stored in a hash. The key can be specified as a String
 or Symbol. Internally this works by converting Symbols to Strings. See the
 code below for an example. It returns <code>nil</code> if the value doesn't exist:</p>
-<pre><code class="language-crystal">hash <span class="o">=</span> {<span class="s">&quot;name&quot;</span> => <span class="s">&quot;Karin&quot;</span>}
+<pre><code class="language-crystal">hash <span class="o">=</span> {<span class="s">&quot;name&quot;</span> =&gt; <span class="s">&quot;Karin&quot;</span>}
 hash.get(<span class="n">:name</span>)  <span class="c"># =&gt; &quot;Karin&quot; : (String | Nil)</span>
 hash.get(<span class="s">&quot;name&quot;</span>) <span class="c"># =&gt; &quot;Karin&quot; : (String | Nil)</span>
 hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; nil : (String | Nil)</span></code></pre>
@@ -1101,7 +1101,7 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; nil : (String | 
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/charms/hash_extensions.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/charms/hash_extensions.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1121,7 +1121,7 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; nil : (String | 
 or Symbol. Internally this works by converting Symbols to Strings. See the
 code below for an example. It throws a <code>KeyError</code> if the value doesn't
 exist:</p>
-<pre><code class="language-crystal">hash <span class="o">=</span> {<span class="s">&quot;name&quot;</span> => <span class="s">&quot;Karin&quot;</span>}
+<pre><code class="language-crystal">hash <span class="o">=</span> {<span class="s">&quot;name&quot;</span> =&gt; <span class="s">&quot;Karin&quot;</span>}
 hash.get(<span class="n">:name</span>)  <span class="c"># =&gt; &quot;Karin&quot; : String</span>
 hash.get(<span class="s">&quot;name&quot;</span>) <span class="c"># =&gt; &quot;Karin&quot; : String</span>
 hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; KeyError</span></code></pre>
@@ -1130,7 +1130,7 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; KeyError</span><
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/d556db3952fa7a7bef8248bd30ffbabe034d9eb6/src/charms/hash_extensions.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/f07fb815287be7bd2930a49146362666eed23525/src/charms/hash_extensions.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
