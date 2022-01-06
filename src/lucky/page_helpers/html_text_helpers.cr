@@ -32,7 +32,7 @@ module Lucky::HTMLTextHelpers
   # ```
   def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, blk : Nil | Proc = nil) : Nil
     content = truncate_text(text, length, omission, separator)
-    raw (escape ? HTML.escape(content) : content)
+    raw(escape ? HTML.escape(content) : content)
     blk.call if !blk.nil? && text.size > length
   end
 
@@ -74,7 +74,7 @@ module Lucky::HTMLTextHelpers
     text = escape ? HTML.escape(text) : text
 
     if text.blank? || phrases.all?(&.to_s.blank?)
-      raw (text || "")
+      raw(text || "")
     else
       match = phrases.map do |p|
         p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
