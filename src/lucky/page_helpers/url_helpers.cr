@@ -92,6 +92,12 @@ module Lucky::UrlHelpers
   # The referrer information is pulled from the 'Referer' header on
   # the request. This is an optional header, and if the request
   # is missing this header the *fallback* will be used.
+  #
+  # Ex. within a Lucky Page, previous_url can be used to provide an href
+  # to an anchor element that would allow the user to go back.
+  # ```
+  # a "Back", href: previous_url(fallback: Users::Index)
+  # ```
   def previous_url(fallback : Lucky::Action.class | Lucky::RouteHelper)
     referrer_header || fallback.path
   end
