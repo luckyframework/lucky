@@ -7,9 +7,17 @@ abstract class Lucky::BaseHTTPClient
   private getter client
 
   @client : HTTP::Client
+  @headers = HTTP::Headers.new
 
-  def initialize(host = Lucky::Server.settings.host, port = Lucky::Server.settings.port)
-    @client = HTTP::Client.new(host, port: port)
+  def self.for_app(app : Lucky::BaseAppServer)
+    new(Client.new(HTTP::Server.build_middleware(app.middleware)))
+  end
+
+  def initialize(@client = default_client)
+  end
+
+  private def default_client : HTTP::Client
+    HTTP::Client.new(Lucky::Server.settings.host, port: Lucky::Server.settings.port)
   end
 
   {% for method in [:get, :put, :patch, :post, :exec, :delete, :options, :head] %}
@@ -56,10 +64,8 @@ abstract class Lucky::BaseHTTPClient
   #   .get("/some-path")
   # ```
   def headers(**header_values)
-    @client.before_request do |request|
-      header_values.each do |key, value|
-        request.headers[key.to_s.gsub("-", "_")] = value.to_s
-      end
+    header_values.each do |key, value|
+      @headers[key.to_s.gsub("-", "_")] = value.to_s
     end
     self
   end
@@ -87,7 +93,11 @@ abstract class Lucky::BaseHTTPClient
 
   # See docs for `exec`
   def exec(route_helper : Lucky::RouteHelper, params : NamedTuple) : HTTP::Client::Response
-    @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: params.to_json)
+    exec(route_helper.method.to_s.upcase, route_helper.path, params)
+  end
+
+  def exec(method : String, path : String, params : NamedTuple) : HTTP::Client::Response
+    @client.exec(method: method, path: path, headers: @headers, body: params.to_json)
   end
 
   {% for method in [:put, :patch, :post, :delete, :get, :options, :head] %}
@@ -96,7 +106,28 @@ abstract class Lucky::BaseHTTPClient
     end
 
     def {{ method.id }}(path : String, params : NamedTuple) : HTTP::Client::Response
-      @client.{{ method.id }}(path, form: params.to_json)
+      exec({{method.upcase.id.stringify}}, path, params)
     end
   {% end %}
+
+  # HTTP::Client that sends requests into the wrapped HTTP::Handler
+  # instead of making actual HTTP requests
+  private class Client < HTTP::Client
+    @host = ""
+    @port = -1
+
+    def initialize(@app : HTTP::Handler)
+    end
+
+    def exec_internal(request : HTTP::Request) : HTTP::Client::Response
+      buffer = IO::Memory.new
+      response = HTTP::Server::Response.new(buffer)
+      context = HTTP::Server::Context.new(request, response)
+
+      @app.call(context)
+      response.close
+
+      HTTP::Client::Response.from_io(buffer.rewind)
+    end
+  end
 end
