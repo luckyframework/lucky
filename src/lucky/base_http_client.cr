@@ -4,12 +4,23 @@ require "http/client"
 #
 # Makes it easy to pass params, use Lucky route helpers, and chain header methods.
 abstract class Lucky::BaseHTTPClient
+  @@app : Lucky::BaseAppServer?
   private getter client
 
   @client : HTTP::Client
 
-  def initialize(host = Lucky::Server.settings.host, port = Lucky::Server.settings.port)
-    @client = HTTP::Client.new(host, port: port)
+  def self.app(@@app : Lucky::BaseAppServer)
+  end
+
+  def initialize(@client = build_client)
+  end
+
+  private def build_client : HTTP::Client
+    if app = @@app
+      Client.from_app(app)
+    else
+      HTTP::Client.new(Lucky::Server.settings.host, port: Lucky::Server.settings.port)
+    end
   end
 
   {% for method in [:get, :put, :patch, :post, :exec, :delete, :options, :head] %}
@@ -99,4 +110,31 @@ abstract class Lucky::BaseHTTPClient
       @client.{{ method.id }}(path, form: params.to_json)
     end
   {% end %}
+
+  # HTTP::Client that sends requests into the wrapped HTTP::Handler
+  # instead of making actual HTTP requests
+  private class Client < HTTP::Client
+    @host = ""
+    @port = -1
+
+    def self.from_app(app : Lucky::BaseAppServer)
+      self.new(HTTP::Server.build_middleware(app.middleware))
+    end
+
+    def initialize(@app : HTTP::Handler)
+    end
+
+    def exec_internal(request : HTTP::Request) : HTTP::Client::Response
+      set_defaults(request)
+      run_before_request_callbacks(request)
+      buffer = IO::Memory.new
+      response = HTTP::Server::Response.new(buffer)
+      context = HTTP::Server::Context.new(request, response)
+
+      @app.call(context)
+      response.close
+
+      HTTP::Client::Response.from_io(buffer.rewind)
+    end
+  end
 end
