@@ -8,7 +8,6 @@ abstract class Lucky::BaseHTTPClient
   private getter client
 
   @client : HTTP::Client
-  @headers = HTTP::Headers.new
 
   def self.app(@@app : Lucky::BaseAppServer)
   end
@@ -68,8 +67,10 @@ abstract class Lucky::BaseHTTPClient
   #   .get("/some-path")
   # ```
   def headers(**header_values)
-    header_values.each do |key, value|
-      @headers[key.to_s.gsub("-", "_")] = value.to_s
+    @client.before_request do |request|
+      header_values.each do |key, value|
+        request.headers[key.to_s.gsub("-", "_")] = value.to_s
+      end
     end
     self
   end
@@ -97,11 +98,7 @@ abstract class Lucky::BaseHTTPClient
 
   # See docs for `exec`
   def exec(route_helper : Lucky::RouteHelper, params : NamedTuple) : HTTP::Client::Response
-    exec(route_helper.method.to_s.upcase, route_helper.path, params)
-  end
-
-  def exec(method : String, path : String, params : NamedTuple) : HTTP::Client::Response
-    @client.exec(method: method, path: path, headers: @headers, body: params.to_json)
+    @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: params.to_json)
   end
 
   {% for method in [:put, :patch, :post, :delete, :get, :options, :head] %}
@@ -110,7 +107,7 @@ abstract class Lucky::BaseHTTPClient
     end
 
     def {{ method.id }}(path : String, params : NamedTuple) : HTTP::Client::Response
-      exec({{method.upcase.id.stringify}}, path, params)
+      @client.{{ method.id }}(path, form: params.to_json)
     end
   {% end %}
 
@@ -128,6 +125,8 @@ abstract class Lucky::BaseHTTPClient
     end
 
     def exec_internal(request : HTTP::Request) : HTTP::Client::Response
+      set_defaults(request)
+      run_before_request_callbacks(request)
       buffer = IO::Memory.new
       response = HTTP::Server::Response.new(buffer)
       context = HTTP::Server::Context.new(request, response)
