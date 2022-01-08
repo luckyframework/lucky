@@ -1,13 +1,15 @@
 class TestServer < Lucky::BaseAppServer
-  class_property last_request : HTTP::Request?
-  class_getter middleware = [LastRequestHandler.new] of HTTP::Handler
+  class_setter last_request : HTTP::Request?
 
-  def self.reset
-    @@middleware = [LastRequestHandler.new] of HTTP::Handler
+  def self.last_request : HTTP::Request
+    @@last_request.not_nil!
   end
 
   def middleware : Array(HTTP::Handler)
-    @@middleware
+    [
+      LastRequestHandler.new,
+      Lucky::RouteHandler.new,
+    ] of HTTP::Handler
   end
 
   def listen

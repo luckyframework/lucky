@@ -4,20 +4,24 @@ require "http/client"
 #
 # Makes it easy to pass params, use Lucky route helpers, and chain header methods.
 abstract class Lucky::BaseHTTPClient
+  @@app : Lucky::BaseAppServer?
   private getter client
 
   @client : HTTP::Client
   @headers = HTTP::Headers.new
 
-  def self.for_app(app : Lucky::BaseAppServer)
-    new(Client.new(HTTP::Server.build_middleware(app.middleware)))
+  def self.app(@@app : Lucky::BaseAppServer)
   end
 
-  def initialize(@client = default_client)
+  def initialize(@client = build_client)
   end
 
-  private def default_client : HTTP::Client
-    HTTP::Client.new(Lucky::Server.settings.host, port: Lucky::Server.settings.port)
+  private def build_client : HTTP::Client
+    if app = @@app
+      Client.from_app(app)
+    else
+      HTTP::Client.new(Lucky::Server.settings.host, port: Lucky::Server.settings.port)
+    end
   end
 
   {% for method in [:get, :put, :patch, :post, :exec, :delete, :options, :head] %}
@@ -115,6 +119,10 @@ abstract class Lucky::BaseHTTPClient
   private class Client < HTTP::Client
     @host = ""
     @port = -1
+
+    def self.from_app(app : Lucky::BaseAppServer)
+      self.new(HTTP::Server.build_middleware(app.middleware))
+    end
 
     def initialize(@app : HTTP::Handler)
     end
