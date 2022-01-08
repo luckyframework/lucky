@@ -238,25 +238,25 @@ describe Lucky::Action do
     end
 
     it "adds routes to the router" do
-      assert_route_added? Lucky::Route.new :get, "/tests", Tests::Index
-      assert_route_added? Lucky::Route.new :get, "/tests/new", Tests::New
-      assert_route_added? Lucky::Route.new :get, "/tests/:test_id/edit", Tests::Edit
-      assert_route_added? Lucky::Route.new :get, "/tests/:test_id", Tests::Show
-      assert_route_added? Lucky::Route.new :delete, "/tests/:test_id", Tests::Delete
-      assert_route_added? Lucky::Route.new :put, "/tests/:test_id", Tests::Update
-      assert_route_added? Lucky::Route.new :post, "/tests", Tests::Create
+      assert_route_added?({:get, "/tests", Tests::Index})
+      assert_route_added?({:get, "/tests/new", Tests::New})
+      assert_route_added?({:get, "/tests/:test_id/edit", Tests::Edit})
+      assert_route_added?({:get, "/tests/:test_id", Tests::Show})
+      assert_route_added?({:delete, "/tests/:test_id", Tests::Delete})
+      assert_route_added?({:put, "/tests/:test_id", Tests::Update})
+      assert_route_added?({:post, "/tests", Tests::Create})
     end
 
     it "allows setting custom routes" do
-      assert_route_not_added? Lucky::Route.new :get, "/custom_routes", CustomRoutes::Index
+      assert_route_not_added?({:get, "/custom_routes", CustomRoutes::Index})
 
-      assert_route_added? Lucky::Route.new :get, "/so_custom", CustomRoutes::Index
-      assert_route_added? Lucky::Route.new :put, "/so_custom", CustomRoutes::Put
-      assert_route_added? Lucky::Route.new :post, "/so_custom", CustomRoutes::Post
-      assert_route_added? Lucky::Route.new :patch, "/so_custom", CustomRoutes::Patch
-      assert_route_added? Lucky::Route.new :trace, "/so_custom", CustomRoutes::Trace
-      assert_route_added? Lucky::Route.new :delete, "/so_custom", CustomRoutes::Delete
-      assert_route_added? Lucky::Route.new :options, "/so_custom", CustomRoutes::Match
+      assert_route_added?({:get, "/so_custom", CustomRoutes::Index})
+      assert_route_added?({:put, "/so_custom", CustomRoutes::Put})
+      assert_route_added?({:post, "/so_custom", CustomRoutes::Post})
+      assert_route_added?({:patch, "/so_custom", CustomRoutes::Patch})
+      assert_route_added?({:trace, "/so_custom", CustomRoutes::Trace})
+      assert_route_added?({:delete, "/so_custom", CustomRoutes::Delete})
+      assert_route_added?({:options, "/so_custom", CustomRoutes::Match})
     end
 
     it "works with optional routing paths" do

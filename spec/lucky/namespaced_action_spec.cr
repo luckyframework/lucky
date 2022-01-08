@@ -18,7 +18,7 @@ describe Lucky::Action do
     end
 
     it "adds routes to the router" do
-      assert_route_added? Lucky::Route.new :get, "/admin/multi_word/users/:user_id", Admin::MultiWord::Users::Show
+      assert_route_added?({:get, "/admin/multi_word/users/:user_id", Admin::MultiWord::Users::Show})
     end
   end
 end
