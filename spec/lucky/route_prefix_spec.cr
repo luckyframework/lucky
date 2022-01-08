@@ -93,5 +93,5 @@ describe "prefixing routes" do
 end
 
 private def assert_route_added?(expected_route)
-  Lucky::Router.routes.should contain(expected_route)
+  Lucky.router.routes.should contain(expected_route)
 end

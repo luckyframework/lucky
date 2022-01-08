@@ -23,7 +23,7 @@ class Routes < LuckyTask::Task
   def call
     routes = [] of Array(String)
 
-    Lucky::Router.routes.each do |route|
+    Lucky.router.routes.each do |route|
       row = [] of String
       row << route.method.to_s.upcase
       row << route.path.colorize.green.to_s
