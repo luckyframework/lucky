@@ -940,7 +940,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L6" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L6" target="_blank">
         lucky/base_http_client.cr
       </a>
     
@@ -962,7 +962,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28host%3DLucky%3A%3AServer.settings.host%2Cport%3DLucky%3A%3AServer.settings.port%29-class-method" class="signature"><strong>.new</strong>(host = <span class="t">Lucky</span><span class="t">::</span><span class="t">Server</span>.settings.host, port = <span class="t">Lucky</span><span class="t">::</span><span class="t">Server</span>.settings.port)</a>
+        <a href="#new%28client%3Dbuild_client%29-class-method" class="signature"><strong>.new</strong>(client = build_client)</a>
         
       </li>
     
@@ -979,6 +979,11 @@
     Class Method Summary
   </h2>
   <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#app%28app%3ALucky%3A%3ABaseAppServer%29-class-method" class="signature"><strong>.app</strong>(app : Lucky::BaseAppServer)</a>
+        
+      </li>
     
       <li class="entry-summary">
         <a href="#delete%28%2Aargs%2C%2A%2Anamed_args%29-class-method" class="signature"><strong>.delete</strong>(*args, **named_args)</a>
@@ -1172,18 +1177,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(host=Lucky::Server.settings.host,port=Lucky::Server.settings.port)-class-method">
+    <div class="entry-detail" id="new(client=build_client)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(host = <span class="t">Lucky</span><span class="t">::</span><span class="t">Server</span>.settings.host, port = <span class="t">Lucky</span><span class="t">::</span><span class="t">Server</span>.settings.port)
+        def self.<strong>new</strong>(client = build_client)
 
-        <a class="method-permalink" href="#new%28host%3DLucky%3A%3AServer.settings.host%2Cport%3DLucky%3A%3AServer.settings.port%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28client%3Dbuild_client%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1200,6 +1205,22 @@
     Class Method Detail
   </h2>
   
+    <div class="entry-detail" id="app(app:Lucky::BaseAppServer)-class-method">
+      <div class="signature">
+        
+        def self.<strong>app</strong>(app : <a href="../Lucky/BaseAppServer.html">Lucky::BaseAppServer</a>)
+
+        <a class="method-permalink" href="#app%28app%3ALucky%3A%3ABaseAppServer%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="delete(*args,**named_args)-class-method">
       <div class="signature">
         
@@ -1211,7 +1232,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1227,7 +1248,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1243,7 +1264,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1259,7 +1280,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1275,7 +1296,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1291,7 +1312,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1307,7 +1328,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1323,7 +1344,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1351,7 +1372,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1367,7 +1388,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1388,7 +1409,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L89" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L100" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1417,7 +1438,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L79" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L90" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1438,7 +1459,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L84" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1454,7 +1475,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1470,7 +1491,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1486,7 +1507,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1502,7 +1523,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1542,7 +1563,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L69" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1558,7 +1579,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1574,7 +1595,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1590,7 +1611,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1606,7 +1627,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1622,7 +1643,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1638,7 +1659,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1654,7 +1675,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1670,7 +1691,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/08a70e191b6a242cdf972750219dc732e2d5ec16/src/lucky/base_http_client.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6480d93f10455d49be89e22bb2bd4c2e8c7ab8db/src/lucky/base_http_client.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
