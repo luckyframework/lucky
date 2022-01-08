@@ -3,6 +3,8 @@ require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
 
+include RoutesHelper
+
 Pulsar.enable_test_mode!
 
 Lucky::AssetHelpers.load_manifest

@@ -72,26 +72,22 @@ end
 
 describe "prefixing routes" do
   it "prefixes the URL helpers for the resourceful actions" do
-    assert_route_added?({:get, "/api/v1/prefixed_get", PrefixedActions})
-    assert_route_added?({:put, "/api/v1/prefixed_put/:id", PrefixedActions})
-    assert_route_added?({:post, "/api/v1/prefixed_post/:id", PrefixedActions})
-    assert_route_added?({:patch, "/api/v1/prefixed_patch/:id", PrefixedActions})
-    assert_route_added?({:trace, "/api/v1/prefixed_trace/:id", PrefixedActions})
-    assert_route_added?({:delete, "/api/v1/prefixed_delete/:id", PrefixedActions})
-    assert_route_added?({:options, "/api/v1/prefixed_match_options", PrefixedActions})
+    assert_route_added?(:get, "/api/v1/prefixed_get", PrefixedActions)
+    assert_route_added?(:put, "/api/v1/prefixed_put/:id", PrefixedActions)
+    assert_route_added?(:post, "/api/v1/prefixed_post/:id", PrefixedActions)
+    assert_route_added?(:patch, "/api/v1/prefixed_patch/:id", PrefixedActions)
+    assert_route_added?(:trace, "/api/v1/prefixed_trace/:id", PrefixedActions)
+    assert_route_added?(:delete, "/api/v1/prefixed_delete/:id", PrefixedActions)
+    assert_route_added?(:options, "/api/v1/prefixed_match_options", PrefixedActions)
   end
 
   it "correctly prefixes through inheritance" do
-    assert_route_added?({:get, "/parent_api/has_parent_prefix", ChildApiWithParentPrefix})
-    assert_route_added?({:get, "/child_api/has_own_prefix", ChildApiWithOwnPrefix})
+    assert_route_added?(:get, "/parent_api/has_parent_prefix", ChildApiWithParentPrefix)
+    assert_route_added?(:get, "/child_api/has_own_prefix", ChildApiWithOwnPrefix)
   end
 
   it "correctly prefixes action through included modules" do
-    assert_route_added?({:get, "/module_prefix/has_module_prefix", ActionIncludingModulePrefix})
-    assert_route_added?({:get, "/no_prefix", ActionNotIncludingModulePrefix})
+    assert_route_added?(:get, "/module_prefix/has_module_prefix", ActionIncludingModulePrefix)
+    assert_route_added?(:get, "/no_prefix", ActionNotIncludingModulePrefix)
   end
-end
-
-private def assert_route_added?(expected_route)
-  Lucky.router.routes.should contain(expected_route)
 end

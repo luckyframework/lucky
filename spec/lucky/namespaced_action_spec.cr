@@ -18,15 +18,7 @@ describe Lucky::Action do
     end
 
     it "adds routes to the router" do
-      assert_route_added?({:get, "/admin/multi_word/users/:user_id", Admin::MultiWord::Users::Show})
+      assert_route_added?(:get, "/admin/multi_word/users/:user_id", Admin::MultiWord::Users::Show)
     end
   end
-end
-
-private def assert_route_added?(expected_route)
-  Lucky.router.routes.should contain(expected_route)
-end
-
-private def assert_route_not_added?(expected_route)
-  Lucky.router.routes.should_not contain(expected_route)
 end
