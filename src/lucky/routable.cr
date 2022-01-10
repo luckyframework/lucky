@@ -164,7 +164,7 @@ module Lucky::Routable
     enforce_route_style({{ path }}, {{ @type.name.id }})
     enforce_route_uniqueness({{method}}, {{ path }})
 
-    Lucky::Router.add({{ method }}, {{ path }}, {{ @type.name.id }})
+    Lucky.router.add({{ method }}, {{ path }}, {{ @type.name.id }})
     {% path_parts = path.split('/').reject(&.empty?) %}
     {% path_params = path_parts.select(&.starts_with?(':')) %}
     {% optional_path_params = path_parts.select(&.starts_with?("?:")) %}
