@@ -15,14 +15,12 @@ jobs:
           - shard.yml
         crystal_version:
           - 1.0.0
-          - 1.1.1
-          - 1.2.2
           - 1.3.0
         experimental:
           - false
         include:
           - shard_file: shard.edge.yml
-            crystal_version: 1.1.1
+            crystal_version: 1.3.0
             experimental: true
           - shard_file: shard.yml
             crystal_version: nightly
@@ -50,14 +48,12 @@ jobs:
           - shard.yml
         crystal_version:
           - 1.0.0
-          - 1.1.1
-          - 1.2.2
           - 1.3.0
         experimental:
           - false
         include:
           - shard_file: shard.edge.yml
-            crystal_version: 1.1.1
+            crystal_version: 1.3.0
             experimental: true
           - shard_file: shard.yml
             crystal_version: nightly
