@@ -44,7 +44,7 @@ jobs:
           - shard.yml
         crystal_version:
           - 1.0.0
-          - 1.3.0
+          - latest
         experimental:
           - false
         include:
