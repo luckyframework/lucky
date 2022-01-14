@@ -131,11 +131,11 @@ module Lucky::Redirectable
 
       Lucky::TextResponse.new(context,
         "text/javascript",
-        %[Turbolinks.clearCache();\nTurbolinks.visit(#{path.to_json}, {"action": "replace"})],
+        %[Turbo.clearCache();\nTurbo.visit(#{path.to_json}, {"action": "replace"})],
         status: 200)
     else
-      if request.headers["Turbolinks-Referrer"]?
-        store_turbolinks_location_in_session(path)
+      if request.headers["Turbo-Referrer"]?
+        store_turbo_location_in_session(path)
       end
       # ordinary redirect
       context.response.headers.add "Location", path
@@ -149,9 +149,9 @@ module Lucky::Redirectable
     {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
   end
 
-  private def store_turbolinks_location_in_session(path : String)
-    cookies.set(:_turbolinks_location, path).http_only(true)
-    # this cookie read at Lucky::RedirectableTurbolinksSupport
+  private def store_turbo_location_in_session(path : String)
+    cookies.set(:_turbo_location, path).http_only(true)
+    # this cookie read at Lucky::RedirectableTurboSupport
   end
 
   private def allowed_host?(referer : String)

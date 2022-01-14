@@ -98,7 +98,7 @@ describe Lucky::Action do
     end
   end
 
-  it "turbolinks redirects after a XHR POST form submission" do
+  it "turbo redirects after a XHR POST form submission" do
     request = build_request("POST")
     request.headers["Accept"] = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01"
     request.headers["X-Requested-With"] = "XmlHttpRequest"
@@ -107,32 +107,32 @@ describe Lucky::Action do
     action = RedirectAction.new(context, params)
     response = action.redirect to: "/somewhere", status: 302
     should_redirect(action, to: "/somewhere", status: 200)
-    action.context.response.headers.has_key?("Turbolinks-Location").should be_false
-    response.body.should eq %[Turbolinks.clearCache();\nTurbolinks.visit("/somewhere", {"action": "replace"})]
+    action.context.response.headers.has_key?("Turbo-Location").should be_false
+    response.body.should eq %[Turbo.clearCache();\nTurbo.visit("/somewhere", {"action": "replace"})]
   end
 
-  it "set a cookie for redirects occurring during a turbolinks GET request" do
+  it "set a cookie for redirects occurring during a turbo GET request" do
     request = build_request
-    request.headers["Turbolinks-Referrer"] = "/"
+    request.headers["Turbo-Referrer"] = "/"
     context = build_context("/", request: request)
 
     action = RedirectAction.new(context, params)
     response = action.redirect to: "/somewhere", status: 302
     should_redirect(action, to: "/somewhere", status: 302)
-    context.response.headers.has_key?("Turbolinks-Location").should be_false
+    context.response.headers.has_key?("Turbo-Location").should be_false
     response.body.should eq ""
     # should remember redirect to
-    context.cookies.get?(:_turbolinks_location).should eq "/somewhere"
+    context.cookies.get?(:_turbo_location).should eq "/somewhere"
   end
 
-  it "restore turbolinks redirect target" do
+  it "restore turbo redirect target" do
     context = build_context
-    context.cookies.set(:_turbolinks_location, "/somewhere")
+    context.cookies.set(:_turbo_location, "/somewhere")
 
     RedirectAction.new(context, params).call
     context.response.status_code.should eq 200
-    context.response.headers["Turbolinks-Location"].should eq "/somewhere"
-    context.cookies.deleted?(:_turbolinks_location).should be_true
+    context.response.headers["Turbo-Location"].should eq "/somewhere"
+    context.cookies.deleted?(:_turbo_location).should be_true
   end
 
   it "keeps flash messages for the next action" do
