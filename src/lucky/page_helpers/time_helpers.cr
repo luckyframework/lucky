@@ -22,20 +22,14 @@ module Lucky::TimeHelpers
     days = (to - from).days
 
     return distance_in_days(days) if days != 0
-    return distance_in_hours(hours) if hours != 0
+    return distance_in_hours(hours, minutes) if hours != 0
     return distance_in_minutes(minutes) if minutes != 0
+
     distance_in_seconds(seconds)
   end
 
   # Returns a `String` with approximate distance in time between `from` and current moment.
-  #
-  # ```
-  # time_ago_in_words(Time.utc(2019, 8, 30)) # => "about a month"
-  # # gives the same result as:
-  # distance_of_time_in_words(Time.utc(2019, 8, 30), Time.utc) # => "about a month"
-  # ```
-  #
-  # See more examples in `#distance_of_time_in_words`.
+
   def time_ago_in_words(from : Time) : String
     distance_of_time_in_words(from, Time.utc)
   end
@@ -67,8 +61,14 @@ module Lucky::TimeHelpers
     end
   end
 
-  private def distance_in_hours(distance : Int32) : String
-    distance == 1 ? "an hour" : "#{distance} hours"
+  private def distance_in_hours(hours : Int32, minutes : Int32) : String
+    if minutes >= 45
+      "almost #{hours + 1} hours"
+    elsif hours == 1
+      "an hour"
+    else
+      "#{hours} hours"
+    end
   end
 
   private def distance_in_minutes(distance : Int32) : String

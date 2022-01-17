@@ -19,6 +19,8 @@ describe Lucky::TimeHelpers do
       view.distance_of_time_in_words(from_time, from_time + 45.minutes).should eq "about an hour"
       view.distance_of_time_in_words(from_time, from_time + 50.minutes).should eq "about an hour"
       view.distance_of_time_in_words(from_time, from_time + 1.hour).should eq "an hour"
+      view.distance_of_time_in_words(from_time, from_time + 110.minutes).should eq "almost 2 hours"
+      view.distance_of_time_in_words(from_time, from_time + 350.minutes).should eq "almost 6 hours"
       view.distance_of_time_in_words(from_time, from_time + 2.hours).should eq "2 hours"
       view.distance_of_time_in_words(from_time, from_time + 1.day).should eq "a day"
       view.distance_of_time_in_words(from_time, from_time + 10.days).should eq "10 days"
