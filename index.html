@@ -952,7 +952,7 @@ The guide will walk you through installing a command-line utility used for gener
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
 <ul>
-<li>If you want you can set up custom routes like <code>get "/sign_in"</code> for non REST routes.</li>
+<li>If you want you can set up custom routes like <code>get &quot;/sign_in&quot;</code> for non REST routes.</li>
 <li>A <code>user_id</code> method is generated because there is a <code>user_id</code> route parameter.</li>
 <li>Use <code>json</code> to render JSON. <a href="https://luckyframework.org/guides/writing-json-apis/#respond-with-json">Extract
 serializers</a>
@@ -1059,7 +1059,7 @@ helpers and whether the helper is pluralized or not - If you forget to pass a
 param to a route, Lucky will let you know at compile-time.</li>
 <li>Since we defined <code>column nickname : <a href="String.html">String</a>?</code> as nilable, Lucky would fail
 to compile the page if you just did <code>text user.nickname</code> since it disallows
-printing <code>nil</code>. So instead we add a fallback <code>"No Nickname"</code>. <strong>No more
+printing <code>nil</code>. So instead we add a fallback <code>&quot;No Nickname&quot;</code>. <strong>No more
 accidentally printing empty text in HTML!</strong></li>
 </ul>
 <h2><a id="testing" class="anchor" href="#testing">
