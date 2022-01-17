@@ -1,9 +1,5 @@
 module Lucky::TurboLinksActionSupport
-  # This overloads the Lucky::Redirectable redirect method to return a specific Turbolink js response.
-  def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
-    # flash messages are not consumed here, so keep them for the next action
-    flash.keep
-
+  private def special_ajax_redirect(path, status) : Lucky::TextResponse
     if ajax? && request.method != "GET"
       context.response.headers.add "Location", path
 

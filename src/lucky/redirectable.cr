@@ -122,27 +122,7 @@ module Lucky::Redirectable
   def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
     # flash messages are not consumed here, so keep them for the next action
     flash.keep
-
-    if ajax? && request.method != "GET"
-      context.response.headers.add "Location", path
-
-      # do not enable form disabled elements for XHR redirects, see https://github.com/rails/rails/pull/31441
-      context.response.headers.add "X-Xhr-Redirect", path
-
-      Lucky::TextResponse.new(context,
-        "text/javascript",
-        ";",
-        # %[Turbolinks.clearCache();\nTurbolinks.visit(#{path.to_json}, {"action": "replace"})],
-        status: 200)
-    else
-      # if request.headers["Turbolinks-Referrer"]?
-      #   store_turbolinks_location_in_session(path)
-      # end
-      # ordinary redirect
-      context.response.headers.add "Location", path
-      context.response.status_code = status
-      Lucky::TextResponse.new(context, "", "")
-    end
+    special_ajax_redirect(path, status)
   end
 
   # :nodoc:
@@ -150,9 +130,13 @@ module Lucky::Redirectable
     {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
   end
 
-  # private def special_ajax_redirect : Lucky::TextResponse
-
-  # end
+  private def special_ajax_redirect(path, status) : Lucky::TextResponse
+    # ordinary redirect
+    context.response.headers.add "Location", path
+    context.response.status_code = status
+    Lucky::TextResponse.new(context, "", "")
+    # end
+  end
 
   private def allowed_host?(referer : String)
     if referer_host = URI.parse(referer).hostname
