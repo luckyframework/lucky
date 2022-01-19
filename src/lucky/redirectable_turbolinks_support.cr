@@ -1,3 +1,8 @@
+# Set "Turbolinks-Location" from session
+# Needs to change browser address bar at last request, see https://github.com/turbolinks/turbolinks#following-redirects
+#
+# This pipe extracted Lucky::Redirectable, because Lucky::Redirectable included to Lucky::ErrorAction
+# but Lucky::ErrorAction not have pipe support
 module Lucky::RedirectableTurbolinksSupport
   # Overrides Lucky::Redirectable redirect's method
   def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
