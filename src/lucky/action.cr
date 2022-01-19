@@ -1,7 +1,5 @@
 require "./*"
 
-# require "./support/turbolinks/action/*"
-
 abstract class Lucky::Action
   getter :context, :route_params
 
@@ -19,5 +17,6 @@ abstract class Lucky::Action
   include Lucky::ParamHelpers
   include Lucky::ActionPipes
   include Lucky::Redirectable
+  include Lucky::RedirectableTurbolinksSupport
   include Lucky::VerifyAcceptsFormat
 end

@@ -8,14 +8,6 @@ class RedirectAction < TestAction
   end
 end
 
-class RedirectTurboLinksAction < TestAction
-  include Lucky::TurboLinksActionSupport
-
-  get "/redirect_turbolinks_test" do
-    plain_text "does not matter"
-  end
-end
-
 class ActionWithPrefix < TestAction
   route_prefix "/prefix"
 
@@ -112,7 +104,7 @@ describe Lucky::Action do
     request.headers["X-Requested-With"] = "XmlHttpRequest"
     context = build_context("/", request: request)
 
-    action = RedirectTurboLinksAction.new(context, params)
+    action = RedirectAction.new(context, params)
     response = action.redirect to: "/somewhere", status: 302
     should_redirect(action, to: "/somewhere", status: 200)
     action.context.response.headers.has_key?("Turbolinks-Location").should be_false
@@ -124,7 +116,7 @@ describe Lucky::Action do
     request.headers["Turbolinks-Referrer"] = "/"
     context = build_context("/", request: request)
 
-    action = RedirectTurboLinksAction.new(context, params)
+    action = RedirectAction.new(context, params)
     response = action.redirect to: "/somewhere", status: 302
     should_redirect(action, to: "/somewhere", status: 302)
     context.response.headers.has_key?("Turbolinks-Location").should be_false
@@ -137,7 +129,7 @@ describe Lucky::Action do
     context = build_context
     context.cookies.set(:_turbolinks_location, "/somewhere")
 
-    RedirectTurboLinksAction.new(context, params).call
+    RedirectAction.new(context, params).call
     context.response.status_code.should eq 200
     context.response.headers["Turbolinks-Location"].should eq "/somewhere"
     context.cookies.deleted?(:_turbolinks_location).should be_true

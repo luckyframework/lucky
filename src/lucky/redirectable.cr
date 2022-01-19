@@ -122,20 +122,14 @@ module Lucky::Redirectable
   def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
     # flash messages are not consumed here, so keep them for the next action
     flash.keep
-    special_ajax_redirect(path, status)
+    context.response.headers.add "Location", path
+    context.response.status_code = status
+    Lucky::TextResponse.new(context, "", "")
   end
 
   # :nodoc:
   def redirect(to page_instead_of_action : Lucky::HTMLPage.class, **unused_args)
     {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
-  end
-
-  private def special_ajax_redirect(path, status) : Lucky::TextResponse
-    # ordinary redirect
-    context.response.headers.add "Location", path
-    context.response.status_code = status
-    Lucky::TextResponse.new(context, "", "")
-    # end
   end
 
   private def allowed_host?(referer : String)

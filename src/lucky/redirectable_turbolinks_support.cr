@@ -1,5 +1,8 @@
-module Lucky::TurboLinksActionSupport
-  private def special_ajax_redirect(path, status) : Lucky::TextResponse
+module Lucky::RedirectableTurbolinksSupport
+  # Overrides Lucky::Redirectable redirect's method
+  def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
+    # flash messages are not consumed here, so keep them for the next action
+    flash.keep
     if ajax? && request.method != "GET"
       context.response.headers.add "Location", path
 
@@ -23,7 +26,6 @@ module Lucky::TurboLinksActionSupport
 
   private def store_turbolinks_location_in_session(path : String)
     cookies.set(:_turbolinks_location, path).http_only(true)
-    # this cookie read at Lucky::RedirectableTurbolinksSupport
   end
 
   macro included
