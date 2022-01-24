@@ -155,7 +155,7 @@ module LuckySentry
     def restart_app
       build_in_progress = @build_processes.any?(&.exists?)
       stop_all_processes
-      puts build_in_progress ? "Recompiling..." : "Compiling..."
+      puts build_in_progress ? "Recompiling..." : "\nCompiling..."
       build_app_processes_and_start
     end
 
@@ -176,7 +176,7 @@ module LuckySentry
       if build_success
         self.app_built = true
         create_app_processes()
-        puts "Done compiling"
+        puts "#{" Done ".colorize.on_cyan.black} compiling"
       elsif !app_built
         print_error_message
       end
