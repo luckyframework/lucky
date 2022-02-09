@@ -7,8 +7,12 @@ module Lucky::HTMLPage
     setting render_component_comments : Bool = false
   end
 
-  getter view : IO = IO::Memory.new
+  getter view : IO { IO::Memory.new }
   needs context : HTTP::Server::Context
+
+  def view(@view : IO)
+    self
+  end
 
   def to_s(io)
     io << view

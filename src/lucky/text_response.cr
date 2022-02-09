@@ -14,7 +14,7 @@ class Lucky::TextResponse < Lucky::Response
 
   def initialize(@context : HTTP::Server::Context,
                  @content_type : String,
-                 @body : String | IO,
+                 @body : String | IO | Body,
                  @status : Int32? = nil,
                  @debug_message : String? = nil,
                  @enable_cookies : Bool = true)
@@ -77,5 +77,22 @@ class Lucky::TextResponse < Lucky::Response
     end
 
     response.cookies.add_response_headers(response.headers)
+  end
+
+  struct Body
+    @inner : Proc(IO, Nil)
+
+    def self.new(raw : String | IO)
+      new do |io|
+        io.print(raw)
+      end
+    end
+
+    def initialize(&@inner : IO ->)
+    end
+
+    def to_s(io)
+      @inner.call(io)
+    end
   end
 end

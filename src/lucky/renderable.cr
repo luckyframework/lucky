@@ -48,7 +48,7 @@ module Lucky::Renderable
     validate_page_class!({{ page_class }})
 
     # Found in {{ @type.name }}
-    view = {{ page_class }}.new(
+    html_page = {{ page_class }}.new(
       context: context,
       {% for key, value in assigns %}
         {{ key }}: {{ value }},
@@ -57,12 +57,15 @@ module Lucky::Renderable
         {{ key }}: {{ key }},
       {% end %}
     )
+    response_body = Lucky::TextResponse::Body.new do |io|
+      html_page.view(io).perform_render
+    end
     Lucky::TextResponse.new(
       context,
       "text/html",
-      view.perform_render,
+      response_body,
       status: {{ _with_status_code }},
-      debug_message: log_message(view),
+      debug_message: log_message(html_page),
       enable_cookies: enable_cookies?
     )
   end
@@ -233,7 +236,7 @@ module Lucky::Renderable
   end
 
   def send_text_response(
-    body : String,
+    body : String | Lucky::TextResponse::Body,
     content_type : String,
     status : Int32? = nil
   ) : Lucky::TextResponse
@@ -287,7 +290,10 @@ module Lucky::Renderable
   end
 
   def json(body, status : Int32? = nil) : Lucky::TextResponse
-    send_text_response(body.to_json, "application/json", status)
+    response_body = Lucky::TextResponse::Body.new do |io|
+      body.to_json(io)
+    end
+    send_text_response(response_body, "application/json", status)
   end
 
   def json(body, status : HTTP::Status) : Lucky::TextResponse
@@ -310,8 +316,11 @@ module Lucky::Renderable
   # end
   # ```
   def component(comp : Lucky::BaseComponent.class, status : Int32? = nil, **named_args) : Lucky::TextResponse
+    response_body = Lucky::TextResponse::Body.new do |io|
+      comp.new(**named_args).context(context).view(io).render
+    end
     send_text_response(
-      comp.new(**named_args).context(context).render_to_string,
+      response_body,
       "text/html",
       status
     )
