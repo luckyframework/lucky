@@ -48,7 +48,7 @@ class Lucky::ForceSSLHandler
   end
 
   private def secure?(context) : Bool
-    !!(context.request.headers["X-Forwarded-Proto"]? =~ /https/i)
+    context.request.headers["X-Forwarded-Proto"]? == "https"
   end
 
   private def redirect_to_secure_version(context : HTTP::Server::Context)
