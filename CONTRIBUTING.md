@@ -3,7 +3,7 @@
 We love pull requests from everyone. By participating in this project, you
 agree to abide by the project [code of conduct].
 
-[code of conduct]: https://github.com/luckyframework/lucky/blob/master/CODE_OF_CONDUCT.md
+[code of conduct]: https://github.com/luckyframework/lucky/blob/main/CODE_OF_CONDUCT.md
 
 Here are some ways *you* can contribute:
 
@@ -67,7 +67,7 @@ already been submitted.
   asking for help. We love helping!
 * Please don't update the Gem version.
 
-[repo]: https://github.com/luckyframework/lucky/tree/master
+[repo]: https://github.com/luckyframework/lucky/
 [fork]: https://help.github.com/articles/fork-a-repo/
 [branch]: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/
 [pr]: https://help.github.com/articles/using-pull-requests/

@@ -590,7 +590,7 @@ brew upgrade lucky
 ### General updates
 
 - Rename: `config/logger.cr` to `config/log.cr`
-- Update: `config/log.cr` to use the new `Log`. [See implementation](https://github.com/luckyframework/lucky_cli/blob/master/src/web_app_skeleton/config/log.cr)
+- Update: `config/log.cr` to use the new `Log`. [See implementation](https://github.com/luckyframework/lucky_cli/blob/v0.21.0/src/web_app_skeleton/config/log.cr#L1)
 - Update: `Procfile.dev` and update the `system_check` to `script/system_check && sleep 100000`.
 - Update: all `Lucky.logger.{level}("message")` calls to use the new Crystal Log `Log.{level} { "message" }`
 - Remove: the following lines from `config/database.cr`
