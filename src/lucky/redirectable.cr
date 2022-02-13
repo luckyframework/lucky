@@ -18,7 +18,7 @@
 # redirect to: Users::Index, status: :moved_permanently
 # ```
 #
-# You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
+# You can find a list of all of the possible statuses [here](https://crystal-lang.org/api/latest/HTTP/Status.html).
 #
 # Internally, all the different methods in this module eventually use the
 # method that takes a `String`. However, it's recommended you pass a
@@ -107,7 +107,6 @@ module Lucky::Redirectable
   # ```
   # redirect to: "/users", status: :moved_permanently
   # ```
-  # You can find a list of all of the possible statuses [here](https://github.com/luckyframework/lucky/blob/master/src/lucky/action.cr).
   def redirect(to path : String, status : HTTP::Status) : Lucky::TextResponse
     redirect(path, status.value)
   end
