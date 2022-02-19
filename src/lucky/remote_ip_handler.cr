@@ -10,17 +10,26 @@
 class Lucky::RemoteIpHandler
   include HTTP::Handler
 
+  Habitat.create do
+    setting ip_header_names : Array(String) = ["X_FORWARDED_FOR"]
+  end
+
   def call(context)
     context.request.remote_address = fetch_remote_ip(context)
+    context.request.remote_ip = context.request.remote_address.as?(Socket::IPAddress).try(&.address.presence)
     call_next(context)
   end
 
   private def fetch_remote_ip(context : HTTP::Server::Context) : Socket::Address?
     request = context.request
 
-    if x_forwarded = request.headers["X_FORWARDED_FOR"]?.try(&.split(',').first?).presence
+    remote_ip = settings.ip_header_names.compact_map { |header|
+      request.headers[header]?.try(&.split(',').first?).presence
+    }.first?
+
+    if remote_ip
       begin
-        Socket::IPAddress.new(x_forwarded, 0)
+        Socket::IPAddress.new(remote_ip.to_s, 0)
       rescue Socket::Error
         # if the x_forwarded is not a valid ip address we fallback to request.remote_address
         request.remote_address
