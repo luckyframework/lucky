@@ -11,7 +11,9 @@ module Lucky
     end
 
     def verified(signed_message : String) : String?
-      data, digest = signed_message.split("--", 2)
+      json_data = ::Base64.decode_string(signed_message)
+      data, digest = Tuple(String, String).from_json(json_data)
+
       if valid_message?(data, digest)
         String.new(decode(data))
       end
@@ -25,7 +27,9 @@ module Lucky
     end
 
     def verify_raw(signed_message : String) : Bytes
-      data, digest = signed_message.split("--", 2)
+      json_data = ::Base64.decode_string(signed_message)
+      data, digest = Tuple(String, String).from_json(json_data)
+
       if valid_message?(data, digest)
         decode(data)
       else
@@ -35,7 +39,7 @@ module Lucky
 
     def generate(value : String | Bytes) : String
       data = encode(value)
-      "#{data}--#{generate_digest(data)}"
+      encode({data, generate_digest(data)}.to_json)
     end
 
     private def encode(data) : String
