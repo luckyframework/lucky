@@ -74,6 +74,18 @@ class FLoCGGuardRoutes::Index < TestAction
   end
 end
 
+class CSPGuardRoutes::Index < TestAction
+  include Lucky::SecureHeaders::SetCSPGuard
+
+  get "/secure_path8" do
+    plain_text "test"
+  end
+
+  def csp_guard_value : String
+    "script-src 'self'"
+  end
+end
+
 describe Lucky::SecureHeaders do
   describe "SetFrameGuard" do
     it "sets the X-Frame-Options header with sameorigin" do
@@ -123,6 +135,13 @@ describe Lucky::SecureHeaders do
     it "sets the Permissions-Policy to interest-cohort=()" do
       route = FLoCGGuardRoutes::Index.new(build_context, params).call
       route.context.response.headers["Permissions-Policy"].should eq "interest-cohort=()"
+    end
+  end
+
+  describe "SetCSPGuard" do
+    it "sets the Content-Security-Policy header" do
+      route = CSPGuardRoutes::Index.new(build_context, params).call
+      route.context.response.headers["Content-Security-Policy"].should eq "script-src 'self'"
     end
   end
 end
