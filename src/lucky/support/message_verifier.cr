@@ -45,15 +45,15 @@ module Lucky
     end
 
     def verify_raw(signed_message : String) : Bytes
-      data, digest = legacy_verified(signed_message)
+      begin
+        json_data = ::Base64.decode_string(signed_message)
+        data, digest = Tuple(String, String).from_json(json_data)
+      rescue JSON::ParseException | Base64::Error
+        data, digest = legacy_verified(signed_message)
+      end
 
       if (data && digest).nil?
-        begin
-          json_data = ::Base64.decode_string(signed_message)
-          data, digest = Tuple(String, String).from_json(json_data)
-        rescue JSON::ParseException
-          raise(InvalidSignatureError.new)
-        end
+        raise(InvalidSignatureError.new)
       end
 
       if valid_message?(data.to_s, digest.to_s)
