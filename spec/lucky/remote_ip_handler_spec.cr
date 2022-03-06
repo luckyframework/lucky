@@ -9,12 +9,12 @@ describe Lucky::RemoteIpHandler do
 
       run_remote_ip_handler(context)
       context.request.remote_address.should eq nil
-      context.request.remote_ip.should eq nil
+      context.request.remote_ip.should eq ""
     end
 
     it "returns the X_FORWARDED_FOR address" do
       headers = HTTP::Headers.new
-      headers["X_FORWARDED_FOR"] = "1.2.3.4,127.0.0.1"
+      headers["X_FORWARDED_FOR"] = "127.0.0.1,1.2.3.4"
       request = HTTP::Request.new("GET", "/remote-ip", body: "", headers: headers)
       context = build_context(request)
 
@@ -45,7 +45,7 @@ describe Lucky::RemoteIpHandler do
 
       run_remote_ip_handler(context)
       context.request.remote_address.should eq nil
-      context.request.remote_ip.should eq nil
+      context.request.remote_ip.should eq ""
     end
 
     it "returns the original remote_address" do

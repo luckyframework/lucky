@@ -5,5 +5,5 @@ class HTTP::Request
   # ```
   # request.remote_address.as?(Socket::IPAddress).try(&.address)
   # ```
-  property remote_ip : String?
+  property remote_ip : String = ""
 end
