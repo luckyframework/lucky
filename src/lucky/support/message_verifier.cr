@@ -19,15 +19,17 @@ module Lucky
     end
 
     def verified(signed_message : String) : String?
+      json_data = ::Base64.decode_string(signed_message)
+      data, digest = Tuple(String, String).from_json(json_data)
+
+      if valid_message?(data.to_s, digest.to_s)
+        String.new(decode(data.to_s))
+      end
+    rescue JSON::ParseException | Base64::Error
       data, digest = legacy_verified(signed_message)
 
       if (data && digest).nil?
-        begin
-          json_data = ::Base64.decode_string(signed_message)
-          data, digest = Tuple(String, String).from_json(json_data)
-        rescue JSON::ParseException
-          return nil
-        end
+        return nil
       end
 
       if valid_message?(data.to_s, digest.to_s)
