@@ -586,8 +586,18 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/RemoteIpHandler" data-name="lucky::remoteiphandler">
+  <li class="parent open current" data-id="lucky/Lucky/RemoteIpHandler" data-name="lucky::remoteiphandler">
       <a href="../Lucky/RemoteIpHandler.html">RemoteIpHandler</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/Lucky/RemoteIpHandler/HabitatSettings" data-name="lucky::remoteiphandler::habitatsettings">
+      <a href="../Lucky/RemoteIpHandler/HabitatSettings.html">HabitatSettings</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -924,14 +934,17 @@
     Overview
   </h2>
 
-  <p>Sets the HTTP::Request#remote_address value
-to the value of the first IP in the <code>X-Forwarded-For</code>
+  <p>Sets the HTTP::Request#remote_address value as <code>Socket::IPAddress?</code>
+to the value of the last IP in the <code>X-Forwarded-For</code>
 header, or fallback to the default <code>remote_address</code>.
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For</p>
-<p>This Handler does a best guess for the IP which is generally good
+<p>This will also set a <code>remote_ip</code> String value as <code><a href="../String.html">String</a></code> which will be
+either the raw <code>remote_address</code> value, or an empty string.</p>
+<p>This Handler does a &quot;best guess&quot; for the IP which is generally good
 enough. If you require IP based Authentication, then you may want
 to handle this on your own as there will be edge cases when related
-to mobile clients on the go, and potential IP spoofing attacks.</p>
+to mobile clients on the go, and potential IP spoofing attacks.
+More detailed info: https://adam-p.ca/blog/2022/03/x-forwarded-for/</p>
 
 
 
@@ -946,6 +959,10 @@ to mobile clients on the go, and potential IP spoofing attacks.</p>
     Included Modules
   </h2>
   <ul class="other-types-list">
+    
+      <li class="other-type">Habitat::SettingsHelpers</li>
+    
+      <li class="other-type">Habitat::TempConfig</li>
     
       <li class="other-type">HTTP::Handler</li>
     
@@ -970,7 +987,7 @@ to mobile clients on the go, and potential IP spoofing attacks.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/remote_ip_handler.cr#L10" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/e637bf444023b94de609a96d52569762973e6e45/src/lucky/remote_ip_handler.cr#L14" target="_blank">
         lucky/remote_ip_handler.cr
       </a>
     
@@ -979,9 +996,50 @@ to mobile clients on the go, and potential IP spoofing attacks.</p>
 
 
 
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="HABITAT_SETTINGS">
+        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: ip_header_name : <span class="t">String</span> <span class="o">=</span> <span class="s">&quot;X-Forwarded-For&quot;</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
+      </dt>
+      
+    
+  </dl>
 
 
 
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#configure%28%26%29-class-method" class="signature"><strong>.configure</strong>(&)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#settings-class-method" class="signature"><strong>.settings</strong></a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -997,6 +1055,11 @@ to mobile clients on the go, and potential IP spoofing attacks.</p>
     
       <li class="entry-summary">
         <a href="#call%28context%29-instance-method" class="signature"><strong>#call</strong>(context)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#settings-instance-method" class="signature"><strong>#settings</strong></a>
         
       </li>
     
@@ -1038,10 +1101,72 @@ to mobile clients on the go, and potential IP spoofing attacks.</p>
 
 
   
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
 </div>
 
 
 
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="configure(&amp;)-class-method">
+      <div class="signature">
+        
+        def self.<strong>configure</strong>(&)
+
+        <a class="method-permalink" href="#configure%28%26%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e637bf444023b94de609a96d52569762973e6e45/src/lucky/remote_ip_handler.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="settings-class-method">
+      <div class="signature">
+        
+        def self.<strong>settings</strong>
+
+        <a class="method-permalink" href="#settings-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e637bf444023b94de609a96d52569762973e6e45/src/lucky/remote_ip_handler.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
 
 
 
@@ -1065,7 +1190,23 @@ to mobile clients on the go, and potential IP spoofing attacks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/remote_ip_handler.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e637bf444023b94de609a96d52569762973e6e45/src/lucky/remote_ip_handler.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="settings-instance-method">
+      <div class="signature">
+        
+        def <strong>settings</strong>
+
+        <a class="method-permalink" href="#settings-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e637bf444023b94de609a96d52569762973e6e45/src/lucky/remote_ip_handler.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
