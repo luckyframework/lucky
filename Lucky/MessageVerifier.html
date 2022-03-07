@@ -938,7 +938,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/3b7424bc0b26143d7d6cfbd859f7f73c710dd74c/src/lucky/support/message_verifier.cr#L5" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L5" target="_blank">
         lucky/support/message_verifier.cr
       </a>
     
@@ -986,7 +986,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#valid_message%3F%28data%2Cdigest%29%3ABool-instance-method" class="signature"><strong>#valid_message?</strong>(data, digest) : Bool</a>
+        <a href="#legacy_verified%28signed_message%3AString%29-instance-method" class="signature"><strong>#legacy_verified</strong>(signed_message : String)</a>
+        
+          <div class="summary"><p><span class="flag red">DEPRECATED</span>  Legacy token verification will be removed in the next release.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#valid_message%3F%28data%3AString%2Cdigest%3AString%29%3ABool-instance-method" class="signature"><strong>#valid_message?</strong>(data : String, digest : String) : Bool</a>
         
       </li>
     
@@ -996,7 +1003,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#verify%28signed_message%29%3AString-instance-method" class="signature"><strong>#verify</strong>(signed_message) : String</a>
+        <a href="#verify%28signed_message%3AString%29%3AString-instance-method" class="signature"><strong>#verify</strong>(signed_message : String) : String</a>
         
       </li>
     
@@ -1056,7 +1063,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/3b7424bc0b26143d7d6cfbd859f7f73c710dd74c/src/lucky/support/message_verifier.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1086,23 +1093,44 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/3b7424bc0b26143d7d6cfbd859f7f73c710dd74c/src/lucky/support/message_verifier.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="valid_message?(data,digest):Bool-instance-method">
+    <div class="entry-detail" id="legacy_verified(signed_message:String)-instance-method">
       <div class="signature">
         
-        def <strong>valid_message?</strong>(data, digest) : <a href="../Bool.html">Bool</a>
+        def <strong>legacy_verified</strong>(signed_message : <a href="../String.html">String</a>)
 
-        <a class="method-permalink" href="#valid_message%3F%28data%2Cdigest%29%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#legacy_verified%28signed_message%3AString%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p><span class="flag red">DEPRECATED</span>  Legacy token verification will be removed in the next release.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="valid_message?(data:String,digest:String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>valid_message?</strong>(data : <a href="../String.html">String</a>, digest : <a href="../String.html">String</a>) : <a href="../Bool.html">Bool</a>
+
+        <a class="method-permalink" href="#valid_message%3F%28data%3AString%2Cdigest%3AString%29%3ABool-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/3b7424bc0b26143d7d6cfbd859f7f73c710dd74c/src/lucky/support/message_verifier.cr#L9" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L9" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1118,23 +1146,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/3b7424bc0b26143d7d6cfbd859f7f73c710dd74c/src/lucky/support/message_verifier.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="verify(signed_message):String-instance-method">
+    <div class="entry-detail" id="verify(signed_message:String):String-instance-method">
       <div class="signature">
         
-        def <strong>verify</strong>(signed_message) : <a href="../String.html">String</a>
+        def <strong>verify</strong>(signed_message : <a href="../String.html">String</a>) : <a href="../String.html">String</a>
 
-        <a class="method-permalink" href="#verify%28signed_message%29%3AString-instance-method">#</a>
+        <a class="method-permalink" href="#verify%28signed_message%3AString%29%3AString-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/3b7424bc0b26143d7d6cfbd859f7f73c710dd74c/src/lucky/support/message_verifier.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1150,7 +1178,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/3b7424bc0b26143d7d6cfbd859f7f73c710dd74c/src/lucky/support/message_verifier.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6f68e0645fb9aad18f7658e1d6893499d2c24d8d/src/lucky/support/message_verifier.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
