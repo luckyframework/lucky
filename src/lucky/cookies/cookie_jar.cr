@@ -97,6 +97,10 @@ class Lucky::CookieJar
     get?(key) || raise CookieNotFoundError.new(key)
   end
 
+  def [](key : Key) : String
+    get(key)
+  end
+
   def get?(key : Key) : String?
     cookies[key.to_s]?.try do |cookie|
       decrypt(cookie.value, cookie.name)
@@ -105,8 +109,16 @@ class Lucky::CookieJar
     nil
   end
 
+  def []?(key : Key) : String?
+    get?(key)
+  end
+
   def set(key : Key, value : String) : HTTP::Cookie
     set_raw key, encrypt(value)
+  end
+
+  def []=(key : Key, value : String) : HTTP::Cookie
+    set(key, value)
   end
 
   def set_raw(key : Key, value : String) : HTTP::Cookie
