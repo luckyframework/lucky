@@ -6,11 +6,15 @@ describe Lucky::CookieJar do
 
     jar.set(:symbol_key, "symbol key")
     jar.set("string_key", "string key")
+    jar[:another_symbol] = "symbol key"
+    jar["another_string"] = "string key"
 
     jar.get(:symbol_key).should eq("symbol key")
     jar.get("symbol_key").should eq("symbol key")
     jar.get("string_key").should eq("string key")
     jar.get(:string_key).should eq("string key")
+    jar[:another_symbol].should eq("symbol key")
+    jar["another_string"].should eq("string key")
   end
 
   it "sets and gets raw HTTP::Cookie object with indifferent access" do
