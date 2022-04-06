@@ -1,8 +1,8 @@
-### Unreleased
+### Changes in 0.30.0
 
 - **Breaking change** Updated: Lucky::ForceSSLHandler middleware to match X-Forwarded-Proto == https exactly, which previously accepted uppercase and only required https to be part of the value [#1662](https://github.com/luckyframework/lucky/pull/1662)
 
-### Changes in 0.29
+### v0.29 (2021-11-30)
 
 - Fixed: the binary name generated for the `gen.secret_key` task. [#1556](https://github.com/luckyframework/lucky/pull/1556)
 - Updated: the `html_with_status` to allow Numbers, Symbols, and HTTP::Status. [#1568](https://github.com/luckyframework/lucky/pull/1568)
