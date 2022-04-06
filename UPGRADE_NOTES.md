@@ -1,3 +1,30 @@
+## Upgrading from 0.29 to 0.30
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.29.0&to=0.30.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.30.0`
+
+
+- Run `shards update`
+
+### General updates
+
+
+
 ## Upgrading from 0.28 to 0.29
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.28.2&to=0.29.0).
