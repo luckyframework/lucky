@@ -33,7 +33,7 @@ targets:
 dependencies:
   lucky_task:
     github: luckyframework/lucky_task
-    version: ~> 0.1.0
+    version: ~> 0.1.1
   habitat:
     github: luckyframework/habitat
     version: ~> 0.4.7
@@ -42,8 +42,7 @@ dependencies:
     version: ~> 0.3.0
   avram:
     github: luckyframework/avram
-    branch: releases/0.23.0
-    #version: ~> 0.23.0
+    version: ~> 0.23.0
   lucky_router:
     github: luckyframework/lucky_router
     version: ~> 0.5.1
@@ -58,10 +57,10 @@ dependencies:
     version: ~> 0.2.2
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.3.3
+    version: ~> 0.3.4
   pulsar:
     github: luckyframework/pulsar
-    version: ~> 0.2.2
+    version: ~> 0.2.3
   teeplate:
     github: luckyframework/teeplate
     version: ~> 0.8.5
