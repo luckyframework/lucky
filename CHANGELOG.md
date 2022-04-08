@@ -8,7 +8,7 @@
 - Added: ability to make requests to actions directly in specs. [#1644](https://github.com/luckyframework/lucky/pull/1644)
 - Fixed: `time_ago_in_words` always rounding down. [#1651](https://github.com/luckyframework/lucky/pull/1651)
 - Updated: Turbolinks redirect support to allow for replace in the future. [#1650](https://github.com/luckyframework/lucky/pull/1650)
-- Updated: compling done notice to be more prominent. [#1653](https://github.com/luckyframework/lucky/pull/1653)
+- Updated: compiling "done" notice to be more prominent. [#1653](https://github.com/luckyframework/lucky/pull/1653)
 - Added: ability to enable/disable forgery protection app-wide. [#1657](https://github.com/luckyframework/lucky/pull/1657)
 - **Breaking change** Fixed: parsing JSON values for params. [#1661](https://github.com/luckyframework/lucky/pull/1661)
 - **Breaking change** Updated: Lucky::ForceSSLHandler middleware to match X-Forwarded-Proto == https exactly, which previously accepted uppercase and only required https to be part of the value [#1662](https://github.com/luckyframework/lucky/pull/1662)
@@ -41,18 +41,11 @@
 - Added: new `generate` method for `Avram::Slugify` to generate a slug without setting a value. [#821 in Avram](https://github.com/luckyframework/avram/pull/821)
 - Added: `validate_format_of` and `validate_uniqueness_of` to `Avram::I18Backend` for better error message support. [#830 in Avram](https://github.com/luckyframework/avram/pull/830)
 - Added: new [LuckySecTester](https://github.com/luckyframework/lucky_sec_tester) shard as a thing wrapper around the [NeuraLegion SecTester](https://github.com/NeuraLegion/sec_tester)
-- **Breaking change** Added: Driver registration to LuckyFlow. [#133 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/133)
-- Updated: LuckyFlow to separate tight integration with Selenium. [#135 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/135)
-- Added: new `find_xpath` method to `LuckyFlow::Driver`. [#141 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/141)
-- Added: a few extra helper methods to LuckyFlow like filling with a `Time`. [#144 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/144)
-- Added: a new "Webless" driver to LuckyFlow. [#137 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/137)
 - Added: new task to generate email templates. [#60 in Carbon](https://github.com/luckyframework/carbon/pull/60)
 - Added: new `size` method to LuckyCache. [#10 in LuckyCache](https://github.com/luckyframework/lucky_cache/pull/10)
 - Added: `clear_subscribers` method to Pulsar to clear events of subscribers. [#18 in Pulsar](https://github.com/luckyframework/pulsar/pull/18)
 - Added: extra log metadata when using `emit()` with Dexter. [#45 in Dexter](https://github.com/luckyframework/dexter/pull/45)
 - Added: support for passing unsubscribe group data to Sendgrid. [#8 in Carbon Sendgrid Adapter](https://github.com/luckyframework/carbon_sendgrid_adapter/pull/8)
-
-
 
 
 ### v0.29 (2021-11-30)
