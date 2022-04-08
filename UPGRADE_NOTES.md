@@ -17,11 +17,36 @@ brew upgrade lucky
 
 - Update versions in `shard.yml`
   - Lucky should be `~> 0.30.0`
-
+  - Authentic should be `~> 0.8.2`
+  - LuckyFlow should be `~> 0.7.3` *NOTE*: 0.8.0 is released, but may not be compatible yet
 
 - Run `shards update`
 
 ### General updates
+
+- Update: `spec/support/api_client.cr` with `app AppServer.new` defined in the class.
+```crystal
+class ApiClient < Lucky::BaseHTTPClient
+  app AppServer.new
+
+  def initialize
+    super
+    headers("Content-Type": "application/json")
+  end
+
+  def self.auth(user : User)
+    new.headers("Authorization": UserToken.generate(user))
+  end
+end
+```
+- Update: the `request.remote_ip` method now pulls from the last (instead of first) valid IP in the `X-Forwarded-For` list. [See PR for details](https://github.com/luckyframework/lucky/pull/1675)
+- Update: All primary repo branches are now `main`. Adjust any references accordingly.
+
+
+
+### Optional updates
+
+- Update: uses of `AvramSlugify` to `Avram::Slugify`. [See PR for details](https://github.com/luckyframework/avram/pull/786)
 
 
 
