@@ -43,11 +43,23 @@ end
 - Update: All primary repo branches are now `main`. Adjust any references accordingly.
 
 
-
 ### Optional updates
 
 - Update: uses of `AvramSlugify` to `Avram::Slugify`. [See PR for details](https://github.com/luckyframework/avram/pull/786)
+- Update: specs to use transactions instead of truncate. [See PR for details](https://github.com/luckyframework/avram/pull/780)
+```crystal
+# in spec/spec_helper.cr
+require "./setup/**"
 
+# Add this line
+Avram::SpecHelper.use_transactional_specs(AppDatabase)
+
+include Carbon::Expectations
+include Lucky::RequestExpectations
+include LuckyFlow::Expectations
+```
+- Remove: the `spec/setup/clean_database.cr` file. This accompanies the transactional specs update
+- Update: the `spec/setup/start_app_server.cr` file. This file is no longer needed if your action specs make standard calls, and are not using LuckyFlow. [See PR for details](https://github.com/luckyframework/lucky/pull/1644)
 
 
 ## Upgrading from 0.28 to 0.29
