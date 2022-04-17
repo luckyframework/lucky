@@ -1,3 +1,67 @@
+## Upgrading from 0.29 to 0.30
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.29.0&to=0.30.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.30.0`
+  - Authentic should be `~> 0.8.2`
+  - LuckyFlow should be `~> 0.7.3` *NOTE*: 0.8.0 is released, but may not be compatible yet
+
+- Run `shards update`
+
+### General updates
+
+- Update: `spec/support/api_client.cr` with `app AppServer.new` defined in the class.
+```crystal
+class ApiClient < Lucky::BaseHTTPClient
+  app AppServer.new
+
+  def initialize
+    super
+    headers("Content-Type": "application/json")
+  end
+
+  def self.auth(user : User)
+    new.headers("Authorization": UserToken.generate(user))
+  end
+end
+```
+- Update: the `request.remote_ip` method now pulls from the last (instead of first) valid IP in the `X-Forwarded-For` list. [See PR for details](https://github.com/luckyframework/lucky/pull/1675)
+- Update: All primary repo branches are now `main`. Adjust any references accordingly.
+
+
+### Optional updates
+
+- Update: uses of `AvramSlugify` to `Avram::Slugify`. [See PR for details](https://github.com/luckyframework/avram/pull/786)
+- Update: specs to use transactions instead of truncate. [See PR for details](https://github.com/luckyframework/avram/pull/780)
+```crystal
+# in spec/spec_helper.cr
+require "./setup/**"
+
+# Add this line
+Avram::SpecHelper.use_transactional_specs(AppDatabase)
+
+include Carbon::Expectations
+include Lucky::RequestExpectations
+include LuckyFlow::Expectations
+```
+- Remove: the `spec/setup/clean_database.cr` file. This accompanies the transactional specs update
+- Update: the `spec/setup/start_app_server.cr` file. This file is no longer needed if your action specs make standard calls, and are not using LuckyFlow. [See PR for details](https://github.com/luckyframework/lucky/pull/1644)
+
+
 ## Upgrading from 0.28 to 0.29
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.28.2&to=0.29.0).
