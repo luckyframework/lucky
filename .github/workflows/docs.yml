@@ -12,6 +12,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
       - name: "Install shards"
         run: shards install
       - name: "Generate docs"
