@@ -47,7 +47,7 @@ module Lucky::Subdomain
     return if host.nil? || IP_HOST_REGEXP.matches?(host)
 
     parts = host.split('.')
-    parts.pop(settings.tld_length + 1)
+    parts.pop(Lucky::Subdomain.settings.tld_length + 1)
 
     parts.empty? ? nil : parts.join(".")
   end
