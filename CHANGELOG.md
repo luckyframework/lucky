@@ -1,3 +1,7 @@
+### Changes in 0.30.1
+
+- Fixed: compilation issue when using the `Lucky::Subdomain` module. [#1686](https://github.com/luckyframework/lucky/pull/1686)
+
 ### Changes in 0.30.0
 
 - Fixed: logging empty request_id [#1630](https://github.com/luckyframework/lucky/pull/1630)
