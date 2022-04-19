@@ -41,6 +41,7 @@ end
 ```
 - Update: the `request.remote_ip` method now pulls from the last (instead of first) valid IP in the `X-Forwarded-For` list. [See PR for details](https://github.com/luckyframework/lucky/pull/1675)
 - Update: All primary repo branches are now `main`. Adjust any references accordingly.
+- Update: `./script/system_check` and remove mentions of `ensure_process_runner_installed`. Nox is built-in [See PR for details](https://github.com/luckyframework/lucky_cli/pull/720)
 
 
 ### Optional updates
