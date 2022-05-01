@@ -51,21 +51,6 @@
   <div class="types-list">
     <ul>
   
-  <li class="parent " data-id="lucky/Avram" data-name="avram">
-      <a href="../../Avram.html">Avram</a>
-      
-        <ul>
-  
-  <li class=" " data-id="lucky/Avram/InvalidOperationError" data-name="avram::invalidoperationerror">
-      <a href="../../Avram/InvalidOperationError.html">InvalidOperationError</a>
-      
-    </li>
-  
-</ul>
-
-      
-    </li>
-  
   <li class=" " data-id="lucky/Bool" data-name="bool">
       <a href="../../Bool.html">Bool</a>
       
@@ -148,11 +133,6 @@
   
   <li class=" " data-id="lucky/Lucky/BaseTags" data-name="lucky::basetags">
       <a href="../../Lucky/BaseTags.html">BaseTags</a>
-      
-    </li>
-  
-  <li class=" " data-id="lucky/Lucky/CatchUnpermittedAttribute" data-name="lucky::catchunpermittedattribute">
-      <a href="../../Lucky/CatchUnpermittedAttribute.html">CatchUnpermittedAttribute</a>
       
     </li>
   
@@ -366,11 +346,6 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/InputHelpers" data-name="lucky::inputhelpers">
-      <a href="../../Lucky/InputHelpers.html">InputHelpers</a>
-      
-    </li>
-  
   <li class=" " data-id="lucky/Lucky/InvalidCookieValueError" data-name="lucky::invalidcookievalueerror">
       <a href="../../Lucky/InvalidCookieValueError.html">InvalidCookieValueError</a>
       
@@ -398,11 +373,6 @@
   
   <li class=" " data-id="lucky/Lucky/InvalidSubdomainError" data-name="lucky::invalidsubdomainerror">
       <a href="../../Lucky/InvalidSubdomainError.html">InvalidSubdomainError</a>
-      
-    </li>
-  
-  <li class=" " data-id="lucky/Lucky/LabelHelpers" data-name="lucky::labelhelpers">
-      <a href="../../Lucky/LabelHelpers.html">LabelHelpers</a>
       
     </li>
   
@@ -721,11 +691,6 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/SelectHelpers" data-name="lucky::selecthelpers">
-      <a href="../../Lucky/SelectHelpers.html">SelectHelpers</a>
-      
-    </li>
-  
   <li class=" " data-id="lucky/Lucky/Serializer" data-name="lucky::serializer">
       <a href="../../Lucky/Serializer.html">Serializer</a>
       
@@ -946,15 +911,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/c0db66871109ad7a072a6c37d9c403c98cdf9912/src/lucky/paginator/backend_helpers.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/88b897a4a27eb7c2d1ba437ca8fba5dc5c40e8ac/src/lucky/paginator/backend_helpers.cr#L1" target="_blank">
         lucky/paginator/backend_helpers.cr
-      </a>
-    
-    <br/>
-  
-    
-      <a href="https://github.com/luckyframework/lucky/blob/c0db66871109ad7a072a6c37d9c403c98cdf9912/src/lucky_avram/ext/lucky/paginator/backend_helpers.cr#L1" target="_blank">
-        lucky_avram/ext/lucky/paginator/backend_helpers.cr
       </a>
     
     <br/>
@@ -977,13 +935,6 @@
     Instance Method Summary
   </h2>
   <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#paginate%28query%3AAvram%3A%3AQueryable%28T%29%2Cper_page%3AInt32%3Dpaginator_per_page%29%3ATuple%28Paginator%2CAvram%3A%3AQueryable%28T%29%29forallT-instance-method" class="signature"><strong>#paginate</strong>(query : Avram::Queryable(T), per_page : Int32 = paginator_per_page) : Tuple(Paginator, Avram::Queryable(T)) forall T</a>
-        
-          <div class="summary"><p>Call this in your actions to paginate an query.</p></div>
-        
-      </li>
     
       <li class="entry-summary">
         <a href="#paginate_array%28items%3AArray%28T%29%2Cper_page%3AInt32%3Dpaginator_per_page%29%3ATuple%28Paginator%2CArray%28T%29%29forallT-instance-method" class="signature"><strong>#paginate_array</strong>(items : Array(T), per_page : Int32 = paginator_per_page) : Tuple(Paginator, Array(T)) forall T</a>
@@ -1030,52 +981,6 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="paginate(query:Avram::Queryable(T),per_page:Int32=paginator_per_page):Tuple(Paginator,Avram::Queryable(T))forallT-instance-method">
-      <div class="signature">
-        
-        def <strong>paginate</strong>(query : Avram::Queryable(T), per_page : <a href="../../Int32.html">Int32</a> = paginator_per_page) : Tuple(<a href="../../Lucky/Paginator.html">Paginator</a>, Avram::Queryable(T)) forall T
-
-        <a class="method-permalink" href="#paginate%28query%3AAvram%3A%3AQueryable%28T%29%2Cper_page%3AInt32%3Dpaginator_per_page%29%3ATuple%28Paginator%2CAvram%3A%3AQueryable%28T%29%29forallT-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Call this in your actions to paginate an query.</p>
-<p>This method will return a <code><a href="../../Lucky/Paginator.html">Lucky::Paginator</a></code> object and the requested page
-of records.</p>
-<h2><a id="examples" class="anchor" href="#examples">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>Examples</h2>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  get <span class="s">&quot;/users&quot;</span> <span class="k">do</span>
-    <span class="c"># The &#39;UserQuery&#39; will return just the records for the requested page</span>
-    <span class="c"># because &#39;paginate&#39; will add a &#39;limit&#39; and &#39;offset&#39; to the query.</span>
-    pages, users <span class="o">=</span> paginate(<span class="t">UserQuery</span>.<span class="k">new</span>)
-    render <span class="t">IndexPage</span>, pages: pages, users: users
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">IndexPage</span> <span class="o">&lt;</span> <span class="t">MainLayout</span>
-  needs pages : <span class="t">Lucky</span><span class="t">::</span><span class="t">Paginator</span>
-  needs users : <span class="t">UserQuery</span>
-
-  <span class="k">def</span> <span class="m">content</span>
-    <span class="c"># Render &#39;users&#39; like normal</span>
-    mount <span class="t">Lucky</span><span class="t">::</span><span class="t">Paginator</span><span class="t">::</span><span class="t">SimpleNav</span>, @pages
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/c0db66871109ad7a072a6c37d9c403c98cdf9912/src/lucky_avram/ext/lucky/paginator/backend_helpers.cr#L29" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
     <div class="entry-detail" id="paginate_array(items:Array(T),per_page:Int32=paginator_per_page):Tuple(Paginator,Array(T))forallT-instance-method">
       <div class="signature">
         
@@ -1116,7 +1021,7 @@ of items.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/c0db66871109ad7a072a6c37d9c403c98cdf9912/src/lucky/paginator/backend_helpers.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/88b897a4a27eb7c2d1ba437ca8fba5dc5c40e8ac/src/lucky/paginator/backend_helpers.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1153,7 +1058,7 @@ query param, or in the body. If no <code>page</code> param is given the page wil
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/c0db66871109ad7a072a6c37d9c403c98cdf9912/src/lucky/paginator/backend_helpers.cr#L63" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/88b897a4a27eb7c2d1ba437ca8fba5dc5c40e8ac/src/lucky/paginator/backend_helpers.cr#L63" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1193,7 +1098,7 @@ query param, or in the body. If no <code>page</code> param is given the page wil
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/c0db66871109ad7a072a6c37d9c403c98cdf9912/src/lucky/paginator/backend_helpers.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/88b897a4a27eb7c2d1ba437ca8fba5dc5c40e8ac/src/lucky/paginator/backend_helpers.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
