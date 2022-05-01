@@ -2,7 +2,7 @@ name: Deploy docs
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -12,6 +12,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
       - name: "Install shards"
         run: shards install
       - name: "Generate docs"

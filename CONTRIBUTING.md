@@ -1,9 +1,9 @@
 # Contributing to Lucky
 
 We love pull requests from everyone. By participating in this project, you
-agree to abide by the thoughtbot [code of conduct].
+agree to abide by the project [code of conduct].
 
-[code of conduct]: https://thoughtbot.com/open-source-code-of-conduct
+[code of conduct]: https://github.com/luckyframework/lucky/blob/main/CODE_OF_CONDUCT.md
 
 Here are some ways *you* can contribute:
 
@@ -41,7 +41,7 @@ already been submitted.
 
 ## Setting Up Local Environment
 
-1. Fork it ( https://github.com/luckyframework/web/fork )
+1. Fork it ( https://github.com/luckyframework/lucky/fork )
 1. Create your feature branch (git checkout -b my-new-feature)
 1. Install docker and docker-compose: https://docs.docker.com/compose/install/
 1. Run `script/setup` to build the Docker containers with everything you need.
@@ -67,7 +67,7 @@ already been submitted.
   asking for help. We love helping!
 * Please don't update the Gem version.
 
-[repo]: https://github.com/luckyframework/web/tree/master
+[repo]: https://github.com/luckyframework/lucky/
 [fork]: https://help.github.com/articles/fork-a-repo/
 [branch]: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/
 [pr]: https://help.github.com/articles/using-pull-requests/

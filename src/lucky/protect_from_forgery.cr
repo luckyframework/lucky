@@ -11,6 +11,10 @@ module Lucky::ProtectFromForgery
     before protect_from_forgery
   end
 
+  Habitat.create do
+    setting allow_forgery_protection : Bool = true
+  end
+
   # :nodoc:
   def self.get_token(context : HTTP::Server::Context) : String
     context.session.get(SESSION_KEY)
@@ -18,7 +22,7 @@ module Lucky::ProtectFromForgery
 
   private def protect_from_forgery
     set_session_csrf_token
-    if request_does_not_require_protection? || valid_csrf_token?
+    if !Lucky::ProtectFromForgery.settings.allow_forgery_protection? || request_does_not_require_protection? || valid_csrf_token?
       continue
     else
       forbid_access_because_of_bad_token

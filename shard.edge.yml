@@ -1,39 +1,34 @@
 dependencies:
   lucky_task:
     github: luckyframework/lucky_task
-    branch: master
+    branch: main
   habitat:
     github: luckyframework/habitat
-    branch: master
+    branch: main
   wordsmith:
     github: luckyframework/wordsmith
-    branch: master
+    branch: main
   avram:
     github: luckyframework/avram
-    branch: master
+    branch: main
   lucky_router:
     github: luckyframework/lucky_router
-    branch: master
+    branch: main
   shell-table:
     github: luckyframework/shell-table.cr
-    branch: master
+    branch: main
   cry:
     github: luckyframework/cry
-    branch: master
+    branch: main
   exception_page:
     github: crystal-loot/exception_page
     branch: master
   dexter:
     github: luckyframework/dexter
-    branch: master
+    branch: main
   pulsar:
     github: luckyframework/pulsar
-    branch: master
+    branch: main
   teeplate:
     github: luckyframework/teeplate
-    branch: master
-
-development_dependencies:
-  ameba:
-    github: crystal-ameba/ameba
-    branch: master
+    branch: main

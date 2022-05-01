@@ -411,7 +411,7 @@ class Lucky::Params
     nested_key_json = parsed_json[nested_key]? || JSON::Any.new({} of String => JSON::Any)
 
     nested_key_json.as_h.each do |key, value|
-      nested_params[key.to_s] = value.to_s
+      nested_params[key.to_s] = stringify_json_value(value)
     end
 
     nested_params
@@ -423,7 +423,7 @@ class Lucky::Params
 
     nested_key_json.as_h.each do |key, value|
       if array_value = value.as_a?
-        nested_params[key.to_s] = array_value.map(&.to_s)
+        nested_params[key.to_s] = array_value.map { |array_val| stringify_json_value(array_val) }
       end
     end
 
@@ -535,7 +535,7 @@ class Lucky::Params
     nested_key_json.as_a.each do |nested_values|
       nested_params = {} of String => String
       nested_values.as_h.each do |key, value|
-        nested_params[key.to_s] = value.to_s
+        nested_params[key.to_s] = stringify_json_value(value)
       end
 
       many_nested_params << nested_params
@@ -573,7 +573,7 @@ class Lucky::Params
 
   private def body_param(key : String)
     if json?
-      parsed_json[key]?.try(&.to_s)
+      parsed_json[key]?.try { |value| stringify_json_value(value) }
     elsif multipart?
       multipart_params[key]?
     else
@@ -653,5 +653,9 @@ class Lucky::Params
     else
       nil
     end
+  end
+
+  private def stringify_json_value(value : JSON::Any) : String
+    value.as_s? || value.to_json
   end
 end

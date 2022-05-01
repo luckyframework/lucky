@@ -85,7 +85,32 @@ module Lucky::UrlHelpers
     current_page?(action.path, check_query_params)
   end
 
+  # Returns the url of the page that issued the request (the referrer)
+  # if possible, otherwise redirects to the provided default fallback
+  # location.
+  #
+  # The referrer information is pulled from the 'Referer' header on
+  # the request. This is an optional header, and if the request
+  # is missing this header the *fallback* will be used.
+  #
+  # Ex. within a Lucky Page, previous_url can be used to provide an href
+  # to an anchor element that would allow the user to go back.
+  # ```
+  # a "Back", href: previous_url(fallback: Users::Index)
+  # ```
+  def previous_url(fallback : Lucky::Action.class | Lucky::RouteHelper)
+    referrer_header || fallback.path
+  end
+
   private def comparable_query_params(query_params : HTTP::Params) : String
     URI.decode(query_params.map(&.join).sort!.join)
+  end
+
+  private def referrer_header
+    request = context.request
+    return unless request.headers.has_key?("Referer")
+
+    referrer = request.headers["Referer"]
+    referrer if referrer.is_a?(String)
   end
 end

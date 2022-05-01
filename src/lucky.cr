@@ -23,6 +23,8 @@ require "./lucky/paginator/*"
 require "./lucky/paginator/components/*"
 
 module Lucky
+  ROUTER = Lucky::Router.new
+
   Log              = ::Log.for("lucky")
   ContinuedPipeLog = Log.for("continued_pipe_log")
 
@@ -33,5 +35,9 @@ module Lucky
   # find `Dir.current`. If you call `Lucky.root` it will raise a compile-time error directing you to use `Dir.current`
   def self.root
     {% raise "Please use Crystal's 'Dir.current' to return the root folder of your Lucky application." %}
+  end
+
+  def self.router : Lucky::Router
+    ROUTER
   end
 end

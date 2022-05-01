@@ -1,31 +1,31 @@
-require "http/request"
-require "http/server"
+class TestServer < Lucky::BaseAppServer
+  class_setter last_request : HTTP::Request?
 
-class TestServer
-  delegate listen, close, to: @server
+  def self.last_request : HTTP::Request
+    @@last_request.not_nil!
+  end
 
-  class_property routes : Hash(String, String) = {} of String => String
+  def middleware : Array(HTTP::Handler)
+    [
+      LastRequestHandler.new,
+      Lucky::RouteHandler.new,
+    ] of HTTP::Handler
+  end
 
-  property! last_request : HTTP::Request?
-  getter port
+  def listen
+    raise "unimplemented"
+  end
 
-  def initialize(@port : Int32)
-    @server = HTTP::Server.new do |context|
-      last_request = context.request.dup
-      last_request.body = last_request.body.try(&.peek)
-      @last_request = last_request
-      response_body = self.class.routes[context.request.path]
-      context.response.content_type = "text/plain"
-      context.response.print response_body
+  def last_request
+    self.class.last_request.not_nil!
+  end
+
+  class LastRequestHandler
+    include HTTP::Handler
+
+    def call(context)
+      TestServer.last_request = context.request
+      call_next(context)
     end
-    @server.bind_tcp port: port
-  end
-
-  def self.route(path : String, response_body : String)
-    routes[path] = response_body
-  end
-
-  def self.reset
-    self.routes = {} of String => String
   end
 end

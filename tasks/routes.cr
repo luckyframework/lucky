@@ -23,15 +23,15 @@ class Routes < LuckyTask::Task
   def call
     routes = [] of Array(String)
 
-    Lucky::Router.routes.each do |route|
+    Lucky.router.routes.each do |method, path, action|
       row = [] of String
-      row << route.method.to_s.upcase
-      row << route.path.colorize.green.to_s
-      row << route.action.name
+      row << method.to_s.upcase
+      row << path.colorize.green.to_s
+      row << action.name
       routes << row
 
       if with_params?
-        route.action.query_param_declarations.each do |param|
+        action.query_param_declarations.each do |param|
           param_row = [] of String
           param_row << " "
           param_row << " #{dim_arrow} #{param}"
