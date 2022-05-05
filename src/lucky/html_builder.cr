@@ -20,6 +20,7 @@ module Lucky::HTMLBuilder
   include Lucky::HelpfulParagraphError
   include Lucky::RenderIfDefined
   include Lucky::TagDefaults
+  include Lucky::LiveReloadTag
 
   abstract def view : IO
 
