@@ -17,6 +17,19 @@ describe Gen::Component do
     end
   end
 
+  it "generates a root component" do
+    with_cleanup do
+      io = IO::Memory.new
+      valid_name = "Root"
+      ARGV.push(valid_name)
+
+      Gen::Component.new.call(io)
+
+      should_create_files_with_contents io,
+        "./src/components/root.cr": valid_name
+    end
+  end
+
   it "displays an error if given no arguments" do
     io = IO::Memory.new
 

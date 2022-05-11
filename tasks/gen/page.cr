@@ -67,7 +67,7 @@ class Gen::Page < LuckyTask::Task
   end
 
   private def output_path_with_filename
-    output_path + "/" + page_filename + ".cr"
+    File.join(output_path, page_filename + ".cr")
   end
 
   private def success_message
