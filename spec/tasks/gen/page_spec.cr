@@ -17,6 +17,19 @@ describe Gen::Page do
     end
   end
 
+  it "generates a root page" do
+    with_cleanup do
+      io = IO::Memory.new
+      valid_page_name = "::IndexPage"
+      ARGV.push(valid_page_name)
+
+      Gen::Page.new.call(io)
+
+      should_create_files_with_contents io,
+        "./src/pages/index_page.cr": valid_page_name
+    end
+  end
+
   it "displays an error if given no arguments" do
     io = IO::Memory.new
 
