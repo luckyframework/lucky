@@ -8,13 +8,6 @@ describe Lucky::MessageVerifier do
       verifier.verify(signed_message).should eq("abc123")
     end
 
-    it "returns valid data for legacy tokens" do
-      # Token: "#{48.hours.from_now.to_unix}:#{UUID.random}"
-      legacy_token = "MTY0NjA5Mjg5Nzo1YTliNzFjZS05YjYyLTQwMGMtODliYS1iNWQ5YjNhMDc1YzE=--Er90PHIzEDwfr70dJS3Ix5Xcy-w="
-      verifier = Lucky::MessageVerifier.new(secret_key)
-      verifier.verify(legacy_token).should eq("1646092897:5a9b71ce-9b62-400c-89ba-b5d9b3a075c1")
-    end
-
     it "returns valid data for new tokens" do
       # Token: "#{48.hours.from_now.to_unix}:#{UUID.random}"
       new_token = "WyJNVFkwTmpBNU1qY3dNanBpWTJabE5tUXpPQzB3TTJFMUxUUXhaamd0WWprek9DMWtNR001Tm1JNE4yWTRPVEU9IiwiRUprZ3ZIUEtxNG9EdVV1azlFZWQ0ZkJCWFlVPSJd"
@@ -42,13 +35,6 @@ describe Lucky::MessageVerifier do
       verifier = Lucky::MessageVerifier.new("supersecretsquirrel", :sha256)
       signed_message = verifier.generate("abc123")
       String.new(verifier.verify_raw(signed_message)).should eq("abc123")
-    end
-
-    it "returns valid data for legacy tokens" do
-      # Token: "#{48.hours.from_now.to_unix}:#{UUID.random}"
-      legacy_token = "MTY0NjA5Mjg5Nzo1YTliNzFjZS05YjYyLTQwMGMtODliYS1iNWQ5YjNhMDc1YzE=--Er90PHIzEDwfr70dJS3Ix5Xcy-w="
-      verifier = Lucky::MessageVerifier.new(secret_key)
-      String.new(verifier.verify_raw(legacy_token)).should eq("1646092897:5a9b71ce-9b62-400c-89ba-b5d9b3a075c1")
     end
 
     it "returns valid data for new tokens" do
