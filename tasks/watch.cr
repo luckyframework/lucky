@@ -2,18 +2,149 @@ require "lucky_task"
 require "option_parser"
 require "colorize"
 require "yaml"
+require "http"
 require "../src/lucky/server_settings"
 
 # Based on the sentry shard with some modifications to output and build process.
 module LuckySentry
-  FILE_TIMESTAMPS  = {} of String => String # {file => timestamp}
-  BROWSERSYNC_PORT = 3001
+  FILE_TIMESTAMPS = {} of String => String # {file => timestamp}
+
+  # Base Watcher class
+  abstract class Watcher
+    abstract def start : Nil
+    abstract def reload : Nil
+    abstract def running? : Bool
+    abstract def running_at : String?
+  end
+
+  # Watcher using WebSockets to reload browser
+  class WebSocketWatcher < Watcher
+    @captured_sockets = [] of HTTP::WebSocket
+    @server : HTTP::Server
+
+    def initialize
+      handler = HTTP::WebSocketHandler.new do |socket|
+        @captured_sockets << socket
+
+        socket.on_close do
+          @captured_sockets.delete(socket)
+        end
+      end
+      @server = HTTP::Server.new([handler])
+    end
+
+    def start : Nil
+      @server.bind_tcp Lucky::ServerSettings.reload_port
+      spawn { @server.listen }
+    end
+
+    def reload : Nil
+      @captured_sockets.each do |socket|
+        socket.send("data: update")
+        socket.close
+      end
+    end
+
+    def running? : Bool
+      @server.listening?
+    end
+
+    def running_at : Nil
+    end
+  end
+
+  # Watcher using ServerSentEvents (SSE) to reload browser
+  class ServerSentEventWatcher < Watcher
+    @server : HTTP::Server
+    @should_restart = false
+
+    def initialize
+      @server = HTTP::Server.new do |context|
+        context.response.headers.merge!({
+          "Access-Control-Allow-Origin" => "*",
+          "Content-Type"                => "text/event-stream",
+          "Connection"                  => "keep-alive",
+          "Cache-Control"               => "no-cache",
+        })
+        context.response.status_code = 200
+
+        # SSE start
+        loop do
+          if @should_restart
+            context.response.print "data: update\n\n"
+            context.response.flush
+            @should_restart = false
+            break
+          end
+          sleep 0.1
+        end
+        # SSE stop
+      end
+    end
+
+    def start : Nil
+      @server.bind_tcp Lucky::ServerSettings.reload_port
+      spawn { @server.listen }
+    end
+
+    def reload : Nil
+      @should_restart = true
+    end
+
+    def running? : Bool
+      @server.listening?
+    end
+
+    def running_at : Nil
+    end
+  end
+
+  # Watcher using browsersync to reload browser
+  class BrowsersyncWatcher < Watcher
+    @options : String
+    @is_running : Bool = false
+
+    def initialize
+      host_url = "http://#{Lucky::ServerSettings.host}:#{Lucky::ServerSettings.port}"
+      @options = ["-c", "bs-config.js", "--port", Lucky::ServerSettings.reload_port, "-p", host_url].join(" ")
+    end
+
+    def start : Nil
+      spawn do
+        Process.run \
+          "RUNNING_IN_BROWSERSYNC=true yarn run browser-sync start #{@options}",
+          output: STDOUT,
+          error: STDERR,
+          shell: true
+      end
+      @is_running = true
+    end
+
+    def reload : Nil
+      if running?
+        Process.run \
+          "yarn run browser-sync reload --port #{Lucky::ServerSettings.reload_port}",
+          output: STDOUT,
+          error: STDERR,
+          shell: true
+      end
+    end
+
+    def running? : Bool
+      @is_running
+    end
+
+    def running_at : String
+      "http://#{Lucky::ServerSettings.host}:#{Lucky::ServerSettings.reload_port}"
+    end
+  end
 
   class ProcessRunner
     include LuckyTask::TextHelpers
 
     getter build_processes = [] of Process
     getter app_processes = [] of Process
+    getter! watcher : Watcher
     property successful_compilations
     property app_built
     property? reload_browser
@@ -21,10 +152,7 @@ module LuckySentry
     @app_built : Bool = false
     @successful_compilations : Int32 = 0
 
-    def initialize(build_commands : Array(String), run_commands : Array(String), files : Array(String), @reload_browser : Bool)
-      @build_commands = build_commands
-      @run_commands = run_commands
-      @files = files
+    def initialize(@build_commands : Array(String), @run_commands : Array(String), @files : Array(String), @reload_browser : Bool, @watcher : Watcher?)
     end
 
     private def build_app_processes_and_start
@@ -48,11 +176,11 @@ module LuckySentry
         @app_processes << Process.new(command, shell: false, output: STDOUT, error: STDERR)
       end
 
-      self.successful_compilations += 1
+      @successful_compilations += 1
       if reload_browser?
-        reload_or_start_browser_sync
+        reload_or_start_watcher
       end
-      if successful_compilations == 1
+      if @successful_compilations == 1
         spawn do
           sleep(0.3)
           print_running_at
@@ -60,48 +188,16 @@ module LuckySentry
       end
     end
 
-    private def reload_or_start_browser_sync
-      if successful_compilations == 1
-        if browsersync_port_is_available?
-          start_browsersync
-        else
-          print_browsersync_port_taken_error
-        end
+    private def reload_or_start_watcher
+      if @successful_compilations == 1
+        start_watcher
       else
-        reload_browsersync
+        reload_watcher
       end
     end
 
-    private def browsersync_port_is_available? : Bool
-      if File.executable?(`which lsof`.chomp)
-        io = IO::Memory.new
-        Process.run("lsof -i :#{BROWSERSYNC_PORT}", output: io, error: STDERR, shell: true)
-        io.to_s.empty?
-      else
-        true
-      end
-    end
-
-    private def print_browsersync_port_taken_error
-      io = IO::Memory.new
-      Process.run("ps -p `lsof -ti :#{BROWSERSYNC_PORT}` -o command", output: io, error: STDERR, shell: true)
-      puts "There was a problem starting browsersync. Port #{BROWSERSYNC_PORT} is in use.".colorize(:red)
-      puts <<-ERROR
-
-      Try closing these programs...
-
-        #{io}
-      ERROR
-    end
-
-    private def start_browsersync
-      spawn do
-        Process.run \
-          "RUNNING_IN_BROWSERSYNC=true yarn run browser-sync start #{browsersync_options}",
-          output: STDOUT,
-          error: STDERR,
-          shell: true
-      end
+    private def start_watcher
+      watcher.start unless watcher.running?
     end
 
     private def print_running_at
@@ -123,29 +219,18 @@ module LuckySentry
 
     private def running_at
       if reload_browser?
-        browsersync_url
+        watcher.running_at || original_url
       else
         original_url
       end
-    end
-
-    private def browsersync_options
-      "-c bs-config.js --port #{BROWSERSYNC_PORT} -p #{original_url}"
-    end
-
-    private def browsersync_url
-      "http://#{Lucky::ServerSettings.host}:#{BROWSERSYNC_PORT}"
     end
 
     private def original_url
       "http://#{Lucky::ServerSettings.host}:#{Lucky::ServerSettings.port}"
     end
 
-    private def reload_browsersync
-      Process.run "yarn run browser-sync reload --port #{BROWSERSYNC_PORT}",
-        output: STDOUT,
-        error: STDERR,
-        shell: true
+    private def reload_watcher
+      watcher.reload
     end
 
     private def get_timestamp(file : String)
@@ -175,7 +260,7 @@ module LuckySentry
     private def start_all_processes(build_success : Bool)
       if build_success
         self.app_built = true
-        create_app_processes()
+        create_app_processes
         puts "#{" Done ".colorize.on_cyan.black} compiling"
       elsif !app_built
         print_error_message
@@ -212,27 +297,53 @@ module LuckySentry
         end
       end
 
-      restart_app() if file_changed # (file_changed || app_processes.empty?)
+      restart_app if file_changed # (file_changed || app_processes.empty?)
     end
   end
 end
 
 class Watch < LuckyTask::Task
   summary "Start and recompile project when files change"
-  switch :reload_browser, "Reloads browser on changes using browser-sync", shortcut: "-r"
   switch :error_trace, "Show full error trace"
 
+  switch :reload_browser, "Reloads browser on changes",
+    shortcut: "-r"
+
+  arg :watcher, "Watcher type for reloading browser",
+    shortcut: "-w",
+    optional: true,
+    format: /(sse|browsersync)/
+
   def call
-    build_commands = ["crystal build ./src/start_server.cr -o bin/start_server"]
-    build_commands[0] += " --error-trace" if error_trace?
-    run_commands = ["./bin/start_server"]
+    build_commands = %w(crystal build ./src/start_server.cr -o bin/start_server)
     files = ["./src/**/*.cr", "./src/**/*.ecr", "./config/**/*.cr", "./shard.lock"]
+    watcher_class = nil
+
+    if reload_browser?
+      case watcher
+      when "sse"
+        build_commands << "-Dlivereloadsse"
+        watcher_class = LuckySentry::ServerSentEventWatcher.new
+        files.push("./public/css/**/*.css", "./public/js/**/*.js")
+      when "browsersync"
+        watcher_class = LuckySentry::BrowsersyncWatcher.new
+      else
+        build_commands << "-Dlivereloadws"
+        watcher_class = LuckySentry::WebSocketWatcher.new
+        files.push("./public/css/**/*.css", "./public/js/**/*.js")
+      end
+    end
+
+    build_commands << "--error-trace" if error_trace?
+    build_commands = [build_commands.join(" ")]
+    run_commands = %w(./bin/start_server)
 
     process_runner = LuckySentry::ProcessRunner.new(
       files: files,
       build_commands: build_commands,
       run_commands: run_commands,
-      reload_browser: reload_browser?
+      reload_browser: reload_browser?,
+      watcher: watcher_class
     )
 
     puts "Beginning to watch your project"

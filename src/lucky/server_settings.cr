@@ -13,6 +13,10 @@ module Lucky::ServerSettings
     ENV["DEV_PORT"]?.try(&.to_i) || settings["port"].as_i
   end
 
+  def reload_port : Int32
+    ENV["RELOAD_PORT"]?.try(&.to_i) || settings["reload_port"]?.try(&.as_i) || 3001
+  end
+
   private def settings
     YAML.parse(yaml_settings_file)
   end
