@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::QuickDef - lucky main</title>
+  <title>Lucky::LiveReloadTag - lucky main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -381,7 +381,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/LiveReloadTag" data-name="lucky::livereloadtag">
+  <li class=" current" data-id="lucky/Lucky/LiveReloadTag" data-name="lucky::livereloadtag">
       <a href="../Lucky/LiveReloadTag.html">LiveReloadTag</a>
       
     </li>
@@ -546,7 +546,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/QuickDef" data-name="lucky::quickdef">
+  <li class=" " data-id="lucky/Lucky/QuickDef" data-name="lucky::quickdef">
       <a href="../Lucky/QuickDef.html">QuickDef</a>
       
     </li>
@@ -885,7 +885,7 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::QuickDef
+  <span class="kind">module</span> Lucky::LiveReloadTag
 
 </h1>
 
@@ -913,7 +913,7 @@
   </h2>
   <ul class="other-types-list">
     
-      <li class="other-type"><a href="../Object.html">Object</a></li>
+      <li class="other-type"><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></li>
     
   </ul>
 
@@ -930,8 +930,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/88f9562a5d69dd9c90af03967757daeed376af17/src/lucky/quick_def.cr#L1" target="_blank">
-        lucky/quick_def.cr
+      <a href="https://github.com/luckyframework/lucky/blob/88f9562a5d69dd9c90af03967757daeed376af17/src/lucky/tags/live_reload_tag.cr#L1" target="_blank">
+        lucky/tags/live_reload_tag.cr
       </a>
     
     <br/>
@@ -945,26 +945,24 @@
 
 
 
-
-
   <h2>
-    <a id="macro-summary" class="anchor" href="#macro-summary">
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Macro Summary
+    Instance Method Summary
   </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#quick_def%28method_name%2Cvalue%29-macro" class="signature"><strong>quick_def</strong>(method_name, value)</a>
-        
-          <div class="summary"><p>Quickly create a method with a simple return value</p></div>
+        <a href="#live_reload_connect_tag%3ANil-instance-method" class="signature"><strong>#live_reload_connect_tag</strong> : Nil</a>
         
       </li>
     
   </ul>
+
+
 
 
 
@@ -977,45 +975,33 @@
 
 
 
-
-
   <h2>
-    <a id="macro-detail" class="anchor" href="#macro-detail">
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Macro Detail
+    Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="quick_def(method_name,value)-macro">
+    <div class="entry-detail" id="live_reload_connect_tag:Nil-instance-method">
       <div class="signature">
         
-        macro <strong>quick_def</strong>(method_name, value)
+        def <strong>live_reload_connect_tag</strong> : <a href="../Nil.html">Nil</a>
 
-        <a class="method-permalink" href="#quick_def%28method_name%2Cvalue%29-macro">#</a>
+        <a class="method-permalink" href="#live_reload_connect_tag%3ANil-instance-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Quickly create a method with a simple return value</p>
-<pre><code class="language-crystal"><span class="c"># Instead of:</span>
-<span class="k">def</span> <span class="m">name</span>
-  <span class="s">&quot;Kylo&quot;</span>
-<span class="k">end</span>
-
-<span class="c"># You could use quick_def:</span>
-quick_def <span class="n">:name</span>, <span class="s">&quot;Kylo&quot;</span></code></pre>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/88f9562a5d69dd9c90af03967757daeed376af17/src/lucky/quick_def.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/88f9562a5d69dd9c90af03967757daeed376af17/src/lucky/tags/live_reload_tag.cr#L2" target="_blank">View source</a>]
         
       </div>
     </div>
   
+
+
 
 
 </div>
