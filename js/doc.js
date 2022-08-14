@@ -607,7 +607,7 @@ Navigator = function(sidebar, searchInput, list, leaveSearchScope){
     var go = function() {
       if (!self.moveTimeout) return;
       self.move(upwards);
-      self.moveTimout = setTimeout(go, 600);
+      self.moveTimeout = setTimeout(go, 600);
     };
     self.moveTimeout = setTimeout(go, 800);*/
   }
