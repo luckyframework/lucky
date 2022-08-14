@@ -2,6 +2,7 @@ require "./*"
 
 abstract class Lucky::ErrorAction
   include Lucky::ActionDelegates
+  include Lucky::ParamHelpers
   include Lucky::Renderable
   include Lucky::Redirectable
   include Lucky::Exposable
