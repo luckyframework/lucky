@@ -33,7 +33,7 @@ class Lucky::Exec < LuckyTask::Task
   end
 
   def call
-    editor_to_use = editor || settings.editor
+    editor_to_use = editor || ENV["EDITOR"]? || settings.editor
     repeat = !once?
     sessions_back = (back || 1).to_i
 
