@@ -59,7 +59,7 @@ module Lucky::Renderable
     )
     Lucky::TextResponse.new(
       context,
-      "text/html",
+      html_content_type,
       view.perform_render,
       status: {{ _with_status_code }},
       debug_message: log_message(view),
@@ -202,6 +202,26 @@ module Lucky::Renderable
     end
   end
 
+  # The default global content-type header for HTML
+  def html_content_type
+    "text/html"
+  end
+
+  # The default global content-type header for JSON
+  def json_content_type
+    "application/json"
+  end
+
+  # The default global content-type header for XML
+  def xml_content_type
+    "text/xml"
+  end
+
+  # The default global content-type header for Plain text
+  def plain_content_type
+    "text/plain"
+  end
+
   def file(
     path : String,
     content_type : String? = nil,
@@ -246,11 +266,11 @@ module Lucky::Renderable
     )
   end
 
-  def plain_text(body : String, status : Int32? = nil) : Lucky::TextResponse
-    send_text_response(body, "text/plain", status)
+  def plain_text(body : String, status : Int32? = nil, content_type : String = plain_content_type) : Lucky::TextResponse
+    send_text_response(body, content_type, status)
   end
 
-  def plain_text(body : String, status : HTTP::Status) : Lucky::TextResponse
+  def plain_text(body : String, status : HTTP::Status, content_type : String = plain_content_type) : Lucky::TextResponse
     plain_text(body, status: status.value)
   end
 
@@ -263,16 +283,16 @@ module Lucky::Renderable
   end
 
   # allows json-compatible string to be returned directly
-  def raw_json(body : String, status : Int32? = nil) : Lucky::TextResponse
-    send_text_response(body, "application/json", status)
+  def raw_json(body : String, status : Int32? = nil, content_type : String = json_content_type) : Lucky::TextResponse
+    send_text_response(body, content_type, status)
   end
 
-  def raw_json(body : String, status : HTTP::Status) : Lucky::TextResponse
-    raw_json(body, status: status.value)
+  def raw_json(body : String, status : HTTP::Status, content_type : String = json_content_type) : Lucky::TextResponse
+    raw_json(body, status: status.value, content_type: content_type)
   end
 
   # :nodoc:
-  def json(body : String, status : Int32? = nil) : Lucky::TextResponse
+  def json(body : String, status : Int32? = nil, content_type : String = json_content_type) : Lucky::TextResponse
     {%
       raise <<-ERROR
 
@@ -286,20 +306,20 @@ module Lucky::Renderable
     %}
   end
 
-  def json(body, status : Int32? = nil) : Lucky::TextResponse
-    send_text_response(body.to_json, "application/json", status)
+  def json(body, status : Int32? = nil, content_type : String = json_content_type) : Lucky::TextResponse
+    raw_json(body.to_json, status, content_type)
   end
 
-  def json(body, status : HTTP::Status) : Lucky::TextResponse
-    json(body, status: status.value)
+  def json(body, status : HTTP::Status, content_type : String = json_content_type) : Lucky::TextResponse
+    json(body, status: status.value, content_type: content_type)
   end
 
-  def xml(body : String, status : Int32? = nil) : Lucky::TextResponse
-    send_text_response(body, "text/xml", status)
+  def xml(body : String, status : Int32? = nil, content_type : String = xml_content_type) : Lucky::TextResponse
+    send_text_response(body, content_type, status)
   end
 
-  def xml(body, status : HTTP::Status) : Lucky::TextResponse
-    xml(body, status: status.value)
+  def xml(body, status : HTTP::Status, content_type : String = xml_content_type) : Lucky::TextResponse
+    xml(body, status: status.value, content_type: content_type)
   end
 
   # Render a Component as an HTML response.
@@ -312,7 +332,7 @@ module Lucky::Renderable
   def component(comp : Lucky::BaseComponent.class, status : Int32? = nil, **named_args) : Lucky::TextResponse
     send_text_response(
       comp.new(**named_args).context(context).render_to_string,
-      "text/html",
+      html_content_type,
       status
     )
   end

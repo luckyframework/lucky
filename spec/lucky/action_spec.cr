@@ -161,6 +161,67 @@ class Tests::ActionWithPrefix < TestAction
   end
 end
 
+class Tests::HtmlActionWithCustomContentType < TestAction
+  get "/tests/new_action_with_custom_html_content_type" do
+    html(Tests::IndexPage)
+  end
+
+  def html_content_type
+    "text/html; charset=utf-8"
+  end
+end
+
+class Tests::JsonActionWithCustomContentType < TestAction
+  param override_content_type : String?
+  get "/tests/new_action_with_custom_json_content_type" do
+    if ct = override_content_type.presence
+      raw_json("{}", content_type: ct)
+    else
+      raw_json("{}")
+    end
+  end
+
+  def json_content_type
+    "application/json; charset=utf-8"
+  end
+end
+
+class Tests::XmlActionWithCustomContentType < TestAction
+  get "/tests/new_action_with_custom_xml_content_type" do
+    xml("<code></code>")
+  end
+
+  def xml_content_type
+    "special/xml; charset=utf-8"
+  end
+end
+
+class Tests::PlainActionWithCustomContentType < TestAction
+  get "/tests/new_action_with_custom_plain_content_type" do
+    plain_text("nothing special")
+  end
+
+  def plain_content_type
+    "very/plain; charset=utf-8"
+  end
+end
+
+private class SimplleTestComponent < Lucky::BaseComponent
+  def render
+    text "hi"
+  end
+end
+
+class Tests::ComponentActionWithCustomContentType < TestAction
+  get "/tests/new_action_with_custom_component_content_type" do
+    component SimplleTestComponent
+  end
+
+  def html_content_type
+    "text/html; charset=utf-8"
+  end
+end
+
 describe Lucky::Action do
   it "has a url helper" do
     Lucky::RouteHelper.temp_config(base_uri: "example.com") do
@@ -285,6 +346,34 @@ describe Lucky::Action do
       response = Tests::Index.new(build_context, params).call
       response.body.to_s.should contain "Rendered from Tests::IndexPage"
       response.content_type.should eq "text/html"
+    end
+
+    it "uses a custom content_type for this html action" do
+      response = Tests::HtmlActionWithCustomContentType.new(build_context, params).call
+      response.content_type.should eq "text/html; charset=utf-8"
+    end
+
+    it "uses a custom content_type for this component action" do
+      response = Tests::ComponentActionWithCustomContentType.new(build_context, params).call
+      response.content_type.should eq "text/html; charset=utf-8"
+    end
+
+    it "uses a custom content_type for this json action" do
+      response = Tests::JsonActionWithCustomContentType.new(build_context, params).call
+      response.content_type.should eq "application/json; charset=utf-8"
+
+      response = Tests::JsonActionWithCustomContentType.new(build_context(path: "/tests/new_action_with_custom_json_content_type?override_content_type=cats/dogs"), params).call
+      response.content_type.should eq "cats/dogs"
+    end
+
+    it "uses a custom content_type for this xml action" do
+      response = Tests::XmlActionWithCustomContentType.new(build_context, params).call
+      response.content_type.should eq "special/xml; charset=utf-8"
+    end
+
+    it "uses a custom content_type for this plain action" do
+      response = Tests::PlainActionWithCustomContentType.new(build_context, params).call
+      response.content_type.should eq "very/plain; charset=utf-8"
     end
   end
 
