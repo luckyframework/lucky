@@ -38,8 +38,11 @@ private class AssetManifestBuilder
     manifest = JSON.parse(manifest_file)
 
     manifest.as_h.each do |key, value|
-      key = key.gsub(/^\//, "").gsub(/^assets\//, "")
-      puts %({% ::Lucky::AssetHelpers::ASSET_MANIFEST["#{key}"] = "#{value.as_s}" %})
+      # TODO: How can we support both until mix is deprecated?
+      # key = key.gsub(/^\//, "").gsub(/^assets\//, "")
+      # puts %({% ::Lucky::AssetHelpers::ASSET_MANIFEST["#{key}"] = "#{value.as_s}" %})
+      key = key[4..]
+      puts %({% ::Lucky::AssetHelpers::ASSET_MANIFEST["#{key}"] = "#{value["file"].as_s}" %})
     end
   end
 
