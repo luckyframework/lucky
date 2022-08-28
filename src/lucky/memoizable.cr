@@ -25,7 +25,23 @@ module Lucky::Memoizable
       raise "All arguments must have an explicit type for memoized methods" if method_def.args.any? &.is_a?(Nop)
     %}
 
-    @__memoized_{{method_def.name}} : Tuple(
+    {%
+      is_predicate = false
+      is_bang = false
+      safe_method_name = method_def.name
+    %}
+
+    {%
+      if method_def.name.ends_with?('?')
+        is_predicate = true
+        safe_method_name = method_def.name.tr("?", "")
+      elsif method_def.name.ends_with?('!')
+        is_bang = true
+        safe_method_name = method_def.name.tr("!", "")
+      end
+    %}
+
+    @__memoized_{{safe_method_name}} : Tuple(
       {{ method_def.return_type }},
       {% for arg in method_def.args %}
         {{ arg.restriction }},
@@ -33,7 +49,7 @@ module Lucky::Memoizable
     )?
 
     # Returns uncached value
-    def {{ method_def.name }}__uncached(
+    def {{ safe_method_name }}__uncached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
       {% for arg in method_def.args %}
         {{ arg.name }} : {{ arg.restriction }},
       {% end %}
@@ -44,7 +60,7 @@ module Lucky::Memoizable
     # Checks the passed arguments against the memoized args
     # and runs the method body if it is the very first call
     # or the arguments do not match
-    def {{ method_def.name }}__tuple_cached(
+    def {{ safe_method_name }}__tuple_cached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
       {% for arg in method_def.args %}
         {{ arg.name }} : {{ arg.restriction }},
       {% end %}
@@ -55,10 +71,10 @@ module Lucky::Memoizable
       {% end %}
     )
       {% for arg, index in method_def.args %}
-        @__memoized_{{ method_def.name }} = nil if {{arg.name}} != @__memoized_{{ method_def.name }}.try &.at({{index}} + 1)
+        @__memoized_{{ safe_method_name }} = nil if {{arg.name}} != @__memoized_{{ safe_method_name }}.try &.at({{index}} + 1)
       {% end %}
-      @__memoized_{{ method_def.name }} ||= -> do
-        result = {{ method_def.name }}__uncached(
+      @__memoized_{{ safe_method_name }} ||= -> do
+        result = {{ safe_method_name }}__uncached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
           {% for arg in method_def.args %}
             {{arg.name}},
           {% end %}
@@ -79,7 +95,7 @@ module Lucky::Memoizable
         {{ arg.name }} : {{ arg.restriction }}{% if has_default %} = {{ arg.default_value }}{% end %},
       {% end %}
     ) : {{ method_def.return_type }}
-      {{ method_def.name }}__tuple_cached(
+      {{ safe_method_name }}__tuple_cached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
         {% for arg in method_def.args %}
           {{arg.name}},
         {% end %}
