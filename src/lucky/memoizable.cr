@@ -22,7 +22,7 @@ module Lucky::Memoizable
   macro memoize(method_def)
     {% raise "You must define a return type for memoized methods" if method_def.return_type.is_a?(Nop) %}
     {%
-      raise "All arguments must have an explicit type for memoized methods" if method_def.args.any? &.is_a?(Nop)
+      raise "All arguments must have an explicit type restriction for memoized methods" if method_def.args.any? &.restriction.is_a?(Nop)
     %}
 
     @__memoized_{{method_def.name}} : Tuple(
