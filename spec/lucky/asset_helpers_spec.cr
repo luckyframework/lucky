@@ -41,10 +41,6 @@ end
 
 describe Lucky::AssetHelpers do
   describe "compile time asset helper" do
-    Spec.before_each do
-      Lucky::AssetHelpers.load_manifest("./public/mix-manifest.json")
-    end
-
     it "returns the fingerprinted path" do
       Lucky::AssetHelpers.asset("images/logo.png").should eq "/images/logo-with-hash.png"
     end
@@ -69,10 +65,6 @@ describe Lucky::AssetHelpers do
   end
 
   describe "dynamic asset helper" do
-    Spec.before_each do
-      Lucky::AssetHelpers.load_manifest("./public/mix-manifest.json")
-    end
-
     it "returns the fingerprinted path" do
       TestPage.new.dynamic_asset_path.should eq "/images/logo-with-hash.png"
     end
@@ -95,10 +87,6 @@ describe Lucky::AssetHelpers do
   end
 
   describe "testing with vite manifest" do
-    Spec.before_each do
-      Lucky::AssetHelpers.load_manifest("./public/vite-manifest.json", use_vite: true)
-    end
-
     it "returns the fingerprinted path" do
       Lucky::AssetHelpers.asset("images/lucky_logo.png").should eq "/images/lucky_logo.a54cc67e.png"
     end

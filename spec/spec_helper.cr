@@ -7,7 +7,8 @@ include RoutesHelper
 
 Pulsar.enable_test_mode!
 
-# Lucky::AssetHelpers.load_manifest
+Lucky::AssetHelpers.load_manifest
+Lucky::AssetHelpers.load_manifest("./public/vite-manifest.json", use_vite: true)
 
 Spec.before_each do
   ARGV.clear
