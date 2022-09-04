@@ -26,17 +26,16 @@ module Lucky::Memoizable
     %}
 
     {%
-      is_predicate = false
-      is_bang = false
+      special_ending = nil
       safe_method_name = method_def.name
     %}
 
     {%
       if method_def.name.ends_with?('?')
-        is_predicate = true
+        special_ending = "?"
         safe_method_name = method_def.name.tr("?", "")
       elsif method_def.name.ends_with?('!')
-        is_bang = true
+        special_ending = "!"
         safe_method_name = method_def.name.tr("!", "")
       end
     %}
@@ -49,7 +48,7 @@ module Lucky::Memoizable
     )?
 
     # Returns uncached value
-    def {{ safe_method_name }}__uncached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
+    def {{ safe_method_name }}__uncached{% if special_ending %}{{ special_ending.id }}{% end %}(
       {% for arg in method_def.args %}
         {{ arg.name }} : {{ arg.restriction }},
       {% end %}
@@ -60,7 +59,7 @@ module Lucky::Memoizable
     # Checks the passed arguments against the memoized args
     # and runs the method body if it is the very first call
     # or the arguments do not match
-    def {{ safe_method_name }}__tuple_cached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
+    def {{ safe_method_name }}__tuple_cached{% if special_ending %}{{ special_ending.id }}{% end %}(
       {% for arg in method_def.args %}
         {{ arg.name }} : {{ arg.restriction }},
       {% end %}
@@ -74,7 +73,7 @@ module Lucky::Memoizable
         @__memoized_{{ safe_method_name }} = nil if {{arg.name}} != @__memoized_{{ safe_method_name }}.try &.at({{index}} + 1)
       {% end %}
       @__memoized_{{ safe_method_name }} ||= -> do
-        result = {{ safe_method_name }}__uncached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
+        result = {{ safe_method_name }}__uncached{% if special_ending %}{{ special_ending.id }}{% end %}(
           {% for arg in method_def.args %}
             {{arg.name}},
           {% end %}
@@ -95,7 +94,7 @@ module Lucky::Memoizable
         {{ arg.name }} : {{ arg.restriction }}{% if has_default %} = {{ arg.default_value }}{% end %},
       {% end %}
     ) : {{ method_def.return_type }}
-      {{ safe_method_name }}__tuple_cached{% if is_predicate %}?{% elsif is_bang %}!{% end %}(
+      {{ safe_method_name }}__tuple_cached{% if special_ending %}{{ special_ending.id }}{% end %}(
         {% for arg in method_def.args %}
           {{arg.name}},
         {% end %}
