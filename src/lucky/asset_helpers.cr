@@ -13,6 +13,13 @@ module Lucky::AssetHelpers
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
+  # EXPERIMENTAL: This feature is experimental. Use this to test
+  # vite integration with Lucky
+  macro load_manifest(manifest_file, use_vite)
+    {{ run "../run_macros/generate_asset_helpers", manifest_file, use_vite }}
+    {% CONFIG[:has_loaded_manifest] = true %}
+  end
+
   # Return the string path to an asset
   #
   # ```
