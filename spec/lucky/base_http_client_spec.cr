@@ -68,6 +68,36 @@ describe Lucky::BaseHTTPClient do
     end
   end
 
+  describe "exec_raw" do
+    describe "with Lucky::Action class" do
+      it "allows passing raw strings" do
+        test_data = <<-JSON
+          { "event_id": "1"}
+          { "type": "event"}
+          { "event_id": "2", "type": "event", "platform": ""}
+        JSON
+        response = MyClient.new.exec_raw(HelloWorldAction, test_data)
+
+        request = TestServer.last_request
+        request.body.not_nil!.gets_to_end.should eq(test_data)
+      end
+    end
+
+    describe "with a Lucky::RouteHelper" do
+      it "allows passing raw strings" do
+        test_data = <<-JSON
+          { "event_id": "1"}
+          { "type": "event"}
+          { "event_id": "2", "type": "event", "platform": ""}
+        JSON
+        response = MyClient.new.exec_raw(HelloWorldAction.route, test_data)
+
+        request = TestServer.last_request
+        request.body.not_nil!.gets_to_end.should eq(test_data)
+      end
+    end
+  end
+
   {% for method in [:put, :patch, :post, :delete, :get, :options] %}
     describe "\#{{method.id}}" do
       it "sends correct request to correct uri and gives the correct response" do
