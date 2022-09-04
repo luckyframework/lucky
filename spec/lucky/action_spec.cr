@@ -149,7 +149,8 @@ end
 
 class OptionalRouteParams::Index < TestAction
   get "/complex_posts/:required/?:optional_1/?:optional_2" do
-    plain_text "test"
+    opt = params.get?(:optional_1)
+    plain_text "test #{required} #{optional_1} #{optional_2} #{opt}"
   end
 end
 
@@ -374,6 +375,11 @@ describe Lucky::Action do
     it "uses a custom content_type for this plain action" do
       response = Tests::PlainActionWithCustomContentType.new(build_context, params).call
       response.content_type.should eq "very/plain; charset=utf-8"
+    end
+
+    it "renders with optional path params" do
+      response = OptionalRouteParams::Index.new(build_context("/complex_posts/1/2/3"), {"required" => "1", "optional_1" => "2", "optional_2" => "3"}).call
+      response.body.to_s.should eq("test 1 2 3 2")
     end
   end
 
