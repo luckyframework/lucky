@@ -8,6 +8,8 @@ private class ObjectWithMemoizedMethods
   getter times_method_1_called = 0
   getter times_method_2_called = 0
   getter times_method_3_called = 0
+  getter times_method_4_called = 0
+  getter times_method_5_called = 0
 
   memoize def method_1 : String
     @times_method_1_called += 1
@@ -22,6 +24,16 @@ private class ObjectWithMemoizedMethods
   memoize def method_3(arg_a : String, arg_b : String = "default-arg-b") : String
     @times_method_3_called += 1
     arg_a + ", " + arg_b
+  end
+
+  memoize def method_4? : Bool
+    @times_method_4_called += 1
+    true
+  end
+
+  memoize def method_5! : String
+    @times_method_5_called += 1
+    "Boom!"
   end
 end
 
@@ -80,5 +92,37 @@ describe "memoizations" do
     object.method_3("arg-a", "arg-c").should eq("arg-a, arg-c")
     object.method_3("arg-a", "arg-b").should eq("arg-a, arg-b")
     object.times_method_3_called.should eq 3
+  end
+
+  it "works with predicate methods" do
+    object = ObjectWithMemoizedMethods.new
+
+    object.method_4?.should eq(true)
+    object.method_4?.should eq(true)
+    object.method_4?.should eq(true)
+    object.times_method_4_called.should eq(1)
+  end
+
+  it "Works with bang methods" do
+    object = ObjectWithMemoizedMethods.new
+
+    object.method_5!.should eq("Boom!")
+    object.method_5!.should eq("Boom!")
+    object.method_5!.should eq("Boom!")
+    object.times_method_5_called.should eq(1)
+  end
+
+  it "calls uncached with predicate and bang methods" do
+    object = ObjectWithMemoizedMethods.new
+
+    object.method_4__uncached?.should eq(true)
+    object.method_4__uncached?.should eq(true)
+    object.method_4__uncached?.should eq(true)
+    object.times_method_4_called.should eq(3)
+
+    object.method_5__uncached!.should eq("Boom!")
+    object.method_5__uncached!.should eq("Boom!")
+    object.method_5__uncached!.should eq("Boom!")
+    object.times_method_5_called.should eq(3)
   end
 end
