@@ -101,6 +101,18 @@ abstract class Lucky::BaseHTTPClient
     @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: params.to_json)
   end
 
+  # `exec_raw` works the same as `exec`, but allows you to pass in a raw string.
+  # This is used as an escape hatch as the `string` could be unsafe, or formatted
+  # in a custom format.
+  def exec_raw(action : Lucky::Action.class, body : String) : HTTP::Client::Response
+    exec_raw(action.route, body)
+  end
+
+  # See docs for `exec_raw`
+  def exec_raw(route_helper : Lucky::RouteHelper, body : String) : HTTP::Client::Response
+    @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: body)
+  end
+
   {% for method in [:put, :patch, :post, :delete, :get, :options, :head] %}
     def {{ method.id }}(path : String, **params) : HTTP::Client::Response
       {{ method.id }}(path, params)
