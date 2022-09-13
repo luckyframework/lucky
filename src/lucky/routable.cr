@@ -267,6 +267,10 @@ module Lucky::Routable
          params_with_defaults.includes? decl
        end %}
 
+    {% if path_params.empty? && params_without_defaults.empty? %}
+       extend Lucky::NoRequiredParamsAction
+    {% end %}
+
     def self.route(
     # required path variables
     {% for param in path_params %}

@@ -34,17 +34,17 @@ module Lucky::LinkHelpers
     end
   end
 
-  def link(text, to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+  def link(text, to : Lucky::NoRequiredParamsAction, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
     link(**html_options, to: to, attrs: attrs) do
       text text
     end
   end
 
-  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+  def link(to : Lucky::NoRequiredParamsAction, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
     link(**html_options, to: to, attrs: attrs) { }
   end
 
-  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+  def link(to : Lucky::NoRequiredParamsAction, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
     link(**html_options, to: to.route, attrs: attrs) do
       yield
     end
@@ -56,6 +56,34 @@ module Lucky::LinkHelpers
     else
       {"href" => route.path, "data_method" => route.method.to_s}
     end
+  end
+
+  def link(text, to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+    {%
+      raise <<-ERROR
+      Looks like you are trying to pass in an action that needs params. Do better.
+
+      ERROR
+    %}
+  end
+
+  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+    {%
+      raise <<-ERROR
+      Looks like you are trying to pass in an action that needs params. Do better.
+
+      ERROR
+    %}
+  end
+
+  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+    {%
+      raise <<-ERROR
+      Looks like you are trying to pass in an action that needs params. Do better.
+
+      ERROR
+    %}
+    yield
   end
 
   def link(text, to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
