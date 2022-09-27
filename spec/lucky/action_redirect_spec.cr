@@ -150,9 +150,7 @@ describe Lucky::Action do
     action.redirect to: "/somewhere"
     should_redirect(action, to: "/somewhere", status: 302)
 
-    expect_raises(IO::Error) do
-      action.redirect to: "/somewhere-else"
-    end
+    action.context.response.closed?.should eq(true)
   end
 end
 
