@@ -17,6 +17,5 @@ abstract class Lucky::Action
   include Lucky::ParamHelpers
   include Lucky::ActionPipes
   include Lucky::Redirectable
-  include Lucky::RedirectableTurbolinksSupport
   include Lucky::VerifyAcceptsFormat
 end
