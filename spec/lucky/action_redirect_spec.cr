@@ -3,6 +3,8 @@ require "../spec_helper"
 include ContextHelper
 
 class RedirectAction < TestAction
+  include Lucky::RedirectableTurbolinksSupport
+
   get "/redirect_test" do
     plain_text "does not matter"
   end
