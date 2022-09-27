@@ -25,6 +25,7 @@ module Lucky::RedirectableTurbolinksSupport
       # ordinary redirect
       context.response.headers.add "Location", path
       context.response.status_code = status
+      context.response.close
       Lucky::TextResponse.new(context, "", "")
     end
   end
