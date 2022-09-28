@@ -146,14 +146,6 @@ describe Lucky::Action do
     flash = Lucky::FlashStore.from_session(response.context.session)
     flash.success.should eq("Keep me!")
   end
-
-  it "closes the response after a redirect" do
-    action = RedirectAction.new(build_context, params)
-    action.redirect to: "/somewhere"
-    should_redirect(action, to: "/somewhere", status: 302)
-
-    action.context.response.closed?.should eq(true)
-  end
 end
 
 private def should_redirect(action, to path, status)
