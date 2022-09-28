@@ -14,7 +14,6 @@
 - Fixed: `memoize` methods can now end in `?` or `!`. [#1727](https://github.com/luckyframework/lucky/pull/1727)
 - Added: Experimental option to have type-safe assets built using [Vitejs](https://vitejs.dev/). [#1729](https://github.com/luckyframework/lucky/pull/1729)
 - **Breaking change** Removed: default integration with Turbolinks. [#1737](https://github.com/luckyframework/lucky/pull/1737)
-- Updated: close HTTP response after a redirect happens. [#1736](https://github.com/luckyframework/lucky/pull/1736)
 - Updated: generated apps using LuckyFlow are compatible with latest Flow updated. [#760 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/760)
 - Updated: generated apps that specify "no auth" no longer include Authentic. [#761 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/761)
 - Updated: generated apps now have the ability to remove Avram. [#764 in Lucky CLI](https://github.com/luckyframework/lucky_cli/pull/764)
