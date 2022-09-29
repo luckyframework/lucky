@@ -1,3 +1,62 @@
+## Upgrading from 0.30 to 1.0.0-rc1
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.30.0&to=1.0.0-rc1).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.0.0-rc1`
+  - Avram should be `~> 1.0.0-rc1`
+  - Authentic should be `~> 0.9.0`
+  - Carbon (and carbon_sendgrid_adapter) should be `~> 0.3.0`
+  - LuckyFlow should be `~> 0.9.0`
+
+- Run `shards update`
+
+### General updates
+
+- Add: Avram to your `shard.yml` as a dependency.
+- Add: `require "avram/lucky"` to `src/shards.cr` right below `require "lucky"`. [See PR](https://github.com/luckyframework/avram/pull/772)
+- Add: `require "avram/lucky/tasks"` to `tasks.cr` right below `require "lucky/tasks/**"`. [See PR](https://github.com/luckyframework/lucky_cli/pull/764)
+- Update: to Crystal 1.4 or later.
+- Add: `include Lucky::RedirectableTurbolinksSupport` in your `BrowserAction` if you are using turbolinks.
+- Add: `live_reload_connect_tag` to your `src/components/shared/layout_head.cr` and `reload_port: 3001` to your `config/watch.yml` file for live browser reloading. [See this PR](https://github.com/luckyframework/lucky_cli/pull/767) and [this PR](https://github.com/luckyframework/lucky/pull/1693)
+- Update: `Avram::Params.new()` now takes `Hash(String, Array(String))` instead of `Hash(String, String)`. [See PR](https://github.com/luckyframework/avram/pull/847)
+- Update: arg names in `validate_numeric` from `less_than` and `greater_than` to `at_least` and `no_more_than`. [See PR](https://github.com/luckyframework/avram/pull/867)
+- Update: your LuckyFlow configuration...
+```crystal
+# spec/spec_helper.cr
+# ...
+require "spec"
+# ...
+require "lucky_flow"
+require "lucky_flow/ext/lucky"
+require "lucky_flow/ext/avram"
+# ...
+
+# spec/setup/configure_lucky_flow.cr
+# ...
+LuckyFlow::Spec.setup
+```
+
+### Optional updates
+
+- Update the `lucky_sec_tester` shard to version `0.1.0`
+- Replace turbolinks with [Turbo](https://turbo.hotwired.dev/)
+- Replace laravel-mix with [Vite](https://vitejs.dev/)
+
+
 ## Upgrading from 0.29 to 0.30
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.29.0&to=0.30.0).
