@@ -16,8 +16,8 @@ brew upgrade lucky
 > https://luckyframework.org/guides/getting-started/installing#on-linux
 
 - Update versions in `shard.yml`
-  - Lucky should be `~> 1.0.0.rc1`
-  - Avram should be `~> 1.0.0.rc1`
+  - Lucky should be `~> 1.0.0-rc1`
+  - Avram should be `~> 1.0.0-rc1`
   - Authentic should be `~> 0.9.0`
   - Carbon (and carbon_sendgrid_adapter) should be `~> 0.3.0`
   - LuckyFlow should be `~> 0.9.0`
