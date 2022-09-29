@@ -154,6 +154,12 @@ describe Lucky::UrlHelpers do
         .should eq "http://luckyframework.org/pages/123"
     end
 
+    it "falls back to passed Lucky::Action when referer is the current page" do
+      view_for("/pages/456", headers: {"Referer" => "http://luckyframework.org/pages/456"})
+        .previous_url(Pages::Index)
+        .should eq "/pages"
+    end
+
     it "falls back to passed Lucky::Action when referer header is not present" do
       view_for("/pages/123")
         .previous_url(Pages::Index)
