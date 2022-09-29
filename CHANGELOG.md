@@ -1,4 +1,4 @@
-### Changes in 1.0.0.rc1
+### Changes in 1.0.0-rc1
 
 - **Breaking change** Removed: Avram is no longer a dependency of Lucky. [#1620](https://github.com/luckyframework/lucky/pull/1620)
 - Fixed: path output when generating a component. [#1694](https://github.com/luckyframework/lucky/pull/1694)
