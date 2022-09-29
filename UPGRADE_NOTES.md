@@ -1,6 +1,6 @@
-## Upgrading from 0.30 to 1.0.0.rc1
+## Upgrading from 0.30 to 1.0.0-rc1
 
-For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.30.0&to=1.0.0.rc1).
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.30.0&to=1.0.0-rc1).
 
 - Upgrade Lucky CLI (homebrew)
 
