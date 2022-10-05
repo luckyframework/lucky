@@ -55,8 +55,8 @@ module LuckySentry
 
   # Watcher using ServerSentEvents (SSE) to reload browser
   class ServerSentEventWatcher < Watcher
+    @captured_contexts = [] of HTTP::Server::Context
     @server : HTTP::Server
-    @should_restart = false
 
     def initialize
       @server = HTTP::Server.new do |context|
@@ -68,14 +68,11 @@ module LuckySentry
         })
         context.response.status_code = 200
 
+        @captured_contexts << context
+
         # SSE start
         loop do
-          if @should_restart
-            context.response.print "data: update\n\n"
-            context.response.flush
-            @should_restart = false
-            break
-          end
+          break if context.response.closed?
           sleep 0.1
         end
         # SSE stop
@@ -88,7 +85,11 @@ module LuckySentry
     end
 
     def reload : Nil
-      @should_restart = true
+      while context = @captured_contexts.shift?
+        context.response.print "data: update\n\n"
+        context.response.flush
+        context.response.close
+      end
     end
 
     def running? : Bool
