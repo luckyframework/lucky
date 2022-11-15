@@ -19,8 +19,9 @@ module Lucky::SvgInliner
         .gsub(/<!--[^>]+>/, "")
         .gsub(/\n\s*/, "")
       svg = svg.gsub(regex, "") if strip_styling
+      modifier = strip_styling ? "" : "-styled"
     %}
 
-    raw {{svg.gsub(/<svg/, %(<svg data-inline-svg="#{path.id}"))}}
+    raw {{svg.gsub(/<svg/, %(<svg data-inline-svg#{modifier.id}="#{path.id}"))}}
   end
 end
