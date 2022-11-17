@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.4.1">
+<meta name="generator" content="Crystal Docs 1.5.0">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -786,6 +786,26 @@
       
     </li>
   
+  <li class="parent " data-id="lucky/Lucky/SvgInliner" data-name="lucky::svginliner">
+      <a href="Lucky/SvgInliner.html">SvgInliner</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/Lucky/SvgInliner/Path" data-name="lucky::svginliner::path">
+      <a href="Lucky/SvgInliner/Path.html">Path</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/SvgInliner/StripRegex" data-name="lucky::svginliner::stripregex">
+      <a href="Lucky/SvgInliner/StripRegex.html">StripRegex</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="lucky/Lucky/TagDefaults" data-name="lucky::tagdefaults">
       <a href="Lucky/TagDefaults.html">TagDefaults</a>
       
@@ -943,7 +963,7 @@ The guide will walk you through installing a command-line utility used for gener
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Api</span><span class="t">::</span><span class="t">Users</span><span class="t">::</span><span class="t">Show</span> <span class="o">&lt;</span> <span class="t">ApiAction</span>
   get <span class="s">&quot;/api/users/:user_id&quot;</span> <span class="k">do</span>
     user <span class="o">=</span> <span class="t">UserQuery</span>.find(user_id)
-    json <span class="t">UserSerializer</span>.<span class="k">new</span>(user)
+    json <span class="t">UserSerializer</span>.new(user)
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
 <ul>
@@ -990,7 +1010,7 @@ help you remember not to call methods on it that won't work.</li>
 <span class="k">end</span>
 
 <span class="c"># Query the database</span>
-<span class="t">UserQuery</span>.<span class="k">new</span>.recently_active.sorted_by_last_name</code></pre>
+<span class="t">UserQuery</span>.new.recently_active.sorted_by_last_name</code></pre>
 <ul>
 <li><code>User::BaseQuery</code> is automatically generated when you define a model. Inherit
 from it to customize queries.</li>
@@ -1010,7 +1030,7 @@ methods (like <code>lower</code>).</li>
 </a>Rendering HTML:</h3>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Users</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
   get <span class="s">&quot;/users&quot;</span> <span class="k">do</span>
-    users <span class="o">=</span> <span class="t">UserQuery</span>.<span class="k">new</span>.sorted_by_last_name
+    users <span class="o">=</span> <span class="t">UserQuery</span>.new.sorted_by_last_name
     render <span class="t">IndexPage</span>, users: users
   <span class="k">end</span>
 <span class="k">end</span>
@@ -1033,7 +1053,7 @@ methods (like <code>lower</code>).</li>
         li <span class="k">do</span>
           link user.name, to: <span class="t">Users</span><span class="t">::</span><span class="t">Show</span>.<span class="k">with</span>(user.id)
           text <span class="s">&quot; - &quot;</span>
-          text user.nickname || <span class="s">&quot;No Nickname&quot;</span>
+          text user.nickname <span class="o">||</span> <span class="s">&quot;No Nickname&quot;</span>
         <span class="k">end</span>
       <span class="k">end</span>
     <span class="k">end</span>
