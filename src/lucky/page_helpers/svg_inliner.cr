@@ -18,6 +18,7 @@ module Lucky::SvgInliner
         .gsub(/<\?xml[^>]+>/, "")
         .gsub(/<!--[^>]+>/, "")
         .gsub(/\n\s*/, " ")
+        .strip
       svg = svg.gsub(regex, "") if strip_styling
       modifier = strip_styling ? "" : "-styled"
     %}
