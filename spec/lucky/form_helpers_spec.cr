@@ -130,6 +130,16 @@ describe Lucky::FormHelpers do
     <input type="submit" value="Save" class="cool">
     HTML
   end
+
+  it "renders submit input with attributes" do
+    view(&.submit("Save", attrs: [:disabled])).should contain <<-HTML
+    <input type="submit" value="Save" disabled>
+    HTML
+
+    view(&.submit("Save", class: "cool", attrs: [:hidden, :disabled])).should contain <<-HTML
+    <input type="submit" value="Save" class="cool" hidden disabled>
+    HTML
+  end
 end
 
 private def without_csrf_protection
