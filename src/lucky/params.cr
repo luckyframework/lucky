@@ -411,11 +411,7 @@ class Lucky::Params
     nested_key_json = parsed_json[nested_key]? || JSON::Any.new({} of String => JSON::Any)
 
     nested_key_json.as_h.each do |key, value|
-      if value == nil
-        nested_params[key.to_s] = ""
-      else
-        nested_params[key.to_s] = stringify_json_value(value)
-      end
+      nested_params[key.to_s] = stringify_json_value(value)
     end
 
     nested_params
@@ -660,6 +656,10 @@ class Lucky::Params
   end
 
   private def stringify_json_value(value : JSON::Any) : String
-    value.as_s? || value.to_json
+    if value.raw.nil?
+      ""
+    else
+      value.as_s? || value.to_json
+    end
   end
 end
