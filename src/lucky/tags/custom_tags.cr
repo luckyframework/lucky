@@ -24,7 +24,7 @@ module Lucky::CustomTags
     tag(tag_name, "", options, **other_options)
   end
 
-  def tag(tag_name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
+  def tag(tag_name : String, attrs : Array(Symbol) = [] of Symbol, options = EMPTY_HTML_ATTRS, **other_options) : Nil
     merged_options = merge_options(other_options, options)
     tag_attrs = build_tag_attrs(merged_options)
     boolean_attrs = build_boolean_attrs(attrs)

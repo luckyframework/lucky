@@ -61,6 +61,12 @@ private class TestPage
       text "foo"
     end
   end
+
+  def form_wrapper(action : Lucky::Action.class)
+    form_for action do
+      yield
+    end
+  end
 end
 
 describe Lucky::FormHelpers do
@@ -94,6 +100,16 @@ describe Lucky::FormHelpers do
 
       view(&.form_with_bool_attr).should contain <<-HTML
       <form action="/form_helpers" method="post" class="even-cooler-form" novalidate>foo</form>
+      HTML
+
+      form = view do |page|
+        page.form_wrapper(FormHelpers::Create) do
+          page.text("purple")
+        end
+      end
+
+      form.should contain <<-HTML
+      <form action="/form_helpers" method="post">purple</form>
       HTML
     end
   end
