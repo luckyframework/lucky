@@ -11,8 +11,10 @@ module Lucky::FormHelpers
     end
   end
 
-  def form_for(route action : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options, &block) : Nil
-    form_for action.route, attrs, **html_options, &block
+  def form_for(route action : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+    form_for action.route, attrs, **html_options do
+      yield
+    end
   end
 
   def submit(text : String, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
