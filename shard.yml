@@ -61,7 +61,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.2.0
+    version: ~> 1.1.0
 
 scripts:
   postinstall: BUILD_WITHOUT_DEVELOPMENT=true script/precompile_tasks
