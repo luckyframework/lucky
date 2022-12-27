@@ -44,10 +44,10 @@ module Lucky::AssetHelpers
     {% end %}
 
     {% if path.is_a?(StringLiteral) %}
-      {% if Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
-        Lucky::Server.settings.asset_host + {{ Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
+      {% if ::Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
+        Lucky::Server.settings.asset_host + {{ ::Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
       {% else %}
-        {% asset_paths = Lucky::AssetHelpers::ASSET_MANIFEST.keys.join(",") %}
+        {% asset_paths = ::Lucky::AssetHelpers::ASSET_MANIFEST.keys.join(",") %}
         {{ run "../run_macros/missing_asset", path, asset_paths }}
       {% end %}
     {% elsif path.is_a?(StringInterpolation) %}
