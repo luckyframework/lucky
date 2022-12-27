@@ -136,14 +136,7 @@ module Lucky::Routable
       Try this...
 
         ▸ Change the paths in one of the actions to something unique
-
-      Or, skip the uniqueness check
-
-          # Only do this if you are sure the route is unique
-          class #{@type.name}
-        +  include Lucky::SkipUniqueRouteCheck
-          end
-
+        ▸ Run `lucky routes` to verify all of your route paths
 
       ERROR
       %}
