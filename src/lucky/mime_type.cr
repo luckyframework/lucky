@@ -2,7 +2,8 @@
 class Lucky::MimeType
   alias Format = Symbol
   alias AcceptHeaderSubstring = String
-  class_getter accept_header_formats = {} of AcceptHeaderSubstring => Format
+  alias MimePair = {String, String}
+  class_getter accept_header_formats = {} of MimePair => Format
 
   register "text/html", :html
   register "application/json", :json
@@ -24,7 +25,7 @@ class Lucky::MimeType
   register "application/x-www-form-urlencoded", :url_encoded_form
 
   def self.known_accept_headers : Array(String)
-    accept_header_formats.keys
+    accept_header_formats.keys.map { |mime| "#{mime[0]}/#{mime[1]}" }
   end
 
   def self.known_formats : Array(Symbol)
@@ -36,11 +37,17 @@ class Lucky::MimeType
   end
 
   def self.register(accept_header_substring : AcceptHeaderSubstring, format : Format) : Nil
-    accept_header_formats[accept_header_substring] = format
+    type, subtype = accept_header_substring.split("/", 2)
+    if type && subtype
+      accept_header_formats[{ type, subtype }] = format
+    else
+      raise "#{accept_header_substring} is not a valid mime type"
+    end
   end
 
   def self.deregister(accept_header_substring : AcceptHeaderSubstring) : Nil
-    accept_header_formats.delete(accept_header_substring)
+    type, subtype = accept_header_substring.split("/", 2)
+    accept_header_formats.delete({ type, subtype })
   end
 
   # :nodoc:
@@ -113,7 +120,7 @@ class Lucky::MimeType
     end
 
     # Find a matching accepted format by accept list priority
-    def find_match(known_formats : Hash(AcceptHeaderSubstring, Format), accepted_formats : Array(Symbol), default_format : Symbol) : Symbol?
+    def find_match(known_formats : Hash(MimePair, Format), accepted_formats : Array(Symbol), default_format : Symbol) : Symbol?
       # If we find a match in the things we accept then pick one of those
       self.list.each do |media_range|
         if match = known_formats.find { |mime, format| accepted_formats.includes?(format) && media_range.matches?(mime) }
@@ -202,9 +209,8 @@ class Lucky::MimeType
         @qvalue == other.qvalue
     end
 
-    def matches?(mime : String) : Bool
-      other_ty, other_subty = mime.split("/", 2) # TODO: Pre-split when registering
-      @type == "*" || (@type == other_ty && self.class.match_type?(@subtype, other_subty))
+    def matches?(mime : MimePair) : Bool
+      @type == "*" || (@type == mime[0] && self.class.match_type?(@subtype, mime[1]))
     end
 
     def catch_all?
