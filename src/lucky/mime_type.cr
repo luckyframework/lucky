@@ -39,6 +39,10 @@ class Lucky::MimeType
     accept_header_formats[accept_header_substring] = format
   end
 
+  def self.deregister(accept_header_substring : AcceptHeaderSubstring) : Nil
+    accept_header_formats.delete(accept_header_substring)
+  end
+
   # :nodoc:
   def self.determine_clients_desired_format(request, default_format : Symbol, accepted_formats : Array(Symbol))
     DetermineClientsDesiredFormat.new(request, default_format, accepted_formats).call
@@ -100,4 +104,84 @@ class Lucky::MimeType
       !!accept && !!(accept =~ /,\s*\*\/\*|\*\/\*\s*,/)
     end
   end
+
+  class AcceptList
+    getter list
+
+    def initialize(accept : String?)
+      if accept && !accept.empty?
+        @list = AcceptList.parse(accept)
+      else
+        @list = [] of MediaRange
+      end
+
+    end
+
+    # Parses the value of an Accept header and returns an array of MediaRanges sorted by
+    # quality value.
+    def self.parse(accept : String) : Array(MediaRange)
+      # TODO: consts for Regexes
+      # TODO: Catch InvalidMediaRange exception
+      list = accept.split(/[ \t]*,[ \t]*/).map { |range| MediaRange.parse(range) }
+      list.unstable_sort_by! { |range| -range.qvalue.to_i32 }
+    end
+  end
+
+  class MediaRange
+    TOKEN = /[!#$%&'*+.^_`|~0-9A-Za-z-]+/
+    MEDIA_TYPE = /^(#{TOKEN})\/(#{TOKEN})$/
+
+    getter type, subtype, qvalue
+
+    def initialize(type : String, @subtype : String, qvalue : UInt16)
+      if type == "*" && @subtype != "*"
+        raise "invalid media range" # FIXME
+      end
+      unless (0..1000).includes?(qvalue)
+        raise "invalid media range" # FIXME
+      end
+
+      @type = type
+      @qvalue = qvalue
+    end
+
+    # Parse a single media range with optional parameters
+    # https://httpwg.org/specs/rfc9110.html#field.accept
+    def self.parse(input : String)
+      parameters = input.split(/[ \t]*;[ \t]*/)
+        media = parameters.shift
+
+      # For now we're only interested in the weight, which must be the last parameter
+      qvalue = MediaRange.parse_qvalue(parameters.last?)
+
+      if media =~ MEDIA_TYPE
+        # TODO validate that $1 is not *
+        type = $1
+        subtype = $2
+        MediaRange.new(type.downcase, subtype.downcase, qvalue)
+      else
+        raise "invalid media type"
+      end
+    end
+
+    def self.parse_qvalue(parameter : String?) : UInt16
+      if parameter && parameter =~ /^[qQ]=([01][0-9.]*)$/
+        # qvalues start with 0 or 1 and can have up to three digits after the
+        # decimal point. To avoid needing to deal with floats, the value is
+        # muliplied by 1000 and then handled as an integer.
+        # TODO: Handle ArgumentError and OverflowError
+        ($1.to_f32 * 1000).round.to_u16
+      else
+        1000u16
+      end
+    end
+
+    def ==(other)
+      @type == other.type &&
+        @subtype == other.subtype &&
+        @qvalue == other.qvalue
+    end
+  end
 end
+
+# TODO: Parse Accept header into AcceptList that has the things sorted by quality factor and handles wild cards
