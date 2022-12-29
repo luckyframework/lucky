@@ -43,14 +43,6 @@ describe Lucky::MimeType do
       format.should eq(:csv)
     end
 
-    # describe "when the 'Accept' header is the default browser header for images" do
-    #   it "returns :html if :html is an accepted format" do
-    #     default_browser_header = "image/avif,image/webp,*/*"
-    #     format = determine_format(default_format: :csv, headers: {"accept": default_browser_header}, accepted_formats: [:html, :csv])
-    #     format.should eq(:html)
-    #   end
-    # end
-
     describe "when the 'Accept' header accepts all images" do
       before_each do
         Lucky::MimeType.register "image/png", :png
@@ -64,19 +56,19 @@ describe Lucky::MimeType do
 
       it "returns the default accepted mime type that matches the prefix" do
         any_image = "image/*;q=0.8"
-        pp Lucky::MimeType.known_accept_headers
         format = determine_format(default_format: :ico, headers: {"accept": any_image}, accepted_formats: [:png, :ico])
-        format.should eq(:ico)
+        format.should eq(:png)
       end
     end
 
-    # describe "when the 'Accept' header accepts anything with a lower quality factors" do
-    #   it "returns :html if :html is an accepted format" do
-    #     accept = "*/*; q=0.5, application/xml"
-    #     format = determine_format(default_format: :csv, headers: {"accept": accept}, accepted_formats: [:html, :csv])
-    #     format.should eq(:html)
-    #   end
-    # end
+    describe "when the 'Accept' header accepts anything with a lower quality factor" do
+      # Test for https://github.com/luckyframework/lucky/issues/1766
+      it "returns an accepted format" do
+        accept = "*/*; q=0.5, application/xml"
+        format = determine_format(default_format: :html, headers: {"accept": accept}, accepted_formats: [:json])
+        format.should eq(:json)
+      end
+    end
   end
 
   describe Lucky::MimeType::MediaRange do

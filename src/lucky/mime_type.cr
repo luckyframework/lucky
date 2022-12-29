@@ -48,6 +48,9 @@ class Lucky::MimeType
     DetermineClientsDesiredFormat.new(request, default_format, accepted_formats).call
   end
 
+  class InvalidMediaRange < Exception
+  end
+
   private class DetermineClientsDesiredFormat
     private getter request, default_format, accepted_formats
 
@@ -55,19 +58,11 @@ class Lucky::MimeType
     end
 
     def call : Symbol?
-      accept = accept_header
-
-      if usable_accept_header? && accept
+      if accept = accept_header
         from_accept_header(accept)
-      elsif accepts_html? && default_accept_header_that_browsers_send?
-        :html
       else
         default_format
       end
-    end
-
-    private def accepts_html? : Bool
-      @accepted_formats.includes? :html
     end
 
     private def from_accept_header(accept : String) : Symbol?
@@ -76,14 +71,9 @@ class Lucky::MimeType
       if accept == "*/*"
         default_format
       else
-        Lucky::MimeType.accept_header_formats.find do |accept_header_substring, _format|
-          accept.includes?(accept_header_substring)
-        end.try(&.[1])
+        accept_list = AcceptList.new(accept_header)
+        accept_list.find_match(Lucky::MimeType.accept_header_formats, accepted_formats, default_format)
       end
-    end
-
-    private def usable_accept_header? : Bool
-      !!(accept_header && !default_accept_header_that_browsers_send?)
     end
 
     private def accept_header : String?
@@ -93,20 +83,26 @@ class Lucky::MimeType
         accept
       end
     end
-
-    # This checks if the "Accept" header is from a browser. Browsers typically
-    # include "*/*" along with other characters in the request's "Accept" header.
-    # This method handles those intricacies and determines if the header is from
-    # a browser.
-    private def default_accept_header_that_browsers_send? : Bool
-      accept = accept_header
-
-      !!accept && !!(accept =~ /,\s*\*\/\*|\*\/\*\s*,/)
-    end
   end
 
   class AcceptList
     getter list
+
+    ACCEPT_SEP = /[ \t]*,[ \t]*/
+
+    # Parses the value of an Accept header and returns an array of MediaRanges sorted by
+    # quality value.
+    def self.parse(accept : String) : Array(MediaRange)
+      list = accept.split(ACCEPT_SEP).compact_map do |range|
+        begin
+          MediaRange.parse(range)
+        rescue ex : InvalidMediaRange
+          Log.debug { "invalid media range in Accept: #{accept} - #{ex}" }
+          nil
+        end
+      end
+      list.unstable_sort_by! { |range| -range.qvalue.to_i32 }
+    end
 
     def initialize(accept : String?)
       if accept && !accept.empty?
@@ -114,31 +110,53 @@ class Lucky::MimeType
       else
         @list = [] of MediaRange
       end
-
     end
 
-    # Parses the value of an Accept header and returns an array of MediaRanges sorted by
-    # quality value.
-    def self.parse(accept : String) : Array(MediaRange)
-      # TODO: consts for Regexes
-      # TODO: Catch InvalidMediaRange exception
-      list = accept.split(/[ \t]*,[ \t]*/).map { |range| MediaRange.parse(range) }
-      list.unstable_sort_by! { |range| -range.qvalue.to_i32 }
+    # Find a matching accepted format by accept list priority
+    def find_match(known_formats : Hash(AcceptHeaderSubstring, Format), accepted_formats : Array(Symbol), default_format : Symbol) : Symbol?
+      # If we find a match in the things we accept then pick one of those
+      self.list.each do |media_range|
+        if match = known_formats.find { |mime, format| accepted_formats.includes?(format) && media_range.matches?(mime) }
+          return match[1]
+        end
+      end
+
+      # Otherwise if the client doesn't just accept anything then try to find something they
+      # do accept in the list of known formats
+      unless includes_catch_all?
+        self.list.each do |media_range|
+          if match = known_formats.find { |mime, _format| media_range.matches?(mime) }
+            return match[1]
+          end
+        end
+
+        # No known formats match the ones requested
+        return nil
+      end
+
+      # Otherwise the the client accepts anything so use the default format
+      default_format
+    end
+
+    def includes_catch_all?
+      @list.any? &.catch_all?
     end
   end
 
   class MediaRange
     TOKEN = /[!#$%&'*+.^_`|~0-9A-Za-z-]+/
     MEDIA_TYPE = /^(#{TOKEN})\/(#{TOKEN})$/
+    PARAM_SEP = /[ \t]*;[ \t]*/
+    QVALUE_RE = /^[qQ]=([01][0-9.]*)$/
 
     getter type, subtype, qvalue
 
     def initialize(type : String, @subtype : String, qvalue : UInt16)
       if type == "*" && @subtype != "*"
-        raise "invalid media range" # FIXME
+        raise InvalidMediaRange.new("#{type}/#{@subtype} is not a valid media range")
       end
       unless (0..1000).includes?(qvalue)
-        raise "invalid media range" # FIXME
+        raise InvalidMediaRange.new("qvalue #{qvalue.to_f32 / 1000f32} is not within 0 to 1.0")
       end
 
       @type = type
@@ -148,29 +166,31 @@ class Lucky::MimeType
     # Parse a single media range with optional parameters
     # https://httpwg.org/specs/rfc9110.html#field.accept
     def self.parse(input : String)
-      parameters = input.split(/[ \t]*;[ \t]*/)
+      parameters = input.split(PARAM_SEP)
         media = parameters.shift
 
       # For now we're only interested in the weight, which must be the last parameter
       qvalue = MediaRange.parse_qvalue(parameters.last?)
 
       if media =~ MEDIA_TYPE
-        # TODO validate that $1 is not *
         type = $1
         subtype = $2
         MediaRange.new(type.downcase, subtype.downcase, qvalue)
       else
-        raise "invalid media type"
+        raise InvalidMediaRange.new("#{input} is not a valid media range")
       end
     end
 
     def self.parse_qvalue(parameter : String?) : UInt16
-      if parameter && parameter =~ /^[qQ]=([01][0-9.]*)$/
+      if parameter && parameter =~ QVALUE_RE
         # qvalues start with 0 or 1 and can have up to three digits after the
         # decimal point. To avoid needing to deal with floats, the value is
         # muliplied by 1000 and then handled as an integer.
-        # TODO: Handle ArgumentError and OverflowError
-        ($1.to_f32 * 1000).round.to_u16
+        begin
+          ($1.to_f32 * 1000).round.to_u16
+        rescue ArgumentError | OverflowError
+          raise InvalidMediaRange.new("#{parameter} is not a valid qvalue")
+        end
       else
         1000u16
       end
@@ -181,7 +201,18 @@ class Lucky::MimeType
         @subtype == other.subtype &&
         @qvalue == other.qvalue
     end
+
+    def matches?(mime : String) : Bool
+      other_ty, other_subty = mime.split("/", 2) # TODO: Pre-split when registering
+      @type == "*" || (@type == other_ty && self.class.match_type?(@subtype, other_subty))
+    end
+
+    def catch_all?
+      @type == "*" && @subtype == "*"
+    end
+
+    protected def self.match_type?(pattern, value)
+      pattern == "*" || pattern == value
+    end
   end
 end
-
-# TODO: Parse Accept header into AcceptList that has the things sorted by quality factor and handles wild cards
