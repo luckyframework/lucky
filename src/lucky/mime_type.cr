@@ -2,8 +2,18 @@
 class Lucky::MimeType
   alias Format = Symbol
   alias AcceptHeaderSubstring = String
-  alias MimePair = {String, String}
-  class_getter accept_header_formats = {} of MimePair => Format
+  class_getter accept_header_formats = {} of MediaType => Format
+
+  struct MediaType
+    property type, subtype
+
+    def initialize(@type : String, @subtype : String)
+    end
+
+    def to_s
+      "#{type}/#{subtype}"
+    end
+  end
 
   register "text/html", :html
   register "application/json", :json
@@ -25,7 +35,7 @@ class Lucky::MimeType
   register "application/x-www-form-urlencoded", :url_encoded_form
 
   def self.known_accept_headers : Array(String)
-    accept_header_formats.keys.map { |mime| "#{mime[0]}/#{mime[1]}" }
+    accept_header_formats.keys.map { |media| media.to_s }
   end
 
   def self.known_formats : Array(Symbol)
@@ -39,9 +49,9 @@ class Lucky::MimeType
   def self.register(accept_header_substring : AcceptHeaderSubstring, format : Format) : Nil
     type, subtype = accept_header_substring.split("/", 2)
     if type && subtype
-      accept_header_formats[{ type, subtype }] = format
+      accept_header_formats[MediaType.new(type, subtype)] = format
     else
-      raise "#{accept_header_substring} is not a valid mime type"
+      raise "#{accept_header_substring} is not a valid media type"
     end
   end
 
@@ -120,10 +130,10 @@ class Lucky::MimeType
     end
 
     # Find a matching accepted format by accept list priority
-    def find_match(known_formats : Hash(MimePair, Format), accepted_formats : Array(Symbol), default_format : Symbol) : Symbol?
+    def find_match(known_formats : Hash(MediaType, Format), accepted_formats : Array(Symbol), default_format : Symbol) : Symbol?
       # If we find a match in the things we accept then pick one of those
       self.list.each do |media_range|
-        if match = known_formats.find { |mime, format| accepted_formats.includes?(format) && media_range.matches?(mime) }
+        if match = known_formats.find { |media, format| accepted_formats.includes?(format) && media_range.matches?(media) }
           return match[1]
         end
       end
@@ -132,7 +142,7 @@ class Lucky::MimeType
       # do accept in the list of known formats
       unless includes_catch_all?
         self.list.each do |media_range|
-          if match = known_formats.find { |mime, _format| media_range.matches?(mime) }
+          if match = known_formats.find { |media, _format| media_range.matches?(media) }
             return match[1]
           end
         end
@@ -209,8 +219,8 @@ class Lucky::MimeType
         @qvalue == other.qvalue
     end
 
-    def matches?(mime : MimePair) : Bool
-      @type == "*" || (@type == mime[0] && self.class.match_type?(@subtype, mime[1]))
+    def matches?(media : MediaType) : Bool
+      @type == "*" || (@type == media.type && self.class.match_type?(@subtype, media.subtype))
     end
 
     def catch_all?
