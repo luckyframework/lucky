@@ -82,9 +82,17 @@ describe Lucky::MimeType do
       end
     end
 
-    it "accepts multiple values" do
-        # "audio/*; q=0.2, audio/basic",
-        # "text/plain; q=0.5, text/html, text/x-dvi; q=0.8, text/x-c"
+    it "rejects invalid values" do
+      [
+        {"*/image", "*/image is not a valid media range"},
+        {"asdf", "asdf is not a valid media range"},
+        {"text/plain; q=1.9", "qvalue 1.9 is not within 0 to 1.0"},
+        {"text/plain; q=1.2.3", "1.2.3 is not a valid qvalue"},
+      ].each do |range, message|
+        expect_raises(Lucky::MimeType::InvalidMediaRange, message) do
+          Lucky::MimeType::MediaRange.parse(range)
+        end
+      end
     end
 
     it "accepts parameters" do
@@ -168,6 +176,13 @@ describe Lucky::MimeType do
       ]
       # Value is from Firefox requesting a web page
       Lucky::MimeType::AcceptList.new("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8").list.should eq(expected)
+    end
+
+    it "skips invalid media ranges" do
+      expected = [
+        Lucky::MimeType::MediaRange.new("audio", "basic", 1000),
+      ]
+      Lucky::MimeType::AcceptList.new("*/invalid; q=0.2, audio/basic").list.should eq(expected)
     end
   end
 end
