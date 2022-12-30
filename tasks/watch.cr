@@ -325,13 +325,13 @@ class Watch < LuckyTask::Task
       when "sse"
         build_commands << "-Dlivereloadsse"
         watcher_class = LuckySentry::ServerSentEventWatcher.new
-        files.push("./public/css/**/*.css", "./public/js/**/*.js")
+        files.concat(Lucky::ServerSettings.reload_watch_paths)
       when "browsersync"
         watcher_class = LuckySentry::BrowsersyncWatcher.new
       else
         build_commands << "-Dlivereloadws"
         watcher_class = LuckySentry::WebSocketWatcher.new
-        files.push("./public/css/**/*.css", "./public/js/**/*.js")
+        files.concat(Lucky::ServerSettings.reload_watch_paths)
       end
     end
 
