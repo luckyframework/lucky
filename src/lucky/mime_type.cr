@@ -132,9 +132,12 @@ class Lucky::MimeType
     # Find a matching accepted format by accept list priority
     def find_match(known_formats : Hash(MediaType, Format), accepted_formats : Array(Symbol), default_format : Symbol) : Symbol?
       # If we find a match in the things we accept then pick one of those
-      self.list.each do |media_range|
-        if match = known_formats.find { |media, format| accepted_formats.includes?(format) && media_range.matches?(media) }
-          return match[1]
+      formats_in_common = known_formats.select { |_media, format| accepted_formats.includes?(format) }
+      unless formats_in_common.empty?
+        self.list.each do |media_range|
+          if match = formats_in_common.find { |media, _format| media_range.matches?(media) }
+            return match[1]
+          end
         end
       end
 
@@ -151,7 +154,7 @@ class Lucky::MimeType
         return nil
       end
 
-      # Otherwise the the client accepts anything so use the default format
+      # Finally the client accepts anything so use the default format
       default_format
     end
 
