@@ -57,7 +57,7 @@ class Lucky::MimeType
 
   def self.deregister(accept_header_substring : AcceptHeaderSubstring) : Nil
     type, subtype = accept_header_substring.split("/", 2)
-    accept_header_formats.delete({ type, subtype })
+    accept_header_formats.delete({type, subtype})
   end
 
   # :nodoc:
@@ -164,10 +164,10 @@ class Lucky::MimeType
   end
 
   class MediaRange
-    TOKEN = /[!#$%&'*+.^_`|~0-9A-Za-z-]+/
+    TOKEN      = /[!#$%&'*+.^_`|~0-9A-Za-z-]+/
     MEDIA_TYPE = /^(#{TOKEN})\/(#{TOKEN})$/
-    PARAM_SEP = /[ \t]*;[ \t]*/
-    QVALUE_RE = /^[qQ]=([01][0-9.]*)$/
+    PARAM_SEP  = /[ \t]*;[ \t]*/
+    QVALUE_RE  = /^[qQ]=([01][0-9.]*)$/
 
     getter type, subtype, qvalue
 
@@ -187,7 +187,7 @@ class Lucky::MimeType
     # https://httpwg.org/specs/rfc9110.html#field.accept
     def self.parse(input : String)
       parameters = input.split(PARAM_SEP)
-        media = parameters.shift
+      media = parameters.shift
 
       # For now we're only interested in the weight, which must be the last parameter
       qvalue = MediaRange.parse_qvalue(parameters.last?)

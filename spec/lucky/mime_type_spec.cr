@@ -78,7 +78,7 @@ describe Lucky::MimeType do
         {"image/*", Lucky::MimeType::MediaRange.new("image", "*", 1000)},
         {"text/plain", Lucky::MimeType::MediaRange.new("text", "plain", 1000)},
       ].each do |test|
-          Lucky::MimeType::MediaRange.parse(test[0]).should eq(test[1])
+        Lucky::MimeType::MediaRange.parse(test[0]).should eq(test[1])
       end
     end
 
@@ -105,7 +105,7 @@ describe Lucky::MimeType do
         "text/plain \t; \tformat=fixed",
         "text/plain;format=fixed;charset=UTF-8",
       ].each do |input|
-          Lucky::MimeType::MediaRange.parse(input).should eq(expected)
+        Lucky::MimeType::MediaRange.parse(input).should eq(expected)
       end
     end
 
@@ -117,7 +117,7 @@ describe Lucky::MimeType do
         "text/html; charset=\"utf-8\"",
         "text/html;charset=UTF-8",
       ].each do |input|
-          Lucky::MimeType::MediaRange.parse(input).should eq(expected)
+        Lucky::MimeType::MediaRange.parse(input).should eq(expected)
       end
     end
 
@@ -132,7 +132,7 @@ describe Lucky::MimeType do
         # qvalue must be last so is ignored if not
         {"text/plain;q=0.4;format=fixed", Lucky::MimeType::MediaRange.new("text", "plain", 1000)},
       ].each do |test|
-          Lucky::MimeType::MediaRange.parse(test[0]).should eq(test[1])
+        Lucky::MimeType::MediaRange.parse(test[0]).should eq(test[1])
       end
     end
   end
