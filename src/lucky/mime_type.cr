@@ -35,7 +35,7 @@ class Lucky::MimeType
   register "application/x-www-form-urlencoded", :url_encoded_form
 
   def self.known_accept_headers : Array(String)
-    accept_header_formats.keys.map { |media| media.to_s }
+    accept_header_formats.keys.map(&.to_s)
   end
 
   def self.known_formats : Array(Symbol)
