@@ -13,7 +13,7 @@ end
 describe Lucky::RequestTypeHelpers do
   it "determines the format from 'Accept' header correctly" do
     Lucky::MimeType.accept_header_formats.each do |header, format|
-      override_accept_header header do |action|
+      override_accept_header header.to_s do |action|
         action.accepts?(format).should be_true
       end
     end
