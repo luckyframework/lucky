@@ -71,7 +71,7 @@ describe Lucky::StaticCompressionHandler do
 
       call_handler_with(first_context) { }
 
-      last_modified = HTTP.parse_time(first_context.response.headers["Last-Modified"]).not_nil!
+      last_modified = HTTP.parse_time(first_context.response.headers["Last-Modified"]).as(Time)
 
       context = build_context(path: PATH)
       context.request.headers["Accept-Encoding"] = "gzip"

@@ -134,7 +134,7 @@ describe Lucky::Paginator do
     it "returns the path to the next page if there is a next page" do
       path = build_pages(page: 1, per_page: 1, item_count: 2).path_to_next
 
-      path.not_nil!.should end_with("?page=2")
+      path.to_s.should end_with("?page=2")
     end
 
     it "returns nil if there is not next page" do
@@ -148,7 +148,7 @@ describe Lucky::Paginator do
     it "returns the path to the previous page if there is a previous page" do
       path = build_pages(page: 2, per_page: 1, item_count: 2).path_to_previous
 
-      path.not_nil!.should end_with("?page=1")
+      path.to_s.should end_with("?page=1")
     end
 
     it "returns nil if there is not previous page" do

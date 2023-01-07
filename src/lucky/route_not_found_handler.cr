@@ -23,6 +23,6 @@ class Lucky::RouteNotFoundHandler
   end
 
   private def fallback_action
-    Lucky::RouteNotFoundHandler.fallback_action.not_nil!
+    Lucky::RouteNotFoundHandler.fallback_action.as(Lucky::Action.class)
   end
 end

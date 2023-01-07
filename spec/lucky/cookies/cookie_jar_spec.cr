@@ -28,8 +28,8 @@ describe Lucky::CookieJar do
     jar.get_raw("symbol").value.should eq("symbol_value")
     jar.get_raw(:cookie).value.should eq(value)
     jar.get_raw("cookie").value.should eq(value)
-    jar.get_raw?(:cookie).not_nil!.value.should eq(value)
-    jar.get_raw?("cookie").not_nil!.value.should eq(value)
+    jar.get_raw?(:cookie).as(HTTP::Cookie).value.should eq(value)
+    jar.get_raw?("cookie").as(HTTP::Cookie).value.should eq(value)
     jar.get_raw?(:missing).should be_nil
     jar.get_raw?("missing").should be_nil
   end
@@ -136,7 +136,7 @@ describe Lucky::CookieJar do
       jar.set(:tabs_or_spaces, "stop it").http_only(false).expires(time)
 
       jar.get_raw(:tabs_or_spaces).http_only.should be_false
-      jar.get_raw(:tabs_or_spaces).expires.not_nil!.should eq(time)
+      jar.get_raw(:tabs_or_spaces).expires.as(Time).should eq(time)
     end
 
     it "raises an error if the cookie is > 4096 bytes" do

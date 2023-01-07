@@ -30,7 +30,7 @@ describe HTTP::Cookie do
     it "sets expiration 20 years from now" do
       cookie = test_cookie.permanent
 
-      cookie.expires.not_nil!.should be_close(20.years.from_now, 1.minute)
+      cookie.expires.as(Time).should be_close(20.years.from_now, 1.minute)
     end
   end
 end
