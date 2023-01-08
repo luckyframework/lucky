@@ -1,4 +1,4 @@
-class Hash
+class Hash(K, V)
   # Return the **nilable** value of a hash key
   #
   # This returns a value stored in a hash. The key can be specified as a String
@@ -11,7 +11,7 @@ class Hash
   # hash.get("name") # => "Karin" : (String | Nil)
   # hash.get(:asdf)  # => nil : (String | Nil)
   # ```
-  def get(key : String | Symbol)
+  def get(key : String | Symbol) : V?
     self[key.to_s]?
   end
 
@@ -28,7 +28,7 @@ class Hash
   # hash.get("name") # => "Karin" : String
   # hash.get(:asdf)  # => KeyError
   # ```
-  def get!(key : String | Symbol)
+  def get!(key : String | Symbol) : V
     self[key.to_s]
   end
 end

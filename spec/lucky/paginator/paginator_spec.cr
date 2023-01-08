@@ -1,11 +1,11 @@
 require "../../spec_helper"
 
-private def build_pages(page = 1, per_page = 1, item_count = 1, full_path = "/items")
-  Lucky::Paginator.new \
+private def build_pages(page = 1, per_page = 1, item_count = 1, full_path = "/items") : Lucky::Paginator
+  Lucky::Paginator.new(
     page: page,
     per_page: per_page,
     item_count: item_count,
-    full_path: full_path
+    full_path: full_path)
 end
 
 describe Lucky::Paginator do

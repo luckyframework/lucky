@@ -151,7 +151,7 @@ module Lucky::TextHelpers
     "#{list[0..-2].join(word_connector)}#{last_word_connector}#{list.last}"
   end
 
-  private def normalize_values(values)
+  private def normalize_values(values) : Array(String)
     string_values = Array(String).new
     values.each { |v| string_values << v.to_s }
     string_values
@@ -171,12 +171,12 @@ module Lucky::TextHelpers
     cycle(values, name: name)
   end
 
-  def current_cycle(name : String = "default")
+  def current_cycle(name : String = "default") : String?
     cycle = get_cycle(name)
     cycle.current_value if cycle
   end
 
-  def reset_cycle(name : String = "default")
+  def reset_cycle(name : String = "default") : Int32?
     cycle = get_cycle(name)
     cycle.reset if cycle
   end
@@ -199,11 +199,11 @@ module Lucky::TextHelpers
       reset
     end
 
-    def reset
+    def reset : Int32
       @index = 0
     end
 
-    def current_value
+    def current_value : String
       @values[previous_index]?.to_s
     end
 
@@ -213,28 +213,28 @@ module Lucky::TextHelpers
       value
     end
 
-    private def next_index
+    private def next_index : Int32
       step_index(1)
     end
 
-    private def previous_index
+    private def previous_index : Int32
       step_index(-1)
     end
 
-    private def step_index(n : Int32)
+    private def step_index(n : Int32) : Int32
       (@index + n) % @values.size
     end
   end
 
-  def reset_cycles
+  def reset_cycles : Hash(String, Cycle)
     @@_cycles = Hash(String, Cycle).new
   end
 
-  private def get_cycle(name : String)
+  private def get_cycle(name : String) : Cycle?
     @@_cycles[name]?
   end
 
-  private def set_cycle(name : String, cycle_object : Cycle)
+  private def set_cycle(name : String, cycle_object : Cycle) : Cycle
     @@_cycles[name] = cycle_object
   end
 
