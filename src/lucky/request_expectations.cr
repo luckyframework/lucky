@@ -51,7 +51,7 @@ module Lucky::RequestExpectations
     private def incorrect_response_body_message(actual_response : HTTP::Client::Response) : String
       actual_json = JSON.parse(actual_response.body).as_h
 
-      expected_json.as_h.each do |expected_key, expected_value|
+      expected_json.as_h.each { |expected_key, expected_value|
         if !actual_json.has_key?(expected_key)
           break <<-TEXT
           Expected response to have JSON key #{expected_key.dump}, but it was not present.
@@ -71,7 +71,7 @@ module Lucky::RequestExpectations
             #{actual_json[expected_key].inspect}
           TEXT
         end
-      end.not_nil!
+      }.to_s
     end
 
     def negative_failure_message(actual_value) : String

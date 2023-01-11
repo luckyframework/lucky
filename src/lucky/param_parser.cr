@@ -61,9 +61,10 @@ module Lucky::ParamParser
     end
   end
 
+  # Returns `Array(T)` if all params in `param` are properly cast
   def self.parse(param : Array(String), klass : Array(T).class) : Array(T)? forall T
-    casts = param.map { |val| parse(val, T) }
+    casts = param.compact_map { |val| parse(val, T) }
 
-    casts.any?(Nil) ? nil : casts.map(&.not_nil!)
+    casts.size == param.size ? casts.as(Array(T)) : nil
   end
 end

@@ -96,7 +96,7 @@ describe Lucky::ParamParser do
         result = Lucky::ParamParser.parse(formatted_time.value, Time)
 
         result.should_not be_nil
-        result = result.not_nil!
+        result = result.as(Time)
         result.year.should eq(time.year) if formatted_time.components.includes? TimeComponent::Year
         result.month.should eq(time.month) if formatted_time.components.includes? TimeComponent::Month
         result.day.should eq(time.day) if formatted_time.components.includes? TimeComponent::Day

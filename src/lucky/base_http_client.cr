@@ -66,7 +66,7 @@ abstract class Lucky::BaseHTTPClient
   #   .accept_plain_text
   #   .get("/some-path")
   # ```
-  def headers(**header_values)
+  def headers(**header_values) : self
     @client.before_request do |request|
       header_values.each do |key, value|
         request.headers[key.to_s.gsub("-", "_")] = value.to_s

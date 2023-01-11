@@ -2,8 +2,8 @@ class Lucky::CookieJar
   MAX_COOKIE_SIZE         = 4096
   LUCKY_ENCRYPTION_PREFIX = Base64.strict_encode("lucky") + "--"
   alias Key = String | Symbol
-  private property cookies
-  private property set_cookies
+  private property cookies : HTTP::Cookies
+  private property set_cookies : HTTP::Cookies
 
   Habitat.create do
     setting on_set : (HTTP::Cookie -> HTTP::Cookie)?

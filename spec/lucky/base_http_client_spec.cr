@@ -36,7 +36,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.path.should eq "/hello"
         request.method.should eq("POST")
-        request.body.not_nil!.gets_to_end.should eq("{}")
+        request.body.to_s.should eq("{}")
         response.body.should eq "world"
       end
 
@@ -44,7 +44,7 @@ describe Lucky::BaseHTTPClient do
         response = MyClient.new.exec(HelloWorldAction, foo: "bar")
 
         request = TestServer.last_request
-        request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        request.body.to_s.should eq({foo: "bar"}.to_json)
       end
     end
 
@@ -55,7 +55,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.path.should eq "/hello"
         request.method.should eq("POST")
-        request.body.not_nil!.gets_to_end.should eq("{}")
+        request.body.to_s.should eq("{}")
         response.body.should eq "world"
       end
 
@@ -63,7 +63,7 @@ describe Lucky::BaseHTTPClient do
         response = MyClient.new.exec(HelloWorldAction.route, foo: "bar")
 
         request = TestServer.last_request
-        request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        request.body.to_s.should eq({foo: "bar"}.to_json)
       end
     end
   end
@@ -79,7 +79,7 @@ describe Lucky::BaseHTTPClient do
         response = MyClient.new.exec_raw(HelloWorldAction, test_data)
 
         request = TestServer.last_request
-        request.body.not_nil!.gets_to_end.should eq(test_data)
+        request.body.to_s.should eq(test_data)
       end
     end
 
@@ -93,7 +93,7 @@ describe Lucky::BaseHTTPClient do
         response = MyClient.new.exec_raw(HelloWorldAction.route, test_data)
 
         request = TestServer.last_request
-        request.body.not_nil!.gets_to_end.should eq(test_data)
+        request.body.to_s.should eq(test_data)
       end
     end
   end
@@ -109,7 +109,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.method.should eq({{ method.id.stringify }}.upcase)
         request.path.should eq "hello"
-        request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        request.body.to_s.should eq({foo: "bar"}.to_json)
       end
 
       it "works without params" do
@@ -118,7 +118,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.method.should eq({{ method.id.stringify }}.upcase)
         request.path.should eq "hello"
-        request.body.not_nil!.gets_to_end.should eq("{}")
+        request.body.to_s.should eq("{}")
       end
     end
   {% end %}
@@ -140,7 +140,7 @@ describe Lucky::BaseHTTPClient do
       request = TestServer.last_request
       request.method.should eq("HEAD")
       request.path.should eq "hello"
-      request.body.not_nil!.gets_to_end.should eq("{}")
+      request.body.to_s.should eq("{}")
     end
   end
 end

@@ -18,11 +18,11 @@ class Lucky::RouteNotFoundHandler
     end
   end
 
-  private def has_fallback?(context)
-    @@fallback_action && context.request.method.upcase == "GET"
+  private def has_fallback?(context) : Bool
+    !!@@fallback_action && context.request.method.upcase == "GET"
   end
 
-  private def fallback_action
-    Lucky::RouteNotFoundHandler.fallback_action.not_nil!
+  private def fallback_action : Lucky::Action.class
+    Lucky::RouteNotFoundHandler.fallback_action.as(Lucky::Action.class)
   end
 end

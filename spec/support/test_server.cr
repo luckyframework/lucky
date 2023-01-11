@@ -2,7 +2,7 @@ class TestServer < Lucky::BaseAppServer
   class_setter last_request : HTTP::Request?
 
   def self.last_request : HTTP::Request
-    @@last_request.not_nil!
+    @@last_request.as(HTTP::Request)
   end
 
   def middleware : Array(HTTP::Handler)
@@ -16,8 +16,8 @@ class TestServer < Lucky::BaseAppServer
     raise "unimplemented"
   end
 
-  def last_request
-    self.class.last_request.not_nil!
+  def last_request : HTTP::Request
+    self.class.last_request.as(HTTP::Request)
   end
 
   class LastRequestHandler

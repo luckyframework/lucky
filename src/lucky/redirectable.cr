@@ -131,7 +131,7 @@ module Lucky::Redirectable
     {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
   end
 
-  private def allowed_host?(referer : String)
+  private def allowed_host?(referer : String) : Bool
     if referer_host = URI.parse(referer).hostname
       referer_host == request.hostname
     else

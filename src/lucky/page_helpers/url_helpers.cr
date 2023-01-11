@@ -98,7 +98,7 @@ module Lucky::UrlHelpers
   # ```
   # a "Back", href: previous_url(fallback: Users::Index)
   # ```
-  def previous_url(fallback : Lucky::Action.class | Lucky::RouteHelper)
+  def previous_url(fallback : Lucky::Action.class | Lucky::RouteHelper) : String
     request = context.request
 
     if referrer_uri = referrer_header
