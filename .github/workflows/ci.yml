@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.4.1
+          crystal: 1.6.2
       - name: Install shards
         run: shards install
       - name: Format
@@ -32,7 +32,7 @@ jobs:
         shard_file:
           - shard.yml
         crystal_version:
-          - 1.4.0
+          - 1.6.2
           - latest
         experimental:
           - false
