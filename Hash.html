@@ -980,7 +980,7 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/charms/hash_extensions.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/charms/hash_extensions.cr#L1" target="_blank">
         charms/hash_extensions.cr
       </a>
     
@@ -1006,14 +1006,14 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#get%28key%3AString%7CSymbol%29-instance-method" class="signature"><strong>#get</strong>(key : String | Symbol)</a>
+        <a href="#get%28key%3AString%7CSymbol%29%3AV%7CNil-instance-method" class="signature"><strong>#get</strong>(key : String | Symbol) : V | Nil</a>
         
           <div class="summary"><p>Return the <strong>nilable</strong> value of a hash key</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#get%21%28key%3AString%7CSymbol%29-instance-method" class="signature"><strong>#get!</strong>(key : String | Symbol)</a>
+        <a href="#get%21%28key%3AString%7CSymbol%29%3AV-instance-method" class="signature"><strong>#get!</strong>(key : String | Symbol) : V</a>
         
           <div class="summary"><p>Return the value of a hash key</p></div>
         
@@ -1062,13 +1062,13 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
   <h3>Instance methods inherited from class <code><a href="Object.html">Object</a></code></h3>
   
   
-    <a href="Object.html#blank%3F-instance-method" class="tooltip">
-      <span>blank?</span>
+    <a href="Object.html#blank%3F%3ABool-instance-method" class="tooltip">
+      <span>blank? : Bool</span>
     blank?</a>, 
     
   
-    <a href="Object.html#present%3F-instance-method" class="tooltip">
-      <span>present?</span>
+    <a href="Object.html#present%3F%3ABool-instance-method" class="tooltip">
+      <span>present? : Bool</span>
     present?</a>
     
   
@@ -1097,12 +1097,12 @@ restored by re-indexing the hash with <code>#rehash</code>.</p>
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="get(key:String|Symbol)-instance-method">
+    <div class="entry-detail" id="get(key:String|Symbol):V|Nil-instance-method">
       <div class="signature">
         
-        def <strong>get</strong>(key : <a href="String.html">String</a> | Symbol)
+        def <strong>get</strong>(key : <a href="String.html">String</a> | Symbol) : V | <a href="Nil.html">Nil</a>
 
-        <a class="method-permalink" href="#get%28key%3AString%7CSymbol%29-instance-method">#</a>
+        <a class="method-permalink" href="#get%28key%3AString%7CSymbol%29%3AV%7CNil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1120,17 +1120,17 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; nil : (String | 
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/charms/hash_extensions.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/charms/hash_extensions.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="get!(key:String|Symbol)-instance-method">
+    <div class="entry-detail" id="get!(key:String|Symbol):V-instance-method">
       <div class="signature">
         
-        def <strong>get!</strong>(key : <a href="String.html">String</a> | Symbol)
+        def <strong>get!</strong>(key : <a href="String.html">String</a> | Symbol) : V
 
-        <a class="method-permalink" href="#get%21%28key%3AString%7CSymbol%29-instance-method">#</a>
+        <a class="method-permalink" href="#get%21%28key%3AString%7CSymbol%29%3AV-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1149,7 +1149,7 @@ hash.get(<span class="n">:asdf</span>)  <span class="c"># =&gt; KeyError</span><
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/charms/hash_extensions.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/charms/hash_extensions.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>

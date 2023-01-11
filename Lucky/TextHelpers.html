@@ -956,7 +956,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L2" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L2" target="_blank">
         lucky/page_helpers/text_helpers.cr
       </a>
     
@@ -982,7 +982,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#current_cycle%28name%3AString%3D%22default%22%29-instance-method" class="signature"><strong>#current_cycle</strong>(name : String = <span class="s">&quot;default&quot;</span>)</a>
+        <a href="#current_cycle%28name%3AString%3D%22default%22%29%3AString%7CNil-instance-method" class="signature"><strong>#current_cycle</strong>(name : String = <span class="s">&quot;default&quot;</span>) : String | Nil</a>
         
       </li>
     
@@ -1011,12 +1011,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#reset_cycle%28name%3AString%3D%22default%22%29-instance-method" class="signature"><strong>#reset_cycle</strong>(name : String = <span class="s">&quot;default&quot;</span>)</a>
+        <a href="#reset_cycle%28name%3AString%3D%22default%22%29%3AInt32%7CNil-instance-method" class="signature"><strong>#reset_cycle</strong>(name : String = <span class="s">&quot;default&quot;</span>) : Int32 | Nil</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#reset_cycles-instance-method" class="signature"><strong>#reset_cycles</strong></a>
+        <a href="#reset_cycles%3AHash%28String%2CCycle%29-instance-method" class="signature"><strong>#reset_cycles</strong> : Hash(String, Cycle)</a>
         
       </li>
     
@@ -1063,18 +1063,18 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="current_cycle(name:String=&quot;default&quot;)-instance-method">
+    <div class="entry-detail" id="current_cycle(name:String=&quot;default&quot;):String|Nil-instance-method">
       <div class="signature">
         
-        def <strong>current_cycle</strong>(name : <a href="../String.html">String</a> = <span class="s">&quot;default&quot;</span>)
+        def <strong>current_cycle</strong>(name : <a href="../String.html">String</a> = <span class="s">&quot;default&quot;</span>) : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a>
 
-        <a class="method-permalink" href="#current_cycle%28name%3AString%3D%22default%22%29-instance-method">#</a>
+        <a class="method-permalink" href="#current_cycle%28name%3AString%3D%22default%22%29%3AString%7CNil-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L174" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L174" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1090,7 +1090,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L160" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L160" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1106,7 +1106,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L169" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L169" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1142,7 +1142,7 @@ excerpt(text, phrase: <span class="s">&quot;Guild&quot;</span>, radius: <span cl
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L54" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L54" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1164,39 +1164,39 @@ to override the chosen plural word.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L89" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L89" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="reset_cycle(name:String=&quot;default&quot;)-instance-method">
+    <div class="entry-detail" id="reset_cycle(name:String=&quot;default&quot;):Int32|Nil-instance-method">
       <div class="signature">
         
-        def <strong>reset_cycle</strong>(name : <a href="../String.html">String</a> = <span class="s">&quot;default&quot;</span>)
+        def <strong>reset_cycle</strong>(name : <a href="../String.html">String</a> = <span class="s">&quot;default&quot;</span>) : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a>
 
-        <a class="method-permalink" href="#reset_cycle%28name%3AString%3D%22default%22%29-instance-method">#</a>
+        <a class="method-permalink" href="#reset_cycle%28name%3AString%3D%22default%22%29%3AInt32%7CNil-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L179" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L179" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="reset_cycles-instance-method">
+    <div class="entry-detail" id="reset_cycles:Hash(String,Cycle)-instance-method">
       <div class="signature">
         
-        def <strong>reset_cycles</strong>
+        def <strong>reset_cycles</strong> : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../Lucky/TextHelpers/Cycle.html">Cycle</a>)
 
-        <a class="method-permalink" href="#reset_cycles-instance-method">#</a>
+        <a class="method-permalink" href="#reset_cycles%3AHash%28String%2CCycle%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L229" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L229" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1255,7 +1255,7 @@ overridden like so:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L141" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L141" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1283,7 +1283,7 @@ returns a String. See <code>truncate</code> method for argument documentation.</
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1299,7 +1299,7 @@ returns a String. See <code>truncate</code> method for argument documentation.</
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/page_helpers/text_helpers.cr#L99" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/95a8b9f724859b2add25a638c420f96297940212/src/lucky/page_helpers/text_helpers.cr#L99" target="_blank">View source</a>]
         
       </div>
     </div>
