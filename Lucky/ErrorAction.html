@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.5.0">
+<meta name="generator" content="Crystal Docs 1.6.2">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -955,7 +955,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L3" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L3" target="_blank">
         lucky/error_action.cr
       </a>
     
@@ -1160,18 +1160,18 @@
   <h3>Instance methods inherited from module <code><a href="../Lucky/Renderable.html">Lucky::Renderable</a></code></h3>
   
   
-    <a href="../Lucky/Renderable.html#component%28comp%3ALucky%3A%3ABaseComponent.class%2Cstatus%3AInt32%3F%3Dnil%2C%2A%2Anamed_args%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>component(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : Int32? = <span class="n">nil</span>, **named_args) : Lucky::TextResponse<br/>component(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : Lucky::TextResponse</span>
+    <a href="../Lucky/Renderable.html#component%28comp%3ALucky%3A%3ABaseComponent.class%2Cstatus%3AInt32%7CNil%3Dnil%2C%2A%2Anamed_args%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>component(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : Int32 | Nil = <span class="n">nil</span>, **named_args) : Lucky::TextResponse<br/>component(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : Lucky::TextResponse</span>
     component</a>, 
     
   
-    <a href="../Lucky/Renderable.html#data%28data%3AString%2Ccontent_type%3AString%3D%22application/octet-stream%22%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%3F%3Dnil%2Cstatus%3AInt32%3F%3Dnil%29%3ALucky%3A%3ADataResponse-instance-method" class="tooltip">
-      <span>data(data : String, content_type : String = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>) : Lucky::DataResponse</span>
+    <a href="../Lucky/Renderable.html#data%28data%3AString%2Ccontent_type%3AString%3D%22application/octet-stream%22%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3ADataResponse-instance-method" class="tooltip">
+      <span>data(data : String, content_type : String = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String | Nil = <span class="n">nil</span>, status : Int32 | Nil = <span class="n">nil</span>) : Lucky::DataResponse</span>
     data</a>, 
     
   
-    <a href="../Lucky/Renderable.html#file%28path%3AString%2Ccontent_type%3AString%3F%3Dnil%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%3F%3Dnil%2Cstatus%3AInt32%3F%3Dnil%29%3ALucky%3A%3AFileResponse-instance-method" class="tooltip">
-      <span>file(path : String, content_type : String? = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : Int32? = <span class="n">nil</span>) : Lucky::FileResponse<br/>file(path : String, content_type : String? = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String? = <span class="n">nil</span>, status : HTTP::Status = <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">OK</span>) : Lucky::FileResponse</span>
+    <a href="../Lucky/Renderable.html#file%28path%3AString%2Ccontent_type%3AString%7CNil%3Dnil%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3AFileResponse-instance-method" class="tooltip">
+      <span>file(path : String, content_type : String | Nil = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String | Nil = <span class="n">nil</span>, status : Int32 | Nil = <span class="n">nil</span>) : Lucky::FileResponse<br/>file(path : String, content_type : String | Nil = <span class="n">nil</span>, disposition : String = <span class="s">&quot;attachment&quot;</span>, filename : String | Nil = <span class="n">nil</span>, status : HTTP::Status = <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">OK</span>) : Lucky::FileResponse</span>
     file</a>, 
     
   
@@ -1185,8 +1185,8 @@
     html_content_type</a>, 
     
   
-    <a href="../Lucky/Renderable.html#json%28body%2Cstatus%3AInt32%3F%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>json(body, status : Int32? = <span class="n">nil</span>, content_type : String = json_content_type) : Lucky::TextResponse<br/>json(body, status : HTTP::Status, content_type : String = json_content_type) : Lucky::TextResponse</span>
+    <a href="../Lucky/Renderable.html#json%28body%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>json(body, status : Int32 | Nil = <span class="n">nil</span>, content_type : String = json_content_type) : Lucky::TextResponse<br/>json(body, status : HTTP::Status, content_type : String = json_content_type) : Lucky::TextResponse</span>
     json</a>, 
     
   
@@ -1200,23 +1200,23 @@
     plain_content_type</a>, 
     
   
-    <a href="../Lucky/Renderable.html#plain_text%28body%3AString%2Cstatus%3AInt32%3F%3Dnil%2Ccontent_type%3AString%3Dplain_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>plain_text(body : String, status : Int32? = <span class="n">nil</span>, content_type : String = plain_content_type) : Lucky::TextResponse<br/>plain_text(body : String, status : HTTP::Status, content_type : String = plain_content_type) : Lucky::TextResponse</span>
+    <a href="../Lucky/Renderable.html#plain_text%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Dplain_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>plain_text(body : String, status : Int32 | Nil = <span class="n">nil</span>, content_type : String = plain_content_type) : Lucky::TextResponse<br/>plain_text(body : String, status : HTTP::Status, content_type : String = plain_content_type) : Lucky::TextResponse</span>
     plain_text</a>, 
     
   
-    <a href="../Lucky/Renderable.html#raw_json%28body%3AString%2Cstatus%3AInt32%3F%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>raw_json(body : String, status : Int32? = <span class="n">nil</span>, content_type : String = json_content_type) : Lucky::TextResponse<br/>raw_json(body : String, status : HTTP::Status, content_type : String = json_content_type) : Lucky::TextResponse</span>
+    <a href="../Lucky/Renderable.html#raw_json%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>raw_json(body : String, status : Int32 | Nil = <span class="n">nil</span>, content_type : String = json_content_type) : Lucky::TextResponse<br/>raw_json(body : String, status : HTTP::Status, content_type : String = json_content_type) : Lucky::TextResponse</span>
     raw_json</a>, 
     
   
-    <a href="../Lucky/Renderable.html#send_text_response%28body%3AString%2Ccontent_type%3AString%2Cstatus%3AInt32%3F%3Dnil%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>send_text_response(body : String, content_type : String, status : Int32? = <span class="n">nil</span>) : Lucky::TextResponse</span>
+    <a href="../Lucky/Renderable.html#send_text_response%28body%3AString%2Ccontent_type%3AString%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>send_text_response(body : String, content_type : String, status : Int32 | Nil = <span class="n">nil</span>) : Lucky::TextResponse</span>
     send_text_response</a>, 
     
   
-    <a href="../Lucky/Renderable.html#xml%28body%3AString%2Cstatus%3AInt32%3F%3Dnil%2Ccontent_type%3AString%3Dxml_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>xml(body : String, status : Int32? = <span class="n">nil</span>, content_type : String = xml_content_type) : Lucky::TextResponse<br/>xml(body, status : HTTP::Status, content_type : String = xml_content_type) : Lucky::TextResponse</span>
+    <a href="../Lucky/Renderable.html#xml%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Dxml_content_type%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>xml(body : String, status : Int32 | Nil = <span class="n">nil</span>, content_type : String = xml_content_type) : Lucky::TextResponse<br/>xml(body, status : HTTP::Status, content_type : String = xml_content_type) : Lucky::TextResponse</span>
     xml</a>, 
     
   
@@ -1330,7 +1330,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1360,7 +1360,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L16" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L16" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1376,7 +1376,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1420,7 +1420,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1464,7 +1464,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1480,7 +1480,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L81" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1496,7 +1496,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1608,7 +1608,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/error_action.cr#L20" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/error_action.cr#L20" target="_blank">View source</a>]
         
       </div>
     </div>

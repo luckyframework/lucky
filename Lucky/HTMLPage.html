@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.5.0">
+<meta name="generator" content="Crystal Docs 1.6.2">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -963,7 +963,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/html_page.cr#L3" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/html_page.cr#L3" target="_blank">
         lucky/html_page.cr
       </a>
     
@@ -1316,8 +1316,8 @@
     simple_format</a>, 
     
   
-    <a href="../Lucky/HTMLTextHelpers.html#truncate%28text%3AString%2Clength%3AInt32%3D30%2Comission%3AString%3D%22...%22%2Cseparator%3AString%3F%3Dnil%2Cescape%3ABool%3Dtrue%2Cblk%3AProc%3F%3Dnil%29%3ANil-instance-method" class="tooltip">
-      <span>truncate(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String? = <span class="n">nil</span>, escape : Bool = <span class="n">true</span>, blk : Proc? = <span class="n">nil</span>) : Nil<br/>truncate(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String? = <span class="n">nil</span>, escape : Bool = <span class="n">true</span>, &block :  -> _) : Nil</span>
+    <a href="../Lucky/HTMLTextHelpers.html#truncate%28text%3AString%2Clength%3AInt32%3D30%2Comission%3AString%3D%22...%22%2Cseparator%3AString%7CNil%3Dnil%2Cescape%3ABool%3Dtrue%2Cblk%3ANil%7CProc%3Dnil%29%3ANil-instance-method" class="tooltip">
+      <span>truncate(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String | Nil = <span class="n">nil</span>, escape : Bool = <span class="n">true</span>, blk : Nil | Proc = <span class="n">nil</span>) : Nil<br/>truncate(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String | Nil = <span class="n">nil</span>, escape : Bool = <span class="n">true</span>, &block :  -> _) : Nil</span>
     truncate</a>
     
   
@@ -1370,8 +1370,8 @@
     to_sentence</a>, 
     
   
-    <a href="../Lucky/TextHelpers.html#truncate_text%28text%3AString%2Clength%3AInt32%3D30%2Comission%3AString%3D%22...%22%2Cseparator%3AString%3F%3Dnil%29%3AString-instance-method" class="tooltip">
-      <span>truncate_text(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String? = <span class="n">nil</span>) : String</span>
+    <a href="../Lucky/TextHelpers.html#truncate_text%28text%3AString%2Clength%3AInt32%3D30%2Comission%3AString%3D%22...%22%2Cseparator%3AString%7CNil%3Dnil%29%3AString-instance-method" class="tooltip">
+      <span>truncate_text(text : String, length : Int32 = <span class="n">30</span>, omission : String = <span class="s">&quot;...&quot;</span>, separator : String | Nil = <span class="n">nil</span>) : String</span>
     truncate_text</a>, 
     
   
@@ -1592,8 +1592,8 @@
     empty_tag</a>, 
     
   
-    <a href="../Lucky/CustomTags.html#tag%28tag_name%3AString%2Ccontent%3ALucky%3A%3AAllowedInTags%7CString%3F%3D%22%22%2Coptions%3DEMPTY_HTML_ATTRS%2Cattrs%3AArray%28Symbol%29%3D%5B%5DofSymbol%2C%2A%2Aother_options%29%3ANil-instance-method" class="tooltip">
-      <span>tag(tag_name : String, content : Lucky::AllowedInTags | String? = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil<br/>tag(tag_name : String, options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options) : Nil<br/>tag(tag_name : String, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</span>
+    <a href="../Lucky/CustomTags.html#tag%28tag_name%3AString%2Ccontent%3ALucky%3A%3AAllowedInTags%7CString%7CNil%3D%22%22%2Coptions%3DEMPTY_HTML_ATTRS%2Cattrs%3AArray%28Symbol%29%3D%5B%5DofSymbol%2C%2A%2Aother_options%29%3ANil-instance-method" class="tooltip">
+      <span>tag(tag_name : String, content : Lucky::AllowedInTags | String | Nil = <span class="s">&quot;&quot;</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, **other_options) : Nil<br/>tag(tag_name : String, options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options) : Nil<br/>tag(tag_name : String, attrs : Array(Symbol) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Symbol</span>, options = <span class="t">EMPTY_HTML_ATTRS</span>, **other_options, &) : Nil</span>
     tag</a>
     
   
@@ -2224,7 +2224,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2240,7 +2240,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2282,7 +2282,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2298,7 +2298,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/html_page.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/html_page.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2314,7 +2314,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/78d8447e6dec0b6f2a36616f80e7d9f82c70e4ed/src/lucky/html_page.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/6a820451a82d81bbfde331477095459214282219/src/lucky/html_page.cr#L10" target="_blank">View source</a>]
         
       </div>
     </div>
