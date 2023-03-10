@@ -34,7 +34,7 @@ module LuckySentry
     end
 
     def start : Nil
-      @server.bind_tcp Lucky::ServerSettings.reload_port
+      @server.bind_tcp(Lucky::ServerSettings.host, Lucky::ServerSettings.reload_port)
       spawn { @server.listen }
     end
 
@@ -80,7 +80,7 @@ module LuckySentry
     end
 
     def start : Nil
-      @server.bind_tcp Lucky::ServerSettings.reload_port
+      @server.bind_tcp(Lucky::ServerSettings.host, Lucky::ServerSettings.reload_port)
       spawn { @server.listen }
     end
 
