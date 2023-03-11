@@ -8,7 +8,7 @@ module Lucky::ServerSettings
   # The host for your local development.
   # Depending on your setup, you may need `localhost`, `127.0.0.1`, or `0.0.0.0`
   def host : String
-    settings["host"].as_s
+    ENV["DEV_HOST"]? || settings["host"].as_s
   end
 
   # The port to run your local dev server
