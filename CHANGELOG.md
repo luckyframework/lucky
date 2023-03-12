@@ -1,4 +1,36 @@
-### Changes in 1.0.0-rc1
+### Changes in 1.0.0
+
+- Added: Inline SVG files. [#1761](https://github.com/luckyframework/lucky/pull/1761)
+- Added: `attrs` option to `sumbit` tag helper. [#1759](https://github.com/luckyframework/lucky/pull/1759)
+- Fixed: `previous_url` helper when the referrer is the current page. [#1743](https://github.com/luckyframework/lucky/pull/1743)
+- Fixed: issue with SSE Watcher for live reloading. [#1748](https://github.com/luckyframework/lucky/pull/1748)
+- Fixed: issue with nil values in JSON params. [#1762](https://github.com/luckyframework/lucky/pull/1762)
+- Fixed: issue with block HTML tags using a custom wrapper. [#1763](https://github.com/luckyframework/lucky/pull/1763)
+- Removed: the optional `SkipUniqueRoute` check. All routes must be unique. [#1764](https://github.com/luckyframework/lucky/pull/1764)
+- Updated: Accept header handling for more robustness. [#1769](https://github.com/luckyframework/lucky/pull/1769)
+- Updated: Crystal minimum supported version to be 1.6.0 or later. [#1774](https://github.com/luckyframework/lucky/pull/1774)
+- Updated: the Lucky watcher to always use the specified host in development. [#1786](https://github.com/luckyframework/lucky/pull/1786)
+- Added: ENV `DEV_HOST` for overriding the development host with an ENV var. [#1788](https://github.com/luckyframework/lucky/pull/1788)
+- Updated: generated Dockerfile for development with several fixes. [#787 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/787), [#793 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/793)
+- Updated: generated `current_user` method is memoized by default now. [#508 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/508)
+- Updated: generated apps are compliant with Crystal 1.7+ [#790 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/790)
+- Fixed: casting issue with AvramParams and Array values. [#895 in Avram](https://github.com/luckyframework/avram/pull/895)
+- Fixed: multi select options with Arrays from columns. [#897 in Avram](https://github.com/luckyframework/avram/pull/897)
+- Fixed: submitting only a file in a form with no other permitted params. [#894 in Avram](https://github.com/luckyframework/avram/pull/894)
+- Updated: avoid refetching associations that have already been preloaded. [#901 in Avram](https://github.com/luckyframework/avram/pull/901)
+- **Breaking change** Updated: Always pass the record to DeleteOperation blocks. [#887 in Avram](https://github.com/luckyframework/avram/pull/887)
+- Updated: more support for CockroachDB with `.any?` query method. [#900 in Avram](https://github.com/luckyframework/avram/pull/900)
+- Added: new `updated?` and `created?` SaveOperation methods. [#904 in Avram](https://github.com/luckyframework/avram/pull/904)
+- Added: new function criteria with new `trim`, and `as_date` query methods. [#912 in Avram](https://github.com/luckyframework/avram/pull/912)
+- Updated: more support for CockroachDB with `select_sum` query method. [#921 in Avram](https://github.com/luckyframework/avram/pull/921)
+- Updated: better Int column support for CockroachDB. [#920 in Avram](https://github.com/luckyframework/avram/pull/920)
+- Fixed: compilation issue with preloading optional associations. [#925 in Avram](https://github.com/luckyframework/avram/pull/925)
+- Updated: Authentic with better primary key agnostic support. [#77 in Authentic](https://github.com/luckyframework/authentic/pull/77)
+- Updated: Small performance boost with the router. [#60 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/60)
+- Updated: to lastest Bright security SecTester. [#27 in LuckySecTester](https://github.com/luckyframework/lucky_sec_tester/pull/27)
+
+
+### Changes in 1.0.0-rc1 (2022-10-2)
 
 - **Breaking change** Removed: Avram is no longer a dependency of Lucky. [#1620](https://github.com/luckyframework/lucky/pull/1620)
 - Fixed: path output when generating a component. [#1694](https://github.com/luckyframework/lucky/pull/1694)
