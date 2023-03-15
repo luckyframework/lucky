@@ -1,3 +1,34 @@
+## Upgrading from 1.0.0-rc1 to 1.0.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0-rc1&to1.0.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.0.0`
+  - Avram should be `~> 1.0.0`
+  - Authentic should be `~> 1.0.0`
+
+- Run `shards update`
+
+### General updates
+
+- Update: to at least Crystal 1.6 or later.
+- Update: Any use of a `DeleteOperation` that assumed the record could be nil should now assume the record will always exist in the block. [See PR for more details](https://github.com/luckyframework/avram/pull/887)
+
+### Optional update
+
 ## Upgrading from 0.30 to 1.0.0-rc1
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.30.0&to=1.0.0-rc1).
