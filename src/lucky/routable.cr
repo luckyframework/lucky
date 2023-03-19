@@ -69,7 +69,7 @@ module Lucky::Routable
   #     # action code here
   #   end
   # end
-  #
+  # ```
   # Will respond to an `HTTP OPTIONS` request.
   macro match(method, path)
     {% unless path.starts_with?("/") %}
