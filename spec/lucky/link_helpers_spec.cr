@@ -8,6 +8,10 @@ class LinkHelpers::Create < TestAction
   post "/link_helpers" { plain_text "foo" }
 end
 
+class LinkHelpers::Show < TestAction
+  get "/link_helpers/:id" { plain_text "foo" }
+end
+
 private class TestPage
   include Lucky::HTMLPage
 

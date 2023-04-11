@@ -1,3 +1,4 @@
+require "./no_required_params_action"
 require "./tags/**"
 require "./page_helpers/**"
 require "./mount_component"
