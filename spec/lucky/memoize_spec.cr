@@ -35,6 +35,10 @@ private class ObjectWithMemoizedMethods
     @times_method_5_called += 1
     "Boom!"
   end
+
+  memoize def method_6(for string : String) : String
+    string.upcase
+  end
 end
 
 describe "memoizations" do
@@ -124,5 +128,12 @@ describe "memoizations" do
     object.method_5__uncached!.should eq("Boom!")
     object.method_5__uncached!.should eq("Boom!")
     object.times_method_5_called.should eq(3)
+  end
+
+  it "allows for external arg names" do
+    object = ObjectWithMemoizedMethods.new
+
+    object.method_6("boom").should eq("BOOM")
+    object.method_6(for: "memoize").should eq("MEMOIZE")
   end
 end
