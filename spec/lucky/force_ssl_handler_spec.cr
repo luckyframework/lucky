@@ -74,7 +74,7 @@ describe Lucky::ForceSSLHandler do
   end
 end
 
-private def with_strict_transport_security(args)
+private def with_strict_transport_security(args, &)
   Lucky::ForceSSLHandler.temp_config(strict_transport_security: args) do
     yield
   end

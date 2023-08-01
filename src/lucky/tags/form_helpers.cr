@@ -3,7 +3,7 @@ module Lucky::FormHelpers
     setting include_csrf_tag : Bool = true
   end
 
-  def form_for(route : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+  def form_for(route : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options, &) : Nil
     form attrs, build_form_options(route, html_options) do
       csrf_hidden_input if Lucky::FormHelpers.settings.include_csrf_tag
       method_override_input(route)
@@ -11,7 +11,7 @@ module Lucky::FormHelpers
     end
   end
 
-  def form_for(route action : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+  def form_for(route action : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options, &) : Nil
     form_for action.route, attrs, **html_options do
       yield
     end

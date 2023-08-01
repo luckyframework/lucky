@@ -13,7 +13,7 @@ describe Lucky::Exec do
   end
 end
 
-private def with_test_template
+private def with_test_template(&)
   Lucky::Exec.temp_config(template_path: "spec/support/exec_template.cr.template") do
     yield
   end
