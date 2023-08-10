@@ -165,7 +165,7 @@ describe Lucky::HTMLPage do
   end
 end
 
-private def view
+private def view(&)
   TestRender.new(build_context).tap do |page|
     yield page
   end.view.to_s

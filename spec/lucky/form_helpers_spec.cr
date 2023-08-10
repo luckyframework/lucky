@@ -62,7 +62,7 @@ private class TestPage
     end
   end
 
-  def form_wrapper(action : Lucky::Action.class)
+  def form_wrapper(action : Lucky::Action.class, &)
     form_for action do
       yield
     end
@@ -158,13 +158,13 @@ describe Lucky::FormHelpers do
   end
 end
 
-private def without_csrf_protection
+private def without_csrf_protection(&)
   Lucky::FormHelpers.temp_config(include_csrf_tag: false) do
     yield
   end
 end
 
-private def view(context : HTTP::Server::Context = build_context)
+private def view(context : HTTP::Server::Context = build_context, &)
   TestPage.new(context).tap do |page|
     yield page
   end.view.to_s

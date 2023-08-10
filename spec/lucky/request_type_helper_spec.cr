@@ -77,13 +77,13 @@ describe Lucky::RequestTypeHelpers do
   end
 end
 
-private def override_format(format : Symbol?)
+private def override_format(format : Symbol?, &)
   action = FakeAction.new
   action.context._clients_desired_format = format
   yield action
 end
 
-private def override_accept_header(accept_header : String)
+private def override_accept_header(accept_header : String, &)
   action = FakeAction.new
   action.context.request.headers["accept"] = accept_header
   yield action
