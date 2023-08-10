@@ -126,7 +126,7 @@ module Lucky::HTMLTextHelpers
   #
   # baz<hr>
   # ```
-  def simple_format(text : String, &block : String -> _) : Nil
+  def simple_format(text : String, & : String -> _) : Nil
     paragraphs = split_paragraphs(text)
 
     paragraphs = [""] if paragraphs.empty?

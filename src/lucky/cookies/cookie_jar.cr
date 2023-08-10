@@ -46,7 +46,7 @@ class Lucky::CookieJar
   #         .http_only(true)
   #         .secure(true)
   # end
-  def clear(&block : HTTP::Cookie ->) : Nil
+  def clear(& : HTTP::Cookie ->) : Nil
     cookies.each do |cookie|
       yield cookie
       delete cookie.name
@@ -68,7 +68,7 @@ class Lucky::CookieJar
 
   # Delete a specific cookie by name `key`. Yield that cookie
   # to the block so you can add additional options like domain, path, etc...
-  def delete(key : Key) : Nil
+  def delete(key : Key, &) : Nil
     if cookie = cookies[key.to_s]?
       yield cookie
       delete cookie.name

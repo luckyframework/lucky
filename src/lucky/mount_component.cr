@@ -27,7 +27,7 @@ module Lucky::MountComponent
   #   text name.upcase
   # end
   # ```
-  def mount(component : Lucky::BaseComponent.class, *args, **named_args) : Nil
+  def mount(component : Lucky::BaseComponent.class, *args, **named_args, &) : Nil
     print_component_comment(component) do
       component.new(*args, **named_args).view(view).context(@context).render do |*yield_args|
         yield *yield_args
@@ -118,7 +118,7 @@ module Lucky::MountComponent
   #   text name.upcase
   # end
   # ```
-  def mount_instance(component : Lucky::BaseComponent) : Nil
+  def mount_instance(component : Lucky::BaseComponent, &) : Nil
     print_component_comment(component.class) do
       component.view(view).context(@context).render do |*yield_args|
         yield *yield_args
@@ -126,7 +126,7 @@ module Lucky::MountComponent
     end
   end
 
-  private def print_component_comment(component : Lucky::BaseComponent.class) : Nil
+  private def print_component_comment(component : Lucky::BaseComponent.class, &) : Nil
     if Lucky::HTMLPage.settings.render_component_comments
       raw "<!-- BEGIN: #{component.name} #{component.file_location} -->"
       yield

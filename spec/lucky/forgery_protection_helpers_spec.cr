@@ -33,7 +33,7 @@ describe Lucky::ForgeryProtectionHelpers do
   end
 end
 
-private def view(context)
+private def view(context, &)
   TestPage.new(context).tap do |page|
     yield page
   end.view.to_s

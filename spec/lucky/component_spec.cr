@@ -32,13 +32,13 @@ end
 private class ComponentWithBlock < Lucky::BaseComponent
   needs name : String
 
-  def render
+  def render(&)
     yield @name
   end
 end
 
 private class ComponentWithBlockAndNoBlockArgs < Lucky::BaseComponent
-  def render
+  def render(&)
     yield
   end
 end

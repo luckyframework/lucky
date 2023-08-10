@@ -294,7 +294,7 @@ module LuckySentry
           file_changed = true
         elsif FILE_TIMESTAMPS[file]?.nil?
           FILE_TIMESTAMPS[file] = timestamp
-          file_changed = true if (app_processes.none? &.terminated?)
+          file_changed = true if app_processes.none?(&.terminated?)
         end
       end
 

@@ -86,7 +86,7 @@ describe Lucky::VerifyAcceptsFormat do
   end
 end
 
-private def override_format(action, format : Symbol)
+private def override_format(action, format : Symbol, &)
   action = action.new(build_context, params)
   action.clients_desired_format = format
   yield action

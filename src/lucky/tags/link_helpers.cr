@@ -9,7 +9,7 @@ module Lucky::LinkHelpers
     link(**html_options, to: to, attrs: attrs) { }
   end
 
-  def link(to : Lucky::RouteHelper, href : String, **html_options, &block) : Nil
+  def link(to : Lucky::RouteHelper, href : String, **html_options, &) : Nil
     {%
       raise <<-ERROR
       'link' cannot be called with an href.
@@ -28,7 +28,7 @@ module Lucky::LinkHelpers
     %}
   end
 
-  def link(to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+  def link(to : Lucky::RouteHelper, attrs : Array(Symbol) = [] of Symbol, **html_options, &) : Nil
     a attrs, merge_options(html_options, link_to_href(to)) do
       yield
     end
@@ -44,7 +44,7 @@ module Lucky::LinkHelpers
     link(**html_options, to: to, attrs: attrs) { }
   end
 
-  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options) : Nil
+  def link(to : Lucky::Action.class, attrs : Array(Symbol) = [] of Symbol, **html_options, &) : Nil
     link(**html_options, to: to.route, attrs: attrs) do
       yield
     end
@@ -74,7 +74,7 @@ module Lucky::LinkHelpers
     %}
   end
 
-  def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
+  def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options, &)
     {%
       raise <<-ERROR
       'link' no longer supports passing a String to 'to'.

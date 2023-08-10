@@ -124,7 +124,8 @@ private def handle_error(
   format : Symbol = :html,
   show_debug_output : Bool = false,
   error : Exception = UnhandledError.new,
-  status_code : Int32 = 200
+  status_code : Int32 = 200,
+  &
 )
   Lucky::ErrorHandler.temp_config(show_debug_output: show_debug_output) do
     error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
