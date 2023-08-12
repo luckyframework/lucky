@@ -17,12 +17,14 @@ end
 class Gen::Page < LuckyTask::Task
   summary "Generate a new HTML page"
 
-  def call(io : IO = STDOUT)
+  positional_arg :page_class, "The name of the page"
+
+  def call
     if error
-      io.puts error.colorize(:red)
+      output.puts error.colorize(:red)
     else
       Lucky::PageTemplate.new(page_filename, page_class, output_path).render(output_path)
-      io.puts success_message
+      output.puts success_message
     end
   end
 
@@ -41,7 +43,7 @@ class Gen::Page < LuckyTask::Task
   end
 
   private def missing_name_error
-    if ARGV.first?.nil?
+    if page_class.nil?
       "Page name is required."
     end
   end
@@ -50,10 +52,6 @@ class Gen::Page < LuckyTask::Task
     if !page_class.includes?("::") || !page_class.ends_with?("Page")
       "That's not a valid Page. Example: lucky gen.page Users::IndexPage"
     end
-  end
-
-  private def page_class
-    ARGV.first
   end
 
   private def page_filename

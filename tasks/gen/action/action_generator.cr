@@ -31,12 +31,12 @@ module Gen::ActionGenerator
 
   private def name_is_present
     @error = "Action name is required. Example: lucky gen.action Users::Index"
-    ARGV.first?
+    action_name.presence
   end
 
   private def name_matches_format
     @error = "That's not a valid Action. Example: lucky gen.action Users::Index"
-    ARGV.first.includes?("::")
+    action_name.includes?("::")
   end
 
   private def route_generated_from_action_name
@@ -51,10 +51,6 @@ module Gen::ActionGenerator
 
   private def route
     @route ||= Lucky::RouteInferrer.new(action_class_name: action_name).generate_inferred_route
-  end
-
-  private def action_name
-    ARGV.first
   end
 
   private def action
