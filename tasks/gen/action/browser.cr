@@ -7,6 +7,9 @@ class Gen::Action::Browser < LuckyTask::Task
 
   summary "Generate a new browser action"
 
+  positional_arg :action_name, "The name of the action"
+  switch :with_page, "Generate a Page matching this Action"
+
   def help_message
     <<-TEXT
     #{summary}
@@ -17,7 +20,12 @@ class Gen::Action::Browser < LuckyTask::Task
     TEXT
   end
 
-  def call(io : IO = STDOUT)
-    render_action_template(io, inherit_from: "BrowserAction")
+  def call
+    render_action_template(output, inherit_from: "BrowserAction")
+    if with_page?
+      page_task = Gen::Page.new
+      page_task.output = output
+      page_task.print_help_or_call(args: ["#{action_name}Page"])
+    end
   end
 end

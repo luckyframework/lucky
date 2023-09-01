@@ -6,6 +6,9 @@ class Gen::Action::Api < LuckyTask::Task
 
   summary "Generate a new api action"
 
+  positional_arg :action_name, "The name of the action"
+  switch :with_page, "This flag is used with gen.action.browser Only"
+
   def help_message
     <<-TEXT
     #{summary}
@@ -16,12 +19,15 @@ class Gen::Action::Api < LuckyTask::Task
     TEXT
   end
 
-  def call(io : IO = STDOUT)
-    render_action_template(io, inherit_from: "ApiAction")
+  def call
+    render_action_template(output, inherit_from: "ApiAction")
+    if with_page?
+      output.puts "No page generated for ApiActions".colorize.red
+    end
   end
 
   private def action_name
-    name = ARGV.first
+    name = previous_def
     if name.downcase.starts_with?("api")
       name
     else
