@@ -2,12 +2,15 @@
 class Lucky::RequestBodyReader
   getter request : HTTP::Request
 
-  def initialize(@request)
+  def initialize(@request : HTTP::Request)
   end
 
+  # Returns the body of the `request` and
+  # reassigns the value back to the request body
+  # to allow for re-reading
   def body : String
-    (request.body || IO::Memory.new).gets_to_end.tap do |request_body|
-      request.body = IO::Memory.new(request_body)
-    end
+    contents = request.body.try(&.gets_to_end) || ""
+    request.body = IO::Memory.new(contents)
+    contents
   end
 end
