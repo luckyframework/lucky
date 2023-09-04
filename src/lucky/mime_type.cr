@@ -5,7 +5,8 @@ class Lucky::MimeType
   class_getter accept_header_formats = {} of MediaType => Format
 
   struct MediaType
-    property type, subtype
+    property subtype : String
+    property type : String
 
     def initialize(@type : String, @subtype : String)
     end
@@ -103,7 +104,7 @@ class Lucky::MimeType
   end
 
   class AcceptList
-    getter list
+    getter list : Array(MediaRange)
 
     ACCEPT_SEP = /[ \t]*,[ \t]*/
 
@@ -226,11 +227,11 @@ class Lucky::MimeType
       @type == "*" || (@type == media.type && self.class.match_type?(@subtype, media.subtype))
     end
 
-    def catch_all?
+    def catch_all? : Bool
       @type == "*" && @subtype == "*"
     end
 
-    protected def self.match_type?(pattern, value)
+    protected def self.match_type?(pattern, value) : Bool
       pattern == "*" || pattern == value
     end
   end

@@ -1,9 +1,10 @@
 class Lucky::RouteHelper
-  getter path, method
-
   Habitat.create do
     setting base_uri : String
   end
+
+  getter method : Symbol
+  getter path : String
 
   def initialize(@method : Symbol, @path : String)
   end

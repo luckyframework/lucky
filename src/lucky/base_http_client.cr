@@ -5,14 +5,12 @@ require "http/client"
 # Makes it easy to pass params, use Lucky route helpers, and chain header methods.
 abstract class Lucky::BaseHTTPClient
   @@app : Lucky::BaseAppServer?
-  private getter client
-
-  @client : HTTP::Client
+  private getter client : HTTP::Client
 
   def self.app(@@app : Lucky::BaseAppServer)
   end
 
-  def initialize(@client = build_client)
+  def initialize(@client : HTTP::Client = build_client)
   end
 
   private def build_client : HTTP::Client
