@@ -36,7 +36,7 @@ module Lucky::ServerSettings
     end
   end
 
-  private def yaml_settings_file
+  private def yaml_settings_file : String
     if File.exists?(YAML_SETTINGS_PATH)
       File.read YAML_SETTINGS_PATH
     else

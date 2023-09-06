@@ -38,13 +38,15 @@ class Lucky::TextResponse < Lucky::Response
     @status || context.response.status_code || DEFAULT_STATUS
   end
 
-  private def gzip
+  private def gzip : Nil
     context.response.headers["Content-Encoding"] = "gzip"
     context.response.output = Compress::Gzip::Writer.new(context.response.output, sync_close: true)
   end
 
-  private def should_gzip?
-    {% if !flag?(:without_zlib) %}
+  private def should_gzip? : Bool
+    {% if flag?(:without_zlib) %}
+      false
+    {% else %}
       Lucky::Server.settings.gzip_enabled &&
         context.request.headers.includes_word?("Accept-Encoding", "gzip") &&
         Lucky::Server.settings.gzip_content_types.includes?(content_type)

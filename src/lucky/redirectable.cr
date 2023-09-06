@@ -29,7 +29,7 @@ module Lucky::Redirectable
   # ```
   # redirect_back fallback: Users::Index
   # ```
-  def redirect_back(*, fallback : Lucky::Action.class, status = 302, allow_external = false)
+  def redirect_back(*, fallback : Lucky::Action.class, status = 302, allow_external = false) : Lucky::TextResponse
     redirect_back fallback: fallback.route, status: status, allow_external: allow_external
   end
 
@@ -38,7 +38,7 @@ module Lucky::Redirectable
   # ```
   # redirect_back fallback: Users::Show.with(user.id)
   # ```
-  def redirect_back(*, fallback : Lucky::RouteHelper, status = 302, allow_external = false)
+  def redirect_back(*, fallback : Lucky::RouteHelper, status = 302, allow_external = false) : Lucky::TextResponse
     redirect_back fallback: fallback.path, status: status, allow_external: allow_external
   end
 
@@ -47,7 +47,7 @@ module Lucky::Redirectable
   # ```
   # redirect_back fallback: "/users", status: HTTP::Status::MOVED_PERMANENTLY
   # ```
-  def redirect_back(*, fallback : String, status : HTTP::Status, allow_external = false)
+  def redirect_back(*, fallback : String, status : HTTP::Status, allow_external = false) : Lucky::TextResponse
     redirect_back fallback: fallback, status: status.value, allow_external: allow_external
   end
 
@@ -74,7 +74,7 @@ module Lucky::Redirectable
   # They can be explicitly allowed if necessary
   #
   # redirect_back fallback: "/home", allow_external: true
-  def redirect_back(*, fallback : String, status : Int32 = 302, allow_external : Bool = false)
+  def redirect_back(*, fallback : String, status : Int32 = 302, allow_external : Bool = false) : Lucky::TextResponse
     referer = request.headers["Referer"]?
 
     if referer && (allow_external || allowed_host?(referer))

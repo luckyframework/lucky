@@ -3,7 +3,7 @@ require "habitat"
 require "lucky_task"
 
 class Lucky::Exec < LuckyTask::Task
-  name "exec"
+  task_name "exec"
   summary "Execute code. Use this in place of a console/REPL"
   arg :editor, "Which editor to use", shortcut: "-e", optional: true
   arg :back, "Load code from this many sessions back. Default is 1.",
@@ -28,7 +28,7 @@ class Lucky::Exec < LuckyTask::Task
 
     example: lucky exec -e emacs -b 3 -o
 
-    Run this task with 'lucky #{name} [OPTIONS]'
+    Run this task with 'lucky #{task_name} [OPTIONS]'
     TEXT
   end
 

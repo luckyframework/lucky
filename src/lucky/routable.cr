@@ -222,7 +222,7 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
-    )
+    ) : String
       path = path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
@@ -241,7 +241,7 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
-    )
+    ) : String
       path = path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
@@ -281,7 +281,7 @@ module Lucky::Routable
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
     anchor : String? = nil
-      ) : Lucky::RouteHelper
+    ) : Lucky::RouteHelper
       path = path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
@@ -328,7 +328,7 @@ module Lucky::Routable
         {{ param.gsub(/^\?:/, "").id }} = nil,
       {% end %}
       anchor : String? = nil
-        ) : Lucky::RouteHelper
+    ) : Lucky::RouteHelper
       \{% begin %}
       route(
         \{% for arg in @def.args %}
@@ -346,7 +346,7 @@ module Lucky::Routable
         {% for param in optional_path_params %}
           {{ param.gsub(/^\?:/, "").id }},
         {% end %}
-    )
+    ) : String
       path = String.build do |path|
         {% for part in path_parts %}
           {% if part.starts_with?("?:") %}
