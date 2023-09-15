@@ -338,7 +338,6 @@ module Lucky::Routable
       \{% end %}
     end
 
-
     private def self.path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
@@ -351,22 +350,20 @@ module Lucky::Routable
         {% for part in path_parts %}
           {% if part.starts_with?("?:") %}
             if {{ part.gsub(/^\?:/, "").id }}
-              path << "/"
-              path << URI.encode_www_form({{ part.gsub(/^\?:/, "").id }}.to_param)
+              path << '/'
+              URI.encode_www_form({{ part.gsub(/^\?:/, "").id }}.to_param, path)
             end
           {% elsif part.starts_with?(':') %}
-            path << "/"
-            path << URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param)
+            path << '/'
+            URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param, path)
           {% else %}
-            path << "/"
-            path << URI.encode_www_form({{ part }})
+            path << '/'
+            URI.encode_www_form({{ part }}, path)
           {% end %}
         {% end %}
       end
 
-      is_root_path = path == ""
-      path = "/" if is_root_path
-      path
+      path.presence || "/"
     end
   end
 
