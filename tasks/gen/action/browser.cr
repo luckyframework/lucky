@@ -1,6 +1,7 @@
 require "lucky_task"
 require "teeplate"
 require "./action_generator"
+require "../page"
 
 class Gen::Action::Browser < LuckyTask::Task
   include Gen::ActionGenerator
