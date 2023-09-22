@@ -3,7 +3,7 @@ require "habitat"
 require "lucky_task"
 
 class Lucky::Exec < LuckyTask::Task
-  task_name "exec"
+  name "exec"
   summary "Execute code. Use this in place of a console/REPL"
   arg :editor, "Which editor to use", shortcut: "-e", optional: true
   arg :back, "Load code from this many sessions back. Default is 1.",
