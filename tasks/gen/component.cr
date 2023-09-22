@@ -15,6 +15,13 @@ end
 
 class Gen::Component < LuckyTask::Task
   summary "Generate a new HTML component"
+  help_message <<-TEXT
+  #{task_summary}
+
+  Example:
+
+    lucky gen.component SettingsMenu
+  TEXT
 
   def call(io : IO = STDOUT)
     if error
@@ -23,16 +30,6 @@ class Gen::Component < LuckyTask::Task
       Lucky::ComponentTemplate.new(component_filename, component_class).render(output_path)
       io.puts success_message
     end
-  end
-
-  def help_message
-    <<-TEXT
-    #{summary}
-
-    Example:
-
-      lucky gen.component SettingsMenu
-    TEXT
   end
 
   private def error

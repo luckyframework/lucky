@@ -16,6 +16,13 @@ end
 
 class Gen::Page < LuckyTask::Task
   summary "Generate a new HTML page"
+  help_message <<-TEXT
+  #{task_summary}
+
+  Example:
+
+    lucky gen.page Users::IndexPage
+  TEXT
 
   positional_arg :page_class, "The name of the page"
 
@@ -26,16 +33,6 @@ class Gen::Page < LuckyTask::Task
       Lucky::PageTemplate.new(page_filename, page_class, output_path).render(output_path)
       output.puts success_message
     end
-  end
-
-  def help_message
-    <<-TEXT
-    #{summary}
-
-    Example:
-
-      lucky gen.page Users::IndexPage
-    TEXT
   end
 
   private def error

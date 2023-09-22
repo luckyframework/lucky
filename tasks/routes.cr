@@ -4,21 +4,20 @@ require "shell-table"
 
 class Routes < LuckyTask::Task
   summary "Show all the routes for the app"
+  help_message <<-TEXT
+  #{task_summary}
+
+  Optionally, you can pass the --with-params flag (-p) to print out
+  the available params for each Action.
+
+  example: lucky routes --with-params
+
+  Routing documentation:
+
+      https://luckyframework.org/guides/http-and-routing/routing-and-params
+  TEXT
 
   switch :with_params, "Include action params with each route", shortcut: "-p"
-
-  def help_message
-    <<-TEXT
-    #{summary}
-
-    Optionally, you can pass the --with-params flag (-p) to print out
-    the available params for each Action.
-
-    example: lucky routes --with-params
-
-    #{print_banner_message}
-    TEXT
-  end
 
   def call
     routes = [] of Array(String)

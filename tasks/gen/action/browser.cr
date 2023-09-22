@@ -7,19 +7,16 @@ class Gen::Action::Browser < LuckyTask::Task
   include Gen::ActionGenerator
 
   summary "Generate a new browser action"
+  help_message <<-TEXT
+  #{task_summary}
+
+  Example:
+
+    lucky gen.action.browser Users::Index
+  TEXT
 
   positional_arg :action_name, "The name of the action"
   switch :with_page, "Generate a Page matching this Action"
-
-  def help_message
-    <<-TEXT
-    #{summary}
-
-    Example:
-
-      lucky gen.action.browser Users::Index
-    TEXT
-  end
 
   def call
     render_action_template(output, inherit_from: "BrowserAction")
