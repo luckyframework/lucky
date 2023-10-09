@@ -44,8 +44,13 @@ module Lucky::Renderable
   # end
   # ```
   macro html(page_class = nil, _with_status_code = 200, **assigns)
-    {% page_class = page_class || "#{@type.name}Page".id %}
-    validate_page_class!({{ page_class }})
+    {% page_class = page_class || parse_type("#{@type.name}Page") %}
+    {% ancestors = page_class.resolve.ancestors %}
+    {% if ancestors.includes?(Lucky::Action) %}
+      {% page_class.raise "You accidentally rendered an action (#{page_class}) instead of an HTMLPage in the #{@type.name} action. Did you mean #{page_class}Page?" %}
+    {% elsif !ancestors.includes?(Lucky::HTMLPage) %}
+      {% page_class.raise "Couldn't render #{page_class} in #{@type.name} because it is not an HTMLPage" %}
+    {% end %}
 
     # Found in {{ @type.name }}
     view = {{ page_class }}.new(
@@ -88,17 +93,6 @@ module Lucky::Renderable
       html {{ page_class }}, _with_status_code: {{ status.resolve }}, {{ **assigns }}
     {% else %}
       html {{ page_class }}, _with_status_code: {{ status }}, {{ **assigns }}
-    {% end %}
-  end
-
-  # :nodoc:
-  macro validate_page_class!(page_class)
-    {% ancestors = page_class.resolve.ancestors %}
-
-    {% if ancestors.includes?(Lucky::Action) %}
-      {% page_class.raise "You accidentally rendered an action (#{page_class}) instead of an HTMLPage in the #{@type.name} action. Did you mean #{page_class}Page?" %}
-    {% elsif !ancestors.includes?(Lucky::HTMLPage) %}
-      {% page_class.raise "Couldn't render #{page_class} in #{@type.name} because it is not an HTMLPage" %}
     {% end %}
   end
 
