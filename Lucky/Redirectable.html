@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.8.2">
+<meta name="generator" content="Crystal Docs 1.9.2">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -23,7 +23,7 @@
 
 <svg class="hidden">
   <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
   </symbol>
 </svg>
 <input type="checkbox" id="sidebar-btn">
@@ -557,8 +557,18 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/Redirectable" data-name="lucky::redirectable">
+  <li class="parent open current" data-id="lucky/Lucky/Redirectable" data-name="lucky::redirectable">
       <a href="../Lucky/Redirectable.html">Redirectable</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/Lucky/Redirectable/HabitatSettings" data-name="lucky::redirectable::habitatsettings">
+      <a href="../Lucky/Redirectable/HabitatSettings.html">HabitatSettings</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -906,7 +916,7 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::Redirectable
+  <span class="kind">module</span> Lucky::<wbr>Redirectable
 
 </h1>
 
@@ -924,7 +934,7 @@
   </h2>
 
   <p>Redirect the request</p>
-<p>There are multiple ways to redirect inside of an action. The most common ways are to redirect to a <code><a href="../Lucky/Action.html">Lucky::Action</a></code> class, or a URL/path <code><a href="../String.html">String</a></code>. Both use the <code><a href="../Lucky/Redirectable.html#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3D302%29%3ALucky%3A%3ATextResponse-instance-method">#redirect</a></code> method:</p>
+<p>There are multiple ways to redirect inside of an action. The most common ways are to redirect to a <code><a href="../Lucky/Action.html">Lucky::Action</a></code> class, or a URL/path <code><a href="../String.html">String</a></code>. Both use the <code><a href="../Lucky/Redirectable.html#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method">#redirect</a></code> method:</p>
 <pre><code class="language-crystal">redirect to: <span class="t">Users</span><span class="t">::</span><span class="t">Index</span>
 redirect to: <span class="t">Users</span><span class="t">::</span><span class="t">Show</span>.<span class="k">with</span>(user.id)
 redirect to: <span class="s">&quot;https://luckyframework.org/&quot;</span>
@@ -932,9 +942,16 @@ redirect to: <span class="s">&quot;/users&quot;</span></code></pre>
 <p>By default, the method will set the status code to <code>302</code> A.K.A. &quot;Found&quot;. If you want to customize the status code, you can pass it directly:</p>
 <pre><code class="language-crystal">redirect to: <span class="t">Users</span><span class="t">::</span><span class="t">Index</span>, status: <span class="n">301</span>
 
-<span class="c"># or use the built in enum value</span>
-redirect to: <span class="t">Users</span><span class="t">::</span><span class="t">Index</span>, status: <span class="n">:moved_permanently</span></code></pre>
-<p>You can find a list of all of the possible statuses <a href="https://crystal-lang.org/api/latest/HTTP/Status.html">here</a>.</p>
+<span class="c"># or use the built-in enum value</span>
+redirect to: <span class="t">Users</span><span class="t">::</span><span class="t">Index</span>, status: <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">MOVED_PERMANENTLY</span></code></pre>
+<p>Alternatively, the status code can also be configured globally through the <code>redirect_status</code> setting:</p>
+<pre><code class="language-crystal"><span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.configure <span class="k">do</span> <span class="o">|</span>config<span class="o">|</span>
+  config.redirect_status <span class="o">=</span> <span class="n">303</span>
+
+  <span class="c"># or using a built-in enum value</span>
+  config.redirect_status <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">SEE_OTHER</span>.value
+<span class="k">end</span></code></pre>
+<p>You can find a list of all possible statuses <a href="https://crystal-lang.org/api/latest/HTTP/Status.html">here</a>.</p>
 <p>Internally, all the different methods in this module eventually use the
 method that takes a <code><a href="../String.html">String</a></code>. However, it's recommended you pass a
 <code><a href="../Lucky/Action.html">Lucky::Action</a></code> class if possible because it guarantees runtime safety.</p>
@@ -942,6 +959,22 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
 
 
 
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">Habitat::SettingsHelpers</li>
+    
+      <li class="other-type">Habitat::TempConfig</li>
+    
+  </ul>
 
 
 
@@ -978,7 +1011,7 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L26" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L37" target="_blank">
         lucky/redirectable.cr
       </a>
     
@@ -987,9 +1020,50 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
 
 
 
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="HABITAT_SETTINGS">
+        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: redirect_status : <span class="t">Int32</span> <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">FOUND</span>.value, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
+      </dt>
+      
+    
+  </dl>
 
 
 
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#configure%28%26%29-class-method" class="signature"><strong>.configure</strong>(&)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#settings-class-method" class="signature"><strong>.settings</strong></a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -1004,14 +1078,14 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3D302%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect</strong>(to route : Lucky::RouteHelper, status = <span class="n">302</span>) : Lucky::TextResponse</a>
+        <a href="#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect</strong>(to route : Lucky::RouteHelper, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : Lucky::TextResponse</a>
         
           <div class="summary"><p>Redirect using a <code><a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a></code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect%28toaction%3ALucky%3A%3AAction.class%2Cstatus%3D302%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect</strong>(to action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>) : Lucky::TextResponse</a>
+        <a href="#redirect%28toaction%3ALucky%3A%3AAction.class%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect</strong>(to action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : Lucky::TextResponse</a>
         
           <div class="summary"><p>Redirect to a <code><a href="../Lucky/Action.html">Lucky::Action</a></code></p></div>
         
@@ -1025,21 +1099,21 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect%28topath%3AString%2Cstatus%3AInt32%3D302%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect</strong>(to path : String, status : Int32 = <span class="n">302</span>) : Lucky::TextResponse</a>
+        <a href="#redirect%28topath%3AString%2Cstatus%3AInt32%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect</strong>(to path : String, status : Int32 = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : Lucky::TextResponse</a>
         
           <div class="summary"><p>Redirect to the given path, with an optional <code><a href="../Int32.html">Int32</a></code> status</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3AAction.class%2Cstatus%3D302%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>) : Lucky::TextResponse</a>
+        <a href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3AAction.class%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external = <span class="n">false</span>) : Lucky::TextResponse</a>
         
           <div class="summary"><p>Redirect back with a <code><a href="../Lucky/Action.html">Lucky::Action</a></code> fallback</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3ARouteHelper%2Cstatus%3D302%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : Lucky::RouteHelper, status = <span class="n">302</span>, allow_external = <span class="n">false</span>) : Lucky::TextResponse</a>
+        <a href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3ARouteHelper%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : Lucky::RouteHelper, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external = <span class="n">false</span>) : Lucky::TextResponse</a>
         
           <div class="summary"><p>Redirect back with a <code><a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a></code> fallback</p></div>
         
@@ -1053,9 +1127,14 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
       </li>
     
       <li class="entry-summary">
-        <a href="#redirect_back%28%2A%2Cfallback%3AString%2Cstatus%3AInt32%3D302%2Callow_external%3ABool%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : String, status : Int32 = <span class="n">302</span>, allow_external : Bool = <span class="n">false</span>) : Lucky::TextResponse</a>
+        <a href="#redirect_back%28%2A%2Cfallback%3AString%2Cstatus%3AInt32%3DLucky%3A%3ARedirectable.settings.redirect_status%2Callow_external%3ABool%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="signature"><strong>#redirect_back</strong>(*, fallback : String, status : Int32 = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external : Bool = <span class="n">false</span>) : Lucky::TextResponse</a>
         
           <div class="summary"><p>Redirects the browser to the page that issued the request (the referrer) if possible, otherwise redirects to the provided default fallback location.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#settings-instance-method" class="signature"><strong>#settings</strong></a>
         
       </li>
     
@@ -1067,10 +1146,72 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
 
 <div class="methods-inherited">
   
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
 </div>
 
 
 
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="configure(&amp;)-class-method">
+      <div class="signature">
+        
+        def self.<strong>configure</strong>(&)
+
+        <a class="method-permalink" href="#configure%28%26%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L38" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="settings-class-method">
+      <div class="signature">
+        
+        def self.<strong>settings</strong>
+
+        <a class="method-permalink" href="#settings-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L38" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
 
 
 
@@ -1083,12 +1224,12 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="redirect(toroute:Lucky::RouteHelper,status=302):Lucky::TextResponse-instance-method">
+    <div class="entry-detail" id="redirect(toroute:Lucky::RouteHelper,status=Lucky::Redirectable.settings.redirect_status):Lucky::TextResponse-instance-method">
       <div class="signature">
         
-        def <strong>redirect</strong>(to route : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, status = <span class="n">302</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+        def <strong>redirect</strong>(to route : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
 
-        <a class="method-permalink" href="#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3D302%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1100,17 +1241,17 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L92" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L127" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect(toaction:Lucky::Action.class,status=302):Lucky::TextResponse-instance-method">
+    <div class="entry-detail" id="redirect(toaction:Lucky::Action.class,status=Lucky::Redirectable.settings.redirect_status):Lucky::TextResponse-instance-method">
       <div class="signature">
         
-        def <strong>redirect</strong>(to action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+        def <strong>redirect</strong>(to action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
 
-        <a class="method-permalink" href="#redirect%28toaction%3ALucky%3A%3AAction.class%2Cstatus%3D302%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#redirect%28toaction%3ALucky%3A%3AAction.class%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1122,7 +1263,7 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L101" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L139" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1138,23 +1279,23 @@ method that takes a <code><a href="../String.html">String</a></code>. However, i
         <div class="doc">
           
           <p>Redirect to the given path, with a human friendly status</p>
-<pre><code class="language-crystal">redirect to: <span class="s">&quot;/users&quot;</span>, status: <span class="n">:moved_permanently</span></code></pre>
+<pre><code class="language-crystal">redirect to: <span class="s">&quot;/users&quot;</span>, status: <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">MOVED_PERMANENTLY</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L110" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L151" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect(topath:String,status:Int32=302):Lucky::TextResponse-instance-method">
+    <div class="entry-detail" id="redirect(topath:String,status:Int32=Lucky::Redirectable.settings.redirect_status):Lucky::TextResponse-instance-method">
       <div class="signature">
         
-        def <strong>redirect</strong>(to path : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> = <span class="n">302</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+        def <strong>redirect</strong>(to path : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
 
-        <a class="method-permalink" href="#redirect%28topath%3AString%2Cstatus%3AInt32%3D302%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#redirect%28topath%3AString%2Cstatus%3AInt32%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1168,17 +1309,17 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L121" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L162" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::Action.class,status=302,allow_external=false):Lucky::TextResponse-instance-method">
+    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::Action.class,status=Lucky::Redirectable.settings.redirect_status,allow_external=false):Lucky::TextResponse-instance-method">
       <div class="signature">
         
-        def <strong>redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+        def <strong>redirect_back</strong>(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external = <span class="n">false</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
 
-        <a class="method-permalink" href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3AAction.class%2Cstatus%3D302%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3AAction.class%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1190,17 +1331,17 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::RouteHelper,status=302,allow_external=false):Lucky::TextResponse-instance-method">
+    <div class="entry-detail" id="redirect_back(*,fallback:Lucky::RouteHelper,status=Lucky::Redirectable.settings.redirect_status,allow_external=false):Lucky::TextResponse-instance-method">
       <div class="signature">
         
-        def <strong>redirect_back</strong>(*, fallback : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+        def <strong>redirect_back</strong>(*, fallback : <a href="../Lucky/RouteHelper.html">Lucky::RouteHelper</a>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external = <span class="n">false</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
 
-        <a class="method-permalink" href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3ARouteHelper%2Cstatus%3D302%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_back%28%2A%2Cfallback%3ALucky%3A%3ARouteHelper%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1212,7 +1353,7 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L41" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L61" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1234,17 +1375,17 @@ redirect to: <span class="s">&quot;/users/1&quot;</span>, status: <span class="n
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L50" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L75" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="redirect_back(*,fallback:String,status:Int32=302,allow_external:Bool=false):Lucky::TextResponse-instance-method">
+    <div class="entry-detail" id="redirect_back(*,fallback:String,status:Int32=Lucky::Redirectable.settings.redirect_status,allow_external:Bool=false):Lucky::TextResponse-instance-method">
       <div class="signature">
         
-        def <strong>redirect_back</strong>(*, fallback : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> = <span class="n">302</span>, allow_external : <a href="../Bool.html">Bool</a> = <span class="n">false</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+        def <strong>redirect_back</strong>(*, fallback : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external : <a href="../Bool.html">Bool</a> = <span class="n">false</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
 
-        <a class="method-permalink" href="#redirect_back%28%2A%2Cfallback%3AString%2Cstatus%3AInt32%3D302%2Callow_external%3ABool%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_back%28%2A%2Cfallback%3AString%2Cstatus%3AInt32%3DLucky%3A%3ARedirectable.settings.redirect_status%2Callow_external%3ABool%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1267,7 +1408,23 @@ They can be explicitly allowed if necessary</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/redirectable.cr#L77" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L107" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="settings-instance-method">
+      <div class="signature">
+        
+        def <strong>settings</strong>
+
+        <a class="method-permalink" href="#settings-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>

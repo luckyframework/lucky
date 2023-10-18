@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::FormData::MultiValueStorage(T) - lucky main</title>
+  <title>Lucky::Redirectable::HabitatSettings - lucky main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -292,12 +292,12 @@
       
     </li>
   
-  <li class="parent open current" data-id="lucky/Lucky/FormData" data-name="lucky::formdata">
+  <li class="parent " data-id="lucky/Lucky/FormData" data-name="lucky::formdata">
       <a href="../../Lucky/FormData.html">FormData</a>
       
         <ul>
   
-  <li class=" current" data-id="lucky/Lucky/FormData/MultiValueStorage" data-name="lucky::formdata::multivaluestorage(t)">
+  <li class=" " data-id="lucky/Lucky/FormData/MultiValueStorage" data-name="lucky::formdata::multivaluestorage(t)">
       <a href="../../Lucky/FormData/MultiValueStorage.html">MultiValueStorage</a>
       
     </li>
@@ -557,12 +557,12 @@
       
     </li>
   
-  <li class="parent " data-id="lucky/Lucky/Redirectable" data-name="lucky::redirectable">
+  <li class="parent open current" data-id="lucky/Lucky/Redirectable" data-name="lucky::redirectable">
       <a href="../../Lucky/Redirectable.html">Redirectable</a>
       
         <ul>
   
-  <li class=" " data-id="lucky/Lucky/Redirectable/HabitatSettings" data-name="lucky::redirectable::habitatsettings">
+  <li class=" current" data-id="lucky/Lucky/Redirectable/HabitatSettings" data-name="lucky::redirectable::habitatsettings">
       <a href="../../Lucky/Redirectable/HabitatSettings.html">HabitatSettings</a>
       
     </li>
@@ -916,44 +916,19 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Lucky::<wbr>FormData::<wbr>MultiValueStorage(T)
+  <span class="kind">class</span> Lucky::<wbr>Redirectable::<wbr>HabitatSettings
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Lucky/FormData/MultiValueStorage.html">Lucky::FormData::MultiValueStorage(T)</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../../Object.html">Object</a></li></ul>
-
-
-
-
-  <h2>
-    <a id="overview" class="anchor" href="#overview">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Overview
-  </h2>
-
-  <p>Simpler, generic implementation of HTTP::Params</p>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Lucky/Redirectable/HabitatSettings.html">Lucky::Redirectable::HabitatSettings</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../../Object.html">Object</a></li></ul>
 
 
 
 
 
-  <h2>
-    <a id="included-modules" class="anchor" href="#included-modules">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Included Modules
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type">Enumerable({<a href="../../String.html">String</a>, T})</li>
-    
-  </ul>
+
+
 
 
 
@@ -974,8 +949,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/form_data.cr#L15" target="_blank">
-        lucky/form_data.cr
+      <a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/redirectable.cr#L38" target="_blank">
+        lucky/redirectable.cr
       </a>
     
     <br/>
@@ -985,76 +960,51 @@
 
 
 
+
+
   <h2>
-    <a id="constructors" class="anchor" href="#constructors">
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Constructors
+    Class Method Summary
   </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
+        <a href="#redirect_status%3AInt32-class-method" class="signature"><strong>.redirect_status</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#redirect_status%3D%28value%3AInt32%29-class-method" class="signature"><strong>.redirect_status=</strong>(value : Int32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#redirect_status%3F-class-method" class="signature"><strong>.redirect_status?</strong></a>
+        
+          <div class="summary"><p>Used for checking missing settings on non-nilable types It's advised to use redirect_status in your apps to ensure the propper type is checked.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_h-class-method" class="signature"><strong>.to_h</strong></a>
+        
+          <div class="summary"><p>Generates a hash using the provided values</p></div>
         
       </li>
     
   </ul>
 
 
-
-
-
-  <h2>
-    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Instance Method Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#%5B%5D%3F%28key%3AString%29%3AT%7CNil-instance-method" class="signature"><strong>#[]?</strong>(key : String) : T | Nil</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#add%28key%3AString%2Cvalue%3AT%29-instance-method" class="signature"><strong>#add</strong>(key : String, value : T)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#each%28%26%29-instance-method" class="signature"><strong>#each</strong>(&)</a>
-        
-          <div class="summary"><p>Must yield this collection's elements to the block.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#fetch_all%28key%3AString%29%3AArray%28T%29-instance-method" class="signature"><strong>#fetch_all</strong>(key : String) : Array(T)</a>
-        
-      </li>
-    
-  </ul>
 
 
 
 
 
 <div class="methods-inherited">
-  
-    
-
-
-    
-
-
-    
-
-
   
     
 
@@ -1093,118 +1043,87 @@
 </div>
 
 
+
+
   <h2>
-    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Constructor Detail
+    Class Method Detail
   </h2>
   
-    <div class="entry-detail" id="new-class-method">
+    <div class="entry-detail" id="redirect_status:Int32-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>
+        def self.<strong>redirect_status</strong> : <a href="../../Int32.html">Int32</a>
 
-        <a class="method-permalink" href="#new-class-method">#</a>
+        <a class="method-permalink" href="#redirect_status%3AInt32-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/form_data.cr#L20" target="_blank">View source</a>]
-        
       </div>
     </div>
   
-
-
-
-
-
-  <h2>
-    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Instance Method Detail
-  </h2>
-  
-    <div class="entry-detail" id="[]?(key:String):T|Nil-instance-method">
+    <div class="entry-detail" id="redirect_status=(value:Int32)-class-method">
       <div class="signature">
         
-        def <strong>[]?</strong>(key : <a href="../../String.html">String</a>) : T | <a href="../../Nil.html">Nil</a>
+        def self.<strong>redirect_status=</strong>(value : <a href="../../Int32.html">Int32</a>)
 
-        <a class="method-permalink" href="#%5B%5D%3F%28key%3AString%29%3AT%7CNil-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_status%3D%28value%3AInt32%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/form_data.cr#L24" target="_blank">View source</a>]
-        
       </div>
     </div>
   
-    <div class="entry-detail" id="add(key:String,value:T)-instance-method">
+    <div class="entry-detail" id="redirect_status?-class-method">
       <div class="signature">
         
-        def <strong>add</strong>(key : <a href="../../String.html">String</a>, value : T)
+        def self.<strong>redirect_status?</strong>
 
-        <a class="method-permalink" href="#add%28key%3AString%2Cvalue%3AT%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/form_data.cr#L32" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="each(&amp;)-instance-method">
-      <div class="signature">
-        
-        def <strong>each</strong>(&)
-
-        <a class="method-permalink" href="#each%28%26%29-instance-method">#</a>
+        <a class="method-permalink" href="#redirect_status%3F-class-method">#</a>
       </div>
       
         <div class="doc">
           
-            <div class="doc-inherited">
-              Description copied from module Enumerable({<a href="../../String.html">String</a>, T})
-            </div>
-          
-          <p>Must yield this collection's elements to the block.</p>
+          <p>Used for checking missing settings on non-nilable types
+It's advised to use redirect_status in your apps to ensure
+the propper type is checked.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/form_data.cr#L37" target="_blank">View source</a>]
-        
       </div>
     </div>
   
-    <div class="entry-detail" id="fetch_all(key:String):Array(T)-instance-method">
+    <div class="entry-detail" id="to_h-class-method">
       <div class="signature">
         
-        def <strong>fetch_all</strong>(key : <a href="../../String.html">String</a>) : Array(T)
+        def self.<strong>to_h</strong>
 
-        <a class="method-permalink" href="#fetch_all%28key%3AString%29%3AArray%28T%29-instance-method">#</a>
+        <a class="method-permalink" href="#to_h-class-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Generates a hash using the provided values</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/form_data.cr#L28" target="_blank">View source</a>]
-        
       </div>
     </div>
   
+
+
 
 
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.8.2">
+<meta name="generator" content="Crystal Docs 1.9.2">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -23,7 +23,7 @@
 
 <svg class="hidden">
   <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
   </symbol>
 </svg>
 <input type="checkbox" id="sidebar-btn">
@@ -557,8 +557,18 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/Redirectable" data-name="lucky::redirectable">
+  <li class="parent " data-id="lucky/Lucky/Redirectable" data-name="lucky::redirectable">
       <a href="../Lucky/Redirectable.html">Redirectable</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/Lucky/Redirectable/HabitatSettings" data-name="lucky::redirectable::habitatsettings">
+      <a href="../Lucky/Redirectable/HabitatSettings.html">HabitatSettings</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -906,7 +916,7 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">abstract class</span> Lucky::ErrorAction
+  <span class="kind">abstract class</span> Lucky::<wbr>ErrorAction
 
 </h1>
 
@@ -961,7 +971,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L3" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L3" target="_blank">
         lucky/error_action.cr
       </a>
     
@@ -1142,16 +1152,55 @@
   <h3>Instance methods inherited from module <code><a href="../Lucky/Redirectable.html">Lucky::Redirectable</a></code></h3>
   
   
-    <a href="../Lucky/Redirectable.html#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3D302%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>redirect(to route : Lucky::RouteHelper, status = <span class="n">302</span>) : Lucky::TextResponse<br/>redirect(to action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>) : Lucky::TextResponse<br/>redirect(to path : String, status : HTTP::Status) : Lucky::TextResponse<br/>redirect(to path : String, status : Int32 = <span class="n">302</span>) : Lucky::TextResponse</span>
+    <a href="../Lucky/Redirectable.html#redirect%28toroute%3ALucky%3A%3ARouteHelper%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>redirect(to route : Lucky::RouteHelper, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : Lucky::TextResponse<br/>redirect(to action : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : Lucky::TextResponse<br/>redirect(to path : String, status : HTTP::Status) : Lucky::TextResponse<br/>redirect(to path : String, status : Int32 = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status) : Lucky::TextResponse</span>
     redirect</a>, 
     
   
-    <a href="../Lucky/Redirectable.html#redirect_back%28%2A%2Cfallback%3ALucky%3A%3AAction.class%2Cstatus%3D302%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
-      <span>redirect_back(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="n">302</span>, allow_external = <span class="n">false</span>) : Lucky::TextResponse<br/>redirect_back(*, fallback : Lucky::RouteHelper, status = <span class="n">302</span>, allow_external = <span class="n">false</span>) : Lucky::TextResponse<br/>redirect_back(*, fallback : String, status : HTTP::Status, allow_external = <span class="n">false</span>) : Lucky::TextResponse<br/>redirect_back(*, fallback : String, status : Int32 = <span class="n">302</span>, allow_external : Bool = <span class="n">false</span>) : Lucky::TextResponse</span>
-    redirect_back</a>
+    <a href="../Lucky/Redirectable.html#redirect_back%28%2A%2Cfallback%3ALucky%3A%3AAction.class%2Cstatus%3DLucky%3A%3ARedirectable.settings.redirect_status%2Callow_external%3Dfalse%29%3ALucky%3A%3ATextResponse-instance-method" class="tooltip">
+      <span>redirect_back(*, fallback : <span class="t">Lucky</span><span class="t">::</span><span class="t">Action</span>.<span class="k">class</span>, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external = <span class="n">false</span>) : Lucky::TextResponse<br/>redirect_back(*, fallback : Lucky::RouteHelper, status = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external = <span class="n">false</span>) : Lucky::TextResponse<br/>redirect_back(*, fallback : String, status : HTTP::Status, allow_external = <span class="n">false</span>) : Lucky::TextResponse<br/>redirect_back(*, fallback : String, status : Int32 = <span class="t">Lucky</span><span class="t">::</span><span class="t">Redirectable</span>.settings.redirect_status, allow_external : Bool = <span class="n">false</span>) : Lucky::TextResponse</span>
+    redirect_back</a>, 
     
   
+    <a href="../Lucky/Redirectable.html#settings-instance-method" class="tooltip">
+      <span>settings</span>
+    settings</a>
+    
+  
+
+
+    
+
+
+    
+
+  <h3>Class methods inherited from module <code><a href="../Lucky/Redirectable.html">Lucky::Redirectable</a></code></h3>
+  
+  
+    <a href="../Lucky/Redirectable.html#configure%28%26%29-class-method" class="tooltip">
+      <span>configure(&)</span>
+    configure</a>, 
+    
+  
+    <a href="../Lucky/Redirectable.html#settings-class-method" class="tooltip">
+      <span>settings</span>
+    settings</a>
+    
+  
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
 
 
     
@@ -1336,7 +1385,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1366,7 +1415,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L16" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L16" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1382,7 +1431,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1426,7 +1475,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1470,7 +1519,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1486,7 +1535,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L81" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1502,7 +1551,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1614,7 +1663,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2c95e349ce3fa857b7bfd3ae612f943873b9af08/src/lucky/error_action.cr#L20" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/dbd2aaf3c0130cea5388d1803688b71fb75a84e9/src/lucky/error_action.cr#L20" target="_blank">View source</a>]
         
       </div>
     </div>
