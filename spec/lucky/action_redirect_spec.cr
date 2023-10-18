@@ -51,6 +51,26 @@ describe Lucky::Action do
     should_redirect(action, to: "/somewhere", status: 301)
   end
 
+  it "redirects with a globally configured custom status" do
+    Lucky::Redirectable.temp_config(redirect_status: 303) do
+      action = RedirectAction.new(build_context, params)
+      action.redirect to: "/somewhere"
+      should_redirect(action, to: "/somewhere", status: 303)
+
+      action = RedirectAction.new(build_context, params)
+      action.redirect to: RedirectAction.route
+      should_redirect(action, to: RedirectAction.path, status: 303)
+
+      action = RedirectAction.new(build_context, params)
+      action.redirect to: RedirectAction
+      should_redirect(action, to: RedirectAction.path, status: 303)
+
+      action = RedirectAction.new(build_context, params)
+      action.redirect to: ActionWithPrefix
+      should_redirect(action, to: "/prefix/redirect_test2", status: 303)
+    end
+  end
+
   describe "#redirect_back" do
     it "redirects to referer if present" do
       request = build_request("POST")
@@ -81,6 +101,23 @@ describe Lucky::Action do
       action = RedirectAction.new(build_context, params)
       action.redirect_back fallback: RedirectAction, status: 301
       should_redirect(action, to: RedirectAction.path, status: 301)
+    end
+
+    it "redirects back with the globally configured status code" do
+      Lucky::Redirectable.temp_config(redirect_status: 303) do
+        request = build_request("POST")
+        action = RedirectAction.new(build_context(request), params)
+        action.redirect_back fallback: "/fallback"
+        should_redirect(action, to: "/fallback", status: 303)
+
+        action = RedirectAction.new(build_context, params)
+        action.redirect_back fallback: RedirectAction.route
+        should_redirect(action, to: RedirectAction.path, status: 303)
+
+        action = RedirectAction.new(build_context, params)
+        action.redirect_back fallback: RedirectAction
+        should_redirect(action, to: RedirectAction.path, status: 303)
+      end
     end
 
     it "redirects to fallback if referer is external" do
