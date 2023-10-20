@@ -1,7 +1,7 @@
 name: lucky
 version: 1.0.0
 
-crystal: ">=1.6.0"
+crystal: ~> 1.6
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -29,39 +29,39 @@ targets:
 dependencies:
   lucky_task:
     github: luckyframework/lucky_task
-    version: ~> 0.3.0
+    version: ">= 0.3, < 0.4"
   habitat:
     github: luckyframework/habitat
-    version: ~> 0.4.7
+    version: ">= 0.4.7, < 0.5"
   wordsmith:
     github: luckyframework/wordsmith
-    version: ~> 0.4.0
+    version: ">= 0.4, < 0.5"
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.5.1
+    version: ">= 0.5.1, < 0.6"
   shell-table:
     github: luckyframework/shell-table.cr
-    version: ~> 0.9.3
+    version: ">= 0.9.3, < 0.10"
   cry:
     github: luckyframework/cry
-    version: ~> 0.4.3
+    version: ">= 0.4.3, < 0.5"
   exception_page:
     github: crystal-loot/exception_page
-    version: ~> 0.3.0
+    version: ">= 0.3, < 0.4"
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.3.4
+    version: ">= 0.3.4, < 0.4"
   pulsar:
     github: luckyframework/pulsar
-    version: ~> 0.2.3
+    version: ">= 0.2.3, < 0.3"
   teeplate:
     github: luckyframework/teeplate
-    version: ~> 0.8.5
+    version: ">= 0.8.5, < 0.9"
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.5.0
+    version: ~> 1.5
 
 scripts:
   postinstall: BUILD_WITHOUT_DEVELOPMENT=true script/precompile_tasks
