@@ -1,3 +1,70 @@
+## Upgrading from 1.0.0 to 1.1.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0&to1.1.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.1.0`
+  - Avram should be `~> 1.1.0`
+  - Authentic should be `~> 1.1.0`
+  - Carbon should be `~> 0.4.0`
+  - LuckyTask should be `~> 0.3.0`
+  - LuckyFlow should be `~> 0.9.2`
+  - LuckySecTester should be `~> 0.3.2`
+
+
+- Run `shards update`
+
+### General updates
+
+- Add: `Avram.initialize_logging` to your `config/log.cr` file near the bottom. [See PR](https://github.com/luckyframework/avram/pull/967)
+- Update: all LuckyTask tasks. [See PR](https://github.com/luckyframework/lucky_task/pull/25)
+```crystal
+# All help_message instance methods are macro calls
+def help_message
+  "my help message"
+end
+
+# is now
+help_message "my help message"
+
+# Calls to `name`, `summary`, or `help_message` from your task `call` method are now classes.
+def call
+  # `name` is now
+  self.class.task_name
+  # `summary` is now
+  self.class.task_summary
+  # `help_message` is now
+  self.class.task_help_message
+end
+```
+
+### Optional update
+
+- Add: `allow_blank: true` on String columns you want to allow empty strings to be saved. [See PR](https://github.com/luckyframework/avram/pull/956)
+```crystal
+class Post < BaseModel
+  table do
+    column title : String
+
+    # Field is required, but storing "" is ok
+    column sub_title : String, allow_blank: true
+  end
+end
+```
+
 ## Upgrading from 1.0.0-rc1 to 1.0.0
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0-rc1&to1.0.0).
