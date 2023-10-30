@@ -15,6 +15,7 @@
 - Updated: generated apps `docker-compose.yml`. [#799 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/799)
 - Refactor: LuckyCLI app generation no longer ueses the `crystal init app` command. [#800 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/800)
 - Added: initial work on getting the LuckyCLI to work on Windows. [#804 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/804)
+- Refactor: pg client tools are no longer a requirement for Avram. [#942 in Avram](https://github.com/luckyframework/avram/pull/942)
 - Fixed: queries not logging when turning up logger level. [#945 in Avram](https://github.com/luckyframework/avram/pull/945)
 - Fixed: error message when using `validate_numeric` and passing a float. [#948 in Avram](https://github.com/luckyframework/avram/pull/948)
 - Added: JSON serialized Array columns. [#949 in Avram](https://github.com/luckyframework/avram/pull/949)
