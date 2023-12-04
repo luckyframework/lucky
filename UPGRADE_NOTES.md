@@ -18,7 +18,7 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Lucky should be `~> 1.1.0`
   - Avram should be `~> 1.1.0`
-  - Authentic should be `~> 1.1.0`
+  - Authentic should be `~> 1.0.0`
   - Carbon should be `~> 0.4.0`
   - LuckyTask should be `~> 0.3.0`
   - LuckyFlow should be `~> 0.9.2`
