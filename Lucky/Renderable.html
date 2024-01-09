@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="generator" content="Crystal Docs 1.10.1">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -963,7 +963,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L1" target="_blank">
         lucky/renderable.cr
       </a>
     
@@ -975,6 +975,41 @@
 
 
 
+
+
+
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#disable_cookies-macro" class="signature"><strong>disable_cookies</strong></a>
+        
+          <div class="summary"><p>Disable cookies</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#html%28page_class%3Dnil%2C_with_status_code%3D200%2C%2A%2Aassigns%29-macro" class="signature"><strong>html</strong>(page_class = <span class="n">nil</span>, _with_status_code = <span class="n">200</span>, **assigns)</a>
+        
+          <div class="summary"><p>Render a page and pass it data</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#html_with_status%28page_class%2Cstatus%2C%2A%2Aassigns%29-macro" class="signature"><strong>html_with_status</strong>(page_class, status, **assigns)</a>
+        
+          <div class="summary"><p>Render an HTMLPage with a status other than 200</p></div>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -1104,412 +1139,12 @@
 
 
 
-  <h2>
-    <a id="macro-summary" class="anchor" href="#macro-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Macro Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#disable_cookies-macro" class="signature"><strong>disable_cookies</strong></a>
-        
-          <div class="summary"><p>Disable cookies</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#html%28page_class%3Dnil%2C_with_status_code%3D200%2C%2A%2Aassigns%29-macro" class="signature"><strong>html</strong>(page_class = <span class="n">nil</span>, _with_status_code = <span class="n">200</span>, **assigns)</a>
-        
-          <div class="summary"><p>Render a page and pass it data</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#html_with_status%28page_class%2Cstatus%2C%2A%2Aassigns%29-macro" class="signature"><strong>html_with_status</strong>(page_class, status, **assigns)</a>
-        
-          <div class="summary"><p>Render an HTMLPage with a status other than 200</p></div>
-        
-      </li>
-    
-  </ul>
-
-
-
 <div class="methods-inherited">
   
 </div>
 
 
 
-
-
-
-  <h2>
-    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Instance Method Detail
-  </h2>
-  
-    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:Int32|Nil=nil,**named_args):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#component%28comp%3ALucky%3A%3ABaseComponent.class%2Cstatus%3AInt32%7CNil%3Dnil%2C%2A%2Anamed_args%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Render a Component as an HTML response.</p>
-<pre><code class="language-crystal">get <span class="s">&quot;/foo&quot;</span> <span class="k">do</span>
-  component <span class="t">MyComponent</span>, <span class="k">with</span>: <span class="n">:args</span>
-<span class="k">end</span></code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L326" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#component%28comp%3ALucky%3A%3ABaseComponent.class%2Cstatus%3AHTTP%3A%3AStatus%2C%2A%2Anamed_args%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L334" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="data(data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String|Nil=nil,status:Int32|Nil=nil):Lucky::DataResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>data</strong>(data : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>) : <a href="../Lucky/DataResponse.html">Lucky::DataResponse</a>
-
-        <a class="method-permalink" href="#data%28data%3AString%2Ccontent_type%3AString%3D%22application/octet-stream%22%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3ADataResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L239" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="file(path:String,content_type:String|Nil=nil,disposition:String=&quot;attachment&quot;,filename:String|Nil=nil,status:Int32|Nil=nil):Lucky::FileResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>file</strong>(path : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>) : <a href="../Lucky/FileResponse.html">Lucky::FileResponse</a>
-
-        <a class="method-permalink" href="#file%28path%3AString%2Ccontent_type%3AString%7CNil%3Dnil%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3AFileResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L219" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="file(path:String,content_type:String|Nil=nil,disposition:String=&quot;attachment&quot;,filename:String|Nil=nil,status:HTTP::Status=HTTP::Status::OK):Lucky::FileResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>file</strong>(path : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, status : HTTP::Status = <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">OK</span>) : <a href="../Lucky/FileResponse.html">Lucky::FileResponse</a>
-
-        <a class="method-permalink" href="#file%28path%3AString%2Ccontent_type%3AString%7CNil%3Dnil%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AHTTP%3A%3AStatus%3DHTTP%3A%3AStatus%3A%3AOK%29%3ALucky%3A%3AFileResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L229" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="head(status:Int32):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>head</strong>(status : <a href="../Int32.html">Int32</a>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#head%28status%3AInt32%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L271" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="head(status:HTTP::Status):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>head</strong>(status : HTTP::Status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#head%28status%3AHTTP%3A%3AStatus%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L275" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="html_content_type-instance-method">
-      <div class="signature">
-        
-        def <strong>html_content_type</strong>
-
-        <a class="method-permalink" href="#html_content_type-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>The default global content-type header for HTML</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L200" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="json(body,status:Int32|Nil=nil,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>json</strong>(body, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#json%28body%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L303" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="json(body,status:HTTP::Status,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>json</strong>(body, status : HTTP::Status, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#json%28body%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L307" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="json_content_type-instance-method">
-      <div class="signature">
-        
-        def <strong>json_content_type</strong>
-
-        <a class="method-permalink" href="#json_content_type-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>The default global content-type header for JSON</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L205" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plain_content_type-instance-method">
-      <div class="signature">
-        
-        def <strong>plain_content_type</strong>
-
-        <a class="method-permalink" href="#plain_content_type-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>The default global content-type header for Plain text</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L215" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plain_text(body:String,status:Int32|Nil=nil,content_type:String=plain_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>plain_text</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = plain_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#plain_text%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Dplain_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L263" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plain_text(body:String,status:HTTP::Status,content_type:String=plain_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>plain_text</strong>(body : <a href="../String.html">String</a>, status : HTTP::Status, content_type : <a href="../String.html">String</a> = plain_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#plain_text%28body%3AString%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Dplain_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L267" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="raw_json(body:String,status:Int32|Nil=nil,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>raw_json</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#raw_json%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>allows json-compatible string to be returned directly</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L280" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="raw_json(body:String,status:HTTP::Status,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>raw_json</strong>(body : <a href="../String.html">String</a>, status : HTTP::Status, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#raw_json%28body%3AString%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L284" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="send_text_response(body:String,content_type:String,status:Int32|Nil=nil):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>send_text_response</strong>(body : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#send_text_response%28body%3AString%2Ccontent_type%3AString%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L249" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="xml(body:String,status:Int32|Nil=nil,content_type:String=xml_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>xml</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = xml_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#xml%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Dxml_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L311" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="xml(body,status:HTTP::Status,content_type:String=xml_content_type):Lucky::TextResponse-instance-method">
-      <div class="signature">
-        
-        def <strong>xml</strong>(body, status : HTTP::Status, content_type : <a href="../String.html">String</a> = xml_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
-
-        <a class="method-permalink" href="#xml%28body%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Dxml_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L315" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="xml_content_type-instance-method">
-      <div class="signature">
-        
-        def <strong>xml_content_type</strong>
-
-        <a class="method-permalink" href="#xml_content_type-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>The default global content-type header for XML</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L210" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
 
 
 
@@ -1547,7 +1182,7 @@ the response.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L114" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L114" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1599,7 +1234,7 @@ we have a page like this:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1629,7 +1264,372 @@ enum for more available http status codes.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/renderable.cr#L89" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L89" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:Int32|Nil=nil,**named_args):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#component%28comp%3ALucky%3A%3ABaseComponent.class%2Cstatus%3AInt32%7CNil%3Dnil%2C%2A%2Anamed_args%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Render a Component as an HTML response.</p>
+<pre><code class="language-crystal">get <span class="s">&quot;/foo&quot;</span> <span class="k">do</span>
+  component <span class="t">MyComponent</span>, <span class="k">with</span>: <span class="n">:args</span>
+<span class="k">end</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L326" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="component(comp:Lucky::BaseComponent.class,status:HTTP::Status,**named_args):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>component</strong>(comp : <span class="t">Lucky</span><span class="t">::</span><span class="t">BaseComponent</span>.<span class="k">class</span>, status : HTTP::Status, **named_args) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#component%28comp%3ALucky%3A%3ABaseComponent.class%2Cstatus%3AHTTP%3A%3AStatus%2C%2A%2Anamed_args%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L334" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="data(data:String,content_type:String=&quot;application/octet-stream&quot;,disposition:String=&quot;attachment&quot;,filename:String|Nil=nil,status:Int32|Nil=nil):Lucky::DataResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>data</strong>(data : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> = <span class="s">&quot;application/octet-stream&quot;</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>) : <a href="../Lucky/DataResponse.html">Lucky::DataResponse</a>
+
+        <a class="method-permalink" href="#data%28data%3AString%2Ccontent_type%3AString%3D%22application/octet-stream%22%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3ADataResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L239" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="file(path:String,content_type:String|Nil=nil,disposition:String=&quot;attachment&quot;,filename:String|Nil=nil,status:Int32|Nil=nil):Lucky::FileResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>file</strong>(path : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>) : <a href="../Lucky/FileResponse.html">Lucky::FileResponse</a>
+
+        <a class="method-permalink" href="#file%28path%3AString%2Ccontent_type%3AString%7CNil%3Dnil%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3AFileResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L219" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="file(path:String,content_type:String|Nil=nil,disposition:String=&quot;attachment&quot;,filename:String|Nil=nil,status:HTTP::Status=HTTP::Status::OK):Lucky::FileResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>file</strong>(path : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, disposition : <a href="../String.html">String</a> = <span class="s">&quot;attachment&quot;</span>, filename : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, status : HTTP::Status = <span class="t">HTTP</span><span class="t">::</span><span class="t">Status</span><span class="t">::</span><span class="t">OK</span>) : <a href="../Lucky/FileResponse.html">Lucky::FileResponse</a>
+
+        <a class="method-permalink" href="#file%28path%3AString%2Ccontent_type%3AString%7CNil%3Dnil%2Cdisposition%3AString%3D%22attachment%22%2Cfilename%3AString%7CNil%3Dnil%2Cstatus%3AHTTP%3A%3AStatus%3DHTTP%3A%3AStatus%3A%3AOK%29%3ALucky%3A%3AFileResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L229" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="head(status:Int32):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>head</strong>(status : <a href="../Int32.html">Int32</a>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#head%28status%3AInt32%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L271" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="head(status:HTTP::Status):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>head</strong>(status : HTTP::Status) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#head%28status%3AHTTP%3A%3AStatus%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L275" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="html_content_type-instance-method">
+      <div class="signature">
+        
+        def <strong>html_content_type</strong>
+
+        <a class="method-permalink" href="#html_content_type-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The default global content-type header for HTML</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L200" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="json(body,status:Int32|Nil=nil,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>json</strong>(body, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#json%28body%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L303" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="json(body,status:HTTP::Status,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>json</strong>(body, status : HTTP::Status, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#json%28body%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L307" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="json_content_type-instance-method">
+      <div class="signature">
+        
+        def <strong>json_content_type</strong>
+
+        <a class="method-permalink" href="#json_content_type-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The default global content-type header for JSON</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L205" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plain_content_type-instance-method">
+      <div class="signature">
+        
+        def <strong>plain_content_type</strong>
+
+        <a class="method-permalink" href="#plain_content_type-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The default global content-type header for Plain text</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L215" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plain_text(body:String,status:Int32|Nil=nil,content_type:String=plain_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>plain_text</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = plain_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#plain_text%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Dplain_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L263" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plain_text(body:String,status:HTTP::Status,content_type:String=plain_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>plain_text</strong>(body : <a href="../String.html">String</a>, status : HTTP::Status, content_type : <a href="../String.html">String</a> = plain_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#plain_text%28body%3AString%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Dplain_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L267" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="raw_json(body:String,status:Int32|Nil=nil,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>raw_json</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#raw_json%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>allows json-compatible string to be returned directly</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L280" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="raw_json(body:String,status:HTTP::Status,content_type:String=json_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>raw_json</strong>(body : <a href="../String.html">String</a>, status : HTTP::Status, content_type : <a href="../String.html">String</a> = json_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#raw_json%28body%3AString%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Djson_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L284" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="send_text_response(body:String,content_type:String,status:Int32|Nil=nil):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>send_text_response</strong>(body : <a href="../String.html">String</a>, content_type : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#send_text_response%28body%3AString%2Ccontent_type%3AString%2Cstatus%3AInt32%7CNil%3Dnil%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L249" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="xml(body:String,status:Int32|Nil=nil,content_type:String=xml_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>xml</strong>(body : <a href="../String.html">String</a>, status : <a href="../Int32.html">Int32</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>, content_type : <a href="../String.html">String</a> = xml_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#xml%28body%3AString%2Cstatus%3AInt32%7CNil%3Dnil%2Ccontent_type%3AString%3Dxml_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L311" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="xml(body,status:HTTP::Status,content_type:String=xml_content_type):Lucky::TextResponse-instance-method">
+      <div class="signature">
+        
+        def <strong>xml</strong>(body, status : HTTP::Status, content_type : <a href="../String.html">String</a> = xml_content_type) : <a href="../Lucky/TextResponse.html">Lucky::TextResponse</a>
+
+        <a class="method-permalink" href="#xml%28body%2Cstatus%3AHTTP%3A%3AStatus%2Ccontent_type%3AString%3Dxml_content_type%29%3ALucky%3A%3ATextResponse-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L315" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="xml_content_type-instance-method">
+      <div class="signature">
+        
+        def <strong>xml_content_type</strong>
+
+        <a class="method-permalink" href="#xml_content_type-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The default global content-type header for XML</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/renderable.cr#L210" target="_blank">View source</a>]
         
       </div>
     </div>

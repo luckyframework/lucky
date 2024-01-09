@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="generator" content="Crystal Docs 1.10.1">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -975,7 +975,7 @@ and allow for setting a CDN.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/asset_helpers.cr#L7" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/asset_helpers.cr#L7" target="_blank">
         lucky/asset_helpers.cr
       </a>
     
@@ -1015,27 +1015,6 @@ and allow for setting a CDN.</p>
 
 
   <h2>
-    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Instance Method Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#dynamic_asset%28path%29%3AString-instance-method" class="signature"><strong>#dynamic_asset</strong>(path) : String</a>
-        
-          <div class="summary"><p>Return the string path to an asset (allows string interpolation)</p></div>
-        
-      </li>
-    
-  </ul>
-
-
-
-  <h2>
     <a id="macro-summary" class="anchor" href="#macro-summary">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -1068,54 +1047,33 @@ and allow for setting a CDN.</p>
 
 
 
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#dynamic_asset%28path%29%3AString-instance-method" class="signature"><strong>#dynamic_asset</strong>(path) : String</a>
+        
+          <div class="summary"><p>Return the string path to an asset (allows string interpolation)</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
 <div class="methods-inherited">
   
 </div>
 
 
 
-
-
-
-  <h2>
-    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Instance Method Detail
-  </h2>
-  
-    <div class="entry-detail" id="dynamic_asset(path):String-instance-method">
-      <div class="signature">
-        
-        def <strong>dynamic_asset</strong>(path) : <a href="../String.html">String</a>
-
-        <a class="method-permalink" href="#dynamic_asset%28path%29%3AString-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Return the string path to an asset (allows string interpolation)</p>
-<pre><code class="language-crystal"><span class="c"># In a page or component</span>
-<span class="c"># Will find the asset in `public/assets/images/logo.png`</span>
-img src: asset(<span class="s">&quot;images/logo.png&quot;</span>)
-
-<span class="c"># Can also be used elsewhere by prepending Lucky::AssetHelpers</span>
-<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.asset(<span class="s">&quot;images/logo.png&quot;</span>)</code></pre>
-<p><span class="flag purple">NOTE</span>  This method does <em>not</em> check assets at compile time. The asset path
-is found at runtime so it is possible the asset does not exist. Be sure to
-manually test that the asset is returned as expected.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/asset_helpers.cr#L93" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
 
 
 
@@ -1156,7 +1114,7 @@ instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset%28path%29%3A
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/asset_helpers.cr#L41" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/asset_helpers.cr#L41" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1172,7 +1130,7 @@ instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset%28path%29%3A
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/asset_helpers.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/asset_helpers.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1194,7 +1152,49 @@ vite integration with Lucky</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/asset_helpers.cr#L18" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/asset_helpers.cr#L18" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="dynamic_asset(path):String-instance-method">
+      <div class="signature">
+        
+        def <strong>dynamic_asset</strong>(path) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#dynamic_asset%28path%29%3AString-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return the string path to an asset (allows string interpolation)</p>
+<pre><code class="language-crystal"><span class="c"># In a page or component</span>
+<span class="c"># Will find the asset in `public/assets/images/logo.png`</span>
+img src: asset(<span class="s">&quot;images/logo.png&quot;</span>)
+
+<span class="c"># Can also be used elsewhere by prepending Lucky::AssetHelpers</span>
+<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.asset(<span class="s">&quot;images/logo.png&quot;</span>)</code></pre>
+<p><span class="flag purple">NOTE</span>  This method does <em>not</em> check assets at compile time. The asset path
+is found at runtime so it is possible the asset does not exist. Be sure to
+manually test that the asset is returned as expected.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/asset_helpers.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>

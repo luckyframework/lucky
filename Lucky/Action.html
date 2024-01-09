@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="generator" content="Crystal Docs 1.10.1">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -979,7 +979,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/action.cr#L3" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/action.cr#L3" target="_blank">
         lucky/action.cr
       </a>
     
@@ -1077,6 +1077,8 @@
 
 
 
+
+
   <h2>
     <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -1156,8 +1158,6 @@
 
 
 
-
-
 <div class="methods-inherited">
   
     
@@ -1176,6 +1176,18 @@
 
 
     
+
+
+    
+
+  <h3>Macros inherited from module <code><a href="../Lucky/VerifyAcceptsFormat.html">Lucky::VerifyAcceptsFormat</a></code></h3>
+  
+  
+    <a href="../Lucky/VerifyAcceptsFormat.html#accepted_formats%28formats%29-macro" class="tooltip">
+      <span>accepted_formats(formats)<br/>accepted_formats(formats, default)</span>
+    accepted_formats</a>
+    
+  
 
 
   
@@ -1221,17 +1233,26 @@
   
 
 
-  
-    
-
-
-    
-
-
     
 
 
   
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
     
 
 
@@ -1260,6 +1281,28 @@
     
 
 
+    
+
+  <h3>Macros inherited from module <code><a href="../Lucky/ActionPipes.html">Lucky::ActionPipes</a></code></h3>
+  
+  
+    <a href="../Lucky/ActionPipes.html#after%28method_name%29-macro" class="tooltip">
+      <span>after(method_name)</span>
+    after</a>, 
+    
+  
+    <a href="../Lucky/ActionPipes.html#before%28method_name%29-macro" class="tooltip">
+      <span>before(method_name)</span>
+    before</a>, 
+    
+  
+    <a href="../Lucky/ActionPipes.html#skip%28%2Apipes%29-macro" class="tooltip">
+      <span>skip(*pipes)</span>
+    skip</a>
+    
+  
+
+
   
     
 
@@ -1281,6 +1324,9 @@
     params__uncached</a>
     
   
+
+
+    
 
 
     
@@ -1368,6 +1414,28 @@
     
 
 
+    
+
+  <h3>Macros inherited from module <code><a href="../Lucky/Renderable.html">Lucky::Renderable</a></code></h3>
+  
+  
+    <a href="../Lucky/Renderable.html#disable_cookies-macro" class="tooltip">
+      <span>disable_cookies</span>
+    disable_cookies</a>, 
+    
+  
+    <a href="../Lucky/Renderable.html#html%28page_class%3Dnil%2C_with_status_code%3D200%2C%2A%2Aassigns%29-macro" class="tooltip">
+      <span>html(page_class = <span class="n">nil</span>, _with_status_code = <span class="n">200</span>, **assigns)</span>
+    html</a>, 
+    
+  
+    <a href="../Lucky/Renderable.html#html_with_status%28page_class%2Cstatus%2C%2A%2Aassigns%29-macro" class="tooltip">
+      <span>html_with_status(page_class, status, **assigns)</span>
+    html_with_status</a>
+    
+  
+
+
   
     
 
@@ -1378,6 +1446,73 @@
     
 
 
+    
+
+  <h3>Macros inherited from module <code><a href="../Lucky/Routable.html">Lucky::Routable</a></code></h3>
+  
+  
+    <a href="../Lucky/Routable.html#delete%28path%29-macro" class="tooltip">
+      <span>delete(path)</span>
+    delete</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#enforce_route_style%28path%2Caction%29-macro" class="tooltip">
+      <span>enforce_route_style(path, action)</span>
+    enforce_route_style</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#fallback-macro" class="tooltip">
+      <span>fallback</span>
+    fallback</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#get%28path%29-macro" class="tooltip">
+      <span>get(path)</span>
+    get</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#inherit_route_settings-macro" class="tooltip">
+      <span>inherit_route_settings</span>
+    inherit_route_settings</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#match%28method%2Cpath%29-macro" class="tooltip">
+      <span>match(method, path)</span>
+    match</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#param%28type_declaration%29-macro" class="tooltip">
+      <span>param(type_declaration)</span>
+    param</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#patch%28path%29-macro" class="tooltip">
+      <span>patch(path)</span>
+    patch</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#post%28path%29-macro" class="tooltip">
+      <span>post(path)</span>
+    post</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#put%28path%29-macro" class="tooltip">
+      <span>put(path)</span>
+    put</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#route_prefix%28prefix%29-macro" class="tooltip">
+      <span>route_prefix(prefix)</span>
+    route_prefix</a>, 
+    
+  
+    <a href="../Lucky/Routable.html#trace%28path%29-macro" class="tooltip">
+      <span>trace(path)</span>
+    trace</a>
+    
+  
+
+
   
     
 
@@ -1386,6 +1521,18 @@
 
 
     
+
+
+    
+
+  <h3>Macros inherited from module <code><a href="../Lucky/Exposable.html">Lucky::Exposable</a></code></h3>
+  
+  
+    <a href="../Lucky/Exposable.html#expose%28method_name%29-macro" class="tooltip">
+      <span>expose(method_name)</span>
+    expose</a>
+    
+  
 
 
   
@@ -1437,6 +1584,18 @@
     
 
 
+    
+
+  <h3>Macros inherited from module <code><a href="../Lucky/RequestTypeHelpers.html">Lucky::RequestTypeHelpers</a></code></h3>
+  
+  
+    <a href="../Lucky/RequestTypeHelpers.html#default_format%28format%29-macro" class="tooltip">
+      <span>default_format(format)</span>
+    default_format</a>
+    
+  
+
+
   
     
 
@@ -1447,7 +1606,13 @@
     
 
 
+    
+
+
   
+    
+
+
     
 
 
@@ -1481,6 +1646,9 @@
     
 
 
+    
+
+
   
 </div>
 
@@ -1505,7 +1673,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/action.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/action.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1533,7 +1701,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/action.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/action.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1552,6 +1720,8 @@
       </div>
     </div>
   
+
+
 
 
 
@@ -1575,7 +1745,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/action.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/action.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1591,7 +1761,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/action.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/action.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1719,7 +1889,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/62b60471ac860556a5fcafda56c7bf589c6c4df6/src/lucky/action.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/3de0f33544ea99f4e67a874badc345b3b2a08fc0/src/lucky/action.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1752,8 +1922,6 @@
       </div>
     </div>
   
-
-
 
 
 </div>
