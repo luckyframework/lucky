@@ -1,0 +1,4 @@
+dependencies:
+  avram:
+    github: luckyframework/avram
+    branch: master
