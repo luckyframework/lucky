@@ -282,29 +282,37 @@ module Lucky::Routable
     {% end %}
     anchor : String? = nil
     ) : Lucky::RouteHelper
-      path = path_from_parts(
-        {% for param in path_params %}
-          {{ param.gsub(/:/, "").id }},
+      path = String.build do |io|
+        path_from_parts(
+          io,
+          {% for param in path_params %}
+            {{ param.gsub(/:/, "").id }},
+          {% end %}
+          {% for param in optional_path_params %}
+            {{ param.gsub(/^\?:/, "").id }},
+          {% end %}
+        )
+        query_params = {} of String => String
+        {% for param in PARAM_DECLARATIONS %}
+          # add query param if given and not nil
+          query_params["{{ param.var }}"] = {{ param.var }}.to_s unless {{ param.var }}.nil?
         {% end %}
-        {% for param in optional_path_params %}
-          {{ param.gsub(/^\?:/, "").id }},
-        {% end %}
-      )
-      query_params = {} of String => String
-      {% for param in PARAM_DECLARATIONS %}
-        # add query param if given and not nil
-        query_params["{{ param.var }}"] = {{ param.var }}.to_s unless {{ param.var }}.nil?
-      {% end %}
-      unless query_params.empty?
-        path += "?#{HTTP::Params.encode(query_params)}"
+        unless query_params.empty?
+          io << '?'
+          {% if compare_versions(Crystal::VERSION, "1.10.0") < 0 %}
+            io << HTTP::Params.encode(query_params)
+          {% else %}
+            HTTP::Params.encode(io, query_params)
+          {% end %}
+        end
+
+        anchor.try do |value|
+          io << '#'
+          URI.encode_www_form(value, io)
+        end
       end
 
-      anchor.try do |value|
-        path += "#"
-        path += URI.encode_www_form(value)
-      end
-
-      Lucky::RouteHelper.new {{ method }}, path
+      Lucky::RouteHelper.new({{ method }}, path.presence || "/")
     end
 
     def self.with(
@@ -339,6 +347,31 @@ module Lucky::Routable
     end
 
     private def self.path_from_parts(
+      io : IO,
+      {% for param in path_params %}
+        {{ param.gsub(/:/, "").id }},
+      {% end %}
+      {% for param in optional_path_params %}
+        {{ param.gsub(/^\?:/, "").id }},
+      {% end %}
+    ) : Nil
+      {% for part in path_parts %}
+        {% if part.starts_with?("?:") %}
+          if {{ part.gsub(/^\?:/, "").id }}
+            io << '/'
+            URI.encode_www_form({{ part.gsub(/^\?:/, "").id }}.to_param, io)
+          end
+        {% elsif part.starts_with?(':') %}
+          io << '/'
+          URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param, io)
+        {% else %}
+          io << '/'
+          URI.encode_www_form({{ part }}, io)
+        {% end %}
+      {% end %}
+    end
+
+    private def self.path_from_parts(
         {% for param in path_params %}
           {{ param.gsub(/:/, "").id }},
         {% end %}
@@ -346,21 +379,16 @@ module Lucky::Routable
           {{ param.gsub(/^\?:/, "").id }},
         {% end %}
     ) : String
-      path = String.build do |path|
-        {% for part in path_parts %}
-          {% if part.starts_with?("?:") %}
-            if {{ part.gsub(/^\?:/, "").id }}
-              path << '/'
-              URI.encode_www_form({{ part.gsub(/^\?:/, "").id }}.to_param, path)
-            end
-          {% elsif part.starts_with?(':') %}
-            path << '/'
-            URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param, path)
-          {% else %}
-            path << '/'
-            URI.encode_www_form({{ part }}, path)
+      path = String.build do |io|
+        path_from_parts(
+          io,
+          {% for param in path_params %}
+            {{ param.gsub(/:/, "").id }},
           {% end %}
-        {% end %}
+          {% for param in optional_path_params %}
+            {{ param.gsub(/^\?:/, "").id }},
+          {% end %}
+        )
       end
 
       path.presence || "/"
