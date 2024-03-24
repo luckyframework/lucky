@@ -3,7 +3,9 @@ require "lucky_task"
 class Gen::SecretKey < LuckyTask::Task
   summary "Generate a new secret key"
 
-  def call(io : IO = STDOUT)
-    io.puts Random::Secure.base64(32)
+  int32 :number, "n random bytes used to encode into base64.", shortcut: "-n", default: 32
+
+  def call
+    output.puts Random::Secure.base64(number)
   end
 end
