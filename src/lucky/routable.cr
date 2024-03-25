@@ -87,6 +87,12 @@ module Lucky::Routable
 
   # :nodoc:
   macro setup_call_method(body)
+    # Return a response with `html`, `redirect`, or `json` at the end of your action.
+    # Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
+    private def action_call_body : Lucky::Response
+      {{ body }}
+    end
+
     def call
       # Ensure clients_desired_format is cached by calling it
       clients_desired_format
@@ -96,7 +102,7 @@ module Lucky::Routable
       %response = if %pipe_result.is_a?(Lucky::Response)
         %pipe_result
       else
-        {{ body }}
+        action_call_body
       end
 
       %pipe_result = run_after_pipes
