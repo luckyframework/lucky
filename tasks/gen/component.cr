@@ -1,15 +1,25 @@
 require "lucky_task"
-require "teeplate"
+require "lucky_template"
 require "colorize"
-require "file_utils"
 
-class Lucky::ComponentTemplate < Teeplate::FileTree
+class Lucky::ComponentTemplate
   @filename : String
   @class : String
+  @output_path : Path
 
-  directory "#{__DIR__}/templates/component"
+  def initialize(@filename, @class, @output_path)
+  end
 
-  def initialize(@filename, @class)
+  def render(path : Path)
+    LuckyTemplate.write!(path, template_folder)
+  end
+
+  def template_folder
+    LuckyTemplate.create_folder do |root_dir|
+      root_dir.add_file(Path["#{@output_path}/#{@filename}.cr"]) do |io|
+        ECR.embed("#{__DIR__}/templates/component/component.cr.ecr", io)
+      end
+    end
   end
 end
 
@@ -23,12 +33,12 @@ class Gen::Component < LuckyTask::Task
     lucky gen.component SettingsMenu
   TEXT
 
-  def call(io : IO = STDOUT)
+  def call
     if error
-      io.puts error.colorize(:red)
+      output.puts error.colorize(:red)
     else
-      Lucky::ComponentTemplate.new(component_filename, component_class).render(output_path)
-      io.puts success_message
+      Lucky::ComponentTemplate.new(component_filename, component_class, output_path).render(output_path)
+      output.puts success_message
     end
   end
 
@@ -59,7 +69,7 @@ class Gen::Component < LuckyTask::Task
   private def output_path
     parts = component_class.split("::")
     parts.pop
-    "./src/components/#{parts.map(&.underscore).map(&.downcase).join("/")}"
+    Path["./src/components/#{parts.map(&.underscore.downcase).join('/')}"]
   end
 
   private def output_path_with_filename

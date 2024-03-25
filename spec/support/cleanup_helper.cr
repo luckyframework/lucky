@@ -1,3 +1,5 @@
+require "file_utils"
+
 module CleanupHelper
   private def cleanup
     FileUtils.rm_rf("./tmp")
