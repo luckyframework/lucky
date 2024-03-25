@@ -1,16 +1,25 @@
 require "lucky_task"
-require "teeplate"
+require "lucky_template"
 require "colorize"
-require "file_utils"
 
-class Lucky::TaskTemplate < Teeplate::FileTree
-  directory "#{__DIR__}/templates/task"
-
+class Lucky::TaskTemplate
   def initialize(
     @task_filename : String,
     @task_name : String,
     @summary : String
   )
+  end
+
+  def render(path : Path)
+    LuckyTemplate.write!(path, template_folder)
+  end
+
+  def template_folder
+    LuckyTemplate.create_folder do |root_dir|
+      root_dir.add_file(Path["tasks/#{@task_filename}.cr"]) do |io|
+        ECR.embed("#{__DIR__}/templates/task/task.cr.ecr", io)
+      end
+    end
   end
 end
 
@@ -37,7 +46,7 @@ class Gen::Task < LuckyTask::Task
     else
       Lucky::TaskTemplate
         .new(task_filename, rendered_task_name, rendered_summary)
-        .render(output_path.to_s)
+        .render(output_path)
 
       output.puts <<-TEXT
       Generated #{output_path.join(task_filename).colorize.green}
