@@ -1,9 +1,9 @@
 require "lucky_task"
-require "option_parser"
 require "colorize"
 require "yaml"
 require "http"
 require "../src/lucky/server_settings"
+require "../src/lucky/page_helpers/time_helpers"
 
 # Based on the sentry shard with some modifications to output and build process.
 module LuckySentry
@@ -142,6 +142,7 @@ module LuckySentry
 
   class ProcessRunner
     include LuckyTask::TextHelpers
+    include Lucky::TimeHelpers
 
     getter build_processes = [] of Process
     getter app_processes = [] of Process
@@ -152,8 +153,10 @@ module LuckySentry
 
     @app_built : Bool = false
     @successful_compilations : Int32 = 0
+    @build_started : Time::Span
 
     def initialize(@build_commands : Array(String), @run_commands : Array(String), @files : Array(String), @reload_browser : Bool, @watcher : Watcher?)
+      @build_started = Time.monotonic
     end
 
     private def build_app_processes_and_start
@@ -262,7 +265,14 @@ module LuckySentry
       if build_success
         self.app_built = true
         create_app_processes
-        puts "#{" Done ".colorize.on_cyan.black} compiling"
+
+        elapsed_time = Time.monotonic - @build_started
+        message = String.build do |io|
+          io << " DONE ".colorize.on_cyan.black
+          io << " Compiled successfully in #{distance_of_time_in_words(elapsed_time)}".colorize.cyan
+        end
+
+        puts message
       elsif !app_built
         print_error_message
       end
