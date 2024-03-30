@@ -223,12 +223,28 @@ class Tests::ComponentActionWithCustomContentType < TestAction
   end
 end
 
+class Tests::MultiConditionWithEarlyReturn < TestAction
+  get "/tests/multi_condition_with_early_return" do
+    data = {check: 1}
+    if data
+      return json(data)
+    end
+
+    raw_json("{}")
+  end
+end
+
 describe Lucky::Action do
   it "has a url helper" do
     Lucky::RouteHelper.temp_config(base_uri: "example.com") do
       Tests::Index.url.should eq "example.com/tests"
       Tests::ActionWithPrefix.url.should eq "example.com/prefix/so_custom2"
     end
+  end
+
+  it "allows for early returns" do
+    response = Tests::MultiConditionWithEarlyReturn.new(build_context, params).call
+    response.body.to_s.should eq "{\"check\":1}"
   end
 
   describe ".url_without_query_params" do

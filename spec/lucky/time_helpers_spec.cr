@@ -30,6 +30,11 @@ describe Lucky::TimeHelpers do
       view.distance_of_time_in_words(from_time, from_time + 2.years).should eq "over 2 years"
       view.distance_of_time_in_words(from_time, from_time + 10.years).should eq "almost 10 years"
     end
+
+    it "takes a Time::Span" do
+      span = 4.minutes
+      view.distance_of_time_in_words(span).should eq "4 minutes"
+    end
   end
 
   describe "time_ago_in_words" do
