@@ -300,6 +300,7 @@ module Lucky::Routable
         unless query_params.empty?
           io << '?'
           {% if compare_versions(Crystal::VERSION, "1.10.0") < 0 %}
+            {% @type.warning("[Deprecated] Please update your Crystal version #{Crystal::VERSION}. Using Lucky with a version below 1.10.0 is deprecated.") %}
             io << HTTP::Params.encode(query_params)
           {% else %}
             HTTP::Params.encode(io, query_params)
