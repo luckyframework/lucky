@@ -961,7 +961,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/ca4ee3e1a34982e1f7fb3c06acaaa3236fd706d8/src/lucky/page_helpers/time_helpers.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/c493598e548d9581a952183aace61148e7847daf/src/lucky/page_helpers/time_helpers.cr#L1" target="_blank">
         lucky/page_helpers/time_helpers.cr
       </a>
     
@@ -990,6 +990,13 @@
     
       <li class="entry-summary">
         <a href="#distance_of_time_in_words%28from%3ATime%2Cto%3ATime%29%3AString-instance-method" class="signature"><strong>#distance_of_time_in_words</strong>(from : Time, to : Time) : String</a>
+        
+          <div class="summary"><p>Returns a <code><a href="../String.html">String</a></code> with approximate distance in time between <code>from</code> and <code>to</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#distance_of_time_in_words%28span%3ATime%3A%3ASpan%29%3AString-instance-method" class="signature"><strong>#distance_of_time_in_words</strong>(span : Time::Span) : String</a>
         
           <div class="summary"><p>Returns a <code><a href="../String.html">String</a></code> with approximate distance in time between <code>from</code> and <code>to</code>.</p></div>
         
@@ -1059,7 +1066,40 @@ distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/ca4ee3e1a34982e1f7fb3c06acaaa3236fd706d8/src/lucky/page_helpers/time_helpers.cr#L18" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/c493598e548d9581a952183aace61148e7847daf/src/lucky/page_helpers/time_helpers.cr#L18" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="distance_of_time_in_words(span:Time::Span):String-instance-method">
+      <div class="signature">
+        
+        def <strong>distance_of_time_in_words</strong>(span : Time::Span) : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#distance_of_time_in_words%28span%3ATime%3A%3ASpan%29%3AString-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a <code><a href="../String.html">String</a></code> with approximate distance in time between <code>from</code> and <code>to</code>.</p>
+<pre><code class="language-crystal">distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>, <span class="n">10</span>, <span class="n">0</span>, <span class="n">0</span>), <span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>, <span class="n">10</span>, <span class="n">0</span>, <span class="n">5</span>))
+<span class="c"># =&gt; &quot;5 seconds&quot;</span>
+distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>, <span class="n">10</span>, <span class="n">0</span>), <span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>, <span class="n">10</span>, <span class="n">25</span>))
+<span class="c"># =&gt; &quot;25 minutes&quot;</span>
+distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>, <span class="n">10</span>), <span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>, <span class="n">11</span>))
+<span class="c"># =&gt; &quot;an hour&quot;</span>
+distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>), <span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">16</span>))
+<span class="c"># =&gt; &quot;2 days&quot;</span>
+distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>), <span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">10</span>, <span class="n">4</span>))
+<span class="c"># =&gt; &quot;about a month&quot;</span>
+distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</span>, <span class="n">8</span>, <span class="n">14</span>), <span class="t">Time</span>.utc(<span class="n">2061</span>, <span class="n">10</span>, <span class="n">4</span>))
+<span class="c"># =&gt; &quot;almost 42 years&quot;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/c493598e548d9581a952183aace61148e7847daf/src/lucky/page_helpers/time_helpers.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1075,7 +1115,7 @@ distance_of_time_in_words(<span class="t">Time</span>.utc(<span class="n">2019</
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/ca4ee3e1a34982e1f7fb3c06acaaa3236fd706d8/src/lucky/page_helpers/time_helpers.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/c493598e548d9581a952183aace61148e7847daf/src/lucky/page_helpers/time_helpers.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1100,7 +1140,7 @@ distance_of_time_in_words(<span class="t">Time</span>.utc, <span class="t">Time<
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/ca4ee3e1a34982e1f7fb3c06acaaa3236fd706d8/src/lucky/page_helpers/time_helpers.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/c493598e548d9581a952183aace61148e7847daf/src/lucky/page_helpers/time_helpers.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
