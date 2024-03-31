@@ -33,11 +33,13 @@ class Gen::Component < LuckyTask::Task
     lucky gen.component SettingsMenu
   TEXT
 
+  positional_arg :component_class, "The name of the component"
+
   def call
     if error
       output.puts error.colorize(:red)
     else
-      Lucky::ComponentTemplate.new(component_filename, component_class, output_path).render(output_path)
+      Lucky::ComponentTemplate.new(component_filename, component_class, output_path).render(Path["."])
       output.puts success_message
     end
   end
@@ -47,19 +49,19 @@ class Gen::Component < LuckyTask::Task
   end
 
   private def missing_name_error
-    if ARGV.first?.nil?
-      "Component name is required."
-    end
+    # Doing this because `component_class` will raise an exception if the value is missing
+    # but the error message would say "component_class is missing" which isn't as nice of
+    # an error message. This lets the UI remain the same until this whole deal can be refactored
+    component_class
+    nil
+  rescue
+    "Component name is required."
   end
 
   private def invalid_format_error
     if component_class.camelcase != component_class
       "Component name should be camel case. Example: lucky gen.component #{component_class.camelcase}"
     end
-  end
-
-  private def component_class
-    ARGV.first
   end
 
   private def component_filename

@@ -3,11 +3,14 @@ require "lucky_template"
 require "colorize"
 
 class Lucky::TaskTemplate
+  @save_path : String
+
   def initialize(
     @task_filename : String,
     @task_name : String,
     @summary : String
   )
+    @save_path = @task_name.split("::").map(&.underscore.downcase)[0..-2].join('/')
   end
 
   def render(path : Path)
@@ -16,8 +19,11 @@ class Lucky::TaskTemplate
 
   def template_folder
     LuckyTemplate.create_folder do |root_dir|
-      root_dir.add_file(Path["tasks/#{@task_filename}.cr"]) do |io|
-        ECR.embed("#{__DIR__}/templates/task/task.cr.ecr", io)
+      save_path = @save_path.presence.nil? ? "tasks" : "tasks/#{@save_path}"
+      root_dir.add_folder(Path[save_path]) do |tasks_dir|
+        tasks_dir.add_file(@task_filename) do |io|
+          ECR.embed("#{__DIR__}/templates/task/task.cr.ecr", io)
+        end
       end
     end
   end
@@ -46,7 +52,7 @@ class Gen::Task < LuckyTask::Task
     else
       Lucky::TaskTemplate
         .new(task_filename, rendered_task_name, rendered_summary)
-        .render(output_path)
+        .render(Path["."])
 
       output.puts <<-TEXT
       Generated #{output_path.join(task_filename).colorize.green}
