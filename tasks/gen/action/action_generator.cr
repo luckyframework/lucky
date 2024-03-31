@@ -10,7 +10,7 @@ class Lucky::ActionTemplate
   @save_path : String
 
   def initialize(@name, @action, @inherit_from, @route)
-    @save_path = @name.split("::").map(&.underscore).map(&.downcase).join('/')
+    @save_path = @name.split("::").map(&.underscore.downcase)[0..-2].join('/')
   end
 
   def render(path : Path)
@@ -19,8 +19,10 @@ class Lucky::ActionTemplate
 
   def template_folder
     LuckyTemplate.create_folder do |root_dir|
-      root_dir.add_file(Path["src/actions/#{@save_path}.cr"]) do |io|
-        ECR.embed("#{__DIR__}/../templates/action/action.cr.ecr", io)
+      root_dir.add_folder(Path["src/actions/#{@save_path}"]) do |actions_dir|
+        actions_dir.add_file("#{@action}.cr") do |io|
+          ECR.embed("#{__DIR__}/../templates/action/action.cr.ecr", io)
+        end
       end
     end
   end
@@ -29,7 +31,7 @@ end
 module Gen::ActionGenerator
   private def render_action_template(io, inherit_from : String)
     if valid?
-      Lucky::ActionTemplate.new(action_name, action, inherit_from, route).render(output_path)
+      Lucky::ActionTemplate.new(action_name, action, inherit_from, route).render(Path["."])
       io.puts success_message
     else
       io.puts @error.colorize(:red)
