@@ -39,7 +39,7 @@ class Gen::Page < LuckyTask::Task
     if error
       output.puts error.colorize(:red)
     else
-      Lucky::PageTemplate.new(page_filename, page_class, output_path).render(output_path)
+      Lucky::PageTemplate.new(page_filename, page_class, output_path).render(Path["."])
       output.puts success_message
     end
   end
