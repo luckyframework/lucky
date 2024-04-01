@@ -1,5 +1,4 @@
 require "lucky_task"
-require "teeplate"
 require "./action_generator"
 require "../page"
 

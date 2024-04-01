@@ -1,16 +1,25 @@
 require "lucky_task"
-require "teeplate"
+require "lucky_template"
 require "colorize"
-require "file_utils"
 
-class Lucky::PageTemplate < Teeplate::FileTree
+class Lucky::PageTemplate
   @page_filename : String
   @page_class : String
-  @output_path : String
-
-  directory "#{__DIR__}/templates/page"
+  @output_path : Path
 
   def initialize(@page_filename, @page_class, @output_path)
+  end
+
+  def render(path : Path)
+    LuckyTemplate.write!(path, template_folder)
+  end
+
+  def template_folder
+    LuckyTemplate.create_folder do |root_dir|
+      root_dir.add_file(Path["#{@output_path}/#{@page_filename}.cr"]) do |io|
+        ECR.embed("#{__DIR__}/templates/page/page.cr.ecr", io)
+      end
+    end
   end
 end
 
@@ -30,7 +39,7 @@ class Gen::Page < LuckyTask::Task
     if error
       output.puts error.colorize(:red)
     else
-      Lucky::PageTemplate.new(page_filename, page_class, output_path).render(output_path)
+      Lucky::PageTemplate.new(page_filename, page_class, output_path).render(Path["."])
       output.puts success_message
     end
   end
@@ -58,7 +67,7 @@ class Gen::Page < LuckyTask::Task
   private def output_path
     page_parts = page_class.split("::")
     page_parts.pop
-    "./src/pages/#{page_parts.map(&.underscore).map(&.downcase).join("/")}"
+    Path["./src/pages/#{page_parts.map(&.underscore.downcase).join('/')}"]
   end
 
   private def output_path_with_filename

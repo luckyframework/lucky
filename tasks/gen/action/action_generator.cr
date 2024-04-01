@@ -1,24 +1,37 @@
 require "colorize"
-require "file_utils"
-require "teeplate"
+require "lucky_template"
 require "../../../src/lucky/route_inferrer"
 
-class Lucky::ActionTemplate < Teeplate::FileTree
+class Lucky::ActionTemplate
   @name : String
   @action : String
   @inherit_from : String
   @route : String
-
-  directory "#{__DIR__}/../templates/action"
+  @save_path : String
 
   def initialize(@name, @action, @inherit_from, @route)
+    @save_path = @name.split("::").map(&.underscore.downcase)[0..-2].join('/')
+  end
+
+  def render(path : Path)
+    LuckyTemplate.write!(path, template_folder)
+  end
+
+  def template_folder
+    LuckyTemplate.create_folder do |root_dir|
+      root_dir.add_folder(Path["src/actions/#{@save_path}"]) do |actions_dir|
+        actions_dir.add_file("#{@action}.cr") do |io|
+          ECR.embed("#{__DIR__}/../templates/action/action.cr.ecr", io)
+        end
+      end
+    end
   end
 end
 
 module Gen::ActionGenerator
   private def render_action_template(io, inherit_from : String)
     if valid?
-      Lucky::ActionTemplate.new(action_name, action, inherit_from, route).render(output_path)
+      Lucky::ActionTemplate.new(action_name, action, inherit_from, route).render(Path["."])
       io.puts success_message
     else
       io.puts @error.colorize(:red)
@@ -58,7 +71,7 @@ module Gen::ActionGenerator
   end
 
   private def output_path
-    "./src/actions/#{path}"
+    Path["./src/actions/#{path}"]
   end
 
   private def path

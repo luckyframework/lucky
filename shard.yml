@@ -54,9 +54,9 @@ dependencies:
   pulsar:
     github: luckyframework/pulsar
     version: ~> 0.2.3
-  teeplate:
-    github: luckyframework/teeplate
-    version: ~> 0.8.5
+  lucky_template:
+    github: luckyframework/lucky_template
+    version: ~> 0.1.0
 
 development_dependencies:
   ameba:
