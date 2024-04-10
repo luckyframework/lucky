@@ -15,7 +15,7 @@ jobs:
     env:
       SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -32,7 +32,7 @@ jobs:
         shard_file:
           - shard.yml
         crystal_version:
-          - 1.9.0
+          - 1.10.0
           - latest
         experimental:
           - false
@@ -48,7 +48,7 @@ jobs:
     env:
       SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{matrix.crystal_version}}
