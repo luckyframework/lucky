@@ -88,11 +88,11 @@ module Lucky::Renderable
   # enum for more available http status codes.
   macro html_with_status(page_class, status, **assigns)
     {% if status.is_a?(SymbolLiteral) %}
-      html {{ page_class }}, _with_status_code: HTTP::Status::{{ status.upcase.id }}.value, {{ **assigns }}
+      html {{ page_class }}, _with_status_code: HTTP::Status::{{ status.upcase.id }}.value, {{ assigns.double_splat }}
     {% elsif status.is_a?(Path) && status.names.join("::").starts_with?("HTTP::Status::") %}
-      html {{ page_class }}, _with_status_code: {{ status.resolve }}, {{ **assigns }}
+      html {{ page_class }}, _with_status_code: {{ status.resolve }}, {{ assigns.double_splat }}
     {% else %}
-      html {{ page_class }}, _with_status_code: {{ status }}, {{ **assigns }}
+      html {{ page_class }}, _with_status_code: {{ status }}, {{ assigns.double_splat }}
     {% end %}
   end
 
