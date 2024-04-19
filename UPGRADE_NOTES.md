@@ -19,6 +19,7 @@ brew upgrade lucky
   - Lucky should be `~> 1.2.0`
   - Avram should be `~> 1.2.0`
   - Carbon should be `~> 0.5.1`
+  - Carbon Adapter should be `~> 0.5.0`
   - LuckyFlow should be `~> 0.10.0`
 
 - Run `shards update`
