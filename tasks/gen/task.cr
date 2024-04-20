@@ -1,3 +1,4 @@
+require "ecr"
 require "lucky_task"
 require "lucky_template"
 require "colorize"
