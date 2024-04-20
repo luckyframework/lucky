@@ -106,4 +106,15 @@ describe Gen::Action do
       io.to_s.should contain("That's not a valid Action.")
     end
   end
+
+  it "generates the correct template" do
+    template = Lucky::ActionTemplate.new(
+      name: "User::Index",
+      action: "index",
+      inherit_from: "BrowserAction",
+      route: %(get "/users")
+    )
+    folder = template.template_folder
+    LuckyTemplate.snapshot(folder).has_key?("src/actions/user/index.cr").should eq(true)
+  end
 end

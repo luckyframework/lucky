@@ -1,3 +1,4 @@
+require "ecr"
 require "colorize"
 require "lucky_template"
 require "../../../src/lucky/route_inferrer"
