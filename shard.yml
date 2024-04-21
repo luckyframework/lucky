@@ -1,5 +1,5 @@
 name: lucky
-version: 1.1.0
+version: 1.2.0
 
 crystal: ">= 1.10.0"
 
@@ -38,7 +38,7 @@ dependencies:
     version: ~> 0.4.0
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.5.1
+    version: ~> 0.5.2
   shell-table:
     github: luckyframework/shell-table.cr
     version: ~> 0.9.3
@@ -47,7 +47,7 @@ dependencies:
     version: ~> 0.4.3
   exception_page:
     github: crystal-loot/exception_page
-    version: ~> 0.4.0
+    version: ~> 0.4.1
   dexter:
     github: luckyframework/dexter
     version: ~> 0.3.4
@@ -56,7 +56,7 @@ dependencies:
     version: ~> 0.2.3
   lucky_template:
     github: luckyframework/lucky_template
-    version: ~> 0.1.0
+    version: ~> 0.2.0
 
 development_dependencies:
   ameba:
