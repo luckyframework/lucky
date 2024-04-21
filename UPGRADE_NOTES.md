@@ -1,6 +1,48 @@
+## Upgrading from 1.1.0 to 1.2.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.1.0&to=1.2.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.2.0`
+  - Avram should be `~> 1.2.0`
+  - Carbon should be `~> 0.5.1`
+  - Carbon Adapter should be `~> 0.5.0`
+  - LuckyFlow should be `~> 0.10.0`
+
+- Run `shards update`
+
+- Upgrade Lucky CLI on Windows (Scoop)
+
+```
+scoop bucket add lucky https://github.com/luckyframework/scoop-bucket
+scoop install lucky
+```
+
+### General updates
+
+- Add: the annotation `@[DB::Field(ignore: true)]` to any instance variables you've added to your models. [See PR](https://github.com/luckyframework/avram/pull/996)
+- Remove: the Nexploit NPM package from your Github Actions if you're using SecTester. [See PR](https://github.com/luckyframework/lucky_sec_tester/pull/34)
+
+### Optional update
+
+- Replace: any use of `Avram::Nothing.new` with `IGNORE`. [See PR](https://github.com/luckyframework/avram/pull/1018)
+
 ## Upgrading from 1.0.0 to 1.1.0
 
-For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0&to1.1.0).
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0&to=1.1.0).
 
 - Upgrade Lucky CLI (homebrew)
 
@@ -67,7 +109,7 @@ end
 
 ## Upgrading from 1.0.0-rc1 to 1.0.0
 
-For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0-rc1&to1.0.0).
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0-rc1&to=1.0.0).
 
 - Upgrade Lucky CLI (homebrew)
 

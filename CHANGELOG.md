@@ -1,4 +1,51 @@
-### Changes in 1.1.0
+### Changes in 1.2.0
+
+- Updated: exception page which includes syntax highlighting now. [#1850](https://github.com/luckyframework/lucky/pull/1850)
+- Refactor: Action call body with a clear compile error and ability to do short-circuit returns. [#1857](https://github.com/luckyframework/lucky/pull/1857)
+- Added: new `-n` flag to `lucky gen.secret_key` to configure key size. [#1856](https://github.com/luckyframework/lucky/pull/1856)
+- Refactor: routes with query params optimization. [#1854](https://github.com/luckyframework/lucky/pull/1854)
+- Deprecated: Lucky now prefers Crystal 1.10 or later
+- Added: overload to `distance_of_time_in_words` that takes a `Time::Span`. [#1860](https://github.com/luckyframework/lucky/pull/1860)
+- Added: compilation time to terminal output during development. [#1855](https://github.com/luckyframework/lucky/pull/1855)
+- Refactor: lucky gen tasks are now using [LuckyTemplate](https://github.com/luckyframework/lucky_template) for Windows compatibility. [#1861](https://github.com/luckyframework/lucky/pull/1861)
+- Added: `Date` header to response output. [#1866](https://github.com/luckyframework/lucky/pull/1866)
+- Added: LuckyCLI releases now include binary packages in the release since v1.1.1
+- Fixed: entering `Y` or `y` in LuckyCLI Wizard. [#857 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/857)
+- Updated: Generated Github Actions CI file with latest actions versions. Nexploit NPM is no longer required for SecTester. [#859 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/859)
+- Added: new Scoop package installer for installing LuckyCLI on Windows. [Scoop it up](https://github.com/luckyframework/scoop-bucket)
+- Fixed: a few compatibility issues with CockroachDB. [#980 in Avram](https://github.com/luckyframework/avram/pull/980)
+- Added: `attrs` override for boolean attributes on `select_input` and `multi_select_input`. [#981 in Avram](https://github.com/luckyframework/avram/pull/981)
+- Updated: DB connections now support a retry. [#990 in Avram](https://github.com/luckyframework/avram/pull/990)
+- Updated: `select_input` and `multi_select_input` to include the `id` attribute. [#992 in Avram](https://github.com/luckyframework/avram/pull/992)
+- Added: `if_not_exists` and `if_exists` options to migration `create` and `alter` macros. [#993 in Avram](https://github.com/luckyframework/avram/pull/993)
+- Added: block overload for `preload` `has_one` methods. [#994 in Avram](https://github.com/luckyframework/avram/pull/994)
+- Fixed: how the `verify_connection` task runs to catch some edge cases of it not working. [#995 in Avram](https://github.com/luckyframework/avram/pull/995)
+- Updated: migrator commands no longer use `Process.run` with the `shell` option. [#997 in Avram](https://github.com/luckyframework/avram/pull/997)
+- **Breaking change** Refactor: all Avram models now use `DB::Serializable` instead of the deprecated `DB.mapping`. [#996 in Avram](https://github.com/luckyframework/avram/pull/996)
+- Updated: all "UPDATE" statements with a subquery are now wrapped allowing bulk updates when a join exists. [#998 in Avram](https://github.com/luckyframework/avram/pull/998)
+- Added: an option to `add_belongs_to` to disable adding an index. [#1002 in Avram](https://github.com/luckyframework/avram/pull/1002)
+- Added: `create_sequence` and `drop_sequence` migration methods. [#1003 in Avram](https://github.com/luckyframework/avram/pull/1003)
+- Added: `refresh_view` query method and materialized view option for materialized view models. [#1004 in Avram](https://github.com/luckyframework/avram/pull/1004)
+- Added: support for `String` primary keys in models. [#1000 in Avram](https://github.com/luckyframework/avram/pull/1000)
+- Added: new `String`, `Int`, and `Float` criteria methods. `length`, `reverse`, `abs`, `ceil`, and `floor` respectively. [#1010 in Avram](https://github.com/luckyframework/avram/pull/1010)
+- Added: an option to specify an alias for join tables with `Avram::Join`. [#1013 in Avram](https://github.com/luckyframework/avram/pull/1013)
+- Added: support for `Array(SomeEnum)` columns. [#1009 in Avram](https://github.com/luckyframework/avram/pull/1009)
+- Added: support for custom column converters. [#1009 in Avram](https://github.com/luckyframework/avram/pull/1009)
+- Added: new `base_query_class` arg for `has_many` associations to specify which query class to use when an association is called. [#1006 in Avram](https://github.com/luckyframework/avram/pull/1006)
+- Added: new `JSON::Any` critera methods `has_key`, `has_any_keys`, and `has_all_keys`. [#1015 in Avram](https://github.com/luckyframework/avram/pull/1015)
+- Added: more new `JSON::Any` criteria methods `includes` and `in`. [#1016 in Avram](https://github.com/luckyframework/avram/pull/1016)
+- Added: new `IGNORE` constant which is an instance of `Avram::Nothing` used for ignoring column updates in operations. [#1018 in Avram](https://github.com/luckyframework/avram/pull/1018)
+- Added: new `String` criteria methods to convert to `to_tsquery` and `to_tsvector` along with a `match` for simple full-text search. [#1019 in Avram](https://github.com/luckyframework/avram/pull/1019)
+- Added: new Firefox driver for LuckyFlow. [#162 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/162)
+- Added: support for attachments in Carbon. [#88 in Carbon](https://github.com/luckyframework/carbon/pull/88)
+- Fixed: Carbon emails can be JSON serialized. [#92 in Carbon](https://github.com/luckyframework/carbon/pull/92)
+- Fixed: the location where Carbon emails are generated with `lucky gen.email`. [#93 in Carbon](https://github.com/luckyframework/carbon/pull/93)
+- Updated: CarbonSMTP Adapter support on Email shard dependency. [#18 in CarbonSMTPAdapter](https://github.com/luckyframework/carbon_smtp_adapter/pull/18)
+- Added: support for attachments in CarbonSMTPAdapter. [#20 in CarbonSMTPAdapter](https://github.com/luckyframework/carbon_smtp_adapter/pull/20)
+
+
+
+### Changes in 1.1.0 (2023-10-29)
 
 - Fixed: generated docs on `match` macro. [#1790](https://github.com/luckyframework/lucky/pull/1790)
 - Fixed: memoized memthods that use an external arg name. [#1817](https://github.com/luckyframework/lucky/pull/1817)
