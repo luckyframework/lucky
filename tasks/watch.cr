@@ -245,6 +245,7 @@ module LuckySentry
       build_in_progress = @build_processes.any?(&.exists?)
       stop_all_processes
       puts build_in_progress ? "Recompiling..." : "\nCompiling..."
+      @build_started = Time.monotonic
       build_app_processes_and_start
     end
 
