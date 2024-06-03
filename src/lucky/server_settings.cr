@@ -40,7 +40,8 @@ module Lucky::ServerSettings
     if File.exists?(YAML_SETTINGS_PATH)
       File.read YAML_SETTINGS_PATH
     else
-      raise "Expected config file for the watcher at #{YAML_SETTINGS_PATH}"
+      raise "Expected config file for the watcher at #{YAML_SETTINGS_PATH}. \
+      Did you forget to set LUCKY_ENV to production?"
     end
   end
 end
