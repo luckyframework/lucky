@@ -9,9 +9,12 @@ class Gen::Action::Browser < LuckyTask::Task
   help_message <<-TEXT
   #{task_summary}
 
+  Optionally, you can pass the --with-page flag to generate
+  a page for the Action.
+
   Example:
 
-    lucky gen.action.browser Users::Index
+    lucky gen.action.browser Users::Index --with-page
   TEXT
 
   positional_arg :action_name, "The name of the action"
