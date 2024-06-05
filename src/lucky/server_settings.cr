@@ -40,8 +40,15 @@ module Lucky::ServerSettings
     if File.exists?(YAML_SETTINGS_PATH)
       File.read YAML_SETTINGS_PATH
     else
-      raise "Expected config file for the watcher at #{YAML_SETTINGS_PATH}. \
-      Did you forget to set LUCKY_ENV to production?"
+      <<-ERROR
+      Expected config file for the watcher at #{YAML_SETTINGS_PATH}.
+
+      Try this...
+
+        ▸ If this is Production, be sure to set LUCKY_ENV=production
+        ▸ If this is Development, ensure the #{YAML_SETTINGS_PATH} file exists
+
+      ERROR
     end
   end
 end
