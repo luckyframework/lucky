@@ -21,6 +21,13 @@ class Lucky::Params
   def initialize(@request : HTTP::Request, @route_params : Hash(String, String) = empty_params)
   end
 
+  def self.from_hash(data : Hash(String, String | Array(String))) : self
+    request = HTTP::Request.new("GET", "/", body: "", headers: HTTP::Headers.new)
+    request.query = URI::Params.encode(data)
+
+    self.new(request)
+  end
+
   # Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
   #
   # ```
@@ -269,8 +276,8 @@ class Lucky::Params
   # is found a `Lucky::MissingParamError` will be raised:
   #
   # ```
-  # params.nested_array("tags")    # {"tags" => ["Lucky", "Crystal"]}
-  # params.nested_array("missing") # Missing parameter: missing
+  # params.nested_arrays("tags")    # {"tags" => ["Lucky", "Crystal"]}
+  # params.nested_arrays("missing") # Missing parameter: missing
   # ```
   def nested_arrays(nested_key : String | Symbol) : Hash(String, Array(String))
     nested_params = nested_arrays?(nested_key)
@@ -404,6 +411,10 @@ class Lucky::Params
       end
       hash
     end
+  end
+
+  def has_key?(key : String)
+    route_params.has_key?(key) || query_params.has_key?(key) || !!body_param(key)
   end
 
   private def nested_json_params(nested_key : String) : Hash(String, String)
