@@ -1,0 +1,4 @@
+dependencies:
+  lucky_router:
+    github: luckyframework/lucky_router
+    branch: main

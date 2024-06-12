@@ -23,4 +23,16 @@ describe Lucky::Router do
     Lucky.router.find_action(:get, "/complex_path/1/2").should_not be_nil
     Lucky.router.find_action(:get, "/complex_path/1").should_not be_nil
   end
+
+  describe "#list_routes" do
+    it "returns list of routes" do
+      Lucky.router.add :get, "/users", Lucky::Action
+      Lucky.router.add :put, "/clients/:client_id", Lucky::Action
+
+      routes = Lucky.router.list_routes
+
+      routes.should contain({"/users", "get", Lucky::Action})
+      routes.should contain({"/clients/:client_id", "put", Lucky::Action})
+    end
+  end
 end
