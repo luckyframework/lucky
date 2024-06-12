@@ -38,7 +38,7 @@ dependencies:
     version: ~> 0.4.0
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.5.2
+    branch: main
   shell-table:
     github: luckyframework/shell-table.cr
     version: ~> 0.9.3
