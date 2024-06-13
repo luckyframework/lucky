@@ -22,9 +22,14 @@ class Routes < LuckyTask::Task
   def call
     routes = [] of Array(String)
 
-    Lucky.router.routes.each do |method, path, action|
+    Lucky.router.list_routes.each do |path, method, action|
+      # skip HEAD routes
+      # LuckyRouter creates these routes from any GET routes submitted
+      # This could be an issue if users define their own HEAD routes
+      next if method.upcase == "HEAD"
+
       row = [] of String
-      row << method.to_s.upcase
+      row << method.upcase
       row << path.colorize.green.to_s
       row << action.name
       routes << row
