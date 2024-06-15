@@ -260,7 +260,7 @@ module Lucky::Routable
     end
 
     {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
-         !decl.value.is_a?(Nop) || decl.type.is_a?(Union) && decl.type.types.last.id == Nil.id
+         !decl.value.is_a?(Nop) || decl.type.is_a?(Union) && decl.type.resolve.nilable?
        end %}
     {% params_without_defaults = PARAM_DECLARATIONS.reject do |decl|
          params_with_defaults.includes? decl

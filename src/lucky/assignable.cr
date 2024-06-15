@@ -89,7 +89,9 @@ module Lucky::Assignable
       {% sorted_assigns = ASSIGNS.sort_by { |dec|
            has_explicit_value =
              dec.type.is_a?(Metaclass) ||
-               dec.type.types.map(&.id).includes?(Nil.id) ||
+               dec.type.types.any? { |t|
+                 (t.is_a?(Metaclass) || t.is_a?(ProcNotation) || t.is_a?(Generic)) ? false : t.names.includes?(Nil.id)
+               } ||
                !dec.value.is_a?(Nop)
            has_explicit_value ? 1 : 0
          } %}
@@ -98,7 +100,7 @@ module Lucky::Assignable
           {% var = declaration.var %}
           {% type = declaration.type %}
           {% value = declaration.value %}
-          {% value = nil if type.stringify.ends_with?("Nil") && !value %}
+          {% value = nil if type.stringify.ends_with?("Nil") && value.nil? %}
           @{{ var.id }} : {{ type }}{% if !value.is_a?(Nop) %} = {{ value }}{% end %},
         {% end %}
         **unused_exposures
