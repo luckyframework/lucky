@@ -298,19 +298,23 @@ module Lucky::Routable
             {{ param.gsub(/^\?:/, "").id }},
           {% end %}
         )
-        query_params = {} of String => String
+
+        query_params = Hash(String, String | Array(String)).new
+
         {% for param in PARAM_DECLARATIONS %}
-          # add query param if given and not nil
-          query_params["{{ param.var }}"] = {{ param.var }}.to_s unless {{ param.var }}.nil?
+          _param = {{ param.var }}
+
+          unless _param.nil?
+            if _param.is_a?(Array)
+              query_params["{{ param.var }}"] = _param.map(&.to_s)
+            else
+              query_params["{{ param.var }}"] = _param.to_s
+            end
+          end
         {% end %}
-        unless query_params.empty?
-          io << '?'
-          {% if compare_versions(Crystal::VERSION, "1.10.0") < 0 %}
-            {% @type.warning("[Deprecated] Please update your Crystal version #{Crystal::VERSION}. Using Lucky with a version below 1.10.0 is deprecated.") %}
-            io << HTTP::Params.encode(query_params)
-          {% else %}
-            HTTP::Params.encode(io, query_params)
-          {% end %}
+
+        query_params.each_with_index do |tuple, i|
+          build_query_params(io, tuple[0], tuple[1], i == 0)
         end
 
         anchor.try do |value|
@@ -399,6 +403,23 @@ module Lucky::Routable
       end
 
       path.presence || "/"
+    end
+
+    private def self.build_query_params(io, key, values : Array, first)
+      values.each_with_index do |value, i|
+        io << (first && i == 0 ? '?' : '&')
+        URI.encode_www_form(key, io)
+        io << "[]"
+        io << '='
+        URI.encode_www_form(value, io) if value
+      end
+    end
+
+    private def self.build_query_params(io, key, value : String, first)
+      io << (first ? '?' : '&')
+      URI.encode_www_form(key, io)
+      io << '='
+      URI.encode_www_form(value, io) if value
     end
   end
 
