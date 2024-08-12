@@ -51,6 +51,7 @@ describe Lucky::BaseHTTPClient do
 
       it "works with array query params" do
         response = MyClient.new.exec HelloWorldAction.with(codes: ["ab", "xy"])
+        response.body.should eq "world"
 
         request = TestServer.last_request
         request.query.should eq("codes%5B%5D=ab&codes%5B%5D=xy")
