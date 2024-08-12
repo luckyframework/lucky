@@ -3,8 +3,20 @@ require "../spec_helper"
 class HelloWorldAction < TestAction
   accepted_formats [:plain_text]
 
+  param codes : Array(String)?
+
   post "/hello" do
     plain_text "world"
+  end
+end
+
+class ArrayParamAction < TestAction
+  accepted_formats [:plain_text]
+
+  param codes : Array(String)
+
+  post "/array_param" do
+    plain_text codes.join("--")
   end
 end
 
@@ -45,6 +57,14 @@ describe Lucky::BaseHTTPClient do
 
         request = TestServer.last_request
         request.body.to_s.should eq({foo: "bar"}.to_json)
+      end
+
+      it "works with array query params" do
+        response = MyClient.new.exec ArrayParamAction.with(codes: ["ab", "xy"])
+        response.body.should eq "ab--xy"
+
+        request = TestServer.last_request
+        request.query.should eq("codes%5B%5D=ab&codes%5B%5D=xy")
       end
     end
 

@@ -298,19 +298,25 @@ module Lucky::Routable
             {{ param.gsub(/^\?:/, "").id }},
           {% end %}
         )
-        query_params = {} of String => String
-        {% for param in PARAM_DECLARATIONS %}
-          # add query param if given and not nil
-          query_params["{{ param.var }}"] = {{ param.var }}.to_s unless {{ param.var }}.nil?
-        {% end %}
+
+        query_params = URI::Params.build do |builder|
+          {% for param in PARAM_DECLARATIONS %}
+            _param = {{ param.var }}
+
+            # add query param if given and not nil
+            unless _param.nil?
+              if _param.is_a?(Array)
+                builder.add("{{ param.var }}[]", _param.map(&.to_s))
+              else
+                builder.add("{{ param.var }}", _param.to_s)
+              end
+            end
+          {% end %}
+        end
+
         unless query_params.empty?
           io << '?'
-          {% if compare_versions(Crystal::VERSION, "1.10.0") < 0 %}
-            {% @type.warning("[Deprecated] Please update your Crystal version #{Crystal::VERSION}. Using Lucky with a version below 1.10.0 is deprecated.") %}
-            io << HTTP::Params.encode(query_params)
-          {% else %}
-            HTTP::Params.encode(io, query_params)
-          {% end %}
+          io << query_params
         end
 
         anchor.try do |value|

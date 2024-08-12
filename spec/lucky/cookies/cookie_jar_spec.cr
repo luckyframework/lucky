@@ -35,7 +35,7 @@ describe Lucky::CookieJar do
   end
 
   it "raises a nicer error for invalid cookie values" do
-    value = "Double Chocolate"
+    value = "Double,Chocolate"
     jar = Lucky::CookieJar.empty_jar
 
     expect_raises(Lucky::InvalidCookieValueError, "Cookie value for 'cookie' is invalid") do
