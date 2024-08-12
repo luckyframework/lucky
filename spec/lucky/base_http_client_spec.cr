@@ -10,6 +10,16 @@ class HelloWorldAction < TestAction
   end
 end
 
+class ArrayParamAction < TestAction
+  accepted_formats [:plain_text]
+
+  param codes : Array(String)
+
+  post "/array_param" do
+    plain_text codes.join("--")
+  end
+end
+
 class MyClient < Lucky::BaseHTTPClient
   app TestServer.new
 end
@@ -50,8 +60,8 @@ describe Lucky::BaseHTTPClient do
       end
 
       it "works with array query params" do
-        response = MyClient.new.exec HelloWorldAction.with(codes: ["ab", "xy"])
-        response.body.should eq "world"
+        response = MyClient.new.exec ArrayParamAction.with(codes: ["ab", "xy"])
+        response.body.should eq "ab--xy"
 
         request = TestServer.last_request
         request.query.should eq("codes%5B%5D=ab&codes%5B%5D=xy")
