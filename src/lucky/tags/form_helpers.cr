@@ -19,7 +19,7 @@ module Lucky::FormHelpers
     input merge_options(html_options, {"type" => "submit", "value" => text})
   end
 
-  private def form_method(route) : String
+  def form_method(route) : String
     if route.method == :get
       "get"
     else
