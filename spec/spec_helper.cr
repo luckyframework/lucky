@@ -48,4 +48,8 @@ Lucky::ForceSSLHandler.configure do |settings|
   settings.enabled = true
 end
 
+Lucky::MaximumRequestSizeHandler.configure do |settings|
+  settings.enabled = false
+end
+
 Habitat.raise_if_missing_settings!
