@@ -48,4 +48,8 @@ Lucky::ForceSSLHandler.configure do |settings|
   settings.enabled = true
 end
 
+LuckyCache.configure do |settings|
+  settings.storage = LuckyCache::MemoryStore.new
+end
+
 Habitat.raise_if_missing_settings!
