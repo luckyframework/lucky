@@ -1,3 +1,15 @@
+# Allows a maximum request size to be set for incoming requests.
+#
+# Configure the max_size to the maximum size in bytes that you
+# want to allow.
+#
+# ```
+# Lucky::MaximumRequestSizeHandler.configure do |settings|
+#   settings.enabled = true
+#   settings.max_size = 1_048_576 # 1MB
+# end
+# ```
+
 class Lucky::MaximumRequestSizeHandler
   include HTTP::Handler
 
