@@ -14,7 +14,7 @@ class Lucky::MaximumRequestSizeHandler
 
     begin
       buffer = Bytes.new(8192) # 8KB buffer
-      while (read_bytes = context.request.body.try(&.read(buffer)))
+      while read_bytes = context.request.body.try(&.read(buffer))
         body_size += read_bytes
         body.write(buffer[0, read_bytes])
 
