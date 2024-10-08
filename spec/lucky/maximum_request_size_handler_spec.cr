@@ -25,7 +25,10 @@ describe Lucky::MaximumRequestSizeHandler do
 
     it "with a large request, deny the request" do
       context = build_large_request_context("/path")
-      Lucky::MaximumRequestSizeHandler.temp_config(enabled: true) do
+      Lucky::MaximumRequestSizeHandler.temp_config(
+        enabled: true,
+        max_size: 10,
+      ) do
         run_request_size_handler(context)
       end
       context.response.status.should eq(HTTP::Status::PAYLOAD_TOO_LARGE)
