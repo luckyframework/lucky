@@ -3,7 +3,7 @@ class Lucky::MaximumRequestSizeHandler
 
   Habitat.create do
     setting enabled : Bool = false
-    setting max_size : Int32 = 1_048_576 # 1MB
+    setting max_size : Int64 = 1_048_576_i64 # 1MB
   end
 
   def call(context)
