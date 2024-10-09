@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::ExceptionPage - lucky main</title>
+  <title>Lucky::MaximumRequestSizeHandler - lucky main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -242,7 +242,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/ExceptionPage" data-name="lucky::exceptionpage">
+  <li class=" " data-id="lucky/Lucky/ExceptionPage" data-name="lucky::exceptionpage">
       <a href="../Lucky/ExceptionPage.html">ExceptionPage</a>
       
     </li>
@@ -412,7 +412,7 @@
       
     </li>
   
-  <li class="parent " data-id="lucky/Lucky/MaximumRequestSizeHandler" data-name="lucky::maximumrequestsizehandler">
+  <li class="parent open current" data-id="lucky/Lucky/MaximumRequestSizeHandler" data-name="lucky::maximumrequestsizehandler">
       <a href="../Lucky/MaximumRequestSizeHandler.html">MaximumRequestSizeHandler</a>
       
         <ul>
@@ -931,12 +931,12 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Lucky::<wbr>ExceptionPage
+  <span class="kind">class</span> Lucky::<wbr>MaximumRequestSizeHandler
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/ExceptionPage.html">Lucky::ExceptionPage</a></li><li class="superclass">ExceptionPage</li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Lucky/MaximumRequestSizeHandler.html">Lucky::MaximumRequestSizeHandler</a></li><li class="superclass">Reference</li><li class="superclass"><a href="../Object.html">Object</a></li></ul>
 
 
 
@@ -944,6 +944,24 @@
 
 
 
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">Habitat::SettingsHelpers</li>
+    
+      <li class="other-type">Habitat::TempConfig</li>
+    
+      <li class="other-type">HTTP::Handler</li>
+    
+  </ul>
 
 
 
@@ -964,8 +982,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/exception_page.cr#L1" target="_blank">
-        lucky/exception_page.cr
+      <a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/maximum_request_size_handler.cr#L13" target="_blank">
+        lucky/maximum_request_size_handler.cr
       </a>
     
     <br/>
@@ -973,9 +991,50 @@
 
 
 
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="HABITAT_SETTINGS">
+        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: enabled : <span class="t">Bool</span> <span class="o">=</span> <span class="n">false</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: max_size : <span class="t">Int64</span> <span class="o">=</span> <span class="n">1048576_i64</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
+      </dt>
+      
+    
+  </dl>
 
 
 
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#configure%28%26%29-class-method" class="signature"><strong>.configure</strong>(&)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#settings-class-method" class="signature"><strong>.settings</strong></a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -992,14 +1051,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#project_url%3AString-instance-method" class="signature"><strong>#project_url</strong> : String</a>
-        
-          <div class="summary"><p>Add an optional link to your project</p></div>
+        <a href="#call%28context%29-instance-method" class="signature"><strong>#call</strong>(context)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#styles%3AExceptionPage%3A%3AStyles-instance-method" class="signature"><strong>#styles</strong> : ExceptionPage::Styles</a>
+        <a href="#settings-instance-method" class="signature"><strong>#settings</strong></a>
         
       </li>
     
@@ -1008,6 +1065,19 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
   
     
 
@@ -1080,6 +1150,48 @@
 
 
 
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="configure(&amp;)-class-method">
+      <div class="signature">
+        
+        def self.<strong>configure</strong>(&)
+
+        <a class="method-permalink" href="#configure%28%26%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/maximum_request_size_handler.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="settings-class-method">
+      <div class="signature">
+        
+        def self.<strong>settings</strong>
+
+        <a class="method-permalink" href="#settings-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/maximum_request_size_handler.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
 
 
 
@@ -1093,43 +1205,34 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="project_url:String-instance-method">
+    <div class="entry-detail" id="call(context)-instance-method">
       <div class="signature">
         
-        def <strong>project_url</strong> : <a href="../String.html">String</a>
+        def <strong>call</strong>(context)
 
-        <a class="method-permalink" href="#project_url%3AString-instance-method">#</a>
+        <a class="method-permalink" href="#call%28context%29-instance-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-            <div class="doc-inherited">
-              Description copied from class ExceptionPage
-            </div>
-          
-          <p>Add an optional link to your project</p>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/exception_page.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/maximum_request_size_handler.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="styles:ExceptionPage::Styles-instance-method">
+    <div class="entry-detail" id="settings-instance-method">
       <div class="signature">
         
-        def <strong>styles</strong> : ExceptionPage::Styles
+        def <strong>settings</strong>
 
-        <a class="method-permalink" href="#styles%3AExceptionPage%3A%3AStyles-instance-method">#</a>
+        <a class="method-permalink" href="#settings-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/exception_page.cr#L2" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/ff1bebd8c513414a149b7d4ff1005f51e3e702db/src/lucky/maximum_request_size_handler.cr#L16" target="_blank">View source</a>]
         
       </div>
     </div>
