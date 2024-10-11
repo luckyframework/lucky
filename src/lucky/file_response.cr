@@ -120,7 +120,13 @@ class Lucky::FileResponse < Lucky::Response
     File.expand_path(path, Dir.current)
   end
 
-  private def file_exists? : Bool
-    File.file?(full_path) && File.readable?(full_path)
-  end
+  {% if Crystal::VERSION.split(".")[0].to_i > 1 || (Crystal::VERSION.split(".")[0].to_i == 1 && Crystal::VERSION.split(".")[1].to_i > 12) || (Crystal::VERSION.split(".")[0].to_i == 1 && Crystal::VERSION.split(".")[1].to_i == 12 && Crystal::VERSION.split(".")[2].to_i >= 0) %}
+    private def file_exists? : Bool
+      File.file?(full_path) && File::Info.readable?(full_path)
+    end
+  {% else %}
+    private def file_exists? : Bool
+      File.file?(full_path) && File.readable?(full_path)
+    end
+  {% end %}
 end
