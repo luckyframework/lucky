@@ -2,7 +2,7 @@
 /libs/
 /lib/
 /bin/ameba
-/bin/ameba.cr
+/bin/ameba.*
 /tmp/
 /.shards/
 server
