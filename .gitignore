@@ -1,7 +1,8 @@
 /docs/
 /libs/
 /lib/
-/bin/
+/bin/ameba
+/bin/ameba.cr
 /tmp/
 /.shards/
 server
