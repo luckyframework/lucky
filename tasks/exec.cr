@@ -14,7 +14,7 @@ class Lucky::Exec < LuckyTask::Task
 
   Habitat.create do
     setting editor : String = "vim"
-    setting template_path : String = "#{__DIR__}/exec_template.cr.template"
+    setting template_path : String = Path["#{__DIR__}/exec_template.cr.template"].normalize.to_s
   end
 
   def help_message

@@ -13,7 +13,7 @@ describe Gen::Action do
       should_have_generated "#{valid_action_name} < BrowserAction", inside: filename
 
       io.to_s.should contain(valid_action_name)
-      io.to_s.should contain("/src/actions/users")
+      io.to_s.should contain(Path["src/actions/users"].normalize.to_s)
     end
   end
 
@@ -29,8 +29,8 @@ describe Gen::Action do
         should_have_generated "#{valid_action_name}Page < MainLayout", inside: page_filename
 
         io.to_s.should contain(valid_action_name)
-        io.to_s.should contain("/src/actions/users")
-        io.to_s.should contain("/src/pages/users")
+        io.to_s.should contain(Path["src/actions/users"].normalize.to_s)
+        io.to_s.should contain(Path["src/pages/users"].normalize.to_s)
       end
     end
 
@@ -43,7 +43,7 @@ describe Gen::Action do
         should_have_generated "#{valid_action_name} < ApiAction", inside: filename
 
         io.to_s.should contain(valid_action_name)
-        io.to_s.should contain("/src/actions/api/users")
+        io.to_s.should contain(Path["src/actions/api/users"].normalize.to_s)
         io.to_s.should contain("No page generated for ApiActions")
       end
     end
@@ -58,7 +58,7 @@ describe Gen::Action do
       should_have_generated "#{valid_action_name} < ApiAction", inside: filename
 
       io.to_s.should contain(valid_action_name)
-      io.to_s.should contain("/src/actions/api/users")
+      io.to_s.should contain(Path["src/actions/api/users"].normalize.to_s)
     end
   end
 
@@ -72,7 +72,7 @@ describe Gen::Action do
       should_have_generated %(get "/users/announcements"), inside: filename
 
       io.to_s.should contain(valid_nested_action_name)
-      io.to_s.should contain("/src/actions/users/announcements")
+      io.to_s.should contain(Path["src/actions/users/announcements"].normalize.to_s)
     end
 
     with_cleanup do
@@ -83,7 +83,7 @@ describe Gen::Action do
       should_have_generated "#{valid_nested_action_name} < ApiAction", inside: filename
 
       io.to_s.should contain(valid_nested_action_name)
-      io.to_s.should contain("/src/actions/api/users/announcements")
+      io.to_s.should contain(Path["src/actions/api/users/announcements"].normalize.to_s)
     end
   end
 

@@ -68,7 +68,7 @@ class Gen::Page < LuckyTask::Task
   private def output_path
     page_parts = page_class.split("::")
     page_parts.pop
-    Path["./src/pages/#{page_parts.map(&.underscore.downcase).join('/')}"]
+    Path["./src/pages/#{page_parts.map(&.underscore.downcase).join('/')}"].normalize
   end
 
   private def output_path_with_filename
