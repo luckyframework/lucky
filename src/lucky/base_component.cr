@@ -7,7 +7,7 @@ abstract class Lucky::BaseComponent
     # Returns the relative file location to the
     # project root. e.g. src/components/my_component.cr
     def self.file_location
-      __FILE__.gsub(::Path["#{Dir.current}/"].to_s, "")
+      __FILE__.gsub(Dir.current, "").byte_slice(1)
     end
   end
 

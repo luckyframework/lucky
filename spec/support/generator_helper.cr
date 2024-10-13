@@ -8,8 +8,8 @@ module GeneratorHelper
 
   private def should_create_files_with_contents(io : IO, **files_and_contents)
     files_and_contents.each do |file_location, file_contents|
-      File.read(Path[file_location.to_s].to_s).should contain(file_contents)
-      io.to_s.should contain(Path[file_location.to_s].to_s)
+      File.read(Path[file_location.to_s].normalize.to_s).should contain(file_contents)
+      io.to_s.should contain(Path[file_location.to_s].normalize.to_s)
     end
   end
 
