@@ -14,7 +14,7 @@ describe Lucky::Exec do
 end
 
 private def with_test_template(&)
-  Lucky::Exec.temp_config(template_path: "spec/support/exec_template.cr.template") do
+  Lucky::Exec.temp_config(template_path: Path["spec/support/exec_template.cr.template"].to_s) do
     yield
   end
 end
