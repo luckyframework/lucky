@@ -12,8 +12,6 @@ jobs:
       fail-fast: false
     runs-on: ubuntu-latest
     continue-on-error: false
-    env:
-      SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: crystal-lang/install-crystal@v1
@@ -29,6 +27,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
         shard_file:
           - shard.yml
         crystal_version:
@@ -40,19 +41,21 @@ jobs:
           - shard_file: shard.edge.yml
             crystal_version: latest
             experimental: true
+            os: ubuntu-latest
           - shard_file: shard.override.yml
             crystal_version: nightly
             experimental: true
-    runs-on: ubuntu-latest
+            os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
-    env:
-      SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{matrix.crystal_version}}
       - name: Install shards
-        run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install --ignore-crystal-version
+        run: shards install --skip-postinstall --skip-executables
+        env:
+          SHARDS_OVERRIDE: ${{ matrix.shard_file }}
       - name: Run tests
         run: crystal spec
