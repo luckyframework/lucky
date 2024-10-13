@@ -72,7 +72,7 @@ class Gen::Component < LuckyTask::Task
   private def output_path
     parts = component_class.split("::")
     parts.pop
-    Path["./src/components/#{parts.map(&.underscore.downcase).join('/')}"]
+    Path["./src/components/#{parts.map(&.underscore.downcase).join('/')}"].normalize
   end
 
   private def output_path_with_filename
