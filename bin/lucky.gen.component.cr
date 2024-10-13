@@ -1,3 +1,3 @@
-require "../../../tasks/gen/component"
+require "lucky/tasks/gen/component"
 
 Gen::Component.new.print_help_or_call(ARGV)

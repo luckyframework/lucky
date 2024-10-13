@@ -72,7 +72,7 @@ module Gen::ActionGenerator
   end
 
   private def output_path
-    Path["./src/actions/#{path}"]
+    Path["./src/actions/#{path}"].normalize
   end
 
   private def path

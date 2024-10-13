@@ -14,7 +14,7 @@ describe Gen::Task do
   it "generates a task" do
     with_cleanup do
       output = run_with_args ["search.reindex"]
-      output.to_s.should contain("./tasks/search/reindex.cr")
+      output.to_s.should contain(Path["./tasks/search/reindex.cr"].normalize.to_s)
       should_create_files_with_contents output,
         "./tasks/search/reindex.cr": "Search::Reindex"
     end

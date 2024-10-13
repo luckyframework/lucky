@@ -6,25 +6,16 @@ crystal: ">= 1.10.0"
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
-targets:
-  lucky.exec:
-    main: src/precompiled_tasks/exec.cr
-  lucky.watch:
-    main: src/precompiled_tasks/watch.cr
-  lucky.gen.action:
-    main: src/precompiled_tasks/gen/action/helpful_error.cr
-  lucky.gen.action.browser:
-    main: src/precompiled_tasks/gen/action/browser.cr
-  lucky.gen.action.api:
-    main: src/precompiled_tasks/gen/action/api.cr
-  lucky.gen.page:
-    main: src/precompiled_tasks/gen/page.cr
-  lucky.gen.component:
-    main: src/precompiled_tasks/gen/component.cr
-  lucky.gen.task:
-    main: src/precompiled_tasks/gen/task.cr
-  lucky.gen.secret_key:
-    main: src/precompiled_tasks/gen/secret_key.cr
+executables:
+  - lucky.exec.cr
+  - lucky.watch.cr
+  - lucky.gen.action.cr
+  - lucky.gen.action.browser.cr
+  - lucky.gen.action.api.cr
+  - lucky.gen.page.cr
+  - lucky.gen.component.cr
+  - lucky.gen.task.cr
+  - lucky.gen.secret_key.cr
 
 dependencies:
   lucky_task:
@@ -62,8 +53,5 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 1.5.0
-
-scripts:
-  postinstall: BUILD_WITHOUT_DEVELOPMENT=true script/precompile_tasks
 
 license: MIT
