@@ -114,9 +114,10 @@ describe "components rendering" do
   it "prints a comment when configured to do so" do
     Lucky::HTMLPage.temp_config(render_component_comments: true) do
       contents = TestMountPage.new(context_with_csrf).render.to_s
-      contents.should contain("<!-- BEGIN: ComplexTestComponent spec/lucky/component_spec.cr -->")
+      component_path = Path["spec/lucky/component_spec.cr"].to_s
+      contents.should contain("<!-- BEGIN: ComplexTestComponent #{component_path} -->")
       contents.should contain("<!-- END: ComplexTestComponent -->")
-      contents.should contain("<!-- BEGIN: ComponentWithBlock spec/lucky/component_spec.cr -->")
+      contents.should contain("<!-- BEGIN: ComponentWithBlock #{component_path} -->")
       contents.should contain("<!-- END: ComponentWithBlock -->")
     end
   end
@@ -142,9 +143,10 @@ describe "components rendering" do
     it "prints a comment when configured to do so" do
       Lucky::HTMLPage.temp_config(render_component_comments: true) do
         contents = TestMountInstancePage.new(build_context).render.to_s
-        contents.should contain("<!-- BEGIN: ComplexInstanceTestComponent spec/lucky/component_spec.cr -->")
+        component_path = Path["spec/lucky/component_spec.cr"].to_s
+        contents.should contain("<!-- BEGIN: ComplexInstanceTestComponent #{component_path} -->")
         contents.should contain("<!-- END: ComplexInstanceTestComponent -->")
-        contents.should contain("<!-- BEGIN: ComponentWithBlock spec/lucky/component_spec.cr -->")
+        contents.should contain("<!-- BEGIN: ComponentWithBlock #{component_path} -->")
         contents.should contain("<!-- END: ComponentWithBlock -->")
       end
     end
