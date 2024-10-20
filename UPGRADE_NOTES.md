@@ -1,3 +1,40 @@
+## Upgrading from 1.2.0 to 1.3.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.2.0&to=1.3.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.3.0`
+  - Avram should be `~> 1.3.0`
+  - Carbon should be `~> 0.6.0`
+
+- Run `shards update`
+
+- Upgrade Lucky CLI on Windows (Scoop)
+
+```
+scoop bucket add lucky https://github.com/luckyframework/scoop-bucket
+scoop install lucky
+```
+
+### General updates
+
+### Optional update
+
+- Update: to Crystal 1.14
+
 ## Upgrading from 1.1.0 to 1.2.0
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.1.0&to=1.2.0).
