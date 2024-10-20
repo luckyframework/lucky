@@ -1,4 +1,4 @@
-dependencies:
-  habitat:
-    github: luckyframework/habitat
-    branch: main
+# dependencies:
+#   habitat:
+#     github: luckyframework/habitat
+#     branch: main
