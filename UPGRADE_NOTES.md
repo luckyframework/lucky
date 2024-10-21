@@ -18,7 +18,9 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Lucky should be `~> 1.3.0`
   - Avram should be `~> 1.3.0`
+  - Authentic should be `~> 1.0.1`
   - Carbon should be `~> 0.6.0`
+  - Carbon Adapter should be `~> 0.6.0`
 
 - Run `shards update`
 
@@ -31,9 +33,19 @@ scoop install lucky
 
 ### General updates
 
+No required updates needed for this release.
+
 ### Optional update
 
 - Update: to Crystal 1.14
+- Update: All previously pre-compiled tasks should now show in your `./bin/` as Crystal files. Build these to run them as compiled.
+
+```
+crystal build --release bin/lucky.gen.secret_key.cr -o bin/lucky.gen.secret_key
+crystal build --release bin/lucky.watch.cr -o bin/lucky.watch
+crystal build --release bin/lucky.exec.cr -o bin/lucky.exec
+# ... etc...
+```
 
 ## Upgrading from 1.1.0 to 1.2.0
 

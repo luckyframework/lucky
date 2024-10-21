@@ -185,8 +185,13 @@ To claim your shirt, [fill in this form](https://forms.gle/w3PJ4pww8WDAuJov5).
 
 ## Contributors
 
-- [paulcsmith](https://github.com/paulcsmith) Paul Smith - creator, maintainer
-- [Our wonderful community](https://github.com/luckyframework/lucky/graphs/contributors) - ❤️
+[paulcsmith](https://github.com/paulcsmith) Paul Smith - Original Creator of Lucky
+
+<a href="https://github.com/luckyframework/lucky/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=luckyframework/lucky" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
 
 ## Thanks & attributions
 
