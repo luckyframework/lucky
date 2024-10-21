@@ -1,4 +1,38 @@
-### Changes in 1.2.0
+### Changes in 1.3.0
+
+- Fixed: re-compilation time not resetting. [#1894](https://github.com/luckyframework/lucky/pull/1894)
+- Fixed: missing `--with-page` flag in `gen.action.browser` task help text. [#1895](https://github.com/luckyframework/lucky/pull/1895)
+- Refactor: lucky routes to pull from the router instead of holding a second array in memory. [#1898](https://github.com/luckyframework/lucky/pull/1898)
+- Updated: error message when booting Lucky and the watcher config is missing. [#1896](https://github.com/luckyframework/lucky/pull/1896)
+- Fixed: compatibility with Crystal 1.13.x and later. [#1900](https://github.com/luckyframework/lucky/pull/1900)
+- Fixed: invalid query string for array params. [#1908](https://github.com/luckyframework/lucky/pull/1908)
+- Refactor: make `form_method` public. [#1915](https://github.com/luckyframework/lucky/pull/1915)
+- Added: new `MaximumRequestSizeHandler`. [#1916](https://github.com/luckyframework/lucky/pull/1916)
+- Fixed: deprecation warning for Crystal 1.13. [#1918](https://github.com/luckyframework/lucky/pull/1918)
+- Fixed: compilation error with updated ExceptionPage. [#1910](https://github.com/luckyframework/lucky/pull/1910)
+- Updated: to latest ExceptionPage. [#1921](https://github.com/luckyframework/lucky/pull/1921)
+- Added: support for Windows with the core `Lucky` shard. [#1919](https://github.com/luckyframework/lucky/pull/1919)
+- Refactor: all built-in tasks are no longer precompiled. [#1919](https://github.com/luckyframework/lucky/pull/1919)
+- Updated: url link to PostCSS in generated webpack.mix. [65f2d3df in LuckyCLI](https://github.com/luckyframework/lucky_cli/commit/65f2d3dfd0c572ba8a8015c36499ca2f61c742a8)
+- Added: ability to run uncompiled tasks from Crystal files. [#871 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/871)
+- Refactor: generated page templates with clear args. [#935 in Avram](https://github.com/luckyframework/avram/pull/935)
+- Fixed: issue with type casting on `select_min/max`. [#1040 in Avram](https://github.com/luckyframework/avram/pull/1040)
+- Added: `have_any` criteria method for array queries. [#1042 in Avram](https://github.com/luckyframework/avram/pull/1042)
+- Added: `if_exists` option to DROP TABLE queries. [#1043 in Avram](https://github.com/luckyframework/avram/pull/1043)
+- Added: support for camel case or snake case on `gen.migration` task. [#1046 in Avram](https://github.com/luckyframework/avram/pull/1046)
+- Added: array param options for raw where query values. [#1044 in Avram](https://github.com/luckyframework/avram/pull/1044)
+- Updated: error message when there's issues connecting to your DB. [#1047 in Avram](https://github.com/luckyframework/avram/pull/1047)
+- Updated: DeleteOperations to run in a transaction. [#1055 in Avram](https://github.com/luckyframework/avram/pull/1055)
+- Added: `have_error` expectation for specs with SaveOperations. [#1062 in Avram](https://github.com/luckyframework/avram/pull/1062)
+- Refactor: use `postgres` as the default database for `db.create` and `db.drop` tasks. [#1058 in Avram](https://github.com/luckyframework/avram/pull/1058)
+- Refactor: all calls to tables and column names are now quoted in constructed SQL queries. Allows for defining columns that may conflict with reserved SQL words. [#1059 in Avram](https://github.com/luckyframework/avram/pull/1059)
+- Added: `validate_url_format` for operation validations. [#1065 in Avram](https://github.com/luckyframework/avram/pull/1065)
+- Refactor: built-in db related tasks are no longer precompiled. [#1069 in Avram](https://github.com/luckyframework/avram/pull/1069)
+- Refacor: built-in `gen.email` task is no longer precompiled. [#95 in Carbon](https://github.com/luckyframework/carbon/pull/95)
+
+
+
+### Changes in 1.2.0 (2024-04-21)
 
 - Updated: exception page which includes syntax highlighting now. [#1850](https://github.com/luckyframework/lucky/pull/1850)
 - Refactor: Action call body with a clear compile error and ability to do short-circuit returns. [#1857](https://github.com/luckyframework/lucky/pull/1857)
