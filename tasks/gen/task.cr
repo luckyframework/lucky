@@ -9,7 +9,7 @@ class Lucky::TaskTemplate
   def initialize(
     @task_filename : String,
     @task_name : String,
-    @summary : String
+    @summary : String,
   )
     @save_path = @task_name.split("::").map(&.underscore.downcase)[0..-2].join('/')
   end
