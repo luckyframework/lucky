@@ -7,7 +7,7 @@ module Lucky::CustomTags
     content : Lucky::AllowedInTags | String? = "",
     options = EMPTY_HTML_ATTRS,
     attrs : Array(Symbol) = [] of Symbol,
-    **other_options
+    **other_options,
   ) : Nil
     merged_options = merge_options(other_options, options)
 
@@ -19,7 +19,7 @@ module Lucky::CustomTags
   def tag(
     tag_name : String,
     options = EMPTY_HTML_ATTRS,
-    **other_options
+    **other_options,
   ) : Nil
     tag(tag_name, "", options, **other_options)
   end

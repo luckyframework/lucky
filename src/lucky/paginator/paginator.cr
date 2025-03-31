@@ -214,7 +214,7 @@ class Lucky::Paginator
     begin beginning : Int32 = 0,
     left_of_current : Int32 = 0,
     right_of_current : Int32 = 0,
-    end ending : Int32 = 0
+    end ending : Int32 = 0,
   ) : Array(SeriesItem)
     middle_pages = build_middle_of_series(left_of_current, right_of_current)
     beginning_and_middle_pages = add_beginning_pages(middle_pages, beginning)
@@ -223,7 +223,7 @@ class Lucky::Paginator
 
   private def build_middle_of_series(
     left_of_current : Int32,
-    right_of_current : Int32
+    right_of_current : Int32,
   ) : Array(SeriesItem)
     arr = [] of SeriesItem
 

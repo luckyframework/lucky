@@ -7,7 +7,7 @@ module Lucky::RedirectableTurbolinksSupport
   # Overrides Lucky::Redirectable redirect's method
   def redirect(
     to path : String,
-    status : Int32 = Lucky::Redirectable.settings.redirect_status
+    status : Int32 = Lucky::Redirectable.settings.redirect_status,
   ) : Lucky::TextResponse
     # flash messages are not consumed here, so keep them for the next action
     flash.keep
