@@ -39,9 +39,16 @@ describe Lucky::UploadedFile do
 
   describe "#blank?" do
     it "tests if the file name is blank" do
-      uploaded_file.blank?.should be_falsey
+      uploaded_file.blank?.should be_false
+      empty_uploaded_file.blank?.should be_true
     end
   end
+end
+
+private def empty_uploaded_file
+  Lucky::Params.new(build_multipart_request(file_parts: {
+    "empty_file" => "",
+  })).get_file(:empty_file)
 end
 
 private def nameless_uploaded_file

@@ -30,14 +30,13 @@ class Lucky::UploadedFile
     @tempfile.path
   end
 
-  # Tests if the file name is blank, which typically means no file was selected
-  # at the time the form was submitted.
+  # Tests if the file size is zero.
   #
   # ```
   # uploaded_file_object.blank? # => Bool
   # ```
   def blank? : Bool
-    filename.blank?
+    tempfile.size.zero?
   end
 
   @[Deprecated("`metadata` deprecated. Each method on metadata is accessible directly on Lucky::UploadedFile")]
