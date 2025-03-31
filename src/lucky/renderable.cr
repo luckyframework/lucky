@@ -221,7 +221,7 @@ module Lucky::Renderable
     content_type : String? = nil,
     disposition : String = "attachment",
     filename : String? = nil,
-    status : Int32? = nil
+    status : Int32? = nil,
   ) : Lucky::FileResponse
     Lucky::FileResponse.new(context, path, content_type, disposition, filename, status)
   end
@@ -231,7 +231,7 @@ module Lucky::Renderable
     content_type : String? = nil,
     disposition : String = "attachment",
     filename : String? = nil,
-    status : HTTP::Status = HTTP::Status::OK
+    status : HTTP::Status = HTTP::Status::OK,
   ) : Lucky::FileResponse
     file(path, content_type, disposition, filename, status.value)
   end
@@ -241,7 +241,7 @@ module Lucky::Renderable
     content_type : String = "application/octet-stream",
     disposition : String = "attachment",
     filename : String? = nil,
-    status : Int32? = nil
+    status : Int32? = nil,
   ) : Lucky::DataResponse
     Lucky::DataResponse.new(context, data, content_type, disposition, filename, status)
   end
@@ -249,7 +249,7 @@ module Lucky::Renderable
   def send_text_response(
     body : String,
     content_type : String,
-    status : Int32? = nil
+    status : Int32? = nil,
   ) : Lucky::TextResponse
     Lucky::TextResponse.new(
       context,

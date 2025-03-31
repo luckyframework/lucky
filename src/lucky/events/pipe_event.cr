@@ -9,7 +9,7 @@ class Lucky::Events::PipeEvent < Pulsar::Event
   def initialize(
     @name : String,
     @position : Position,
-    @continued : Bool
+    @continued : Bool,
   )
   end
 

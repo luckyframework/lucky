@@ -38,7 +38,7 @@ end
 
 private def run_request_size_handler(context)
   handler = Lucky::MaximumRequestSizeHandler.new
-  handler.next = ->(_ctx : HTTP::Server::Context) {}
+  handler.next = ->(_ctx : HTTP::Server::Context) { }
   handler.call(context)
 end
 

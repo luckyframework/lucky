@@ -48,7 +48,7 @@ module Lucky::Redirectable
     *,
     fallback : Lucky::Action.class,
     status = Lucky::Redirectable.settings.redirect_status,
-    allow_external = false
+    allow_external = false,
   ) : Lucky::TextResponse
     redirect_back fallback: fallback.route, status: status, allow_external: allow_external
   end
@@ -62,7 +62,7 @@ module Lucky::Redirectable
     *,
     fallback : Lucky::RouteHelper,
     status = Lucky::Redirectable.settings.redirect_status,
-    allow_external = false
+    allow_external = false,
   ) : Lucky::TextResponse
     redirect_back fallback: fallback.path, status: status, allow_external: allow_external
   end
@@ -76,7 +76,7 @@ module Lucky::Redirectable
     *,
     fallback : String,
     status : HTTP::Status,
-    allow_external = false
+    allow_external = false,
   ) : Lucky::TextResponse
     redirect_back fallback: fallback, status: status.value, allow_external: allow_external
   end
@@ -108,7 +108,7 @@ module Lucky::Redirectable
     *,
     fallback : String,
     status : Int32 = Lucky::Redirectable.settings.redirect_status,
-    allow_external : Bool = false
+    allow_external : Bool = false,
   ) : Lucky::TextResponse
     referer = request.headers["Referer"]?
 
@@ -126,7 +126,7 @@ module Lucky::Redirectable
   # ```
   def redirect(
     to route : Lucky::RouteHelper,
-    status = Lucky::Redirectable.settings.redirect_status
+    status = Lucky::Redirectable.settings.redirect_status,
   ) : Lucky::TextResponse
     redirect to: route.path, status: status
   end
@@ -138,7 +138,7 @@ module Lucky::Redirectable
   # ```
   def redirect(
     to action : Lucky::Action.class,
-    status = Lucky::Redirectable.settings.redirect_status
+    status = Lucky::Redirectable.settings.redirect_status,
   ) : Lucky::TextResponse
     redirect to: action.route, status: status
   end
@@ -161,7 +161,7 @@ module Lucky::Redirectable
   # Note: It's recommended to use the method above that accepts a human friendly version of the status
   def redirect(
     to path : String,
-    status : Int32 = Lucky::Redirectable.settings.redirect_status
+    status : Int32 = Lucky::Redirectable.settings.redirect_status,
   ) : Lucky::TextResponse
     # flash messages are not consumed here, so keep them for the next action
     flash.keep
