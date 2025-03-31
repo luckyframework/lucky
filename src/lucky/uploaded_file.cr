@@ -1,6 +1,8 @@
 # This class represents an uploaded file from a form
 class Lucky::UploadedFile
   private getter part : HTTP::FormData::Part
+
+  getter filename : String
   getter tempfile : File
 
   delegate name, creation_time, modification_time, read_time, size, to: @part
@@ -11,7 +13,9 @@ class Lucky::UploadedFile
   # provided HTTP::FormData::Part and the **tempfile** will
   # be assigned the body of the HTTP::FormData::Part
   def initialize(@part : HTTP::FormData::Part)
-    @tempfile = File.tempfile(@part.name)
+    @filename = @part.filename.presence || Random.new.hex(12)
+    @tempfile = File.tempfile(filename)
+
     File.open(@tempfile.path, "w") do |tempfile|
       IO.copy(@part.body, tempfile)
     end
@@ -24,15 +28,6 @@ class Lucky::UploadedFile
   # ```
   def path : String
     @tempfile.path
-  end
-
-  # Returns the original name of the file
-  #
-  # ```
-  # uploaded_file_object.filename # => String
-  # ```
-  def filename : String
-    part.filename.to_s
   end
 
   # Tests if the file name is blank, which typically means no file was selected

@@ -31,6 +31,10 @@ describe Lucky::UploadedFile do
     it "returns the original file from the metadata object" do
       uploaded_file.filename.should eq("welcome_file")
     end
+
+    it "generates random filename for files without names" do
+      nameless_uploaded_file.filename.should_not be_empty
+    end
   end
 
   describe "#blank?" do
@@ -38,6 +42,12 @@ describe Lucky::UploadedFile do
       uploaded_file.blank?.should be_falsey
     end
   end
+end
+
+private def nameless_uploaded_file
+  Lucky::Params.new(build_multipart_request(file_parts: {
+    "" => "nameless file contents",
+  })).from_multipart[1][""]
 end
 
 private def uploaded_file
