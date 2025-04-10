@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- lucky logo -->
+<svg width="64" height="64" version="1.1" viewBox="0 0 16.933 16.933" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#2a2a2a" class="logo">
+    <path d="m12.626 15.485h-8.3184a3.4546 3.4546 0 0 1-2.9917-5.1818l4.1592-7.2039a3.4546 3.4546 0 0 1 5.9835 0l4.1592 7.2039a3.4546 3.4546 0 0 1-2.9917 5.1818z" stroke-width="1"/>
+    <path d="m3.9846 15.469c1.6962-5.1849 4.804-10.023 7.1105-12.89" stroke-width="0.5"/>
+    <path d="m5.9305 15.47c1.4755-4.5103 4.179-8.7192 6.1854-11.213" stroke-width="0.5"/>
+  </g>
+</svg>

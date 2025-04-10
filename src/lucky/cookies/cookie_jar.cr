@@ -2,8 +2,8 @@ class Lucky::CookieJar
   MAX_COOKIE_SIZE         = 4096
   LUCKY_ENCRYPTION_PREFIX = Base64.strict_encode("lucky") + "--"
   alias Key = String | Symbol
-  private property cookies
-  private property set_cookies
+  private property cookies : HTTP::Cookies
+  private property set_cookies : HTTP::Cookies
 
   Habitat.create do
     setting on_set : (HTTP::Cookie -> HTTP::Cookie)?
@@ -46,7 +46,7 @@ class Lucky::CookieJar
   #         .http_only(true)
   #         .secure(true)
   # end
-  def clear(&block : HTTP::Cookie ->) : Nil
+  def clear(& : HTTP::Cookie ->) : Nil
     cookies.each do |cookie|
       yield cookie
       delete cookie.name
@@ -68,7 +68,7 @@ class Lucky::CookieJar
 
   # Delete a specific cookie by name `key`. Yield that cookie
   # to the block so you can add additional options like domain, path, etc...
-  def delete(key : Key) : Nil
+  def delete(key : Key, &) : Nil
     if cookie = cookies[key.to_s]?
       yield cookie
       delete cookie.name
@@ -97,6 +97,10 @@ class Lucky::CookieJar
     get?(key) || raise CookieNotFoundError.new(key)
   end
 
+  def [](key : Key) : String
+    get(key)
+  end
+
   def get?(key : Key) : String?
     cookies[key.to_s]?.try do |cookie|
       decrypt(cookie.value, cookie.name)
@@ -105,8 +109,16 @@ class Lucky::CookieJar
     nil
   end
 
+  def []?(key : Key) : String?
+    get?(key)
+  end
+
   def set(key : Key, value : String) : HTTP::Cookie
     set_raw key, encrypt(value)
+  end
+
+  def []=(key : Key, value : String) : HTTP::Cookie
+    set(key, value)
   end
 
   def set_raw(key : Key, value : String) : HTTP::Cookie

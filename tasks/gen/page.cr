@@ -1,39 +1,48 @@
+require "ecr"
 require "lucky_task"
-require "teeplate"
+require "lucky_template"
 require "colorize"
-require "file_utils"
 
-class Lucky::PageTemplate < Teeplate::FileTree
+class Lucky::PageTemplate
   @page_filename : String
   @page_class : String
-  @output_path : String
-
-  directory "#{__DIR__}/templates/page"
+  @output_path : Path
 
   def initialize(@page_filename, @page_class, @output_path)
+  end
+
+  def render(path : Path)
+    LuckyTemplate.write!(path, template_folder)
+  end
+
+  def template_folder
+    LuckyTemplate.create_folder do |root_dir|
+      root_dir.add_file(Path["#{@output_path}/#{@page_filename}.cr"]) do |io|
+        ECR.embed("#{__DIR__}/templates/page/page.cr.ecr", io)
+      end
+    end
   end
 end
 
 class Gen::Page < LuckyTask::Task
   summary "Generate a new HTML page"
+  help_message <<-TEXT
+  #{task_summary}
 
-  def call(io : IO = STDOUT)
+  Example:
+
+    lucky gen.page Users::IndexPage
+  TEXT
+
+  positional_arg :page_class, "The name of the page"
+
+  def call
     if error
-      io.puts error.colorize(:red)
+      output.puts error.colorize(:red)
     else
-      Lucky::PageTemplate.new(page_filename, page_class, output_path).render(output_path)
-      io.puts success_message
+      Lucky::PageTemplate.new(page_filename, page_class, output_path).render(Path["."])
+      output.puts success_message
     end
-  end
-
-  def help_message
-    <<-TEXT
-    #{summary}
-
-    Example:
-
-      lucky gen.page Users::IndexPage
-    TEXT
   end
 
   private def error
@@ -41,7 +50,7 @@ class Gen::Page < LuckyTask::Task
   end
 
   private def missing_name_error
-    if ARGV.first?.nil?
+    if page_class.nil?
       "Page name is required."
     end
   end
@@ -52,10 +61,6 @@ class Gen::Page < LuckyTask::Task
     end
   end
 
-  private def page_class
-    ARGV.first
-  end
-
   private def page_filename
     page_class.split("::").last.underscore.downcase
   end
@@ -63,11 +68,11 @@ class Gen::Page < LuckyTask::Task
   private def output_path
     page_parts = page_class.split("::")
     page_parts.pop
-    "./src/pages/#{page_parts.map(&.underscore).map(&.downcase).join("/")}"
+    Path["./src/pages/#{page_parts.map(&.underscore.downcase).join('/')}"].normalize
   end
 
   private def output_path_with_filename
-    output_path + "/" + page_filename + ".cr"
+    File.join(output_path, page_filename + ".cr")
   end
 
   private def success_message

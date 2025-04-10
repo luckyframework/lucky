@@ -16,10 +16,15 @@ module Lucky::TimeHelpers
   # # => "almost 42 years"
   # ```
   def distance_of_time_in_words(from : Time, to : Time) : String
-    minutes = (to - from).minutes
-    seconds = (to - from).seconds
-    hours = (to - from).hours
-    days = (to - from).days
+    distance_of_time_in_words(to - from)
+  end
+
+  # :ditto:
+  def distance_of_time_in_words(span : Time::Span) : String
+    minutes = span.minutes
+    seconds = span.seconds
+    hours = span.hours
+    days = span.days
 
     return distance_in_days(days) if days != 0
     return distance_in_hours(hours, minutes) if hours != 0

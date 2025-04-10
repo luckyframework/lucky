@@ -10,7 +10,8 @@
 class Lucky::TextResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
-  getter context, content_type, body, debug_message, enable_cookies
+  getter context, content_type, body, enable_cookies
+  getter debug_message : String?
 
   def initialize(@context : HTTP::Server::Context,
                  @content_type : String,
@@ -28,6 +29,7 @@ class Lucky::TextResponse < Lucky::Response
     end
     context.response.content_type = content_type
     context.response.status_code = status
+    context.response.headers.add "Date", HTTP.format_time(Time.utc)
     gzip if should_gzip?
     context.response.print(body) if should_print?
   rescue e : IO::Error
@@ -38,13 +40,15 @@ class Lucky::TextResponse < Lucky::Response
     @status || context.response.status_code || DEFAULT_STATUS
   end
 
-  private def gzip
+  private def gzip : Nil
     context.response.headers["Content-Encoding"] = "gzip"
     context.response.output = Compress::Gzip::Writer.new(context.response.output, sync_close: true)
   end
 
-  private def should_gzip?
-    {% if !flag?(:without_zlib) %}
+  private def should_gzip? : Bool
+    {% if flag?(:without_zlib) %}
+      false
+    {% else %}
       Lucky::Server.settings.gzip_enabled &&
         context.request.headers.includes_word?("Accept-Encoding", "gzip") &&
         Lucky::Server.settings.gzip_content_types.includes?(content_type)

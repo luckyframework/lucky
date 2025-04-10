@@ -6,11 +6,15 @@ describe Lucky::CookieJar do
 
     jar.set(:symbol_key, "symbol key")
     jar.set("string_key", "string key")
+    jar[:another_symbol] = "symbol key"
+    jar["another_string"] = "string key"
 
     jar.get(:symbol_key).should eq("symbol key")
     jar.get("symbol_key").should eq("symbol key")
     jar.get("string_key").should eq("string key")
     jar.get(:string_key).should eq("string key")
+    jar[:another_symbol].should eq("symbol key")
+    jar["another_string"].should eq("string key")
   end
 
   it "sets and gets raw HTTP::Cookie object with indifferent access" do
@@ -24,14 +28,14 @@ describe Lucky::CookieJar do
     jar.get_raw("symbol").value.should eq("symbol_value")
     jar.get_raw(:cookie).value.should eq(value)
     jar.get_raw("cookie").value.should eq(value)
-    jar.get_raw?(:cookie).not_nil!.value.should eq(value)
-    jar.get_raw?("cookie").not_nil!.value.should eq(value)
+    jar.get_raw?(:cookie).as(HTTP::Cookie).value.should eq(value)
+    jar.get_raw?("cookie").as(HTTP::Cookie).value.should eq(value)
     jar.get_raw?(:missing).should be_nil
     jar.get_raw?("missing").should be_nil
   end
 
   it "raises a nicer error for invalid cookie values" do
-    value = "Double Chocolate"
+    value = "Double,Chocolate"
     jar = Lucky::CookieJar.empty_jar
 
     expect_raises(Lucky::InvalidCookieValueError, "Cookie value for 'cookie' is invalid") do
@@ -132,7 +136,7 @@ describe Lucky::CookieJar do
       jar.set(:tabs_or_spaces, "stop it").http_only(false).expires(time)
 
       jar.get_raw(:tabs_or_spaces).http_only.should be_false
-      jar.get_raw(:tabs_or_spaces).expires.not_nil!.should eq(time)
+      jar.get_raw(:tabs_or_spaces).expires.as(Time).should eq(time)
     end
 
     it "raises an error if the cookie is > 4096 bytes" do

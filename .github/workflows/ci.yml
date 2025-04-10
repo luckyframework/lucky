@@ -10,28 +10,15 @@ jobs:
   check_format:
     strategy:
       fail-fast: false
-      matrix:
-        shard_file:
-          - shard.yml
-        crystal_version:
-          - latest
-        experimental:
-          - false
-        include:
-          - shard_file: shard.yml
-            crystal_version: nightly
-            experimental: true
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
-    env:
-      SKIP_LUCKY_TASK_PRECOMPILATION: "1"
+    continue-on-error: false
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - uses: crystal-lang/install-crystal@v1
         with:
-          crystal: ${{matrix.crystal_version}}
+          crystal: latest
       - name: Install shards
-        run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install
+        run: shards install
       - name: Format
         run: crystal tool format --check
       - name: Lint
@@ -40,10 +27,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
         shard_file:
           - shard.yml
         crystal_version:
-          - 1.0.0
+          - 1.10.0
           - latest
         experimental:
           - false
@@ -51,19 +41,21 @@ jobs:
           - shard_file: shard.edge.yml
             crystal_version: latest
             experimental: true
-          - shard_file: shard.yml
+            os: ubuntu-latest
+          - shard_file: shard.override.yml
             crystal_version: nightly
             experimental: true
-    runs-on: ubuntu-latest
+            os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
-    env:
-      SKIP_LUCKY_TASK_PRECOMPILATION: "1"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{matrix.crystal_version}}
       - name: Install shards
-        run: SHARDS_OVERRIDE=${{ matrix.shard_file }} shards install --ignore-crystal-version
+        run: shards install --skip-postinstall --skip-executables
+        env:
+          SHARDS_OVERRIDE: ${{ matrix.shard_file }}
       - name: Run tests
         run: crystal spec

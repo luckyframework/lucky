@@ -26,7 +26,7 @@ module Lucky::UrlHelpers
   # ```
   def current_page?(
     value : String,
-    check_query_params : Bool = false
+    check_query_params : Bool = false,
   ) : Bool
     request = context.request
 
@@ -80,7 +80,7 @@ module Lucky::UrlHelpers
   # ```
   def current_page?(
     action : Lucky::Action.class | Lucky::RouteHelper,
-    check_query_params : Bool = false
+    check_query_params : Bool = false,
   ) : Bool
     current_page?(action.path, check_query_params)
   end
@@ -98,8 +98,16 @@ module Lucky::UrlHelpers
   # ```
   # a "Back", href: previous_url(fallback: Users::Index)
   # ```
-  def previous_url(fallback : Lucky::Action.class | Lucky::RouteHelper)
-    referrer_header || fallback.path
+  def previous_url(fallback : Lucky::Action.class | Lucky::RouteHelper) : String
+    request = context.request
+
+    if referrer_uri = referrer_header
+      referrer_path = URI.parse(referrer_uri).path
+      return fallback.path if request.resource == referrer_path
+      return referrer_uri
+    end
+
+    fallback.path
   end
 
   private def comparable_query_params(query_params : HTTP::Params) : String

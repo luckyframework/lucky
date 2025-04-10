@@ -31,7 +31,8 @@
 class Lucky::DataResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
-  getter context, data, content_type, filename, debug_message, headers
+  getter context, data, content_type, filename, headers
+  getter debug_message : String?
 
   def initialize(@context : HTTP::Server::Context,
                  @data : String,

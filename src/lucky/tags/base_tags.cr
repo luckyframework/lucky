@@ -172,7 +172,7 @@ module Lucky::BaseTags
       {{ method_name.id }}("", options, **other_options)
     end
 
-    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
+    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
       view << "<{{tag.id}}" << tag_attrs << ">"
@@ -180,7 +180,7 @@ module Lucky::BaseTags
       view << "</{{tag.id}}>"
     end
 
-    def {{method_name.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options, &block) : Nil
+    def {{method_name.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options) : Nil
       boolean_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
@@ -189,7 +189,7 @@ module Lucky::BaseTags
       view << "</{{tag.id}}>"
     end
 
-    def {{method_name.id}}(&block) : Nil
+    def {{method_name.id}} : Nil
       view << "<{{tag.id}}>"
       check_tag_content!(yield)
       view << "</{{tag.id}}>"

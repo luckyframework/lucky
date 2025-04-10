@@ -1,51 +1,35 @@
 name: lucky
-version: 0.29.0
+version: 1.3.0
 
-crystal: ">=1.0.0"
+crystal: ">= 1.10.0"
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
-targets:
-  lucky.exec:
-    main: src/precompiled_tasks/exec.cr
-  lucky.watch:
-    main: src/precompiled_tasks/watch.cr
-  lucky.gen.model:
-    main: src/precompiled_tasks/gen/model.cr
-  lucky.gen.action:
-    main: src/precompiled_tasks/gen/action/helpful_error.cr
-  lucky.gen.action.browser:
-    main: src/precompiled_tasks/gen/action/browser.cr
-  lucky.gen.action.api:
-    main: src/precompiled_tasks/gen/action/api.cr
-  lucky.gen.resource.browser:
-    main: src/precompiled_tasks/gen/resource/browser.cr
-  lucky.gen.page:
-    main: src/precompiled_tasks/gen/page.cr
-  lucky.gen.component:
-    main: src/precompiled_tasks/gen/component.cr
-  lucky.gen.task:
-    main: src/precompiled_tasks/gen/task.cr
-  lucky.gen.secret_key:
-    main: src/precompiled_tasks/gen/secret_key.cr
+executables:
+  - lucky.exec.cr
+  - lucky.watch.cr
+  - lucky.gen.action.cr
+  - lucky.gen.action.browser.cr
+  - lucky.gen.action.api.cr
+  - lucky.gen.page.cr
+  - lucky.gen.component.cr
+  - lucky.gen.task.cr
+  - lucky.gen.secret_key.cr
 
 dependencies:
   lucky_task:
     github: luckyframework/lucky_task
-    version: ~> 0.1.0
+    version: ~> 0.3.0
   habitat:
     github: luckyframework/habitat
-    version: ~> 0.4.7
+    version: ~> 0.4.9
   wordsmith:
     github: luckyframework/wordsmith
-    version: ~> 0.3.0
-  avram:
-    github: luckyframework/avram
-    version: ~> 0.22.0
+    version: ~> 0.4.0
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.5.1
+    version: ~> 0.6.0
   shell-table:
     github: luckyframework/shell-table.cr
     version: ~> 0.9.3
@@ -54,23 +38,20 @@ dependencies:
     version: ~> 0.4.3
   exception_page:
     github: crystal-loot/exception_page
-    version: ~> 0.2.1
+    version: ~> 0.5.0
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.3.3
+    version: ~> 0.3.4
   pulsar:
     github: luckyframework/pulsar
-    version: ~> 0.2.2
-  teeplate:
-    github: luckyframework/teeplate
-    version: ~> 0.8.5
+    version: ~> 0.2.3
+  lucky_template:
+    github: luckyframework/lucky_template
+    version: ~> 0.2.0
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.14.3
-
-scripts:
-  postinstall: BUILD_WITHOUT_DEVELOPMENT=true script/precompile_tasks
+    version: ~> 1.5.0
 
 license: MIT

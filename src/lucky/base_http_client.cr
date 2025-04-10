@@ -5,14 +5,12 @@ require "http/client"
 # Makes it easy to pass params, use Lucky route helpers, and chain header methods.
 abstract class Lucky::BaseHTTPClient
   @@app : Lucky::BaseAppServer?
-  private getter client
-
-  @client : HTTP::Client
+  private getter client : HTTP::Client
 
   def self.app(@@app : Lucky::BaseAppServer)
   end
 
-  def initialize(@client = build_client)
+  def initialize(@client : HTTP::Client = build_client)
   end
 
   private def build_client : HTTP::Client
@@ -66,7 +64,7 @@ abstract class Lucky::BaseHTTPClient
   #   .accept_plain_text
   #   .get("/some-path")
   # ```
-  def headers(**header_values)
+  def headers(**header_values) : self
     @client.before_request do |request|
       header_values.each do |key, value|
         request.headers[key.to_s.gsub("-", "_")] = value.to_s
@@ -99,6 +97,18 @@ abstract class Lucky::BaseHTTPClient
   # See docs for `exec`
   def exec(route_helper : Lucky::RouteHelper, params : NamedTuple) : HTTP::Client::Response
     @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: params.to_json)
+  end
+
+  # `exec_raw` works the same as `exec`, but allows you to pass in a raw string.
+  # This is used as an escape hatch as the `string` could be unsafe, or formatted
+  # in a custom format.
+  def exec_raw(action : Lucky::Action.class, body : HTTP::Client::BodyType) : HTTP::Client::Response
+    exec_raw(action.route, body)
+  end
+
+  # See docs for `exec_raw`
+  def exec_raw(route_helper : Lucky::RouteHelper, body : HTTP::Client::BodyType) : HTTP::Client::Response
+    @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: body)
   end
 
   {% for method in [:put, :patch, :post, :delete, :get, :options, :head] %}

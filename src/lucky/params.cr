@@ -656,6 +656,10 @@ class Lucky::Params
   end
 
   private def stringify_json_value(value : JSON::Any) : String
-    value.as_s? || value.to_json
+    if value.raw.nil?
+      ""
+    else
+      value.as_s? || value.to_json
+    end
   end
 end

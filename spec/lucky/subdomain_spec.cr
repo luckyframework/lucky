@@ -3,6 +3,8 @@ require "../spec_helper"
 include ContextHelper
 
 abstract class BaseAction < Lucky::Action
+  # https://github.com/luckyframework/lucky/issues/1685
+  include Lucky::ProtectFromForgery
   include Lucky::Subdomain
   accepted_formats [:html], default: :html
 end

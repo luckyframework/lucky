@@ -1,10 +1,13 @@
 # :nodoc:
 class Lucky::Router
-  getter routes = [] of Tuple(Symbol, String, Lucky::Action.class)
   @matcher = LuckyRouter::Matcher(Lucky::Action.class).new
 
+  # Array of path, method, and payload
+  def list_routes : Array(Tuple(String, String, Lucky::Action.class))
+    @matcher.list_routes
+  end
+
   def add(method : Symbol, path : String, action : Lucky::Action.class) : Nil
-    @routes << {method, path, action}
     @matcher.add(method.to_s, path, action)
   end
 

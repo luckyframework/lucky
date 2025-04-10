@@ -22,10 +22,25 @@ module Lucky::Memoizable
   macro memoize(method_def)
     {% raise "You must define a return type for memoized methods" if method_def.return_type.is_a?(Nop) %}
     {%
-      raise "All arguments must have an explicit type for memoized methods" if method_def.args.any? &.is_a?(Nop)
+      raise "All arguments must have an explicit type restriction for memoized methods" if method_def.args.any? &.restriction.is_a?(Nop)
     %}
 
-    @__memoized_{{method_def.name}} : Tuple(
+    {%
+      special_ending = nil
+      safe_method_name = method_def.name
+    %}
+
+    {%
+      if method_def.name.ends_with?('?')
+        special_ending = "?"
+        safe_method_name = method_def.name.tr("?", "")
+      elsif method_def.name.ends_with?('!')
+        special_ending = "!"
+        safe_method_name = method_def.name.tr("!", "")
+      end
+    %}
+
+    @__memoized_{{safe_method_name}} : Tuple(
       {{ method_def.return_type }},
       {% for arg in method_def.args %}
         {{ arg.restriction }},
@@ -33,9 +48,13 @@ module Lucky::Memoizable
     )?
 
     # Returns uncached value
-    def {{ method_def.name }}__uncached(
+    def {{ safe_method_name }}__uncached{% if special_ending %}{{ special_ending.id }}{% end %}(
       {% for arg in method_def.args %}
-        {{ arg.name }} : {{ arg.restriction }},
+        {% if arg.name == arg.internal_name %}
+          {{ arg.name }} : {{ arg.restriction }},
+        {% else %}
+          {{ arg.name }} {{ arg.internal_name }} : {{ arg.restriction }},
+        {% end %}
       {% end %}
     ) : {{ method_def.return_type }}
       {{ method_def.body }}
@@ -44,9 +63,13 @@ module Lucky::Memoizable
     # Checks the passed arguments against the memoized args
     # and runs the method body if it is the very first call
     # or the arguments do not match
-    def {{ method_def.name }}__tuple_cached(
+    def {{ safe_method_name }}__tuple_cached{% if special_ending %}{{ special_ending.id }}{% end %}(
       {% for arg in method_def.args %}
-        {{ arg.name }} : {{ arg.restriction }},
+        {% if arg.name == arg.internal_name %}
+          {{ arg.name }} : {{ arg.restriction }},
+        {% else %}
+          {{ arg.name }} {{ arg.internal_name }} : {{ arg.restriction }},
+        {% end %}
       {% end %}
     ) : Tuple(
       {{ method_def.return_type }},
@@ -55,18 +78,18 @@ module Lucky::Memoizable
       {% end %}
     )
       {% for arg, index in method_def.args %}
-        @__memoized_{{ method_def.name }} = nil if {{arg.name}} != @__memoized_{{ method_def.name }}.try &.at({{index}} + 1)
+        @__memoized_{{ safe_method_name }} = nil if {{arg.internal_name}} != @__memoized_{{ safe_method_name }}.try &.at({{index}} + 1)
       {% end %}
-      @__memoized_{{ method_def.name }} ||= -> do
-        result = {{ method_def.name }}__uncached(
+      @__memoized_{{ safe_method_name }} ||= -> do
+        result = {{ safe_method_name }}__uncached{% if special_ending %}{{ special_ending.id }}{% end %}(
           {% for arg in method_def.args %}
-            {{arg.name}},
+            {{arg.internal_name}},
           {% end %}
         )
         {
           result,
           {% for arg in method_def.args %}
-            {{arg.name}},
+            {{arg.internal_name}},
           {% end %}
         }
       end.call.not_nil!
@@ -76,12 +99,16 @@ module Lucky::Memoizable
     def {{ method_def.name }}(
       {% for arg in method_def.args %}
         {% has_default = arg.default_value || arg.default_value == false || arg.default_value == nil %}
-        {{ arg.name }} : {{ arg.restriction }}{% if has_default %} = {{ arg.default_value }}{% end %},
+        {% if arg.name == arg.internal_name %}
+          {{ arg.name }} : {{ arg.restriction }}{% if has_default %} = {{ arg.default_value }}{% end %},
+        {% else %}
+          {{ arg.name }} {{ arg.internal_name }} : {{ arg.restriction }}{% if has_default %} = {{ arg.default_value }}{% end %},
+        {% end %}
       {% end %}
     ) : {{ method_def.return_type }}
-      {{ method_def.name }}__tuple_cached(
+      {{ safe_method_name }}__tuple_cached{% if special_ending %}{{ special_ending.id }}{% end %}(
         {% for arg in method_def.args %}
-          {{arg.name}},
+          {{arg.internal_name}},
         {% end %}
       ).first
     end

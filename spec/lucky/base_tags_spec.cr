@@ -60,7 +60,7 @@ describe Lucky::BaseTags do
   end
 end
 
-private def view
+private def view(&)
   TestPage.new(build_context).tap do |page|
     yield page
   end.view.to_s

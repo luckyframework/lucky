@@ -19,10 +19,9 @@ class Lucky::StaticCompressionHandler
   end
 
   def call(context)
-    original_path = context.request.path.not_nil!
+    original_path = context.request.path.to_s
     request_path = URI.decode(original_path)
-    expanded_path = File.expand_path(request_path, "/")
-    file_path = File.join(@public_dir, expanded_path)
+    file_path = File.join(@public_dir, request_path)
     compressed_path = "#{file_path}.#{@file_ext}"
     content_type = MIME.from_filename(file_path, "application/octet-stream")
 

@@ -34,7 +34,7 @@ class Lucky::FormData
       storage[key] << value
     end
 
-    def each
+    def each(&)
       storage.each do |name, values|
         values.each do |value|
           yield({name, value})

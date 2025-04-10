@@ -3,8 +3,20 @@ require "../spec_helper"
 class HelloWorldAction < TestAction
   accepted_formats [:plain_text]
 
+  param codes : Array(String)?
+
   post "/hello" do
     plain_text "world"
+  end
+end
+
+class ArrayParamAction < TestAction
+  accepted_formats [:plain_text]
+
+  param codes : Array(String)
+
+  post "/array_param" do
+    plain_text codes.join("--")
   end
 end
 
@@ -36,7 +48,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.path.should eq "/hello"
         request.method.should eq("POST")
-        request.body.not_nil!.gets_to_end.should eq("{}")
+        request.body.to_s.should eq("{}")
         response.body.should eq "world"
       end
 
@@ -44,7 +56,15 @@ describe Lucky::BaseHTTPClient do
         response = MyClient.new.exec(HelloWorldAction, foo: "bar")
 
         request = TestServer.last_request
-        request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        request.body.to_s.should eq({foo: "bar"}.to_json)
+      end
+
+      it "works with array query params" do
+        response = MyClient.new.exec ArrayParamAction.with(codes: ["ab", "xy"])
+        response.body.should eq "ab--xy"
+
+        request = TestServer.last_request
+        request.query.should eq("codes%5B%5D=ab&codes%5B%5D=xy")
       end
     end
 
@@ -55,7 +75,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.path.should eq "/hello"
         request.method.should eq("POST")
-        request.body.not_nil!.gets_to_end.should eq("{}")
+        request.body.to_s.should eq("{}")
         response.body.should eq "world"
       end
 
@@ -63,7 +83,37 @@ describe Lucky::BaseHTTPClient do
         response = MyClient.new.exec(HelloWorldAction.route, foo: "bar")
 
         request = TestServer.last_request
-        request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        request.body.to_s.should eq({foo: "bar"}.to_json)
+      end
+    end
+  end
+
+  describe "exec_raw" do
+    describe "with Lucky::Action class" do
+      it "allows passing raw strings" do
+        test_data = <<-JSON
+          { "event_id": "1"}
+          { "type": "event"}
+          { "event_id": "2", "type": "event", "platform": ""}
+        JSON
+        response = MyClient.new.exec_raw(HelloWorldAction, test_data)
+
+        request = TestServer.last_request
+        request.body.to_s.should eq(test_data)
+      end
+    end
+
+    describe "with a Lucky::RouteHelper" do
+      it "allows passing raw strings" do
+        test_data = <<-JSON
+          { "event_id": "1"}
+          { "type": "event"}
+          { "event_id": "2", "type": "event", "platform": ""}
+        JSON
+        response = MyClient.new.exec_raw(HelloWorldAction.route, test_data)
+
+        request = TestServer.last_request
+        request.body.to_s.should eq(test_data)
       end
     end
   end
@@ -79,7 +129,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.method.should eq({{ method.id.stringify }}.upcase)
         request.path.should eq "hello"
-        request.body.not_nil!.gets_to_end.should eq({foo: "bar"}.to_json)
+        request.body.to_s.should eq({foo: "bar"}.to_json)
       end
 
       it "works without params" do
@@ -88,7 +138,7 @@ describe Lucky::BaseHTTPClient do
         request = TestServer.last_request
         request.method.should eq({{ method.id.stringify }}.upcase)
         request.path.should eq "hello"
-        request.body.not_nil!.gets_to_end.should eq("{}")
+        request.body.to_s.should eq("{}")
       end
     end
   {% end %}
@@ -110,7 +160,7 @@ describe Lucky::BaseHTTPClient do
       request = TestServer.last_request
       request.method.should eq("HEAD")
       request.path.should eq "hello"
-      request.body.not_nil!.gets_to_end.should eq("{}")
+      request.body.to_s.should eq("{}")
     end
   end
 end

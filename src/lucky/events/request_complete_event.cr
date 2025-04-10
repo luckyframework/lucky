@@ -1,5 +1,5 @@
 class Lucky::Events::RequestCompleteEvent < Pulsar::Event
-  getter :duration
+  getter duration : Time::Span
 
   def initialize(@duration : Time::Span)
   end

@@ -249,7 +249,7 @@ module Lucky
         "Expected request to have a subdomain but did not find one."
       else
         <<-MESSAGE
-          Expected subdomain matcher(s): #{@expected.pretty_inspect}
+          Expected subdomain matcher(s): #{@expected}
           Did not match host: #{@host}
         MESSAGE
       end

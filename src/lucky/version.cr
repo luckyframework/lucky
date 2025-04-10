@@ -1,3 +1,7 @@
 module Lucky
-  VERSION = "0.29.0"
+  macro set_version
+    VERSION = {{ `shards version "#{__DIR__}"`.chomp.stringify.downcase }}
+  end
+
+  set_version
 end

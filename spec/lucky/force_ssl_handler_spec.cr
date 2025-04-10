@@ -74,7 +74,7 @@ describe Lucky::ForceSSLHandler do
   end
 end
 
-private def with_strict_transport_security(args)
+private def with_strict_transport_security(args, &)
   Lucky::ForceSSLHandler.temp_config(strict_transport_security: args) do
     yield
   end
@@ -82,7 +82,7 @@ end
 
 private def run_force_ssl_handler(context)
   handler = Lucky::ForceSSLHandler.new
-  handler.next = ->(_ctx : HTTP::Server::Context) {}
+  handler.next = ->(_ctx : HTTP::Server::Context) { }
   handler.call(context)
 end
 

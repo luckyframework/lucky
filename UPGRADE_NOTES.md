@@ -1,3 +1,316 @@
+## Upgrading from 1.2.0 to 1.3.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.2.0&to=1.3.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.3.0`
+  - Avram should be `~> 1.3.0`
+  - Authentic should be `~> 1.0.1`
+  - Carbon should be `~> 0.6.0`
+  - Carbon Adapter should be `~> 0.6.0`
+
+- Run `shards update`
+
+- Upgrade Lucky CLI on Windows (Scoop)
+
+```
+scoop bucket add lucky https://github.com/luckyframework/scoop-bucket
+scoop install lucky
+```
+
+### General updates
+
+No required updates needed for this release.
+
+### Optional update
+
+- Update: to Crystal 1.14
+- Update: All previously pre-compiled tasks should now show in your `./bin/` as Crystal files. Build these to run them as compiled.
+
+```
+crystal build --release bin/lucky.gen.secret_key.cr -o bin/lucky.gen.secret_key
+crystal build --release bin/lucky.watch.cr -o bin/lucky.watch
+crystal build --release bin/lucky.exec.cr -o bin/lucky.exec
+# ... etc...
+```
+
+## Upgrading from 1.1.0 to 1.2.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.1.0&to=1.2.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.2.0`
+  - Avram should be `~> 1.2.0`
+  - Carbon should be `~> 0.5.1`
+  - Carbon Adapter should be `~> 0.5.0`
+  - LuckyFlow should be `~> 0.10.0`
+
+- Run `shards update`
+
+- Upgrade Lucky CLI on Windows (Scoop)
+
+```
+scoop bucket add lucky https://github.com/luckyframework/scoop-bucket
+scoop install lucky
+```
+
+### General updates
+
+- Add: the annotation `@[DB::Field(ignore: true)]` to any instance variables you've added to your models. [See PR](https://github.com/luckyframework/avram/pull/996)
+- Remove: the Nexploit NPM package from your Github Actions if you're using SecTester. [See PR](https://github.com/luckyframework/lucky_sec_tester/pull/34)
+
+### Optional update
+
+- Replace: any use of `Avram::Nothing.new` with `IGNORE`. [See PR](https://github.com/luckyframework/avram/pull/1018)
+
+## Upgrading from 1.0.0 to 1.1.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0&to=1.1.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.1.0`
+  - Avram should be `~> 1.1.0`
+  - Authentic should be `~> 1.0.0`
+  - Carbon should be `~> 0.4.0`
+  - LuckyTask should be `~> 0.3.0`
+  - LuckyFlow should be `~> 0.9.2`
+  - LuckySecTester should be `~> 0.3.2`
+
+
+- Run `shards update`
+
+### General updates
+
+- Add: `Avram.initialize_logging` to your `config/log.cr` file near the bottom. [See PR](https://github.com/luckyframework/avram/pull/967)
+- Update: all LuckyTask tasks. [See PR](https://github.com/luckyframework/lucky_task/pull/25)
+```crystal
+# All help_message instance methods are macro calls
+def help_message
+  "my help message"
+end
+
+# is now
+help_message "my help message"
+
+# Calls to `name`, `summary`, or `help_message` from your task `call` method are now classes.
+def call
+  # `name` is now
+  self.class.task_name
+  # `summary` is now
+  self.class.task_summary
+  # `help_message` is now
+  self.class.task_help_message
+end
+```
+
+### Optional update
+
+- Add: `allow_blank: true` on String columns you want to allow empty strings to be saved. [See PR](https://github.com/luckyframework/avram/pull/956)
+```crystal
+class Post < BaseModel
+  table do
+    column title : String
+
+    # Field is required, but storing "" is ok
+    column sub_title : String, allow_blank: true
+  end
+end
+```
+
+## Upgrading from 1.0.0-rc1 to 1.0.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.0.0-rc1&to=1.0.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.0.0`
+  - Avram should be `~> 1.0.0`
+  - Authentic should be `~> 1.0.0`
+
+- Run `shards update`
+
+### General updates
+
+- Update: to at least Crystal 1.6 or later.
+- Update: Any use of a `DeleteOperation` that assumed the record could be nil should now assume the record will always exist in the block. [See PR for more details](https://github.com/luckyframework/avram/pull/887)
+
+### Optional update
+
+## Upgrading from 0.30 to 1.0.0-rc1
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.30.0&to=1.0.0-rc1).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.0.0-rc1`
+  - Avram should be `~> 1.0.0-rc1`
+  - Authentic should be `~> 0.9.0`
+  - Carbon (and carbon_sendgrid_adapter) should be `~> 0.3.0`
+  - LuckyFlow should be `~> 0.9.0`
+
+- Run `shards update`
+
+### General updates
+
+- Add: Avram to your `shard.yml` as a dependency.
+- Add: `require "avram/lucky"` to `src/shards.cr` right below `require "lucky"`. [See PR](https://github.com/luckyframework/avram/pull/772)
+- Add: `require "avram/lucky/tasks"` to `tasks.cr` right below `require "lucky/tasks/**"`. [See PR](https://github.com/luckyframework/lucky_cli/pull/764)
+- Update: to Crystal 1.4 or later.
+- Add: `include Lucky::RedirectableTurbolinksSupport` in your `BrowserAction` if you are using turbolinks.
+- Add: `live_reload_connect_tag` to your `src/components/shared/layout_head.cr` and `reload_port: 3001` to your `config/watch.yml` file for live browser reloading. [See this PR](https://github.com/luckyframework/lucky_cli/pull/767) and [this PR](https://github.com/luckyframework/lucky/pull/1693)
+- Update: `Avram::Params.new()` now takes `Hash(String, Array(String))` instead of `Hash(String, String)`. [See PR](https://github.com/luckyframework/avram/pull/847)
+- Update: arg names in `validate_numeric` from `less_than` and `greater_than` to `at_least` and `no_more_than`. [See PR](https://github.com/luckyframework/avram/pull/867)
+- Update: your LuckyFlow configuration...
+```crystal
+# spec/spec_helper.cr
+# ...
+require "spec"
+# ...
+require "lucky_flow"
+require "lucky_flow/ext/lucky"
+require "lucky_flow/ext/avram"
+# ...
+
+# spec/setup/configure_lucky_flow.cr
+# ...
+LuckyFlow::Spec.setup
+```
+
+### Optional updates
+
+- Update the `lucky_sec_tester` shard to version `0.1.0`
+- Replace turbolinks with [Turbo](https://turbo.hotwired.dev/)
+- Replace laravel-mix with [Vite](https://vitejs.dev/)
+
+
+## Upgrading from 0.29 to 0.30
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.29.0&to=0.30.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 0.30.0`
+  - Authentic should be `~> 0.8.2`
+  - LuckyFlow should be `~> 0.7.3` *NOTE*: 0.8.0 is released, but may not be compatible yet
+
+- Run `shards update`
+
+### General updates
+
+- Update: `spec/support/api_client.cr` with `app AppServer.new` defined in the class.
+```crystal
+class ApiClient < Lucky::BaseHTTPClient
+  app AppServer.new
+
+  def initialize
+    super
+    headers("Content-Type": "application/json")
+  end
+
+  def self.auth(user : User)
+    new.headers("Authorization": UserToken.generate(user))
+  end
+end
+```
+- Update: the `request.remote_ip` method now pulls from the last (instead of first) valid IP in the `X-Forwarded-For` list. [See PR for details](https://github.com/luckyframework/lucky/pull/1675)
+- Update: All primary repo branches are now `main`. Adjust any references accordingly.
+- Update: `./script/system_check` and remove mentions of `ensure_process_runner_installed`. Nox is built-in [See PR for details](https://github.com/luckyframework/lucky_cli/pull/720)
+
+
+### Optional updates
+
+- Update: uses of `AvramSlugify` to `Avram::Slugify`. [See PR for details](https://github.com/luckyframework/avram/pull/786)
+- Update: specs to use transactions instead of truncate. [See PR for details](https://github.com/luckyframework/avram/pull/780)
+```crystal
+# in spec/spec_helper.cr
+require "./setup/**"
+
+# Add this line
+Avram::SpecHelper.use_transactional_specs(AppDatabase)
+
+include Carbon::Expectations
+include Lucky::RequestExpectations
+include LuckyFlow::Expectations
+```
+- Remove: the `spec/setup/clean_database.cr` file. This accompanies the transactional specs update
+- Update: the `spec/setup/start_app_server.cr` file. This file is no longer needed if your action specs make standard calls, and are not using LuckyFlow. [See PR for details](https://github.com/luckyframework/lucky/pull/1644)
+
+
 ## Upgrading from 0.28 to 0.29
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.28.2&to=0.29.0).

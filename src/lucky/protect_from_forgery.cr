@@ -22,7 +22,7 @@ module Lucky::ProtectFromForgery
 
   private def protect_from_forgery
     set_session_csrf_token
-    if !settings.allow_forgery_protection? || request_does_not_require_protection? || valid_csrf_token?
+    if !Lucky::ProtectFromForgery.settings.allow_forgery_protection? || request_does_not_require_protection? || valid_csrf_token?
       continue
     else
       forbid_access_because_of_bad_token

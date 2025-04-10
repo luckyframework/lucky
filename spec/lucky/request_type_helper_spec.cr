@@ -13,7 +13,7 @@ end
 describe Lucky::RequestTypeHelpers do
   it "determines the format from 'Accept' header correctly" do
     Lucky::MimeType.accept_header_formats.each do |header, format|
-      override_accept_header header do |action|
+      override_accept_header header.to_s do |action|
         action.accepts?(format).should be_true
       end
     end
@@ -77,13 +77,13 @@ describe Lucky::RequestTypeHelpers do
   end
 end
 
-private def override_format(format : Symbol?)
+private def override_format(format : Symbol?, &)
   action = FakeAction.new
   action.context._clients_desired_format = format
   yield action
 end
 
-private def override_accept_header(accept_header : String)
+private def override_accept_header(accept_header : String, &)
   action = FakeAction.new
   action.context.request.headers["accept"] = accept_header
   yield action

@@ -14,7 +14,7 @@ module Lucky::TagDefaults
   # Is the same as:
   #
   #     email_input field: form.email, class: "input", placeholder: "Email"
-  def tag_defaults(**named_args)
+  def tag_defaults(**named_args, &)
     OptionMerger.new(page_context: self, named_args: named_args).run do |tag_builder|
       yield tag_builder
     end
@@ -24,7 +24,7 @@ module Lucky::TagDefaults
     def initialize(@page_context : T, @named_args : V)
     end
 
-    def run
+    def run(&)
       yield self
     end
 

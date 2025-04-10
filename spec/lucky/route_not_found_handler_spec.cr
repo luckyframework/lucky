@@ -11,7 +11,7 @@ describe Lucky::RouteNotFoundHandler do
 
     expect_raises(Lucky::RouteNotFoundError, "POST /foo/bar") do
       error_handler = Lucky::RouteNotFoundHandler.new
-      error_handler.next = ->(_ctx : HTTP::Server::Context) {}
+      error_handler.next = ->(_ctx : HTTP::Server::Context) { }
       error_handler.call(context)
     end
   end
@@ -25,7 +25,7 @@ describe Lucky::RouteNotFoundHandler do
     context = build_context_with_io(output, path: "/non-existent")
     context.request.method = "GET"
     handler = Lucky::RouteNotFoundHandler.new
-    handler.next = ->(_ctx : HTTP::Server::Context) {}
+    handler.next = ->(_ctx : HTTP::Server::Context) { }
 
     handler.call(context)
 
@@ -38,7 +38,7 @@ describe Lucky::RouteNotFoundHandler do
     context = build_context_with_io(output, path: "/non-existent")
     context.request.method = "POST"
     handler = Lucky::RouteNotFoundHandler.new
-    handler.next = ->(_ctx : HTTP::Server::Context) {}
+    handler.next = ->(_ctx : HTTP::Server::Context) { }
 
     expect_raises(Lucky::RouteNotFoundError) do
       handler.call(context)

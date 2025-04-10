@@ -1,7 +1,8 @@
 require "./*"
 
 abstract class Lucky::Action
-  getter :context, :route_params
+  getter context : HTTP::Server::Context
+  getter route_params : Hash(String, String)
 
   def initialize(@context : HTTP::Server::Context, @route_params : Hash(String, String))
     context.params.route_params = @route_params
@@ -17,6 +18,5 @@ abstract class Lucky::Action
   include Lucky::ParamHelpers
   include Lucky::ActionPipes
   include Lucky::Redirectable
-  include Lucky::RedirectableTurbolinksSupport
   include Lucky::VerifyAcceptsFormat
 end

@@ -8,6 +8,7 @@ include RoutesHelper
 Pulsar.enable_test_mode!
 
 Lucky::AssetHelpers.load_manifest
+Lucky::AssetHelpers.load_manifest("./public/vite-manifest.json", use_vite: true)
 
 Spec.before_each do
   ARGV.clear
@@ -27,17 +28,6 @@ end
 
 Lucky::RouteHelper.configure do |settings|
   settings.base_uri = "luckyframework.org"
-end
-
-class UnusedDatabase < Avram::Database
-end
-
-UnusedDatabase.configure do |settings|
-  settings.credentials = Avram::Credentials.void
-end
-
-Avram.configure do |settings|
-  settings.database_to_migrate = UnusedDatabase
 end
 
 Lucky::ErrorHandler.configure do |settings|

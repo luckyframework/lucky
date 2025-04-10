@@ -41,7 +41,8 @@
 class Lucky::FileResponse < Lucky::Response
   DEFAULT_STATUS = 200
 
-  getter context, path, filename, debug_message, headers
+  getter context, path, filename, headers
+  getter debug_message : String?
 
   def initialize(@context : HTTP::Server::Context,
                  @path : String,
@@ -120,7 +121,13 @@ class Lucky::FileResponse < Lucky::Response
     File.expand_path(path, Dir.current)
   end
 
-  private def file_exists? : Bool
-    File.file?(full_path) && File.readable?(full_path)
-  end
+  {% if compare_versions(Crystal::VERSION, "1.13.0") >= 0 %}
+    private def file_exists? : Bool
+      File.file?(full_path) && File::Info.readable?(full_path)
+    end
+  {% else %}
+    private def file_exists? : Bool
+      File.file?(full_path) && File.readable?(full_path)
+    end
+  {% end %}
 end

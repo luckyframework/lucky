@@ -14,22 +14,42 @@
 # ```
 # redirect to: Users::Index, status: 301
 #
-# # or use the built in enum value
-# redirect to: Users::Index, status: :moved_permanently
+# # or use the built-in enum value
+# redirect to: Users::Index, status: HTTP::Status::MOVED_PERMANENTLY
 # ```
 #
-# You can find a list of all of the possible statuses [here](https://crystal-lang.org/api/latest/HTTP/Status.html).
+# Alternatively, the status code can also be configured globally through the `redirect_status` setting:
+#
+# ```
+# Lucky::Redirectable.configure do |config|
+#   config.redirect_status = 303
+#
+#   # or using a built-in enum value
+#   config.redirect_status = HTTP::Status::SEE_OTHER.value
+# end
+# ```
+#
+# You can find a list of all possible statuses [here](https://crystal-lang.org/api/latest/HTTP/Status.html).
 #
 # Internally, all the different methods in this module eventually use the
 # method that takes a `String`. However, it's recommended you pass a
 # `Lucky::Action` class if possible because it guarantees runtime safety.
 module Lucky::Redirectable
+  Habitat.create do
+    setting redirect_status : Int32 = HTTP::Status::FOUND.value
+  end
+
   # Redirect back with a `Lucky::Action` fallback
   #
   # ```
   # redirect_back fallback: Users::Index
   # ```
-  def redirect_back(*, fallback : Lucky::Action.class, status = 302, allow_external = false)
+  def redirect_back(
+    *,
+    fallback : Lucky::Action.class,
+    status = Lucky::Redirectable.settings.redirect_status,
+    allow_external = false,
+  ) : Lucky::TextResponse
     redirect_back fallback: fallback.route, status: status, allow_external: allow_external
   end
 
@@ -38,7 +58,12 @@ module Lucky::Redirectable
   # ```
   # redirect_back fallback: Users::Show.with(user.id)
   # ```
-  def redirect_back(*, fallback : Lucky::RouteHelper, status = 302, allow_external = false)
+  def redirect_back(
+    *,
+    fallback : Lucky::RouteHelper,
+    status = Lucky::Redirectable.settings.redirect_status,
+    allow_external = false,
+  ) : Lucky::TextResponse
     redirect_back fallback: fallback.path, status: status, allow_external: allow_external
   end
 
@@ -47,7 +72,12 @@ module Lucky::Redirectable
   # ```
   # redirect_back fallback: "/users", status: HTTP::Status::MOVED_PERMANENTLY
   # ```
-  def redirect_back(*, fallback : String, status : HTTP::Status, allow_external = false)
+  def redirect_back(
+    *,
+    fallback : String,
+    status : HTTP::Status,
+    allow_external = false,
+  ) : Lucky::TextResponse
     redirect_back fallback: fallback, status: status.value, allow_external: allow_external
   end
 
@@ -74,7 +104,12 @@ module Lucky::Redirectable
   # They can be explicitly allowed if necessary
   #
   # redirect_back fallback: "/home", allow_external: true
-  def redirect_back(*, fallback : String, status : Int32 = 302, allow_external : Bool = false)
+  def redirect_back(
+    *,
+    fallback : String,
+    status : Int32 = Lucky::Redirectable.settings.redirect_status,
+    allow_external : Bool = false,
+  ) : Lucky::TextResponse
     referer = request.headers["Referer"]?
 
     if referer && (allow_external || allowed_host?(referer))
@@ -89,7 +124,10 @@ module Lucky::Redirectable
   # ```
   # redirect to: Users::Show.with(user.id), status: 301
   # ```
-  def redirect(to route : Lucky::RouteHelper, status = 302) : Lucky::TextResponse
+  def redirect(
+    to route : Lucky::RouteHelper,
+    status = Lucky::Redirectable.settings.redirect_status,
+  ) : Lucky::TextResponse
     redirect to: route.path, status: status
   end
 
@@ -98,14 +136,17 @@ module Lucky::Redirectable
   # ```
   # redirect to: Users::Index
   # ```
-  def redirect(to action : Lucky::Action.class, status = 302) : Lucky::TextResponse
+  def redirect(
+    to action : Lucky::Action.class,
+    status = Lucky::Redirectable.settings.redirect_status,
+  ) : Lucky::TextResponse
     redirect to: action.route, status: status
   end
 
   # Redirect to the given path, with a human friendly status
   #
   # ```
-  # redirect to: "/users", status: :moved_permanently
+  # redirect to: "/users", status: HTTP::Status::MOVED_PERMANENTLY
   # ```
   def redirect(to path : String, status : HTTP::Status) : Lucky::TextResponse
     redirect(path, status.value)
@@ -118,7 +159,10 @@ module Lucky::Redirectable
   # redirect to: "/users/1", status: 301
   # ```
   # Note: It's recommended to use the method above that accepts a human friendly version of the status
-  def redirect(to path : String, status : Int32 = 302) : Lucky::TextResponse
+  def redirect(
+    to path : String,
+    status : Int32 = Lucky::Redirectable.settings.redirect_status,
+  ) : Lucky::TextResponse
     # flash messages are not consumed here, so keep them for the next action
     flash.keep
     context.response.headers.add "Location", path
@@ -131,7 +175,7 @@ module Lucky::Redirectable
     {% raise "You accidentally redirected to a Lucky::HTMLPage instead of a Lucky::Action" %}
   end
 
-  private def allowed_host?(referer : String)
+  private def allowed_host?(referer : String) : Bool
     if referer_host = URI.parse(referer).hostname
       referer_host == request.hostname
     else

@@ -4,6 +4,6 @@ abstract class Lucky::BaseLogFormatter
     timestamp : Time,
     progname : String,
     data : NamedTuple,
-    io : IO
+    io : IO,
   ) : Nil
 end

@@ -14,7 +14,7 @@ class Lucky::Exec < LuckyTask::Task
 
   Habitat.create do
     setting editor : String = "vim"
-    setting template_path : String = "#{__DIR__}/exec_template.cr.template"
+    setting template_path : String = Path["#{__DIR__}/exec_template.cr.template"].normalize.to_s
   end
 
   def help_message
@@ -28,12 +28,12 @@ class Lucky::Exec < LuckyTask::Task
 
     example: lucky exec -e emacs -b 3 -o
 
-    Run this task with 'lucky #{name} [OPTIONS]'
+    Run this task with 'lucky #{task_name} [OPTIONS]'
     TEXT
   end
 
   def call
-    editor_to_use = editor || settings.editor
+    editor_to_use = editor || ENV["EDITOR"]? || settings.editor
     repeat = !once?
     sessions_back = (back || 1).to_i
 

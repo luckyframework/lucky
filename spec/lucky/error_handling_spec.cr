@@ -98,7 +98,7 @@ describe "Error handling" do
   describe "ErrorHandler" do
     it "does nothing if no errors are raised" do
       error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)
-      error_handler.next = ->(_ctx : HTTP::Server::Context) {}
+      error_handler.next = ->(_ctx : HTTP::Server::Context) { }
 
       error_handler.call(build_context)
     end
@@ -124,7 +124,8 @@ private def handle_error(
   format : Symbol = :html,
   show_debug_output : Bool = false,
   error : Exception = UnhandledError.new,
-  status_code : Int32 = 200
+  status_code : Int32 = 200,
+  &
 )
   Lucky::ErrorHandler.temp_config(show_debug_output: show_debug_output) do
     error_handler = Lucky::ErrorHandler.new(action: FakeErrorAction)

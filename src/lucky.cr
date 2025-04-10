@@ -21,7 +21,6 @@ require "./lucky/*"
 require "./lucky/paginator/paginator"
 require "./lucky/paginator/*"
 require "./lucky/paginator/components/*"
-require "./lucky_avram"
 
 module Lucky
   ROUTER = Lucky::Router.new

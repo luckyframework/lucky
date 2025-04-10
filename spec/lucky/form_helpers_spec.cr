@@ -61,6 +61,12 @@ private class TestPage
       text "foo"
     end
   end
+
+  def form_wrapper(action : Lucky::Action.class, &)
+    form_for action do
+      yield
+    end
+  end
 end
 
 describe Lucky::FormHelpers do
@@ -94,6 +100,16 @@ describe Lucky::FormHelpers do
 
       view(&.form_with_bool_attr).should contain <<-HTML
       <form action="/form_helpers" method="post" class="even-cooler-form" novalidate>foo</form>
+      HTML
+
+      form = view do |page|
+        page.form_wrapper(FormHelpers::Create) do
+          page.text("purple")
+        end
+      end
+
+      form.should contain <<-HTML
+      <form action="/form_helpers" method="post">purple</form>
       HTML
     end
   end
@@ -130,15 +146,25 @@ describe Lucky::FormHelpers do
     <input type="submit" value="Save" class="cool">
     HTML
   end
+
+  it "renders submit input with attributes" do
+    view(&.submit("Save", attrs: [:disabled])).should contain <<-HTML
+    <input type="submit" value="Save" disabled>
+    HTML
+
+    view(&.submit("Save", class: "cool", attrs: [:hidden, :disabled])).should contain <<-HTML
+    <input type="submit" value="Save" class="cool" hidden disabled>
+    HTML
+  end
 end
 
-private def without_csrf_protection
+private def without_csrf_protection(&)
   Lucky::FormHelpers.temp_config(include_csrf_tag: false) do
     yield
   end
 end
 
-private def view(context : HTTP::Server::Context = build_context)
+private def view(context : HTTP::Server::Context = build_context, &)
   TestPage.new(context).tap do |page|
     yield page
   end.view.to_s

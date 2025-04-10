@@ -13,6 +13,13 @@ module Lucky::AssetHelpers
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
+  # EXPERIMENTAL: This feature is experimental. Use this to test
+  # vite integration with Lucky
+  macro load_manifest(manifest_file, use_vite)
+    {{ run "../run_macros/generate_asset_helpers", manifest_file, use_vite }}
+    {% CONFIG[:has_loaded_manifest] = true %}
+  end
+
   # Return the string path to an asset
   #
   # ```
@@ -37,10 +44,10 @@ module Lucky::AssetHelpers
     {% end %}
 
     {% if path.is_a?(StringLiteral) %}
-      {% if Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
-        Lucky::Server.settings.asset_host + {{ Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
+      {% if ::Lucky::AssetHelpers::ASSET_MANIFEST[path] %}
+        Lucky::Server.settings.asset_host + {{ ::Lucky::AssetHelpers::ASSET_MANIFEST[path] }}
       {% else %}
-        {% asset_paths = Lucky::AssetHelpers::ASSET_MANIFEST.keys.join(",") %}
+        {% asset_paths = ::Lucky::AssetHelpers::ASSET_MANIFEST.keys.join(",") %}
         {{ run "../run_macros/missing_asset", path, asset_paths }}
       {% end %}
     {% elsif path.is_a?(StringInterpolation) %}
@@ -83,7 +90,7 @@ module Lucky::AssetHelpers
   # NOTE: This method does *not* check assets at compile time. The asset path
   # is found at runtime so it is possible the asset does not exist. Be sure to
   # manually test that the asset is returned as expected.
-  def dynamic_asset(path)
+  def dynamic_asset(path) : String
     fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
     if fingerprinted_path
       Lucky::Server.settings.asset_host + fingerprinted_path
