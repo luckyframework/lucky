@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::SpecialtyTags - lucky main</title>
+  <title>Lucky::RateLimit - lucky main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -577,7 +577,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/RateLimit" data-name="lucky::ratelimit">
+  <li class=" current" data-id="lucky/Lucky/RateLimit" data-name="lucky::ratelimit">
       <a href="../Lucky/RateLimit.html">RateLimit</a>
       
     </li>
@@ -787,7 +787,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/SpecialtyTags" data-name="lucky::specialtytags">
+  <li class=" " data-id="lucky/Lucky/SpecialtyTags" data-name="lucky::specialtytags">
       <a href="../Lucky/SpecialtyTags.html">SpecialtyTags</a>
       
     </li>
@@ -943,7 +943,7 @@
 
   <span class="kind">
     module
-  </span> Lucky::<wbr>SpecialtyTags
+  </span> Lucky::<wbr>RateLimit
 
 </h1>
 
@@ -951,31 +951,40 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+    <a id="overview" class="anchor" href="#overview">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Direct including types
+    Overview
   </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></li>
-    
-  </ul>
+
+  <p>Adds in action level rate limiting. Limit the request rate of a specific
+action by including this module, then define the <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method to configue.
+For convienence, you can also use the <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> macro.</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Reports</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">ApiAction</span>
+  <span class="k">include</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">RateLimit</span>
+  rate_limit to: <span class="n">5</span>, within: <span class="n">1</span>.minute
+
+  get <span class="s">&quot;/reports&quot;</span>
+    plain_text <span class="s">&quot;ok&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>By default, the <code>rate_limit_identifier</code> uses the IP address. You can override this method
+to define a different strategy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -990,8 +999,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L1" target="_blank">
-        lucky/tags/specialty_tags.cr
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/rate_limit.cr#L18" target="_blank">
+        lucky/rate_limit.cr
       </a>
     
     <br/>
@@ -1006,6 +1015,25 @@
   
 
   
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#rate_limit%28to%2Cwithin%29-macro" class="signature"><strong>rate_limit</strong>(to, within)</a>
+        
+          <div class="summary"><p>Convience macro to define the required <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method <code>rate_limit to: 5, within: 1.minute</code></p></div>
+        
+      </li>
+    
+  </ul>
+
 
   
   <h2>
@@ -1019,58 +1047,9 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#canonical_link%28href%3AString%29%3ANil-instance-method" class="signature"><strong>#canonical_link</strong>(href : String) : Nil</a>
+        <a href="#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method" class="signature"><strong>#rate_limit</strong> : NamedTuple(to: Int32, within: Time::Span)</a>
         
-          <div class="summary"><p>Generates a canonical link tag to specify the &quot;canonical&quot; or &quot;preferred&quot; version of a page.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#css_link%28href%2C%2A%2Aoptions%29%3ANil-instance-method" class="signature"><strong>#css_link</strong>(href, **options) : Nil</a>
-        
-          <div class="summary"><p>Generates a link tag for a stylesheet at the path <em>href</em>.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#html_doctype%3ANil-instance-method" class="signature"><strong>#html_doctype</strong> : Nil</a>
-        
-          <div class="summary"><p>Generates an HTML5 doctype tag.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#js_link%28src%2C%2A%2Aoptions%29%3ANil-instance-method" class="signature"><strong>#js_link</strong>(src, **options) : Nil</a>
-        
-          <div class="summary"><p>Generates a script tag for a file at path <em>src</em>.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#nbsp%28how_many%3AInt32%3D1%29%3ANil-instance-method" class="signature"><strong>#nbsp</strong>(how_many : Int32 = <span class="n">1</span>) : Nil</a>
-        
-          <div class="summary"><p>Generates an escaped HTML <code>&amp;nbsp;</code> entity for the number of times specified by <code>how_many</code>.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#raw%28string%3AString%29%3ANil-instance-method" class="signature"><strong>#raw</strong>(string : String) : Nil</a>
-        
-          <div class="summary"><p>Adds <em>string</em> directly to the rendered HTML with no escaping.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#responsive_meta_tag%28%2A%2Aoptions%29%3ANil-instance-method" class="signature"><strong>#responsive_meta_tag</strong>(**options) : Nil</a>
-        
-          <div class="summary"><p>Generates a meta tag telling browsers to render the page as wide as the device screen/window and at an initial scale of 1.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#utf8_charset%3ANil-instance-method" class="signature"><strong>#utf8_charset</strong> : Nil</a>
-        
-          <div class="summary"><p>Generates a meta tag to specify the character encoding as UTF-8.</p></div>
+          <div class="summary"><p>Defines the rate limit limiting to <code>to</code> requests within <code>within</code> time span.</p></div>
         
       </li>
     
@@ -1087,6 +1066,38 @@
   
 
   
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
+  
+    <div class="entry-detail" id="rate_limit(to,within)-macro">
+      <div class="signature">
+        
+        macro <strong>rate_limit</strong>(to, within)
+
+        <a class="method-permalink" href="#rate_limit%28to%2Cwithin%29-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Convience macro to define the required <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method</p>
+<pre><code class="language-crystal">rate_limit to: <span class="n">5</span>, within: <span class="n">1</span>.minute</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/rate_limit.cr#L35" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
 
   
   <h2>
@@ -1098,197 +1109,26 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="canonical_link(href:String):Nil-instance-method">
+    <div class="entry-detail" id="rate_limit:NamedTuple(to:Int32,within:Time::Span)-instance-method">
       <div class="signature">
-        
-        def <strong>canonical_link</strong>(href : <a href="../String.html">String</a>) : <a href="../Nil.html">Nil</a>
+        abstract 
+        def <strong>rate_limit</strong> : NamedTuple(to: <a href="../Int32.html">Int32</a>, within: Time::Span)
 
-        <a class="method-permalink" href="#canonical_link%28href%3AString%29%3ANil-instance-method">#</a>
+        <a class="method-permalink" href="#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Generates a canonical link tag to specify the &quot;canonical&quot; or &quot;preferred&quot;
-version of a page.</p>
+          <p>Defines the rate limit limiting to <code>to</code> requests within <code>within</code> time span.</p>
+<pre><code class="language-crystal"><span class="k">def</span> <span class="m">rate_limit</span> : <span class="t">NamedTuple</span>(to: <span class="t">Int32</span>, within: <span class="t">Time</span><span class="t">::</span><span class="t">Span</span>)
+  {to: <span class="n">5</span>, within: <span class="n">1</span>.minute}
+<span class="k">end</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L47" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="css_link(href,**options):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>css_link</strong>(href, **options) : <a href="../Nil.html">Nil</a>
-
-        <a class="method-permalink" href="#css_link%28href%2C%2A%2Aoptions%29%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Generates a link tag for a stylesheet at the path <em>href</em>.</p>
-<p>Additional tag attributes can be passed in keyword arguments via <em>options</em>.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L10" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="html_doctype:Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>html_doctype</strong> : <a href="../Nil.html">Nil</a>
-
-        <a class="method-permalink" href="#html_doctype%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Generates an HTML5 doctype tag.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L3" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="js_link(src,**options):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>js_link</strong>(src, **options) : <a href="../Nil.html">Nil</a>
-
-        <a class="method-permalink" href="#js_link%28src%2C%2A%2Aoptions%29%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Generates a script tag for a file at path <em>src</em>.</p>
-<p>Additional tag attributes can be passed in as keyword arguments via
-<em>options</em>.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L19" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="nbsp(how_many:Int32=1):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>nbsp</strong>(how_many : <a href="../Int32.html">Int32</a> = <span class="n">1</span>) : <a href="../Nil.html">Nil</a>
-
-        <a class="method-permalink" href="#nbsp%28how_many%3AInt32%3D1%29%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Generates an escaped HTML <code>&amp;nbsp;</code> entity for the number of times specified
-by <code>how_many</code>. By default it generates 1 non-breaking space character.</p>
-<pre><code class="language-crystal">link <span class="s">&quot;Home&quot;</span>, to: <span class="t">Home</span><span class="t">::</span><span class="t">Index</span>
-span <span class="k">do</span>
-  nbsp
-  text <span class="s">&quot;|&quot;</span>
-  nbsp
-<span class="k">end</span>
-link <span class="s">&quot;About&quot;</span>, to: <span class="t">About</span><span class="t">::</span><span class="t">Index</span></code></pre>
-<p>Would generate <code>&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;span&gt;&amp;nbsp;|&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;/about&quot;&gt;About&lt;/a&gt;</code></p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L80" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="raw(string:String):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>raw</strong>(string : <a href="../String.html">String</a>) : <a href="../Nil.html">Nil</a>
-
-        <a class="method-permalink" href="#raw%28string%3AString%29%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Adds <em>string</em> directly to the rendered HTML with no escaping.</p>
-<p>For example,</p>
-<pre><code class="language-crystal">raw <span class="s">&quot;&lt;hopefully-something-safe&gt;&quot;</span> <span class="c"># Renders &quot;&lt;hopefully-something-safe&gt;&quot;</span></code></pre>
-<p>For custom elements, it's recommended to use the <code>tag</code> method.</p>
-<p><span class="flag purple">NOTE</span>  Should <strong>never</strong> be used to render unescaped user-generated data, as
-this can leave one vulnerable to <a href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross-site scripting
-attacks</a>.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L63" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="responsive_meta_tag(**options):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>responsive_meta_tag</strong>(**options) : <a href="../Nil.html">Nil</a>
-
-        <a class="method-permalink" href="#responsive_meta_tag%28%2A%2Aoptions%29%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Generates a meta tag telling browsers to render the page as wide as the
-device screen/window and at an initial scale of 1.</p>
-<p>Optional keyword arguments can be used to override these defaults, as well
-as specify additional properties. Please refer to <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag">MDN's documentation on
-the viewport meta tag</a>
-for usage details.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L40" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="utf8_charset:Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>utf8_charset</strong> : <a href="../Nil.html">Nil</a>
-
-        <a class="method-permalink" href="#utf8_charset%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Generates a meta tag to specify the character encoding as UTF-8.</p>
-<p>It is highly encouraged to specify the character encoding as early in a
-page's <code>&lt;head&gt;</code> as possible as some browsers only look at the first 1024
-bytes to determine the encoding.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/tags/specialty_tags.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/rate_limit.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>

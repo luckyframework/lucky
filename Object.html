@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.14.0">
+<meta name="generator" content="Crystal Docs 1.15.1">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -467,6 +467,11 @@
       
     </li>
   
+  <li class=" " data-id="lucky/Lucky/MissingRateLimitIdentifier" data-name="lucky::missingratelimitidentifier">
+      <a href="Lucky/MissingRateLimitIdentifier.html">MissingRateLimitIdentifier</a>
+      
+    </li>
+  
   <li class=" " data-id="lucky/Lucky/MountComponent" data-name="lucky::mountcomponent">
       <a href="Lucky/MountComponent.html">MountComponent</a>
       
@@ -569,6 +574,11 @@
   
   <li class=" " data-id="lucky/Lucky/QuickDef" data-name="lucky::quickdef">
       <a href="Lucky/QuickDef.html">QuickDef</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/RateLimit" data-name="lucky::ratelimit">
+      <a href="Lucky/RateLimit.html">RateLimit</a>
       
     </li>
   
@@ -931,7 +941,9 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">abstract class</span> Object
+  <span class="kind">
+    abstract class
+  </span> Object
 
 </h1>
 
@@ -949,6 +961,167 @@
   </h2>
 
   <p><code><a href="Object.html">Object</a></code> is the base type of all Crystal objects.</p>
+<h2><a id="getters" class="anchor" href="#getters">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Getters</h2>
+<p>Multiple macros are available to easily declare, initialize and expose
+instance variables as well as class variables on an <code><a href="Object.html">Object</a></code> by generating
+simple accessor methods.</p>
+<p>For example writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  getter name
+<span class="k">end</span></code></pre>
+<p>Is the same as writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  <span class="k">def</span> <span class="m">name</span>
+    @name
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>Similarly, we can write <code>class_getter name</code> to define a class variable, which
+generates a <code>def self.name</code> class method returning <code>@@name</code>.</p>
+<p>We can define as many variables as necessary in a single call. For example
+<code>getter name, age, city</code> will create a getter method for each of <code>name</code>, <code>age</code>
+and <code>city</code>.</p>
+<h3><a id="type-and-initial-value" class="anchor" href="#type-and-initial-value">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Type and initial value</h3>
+<p>Instead of plain arguments, we can specify a type as well as an initial value.
+If the initial value is simple enough Crystal should be able to infer the type
+of the instance or class variable!</p>
+<p>Specifying a type will also declare the instance or class variable with said
+type and type the accessor method arguments and return type accordingly.</p>
+<p>For example writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  getter name : <span class="t">String</span>
+  getter age <span class="o">=</span> <span class="n">0</span>
+  getter city : <span class="t">String</span> <span class="o">=</span> <span class="s">&quot;unspecified&quot;</span>
+<span class="k">end</span></code></pre>
+<p>Is the same as writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  @name : <span class="t">String</span>
+  @age <span class="o">=</span> <span class="n">0</span>
+  @city : <span class="t">String</span> <span class="o">=</span> <span class="s">&quot;unspecified&quot;</span>
+
+  <span class="k">def</span> <span class="m">name</span> : <span class="t">String</span>
+    @name
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="m">age</span>
+    @age
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="m">city</span> : <span class="t">String</span>
+    @city
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>The initial value of an instance variable is automatically set when the object
+is constructed. The initial value of a class variable will be set when the
+program starts up.</p>
+<h3><a id="lazy-initialization" class="anchor" href="#lazy-initialization">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Lazy initialization</h3>
+<p>Instead of eagerly initializing the value, we can lazily initialize it the
+first time the accessor method is called.</p>
+<p>Since the variable will be lazily initialized the type of the variable will be
+a nilable type. The generated method however will return the specified type
+only (not a nilable).</p>
+<p>For example writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  getter(city : <span class="t">City</span>) { <span class="t">City</span>.unspecified }
+<span class="k">end</span></code></pre>
+<p>Is equivalent to writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  @city : <span class="t">City</span>?
+
+  <span class="k">def</span> <span class="m">city</span> : <span class="t">City</span>
+    <span class="k">if</span> (city <span class="o">==</span> @city).<span class="k">nil?</span>
+      @city <span class="o">=</span> <span class="t">City</span>.unspecified
+    <span class="k">else</span>
+      city
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<h3><a id="variants" class="anchor" href="#variants">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Variants</h3>
+<p>Please refer to the different variants to understand how they differ from the
+general overview presented above:</p>
+<ul>
+<li><code>getter</code></li>
+<li><code>getter?</code></li>
+<li><code>getter!</code></li>
+<li><code>class_getter</code></li>
+<li><code>class_getter?</code></li>
+<li><code>class_getter!</code></li>
+</ul>
+<h2><a id="setters" class="anchor" href="#setters">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Setters</h2>
+<p>The <code>setter</code> and <code>class_setter</code> macros are the write counterparts of the
+getter macros. They declare <code>name=(value)</code> accessor methods. The arguments
+behave just as for the getter macros. Each setter can have a type as well as
+an initial value. There is no lazy initialization however since the macro
+doesn't generate a getter method.</p>
+<p>For example writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  setter name
+  setter age <span class="o">=</span> <span class="n">0</span>
+  setter city : <span class="t">String</span> <span class="o">=</span> <span class="s">&quot;unspecified&quot;</span>
+<span class="k">end</span></code></pre>
+<p>Is the same as writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  @age <span class="o">=</span> <span class="n">0</span>
+  @city : <span class="t">String</span> <span class="o">=</span> <span class="s">&quot;unspecified&quot;</span>
+
+  <span class="k">def</span> <span class="m">name</span><span class="o">=</span>(@name)
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="m">age</span><span class="o">=</span>(@age)
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="m">city</span><span class="o">=</span>(@city : <span class="t">String</span>) : <span class="t">String</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>For class variables we'd have called <code>class_setter name</code> that would have
+generated a <code>def self.name=(@@name)</code> class method instead.</p>
+<h2><a id="properties" class="anchor" href="#properties">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Properties</h2>
+<p>The property macros define both getter and setter methods at once.</p>
+<p>For example writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  property name
+<span class="k">end</span></code></pre>
+<p>Is equivalent to writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  getter name
+  setter name
+<span class="k">end</span></code></pre>
+<p>Which is the same as writing:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  <span class="k">def</span> <span class="m">name</span>
+    @name
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="m">name</span><span class="o">=</span>(@name)
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>Refer to <a href="#getters">Getters</a> and <a href="#setters">Setters</a> above for details. The
+macros take the exact same arguments.</p>
+
+
 
 
 
@@ -991,7 +1164,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/charms/object.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/charms/object.cr#L1" target="_blank">
         charms/object.cr
       </a>
     
@@ -1002,12 +1175,13 @@
 
 
 
+  
 
+  
 
+  
 
-
-
-
+  
   <h2>
     <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -1032,18 +1206,18 @@
 
 
 
-<div class="methods-inherited">
-  
+  <div class="methods-inherited">
     
+      
 
 
-    
+      
 
 
-    
+      
 
 
-    
+      
 
   <h3>Macros inherited from module <code><a href="Lucky/Memoizable.html">Lucky::Memoizable</a></code></h3>
   
@@ -1055,17 +1229,17 @@
   
 
 
-  
     
+      
 
 
-    
+      
 
 
-    
+      
 
 
-    
+      
 
   <h3>Macros inherited from module <code><a href="Lucky/QuickDef.html">Lucky::QuickDef</a></code></h3>
   
@@ -1077,29 +1251,29 @@
   
 
 
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
   
-    
-
-
-    
-
-
-    
-
-
-    
-
 
   
-</div>
 
+  
 
-
-
-
-
-
-
+  
   <h2>
     <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
   <svg class="octicon-link" aria-hidden="true">
@@ -1120,7 +1294,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/charms/object.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/charms/object.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1136,11 +1310,12 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/charms/object.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/charms/object.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
   
+
 
 
 </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.14.0">
+<meta name="generator" content="Crystal Docs 1.15.1">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -467,6 +467,11 @@
       
     </li>
   
+  <li class=" " data-id="lucky/Lucky/MissingRateLimitIdentifier" data-name="lucky::missingratelimitidentifier">
+      <a href="Lucky/MissingRateLimitIdentifier.html">MissingRateLimitIdentifier</a>
+      
+    </li>
+  
   <li class=" " data-id="lucky/Lucky/MountComponent" data-name="lucky::mountcomponent">
       <a href="Lucky/MountComponent.html">MountComponent</a>
       
@@ -569,6 +574,11 @@
   
   <li class=" " data-id="lucky/Lucky/QuickDef" data-name="lucky::quickdef">
       <a href="Lucky/QuickDef.html">QuickDef</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/RateLimit" data-name="lucky::ratelimit">
+      <a href="Lucky/RateLimit.html">RateLimit</a>
       
     </li>
   
@@ -931,9 +941,13 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky
+  <span class="kind">
+    module
+  </span> Lucky
 
 </h1>
+
+
 
 
 
@@ -962,77 +976,77 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky.cr#L25" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky.cr#L26" target="_blank">
         lucky.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/errors.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/errors.cr#L1" target="_blank">
         lucky/errors.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/memoizable.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/memoizable.cr#L1" target="_blank">
         lucky/memoizable.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/secure_headers/disable_floc.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/secure_headers/disable_floc.cr#L1" target="_blank">
         lucky/secure_headers/disable_floc.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/secure_headers/set_csp_guard.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/secure_headers/set_csp_guard.cr#L1" target="_blank">
         lucky/secure_headers/set_csp_guard.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/secure_headers/set_frame_guard.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/secure_headers/set_frame_guard.cr#L1" target="_blank">
         lucky/secure_headers/set_frame_guard.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/secure_headers/set_sniff_guard.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/secure_headers/set_sniff_guard.cr#L1" target="_blank">
         lucky/secure_headers/set_sniff_guard.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/secure_headers/set_xss_guard.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/secure_headers/set_xss_guard.cr#L1" target="_blank">
         lucky/secure_headers/set_xss_guard.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/support/message_encryptor.cr#L5" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/support/message_encryptor.cr#L5" target="_blank">
         lucky/support/message_encryptor.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/support/message_verifier.cr#L4" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/support/message_verifier.cr#L4" target="_blank">
         lucky/support/message_verifier.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/version.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/version.cr#L1" target="_blank">
         lucky/version.cr
       </a>
     
@@ -1077,8 +1091,9 @@
 
 
 
+  
 
-
+  
   <h2>
     <a id="class-method-summary" class="anchor" href="#class-method-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -1104,7 +1119,7 @@
   </ul>
 
 
-
+  
   <h2>
     <a id="macro-summary" class="anchor" href="#macro-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -1123,16 +1138,16 @@
   </ul>
 
 
-
-
-
-<div class="methods-inherited">
   
-</div>
 
 
+  <div class="methods-inherited">
+    
+  </div>
 
+  
 
+  
   <h2>
     <a id="class-method-detail" class="anchor" href="#class-method-detail">
   <svg class="octicon-link" aria-hidden="true">
@@ -1161,7 +1176,7 @@ find <code>Dir.current</code>. If you call <code><a href="Lucky.html#root-class-
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1177,14 +1192,14 @@ find <code>Dir.current</code>. If you call <code><a href="Lucky.html#root-class-
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky.cr#L41" target="_blank">View source</a>]
         
       </div>
     </div>
   
 
 
-
+  
   <h2>
     <a id="macro-detail" class="anchor" href="#macro-detail">
   <svg class="octicon-link" aria-hidden="true">
@@ -1205,13 +1220,14 @@ find <code>Dir.current</code>. If you call <code><a href="Lucky.html#root-class-
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/version.cr#L2" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/version.cr#L2" target="_blank">View source</a>]
         
       </div>
     </div>
   
 
 
+  
 
 
 </div>

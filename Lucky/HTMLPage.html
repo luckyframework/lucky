@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.14.0">
+<meta name="generator" content="Crystal Docs 1.15.1">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -467,6 +467,11 @@
       
     </li>
   
+  <li class=" " data-id="lucky/Lucky/MissingRateLimitIdentifier" data-name="lucky::missingratelimitidentifier">
+      <a href="../Lucky/MissingRateLimitIdentifier.html">MissingRateLimitIdentifier</a>
+      
+    </li>
+  
   <li class=" " data-id="lucky/Lucky/MountComponent" data-name="lucky::mountcomponent">
       <a href="../Lucky/MountComponent.html">MountComponent</a>
       
@@ -569,6 +574,11 @@
   
   <li class=" " data-id="lucky/Lucky/QuickDef" data-name="lucky::quickdef">
       <a href="../Lucky/QuickDef.html">QuickDef</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/RateLimit" data-name="lucky::ratelimit">
+      <a href="../Lucky/RateLimit.html">RateLimit</a>
       
     </li>
   
@@ -931,9 +941,13 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Lucky::<wbr>HTMLPage
+  <span class="kind">
+    module
+  </span> Lucky::<wbr>HTMLPage
 
 </h1>
+
+
 
 
 
@@ -994,7 +1008,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/html_page.cr#L3" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/html_page.cr#L3" target="_blank">
         lucky/html_page.cr
       </a>
     
@@ -1029,6 +1043,7 @@
 
 
 
+  
   <h2>
     <a id="constructors" class="anchor" href="#constructors">
   <svg class="octicon-link" aria-hidden="true">
@@ -1047,7 +1062,7 @@
   </ul>
 
 
-
+  
   <h2>
     <a id="class-method-summary" class="anchor" href="#class-method-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -1071,9 +1086,9 @@
   </ul>
 
 
+  
 
-
-
+  
   <h2>
     <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -1108,35 +1123,35 @@
 
 
 
-<div class="methods-inherited">
-  
+  <div class="methods-inherited">
     
+      
 
 
-    
+      
 
 
-    
+      
 
 
-    
-
-
-  
-    
+      
 
 
     
+      
+
+
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></code></h3>
   
@@ -1153,7 +1168,7 @@
   
 
 
-    
+      
 
   <h3>Constructor methods inherited from module <code><a href="../Lucky/HTMLBuilder.html">Lucky::HTMLBuilder</a></code></h3>
   
@@ -1165,23 +1180,23 @@
   
 
 
-    
+      
+
+
+      
 
 
     
+      
 
 
-  
-    
+      
 
 
-    
+      
 
 
-    
-
-
-    
+      
 
   <h3>Macros inherited from module <code><a href="../Lucky/SvgInliner.html">Lucky::SvgInliner</a></code></h3>
   
@@ -1193,8 +1208,8 @@
   
 
 
-  
     
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/LiveReloadTag.html">Lucky::LiveReloadTag</a></code></h3>
   
@@ -1206,17 +1221,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/TagDefaults.html">Lucky::TagDefaults</a></code></h3>
   
@@ -1228,26 +1243,26 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
+      
 
 
-    
+      
 
 
-  
-    
+      
 
 
-    
-
-
-    
-
-
-    
+      
 
   <h3>Macros inherited from module <code><a href="../Lucky/RenderIfDefined.html">Lucky::RenderIfDefined</a></code></h3>
   
@@ -1259,17 +1274,17 @@
   
 
 
-  
     
+      
 
 
-    
+      
 
 
-    
+      
 
 
-    
+      
 
   <h3>Macros inherited from module <code>Lucky::HelpfulParagraphError</code></h3>
   
@@ -1281,8 +1296,8 @@
   
 
 
-  
     
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/MountComponent.html">Lucky::MountComponent</a></code></h3>
   
@@ -1299,17 +1314,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/ForgeryProtectionHelpers.html">Lucky::ForgeryProtectionHelpers</a></code></h3>
   
@@ -1326,17 +1341,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/TimeHelpers.html">Lucky::TimeHelpers</a></code></h3>
   
@@ -1358,17 +1373,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/UrlHelpers.html">Lucky::UrlHelpers</a></code></h3>
   
@@ -1385,17 +1400,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/HTMLTextHelpers.html">Lucky::HTMLTextHelpers</a></code></h3>
   
@@ -1417,17 +1432,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/TextHelpers.html">Lucky::TextHelpers</a></code></h3>
   
@@ -1479,17 +1494,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/NumberToCurrency.html">Lucky::NumberToCurrency</a></code></h3>
   
@@ -1501,17 +1516,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/AssetHelpers.html">Lucky::AssetHelpers</a></code></h3>
   
@@ -1523,13 +1538,13 @@
   
 
 
-    
+      
 
 
-    
+      
 
 
-    
+      
 
   <h3>Macros inherited from module <code><a href="../Lucky/AssetHelpers.html">Lucky::AssetHelpers</a></code></h3>
   
@@ -1546,11 +1561,11 @@
   
 
 
-  
     
+      
 
 
-    
+      
 
   <h3>Constructor methods inherited from module <code><a href="../Lucky/Assignable.html">Lucky::Assignable</a></code></h3>
   
@@ -1562,10 +1577,10 @@
   
 
 
-    
+      
 
 
-    
+      
 
   <h3>Macros inherited from module <code><a href="../Lucky/Assignable.html">Lucky::Assignable</a></code></h3>
   
@@ -1587,8 +1602,8 @@
   
 
 
-  
     
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/SpecialtyTags.html">Lucky::SpecialtyTags</a></code></h3>
   
@@ -1635,17 +1650,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/FormHelpers.html">Lucky::FormHelpers</a></code></h3>
   
@@ -1672,10 +1687,10 @@
   
 
 
-    
+      
 
 
-    
+      
 
   <h3>Class methods inherited from module <code><a href="../Lucky/FormHelpers.html">Lucky::FormHelpers</a></code></h3>
   
@@ -1692,37 +1707,37 @@
   
 
 
-    
-
-
-  
-    
+      
 
 
     
+      
+
+
+      
+
+
+      
+
+
+      
 
 
     
+      
+
+
+      
+
+
+      
+
+
+      
 
 
     
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/LinkHelpers.html">Lucky::LinkHelpers</a></code></h3>
   
@@ -1734,17 +1749,17 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/CustomTags.html">Lucky::CustomTags</a></code></h3>
   
@@ -1761,30 +1776,30 @@
   
 
 
-    
+      
+
+
+      
+
+
+      
 
 
     
+      
+
+
+      
+
+
+      
+
+
+      
 
 
     
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-    
-
-
-  
-    
+      
 
   <h3>Instance methods inherited from module <code><a href="../Lucky/BaseTags.html">Lucky::BaseTags</a></code></h3>
   
@@ -2326,13 +2341,13 @@
   
 
 
-    
+      
 
 
-    
+      
 
 
-    
+      
 
   <h3>Macros inherited from module <code><a href="../Lucky/BaseTags.html">Lucky::BaseTags</a></code></h3>
   
@@ -2344,23 +2359,23 @@
   
 
 
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
   
-    
-
-
-    
-
-
-    
-
-
-    
-
-
-  
-</div>
-
-
   <h2>
     <a id="constructor-detail" class="anchor" href="#constructor-detail">
   <svg class="octicon-link" aria-hidden="true">
@@ -2386,7 +2401,7 @@
   
 
 
-
+  
   <h2>
     <a id="class-method-detail" class="anchor" href="#class-method-detail">
   <svg class="octicon-link" aria-hidden="true">
@@ -2407,7 +2422,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2423,16 +2438,16 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
   
 
 
+  
 
-
-
+  
   <h2>
     <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
   <svg class="octicon-link" aria-hidden="true">
@@ -2467,7 +2482,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/html_page.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2483,7 +2498,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/html_page.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/html_page.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2499,11 +2514,12 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/86346deb6e4477096572c7970336c5935119ef4f/src/lucky/html_page.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/2a511ad7bd3039e24f33814fccc1747178e759e7/src/lucky/html_page.cr#L10" target="_blank">View source</a>]
         
       </div>
     </div>
   
+
 
 
 </div>
