@@ -131,7 +131,7 @@ class OptionalParams::Index < TestAction
   param nilable_with_explicit_nil : Int32? = nil
   param nilable_array_with_default : Array(String)? = [] of String
   param with_array_default : Array(Int32) = [26, 37, 44]
-  # This is to test that
+  # This is to test passing with no value at all still treats it as 'nil'
   param optional_bool_with_no_default : Bool?
 
   get "/optional_params" do
