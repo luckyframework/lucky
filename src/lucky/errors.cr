@@ -255,4 +255,7 @@ module Lucky
       end
     end
   end
+
+  class MissingRateLimitIdentifier < Error
+  end
 end
