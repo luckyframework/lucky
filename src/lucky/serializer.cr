@@ -1,9 +1,4 @@
-require "uuid/json"
-
+@[Deprecated("include `Lucky::Serializable` instead of inheriting from `Lucky::Serializer`")]
 abstract class Lucky::Serializer
-  abstract def render
-
-  def to_json(io)
-    render.to_json(io)
-  end
+  include Lucky::Serializable
 end
