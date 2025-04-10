@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::Subdomain - lucky main</title>
+  <title>Lucky::Serializable - lucky main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -737,7 +737,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/Serializable" data-name="lucky::serializable">
+  <li class=" current" data-id="lucky/Lucky/Serializable" data-name="lucky::serializable">
       <a href="../Lucky/Serializable.html">Serializable</a>
       
     </li>
@@ -807,7 +807,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="lucky/Lucky/Subdomain" data-name="lucky::subdomain">
+  <li class="parent " data-id="lucky/Lucky/Subdomain" data-name="lucky::subdomain">
       <a href="../Lucky/Subdomain.html">Subdomain</a>
       
         <ul>
@@ -948,7 +948,7 @@
 
   <span class="kind">
     module
-  </span> Lucky::<wbr>Subdomain
+  </span> Lucky::<wbr>Serializable
 
 </h1>
 
@@ -962,27 +962,25 @@
 
 
 
+
+
+
+
+
+
   <h2>
-    <a id="included-modules" class="anchor" href="#included-modules">
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Included Modules
+    Direct including types
   </h2>
   <ul class="other-types-list">
     
-      <li class="other-type">Habitat::SettingsHelpers</li>
-    
-      <li class="other-type">Habitat::TempConfig</li>
+      <li class="other-type"><a href="../Lucky/Serializer.html">Lucky::Serializer</a></li>
     
   </ul>
-
-
-
-
-
-
 
 
 
@@ -997,8 +995,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/subdomain.cr#L1" target="_blank">
-        lucky/subdomain.cr
+      <a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/serializable.cr#L3" target="_blank">
+        lucky/serializable.cr
       </a>
     
     <br/>
@@ -1006,82 +1004,13 @@
 
 
 
-  
-    <h2>
-      <a id="constant-summary" class="anchor" href="#constant-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-      Constant Summary
-    </h2>
-  
-  <dl>
-    
-      <dt class="entry-const" id="HABITAT_SETTINGS">
-        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: tld_length : <span class="t">Int32</span> <span class="o">=</span> <span class="n">1</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
-      </dt>
-      
-    
-      <dt class="entry-const" id="IP_HOST_REGEXP">
-        <strong>IP_HOST_REGEXP</strong> = <code><span class="s">/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/</span></code>
-      </dt>
-      
-      <dd class="entry-const-doc">
-        <p>Taken from https://github.com/rails/rails/blob/afc6abb674b51717dac39ea4d9e2252d7e40d060/actionpack/lib/action_dispatch/http/url.rb#L8</p>
-      </dd>
-      
-    
-  </dl>
-
 
 
   
 
   
-  <h2>
-    <a id="class-method-summary" class="anchor" href="#class-method-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Class Method Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#configure%28%26%29-class-method" class="signature"><strong>.configure</strong>(&)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#settings-class-method" class="signature"><strong>.settings</strong></a>
-        
-      </li>
-    
-  </ul>
-
 
   
-  <h2>
-    <a id="macro-summary" class="anchor" href="#macro-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Macro Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#require_subdomain%28matcher%3Dtrue%29-macro" class="signature"><strong>require_subdomain</strong>(matcher = <span class="n">true</span>)</a>
-        
-          <div class="summary"><p>Sets up a subdomain requirement for an action</p></div>
-        
-      </li>
-    
-  </ul>
-
 
   
   <h2>
@@ -1095,7 +1024,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#settings-instance-method" class="signature"><strong>#settings</strong></a>
+        <a href="#render-instance-method" class="signature"><strong>#render</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_json%28io%29-instance-method" class="signature"><strong>#to_json</strong>(io)</a>
         
       </li>
     
@@ -1105,120 +1039,13 @@
 
   <div class="methods-inherited">
     
-      
-
-
-      
-
-
-      
-
-
-      
-
-
-    
-      
-
-
-      
-
-
-      
-
-
-      
-
-
-    
   </div>
 
   
 
   
-  <h2>
-    <a id="class-method-detail" class="anchor" href="#class-method-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Class Method Detail
-  </h2>
-  
-    <div class="entry-detail" id="configure(&amp;)-class-method">
-      <div class="signature">
-        
-        def self.<strong>configure</strong>(&)
-
-        <a class="method-permalink" href="#configure%28%26%29-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="settings-class-method">
-      <div class="signature">
-        
-        def self.<strong>settings</strong>
-
-        <a class="method-permalink" href="#settings-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-
 
   
-  <h2>
-    <a id="macro-detail" class="anchor" href="#macro-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Macro Detail
-  </h2>
-  
-    <div class="entry-detail" id="require_subdomain(matcher=true)-macro">
-      <div class="signature">
-        
-        macro <strong>require_subdomain</strong>(matcher = <span class="n">true</span>)
-
-        <a class="method-permalink" href="#require_subdomain%28matcher%3Dtrue%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Sets up a subdomain requirement for an action</p>
-<pre><code class="language-crystal">require_subdomain                                    <span class="c"># subdomain required but can be anything</span>
-require_subdomain <span class="s">&quot;admin&quot;</span>                            <span class="c"># subdomain required and must equal &quot;admin&quot;</span>
-require_subdomain <span class="s">/(dev|qa|prod)/</span>                    <span class="c"># subdomain required and must match regex</span>
-require_subdomain [<span class="s">&quot;tenant1&quot;</span>, <span class="s">&quot;tenant2&quot;</span>, <span class="s">/tenant\d/</span>] <span class="c"># subdomain required and must match one of the items in the array</span></code></pre>
-<p>The subdomain can then be accessed from within the route block by calling <code>subdomain</code>.</p>
-<p>If you don't want to require a subdomain but still want to check if one is passed
-you can still call <code>subdomain?</code> without using <code><a href="../Lucky/Subdomain.html#require_subdomain%28matcher%3Dtrue%29-macro">require_subdomain</a></code>.
-Just know that <code>subdomain?</code> is nilable.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/subdomain.cr#L29" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-
 
   
   <h2>
@@ -1230,18 +1057,34 @@ Just know that <code>subdomain?</code> is nilable.</p>
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="settings-instance-method">
+    <div class="entry-detail" id="render-instance-method">
       <div class="signature">
-        
-        def <strong>settings</strong>
+        abstract 
+        def <strong>render</strong>
 
-        <a class="method-permalink" href="#settings-instance-method">#</a>
+        <a class="method-permalink" href="#render-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/subdomain.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/serializable.cr#L4" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_json(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_json</strong>(io)
+
+        <a class="method-permalink" href="#to_json%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e161fc52f88a2047e6aa699089bf1466426c7514/src/lucky/serializable.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
