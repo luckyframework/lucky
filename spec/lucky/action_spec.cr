@@ -131,6 +131,8 @@ class OptionalParams::Index < TestAction
   param nilable_with_explicit_nil : Int32? = nil
   param nilable_array_with_default : Array(String)? = [] of String
   param with_array_default : Array(Int32) = [26, 37, 44]
+  # This is to test passing with no value at all still treats it as 'nil'
+  param optional_bool_with_no_default : Bool?
 
   get "/optional_params" do
     plain_text "optional param: #{page} #{with_int_default} #{with_int_never_nil}"
@@ -411,7 +413,7 @@ describe Lucky::Action do
     end
 
     it "returns optional param declarations" do
-      OptionalParams::Index.query_param_declarations.size.should eq 8
+      OptionalParams::Index.query_param_declarations.size.should eq 9
       OptionalParams::Index.query_param_declarations.should contain "bool_with_false_default : Bool | ::Nil"
     end
   end
@@ -537,6 +539,11 @@ describe Lucky::Action do
     it "allows required arrays with defaults" do
       action = OptionalParams::Index.new(build_context(path: "/?with_array_default=2222222"), params)
       action.with_array_default.should eq([26, 37, 44])
+    end
+
+    it "returns nil when the key is passed with no value for an optional param" do
+      action = OptionalParams::Index.new(build_context(path: "/?optional_bool_with_no_default"), params)
+      action.optional_bool_with_no_default.should eq(nil)
     end
   end
 end
