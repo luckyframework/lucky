@@ -31,7 +31,7 @@ class RateLimitRoutesWithMacro::Index < TestAction
   end
 end
 
-describe Lucky::RateLimit, focus: true do
+describe Lucky::RateLimit do
   describe "RateLimit" do
     it "when request count is less than the rate limit" do
       with_memory_store do
