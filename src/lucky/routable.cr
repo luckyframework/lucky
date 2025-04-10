@@ -498,7 +498,7 @@ module Lucky::Routable
       {% if is_array %}
       val = params.get_all?(:{{ type_declaration.var.id }})
       {% else %}
-      val = params.get?(:{{ type_declaration.var.id }})
+      val = params.get?(:{{ type_declaration.var.id }}).presence
       {% end %}
 
       if val.nil?
