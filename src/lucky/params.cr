@@ -320,7 +320,7 @@ class Lucky::Params
   # params.nested_file("file")    # Lucky::UploadedFile
   # params.nested_file("missing") # Missing parameter: missing
   # ```
-  def nested_file?(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)?
+  def nested_file?(nested_key : String | Symbol) : Hash(String, Lucky::UploadedFile)
     nested_file_params(nested_key.to_s)
   end
 
@@ -333,7 +333,7 @@ class Lucky::Params
     end
   end
 
-  def nested_array_files?(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))?
+  def nested_array_files?(nested_key : String | Symbol) : Hash(String, Array(Lucky::UploadedFile))
     nested_array_file_params(nested_key.to_s)
   end
 
