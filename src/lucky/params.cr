@@ -234,12 +234,7 @@ class Lucky::Params
   # params.nested("missing") # Missing parameter: missing
   # ```
   def nested(nested_key : String | Symbol) : Hash(String, String)
-    nested_params = nested?(nested_key)
-    if nested_params.keys.empty?
-      raise Lucky::MissingNestedParamError.new nested_key
-    else
-      nested_params
-    end
+    maybe_nested(nested_key) || raise Lucky::MissingNestedParamError.new(nested_key)
   end
 
   # Retrieve a nested value from the params
@@ -256,11 +251,7 @@ class Lucky::Params
   # params.nested("missing") # {}
   # ```
   def nested?(nested_key : String | Symbol) : Hash(String, String)
-    if json?
-      nested_json_params(nested_key.to_s).merge(nested_query_params(nested_key.to_s))
-    else
-      nested_form_params(nested_key.to_s).merge(nested_query_params(nested_key.to_s))
-    end
+    maybe_nested(nested_key) || empty_params
   end
 
   # Retrieve a nested array from the params
@@ -406,15 +397,30 @@ class Lucky::Params
     end
   end
 
-  private def nested_json_params(nested_key : String) : Hash(String, String)
-    nested_params = {} of String => String
-    nested_key_json = parsed_json[nested_key]? || JSON::Any.new({} of String => JSON::Any)
-
-    nested_key_json.as_h.each do |key, value|
-      nested_params[key.to_s] = stringify_json_value(value)
+  private def maybe_nested(nested_key : String | Symbol) : Hash(String, String)?
+    if json?
+      body_params = nested_json_params(nested_key.to_s)
+    else
+      body_params = nested_form_params(nested_key.to_s)
     end
 
-    nested_params
+    query_params = nested_query_params(nested_key.to_s)
+
+    return if body_params.nil? && query_params.nil?
+    return body_params if query_params.nil?
+    return query_params if body_params.nil?
+
+    body_params.merge!(query_params)
+  end
+
+  private def nested_json_params(nested_key : String) : Hash(String, String)?
+    parsed_json[nested_key]?.try do |nested_key_json|
+      empty_params.tap do |nested_params|
+        nested_key_json.as_h.each do |key, value|
+          nested_params[key.to_s] = stringify_json_value(value)
+        end
+      end
+    end
   end
 
   private def nested_array_json_params(nested_key : String) : Hash(String, Array(String))
@@ -430,16 +436,19 @@ class Lucky::Params
     nested_params
   end
 
-  private def nested_form_params(nested_key : String) : Hash(String, String)
+  private def nested_form_params(nested_key : String) : Hash(String, String)?
     nested_key = "#{nested_key}:"
     source = multipart? ? multipart_params : form_params
-    source.to_h.reduce(empty_params) do |nested_params, (key, value)|
-      if key.starts_with? nested_key
-        nested_params[key.lchop(nested_key)] = value
-      end
 
-      nested_params
+    nested_params = empty_params.tap do |params|
+      source.each do |key, value|
+        if key.starts_with?(nested_key)
+          params[key.lchop(nested_key)] = value
+        end
+      end
     end
+
+    nested_params.empty? ? nil : nested_params
   end
 
   private def nested_array_form_params(nested_key : String) : Hash(String, Array(String))
@@ -458,15 +467,18 @@ class Lucky::Params
     nested_params
   end
 
-  private def nested_query_params(nested_key : String) : Hash(String, String)
+  private def nested_query_params(nested_key : String) : Hash(String, String)?
     nested_key = "#{nested_key}:"
-    query_params.to_h.reduce(empty_params) do |nested_params, (key, value)|
-      if key.starts_with? nested_key
-        nested_params[key.lchop(nested_key)] = value
-      end
 
-      nested_params
+    nested_params = empty_params.tap do |params|
+      params = query_params.each do |key, value|
+        if key.starts_with? nested_key
+          params[key.lchop(nested_key)] = value
+        end
+      end
     end
+
+    nested_params.empty? ? nil : nested_params
   end
 
   private def nested_array_query_params(nested_key : String) : Hash(String, Array(String))
