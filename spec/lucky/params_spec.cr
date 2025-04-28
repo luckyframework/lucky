@@ -443,6 +443,14 @@ describe Lucky::Params do
       end
     end
 
+    it "does not raise if nested key is set but empty" do
+      request = build_request body: {user: NamedTuple.new}.to_json,
+        content_type: "application/json"
+
+      params = Lucky::Params.new(request)
+      params.nested(:user).should eq(Hash(String, String).new)
+    end
+
     it "returns empty hash if nested_params are missing" do
       request = build_request body: "",
         content_type: "application/x-www-form-urlencoded"
