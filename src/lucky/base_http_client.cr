@@ -95,6 +95,11 @@ abstract class Lucky::BaseHTTPClient
   end
 
   # See docs for `exec`
+  def exec(action : Lucky::Action.class, params : NamedTuple) : HTTP::Client::Response
+    exec(action.route, **params)
+  end
+
+  # See docs for `exec`
   def exec(route_helper : Lucky::RouteHelper, params : NamedTuple) : HTTP::Client::Response
     @client.exec(method: route_helper.method.to_s.upcase, path: route_helper.path, body: params.to_json)
   end
