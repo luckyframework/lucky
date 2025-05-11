@@ -59,6 +59,14 @@ describe Lucky::BaseHTTPClient do
         request.body.to_s.should eq({foo: "bar"}.to_json)
       end
 
+      it "allows passing a NamedTuple" do
+        params = {foo: "bar"}
+        response = MyClient.new.exec(HelloWorldAction, params)
+
+        request = TestServer.last_request
+        request.body.to_s.should eq({foo: "bar"}.to_json)
+      end
+
       it "works with array query params" do
         response = MyClient.new.exec ArrayParamAction.with(codes: ["ab", "xy"])
         response.body.should eq "ab--xy"
