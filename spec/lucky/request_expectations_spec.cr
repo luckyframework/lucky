@@ -44,8 +44,8 @@ describe Lucky::RequestExpectations do
   end
 
   it "passes if the response is exactly the same" do
-    response = build_response(200, {name: "Paul"}.to_json)
-    response.should send_json(200, name: "Paul")
+    response = build_response(200, {status: "success"}.to_json)
+    response.should send_json(200, {status: "success"})
   end
 
   it "passes if nested values are JSON objects" do
