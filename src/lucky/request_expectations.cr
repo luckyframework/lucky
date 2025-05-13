@@ -7,9 +7,14 @@ module Lucky::RequestExpectations
   #
   # response = AppClient.new.exec(Users::Show.with(user.id))
   #
+  # response.should send_json(200, {status: "success"})
   # response.should send_json(200, name: user.name, age: user.age)
   # ```
   def send_json(status, **expected)
+    send_json(status, expected)
+  end
+
+  def send_json(status, expected : NamedTuple)
     SendJsonExpectation.new(status, expected.to_json)
   end
 
