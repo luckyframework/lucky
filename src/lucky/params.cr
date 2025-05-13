@@ -625,12 +625,12 @@ class Lucky::Params
     parse_form_data.files
   end
 
-  private def json? : Bool
-    !!(/^application\/json/ =~ content_type)
+  private def json? : Bool?
+    content_type.try &.downcase.starts_with?("application/json")
   end
 
-  private def multipart? : Bool
-    !!(/^multipart\/form-data/ =~ content_type)
+  private def multipart? : Bool?
+    content_type.try &.downcase.starts_with?("multipart/form-data")
   end
 
   private def content_type : String?
