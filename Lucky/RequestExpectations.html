@@ -992,7 +992,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/23caa0f563213cc8b142de738ac0aa13d2319445/src/lucky/request_expectations.cr#L2" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/24b095fbeb9a502442f2609b1bf1bf5e28d4a9bf/src/lucky/request_expectations.cr#L2" target="_blank">
         lucky/request_expectations.cr
       </a>
     
@@ -1019,6 +1019,11 @@
     Instance Method Summary
   </h2>
   <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#send_json%28status%2Cexpected%3ANamedTuple%29-instance-method" class="signature"><strong>#send_json</strong>(status, expected : NamedTuple)</a>
+        
+      </li>
     
       <li class="entry-summary">
         <a href="#send_json%28status%2C%2A%2Aexpected%29-instance-method" class="signature"><strong>#send_json</strong>(status, **expected)</a>
@@ -1051,6 +1056,22 @@
     Instance Method Detail
   </h2>
   
+    <div class="entry-detail" id="send_json(status,expected:NamedTuple)-instance-method">
+      <div class="signature">
+        
+        def <strong>send_json</strong>(status, expected : NamedTuple)
+
+        <a class="method-permalink" href="#send_json%28status%2Cexpected%3ANamedTuple%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/24b095fbeb9a502442f2609b1bf1bf5e28d4a9bf/src/lucky/request_expectations.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="send_json(status,**expected)-instance-method">
       <div class="signature">
         
@@ -1066,13 +1087,14 @@
 
 response <span class="o">=</span> <span class="t">AppClient</span>.new.exec(<span class="t">Users</span><span class="t">::</span><span class="t">Show</span>.<span class="k">with</span>(user.id))
 
+response.should send_json(<span class="n">200</span>, {status: <span class="s">&quot;success&quot;</span>})
 response.should send_json(<span class="n">200</span>, name: user.name, age: user.age)</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/23caa0f563213cc8b142de738ac0aa13d2319445/src/lucky/request_expectations.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/24b095fbeb9a502442f2609b1bf1bf5e28d4a9bf/src/lucky/request_expectations.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
