@@ -11,8 +11,8 @@ class Lucky::MimeType
     def initialize(@type : String, @subtype : String)
     end
 
-    def to_s
-      "#{type}/#{subtype}"
+    def to_s(io : IO)
+      io << type << '/' << subtype
     end
   end
 

@@ -270,7 +270,8 @@ module LuckySentry
         elapsed_time = Time.monotonic - @build_started
         message = String.build do |io|
           io << " DONE ".colorize.on_cyan.black
-          io << " Compiled successfully in #{distance_of_time_in_words(elapsed_time)}".colorize.cyan
+          io << " Compiled successfully in ".colorize.cyan
+          io << distance_of_time_in_words(elapsed_time).colorize.cyan
         end
 
         puts message

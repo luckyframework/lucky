@@ -87,7 +87,7 @@ module Lucky::SpecialtyTags
       options.each_with_index do |key, value, index|
         attrs << ", " if index > 0
         attrs << Wordsmith::Inflector.dasherize(key.to_s) << "="
-        attrs << value.to_s
+        attrs << value
       end
     end
   end

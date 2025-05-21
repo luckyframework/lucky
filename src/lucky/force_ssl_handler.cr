@@ -62,7 +62,7 @@ class Lucky::ForceSSLHandler
     settings.strict_transport_security.try do |header|
       sts_value = String.build do |s|
         max_age = ensure_time_span(header[:max_age])
-        s << "max-age=#{max_age.total_seconds.to_i}"
+        s << "max-age=" << max_age.total_seconds.to_i
         s << "; includeSubDomains" if header[:include_subdomains]
       end
       context.response.headers["Strict-Transport-Security"] = sts_value

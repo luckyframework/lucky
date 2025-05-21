@@ -207,10 +207,9 @@ module Lucky::TextHelpers
       @values[previous_index]?.to_s
     end
 
-    def to_s
-      value = @values[@index]?.to_s
+    def to_s(io : IO)
+      io << @values[@index]?
       @index = next_index
-      value
     end
 
     private def next_index : Int32
