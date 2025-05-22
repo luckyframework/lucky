@@ -34,6 +34,6 @@ abstract class Lucky::BaseComponent
     String.build do |io|
       view(io)
       render
-    end.to_s
+    end
   end
 end
