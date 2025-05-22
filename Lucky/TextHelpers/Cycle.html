@@ -983,7 +983,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/8bfb1daeb206b7bb293804f9a7ec1f6f8d9aca52/src/lucky/page_helpers/text_helpers.cr#L184" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/baa251c24c1d582a1565b3712c565251a67c24b4/src/lucky/page_helpers/text_helpers.cr#L184" target="_blank">
         lucky/page_helpers/text_helpers.cr
       </a>
     
@@ -1044,9 +1044,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#to_s-instance-method" class="signature"><strong>#to_s</strong></a>
+        <a href="#to_s%28io%3AIO%29-instance-method" class="signature"><strong>#to_s</strong>(io : IO)</a>
         
-          <div class="summary"><p>Returns a nicely readable and concise string representation of this object, typically intended for users.</p></div>
+          <div class="summary"><p>Appends a short String representation of this object which includes its class name and its object address.</p></div>
         
       </li>
     
@@ -1124,7 +1124,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/8bfb1daeb206b7bb293804f9a7ec1f6f8d9aca52/src/lucky/page_helpers/text_helpers.cr#L196" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/baa251c24c1d582a1565b3712c565251a67c24b4/src/lucky/page_helpers/text_helpers.cr#L196" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1140,7 +1140,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/8bfb1daeb206b7bb293804f9a7ec1f6f8d9aca52/src/lucky/page_helpers/text_helpers.cr#L189" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/baa251c24c1d582a1565b3712c565251a67c24b4/src/lucky/page_helpers/text_helpers.cr#L189" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1172,7 +1172,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/8bfb1daeb206b7bb293804f9a7ec1f6f8d9aca52/src/lucky/page_helpers/text_helpers.cr#L206" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/baa251c24c1d582a1565b3712c565251a67c24b4/src/lucky/page_helpers/text_helpers.cr#L206" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1188,36 +1188,39 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/8bfb1daeb206b7bb293804f9a7ec1f6f8d9aca52/src/lucky/page_helpers/text_helpers.cr#L202" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/baa251c24c1d582a1565b3712c565251a67c24b4/src/lucky/page_helpers/text_helpers.cr#L202" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="to_s-instance-method">
+    <div class="entry-detail" id="to_s(io:IO)-instance-method">
       <div class="signature">
         
-        def <strong>to_s</strong>
+        def <strong>to_s</strong>(io : IO)
 
-        <a class="method-permalink" href="#to_s-instance-method">#</a>
+        <a class="method-permalink" href="#to_s%28io%3AIO%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
             <div class="doc-inherited">
-              Description copied from class <a href="../../Object.html">Object</a>
+              Description copied from class Reference
             </div>
           
-          <p>Returns a nicely readable and concise string representation of this object,
-typically intended for users.</p>
-<p>This method should usually <strong>not</strong> be overridden. It delegates to
-<code>#to_s(IO)</code> which can be overridden for custom implementations.</p>
-<p>Also see <code>#inspect</code>.</p>
+          <p>Appends a short String representation of this object
+which includes its class name and its object address.</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  <span class="k">def</span> <span class="m">initialize</span>(@name : <span class="t">String</span>, @age : <span class="t">Int32</span>)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="t">Person</span>.new(<span class="s">&quot;John&quot;</span>, <span class="n">32</span>).to_s <span class="c"># =&gt; #&lt;Person:0x10a199f20&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/8bfb1daeb206b7bb293804f9a7ec1f6f8d9aca52/src/lucky/page_helpers/text_helpers.cr#L210" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/baa251c24c1d582a1565b3712c565251a67c24b4/src/lucky/page_helpers/text_helpers.cr#L210" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1233,7 +1236,7 @@ typically intended for users.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/8bfb1daeb206b7bb293804f9a7ec1f6f8d9aca52/src/lucky/page_helpers/text_helpers.cr#L186" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/baa251c24c1d582a1565b3712c565251a67c24b4/src/lucky/page_helpers/text_helpers.cr#L186" target="_blank">View source</a>]
         
       </div>
     </div>
