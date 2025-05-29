@@ -47,11 +47,11 @@ module Lucky
       encode({data, generate_digest(data)}.to_json)
     end
 
-    private def encode(data) : String
+    private def encode(data : String | Bytes) : String
       ::Base64.urlsafe_encode(data)
     end
 
-    private def decode(data) : Bytes
+    private def decode(data : String) : Bytes
       ::Base64.decode(data)
     end
 

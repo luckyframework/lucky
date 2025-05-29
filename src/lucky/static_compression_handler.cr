@@ -18,7 +18,7 @@ class Lucky::StaticCompressionHandler
   def initialize(@public_dir : String, @file_ext = "gz", @content_encoding = "gzip")
   end
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     original_path = context.request.path.to_s
     request_path = URI.decode(original_path)
     file_path = File.join(@public_dir, request_path)

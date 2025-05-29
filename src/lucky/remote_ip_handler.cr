@@ -18,7 +18,7 @@ class Lucky::RemoteIpHandler
     setting ip_header_name : String = "X-Forwarded-For"
   end
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     context.request.remote_address = fetch_remote_ip(context)
     if ip_value = context.request.remote_address.as?(Socket::IPAddress).try(&.address.presence)
       context.request.remote_ip = ip_value

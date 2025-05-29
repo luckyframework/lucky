@@ -9,7 +9,7 @@ class Lucky::RouteNotFoundHandler
   include HTTP::Handler
   class_property fallback_action : Lucky::Action.class | Nil
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     if has_fallback?(context)
       Lucky::Log.dexter.debug { {handled_by_fallback: fallback_action.name.to_s} }
       fallback_action.new(context, {} of String => String).perform_action

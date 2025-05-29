@@ -3,7 +3,7 @@ require "colorize"
 class Lucky::RouteHandler
   include HTTP::Handler
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     handler = Lucky.router.find_action(context.request)
     if handler
       Lucky::Log.dexter.debug { {handled_by: handler.payload.to_s} }

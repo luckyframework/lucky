@@ -22,7 +22,7 @@ class Lucky::LogHandler
 
   delegate logger, to: Lucky
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     should_skip_logging = settings.skip_if.try &.call(context)
 
     if should_skip_logging

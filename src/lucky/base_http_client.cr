@@ -132,7 +132,7 @@ abstract class Lucky::BaseHTTPClient
     @host = ""
     @port = -1
 
-    def self.from_app(app : Lucky::BaseAppServer)
+    def self.from_app(app : Lucky::BaseAppServer) : self
       self.new(HTTP::Server.build_middleware(app.middleware))
     end
 

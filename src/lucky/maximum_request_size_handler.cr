@@ -18,7 +18,7 @@ class Lucky::MaximumRequestSizeHandler
     setting max_size : Int64 = 1_048_576_i64 # 1MB
   end
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     return call_next(context) unless settings.enabled
 
     body_size = 0

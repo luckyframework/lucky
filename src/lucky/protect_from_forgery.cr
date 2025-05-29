@@ -29,12 +29,12 @@ module Lucky::ProtectFromForgery
     end
   end
 
-  private def set_session_csrf_token
+  private def set_session_csrf_token : Nil
     session.get?(SESSION_KEY) ||
       session.set(SESSION_KEY, Random::Secure.urlsafe_base64(32))
   end
 
-  private def request_does_not_require_protection?
+  private def request_does_not_require_protection? : Bool
     ALLOWED_METHODS.includes? request.method
   end
 

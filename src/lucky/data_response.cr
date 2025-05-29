@@ -43,7 +43,7 @@ class Lucky::DataResponse < Lucky::Response
                  @debug_message : String? = nil)
   end
 
-  def print
+  def print : Nil
     set_response_headers
     context.response.print data
   end

@@ -24,7 +24,7 @@ module Lucky
         continue
       end
 
-      private def xss_guard_value
+      private def xss_guard_value : String
         useragent = context.request.headers.fetch("User-Agent", "").downcase
         value = "1; mode=block"
         useragent.match(/msie\s+(\d+)/).try { |match|

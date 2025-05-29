@@ -151,7 +151,7 @@ module Lucky::TextHelpers
     "#{list[0..-2].join(word_connector)}#{last_word_connector}#{list.last}"
   end
 
-  private def normalize_values(values) : Array(String)
+  private def normalize_values(values : Enumerable) : Array(String)
     string_values = Array(String).new
     values.each { |v| string_values << v.to_s }
     string_values

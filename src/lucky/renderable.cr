@@ -112,12 +112,12 @@ module Lucky::Renderable
   # ```
   #
   macro disable_cookies
-    private def enable_cookies?
+    private def enable_cookies? : Bool
       false
     end
   end
 
-  private def enable_cookies?
+  private def enable_cookies? : Bool
     true
   end
 
@@ -197,22 +197,22 @@ module Lucky::Renderable
   end
 
   # The default global content-type header for HTML
-  def html_content_type
+  def html_content_type : String
     "text/html"
   end
 
   # The default global content-type header for JSON
-  def json_content_type
+  def json_content_type : String
     "application/json"
   end
 
   # The default global content-type header for XML
-  def xml_content_type
+  def xml_content_type : String
     "text/xml"
   end
 
   # The default global content-type header for Plain text
-  def plain_content_type
+  def plain_content_type : String
     "text/plain"
   end
 

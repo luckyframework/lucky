@@ -32,7 +32,7 @@ class Lucky::ForceSSLHandler
     setting strict_transport_security : NamedTuple(max_age: Time::Span | Time::MonthSpan, include_subdomains: Bool)?
   end
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     if disabled?
       call_next(context)
     elsif secure?(context)
@@ -51,14 +51,14 @@ class Lucky::ForceSSLHandler
     context.request.headers["X-Forwarded-Proto"]? == "https"
   end
 
-  private def redirect_to_secure_version(context : HTTP::Server::Context)
+  private def redirect_to_secure_version(context : HTTP::Server::Context) : Nil
     context.response.status_code = settings.redirect_status
     context.response.headers["Location"] =
       "#{URI.new("https", context.request.headers["Host"]?)}#{context.request.resource}"
   end
 
   # Read more about [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
-  private def add_transport_header_if_enabled(context : HTTP::Server::Context)
+  private def add_transport_header_if_enabled(context : HTTP::Server::Context) : Nil
     settings.strict_transport_security.try do |header|
       sts_value = String.build do |s|
         max_age = ensure_time_span(header[:max_age])

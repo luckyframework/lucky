@@ -42,7 +42,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
       io << " #{arrow} "
     end
 
-    private def arrow
+    private def arrow : String
       arrow = "▸"
 
       case severity.value
