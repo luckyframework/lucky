@@ -28,7 +28,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
 
     abstract def write : Nil
 
-    def local_context
+    def local_context : Hash(String, ::Log::Metadata::Value)
       res = Hash(String, ::Log::Metadata::Value).new
 
       entry.context[:local]?.try &.as_h.each do |key, value|
@@ -42,7 +42,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
       io << " #{arrow} "
     end
 
-    private def arrow : String
+    private def arrow : Colorize::Object(String)
       arrow = "▸"
 
       case severity.value
@@ -134,7 +134,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
       end.join(". ")
     end
 
-    private def colored(value : String)
+    private def colored(value : String) : Colorize::Object(String)
       if printing_first_value_of_warning?
         value.colorize.bold.yellow
       else
@@ -142,7 +142,7 @@ struct Lucky::PrettyLogFormatter < Dexter::BaseFormatter
       end
     end
 
-    private def printing_first_value_of_warning?
+    private def printing_first_value_of_warning? : Bool
       severity.value == ::Log::Severity::Warn.value && index.zero?
     end
   end
