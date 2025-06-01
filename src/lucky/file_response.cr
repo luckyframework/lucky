@@ -53,7 +53,7 @@ class Lucky::FileResponse < Lucky::Response
                  @debug_message : String? = nil)
   end
 
-  def print
+  def print : Nil
     raise Lucky::MissingFileError.new(path) unless file_exists?
 
     set_response_headers
@@ -78,7 +78,7 @@ class Lucky::FileResponse < Lucky::Response
     !!filename
   end
 
-  def content_type
+  def content_type : String
     @content_type || content_type_from_file
   end
 

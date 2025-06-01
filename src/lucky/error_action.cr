@@ -13,13 +13,13 @@ abstract class Lucky::ErrorAction
 
   getter context
 
-  def _dont_report
+  def _dont_report : Array(Exception.class)
     [] of Exception.class
   end
 
   macro dont_report(exception_classes)
     {% if exception_classes.is_a?(ArrayLiteral) %}
-      def _dont_report
+      def _dont_report : Array(Exception.class)
         {{ exception_classes }} of Exception.class
       end
     {% else %}

@@ -34,7 +34,7 @@ module Lucky
         continue
       end
 
-      private def check_frame_guard_value!(value : String)
+      private def check_frame_guard_value!(value : String) : String
         v = value.downcase
         case v
         when "sameorigin", "deny"

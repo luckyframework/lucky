@@ -5,7 +5,7 @@ class Lucky::Paginator::Page
   def initialize(@pages : Lucky::Paginator, @number : Int32 | Int64)
   end
 
-  def path
+  def path : String
     @pages.path_to_page(number)
   end
 end

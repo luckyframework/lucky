@@ -93,7 +93,7 @@ module Lucky::Routable
       {{ body }}
     end
 
-    def call
+    def call : Lucky::Response
       # Ensure clients_desired_format is cached by calling it
       clients_desired_format
 

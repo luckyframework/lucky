@@ -58,7 +58,7 @@ module Lucky
       decrypted_data.to_slice
     end
 
-    private def set_cipher_key(cipher)
+    private def set_cipher_key(cipher) : Nil
       cipher.key = @secret
     rescue error : ArgumentError
       raise InvalidSecretKeyBase.new(<<-MESSAGE

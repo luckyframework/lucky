@@ -25,7 +25,7 @@ module Lucky
         continue
       end
 
-      private def floc_guard_value
+      private def floc_guard_value : String
         "interest-cohort=()"
       end
     end

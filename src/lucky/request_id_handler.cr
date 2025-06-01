@@ -18,7 +18,7 @@ class Lucky::RequestIdHandler
     setting set_request_id : Proc(HTTP::Server::Context, String)? = nil
   end
 
-  def call(context)
+  def call(context : HTTP::Server::Context)
     context.request_id = settings.set_request_id.try &.call(context)
 
     call_next(context)

@@ -114,7 +114,7 @@ module Lucky::UrlHelpers
     URI.decode(query_params.map(&.join).sort!.join)
   end
 
-  private def referrer_header
+  private def referrer_header : String?
     request = context.request
     return unless request.headers.has_key?("Referer")
 

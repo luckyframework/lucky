@@ -35,7 +35,7 @@ class Lucky::FlashStore
       get?(:{{ shortcut.id }})
     end
 
-    def {{ shortcut.id }}=(message : String)
+    def {{ shortcut.id }}=(message : String) : String
       set(:{{ shortcut.id }}, message)
     end
   {% end %}

@@ -3,7 +3,7 @@ class Lucky::FormDataParser
   getter body : String
   getter request : HTTP::Request
 
-  def initialize(@body, @request)
+  def initialize(@body : String, @request : HTTP::Request)
   end
 
   def form_data : Lucky::FormData

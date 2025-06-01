@@ -649,11 +649,11 @@ class Lucky::Params
     Lucky::RequestBodyReader.new(request).body
   end
 
-  private def empty_params
+  private def empty_params : Hash(String, String)
     {} of String => String
   end
 
-  private def empty_file_params
+  private def empty_file_params : Hash(String, Lucky::UploadedFile)
     {} of String => Lucky::UploadedFile
   end
 
@@ -661,14 +661,14 @@ class Lucky::Params
     request.query_params
   end
 
-  private def get_all_json(key : String)
+  private def get_all_json(key : String) : Array(String)?
     val = parsed_json[key]?
-    return if val.nil?
+    return nil if val.nil?
 
     val.as_a?.try(&.map(&.to_s)) || [val.to_s]
   end
 
-  private def get_all_params(params, key : String)
+  private def get_all_params(params, key : String) : Array(String)?
     vals = params.fetch_all(key + "[]")
     if !vals.empty?
       vals
