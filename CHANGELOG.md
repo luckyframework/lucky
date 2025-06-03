@@ -1,4 +1,40 @@
-### Changes in 1.3.0
+### Changes in 1.4.0
+
+- Fixed: `Lucky::Response` require for defining `debug_message` on custom response types. [#1927](https://github.com/luckyframework/lucky/pull/1927)
+- Fixed: Compilation error on Windows. [#1929](https://github.com/luckyframework/lucky/pull/1929)
+- Updated: `Lucky::UploadedFile` now checks for the file being empty. [#1942](https://github.com/luckyframework/lucky/pull/1942)
+- Updated: `Lucky::BaseHTTPClient` now allows `IO` in `exec_raw`. [#1944](https://github.com/luckyframework/lucky/pull/1944)
+- Added: new Rate Limiting for actions. [#1945](https://github.com/luckyframework/lucky/pull/1945)
+- Fixed: params nil value when passing a query param key without a value. [#1946](https://github.com/luckyframework/lucky/pull/1946)
+- Refactor: added new `Lucky::Serialzable` module to replace `Lucky::Serializer` class allowing you to make your serializers structs if you wanted. [#1947](https://github.com/luckyframework/lucky/pull/1947)
+- Fixed: params no longer raise when passing empty nested params. [#1950](https://github.com/luckyframework/lucky/pull/1950)
+- Updated: Added method override to allow passing a NamedTuple to `Lucky::BaseHTTPClient#exec`. [#1952](https://github.com/luckyframework/lucky/pull/1952)
+- Fixed: error with `send_json` spec method when your response had the `status` key. [#1954](https://github.com/luckyframework/lucky/pull/1954)
+- Updated: content-type check to match the RFC with performance improvement. [#1955](https://github.com/luckyframework/lucky/pull/1955)
+- Updated: avoid intermediate strings for performance improvement. [#1958](https://github.com/luckyframework/lucky/pull/1958)
+- Updated: added lots of extra types throughout the codebase. [#1959](https://github.com/luckyframework/lucky/pull/1959)
+- Updated: All bash scripts are now written in Crystal for better cross-platform support. [#875 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/875)
+- Fixed: PG issue on Windows. [#1071 in Avram](https://github.com/luckyframework/avram/pull/1071)
+- Added: support for Crystal 1.16 by removing variables that use `?`. [#1083 in Avram](https://github.com/luckyframework/avram/pull/1083)
+- Added: null sorting to `order_by`. [#1081 in Avram](https://github.com/luckyframework/avram/pull/1081)
+- Fixed: issue with nested array params passed to operation attributes. [#1085 in Avram](https://github.com/luckyframework/avram/pull/1085)
+- Fixed: operations now raise an error when using the wrong callback for that operation. [#1086 in Avram](https://github.com/luckyframework/avram/pull/1086)
+- Updated: Using the query bulk update will now update `updated_at`. [#1091 in Avram](https://github.com/luckyframework/avram/pull/1091)
+- Refactor: all query `where_*` methods are now moved to the `join_*` methods. [#1090 in Avram](https://github.com/luckyframework/avram/pull/1090)
+- Added: ability to set separate reader and writer databases. [#1089 in Avram](https://github.com/luckyframework/avram/pull/1089)
+- Added: new table locking mechanism. [#1076 in Avram](https://github.com/luckyframework/avram/pull/1076)
+- Added: more performance improvements by avoiding intermediate strings in Avram. [#1095 in Avram](https://github.com/luckyframework/avram/pull/1095)
+- Added: more types in Avram. [#1094 in Avram](https://github.com/luckyframework/avram/pull/1094)
+- Added: types to Wordsmith. [#28 in Wordsmith](https://github.com/luckyframework/wordsmith/pull/28)
+- Updated: Wordsmith codebase to remove redundant to_s calls. [#31 in Wordsmith](https://github.com/luckyframework/wordsmith/pull/31)
+- Added: new `IO` method overloads to Wordsmith. [#32 in Wordsmith](https://github.com/luckyframework/wordsmith/pull/32)
+- Fixed: `LuckyEnv` now raises when it catches duplicate keys in your .env file. [#36 in LuckyEnv](https://github.com/luckyframework/lucky_env/pull/36)
+- Added: dynamic environment aware .env loading. [#37 in LuckyEnv](https://github.com/luckyframework/lucky_env/pull/37)
+- Added: type-safe ENV method generation. [#39 in LuckyEnv](https://github.com/luckyframework/lucky_env/pull/39)
+
+
+
+### Changes in 1.3.0 (2024-11-02)
 
 - Fixed: re-compilation time not resetting. [#1894](https://github.com/luckyframework/lucky/pull/1894)
 - Fixed: missing `--with-page` flag in `gen.action.browser` task help text. [#1895](https://github.com/luckyframework/lucky/pull/1895)

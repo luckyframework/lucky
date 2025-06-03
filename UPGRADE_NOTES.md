@@ -1,3 +1,61 @@
+## Upgrading from 1.3.0 to 1.4.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.3.0&to=1.4.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.4.0`
+  - Avram should be `~> 1.4.0`
+  - Authentic should be `~> 1.0.2`
+  - LuckyEnv should be `~> 0.3.0`
+  - LuckySecTester should be `~> 0.3.3`
+
+- Run `shards update`
+
+- Upgrade Lucky CLI on Windows (Scoop)
+
+```
+scoop bucket add lucky https://github.com/luckyframework/scoop-bucket
+scoop install lucky
+```
+
+### General updates
+
+- Update: your BaseSerializer and remove inheritance then add `include Lucky::Serialzable`. [See PR](https://github.com/luckyframework/lucky/pull/1947)
+- Remove: all setup bash scripts in favor of Crystal versions. [See PR](https://github.com/luckyframework/lucky_cli/pull/875)
+- Remove: any local variable, or argument passed to a method that has a `?` for Crystal 1.16 compatibility. [See PR](https://github.com/luckyframework/avram/pull/1083)
+- Update: any call to `where_*` join methods in favor of `join_*` join methods. [See PR](https://github.com/luckyframework/avram/pull/1090)
+
+```crystal
+# Update this
+UserQuery.new.where_subscriptions(SubscriptionQuery.new)
+# to this
+UserQuery.new.join_subscriptions(SubscriptionQuery.new)
+```
+
+### Optional update
+
+- Update: to Crystal 1.16 or later and use type-safe ENV methods. [See PR](https://github.com/luckyframework/lucky_env/pull/39)
+```crystal
+LuckyEnv.init_env(".env")
+LuckyEnv.load(".env")
+
+ENV["DEV_PORT"] #=> "3000"
+LuckyEnv.dev_port #=> 3000
+```
+
 ## Upgrading from 1.2.0 to 1.3.0
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.2.0&to=1.3.0).
