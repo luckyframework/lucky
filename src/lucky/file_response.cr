@@ -68,10 +68,10 @@ class Lucky::FileResponse < Lucky::Response
   private def set_response_headers : Nil
     context.response.content_length = File.size(full_path)
     context.response.content_type = content_type
-    context.response.headers["Accept-Ranges"] = "bytes"
-    context.response.headers["X-Content-Type-Options"] = "nosniff"
-    context.response.headers["Content-Transfer-Encoding"] = "binary"
-    context.response.headers["Content-Disposition"] = disposition
+    context.response.headers["accept-ranges"] = "bytes"
+    context.response.headers["x-content-type-options"] = "nosniff"
+    context.response.headers["content-transfer-encoding"] = "binary"
+    context.response.headers["content-disposition"] = disposition
   end
 
   private def custom_filename? : Bool

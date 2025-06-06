@@ -67,7 +67,7 @@ abstract class Lucky::BaseHTTPClient
   def headers(**header_values) : self
     @client.before_request do |request|
       header_values.each do |key, value|
-        request.headers[key.to_s.gsub("-", "_")] = value.to_s
+        request.headers[key.to_s.gsub("_", "-").downcase] = value.to_s
       end
     end
     self

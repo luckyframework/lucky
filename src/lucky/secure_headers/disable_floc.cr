@@ -19,8 +19,8 @@ module Lucky
       end
 
       private def set_floc_guard_header
-        unless context.response.headers["Permissions-Policy"]?
-          context.response.headers["Permissions-Policy"] = floc_guard_value
+        unless context.response.headers["permissions-policy"]?
+          context.response.headers["permissions-policy"] = floc_guard_value
         end
         continue
       end

@@ -16,7 +16,7 @@ module Lucky
       end
 
       private def set_sniff_guard_header
-        context.response.headers["X-Content-Type-Options"] = "nosniff"
+        context.response.headers["x-content-type-options"] = "nosniff"
         continue
       end
     end

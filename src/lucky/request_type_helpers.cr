@@ -84,13 +84,13 @@ module Lucky::RequestTypeHelpers
   #
   # This tests if the `X-Requested-With` header is `XMLHttpRequest`
   def ajax? : Bool
-    request.headers["X-Requested-With"]?.try(&.downcase) == "xmlhttprequest"
+    request.headers["x-requested-with"]?.try(&.downcase) == "xmlhttprequest"
   end
 
   # Check if the request is multipart
   #
   # This tests if the `Content-Type` header is `multipart/form-data`
   def multipart? : Bool
-    !!request.headers["Content-Type"]?.try(&.downcase.starts_with?("multipart/form-data"))
+    !!request.headers["content-type"]?.try(&.downcase.starts_with?("multipart/form-data"))
   end
 end

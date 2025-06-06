@@ -30,7 +30,7 @@ class Lucky::StaticCompressionHandler
       return
     end
 
-    context.response.headers["Content-Encoding"] = @content_encoding
+    context.response.headers["content-encoding"] = @content_encoding
 
     last_modified = modification_time(compressed_path)
     add_cache_headers(context.response.headers, last_modified)
@@ -49,23 +49,23 @@ class Lucky::StaticCompressionHandler
 
   private def should_compress?(file_path, content_type, compressed_path, request_headers) : Bool
     Lucky::Server.settings.gzip_enabled &&
-      request_headers.includes_word?("Accept-Encoding", @content_encoding) &&
+      request_headers.includes_word?("accept-encoding", @content_encoding) &&
       Lucky::Server.settings.gzip_content_types.any? { |ct| content_type.starts_with?(ct) } &&
       File.exists?(compressed_path)
   end
 
   private def add_cache_headers(response_headers : HTTP::Headers, last_modified : Time) : Nil
-    response_headers["Etag"] = etag(last_modified)
-    response_headers["Last-Modified"] = HTTP.format_time(last_modified)
+    response_headers["etag"] = etag(last_modified)
+    response_headers["last-modified"] = HTTP.format_time(last_modified)
   end
 
   private def cache_request?(context : HTTP::Server::Context, last_modified : Time) : Bool
     # According to RFC 7232:
     # A recipient must ignore If-Modified-Since if the request contains an If-None-Match header field
     if if_none_match = context.request.if_none_match
-      match = {"*", context.response.headers["Etag"]}
+      match = {"*", context.response.headers["etag"]}
       if_none_match.any? { |etag| match.includes?(etag) }
-    elsif if_modified_since = context.request.headers["If-Modified-Since"]?
+    elsif if_modified_since = context.request.headers["if-modified-since"]?
       header_time = HTTP.parse_time(if_modified_since)
       # File mtime probably has a higher resolution than the header value.
       # An exact comparison might be slightly off, so we add 1s padding.

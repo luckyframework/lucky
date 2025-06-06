@@ -45,7 +45,7 @@ module Lucky::RateLimit
 
     if count > rate_limit["to"]
       context.response.status = HTTP::Status::TOO_MANY_REQUESTS
-      context.response.headers["Retry-After"] = rate_limit["within"].to_s
+      context.response.headers["retry-after"] = rate_limit["within"].to_s
       plain_text("Rate limit exceeded")
     else
       continue
