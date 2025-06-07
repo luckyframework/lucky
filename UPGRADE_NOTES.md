@@ -33,7 +33,7 @@ scoop install lucky
 
 ### General updates
 
-- Update: your BaseSerializer and remove inheritance then add `include Lucky::Serialzable`. [See PR](https://github.com/luckyframework/lucky/pull/1947)
+- Update: your BaseSerializer and remove inheritance then add `include Lucky::Serializable`. [See PR](https://github.com/luckyframework/lucky/pull/1947)
 - Remove: all setup bash scripts in favor of Crystal versions. [See PR](https://github.com/luckyframework/lucky_cli/pull/875)
 - Remove: any local variable, or argument passed to a method that has a `?` for Crystal 1.16 compatibility. [See PR](https://github.com/luckyframework/avram/pull/1083)
 - Update: any call to `where_*` join methods in favor of `join_*` join methods. [See PR](https://github.com/luckyframework/avram/pull/1090)
