@@ -30,7 +30,7 @@ module Lucky
       abstract def frame_guard_value : String
 
       private def set_frame_guard_header
-        context.response.headers["X-Frame-Options"] = check_frame_guard_value!(frame_guard_value)
+        context.response.headers["x-frame-options"] = check_frame_guard_value!(frame_guard_value)
         continue
       end
 

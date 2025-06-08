@@ -110,7 +110,7 @@ module Lucky::Redirectable
     status : Int32 = Lucky::Redirectable.settings.redirect_status,
     allow_external : Bool = false,
   ) : Lucky::TextResponse
-    referer = request.headers["Referer"]?
+    referer = request.headers["referer"]?
 
     if referer && (allow_external || allowed_host?(referer))
       redirect to: referer, status: status
@@ -165,7 +165,7 @@ module Lucky::Redirectable
   ) : Lucky::TextResponse
     # flash messages are not consumed here, so keep them for the next action
     flash.keep
-    context.response.headers.add "Location", path
+    context.response.headers.add "location", path
     context.response.status_code = status
     Lucky::TextResponse.new(context, "", "")
   end

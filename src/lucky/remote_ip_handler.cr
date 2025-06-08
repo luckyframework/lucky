@@ -15,7 +15,7 @@ class Lucky::RemoteIpHandler
   include HTTP::Handler
 
   Habitat.create do
-    setting ip_header_name : String = "X-Forwarded-For"
+    setting ip_header_name : String = "x-forwarded-for"
   end
 
   def call(context : HTTP::Server::Context)

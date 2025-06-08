@@ -48,13 +48,13 @@ class Lucky::ForceSSLHandler
   end
 
   private def secure?(context) : Bool
-    context.request.headers["X-Forwarded-Proto"]? == "https"
+    context.request.headers["x-forwarded-proto"]? == "https"
   end
 
   private def redirect_to_secure_version(context : HTTP::Server::Context) : Nil
     context.response.status_code = settings.redirect_status
-    context.response.headers["Location"] =
-      "#{URI.new("https", context.request.headers["Host"]?)}#{context.request.resource}"
+    context.response.headers["location"] =
+      "#{URI.new("https", context.request.headers["host"]?)}#{context.request.resource}"
   end
 
   # Read more about [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
@@ -65,7 +65,7 @@ class Lucky::ForceSSLHandler
         s << "max-age=" << max_age.total_seconds.to_i
         s << "; includeSubDomains" if header[:include_subdomains]
       end
-      context.response.headers["Strict-Transport-Security"] = sts_value
+      context.response.headers["strict-transport-security"] = sts_value
     end
   end
 

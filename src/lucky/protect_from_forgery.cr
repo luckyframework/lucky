@@ -4,7 +4,7 @@
 # attacks.
 module Lucky::ProtectFromForgery
   ALLOWED_METHODS = %w(GET HEAD OPTIONS TRACE)
-  SESSION_KEY     = "X-CSRF-TOKEN"
+  SESSION_KEY     = "x-csrf-token"
   PARAM_KEY       = "_csrf"
 
   macro included

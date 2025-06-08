@@ -634,7 +634,7 @@ class Lucky::Params
   end
 
   private def content_type : String?
-    request.headers["Content-Type"]?
+    request.headers["content-type"]?
   end
 
   private memoize def parse_form_data : Lucky::FormData

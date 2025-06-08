@@ -22,7 +22,7 @@ module Lucky
       abstract def csp_guard_value : String
 
       private def set_csp_guard_header
-        context.response.headers["Content-Security-Policy"] = csp_guard_value
+        context.response.headers["content-security-policy"] = csp_guard_value
         continue
       end
     end

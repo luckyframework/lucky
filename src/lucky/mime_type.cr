@@ -95,7 +95,7 @@ class Lucky::MimeType
     end
 
     private def accept_header : String?
-      accept = request.headers["Accept"]?
+      accept = request.headers["accept"]?
 
       if accept && !accept.empty?
         accept
