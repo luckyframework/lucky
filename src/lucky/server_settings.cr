@@ -26,6 +26,23 @@ module Lucky::ServerSettings
     settings["extra_watch_paths"]?.try(&.as_a.map(&.as_s)) || [] of String
   end
 
+  def js_bundler : Lucky::JsBundlers::Base
+    if settings["js_bundler"]?
+      case settings["js_bundler"].as_s
+      when "bun"
+        Lucky::JsBundlers::BunBundler.new
+      when "npm"
+        Lucky::JsBundlers::NpmBundler.new
+      when "yarn"
+        Lucky::JsBundlers::YarnBundler.new
+      else
+        raise "Unknown JS bundler: #{settings["js_bundler"].as_s}"
+      end
+    else
+      Lucky::JsBundlers::Esbuild.new # Default to esbuild if not specified
+    end
+  end
+
   @@__settings : YAML::Any? = nil
 
   private def settings : YAML::Any
