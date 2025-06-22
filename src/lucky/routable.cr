@@ -228,6 +228,7 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
+    subdomain : String? = nil
     ) : String
       path = path_from_parts(
         {% for param in path_params %}
@@ -237,7 +238,7 @@ module Lucky::Routable
           {{ param.gsub(/^\?:/, "").id }},
         {% end %}
       )
-      Lucky::RouteHelper.new({{ method }}, path).url
+      Lucky::RouteHelper.new({{ method }}, path, subdomain).url
     end
 
     def self.path_without_query_params(
@@ -247,6 +248,7 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
+    subdomain : String? = nil
     ) : String
       path = path_from_parts(
         {% for param in path_params %}
@@ -256,7 +258,7 @@ module Lucky::Routable
           {{ param.gsub(/^\?:/, "").id }},
         {% end %}
       )
-      Lucky::RouteHelper.new({{ method }}, path).path
+      Lucky::RouteHelper.new({{ method }}, path, subdomain).path
     end
 
     {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
@@ -286,7 +288,8 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
-    anchor : String? = nil
+    anchor : String? = nil,
+    subdomain : String? = nil
     ) : Lucky::RouteHelper
       path = String.build do |io|
         path_from_parts(
@@ -325,7 +328,7 @@ module Lucky::Routable
         end
       end
 
-      Lucky::RouteHelper.new({{ method }}, path.presence || "/")
+      Lucky::RouteHelper.new({{ method }}, path.presence || "/", subdomain)
     end
 
     def self.with(
@@ -348,7 +351,8 @@ module Lucky::Routable
       {% for param in optional_path_params %}
         {{ param.gsub(/^\?:/, "").id }} = nil,
       {% end %}
-      anchor : String? = nil
+      anchor : String? = nil,
+      subdomain : String? = nil
     ) : Lucky::RouteHelper
       \{% begin %}
       route(

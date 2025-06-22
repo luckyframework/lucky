@@ -5,13 +5,41 @@ class Lucky::RouteHelper
 
   getter method : Symbol
   getter path : String
+  getter subdomain : String?
 
-  def initialize(@method : Symbol, @path : String)
+  def initialize(@method : Symbol, @path : String, @subdomain : String? = nil)
   end
 
   def url : String
-    settings.base_uri + path
+    if subdomain
+      build_subdomain_url
+    else
+      settings.base_uri + path
+    end
   end
 
-  def_equals @method, @path
+  private def build_subdomain_url : String
+    uri = URI.parse(settings.base_uri)
+    host = uri.host.not_nil!
+
+    # Replace the existing subdomain or add one
+    host_parts = host.split('.')
+    if subdomain_exists_in_host?(host_parts)
+      host_parts[0] = subdomain.not_nil!
+    else
+      host_parts.unshift(subdomain.not_nil!)
+    end
+
+    new_host = host_parts.join('.')
+    uri.host = new_host
+    uri.to_s + path
+  end
+
+  private def subdomain_exists_in_host?(host_parts : Array(String)) : Bool
+    # If we have more than 2 parts (subdomain.domain.tld), assume subdomain exists
+    # This is a simple heuristic and could be made more sophisticated
+    host_parts.size > 2
+  end
+
+  def_equals @method, @path, @subdomain
 end
