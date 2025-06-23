@@ -1,12 +1,12 @@
 # Configurable Serialization in Lucky
 
-Lucky now supports multiple serialization formats beyond JSON, including YAML, MsgPack, and CSV. This document explains the new serialization API and how to use it effectively.
+Lucky now supports multiple serialization formats beyond JSON, including YAML, MsgPack, CSV, and XML. This document explains the new serialization API and how to use it effectively.
 
 ## Overview
 
 The new serialization system provides three ways to handle different formats:
 
-1. **Explicit format methods** - Direct calls like `yaml()`, `msgpack()`, `csv()`
+1. **Explicit format methods** - Direct calls like `yaml()`, `msgpack()`, `csv()`, `xml()`
 2. **Serializable format modules** - Include format-specific modules in your serializers
 3. **Content negotiation** - Automatic format selection based on HTTP Accept headers
 
@@ -14,7 +14,7 @@ The new serialization system provides three ways to handle different formats:
 
 ### Direct Format Methods
 
-Just like the existing `json()` method, you can now use `yaml()`, `msgpack()`, and `csv()` directly in your actions:
+Just like the existing `json()` method, you can now use `yaml()`, `msgpack()`, `csv()`, and `xml()` directly in your actions:
 
 ```crystal
 class UsersController < ApiAction
@@ -32,6 +32,9 @@ class UsersController < ApiAction
     
     # Render as CSV
     csv users
+    
+    # Render as XML
+    xml users
   end
 end
 ```

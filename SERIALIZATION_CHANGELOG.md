@@ -3,8 +3,8 @@
 ## New Features
 
 ### 🎯 Multi-Format Serialization Support
-- Added support for **YAML**, **MsgPack**, and **CSV** formats alongside existing JSON
-- New rendering methods: `yaml()`, `msgpack()`, `csv()` with full status code support
+- Added support for **YAML**, **MsgPack**, **CSV**, and **XML** formats alongside existing JSON
+- New rendering methods: `yaml()`, `msgpack()`, `csv()`, `xml()` with full status code support
 - Content negotiation via `respond_with()` method based on HTTP Accept headers
 
 ### 🔧 Macro-Based Architecture
@@ -93,6 +93,7 @@ src/lucky/
 - **YAML**: `application/yaml` (new)
 - **MsgPack**: `application/msgpack` (new) 
 - **CSV**: `text/csv` (new)
+- **XML**: `application/xml` / `text/xml` (new)
 
 ## Migration Guide
 

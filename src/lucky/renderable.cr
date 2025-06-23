@@ -314,6 +314,16 @@ module Lucky::Renderable
     send_text_response(body, content_type, status)
   end
 
+  def xml(body, status : Int32? = nil, content_type : String = xml_content_type) : Lucky::TextResponse
+    if body.responds_to?(:to_xml)
+      xml(body.to_xml, status, content_type)
+    else
+      # Fallback to JSON with warning
+      Lucky::Log.warn { "Object does not respond to to_xml, falling back to JSON" }
+      xml(body.to_json, status, content_type)
+    end
+  end
+
   def xml(body, status : HTTP::Status, content_type : String = xml_content_type) : Lucky::TextResponse
     xml(body, status: status.value, content_type: content_type)
   end
@@ -352,6 +362,8 @@ module Lucky::Renderable
     case accept_header
     when .try(&.includes?("text/csv"))
       csv(data, status)
+    when .try(&.includes?("application/xml")), .try(&.includes?("text/xml"))
+      xml(data, status)
     when .try(&.includes?("text/yaml")), .try(&.includes?("application/x-yaml")), .try(&.includes?("application/yaml"))
       yaml(data, status)
     when .try(&.includes?("application/msgpack"))

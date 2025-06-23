@@ -65,4 +65,5 @@ module Lucky::Serializable
   define_format("YAML", "to_yaml", "application/yaml", mime_type: :yaml)
   define_format("MsgPack", "to_msgpack", "application/msgpack", mime_type: :msgpack)
   define_format("CSV", "to_csv", "text/csv")
+  define_format("XML", "to_xml", "application/xml", mime_type: :xml)
 end

@@ -88,6 +88,11 @@ private class MockDataWithAllFormats
     values = @data.values.join(",")
     "#{keys}\n#{values}"
   end
+
+  def to_xml
+    # Simple XML mock
+    "<data>#{@data.map { |k, v| "<#{k}>#{v}</#{k}>" }.join}</data>"
+  end
 end
 
 private class MultiFormatSerializer < BaseSerializerClass
@@ -95,6 +100,7 @@ private class MultiFormatSerializer < BaseSerializerClass
   include Lucky::Serializable::YAML
   include Lucky::Serializable::MsgPack
   include Lucky::Serializable::CSV
+  include Lucky::Serializable::XML
 
   def initialize(@data : Hash(String, String))
   end
@@ -227,6 +233,31 @@ describe Lucky::Serializable do
       it "creates CSV responses with HTTP::Status" do
         serializer = MultiFormatSerializer.new({"created" => "true"})
         response = serializer.to_csv_response(HTTP::Status::CREATED)
+
+        response.status.should eq(201)
+      end
+    end
+
+    describe "XML module" do
+      it "creates XML responses with correct content type" do
+        serializer = MultiFormatSerializer.new({"message" => "hello"})
+        response = serializer.to_xml_response
+
+        response.should be_a(Lucky::TextResponse)
+        response.content_type.should eq("application/xml")
+        response.status.should eq(200)
+      end
+
+      it "creates XML responses with custom status" do
+        serializer = MultiFormatSerializer.new({"error" => "not found"})
+        response = serializer.to_xml_response(404)
+
+        response.status.should eq(404)
+      end
+
+      it "creates XML responses with HTTP::Status" do
+        serializer = MultiFormatSerializer.new({"created" => "true"})
+        response = serializer.to_xml_response(HTTP::Status::CREATED)
 
         response.status.should eq(201)
       end

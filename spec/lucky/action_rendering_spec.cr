@@ -261,6 +261,24 @@ class Rendering::CSV::WithSymbolStatus < TestAction
   end
 end
 
+class Rendering::XML::Index < TestAction
+  get "/rendering/xml" do
+    xml({name: "Paul"})
+  end
+end
+
+class Rendering::XML::WithStatus < TestAction
+  get "/foo24" do
+    xml({name: "Paul"}, status: 201)
+  end
+end
+
+class Rendering::XML::WithSymbolStatus < TestAction
+  get "/foo25" do
+    xml({name: "Paul"}, status: :created)
+  end
+end
+
 describe Lucky::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
@@ -444,6 +462,12 @@ describe Lucky::Action do
     response = Rendering::ContentNegotiation::Index.new(context, params).call
     response.content_type.should eq("text/csv")
 
+    # Test XML request
+    context = build_context
+    context.request.headers["Accept"] = "application/xml"
+    response = Rendering::ContentNegotiation::Index.new(context, params).call
+    response.content_type.should eq("text/xml")
+
     # Test status code handling
     status = Rendering::ContentNegotiation::WithStatus.new(build_context, params).call.status
     status.should eq 201
@@ -458,6 +482,18 @@ describe Lucky::Action do
     status.should eq 201
 
     status = Rendering::CSV::WithSymbolStatus.new(build_context, params).call.status
+    status.should eq 201
+  end
+
+  it "renders XML" do
+    response = Rendering::XML::Index.new(build_context, params).call
+    response.content_type.should eq("text/xml")
+    response.status.should eq 200
+
+    status = Rendering::XML::WithStatus.new(build_context, params).call.status
+    status.should eq 201
+
+    status = Rendering::XML::WithSymbolStatus.new(build_context, params).call.status
     status.should eq 201
   end
 end
