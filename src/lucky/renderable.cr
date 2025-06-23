@@ -1,3 +1,5 @@
+require "./renderable_format_macro"
+
 module Lucky::Renderable
   # Render a page and pass it data
   #
@@ -314,6 +316,56 @@ module Lucky::Renderable
 
   def xml(body, status : HTTP::Status, content_type : String = xml_content_type) : Lucky::TextResponse
     xml(body, status: status.value, content_type: content_type)
+  end
+
+  # Generate format methods using macro
+  define_renderable_format("yaml", "application/yaml", "to_yaml")
+  define_renderable_format("csv", "text/csv", "to_csv")
+
+  # MsgPack needs special handling for Bytes
+  def msgpack_content_type : String
+    "application/msgpack"
+  end
+
+  def msgpack(body : Bytes, status : Int32? = nil, content_type : String = msgpack_content_type) : Lucky::TextResponse
+    send_text_response(String.new(body), content_type, status)
+  end
+
+  def msgpack(body, status : Int32? = nil, content_type : String = msgpack_content_type) : Lucky::TextResponse
+    if body.responds_to?(:to_msgpack)
+      msgpack_data = body.to_msgpack
+      msgpack(msgpack_data, status, content_type)
+    else
+      # For objects without msgpack support, send as text response with JSON fallback
+      Lucky::Log.warn { "Object does not respond to to_msgpack, falling back to JSON" }
+      send_text_response(body.to_json, content_type, status)
+    end
+  end
+
+  def msgpack(body, status : HTTP::Status, content_type : String = msgpack_content_type) : Lucky::TextResponse
+    msgpack(body, status: status.value, content_type: content_type)
+  end
+
+  def respond_with(data, status : Int32 = 200) : Lucky::Response
+    accept_header = request.headers["Accept"]?
+
+    case accept_header
+    when .try(&.includes?("text/csv"))
+      csv(data, status)
+    when .try(&.includes?("text/yaml")), .try(&.includes?("application/x-yaml")), .try(&.includes?("application/yaml"))
+      yaml(data, status)
+    when .try(&.includes?("application/msgpack"))
+      msgpack(data, status)
+    when .try(&.includes?("application/json")), nil
+      json(data, status)
+    else
+      Lucky::Log.debug { "Unknown Accept header: #{accept_header}, falling back to JSON" }
+      json(data, status)
+    end
+  end
+
+  def respond_with(data, status : HTTP::Status) : Lucky::Response
+    respond_with(data, status.value)
   end
 
   # Render a Component as an HTML response.
