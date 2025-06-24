@@ -999,7 +999,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L1" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L1" target="_blank">
         lucky/route_helper.cr
       </a>
     
@@ -1041,7 +1041,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28method%3ASymbol%2Cpath%3AString%29-class-method" class="signature"><strong>.new</strong>(method : Symbol, path : String)</a>
+        <a href="#new%28method%3ASymbol%2Cpath%3AString%2Csubdomain%3AString%7CNil%3Dnil%29-class-method" class="signature"><strong>.new</strong>(method : Symbol, path : String, subdomain : String | Nil = <span class="n">nil</span>)</a>
         
       </li>
     
@@ -1104,6 +1104,11 @@
     
       <li class="entry-summary">
         <a href="#settings-instance-method" class="signature"><strong>#settings</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subdomain%3AString%7CNil-instance-method" class="signature"><strong>#subdomain</strong> : String | Nil</a>
         
       </li>
     
@@ -1196,18 +1201,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(method:Symbol,path:String)-class-method">
+    <div class="entry-detail" id="new(method:Symbol,path:String,subdomain:String|Nil=nil)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(method : Symbol, path : <a href="../String.html">String</a>)
+        def self.<strong>new</strong>(method : Symbol, path : <a href="../String.html">String</a>, subdomain : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a> = <span class="n">nil</span>)
 
-        <a class="method-permalink" href="#new%28method%3ASymbol%2Cpath%3AString%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28method%3ASymbol%2Cpath%3AString%2Csubdomain%3AString%7CNil%3Dnil%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L9" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L10" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1235,7 +1240,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L2" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L2" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1251,7 +1256,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L2" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L2" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1290,7 +1295,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L16" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L45" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1306,7 +1311,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1322,7 +1327,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1338,7 +1343,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L2" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L2" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="subdomain:String|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>subdomain</strong> : <a href="../String.html">String</a> | <a href="../Nil.html">Nil</a>
+
+        <a class="method-permalink" href="#subdomain%3AString%7CNil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1354,7 +1375,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7787f99baa8e7b8f6522fb427c9f19ef49137b05/src/lucky/route_helper.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/085bf5b7fbc2bee10632ce32a0aae9cc6600fcd0/src/lucky/route_helper.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
