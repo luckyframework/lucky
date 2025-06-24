@@ -20,14 +20,15 @@ class Lucky::RouteHelper
 
   private def build_subdomain_url : String
     uri = URI.parse(settings.base_uri)
-    host = uri.host.not_nil!
+    host = uri.host || raise "URI host cannot be nil"
+    subdomain_value = subdomain || raise "Subdomain cannot be nil in build_subdomain_url"
 
     # Replace the existing subdomain or add one
     host_parts = host.split('.')
     if subdomain_exists_in_host?(host_parts)
-      host_parts[0] = subdomain.not_nil!
+      host_parts[0] = subdomain_value
     else
-      host_parts.unshift(subdomain.not_nil!)
+      host_parts.unshift(subdomain_value)
     end
 
     new_host = host_parts.join('.')
