@@ -1,6 +1,5 @@
 ### Changes in 1.4.0
 
-- Added: subdomain parameter support for route generation. Actions can now use `.with(subdomain: "name")` to generate URLs with subdomains. [#1753](https://github.com/luckyframework/lucky/issues/1753)
 - Fixed: `Lucky::Response` require for defining `debug_message` on custom response types. [#1927](https://github.com/luckyframework/lucky/pull/1927)
 - Fixed: Compilation error on Windows. [#1929](https://github.com/luckyframework/lucky/pull/1929)
 - Updated: `Lucky::UploadedFile` now checks for the file being empty. [#1942](https://github.com/luckyframework/lucky/pull/1942)
