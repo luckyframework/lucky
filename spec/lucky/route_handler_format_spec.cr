@@ -6,8 +6,6 @@ describe "Route Handler Format Integration" do
   describe "path manipulation edge cases" do
     it "handles route handler path stripping correctly" do
       original_path = "/reports/123.csv"
-      handler = Lucky::RouteHandler.new
-      context = build_context(path: original_path)
 
       # The route handler should extract format but we can't easily test the internal
       # path modification without refactoring. Let's test the format extraction directly.
@@ -172,7 +170,7 @@ describe "Route Handler Format Integration" do
 
       malformed_paths.each do |path|
         # Should not crash on malformed input
-        format = Lucky::MimeType.extract_format_from_path(path)
+        Lucky::MimeType.extract_format_from_path(path)
         # Some may return nil, some may return a format, but none should crash
       end
     end

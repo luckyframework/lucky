@@ -260,7 +260,7 @@ describe "Format Detection Edge Cases" do
     it "works with nil context gracefully" do
       # This tests that we don't crash if context is somehow nil
       # (Though this shouldn't happen in practice)
-      action = EdgeCaseFormatAction.allocate
+      EdgeCaseFormatAction.allocate
 
       # Should not crash when trying to access format methods
       # (This would be caught by Crystal's type system anyway)

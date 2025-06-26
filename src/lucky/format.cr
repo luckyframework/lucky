@@ -56,6 +56,7 @@ enum Lucky::Format
   end
 
   # Parse format from file extension
+  # ameba:disable Metrics/CyclomaticComplexity
   def self.from_extension(extension : String) : Format?
     case extension.downcase
     when "html", "htm" then Html
@@ -67,13 +68,14 @@ enum Lucky::Format
     when "yaml", "yml" then Yaml
     when "rss"         then Rss
     when "atom"        then Atom
-    when "ics"         then Ics
+    when "ics", "ical" then Ics
     when "css"         then Css
     else                    nil
     end
   end
 
   # Parse format from MIME type
+  # ameba:disable Metrics/CyclomaticComplexity
   def self.from_mime_type(mime_type : String) : Format?
     case mime_type.downcase
     when "text/html"                         then Html
