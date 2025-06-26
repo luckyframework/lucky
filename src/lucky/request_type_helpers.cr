@@ -39,13 +39,77 @@ module Lucky::RequestTypeHelpers
   end
 
   private def determine_clients_desired_format : Symbol
-    Lucky::MimeType.determine_clients_desired_format(request, default_format, self.class._accepted_formats) ||
-      raise Lucky::UnknownAcceptHeaderError.new(request)
+    # Check URL format first (e.g., /reports/123.csv)
+    if url_format = context._url_format
+      # Convert enum/custom format to symbol for compatibility with existing Lucky code
+      case url_format
+      when Lucky::Format
+        case url_format
+        in .html?           then :html
+        in .json?           then :json
+        in .xml?            then :xml
+        in .csv?            then :csv
+        in .js?             then :js
+        in .plain_text?     then :plain_text
+        in .yaml?           then :yaml
+        in .rss?            then :rss
+        in .atom?           then :atom
+        in .ics?            then :ics
+        in .css?            then :css
+        in .ajax?           then :ajax
+        in .multipart_form? then :multipart_form
+        in .url_encoded_form? then :url_encoded_form
+        end
+      when Lucky::FormatRegistry::CustomFormat
+        # For custom formats, we need to manually handle the symbol creation
+        # Since Crystal doesn't have dynamic symbol creation, we'll use a macro or fallback
+        name = url_format.name.underscore.tr("-", "_")
+        case name
+        when "pdf" then :pdf
+        when "zip" then :zip
+        when "doc" then :doc
+        when "docx" then :docx
+        when "xls" then :xls
+        when "xlsx" then :xlsx
+        when "ppt" then :ppt
+        when "pptx" then :pptx
+        else
+          # If we can't convert to a known symbol, fall back to default behavior
+          # But since we have a URL format, gracefully handle Accept header errors
+          begin
+            Lucky::MimeType.determine_clients_desired_format(request, default_format, self.class._accepted_formats) ||
+              raise Lucky::UnknownAcceptHeaderError.new(request)
+          rescue Lucky::UnknownAcceptHeaderError
+            default_format
+          end
+        end
+      else
+        # Fallback to Accept header if URL format is somehow invalid
+        # Since URL format failed, gracefully handle Accept header errors too
+        begin
+          Lucky::MimeType.determine_clients_desired_format(request, default_format, self.class._accepted_formats) ||
+            raise Lucky::UnknownAcceptHeaderError.new(request)
+        rescue Lucky::UnknownAcceptHeaderError
+          default_format
+        end
+      end
+    else
+      # No URL format - use original Lucky behavior (raise on unknown Accept header)
+      # This preserves existing error handling behavior when no URL format override exists
+      Lucky::MimeType.determine_clients_desired_format(request, default_format, self.class._accepted_formats) ||
+        raise Lucky::UnknownAcceptHeaderError.new(request)
+    end
   end
 
   # Check whether the request wants the passed in format
   def accepts?(format : Symbol) : Bool
     clients_desired_format == format
+  end
+
+  # Get the detected format as an enum (if available)
+  # Returns nil if the format came from Accept header or is unknown
+  def url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil
+    context._url_format
   end
 
   # Check if the request is JSON
