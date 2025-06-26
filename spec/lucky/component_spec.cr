@@ -117,7 +117,7 @@ describe "components rendering" do
     # but the following would fail to compile:
     # ComplexTestComponent.new(title: "test", unused_arg: "fail")
     # Error: no parameter named 'unused_arg'
-    
+
     # This ensures we maintain the expected behavior
     component = ComplexTestComponent.new(title: "test")
     component.render_to_string.should contain("test")
