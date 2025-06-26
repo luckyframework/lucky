@@ -23,5 +23,11 @@ class Lucky::Server
       text/javascript
       text/plain
     )
+    # Number of times to retry loading the asset manifest file
+    # Can also be set with LUCKY_ASSET_MANIFEST_RETRY_COUNT env var at compile time
+    setting asset_manifest_retry_count : Int32 = 20
+    # Delay in seconds between manifest loading retries
+    # Can also be set with LUCKY_ASSET_MANIFEST_RETRY_DELAY env var at compile time
+    setting asset_manifest_retry_delay : Float64 = 0.25
   end
 end
