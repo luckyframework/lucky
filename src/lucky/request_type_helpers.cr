@@ -45,19 +45,19 @@ module Lucky::RequestTypeHelpers
       case url_format
       when Lucky::Format
         case url_format
-        in .html?           then :html
-        in .json?           then :json
-        in .xml?            then :xml
-        in .csv?            then :csv
-        in .js?             then :js
-        in .plain_text?     then :plain_text
-        in .yaml?           then :yaml
-        in .rss?            then :rss
-        in .atom?           then :atom
-        in .ics?            then :ics
-        in .css?            then :css
-        in .ajax?           then :ajax
-        in .multipart_form? then :multipart_form
+        in .html?             then :html
+        in .json?             then :json
+        in .xml?              then :xml
+        in .csv?              then :csv
+        in .js?               then :js
+        in .plain_text?       then :plain_text
+        in .yaml?             then :yaml
+        in .rss?              then :rss
+        in .atom?             then :atom
+        in .ics?              then :ics
+        in .css?              then :css
+        in .ajax?             then :ajax
+        in .multipart_form?   then :multipart_form
         in .url_encoded_form? then :url_encoded_form
         end
       when Lucky::FormatRegistry::CustomFormat
@@ -65,13 +65,13 @@ module Lucky::RequestTypeHelpers
         # Since Crystal doesn't have dynamic symbol creation, we'll use a macro or fallback
         name = url_format.name.underscore.tr("-", "_")
         case name
-        when "pdf" then :pdf
-        when "zip" then :zip
-        when "doc" then :doc
+        when "pdf"  then :pdf
+        when "zip"  then :zip
+        when "doc"  then :doc
         when "docx" then :docx
-        when "xls" then :xls
+        when "xls"  then :xls
         when "xlsx" then :xlsx
-        when "ppt" then :ppt
+        when "ppt"  then :ppt
         when "pptx" then :pptx
         else
           # If we can't convert to a known symbol, fall back to default behavior

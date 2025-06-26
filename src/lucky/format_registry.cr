@@ -15,7 +15,6 @@ module Lucky::FormatRegistry
     def to_s(io : IO) : Nil
       io << name
     end
-
   end
 
   # Register a custom format

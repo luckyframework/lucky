@@ -34,7 +34,7 @@ describe "URL Format Detection" do
     context = build_context
     context.request.headers["Accept"] = "application/json"
     context._url_format = Lucky::Format::Csv
-    
+
     action = FakeActionWithFormat.new
     action.context = context
     action.accepts?(:csv).should be_true
@@ -45,7 +45,7 @@ describe "URL Format Detection" do
     context = build_context
     context.request.headers["Accept"] = "application/json"
     # Don't set _url_format, should fallback to Accept header
-    
+
     action = FakeActionWithFormat.new
     action.context = context
     action.accepts?(:json).should be_true

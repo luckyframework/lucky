@@ -5,7 +5,7 @@ class Lucky::RouteHandler
 
   def call(context : HTTP::Server::Context)
     original_path = context.request.path
-    
+
     # Extract format from URL path and strip it for route matching
     if url_format = Lucky::MimeType.extract_format_from_path(original_path)
       context._url_format = url_format
@@ -17,7 +17,7 @@ class Lucky::RouteHandler
     else
       lookup_request = context.request
     end
-    
+
     handler = Lucky.router.find_action(lookup_request)
     if handler
       Lucky::Log.dexter.debug { {handled_by: handler.payload.to_s} }
