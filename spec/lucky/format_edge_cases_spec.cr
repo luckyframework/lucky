@@ -48,6 +48,18 @@ describe "Format Detection Edge Cases" do
       Lucky::MimeType.extract_format_from_path("/file.xml?#fragment").should eq Lucky::Format::Xml
     end
 
+    it "does not match extensions in query string domains" do
+      # Should not detect .com, .org, .net, etc. from domains in query strings
+      Lucky::MimeType.extract_format_from_path("/path/report.csv?affiliate=site.com/path.html").should eq Lucky::Format::Csv
+      Lucky::MimeType.extract_format_from_path("/login?redirect_to=https://example.com").should be_nil
+      Lucky::MimeType.extract_format_from_path("/api/data?url=http://site.org/file.pdf").should be_nil
+      Lucky::MimeType.extract_format_from_path("/report?source=domain.net&format=json").should be_nil
+
+      # Should still match valid extensions before the query string
+      Lucky::MimeType.extract_format_from_path("/file.json?redirect=site.com").should eq Lucky::Format::Json
+      Lucky::MimeType.extract_format_from_path("/data.xml?callback=example.org/api").should eq Lucky::Format::Xml
+    end
+
     it "handles special characters and edge case paths" do
       # URL encoded extensions
       Lucky::MimeType.extract_format_from_path("/reports/file%2Ecsv").should be_nil # encoded dot
