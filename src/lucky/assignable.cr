@@ -95,6 +95,10 @@ module Lucky::Assignable
                !dec.value.is_a?(Nop)
            has_explicit_value ? 1 : 0
          } %}
+      
+      # Check if this is a BaseComponent - if so, don't accept unused exposures
+      {% is_component = @type.ancestors.any? { |ancestor| ancestor.stringify == "Lucky::BaseComponent" } %}
+      
       def initialize(
         {% for declaration in sorted_assigns %}
           {% var = declaration.var %}
@@ -103,7 +107,7 @@ module Lucky::Assignable
           {% value = nil if type.stringify.ends_with?("Nil") && value.nil? %}
           @{{ var.id }} : {{ type }}{% if !value.is_a?(Nop) %} = {{ value }}{% end %},
         {% end %}
-        **unused_exposures
+        {% unless is_component %}**unused_exposures{% end %}
         )
       end
     {% end %}
