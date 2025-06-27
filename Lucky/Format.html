@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::RequestTypeHelpers - lucky main</title>
+  <title>Lucky::Format - lucky main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -292,7 +292,7 @@
       
     </li>
   
-  <li class=" " data-id="lucky/Lucky/Format" data-name="lucky::format">
+  <li class=" current" data-id="lucky/Lucky/Format" data-name="lucky::format">
       <a href="../Lucky/Format.html">Format</a>
       
     </li>
@@ -672,7 +672,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/RequestTypeHelpers" data-name="lucky::requesttypehelpers">
+  <li class=" " data-id="lucky/Lucky/RequestTypeHelpers" data-name="lucky::requesttypehelpers">
       <a href="../Lucky/RequestTypeHelpers.html">RequestTypeHelpers</a>
       
     </li>
@@ -967,8 +967,8 @@
 <h1 class="type-name">
 
   <span class="kind">
-    module
-  </span> Lucky::<wbr>RequestTypeHelpers
+    enum
+  </span> Lucky::<wbr>Format
 
 </h1>
 
@@ -985,8 +985,7 @@
     Overview
   </h2>
 
-  <p>These helpers check HTTP headers to determine &quot;request MIME type&quot;.</p>
-<p>Generally the <code>Accept</code> header is checked, but some check other headers, such as <code>X-Requested-With</code>.</p>
+  <p>Format enum for handling different content types and file extensions</p>
 
 
 
@@ -999,20 +998,6 @@
 
 
 
-
-  <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Direct including types
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../Lucky/Action.html">Lucky::Action</a></li>
-    
-  </ul>
 
 
 
@@ -1027,8 +1012,8 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L4" target="_blank">
-        lucky/request_type_helpers.cr
+      <a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L2" target="_blank">
+        lucky/format.cr
       </a>
     
     <br/>
@@ -1036,32 +1021,123 @@
 
 
 
-
-
   
+    <h2>
+      <a id="enum-members" class="anchor" href="#enum-members">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Enum Members
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="Html">
+        <strong>Html</strong> = <code><span class="n">0</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Json">
+        <strong>Json</strong> = <code><span class="n">1</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Xml">
+        <strong>Xml</strong> = <code><span class="n">2</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Csv">
+        <strong>Csv</strong> = <code><span class="n">3</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Js">
+        <strong>Js</strong> = <code><span class="n">4</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="PlainText">
+        <strong>PlainText</strong> = <code><span class="n">5</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Yaml">
+        <strong>Yaml</strong> = <code><span class="n">6</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Rss">
+        <strong>Rss</strong> = <code><span class="n">7</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Atom">
+        <strong>Atom</strong> = <code><span class="n">8</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Ics">
+        <strong>Ics</strong> = <code><span class="n">9</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Css">
+        <strong>Css</strong> = <code><span class="n">10</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Ajax">
+        <strong>Ajax</strong> = <code><span class="n">11</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="MultipartForm">
+        <strong>MultipartForm</strong> = <code><span class="n">12</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="UrlEncodedForm">
+        <strong>UrlEncodedForm</strong> = <code><span class="n">13</span></code>
+      </dt>
+      
+    
+  </dl>
+
+
 
   
 
   
   <h2>
-    <a id="macro-summary" class="anchor" href="#macro-summary">
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Macro Summary
+    Class Method Summary
   </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#default_format%28format%29-macro" class="signature"><strong>default_format</strong>(format)</a>
+        <a href="#from_extension%28extension%3AString%29%3AFormat%7CNil-class-method" class="signature"><strong>.from_extension</strong>(extension : String) : Format | Nil</a>
         
-          <div class="summary"><p>If Lucky doesn't find a format then default to the given format</p></div>
+          <div class="summary"><p>Parse format from file extension ameba:disable Metrics/CyclomaticComplexity</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#from_mime_type%28mime_type%3AString%29%3AFormat%7CNil-class-method" class="signature"><strong>.from_mime_type</strong>(mime_type : String) : Format | Nil</a>
+        
+          <div class="summary"><p>Parse format from MIME type ameba:disable Metrics/CyclomaticComplexity</p></div>
         
       </li>
     
   </ul>
 
+
+  
 
   
   <h2>
@@ -1075,58 +1151,114 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#accepts%3F%28format%3ASymbol%29%3ABool-instance-method" class="signature"><strong>#accepts?</strong>(format : Symbol) : Bool</a>
+        <a href="#ajax%3F-instance-method" class="signature"><strong>#ajax?</strong></a>
         
-          <div class="summary"><p>Check whether the request wants the passed in format</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#ajax%3F%3ABool-instance-method" class="signature"><strong>#ajax?</strong> : Bool</a>
-        
-          <div class="summary"><p>Check if the request is AJAX</p></div>
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Ajax">Ajax</a></code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#html%3F%3ABool-instance-method" class="signature"><strong>#html?</strong> : Bool</a>
+        <a href="#atom%3F-instance-method" class="signature"><strong>#atom?</strong></a>
         
-          <div class="summary"><p>Check if the request is HTML</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#json%3F%3ABool-instance-method" class="signature"><strong>#json?</strong> : Bool</a>
-        
-          <div class="summary"><p>Check if the request is JSON</p></div>
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Atom">Atom</a></code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#multipart%3F%3ABool-instance-method" class="signature"><strong>#multipart?</strong> : Bool</a>
+        <a href="#css%3F-instance-method" class="signature"><strong>#css?</strong></a>
         
-          <div class="summary"><p>Check if the request is multipart</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plain_text%3F%3ABool-instance-method" class="signature"><strong>#plain_text?</strong> : Bool</a>
-        
-          <div class="summary"><p>Check if the request is plain text</p></div>
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Css">Css</a></code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#url_format%3ALucky%3A%3AFormat%7CLucky%3A%3AFormatRegistry%3A%3ACustomFormat%7CNil-instance-method" class="signature"><strong>#url_format</strong> : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil</a>
+        <a href="#csv%3F-instance-method" class="signature"><strong>#csv?</strong></a>
         
-          <div class="summary"><p>Get the detected format as an enum (if available) Returns nil if the format came from Accept header or is unknown</p></div>
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Csv">Csv</a></code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#xml%3F%3ABool-instance-method" class="signature"><strong>#xml?</strong> : Bool</a>
+        <a href="#html%3F-instance-method" class="signature"><strong>#html?</strong></a>
         
-          <div class="summary"><p>Check if the request is XML</p></div>
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Html">Html</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ics%3F-instance-method" class="signature"><strong>#ics?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Ics">Ics</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#js%3F-instance-method" class="signature"><strong>#js?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Js">Js</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#json%3F-instance-method" class="signature"><strong>#json?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Json">Json</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#multipart_form%3F-instance-method" class="signature"><strong>#multipart_form?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#MultipartForm">MultipartForm</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#plain_text%3F-instance-method" class="signature"><strong>#plain_text?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#PlainText">PlainText</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rss%3F-instance-method" class="signature"><strong>#rss?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Rss">Rss</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_extension%3AString-instance-method" class="signature"><strong>#to_extension</strong> : String</a>
+        
+          <div class="summary"><p>Convert format to file extension</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_mime_type%3AString-instance-method" class="signature"><strong>#to_mime_type</strong> : String</a>
+        
+          <div class="summary"><p>Convert format to MIME type</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#url_encoded_form%3F-instance-method" class="signature"><strong>#url_encoded_form?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#UrlEncodedForm">UrlEncodedForm</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#xml%3F-instance-method" class="signature"><strong>#xml?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Xml">Xml</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#yaml%3F-instance-method" class="signature"><strong>#yaml?</strong></a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Yaml">Yaml</a></code></p></div>
         
       </li>
     
@@ -1136,45 +1268,133 @@
 
   <div class="methods-inherited">
     
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+  <h3>Instance methods inherited from class <code><a href="../Object.html">Object</a></code></h3>
+  
+  
+    <a href="../Object.html#blank%3F%3ABool-instance-method" class="tooltip">
+      <span>blank? : Bool</span>
+    blank?</a>, 
+    
+  
+    <a href="../Object.html#present%3F%3ABool-instance-method" class="tooltip">
+      <span>present? : Bool</span>
+    present?</a>
+    
+  
+
+
+      
+
+
+      
+
+
+      
+
+
+    
   </div>
 
   
 
   
-
-  
   <h2>
-    <a id="macro-detail" class="anchor" href="#macro-detail">
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Macro Detail
+    Class Method Detail
   </h2>
   
-    <div class="entry-detail" id="default_format(format)-macro">
+    <div class="entry-detail" id="from_extension(extension:String):Format|Nil-class-method">
       <div class="signature">
         
-        macro <strong>default_format</strong>(format)
+        def self.<strong>from_extension</strong>(extension : <a href="../String.html">String</a>) : <a href="../Lucky/Format.html">Format</a> | <a href="../Nil.html">Nil</a>
 
-        <a class="method-permalink" href="#default_format%28format%29-macro">#</a>
+        <a class="method-permalink" href="#from_extension%28extension%3AString%29%3AFormat%7CNil-class-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>If Lucky doesn't find a format then default to the given format</p>
-<pre><code class="language-crystal">default_format <span class="n">:html</span></code></pre>
+          <p>Parse format from file extension
+ameba:disable Metrics/CyclomaticComplexity</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L60" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="from_mime_type(mime_type:String):Format|Nil-class-method">
+      <div class="signature">
+        
+        def self.<strong>from_mime_type</strong>(mime_type : <a href="../String.html">String</a>) : <a href="../Lucky/Format.html">Format</a> | <a href="../Nil.html">Nil</a>
+
+        <a class="method-permalink" href="#from_mime_type%28mime_type%3AString%29%3AFormat%7CNil-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Parse format from MIME type
+ameba:disable Metrics/CyclomaticComplexity</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L79" target="_blank">View source</a>]
         
       </div>
     </div>
   
 
+
+  
 
   
   <h2>
@@ -1186,182 +1406,338 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="accepts?(format:Symbol):Bool-instance-method">
+    <div class="entry-detail" id="ajax?-instance-method">
       <div class="signature">
         
-        def <strong>accepts?</strong>(format : Symbol) : <a href="../Bool.html">Bool</a>
+        def <strong>ajax?</strong>
 
-        <a class="method-permalink" href="#accepts%3F%28format%3ASymbol%29%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#ajax%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Check whether the request wants the passed in format</p>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Ajax">Ajax</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L113" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="ajax?:Bool-instance-method">
+    <div class="entry-detail" id="atom?-instance-method">
       <div class="signature">
         
-        def <strong>ajax?</strong> : <a href="../Bool.html">Bool</a>
+        def <strong>atom?</strong>
 
-        <a class="method-permalink" href="#ajax%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#atom%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Check if the request is AJAX</p>
-<p>This tests if the <code>X-Requested-With</code> header is <code>XMLHttpRequest</code></p>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Atom">Atom</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L158" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="html?:Bool-instance-method">
+    <div class="entry-detail" id="css?-instance-method">
       <div class="signature">
         
-        def <strong>html?</strong> : <a href="../Bool.html">Bool</a>
+        def <strong>css?</strong>
 
-        <a class="method-permalink" href="#html%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#css%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Check if the request is HTML</p>
-<p>Browsers typically send vague Accept headers. Because of that this will return <code>true</code> when:</p>
-<ul>
-<li>The <code>accepted_formats</code> includes <code>:html</code></li>
-<li>And the <code>Accept</code> header is the browser default. For example `text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8</li>
-</ul>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Css">Css</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L136" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="json?:Bool-instance-method">
+    <div class="entry-detail" id="csv?-instance-method">
       <div class="signature">
         
-        def <strong>json?</strong> : <a href="../Bool.html">Bool</a>
+        def <strong>csv?</strong>
 
-        <a class="method-permalink" href="#json%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#csv%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Check if the request is JSON</p>
-<p>This tests if the request type is <code>application/json</code></p>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Csv">Csv</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L126" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="multipart?:Bool-instance-method">
+    <div class="entry-detail" id="html?-instance-method">
       <div class="signature">
         
-        def <strong>multipart?</strong> : <a href="../Bool.html">Bool</a>
+        def <strong>html?</strong>
 
-        <a class="method-permalink" href="#multipart%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#html%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Check if the request is multipart</p>
-<p>This tests if the <code>Content-Type</code> header is <code>multipart/form-data</code></p>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Html">Html</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L165" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L3" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="plain_text?:Bool-instance-method">
+    <div class="entry-detail" id="ics?-instance-method">
       <div class="signature">
         
-        def <strong>plain_text?</strong> : <a href="../Bool.html">Bool</a>
+        def <strong>ics?</strong>
 
-        <a class="method-permalink" href="#plain_text%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#ics%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Check if the request is plain text</p>
-<p>This tests if the <code>Accept</code> header type is <code>text/plain</code> or
-with the optional character set per W3 RFC1341 7.1</p>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Ics">Ics</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L151" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="url_format:Lucky::Format|Lucky::FormatRegistry::CustomFormat|Nil-instance-method">
+    <div class="entry-detail" id="js?-instance-method">
       <div class="signature">
         
-        def <strong>url_format</strong> : <a href="../Lucky/Format.html">Lucky::Format</a> | <a href="../Lucky/FormatRegistry/CustomFormat.html">Lucky::FormatRegistry::CustomFormat</a> | <a href="../Nil.html">Nil</a>
+        def <strong>js?</strong>
 
-        <a class="method-permalink" href="#url_format%3ALucky%3A%3AFormat%7CLucky%3A%3AFormatRegistry%3A%3ACustomFormat%7CNil-instance-method">#</a>
+        <a class="method-permalink" href="#js%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Get the detected format as an enum (if available)
-Returns nil if the format came from Accept header or is unknown</p>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Js">Js</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L119" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="xml?:Bool-instance-method">
+    <div class="entry-detail" id="json?-instance-method">
       <div class="signature">
         
-        def <strong>xml?</strong> : <a href="../Bool.html">Bool</a>
+        def <strong>json?</strong>
 
-        <a class="method-permalink" href="#xml%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#json%3F-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Check if the request is XML</p>
-<p>This tests if the request type is <code>application/xml</code></p>
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Json">Json</a></code></p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/request_type_helpers.cr#L143" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L4" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="multipart_form?-instance-method">
+      <div class="signature">
+        
+        def <strong>multipart_form?</strong>
+
+        <a class="method-permalink" href="#multipart_form%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#MultipartForm">MultipartForm</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plain_text?-instance-method">
+      <div class="signature">
+        
+        def <strong>plain_text?</strong>
+
+        <a class="method-permalink" href="#plain_text%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#PlainText">PlainText</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rss?-instance-method">
+      <div class="signature">
+        
+        def <strong>rss?</strong>
+
+        <a class="method-permalink" href="#rss%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Rss">Rss</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_extension:String-instance-method">
+      <div class="signature">
+        
+        def <strong>to_extension</strong> : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#to_extension%3AString-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Convert format to file extension</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_mime_type:String-instance-method">
+      <div class="signature">
+        
+        def <strong>to_mime_type</strong> : <a href="../String.html">String</a>
+
+        <a class="method-permalink" href="#to_mime_type%3AString-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Convert format to MIME type</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="url_encoded_form?-instance-method">
+      <div class="signature">
+        
+        def <strong>url_encoded_form?</strong>
+
+        <a class="method-permalink" href="#url_encoded_form%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#UrlEncodedForm">UrlEncodedForm</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="xml?-instance-method">
+      <div class="signature">
+        
+        def <strong>xml?</strong>
+
+        <a class="method-permalink" href="#xml%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Xml">Xml</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="yaml?-instance-method">
+      <div class="signature">
+        
+        def <strong>yaml?</strong>
+
+        <a class="method-permalink" href="#yaml%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this enum value equals <code><a href="../Lucky/Format.html#Yaml">Yaml</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/72cbb77cd872c5ec146ad6fb1a193c91dcd6b9bb/src/lucky/format.cr#L9" target="_blank">View source</a>]
         
       </div>
     </div>
