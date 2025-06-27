@@ -110,10 +110,22 @@ module LuckySentry
       @options = ["-c", "bs-config.js", "--port", Lucky::ServerSettings.reload_port, "-p", host_url].join(" ")
     end
 
+    def js_bundler : Lucky::JsBundlers::Base
+      if File.exist?("yarn.lock")
+        "yarn"
+      elsif File.exist?("package-lock.json")
+        "npm"
+      elsif File.exist?("bun.lockb")
+        "bun"
+      else
+        raise "Unknown JS bundler: #{settings["js_bundler"].as_s}"
+      end
+    end
+
     def start : Nil
       spawn do
         Process.run \
-          "RUNNING_IN_BROWSERSYNC=true yarn run browser-sync start #{@options}",
+          "RUNNING_IN_BROWSERSYNC=true #{js_bundler} run browser-sync start #{@options}",
           output: STDOUT,
           error: STDERR,
           shell: true
@@ -124,7 +136,7 @@ module LuckySentry
     def reload : Nil
       if running?
         Process.run \
-          "yarn run browser-sync reload --port #{Lucky::ServerSettings.reload_port}",
+          "#{js_bundler} run browser-sync reload --port #{Lucky::ServerSettings.reload_port}",
           output: STDOUT,
           error: STDERR,
           shell: true
