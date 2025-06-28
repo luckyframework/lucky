@@ -18,39 +18,30 @@ executables:
   - lucky.gen.secret_key.cr
 
 dependencies:
-  lucky_task:
-    github: luckyframework/lucky_task
-    version: ~> 0.3.0
-  habitat:
-    github: luckyframework/habitat
-    version: ~> 0.4.9
-  wordsmith:
-    github: luckyframework/wordsmith
-    version: ~> 0.5.0
   lucky_router:
     github: luckyframework/lucky_router
-    version: ~> 0.6.0
-  shell-table:
-    github: luckyframework/shell-table.cr
-    version: ~> 0.9.3
+  lucky_cli:
+    github: luckyframework/lucky_cli
+  habitat:
+    github: luckyframework/habitat
+  avram:
+    github: luckyframework/avram
+  carbon:
+    github: luckyframework/carbon
+  authentic:
+    github: luckyframework/authentic
   cry:
     github: luckyframework/cry
-    version: ~> 0.4.3
-  exception_page:
-    github: crystal-loot/exception_page
-    version: ~> 0.5.0
   dexter:
     github: luckyframework/dexter
-    version: ~> 0.3.4
+  wordsmith:
+    github: luckyframework/wordsmith
   pulsar:
     github: luckyframework/pulsar
-    version: ~> 0.2.3
-  lucky_template:
-    github: luckyframework/lucky_template
-    version: ~> 0.2.0
   lucky_cache:
     github: luckyframework/lucky_cache
-    version: ~> 0.1.1
+  ht2:
+    github: nomadlabsinc/ht2
 
 development_dependencies:
   ameba:

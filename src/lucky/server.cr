@@ -6,6 +6,7 @@ class Lucky::Server
     setting secret_key_base : String
     setting host : String
     setting port : Int32
+    setting http2_enabled : Bool = false
     setting asset_host : String = ""
     setting gzip_enabled : Bool = false
     setting gzip_content_types : Array(String) = %w(
@@ -23,5 +24,15 @@ class Lucky::Server
       text/javascript
       text/plain
     )
+  end
+
+  def self.listen(middleware : Array(HTTP::Handler))
+    if settings.http2_enabled
+      server = Lucky::HTTP2::Server.new(middleware)
+      server.listen
+    else
+      server = HTTP::Server.new(middleware)
+      server.listen(settings.host, settings.port)
+    end
   end
 end

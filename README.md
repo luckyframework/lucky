@@ -39,7 +39,8 @@ Keep up to date by following [@luckyframework](https://twitter.com/luckyframewor
 
 ## Documentation
 
-[API (main)](https://luckyframework.github.io/lucky/)
+- [API (main)](https://luckyframework.github.io/lucky/)
+- [HTTP/2 Support](guides/http_backend/09-http2-support.md) - Learn how to enable HTTP/2 in your Lucky app
 
 ## What's it look like?
 
