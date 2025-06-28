@@ -6,12 +6,19 @@ class Lucky::HTTP2::Server
     handler = ->(context : HT2::Context) {
       adapter.call(context.request, context.response)
     }
-    @server = HT2::Server.new(
-      host: Lucky::Server.settings.host,
-      port: Lucky::Server.settings.port,
+
+    server_args = {
+      host:    Lucky::Server.settings.host,
+      port:    Lucky::Server.settings.port,
       handler: handler,
-      tls_context: build_tls_context
-    )
+    }
+
+    # Only add TLS context if TLS is enabled
+    if Lucky::Server.settings.http2_tls_enabled
+      server_args = server_args.merge({tls_context: build_tls_context})
+    end
+
+    @server = HT2::Server.new(**server_args)
   end
 
   def listen

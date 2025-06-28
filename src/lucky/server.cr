@@ -7,6 +7,7 @@ class Lucky::Server
     setting host : String
     setting port : Int32
     setting http2_enabled : Bool = false
+    setting http2_tls_enabled : Bool = true
     setting asset_host : String = ""
     setting gzip_enabled : Bool = false
     setting gzip_content_types : Array(String) = %w(

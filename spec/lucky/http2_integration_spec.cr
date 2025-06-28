@@ -5,6 +5,10 @@ describe "Lucky HTTP/2 Integration" do
     it "has http2_enabled setting" do
       Lucky::Server.settings.http2_enabled.should be_false
     end
+
+    it "has http2_tls_enabled setting defaulting to true" do
+      Lucky::Server.settings.http2_tls_enabled.should be_true
+    end
   end
 
   describe "routing" do

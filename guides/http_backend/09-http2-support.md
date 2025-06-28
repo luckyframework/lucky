@@ -75,3 +75,49 @@ The beauty of Lucky's HTTP/2 support is that it's completely opt-in:
 4. Migrate at your own pace
 
 No need to rewrite your entire app!
+
+## Running Without TLS (Behind a Load Balancer)
+
+By default, Lucky's HTTP/2 server uses TLS with a self-signed certificate for development. However, if you're terminating TLS at a load balancer (like AWS ALB, Cloudflare, or nginx) and want HTTP/2 throughout your stack, you can disable TLS:
+
+```crystal
+# config/server.cr
+Lucky::Server.configure do |settings|
+  settings.http2_enabled = true
+  settings.http2_tls_enabled = false  # Disable TLS for HTTP/2
+end
+```
+
+This is useful when:
+- Your load balancer handles TLS termination
+- You want HTTP/2 benefits within your internal network
+- You're running in a trusted environment (like Kubernetes with service mesh)
+
+### Example Load Balancer Configurations
+
+**nginx:**
+```nginx
+upstream app {
+    server localhost:3000;
+    keepalive 256;
+}
+
+server {
+    listen 443 ssl http2;
+    
+    # TLS config here...
+    
+    location / {
+        proxy_pass http://app;
+        proxy_http_version 2.0;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+**AWS ALB:**
+- Set target group protocol to HTTP/2
+- ALB handles TLS termination
+- Your Lucky app receives plain HTTP/2
+
+**Note:** When running without TLS, ensure your network is secure. Never disable TLS in production unless you're certain TLS is handled upstream.
