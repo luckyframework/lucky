@@ -82,7 +82,7 @@ end
 
 private def run_force_ssl_handler(context)
   handler = Lucky::ForceSSLHandler.new
-  handler.next = ->(_ctx : HTTP::Server::Context) { }
+  handler.next = ->(_ctx : HTTP::Server::Context) {}
   handler.call(context)
 end
 

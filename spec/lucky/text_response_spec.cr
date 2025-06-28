@@ -228,7 +228,7 @@ private def print_response_with_body(
   body = "",
   status = 200,
   content_type = "text/html",
-  enable_cookies = true,
+  enable_cookies = true
 )
   Lucky::TextResponse.new(
     context,

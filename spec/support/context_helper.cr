@@ -6,7 +6,7 @@ module ContextHelper
     body = "",
     content_type = "",
     fixed_length : Bool = false,
-    host = "example.com",
+    host = "example.com"
   ) : HTTP::Request
     headers = HTTP::Headers.new
     headers.add("Content-Type", content_type)
@@ -19,7 +19,7 @@ module ContextHelper
 
   def build_context(
     path = "/",
-    request : HTTP::Request? = nil,
+    request : HTTP::Request? = nil
   ) : HTTP::Server::Context
     build_context_with_io(IO::Memory.new, path: path, request: request)
   end
@@ -39,7 +39,7 @@ module ContextHelper
   private def build_context_with_io(
     io : IO,
     path = "/",
-    request = nil,
+    request = nil
   ) : HTTP::Server::Context
     request = request || HTTP::Request.new("GET", path)
     response = HTTP::Server::Response.new(io)

@@ -27,7 +27,7 @@ module Lucky::Paginator::BackendHelpers
   # ```
   def paginate_array(
     items : Array(T),
-    per_page : Int32 = paginator_per_page,
+    per_page : Int32 = paginator_per_page
   ) : Tuple(Paginator, Array(T)) forall T
     pages = Paginator.new \
       page: paginator_page,

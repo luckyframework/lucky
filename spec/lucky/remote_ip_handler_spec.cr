@@ -63,6 +63,6 @@ end
 
 private def run_remote_ip_handler(context)
   handler = Lucky::RemoteIpHandler.new
-  handler.next = ->(_ctx : HTTP::Server::Context) { }
+  handler.next = ->(_ctx : HTTP::Server::Context) {}
   handler.call(context)
 end

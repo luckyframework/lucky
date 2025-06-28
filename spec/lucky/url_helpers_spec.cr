@@ -178,7 +178,7 @@ private def view_for(
   path : String,
   method : String = "GET",
   host_with_port : String = "example.com",
-  headers : Hash(String, String) = {} of String => String,
+  headers : Hash(String, String) = {} of String => String
 )
   request = HTTP::Request.new(method, path)
   request.headers["Host"] = host_with_port

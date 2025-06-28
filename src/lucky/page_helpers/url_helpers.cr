@@ -26,7 +26,7 @@ module Lucky::UrlHelpers
   # ```
   def current_page?(
     value : String,
-    check_query_params : Bool = false,
+    check_query_params : Bool = false
   ) : Bool
     request = context.request
 
@@ -80,7 +80,7 @@ module Lucky::UrlHelpers
   # ```
   def current_page?(
     action : Lucky::Action.class | Lucky::RouteHelper,
-    check_query_params : Bool = false,
+    check_query_params : Bool = false
   ) : Bool
     current_page?(action.path, check_query_params)
   end

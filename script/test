@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
 
-COMPOSE="docker-compose run --rm app"
+COMPOSE="docker compose run --rm app"
 
 printf "\nrunning specs with 'crystal spec'\n\n"
 $COMPOSE crystal spec "$@"
@@ -13,7 +13,7 @@ if [ $# = 0 ]; then
     printf "\nChecking code formatting\n\n"
     if ! $COMPOSE crystal tool format --check src spec > /dev/null; then
         printf "\nCode is not formatted.\n"
-        printf "\nFormat the code with: docker-compose run --rm app crystal tool format src spec\n\n"
+        printf "\nFormat the code with: docker compose run --rm app crystal tool format src spec\n\n"
         exit 1
     fi
 fi
