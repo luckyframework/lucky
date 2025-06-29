@@ -59,8 +59,8 @@ private class AssetManifestBuilder
       # This is a dev manifest from vite-plugin-dev-manifest
       base_url = manifest["url"].as_s
       inputs = manifest["inputs"].as_h
-      
-      inputs.each do |key, value|
+
+      inputs.each do |_, value|
         path = value.as_s
         # Remove src/ prefix to match Lucky's convention
         clean_key = path.starts_with?("src/") ? path[4..] : path
@@ -71,7 +71,7 @@ private class AssetManifestBuilder
       manifest.as_h.each do |key, value|
         # Skip chunks that start with underscore (these are shared chunks)
         next if key.starts_with?("_")
-        
+
         # Only process entries that have a src property
         if value.as_h.has_key?("src")
           # Remove the "src/" prefix from the key to match Lucky's convention

@@ -7,13 +7,13 @@ describe Lucky::AssetBuilder::Vite do
       builder = Lucky::AssetBuilder::Vite.new
       builder.manifest_path.should eq("./public/.vite/manifest.json")
     end
-    
+
     it "accepts custom path" do
       builder = Lucky::AssetBuilder::Vite.new("/custom/vite.json")
       builder.manifest_path.should eq("/custom/vite.json")
     end
   end
-  
+
   describe "#parse_manifest" do
     it "parses Vite manifest format correctly" do
       manifest_json = <<-JSON
@@ -38,17 +38,17 @@ describe Lucky::AssetBuilder::Vite do
         }
       }
       JSON
-      
+
       builder = Lucky::AssetBuilder::Vite.new
       result = builder.parse_manifest(manifest_json)
-      
+
       result["js/app.js"].should eq("/assets/app.12345.js")
       result["css/app.scss"].should eq("/assets/app.67890.css")
       result["images/logo.png"].should eq("/assets/logo.abcde.png")
       # Shared chunks (starting with _) should be ignored
       result.has_key?("_shared-B7PI925R.js").should be_false
     end
-    
+
     it "ignores entries without src property" do
       manifest_json = <<-JSON
       {
@@ -60,13 +60,13 @@ describe Lucky::AssetBuilder::Vite do
         }
       }
       JSON
-      
+
       builder = Lucky::AssetBuilder::Vite.new
       result = builder.parse_manifest(manifest_json)
-      
+
       result.empty?.should be_true
     end
-    
+
     it "strips src/ prefix from keys" do
       manifest_json = <<-JSON
       {
@@ -76,13 +76,13 @@ describe Lucky::AssetBuilder::Vite do
         }
       }
       JSON
-      
+
       builder = Lucky::AssetBuilder::Vite.new
       result = builder.parse_manifest(manifest_json)
-      
+
       result["images/logo.png"].should eq("/images/logo.12345.png")
     end
-    
+
     it "handles keys without src/ prefix" do
       manifest_json = <<-JSON
       {
@@ -92,10 +92,10 @@ describe Lucky::AssetBuilder::Vite do
         }
       }
       JSON
-      
+
       builder = Lucky::AssetBuilder::Vite.new
       result = builder.parse_manifest(manifest_json)
-      
+
       result["images/direct.png"].should eq("/images/direct.12345.png")
     end
   end

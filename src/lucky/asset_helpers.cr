@@ -19,7 +19,7 @@ module Lucky::AssetHelpers
     {{ run "../run_macros/generate_asset_helpers", manifest_file, use_vite }}
     {% CONFIG[:has_loaded_manifest] = true %}
   end
-  
+
   # Load manifest using the configured asset build system
   # This is the new recommended way to load asset manifests
   macro load_manifest_from_build_system
