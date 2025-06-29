@@ -9,8 +9,8 @@ private class AssetManifestBuilder
   @max_retries : Int32
   @retry_after : Float64
 
-  def initialize(@manifest_path : String, @use_vite : Bool = false)
-    @manifest_path = File.expand_path("./public/mix-manifest.json")
+  def initialize(@manifest_path : String = "./public/mix-manifest.json", @use_vite : Bool = false)
+    @manifest_path = File.expand_path(@manifest_path)
   
     # These values can be configured at compile time via environment variables:
     # - LUCKY_ASSET_MANIFEST_RETRY_COUNT: Number of times to retry (default: 20)
