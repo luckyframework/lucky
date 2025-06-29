@@ -1,6 +1,7 @@
 # This is the welcome page shown to users when they first initialize a new Lucky project
 class Lucky::WelcomePage
   include Lucky::HTMLPage
+  include Lucky::LiveReloadTag
 
   SIGN_UP_ACTION = SignUps::New
 
@@ -24,6 +25,7 @@ class Lucky::WelcomePage
         load_lato_font
         normalize_styles
         welcome_page_styles
+        live_reload_connect_tag
       end
 
       body do

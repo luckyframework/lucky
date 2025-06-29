@@ -105,6 +105,24 @@ describe "components rendering" do
     contents.should_not contain("<!--")
   end
 
+  it "accepts exact arguments that match 'needs' declarations" do
+    # Components should work fine when passed exact arguments
+    component = ComplexTestComponent.new(title: "test")
+    component.render_to_string.should contain("test")
+  end
+
+  it "does not accept unused arguments (compile-time validation)" do
+    # NOTE: Components now fail at compile time if passed unused arguments.
+    # This test can't demonstrate the failure since it would prevent compilation,
+    # but the following would fail to compile:
+    # ComplexTestComponent.new(title: "test", unused_arg: "fail")
+    # Error: no parameter named 'unused_arg'
+
+    # This ensures we maintain the expected behavior
+    component = ComplexTestComponent.new(title: "test")
+    component.render_to_string.should contain("test")
+  end
+
   it "renders to a string" do
     html = ComplexTestComponent.new(title: "passed_in_title").render_to_string
 

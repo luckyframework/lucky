@@ -2,19 +2,21 @@ require "json"
 require "colorize"
 
 private class AssetManifestBuilder
-  MAX_RETRIES =   20
-  RETRY_AFTER = 0.25
-
   property retries
   @retries : Int32 = 0
   @manifest_path : String
   @use_vite : Bool = false
-
-  def initialize
-    @manifest_path = File.expand_path("./public/mix-manifest.json")
-  end
+  @max_retries : Int32
+  @retry_after : Float64
 
   def initialize(@manifest_path : String, @use_vite : Bool = false)
+    @manifest_path = File.expand_path("./public/mix-manifest.json")
+  
+    # These values can be configured at compile time via environment variables:
+    # - LUCKY_ASSET_MANIFEST_RETRY_COUNT: Number of times to retry (default: 20)
+    # - LUCKY_ASSET_MANIFEST_RETRY_DELAY: Delay between retries in seconds (default: 0.25)
+    @max_retries = ENV["LUCKY_ASSET_MANIFEST_RETRY_COUNT"]?.try(&.to_i) || 20
+    @retry_after = ENV["LUCKY_ASSET_MANIFEST_RETRY_DELAY"]?.try(&.to_f) || 0.25
   end
 
   def build_with_retry
@@ -30,9 +32,9 @@ private class AssetManifestBuilder
   end
 
   private def retry_or_raise_error
-    if retries < MAX_RETRIES
+    if retries < @max_retries
       self.retries += 1
-      sleep(RETRY_AFTER)
+      sleep(@retry_after)
       build_with_retry
     else
       raise_missing_manifest_error

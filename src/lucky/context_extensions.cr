@@ -9,6 +9,12 @@ class HTTP::Server::Context
 
   # :nodoc:
   #
+  # This stores the format extracted from the URL path (e.g., .csv, .json)
+  # This takes precedence over Accept header-based format detection
+  property _url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil = nil
+
+  # :nodoc:
+  #
   # This value should be unique between each request.
   # Use this to help group logging output to a single request.
   # It can be set through the `RequestIdHandler` config.
