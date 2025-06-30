@@ -1,3 +1,7 @@
+require "./asset_builder/base"
+require "./asset_builder/mix"
+require "./asset_builder/vite"
+
 # Class for configuring server settings
 #
 # The settings created here can be customized in each Lucky app by modifying them in your config/server.cr
@@ -7,6 +11,7 @@ class Lucky::Server
     setting host : String
     setting port : Int32
     setting asset_host : String = ""
+    setting asset_build_system : Lucky::AssetBuilder::Base = Lucky::AssetBuilder::Mix.new
     setting gzip_enabled : Bool = false
     setting gzip_content_types : Array(String) = %w(
       application/json

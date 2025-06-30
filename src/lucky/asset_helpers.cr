@@ -20,6 +20,21 @@ module Lucky::AssetHelpers
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
+  # Load manifest using the configured asset build system
+  # This is the new recommended way to load asset manifests
+  macro load_manifest_from_build_system
+    {% if @type.has_constant?("ASSET_BUILD_SYSTEM_TYPE") %}
+      {% if @type.constant("ASSET_BUILD_SYSTEM_TYPE") == "vite" %}
+        {{ run "../run_macros/generate_asset_helpers", "./public/.vite/manifest.json", "true" }}
+      {% else %}
+        {{ run "../run_macros/generate_asset_helpers", "./public/mix-manifest.json", "false" }}
+      {% end %}
+    {% else %}
+      {{ run "../run_macros/generate_asset_helpers" }}
+    {% end %}
+    {% CONFIG[:has_loaded_manifest] = true %}
+  end
+
   # Return the string path to an asset
   #
   # ```
