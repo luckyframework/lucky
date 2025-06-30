@@ -107,6 +107,36 @@
       
     </li>
   
+  <li class="parent " data-id="lucky/Lucky/AssetBuilder" data-name="lucky::assetbuilder">
+      <a href="../../Lucky/AssetBuilder.html">AssetBuilder</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/Lucky/AssetBuilder/Base" data-name="lucky::assetbuilder::base">
+      <a href="../../Lucky/AssetBuilder/Base.html">Base</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/AssetBuilder/MissingManifestError" data-name="lucky::assetbuilder::missingmanifesterror">
+      <a href="../../Lucky/AssetBuilder/MissingManifestError.html">MissingManifestError</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/AssetBuilder/Mix" data-name="lucky::assetbuilder::mix">
+      <a href="../../Lucky/AssetBuilder/Mix.html">Mix</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/AssetBuilder/Vite" data-name="lucky::assetbuilder::vite">
+      <a href="../../Lucky/AssetBuilder/Vite.html">Vite</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="lucky/Lucky/AssetHelpers" data-name="lucky::assethelpers">
       <a href="../../Lucky/AssetHelpers.html">AssetHelpers</a>
       
@@ -1003,7 +1033,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/4299dba376f8709aa53468956e63ab2478364117/src/lucky/server.cr#L5" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/server.cr#L9" target="_blank">
         lucky/server.cr
       </a>
     
@@ -1026,6 +1056,23 @@
     Class Method Summary
   </h2>
   <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#asset_build_system%3ALucky%3A%3AAssetBuilder%3A%3ABase-class-method" class="signature"><strong>.asset_build_system</strong> : Lucky::AssetBuilder::Base</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#asset_build_system%3D%28value%3ALucky%3A%3AAssetBuilder%3A%3ABase%29-class-method" class="signature"><strong>.asset_build_system=</strong>(value : Lucky::AssetBuilder::Base)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#asset_build_system%3F-class-method" class="signature"><strong>.asset_build_system?</strong></a>
+        
+          <div class="summary"><p>Used for checking missing settings on non-nilable types It's advised to use asset_build_system in your apps to ensure the propper type is checked.</p></div>
+        
+      </li>
     
       <li class="entry-summary">
         <a href="#asset_host%3AString-class-method" class="signature"><strong>.asset_host</strong> : String</a>
@@ -1199,6 +1246,55 @@
 </a>
     Class Method Detail
   </h2>
+  
+    <div class="entry-detail" id="asset_build_system:Lucky::AssetBuilder::Base-class-method">
+      <div class="signature">
+        
+        def self.<strong>asset_build_system</strong> : <a href="../../Lucky/AssetBuilder/Base.html">Lucky::AssetBuilder::Base</a>
+
+        <a class="method-permalink" href="#asset_build_system%3ALucky%3A%3AAssetBuilder%3A%3ABase-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="asset_build_system=(value:Lucky::AssetBuilder::Base)-class-method">
+      <div class="signature">
+        
+        def self.<strong>asset_build_system=</strong>(value : <a href="../../Lucky/AssetBuilder/Base.html">Lucky::AssetBuilder::Base</a>)
+
+        <a class="method-permalink" href="#asset_build_system%3D%28value%3ALucky%3A%3AAssetBuilder%3A%3ABase%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="asset_build_system?-class-method">
+      <div class="signature">
+        
+        def self.<strong>asset_build_system?</strong>
+
+        <a class="method-permalink" href="#asset_build_system%3F-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Used for checking missing settings on non-nilable types
+It's advised to use asset_build_system in your apps to ensure
+the propper type is checked.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
   
     <div class="entry-detail" id="asset_host:String-class-method">
       <div class="signature">

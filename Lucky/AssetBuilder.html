@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="lucky">
-  <title>Lucky::Routable - lucky main</title>
+  <title>Lucky::AssetBuilder - lucky main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -107,7 +107,7 @@
       
     </li>
   
-  <li class="parent " data-id="lucky/Lucky/AssetBuilder" data-name="lucky::assetbuilder">
+  <li class="parent open current" data-id="lucky/Lucky/AssetBuilder" data-name="lucky::assetbuilder">
       <a href="../Lucky/AssetBuilder.html">AssetBuilder</a>
       
         <ul>
@@ -712,7 +712,7 @@
       
     </li>
   
-  <li class=" current" data-id="lucky/Lucky/Routable" data-name="lucky::routable">
+  <li class=" " data-id="lucky/Lucky/Routable" data-name="lucky::routable">
       <a href="../Lucky/Routable.html">Routable</a>
       
     </li>
@@ -998,7 +998,7 @@
 
   <span class="kind">
     module
-  </span> Lucky::<wbr>Routable
+  </span> Lucky::<wbr>AssetBuilder
 
 </h1>
 
@@ -1006,16 +1006,6 @@
 
 
 
-  <h2>
-    <a id="overview" class="anchor" href="#overview">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Overview
-  </h2>
-
-  <p>Methods for routing HTTP requests and their parameters to actions.</p>
 
 
 
@@ -1027,21 +1017,6 @@
 
 
 
-
-
-  <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Direct including types
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../Lucky/Action.html">Lucky::Action</a></li>
-    
-  </ul>
 
 
 
@@ -1056,8 +1031,22 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L2" target="_blank">
-        lucky/routable.cr
+      <a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/asset_builder/base.cr#L1" target="_blank">
+        lucky/asset_builder/base.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/asset_builder/mix.cr#L4" target="_blank">
+        lucky/asset_builder/mix.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/asset_builder/vite.cr#L4" target="_blank">
+        lucky/asset_builder/vite.cr
       </a>
     
     <br/>
@@ -1072,98 +1061,6 @@
   
 
   
-  <h2>
-    <a id="macro-summary" class="anchor" href="#macro-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Macro Summary
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#delete%28path%29-macro" class="signature"><strong>delete</strong>(path)</a>
-        
-          <div class="summary"><p>Define a route that responds to a DELETE request</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#enforce_route_style%28path%2Caction%29-macro" class="signature"><strong>enforce_route_style</strong>(path, action)</a>
-        
-          <div class="summary"><p>Implement this macro in your action to check the path for a particular style.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#fallback-macro" class="signature"><strong>fallback</strong></a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#get%28path%29-macro" class="signature"><strong>get</strong>(path)</a>
-        
-          <div class="summary"><p>Define a route that responds to a GET request</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#inherit_route_settings-macro" class="signature"><strong>inherit_route_settings</strong></a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#match%28method%2Cpath%29-macro" class="signature"><strong>match</strong>(method, path)</a>
-        
-          <div class="summary"><p>Define a route with a custom HTTP method.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#param%28type_declaration%29-macro" class="signature"><strong>param</strong>(type_declaration)</a>
-        
-          <div class="summary"><p>Access query and POST parameters</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#patch%28path%29-macro" class="signature"><strong>patch</strong>(path)</a>
-        
-          <div class="summary"><p>Define a route that responds to a PATCH request</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#post%28path%29-macro" class="signature"><strong>post</strong>(path)</a>
-        
-          <div class="summary"><p>Define a route that responds to a POST request</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#put%28path%29-macro" class="signature"><strong>put</strong>(path)</a>
-        
-          <div class="summary"><p>Define a route that responds to a PUT request</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#route_prefix%28prefix%29-macro" class="signature"><strong>route_prefix</strong>(prefix)</a>
-        
-          <div class="summary"><p>Sets the prefix for all routes defined by the match and http method (get, put, post, etc..) macros</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#trace%28path%29-macro" class="signature"><strong>trace</strong>(path)</a>
-        
-          <div class="summary"><p>Define a route that responds to a TRACE request</p></div>
-        
-      </li>
-    
-  </ul>
-
 
   
 
@@ -1177,378 +1074,6 @@
   
 
   
-  <h2>
-    <a id="macro-detail" class="anchor" href="#macro-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Macro Detail
-  </h2>
-  
-    <div class="entry-detail" id="delete(path)-macro">
-      <div class="signature">
-        
-        macro <strong>delete</strong>(path)
-
-        <a class="method-permalink" href="#delete%28path%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route that responds to a DELETE request</p>
-<p>Use these methods if you need a custom path or are using a non-restful
-route. For example:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
-  delete <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
-    <span class="c"># action code here</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>will respond to an <code>HTTP DELETE</code> request.</p>
-<p><strong>See also</strong> our guides for more information and examples:</p>
-<ul>
-<li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li>
-</ul>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L36" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="enforce_route_style(path,action)-macro">
-      <div class="signature">
-        
-        macro <strong>enforce_route_style</strong>(path, action)
-
-        <a class="method-permalink" href="#enforce_route_style%28path%2Caction%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Implement this macro in your action to check the path for a particular style.</p>
-<p>By default Lucky ships with a <code><a href="../Lucky/EnforceUnderscoredRoute.html">Lucky::EnforceUnderscoredRoute</a></code> that is included
-in your <code>BrowserAction</code> and <code>ApiAction</code> (as of Lucky 0.28)</p>
-<p>See the docs for <code><a href="../Lucky/EnforceUnderscoredRoute.html">Lucky::EnforceUnderscoredRoute</a></code> to learn how to use it or disable it.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L124" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="fallback-macro">
-      <div class="signature">
-        
-        macro <strong>fallback</strong>
-
-        <a class="method-permalink" href="#fallback-macro">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L22" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="get(path)-macro">
-      <div class="signature">
-        
-        macro <strong>get</strong>(path)
-
-        <a class="method-permalink" href="#get%28path%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route that responds to a GET request</p>
-<p>Use these methods if you need a custom path or are using a non-restful
-route. For example:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
-  get <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
-    <span class="c"># action code here</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>will respond to an <code>HTTP GET</code> request.</p>
-<p><strong>See also</strong> our guides for more information and examples:</p>
-<ul>
-<li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li>
-</ul>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L36" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="inherit_route_settings-macro">
-      <div class="signature">
-        
-        macro <strong>inherit_route_settings</strong>
-
-        <a class="method-permalink" href="#inherit_route_settings-macro">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L16" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="match(method,path)-macro">
-      <div class="signature">
-        
-        macro <strong>match</strong>(method, path)
-
-        <a class="method-permalink" href="#match%28method%2Cpath%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route with a custom HTTP method.</p>
-<p>Use this method if you need to match a route with a custom HTTP method (verb).
-For example:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">Show</span>
-  match <span class="n">:options</span>, <span class="s">&quot;/profile&quot;</span> <span class="k">do</span>
-    <span class="c"># action code here</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>Will respond to an <code>HTTP OPTIONS</code> request.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L74" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="param(type_declaration)-macro">
-      <div class="signature">
-        
-        macro <strong>param</strong>(type_declaration)
-
-        <a class="method-permalink" href="#param%28type_declaration%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Access query and POST parameters</p>
-<p>When a query parameter or POST data is passed to an action, it is stored in
-the params object. But accessing the param directly from the params object
-isn't type safe. Enter <code><a href="../Lucky/Routable.html#param%28type_declaration%29-macro">param</a></code>. It checks the given param's type and makes
-it easily available inside the action.</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Posts</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  param page : <span class="t">Int32</span>?
-
-  get <span class="s">&quot;/posts&quot;</span> <span class="k">do</span>
-    plain_text <span class="s">&quot;Posts - Page </span><span class="i">#{</span>page <span class="o">||</span> <span class="n">1</span><span class="i">}</span><span class="s">&quot;</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>To generate a link with a param, use the <code>with</code> method:
-<code>Posts::Index.with(10).path</code> which will generate <code>/posts?page=10</code>. Visiting
-that path would render the above action like this:</p>
-<pre><code class="language-text">Posts - Page 10</code></pre>
-<p>This works behind the scenes by creating a <code>page</code> method in the action to
-access the parameter.</p>
-<p><strong>Note:</strong> Params can also have a default, but then their routes will not
-include the parameter in the query string. Using the <code>with(10)</code> method for a
-param like this:
-<code>param page : <a href="../Int32.html">Int32</a> = 1</code> will only generate <code>/posts</code>.</p>
-<p>These parameters are also typed. The path <code>/posts?page=ten</code> will raise a
-<code><a href="../Lucky/InvalidParamError.html">Lucky::InvalidParamError</a></code> error because <code>ten</code> is a String not an
-Int32.</p>
-<p>Additionally, if the param is non-optional it will raise the
-<code><a href="../Lucky/MissingParamError.html">Lucky::MissingParamError</a></code> error if the required param is absent
-when making a request:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">UserConfirmations</span><span class="t">::</span><span class="t">New</span> <span class="o">&lt;</span> <span class="t">BrowserAction</span>
-  param token : <span class="t">String</span> <span class="c"># this param is required!</span>
-
-  get <span class="s">&quot;/user_confirmations/new&quot;</span> <span class="k">do</span>
-    <span class="c"># confirm the user with their `token`</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>When visiting this page, the path <em>must</em> contain the token parameter:
-<code>/user_confirmations/new?token=abc123</code></p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L488" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="patch(path)-macro">
-      <div class="signature">
-        
-        macro <strong>patch</strong>(path)
-
-        <a class="method-permalink" href="#patch%28path%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route that responds to a PATCH request</p>
-<p>Use these methods if you need a custom path or are using a non-restful
-route. For example:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
-  patch <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
-    <span class="c"># action code here</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>will respond to an <code>HTTP PATCH</code> request.</p>
-<p><strong>See also</strong> our guides for more information and examples:</p>
-<ul>
-<li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li>
-</ul>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L36" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="post(path)-macro">
-      <div class="signature">
-        
-        macro <strong>post</strong>(path)
-
-        <a class="method-permalink" href="#post%28path%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route that responds to a POST request</p>
-<p>Use these methods if you need a custom path or are using a non-restful
-route. For example:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
-  post <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
-    <span class="c"># action code here</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>will respond to an <code>HTTP POST</code> request.</p>
-<p><strong>See also</strong> our guides for more information and examples:</p>
-<ul>
-<li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li>
-</ul>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L36" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="put(path)-macro">
-      <div class="signature">
-        
-        macro <strong>put</strong>(path)
-
-        <a class="method-permalink" href="#put%28path%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route that responds to a PUT request</p>
-<p>Use these methods if you need a custom path or are using a non-restful
-route. For example:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
-  put <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
-    <span class="c"># action code here</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>will respond to an <code>HTTP PUT</code> request.</p>
-<p><strong>See also</strong> our guides for more information and examples:</p>
-<ul>
-<li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li>
-</ul>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L36" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="route_prefix(prefix)-macro">
-      <div class="signature">
-        
-        macro <strong>route_prefix</strong>(prefix)
-
-        <a class="method-permalink" href="#route_prefix%28prefix%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Sets the prefix for all routes defined by the match
-and http method (get, put, post, etc..) macros</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L29" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="trace(path)-macro">
-      <div class="signature">
-        
-        macro <strong>trace</strong>(path)
-
-        <a class="method-permalink" href="#trace%28path%29-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Define a route that responds to a TRACE request</p>
-<p>Use these methods if you need a custom path or are using a non-restful
-route. For example:</p>
-<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Profile</span><span class="t">::</span><span class="t">ImageUpload</span>
-  trace <span class="s">&quot;/profile/image/:id&quot;</span> <span class="k">do</span>
-    <span class="c"># action code here</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-<p>will respond to an <code>HTTP TRACE</code> request.</p>
-<p><strong>See also</strong> our guides for more information and examples:</p>
-<ul>
-<li><a href="https://luckyframework.org/guides/http-and-routing/routing-and-params#routing">Routing</a></li>
-</ul>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/ff904b28c7a0fdcd45148be3850cc00d5984bb59/src/lucky/routable.cr#L36" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-
 
   
 
