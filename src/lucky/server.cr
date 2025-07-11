@@ -28,5 +28,10 @@ class Lucky::Server
       text/javascript
       text/plain
     )
+    setting http2_enabled : Bool = false
+    setting http2_cert_file : String = ""
+    setting http2_key_file : String = ""
+    setting http2_max_concurrent_streams : Int32 = 100
+    setting http2_max_frame_size : Int32 = 16384
   end
 end
