@@ -29,8 +29,10 @@ class Lucky::Server
       text/plain
     )
     setting http2_enabled : Bool = false
-    setting http2_cert_file : String = ""
-    setting http2_key_file : String = ""
+    setting http2_cert_file : String? = nil
+    setting http2_key_file : String? = nil
+    setting http2_enable_h2c : Bool = false
+    setting http2_h2c_upgrade_timeout : Int32 = 10
     setting http2_max_concurrent_streams : Int32 = 100
     setting http2_max_frame_size : Int32 = 16384
   end

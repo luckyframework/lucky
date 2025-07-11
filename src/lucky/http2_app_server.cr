@@ -14,21 +14,28 @@
       if Lucky::Server.settings.http2_enabled
         cert_file = Lucky::Server.settings.http2_cert_file
         key_file = Lucky::Server.settings.http2_key_file
+        enable_h2c = Lucky::Server.settings.http2_enable_h2c
 
-        if cert_file.empty? || key_file.empty?
-          raise "HTTP/2 enabled but certificate files not configured. Set http2_cert_file and http2_key_file."
+        # Determine TLS context
+        tls_context = nil
+        if cert_file && key_file
+          tls_context = HT2::Server.create_tls_context(cert_file, key_file)
+        elsif !enable_h2c
+          raise "HTTP/2 enabled but neither TLS certificates nor h2c mode configured. Either set certificate files or enable h2c."
         end
 
-        tls_context = HT2::Server.create_tls_context(cert_file, key_file)
         handler = create_http2_handler
+        h2c_timeout = Lucky::Server.settings.http2_h2c_upgrade_timeout.seconds
 
         @server = HT2::Server.new(
           host: host,
           port: port,
           handler: handler,
-          tls_context: tls_context,
-          max_concurrent_streams: Lucky::Server.settings.http2_max_concurrent_streams,
-          max_frame_size: Lucky::Server.settings.http2_max_frame_size
+          enable_h2c: enable_h2c,
+          h2c_upgrade_timeout: h2c_timeout,
+          max_concurrent_streams: Lucky::Server.settings.http2_max_concurrent_streams.to_u32,
+          max_frame_size: Lucky::Server.settings.http2_max_frame_size.to_u32,
+          tls_context: tls_context
         )
       end
     end

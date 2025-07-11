@@ -39,18 +39,40 @@ For production, use certificates from a trusted Certificate Authority.
 
 In your `config/server.cr` file, add HTTP/2 configuration:
 
+### Option A: HTTP/2 with TLS (for direct client connections)
+
 ```crystal
 Lucky::Server.configure do |settings|
   # Existing settings...
   
-  # HTTP/2 Configuration
+  # HTTP/2 with TLS Configuration
   settings.http2_enabled = true
-  settings.http2_cert_file = "./server.crt"
-  settings.http2_key_file = "./server.key"
+  settings.http2_cert_file = "./server.crt"      # Required for TLS
+  settings.http2_key_file = "./server.key"       # Required for TLS
+  settings.http2_max_concurrent_streams = 100    # Optional
+  settings.http2_max_frame_size = 16384          # Optional
+end
+```
+
+### Option B: HTTP/2 Cleartext (h2c) - for apps behind load balancers
+
+```crystal
+Lucky::Server.configure do |settings|
+  # Existing settings...
+  
+  # HTTP/2 Cleartext Configuration (no certificates needed)
+  settings.http2_enabled = true
+  settings.http2_enable_h2c = true
+  # Note: http2_cert_file and http2_key_file not needed for h2c
+  settings.http2_h2c_upgrade_timeout = 10      # Optional: seconds for h2c upgrade
   settings.http2_max_concurrent_streams = 100  # Optional
   settings.http2_max_frame_size = 16384        # Optional
 end
 ```
+
+**When to use each option:**
+- **TLS mode**: When your app directly serves clients over HTTPS
+- **h2c mode**: When your app runs behind a load balancer that terminates TLS
 
 ## Step 4: Update Your App Server
 
@@ -112,7 +134,8 @@ crystal build src/app.cr --release -Dhttp2
 
 ## Step 7: Test HTTP/2 Connection
 
-Test your HTTP/2 server using curl:
+### Testing TLS Mode
+Test your HTTP/2 server with TLS using curl:
 
 ```bash
 # Test HTTP/2 connection (skip certificate verification for self-signed certs)
@@ -122,6 +145,23 @@ curl -k --http2 https://localhost:3000
 curl -k --http2 -I https://localhost:3000
 ```
 
+### Testing h2c Mode (Cleartext)
+Test your HTTP/2 cleartext server:
+
+```bash
+# Test HTTP/2 with prior knowledge (recommended)
+curl --http2-prior-knowledge http://localhost:3000
+
+# Test HTTP/1.1 upgrade to h2c
+curl --http2 http://localhost:3000
+
+# Manual h2c upgrade (for debugging)
+curl -H 'Connection: Upgrade' \
+     -H 'Upgrade: h2c' \
+     -H 'HTTP2-Settings: AAMAAABkAAQCAAAAAAIAAAAA' \
+     http://localhost:3000
+```
+
 ## Configuration Reference
 
 ### HTTP/2 Settings
@@ -129,8 +169,10 @@ curl -k --http2 -I https://localhost:3000
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | `http2_enabled` | Bool | false | Enable/disable HTTP/2 support |
-| `http2_cert_file` | String | "" | Path to TLS certificate file |
-| `http2_key_file` | String | "" | Path to TLS private key file |
+| `http2_cert_file` | String | "" | Path to TLS certificate file (optional if using h2c) |
+| `http2_key_file` | String | "" | Path to TLS private key file (optional if using h2c) |
+| `http2_enable_h2c` | Bool | false | Enable HTTP/2 cleartext mode (for load balancer deployments) |
+| `http2_h2c_upgrade_timeout` | Int32 | 10 | Timeout in seconds for h2c upgrade process |
 | `http2_max_concurrent_streams` | Int32 | 100 | Maximum concurrent HTTP/2 streams |
 | `http2_max_frame_size` | Int32 | 16384 | Maximum HTTP/2 frame size |
 
@@ -146,15 +188,19 @@ export HTTP2_KEY_FILE=./ssl/server.key
 
 ## Important Notes
 
-1. **TLS is Required**: HTTP/2 requires TLS certificates. The server will not start without valid certificate files when HTTP/2 is enabled.
+1. **Flexible TLS Support**: HTTP/2 can run with TLS (for direct client connections) or without TLS in h2c mode (for deployment behind load balancers).
 
-2. **Compilation Flag**: Always use the `-Dhttp2` flag when building your application for HTTP/2 support.
+2. **Load Balancer Deployments**: Use h2c mode when deploying behind load balancers that terminate TLS. This is a common and recommended deployment pattern.
 
-3. **Middleware Compatibility**: Existing Lucky middleware should work unchanged with HTTP/2.
+3. **Compilation Flag**: Always use the `-Dhttp2` flag when building your application for HTTP/2 support.
 
-4. **Development vs Production**: Use self-signed certificates for development and trusted CA certificates for production.
+4. **Middleware Compatibility**: Existing Lucky middleware should work unchanged with HTTP/2.
 
-5. **Browser Support**: Modern browsers automatically use HTTP/2 when available over HTTPS connections.
+5. **Development vs Production**: 
+   - Development: Use self-signed certificates or h2c mode
+   - Production: Use trusted CA certificates or h2c behind load balancers
+
+6. **Browser Support**: Modern browsers automatically use HTTP/2 when available over HTTPS connections.
 
 ## Troubleshooting
 
@@ -171,21 +217,26 @@ export HTTP2_KEY_FILE=./ssl/server.key
 ### Debug Commands
 
 ```bash
-# Check if HTTP/2 is negotiated
+# Check if HTTP/2 TLS is negotiated
 curl -k --http2 -v https://localhost:3000
 
-# Test with specific HTTP version
-curl -k --http2-prior-knowledge https://localhost:3000
+# Test h2c with prior knowledge
+curl --http2-prior-knowledge -v http://localhost:3000
+
+# Test h2c upgrade path
+curl --http2 -v http://localhost:3000
 ```
 
 ## Migration Checklist
 
 - [ ] Add ht2 dependency to shard.yml
-- [ ] Generate or obtain TLS certificates
+- [ ] Choose deployment mode (TLS vs h2c)
 - [ ] Configure HTTP/2 settings in config/server.cr
+  - [ ] For TLS: Generate or obtain certificates
+  - [ ] For h2c: Enable h2c mode (no certificates needed)
 - [ ] Update app server to inherit from Lucky::HTTP2AppServer
 - [ ] Add -Dhttp2 compilation flag to build process
-- [ ] Test HTTP/2 connectivity
+- [ ] Test HTTP/2 connectivity (appropriate mode)
 - [ ] Update deployment scripts
 - [ ] Verify middleware compatibility
 
