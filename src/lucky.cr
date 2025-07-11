@@ -19,6 +19,10 @@ require "./lucky/cookies/*"
 require "./lucky/secure_headers/*"
 require "./lucky/route_helper"
 require "./lucky/*"
+{% if flag?(:http2) %}
+require "./lucky/http2_app_server"
+require "./lucky/http2_response_adapter"
+{% end %}
 require "./lucky/paginator/paginator"
 require "./lucky/paginator/*"
 require "./lucky/paginator/components/*"
