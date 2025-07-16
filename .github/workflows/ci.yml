@@ -22,7 +22,7 @@ jobs:
       - name: Format
         run: crystal tool format --check
       - name: Lint
-        run: CRYSTAL_WORKERS=8 ./bin/ameba
+        run: CRYSTAL_WORKERS=2 ./bin/ameba
   specs:
     strategy:
       fail-fast: false
