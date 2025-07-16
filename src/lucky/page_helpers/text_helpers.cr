@@ -257,8 +257,8 @@ module Lucky::TextHelpers
   private def split_paragraphs(text : String)
     return Array(String).new if text.blank?
 
-    text.to_s.gsub(/\r\n?/, "\n").split(/\n\n+/).map do |t|
-      t.gsub(/([^\n]\n)(?=[^\n])/, "\\1<br >") || t
+    text.to_s.gsub(/\r\n?/, "\n").split(/\n\n+/).map do |line|
+      line.gsub(/([^\n]\n)(?=[^\n])/, "\\1<br >") || line
     end
   end
 end

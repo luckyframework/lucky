@@ -14,37 +14,37 @@ private class TestPage
   def render
   end
 
-  def get_route
+  def http_get_route
     link "Test", to: LinkHelpers::Index
   end
 
-  def non_get_route
+  def non_http_get_route
     link "Test", to: LinkHelpers::Create
   end
 
-  def non_get_route_with_options
+  def non_http_get_route_with_options
     link "Test", to: LinkHelpers::Create, something_custom: "foo"
   end
 
-  def get_route_with_block
+  def http_get_route_with_block
     link to: LinkHelpers::Index do
       text "Hello"
     end
   end
 
-  def get_route_without_text
+  def http_get_route_without_text
     link to: LinkHelpers::Index
   end
 
-  def get_route_with_text_and_attrs
+  def http_get_route_with_text_and_attrs
     link "Text", to: LinkHelpers::Index, attrs: [:disabled]
   end
 
-  def get_route_with_attrs_no_text
+  def http_get_route_with_attrs_no_text
     link to: LinkHelpers::Index, attrs: [:disabled]
   end
 
-  def get_route_with_block_and_attrs
+  def http_get_route_with_block_and_attrs
     link to: LinkHelpers::Index, attrs: [:disabled] do
       text "Hello"
     end
@@ -53,9 +53,9 @@ end
 
 describe Lucky::LinkHelpers do
   it "renders a link tag" do
-    view(&.get_route).should contain %(<a href="/link_helpers">Test</a>)
-    view(&.non_get_route).should contain %(<a href="/link_helpers" data-method="post">Test</a>)
-    view(&.non_get_route_with_options)
+    view(&.http_get_route).should contain %(<a href="/link_helpers">Test</a>)
+    view(&.non_http_get_route).should contain %(<a href="/link_helpers" data-method="post">Test</a>)
+    view(&.non_http_get_route_with_options)
       .should contain %(<a href="/link_helpers" data-method="post" something-custom="foo">Test</a>)
   end
 
@@ -72,13 +72,13 @@ describe Lucky::LinkHelpers do
   end
 
   it "renders a link tag with a block" do
-    view(&.get_route_with_block).should contain <<-HTML
+    view(&.http_get_route_with_block).should contain <<-HTML
     <a href="/link_helpers">Hello</a>
     HTML
   end
 
   it "renders a link tag without text" do
-    view(&.get_route_without_text).should contain <<-HTML
+    view(&.http_get_route_without_text).should contain <<-HTML
     <a href="/link_helpers"></a>
     HTML
   end
@@ -99,15 +99,15 @@ describe Lucky::LinkHelpers do
   end
 
   it "renders a link with boolean attrs" do
-    view(&.get_route_with_text_and_attrs).should contain <<-HTML
+    view(&.http_get_route_with_text_and_attrs).should contain <<-HTML
     <a href="/link_helpers" disabled>Text</a>
     HTML
 
-    view(&.get_route_with_attrs_no_text).should contain <<-HTML
+    view(&.http_get_route_with_attrs_no_text).should contain <<-HTML
     <a href="/link_helpers" disabled></a>
     HTML
 
-    view(&.get_route_with_block_and_attrs).should contain <<-HTML
+    view(&.http_get_route_with_block_and_attrs).should contain <<-HTML
     <a href="/link_helpers" disabled>Hello</a>
     HTML
   end

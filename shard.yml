@@ -1,7 +1,7 @@
 name: lucky
 version: 1.4.0
 
-crystal: ">= 1.10.0"
+crystal: ">= 1.15.1"
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -55,6 +55,6 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.5.0
+    version: ~> 1.6.4
 
 license: MIT

@@ -28,7 +28,7 @@ module Lucky::Assignable
       {% end %}
 
       # Ensure that the needs variable name has not been previously defined.
-      {% previous_declaration = ASSIGNS.find { |d| d.var == declaration.var } %}
+      {% previous_declaration = ASSIGNS.find { |decl| decl.var == declaration.var } %}
       {% if previous_declaration %}
         {% raise <<-ERROR
           \n
@@ -89,8 +89,8 @@ module Lucky::Assignable
       {% sorted_assigns = ASSIGNS.sort_by { |dec|
            has_explicit_value =
              dec.type.is_a?(Metaclass) ||
-               dec.type.types.any? { |t|
-                 (t.is_a?(Metaclass) || t.is_a?(ProcNotation) || t.is_a?(Generic)) ? false : t.names.includes?(Nil.id)
+               dec.type.types.any? { |type|
+                 (type.is_a?(Metaclass) || type.is_a?(ProcNotation) || type.is_a?(Generic)) ? false : type.names.includes?(Nil.id)
                } ||
                !dec.value.is_a?(Nop)
            has_explicit_value ? 1 : 0

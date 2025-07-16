@@ -121,13 +121,7 @@ class Lucky::FileResponse < Lucky::Response
     File.expand_path(path, Dir.current)
   end
 
-  {% if compare_versions(Crystal::VERSION, "1.13.0") >= 0 %}
-    private def file_exists? : Bool
-      File.file?(full_path) && File::Info.readable?(full_path)
-    end
-  {% else %}
-    private def file_exists? : Bool
-      File.file?(full_path) && File.readable?(full_path)
-    end
-  {% end %}
+  private def file_exists? : Bool
+    File.file?(full_path) && File::Info.readable?(full_path)
+  end
 end
