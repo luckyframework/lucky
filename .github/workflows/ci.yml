@@ -33,7 +33,7 @@ jobs:
         shard_file:
           - shard.yml
         crystal_version:
-          - 1.10.0
+          - 1.15.1
           - latest
         experimental:
           - false

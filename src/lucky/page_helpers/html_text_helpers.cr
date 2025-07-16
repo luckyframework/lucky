@@ -76,9 +76,9 @@ module Lucky::HTMLTextHelpers
     if text.blank? || phrases.all?(&.to_s.blank?)
       raw(text || "")
     else
-      match = phrases.map do |p|
-        p.is_a?(Regex) ? p.to_s : Regex.escape(p.to_s)
-      end.join("|")
+      match = phrases.join('|') do |phrase|
+        phrase.is_a?(Regex) ? phrase.to_s : Regex.escape(phrase.to_s)
+      end
 
       if highlighter.is_a?(Proc)
         raw text.gsub(/(#{match})(?![^<]*?>)/i, &highlighter)

@@ -60,10 +60,10 @@ class Lucky::ForceSSLHandler
   # Read more about [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
   private def add_transport_header_if_enabled(context : HTTP::Server::Context) : Nil
     settings.strict_transport_security.try do |header|
-      sts_value = String.build do |s|
+      sts_value = String.build do |io|
         max_age = ensure_time_span(header[:max_age])
-        s << "max-age=" << max_age.total_seconds.to_i
-        s << "; includeSubDomains" if header[:include_subdomains]
+        io << "max-age=" << max_age.total_seconds.to_i
+        io << "; includeSubDomains" if header[:include_subdomains]
       end
       context.response.headers["Strict-Transport-Security"] = sts_value
     end

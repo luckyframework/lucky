@@ -408,8 +408,8 @@ class Lucky::Params
   end
 
   private def maybe_many_nested(nested_key : String | Symbol) : Array(Hash(String, String))?
-    zipped_many_nested_params(nested_key.to_s).try &.map do |a, b|
-      (a || {} of String => String).merge(b || {} of String => String)
+    zipped_many_nested_params(nested_key.to_s).try &.map do |param_a, param_b|
+      (param_a || {} of String => String).merge(param_b || {} of String => String)
     end
   end
 
@@ -578,8 +578,8 @@ class Lucky::Params
   private def many_nested_hash_params(hash : Hash(String, String), nested_key : String) : Array(Hash(String, String))
     nested_key = "#{nested_key}["
     matcher = /^#{Regex.escape(nested_key)}(?<index>\d+)\]:(?<nested_key>.+)$/
-    many_nested_params = Hash(String, Hash(String, String)).new do |h, k|
-      h[k] ||= {} of String => String
+    many_nested_params = Hash(String, Hash(String, String)).new do |new_hash, key|
+      new_hash[key] ||= {} of String => String
     end
 
     hash.each do |key, value|
