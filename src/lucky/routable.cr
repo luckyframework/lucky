@@ -58,6 +58,17 @@ module Lucky::Routable
     end
   {% end %}
 
+  # Define a route that responds to a WebSocket request
+  macro ws(path, &block)
+    {% unless path.starts_with?("/") %}
+      {% path.raise "Path must start with a slash. Example: '/#{path}'" %}
+    {% end %}
+
+    add_route(:ws, {{ path }}, {{ @type.name.id }})
+
+    setup_ws_call_method(block)
+  end
+
   # Define a route with a custom HTTP method.
   #
   # Use this method if you need to match a route with a custom HTTP method (verb).
@@ -83,6 +94,35 @@ module Lucky::Routable
     add_route({{method}}, {{ path }}, {{ @type.name.id }})
 
     setup_call_method({{ yield }})
+  end
+
+  # :nodoc:
+  macro setup_ws_call_method(&block)
+
+    abstract def on_message(message)
+    abstract def on_close
+
+    def call
+      # Ensure clients_desired_format is cached by calling it
+      clients_desired_format
+
+      %pipe_result = run_before_pipes
+
+      %response = if %pipe_result.is_a?(Lucky::Response)
+        %pipe_result
+      else
+        {{ block.body }}
+        send_text_response "", content_type: "plain/text"
+      end
+
+      %pipe_result = run_after_pipes
+
+      if %pipe_result.is_a?(Lucky::Response)
+        %pipe_result
+      else
+        %response
+      end
+    end
   end
 
   # :nodoc:
