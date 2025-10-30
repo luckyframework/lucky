@@ -1,11 +1,11 @@
 #!/bin/sh -eu
 
-if ! command -v docker-compose > /dev/null; then
-    printf 'Docker and docker-compose are not installed.\n'
-    printf 'See https://docs.docker.com/compose/install/ for install instructions.\n'
-    exit 1
+if ! command -v docker compose >/dev/null; then
+  printf 'Docker and docker compose are not installed.\n'
+  printf 'See https://docs.docker.com/compose/install/ for install instructions.\n'
+  exit 1
 fi
 
-docker-compose build
+docker compose build
 
-docker-compose run app shards update
+docker compose run app shards update
