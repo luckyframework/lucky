@@ -94,6 +94,48 @@ class Tests::Create < TestAction
   end
 end
 
+class AliasedRoute::Index < TestAction
+  get "/aliased", "/:locale/aliased" do
+    plain_text "aliased test"
+  end
+end
+
+class AliasedRoute::New < TestAction
+  get "/aliased/new", "/:locale/aliased/new" do
+    plain_text "aliased test"
+  end
+end
+
+class AliasedRoute::Edit < TestAction
+  get "/aliased/:test_id/edit", "/:locale/aliased/:test_id/edit" do
+    plain_text "aliased test"
+  end
+end
+
+class AliasedRoute::Show < TestAction
+  get "/aliased/:test_id", "/:locale/aliased/:test_id" do
+    plain_text "aliased test"
+  end
+end
+
+class AliasedRoute::Delete < TestAction
+  delete "/aliased/:test_id", "/:locale/aliased/:test_id" do
+    plain_text "aliased test"
+  end
+end
+
+class AliasedRoute::Update < TestAction
+  put "/aliased/:test_id", "/:locale/aliased/:test_id" do
+    plain_text "aliased test"
+  end
+end
+
+class AliasedRoute::Create < TestAction
+  post "/aliased", "/:locale/aliased" do
+    plain_text "aliased test"
+  end
+end
+
 class PlainText::Index < TestAction
   get "/plain_text" do
     plain_text "plain"
@@ -310,6 +352,25 @@ describe Lucky::Action do
       Tests::Create.path.should eq "/tests"
       Tests::Create.route.should eq Lucky::RouteHelper.new(:post, "/tests")
       Tests::ActionWithPrefix.path.should eq "/prefix/so_custom2"
+    end
+
+    it "creates URL helpers for the resourceful actions with aliases" do
+      AliasedRoute::Index.path.should eq "/aliased"
+      AliasedRoute::Index.with(locale: "es").path.should eq "/es/aliased"
+      AliasedRoute::Index.route.should eq Lucky::RouteHelper.new(:get, "/aliased")
+      AliasedRoute::Index.with(locale: "nl").should eq Lucky::RouteHelper.new(:get, "/nl/aliased")
+      AliasedRoute::New.path.should eq "/aliased/new"
+      AliasedRoute::New.with(locale: "fr").path.should eq "/fr/aliased/new"
+      AliasedRoute::Edit.path("test-id").should eq "/aliased/test-id/edit"
+      AliasedRoute::Edit.with(locale: "nl", test_id: "test-id").path.should eq "/nl/aliased/test-id/edit"
+      AliasedRoute::Show.path("test-id").should eq "/aliased/test-id"
+      AliasedRoute::Show.with(locale: "en-GB", test_id: "test-id").path.should eq "/en-GB/aliased/test-id"
+      AliasedRoute::Delete.path("test-id").should eq "/aliased/test-id"
+      AliasedRoute::Delete.with(locale: "fr", test_id: "test-id").path.should eq "/fr/aliased/test-id"
+      AliasedRoute::Update.path("test-id").should eq "/aliased/test-id"
+      AliasedRoute::Update.with(locale: "de", test_id: "test-id").path.should eq "/de/aliased/test-id"
+      AliasedRoute::Create.path.should eq "/aliased"
+      AliasedRoute::Create.with(locale: "en").path.should eq "/en/aliased"
     end
 
     it "escapes path params" do
