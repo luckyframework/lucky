@@ -206,6 +206,14 @@ class Tests::ActionWithPrefix < TestAction
   end
 end
 
+class Aliases::ActionWithPrefix < TestAction
+  route_prefix "/prefix"
+
+  get "/so_custom_aliased", "/:scope/so_custom_aliased" do
+    plain_text "doesn't matter"
+  end
+end
+
 class Tests::HtmlActionWithCustomContentType < TestAction
   get "/tests/new_action_with_custom_html_content_type" do
     html(Tests::IndexPage)
@@ -371,6 +379,8 @@ describe Lucky::Action do
       AliasedRoute::Update.with(locale: "de", test_id: "test-id").path.should eq "/de/aliased/test-id"
       AliasedRoute::Create.path.should eq "/aliased"
       AliasedRoute::Create.with(locale: "en").path.should eq "/en/aliased"
+      Aliases::ActionWithPrefix.path.should eq "/prefix/so_custom_aliased"
+      Aliases::ActionWithPrefix.with(scope: "the-scope").path.should eq "/prefix/the-scope/so_custom_aliased"
     end
 
     it "escapes path params" do
