@@ -51,12 +51,21 @@ module Lucky::Routable
     #
     # **See also** our guides for more information and examples:
     # * [Routing](https://luckyframework.org/guides/http-and-routing/routing-and-params#routing)
-    macro {{ http_method.id }}(path)
+    macro {{ http_method.id }}(path, *path_aliases)
       match(:{{ http_method.id }}, \{{ path }}) do
         \{{ yield }}
       end
+
+      setup_path_aliases({{ http_method.id }}, \{{ path_aliases.splat }})
     end
   {% end %}
+
+  # :nodoc:
+  macro setup_path_aliases(method, *path_aliases)
+    {% for path in path_aliases %}
+      add_route(:{{ method }}, {{ path }}, {{ @type.name.id }})
+    {% end %}
+  end
 
   # Define a route with a custom HTTP method.
   #
