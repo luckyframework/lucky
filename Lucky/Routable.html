@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="generator" content="Crystal Docs 1.17.1">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -1056,7 +1056,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L2" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L2" target="_blank">
         lucky/routable.cr
       </a>
     
@@ -1083,7 +1083,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#delete%28path%29-macro" class="signature"><strong>delete</strong>(path)</a>
+        <a href="#delete%28path%2C%2Apath_aliases%29-macro" class="signature"><strong>delete</strong>(path, *path_aliases)</a>
         
           <div class="summary"><p>Define a route that responds to a DELETE request</p></div>
         
@@ -1102,7 +1102,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#get%28path%29-macro" class="signature"><strong>get</strong>(path)</a>
+        <a href="#get%28path%2C%2Apath_aliases%29-macro" class="signature"><strong>get</strong>(path, *path_aliases)</a>
         
           <div class="summary"><p>Define a route that responds to a GET request</p></div>
         
@@ -1128,21 +1128,21 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#patch%28path%29-macro" class="signature"><strong>patch</strong>(path)</a>
+        <a href="#patch%28path%2C%2Apath_aliases%29-macro" class="signature"><strong>patch</strong>(path, *path_aliases)</a>
         
           <div class="summary"><p>Define a route that responds to a PATCH request</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#post%28path%29-macro" class="signature"><strong>post</strong>(path)</a>
+        <a href="#post%28path%2C%2Apath_aliases%29-macro" class="signature"><strong>post</strong>(path, *path_aliases)</a>
         
           <div class="summary"><p>Define a route that responds to a POST request</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#put%28path%29-macro" class="signature"><strong>put</strong>(path)</a>
+        <a href="#put%28path%2C%2Apath_aliases%29-macro" class="signature"><strong>put</strong>(path, *path_aliases)</a>
         
           <div class="summary"><p>Define a route that responds to a PUT request</p></div>
         
@@ -1156,7 +1156,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#trace%28path%29-macro" class="signature"><strong>trace</strong>(path)</a>
+        <a href="#trace%28path%2C%2Apath_aliases%29-macro" class="signature"><strong>trace</strong>(path, *path_aliases)</a>
         
           <div class="summary"><p>Define a route that responds to a TRACE request</p></div>
         
@@ -1186,12 +1186,12 @@
     Macro Detail
   </h2>
   
-    <div class="entry-detail" id="delete(path)-macro">
+    <div class="entry-detail" id="delete(path,*path_aliases)-macro">
       <div class="signature">
         
-        macro <strong>delete</strong>(path)
+        macro <strong>delete</strong>(path, *path_aliases)
 
-        <a class="method-permalink" href="#delete%28path%29-macro">#</a>
+        <a class="method-permalink" href="#delete%28path%2C%2Apath_aliases%29-macro">#</a>
       </div>
       
         <div class="doc">
@@ -1214,7 +1214,7 @@ route. For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1238,7 +1238,7 @@ in your <code>BrowserAction</code> and <code>ApiAction</code> (as of Lucky 0.28)
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L124" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L133" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1254,17 +1254,17 @@ in your <code>BrowserAction</code> and <code>ApiAction</code> (as of Lucky 0.28)
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="get(path)-macro">
+    <div class="entry-detail" id="get(path,*path_aliases)-macro">
       <div class="signature">
         
-        macro <strong>get</strong>(path)
+        macro <strong>get</strong>(path, *path_aliases)
 
-        <a class="method-permalink" href="#get%28path%29-macro">#</a>
+        <a class="method-permalink" href="#get%28path%2C%2Apath_aliases%29-macro">#</a>
       </div>
       
         <div class="doc">
@@ -1287,7 +1287,7 @@ route. For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1303,7 +1303,7 @@ route. For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L16" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L16" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1332,7 +1332,7 @@ For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L74" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L83" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1389,17 +1389,17 @@ when making a request:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L488" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L497" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="patch(path)-macro">
+    <div class="entry-detail" id="patch(path,*path_aliases)-macro">
       <div class="signature">
         
-        macro <strong>patch</strong>(path)
+        macro <strong>patch</strong>(path, *path_aliases)
 
-        <a class="method-permalink" href="#patch%28path%29-macro">#</a>
+        <a class="method-permalink" href="#patch%28path%2C%2Apath_aliases%29-macro">#</a>
       </div>
       
         <div class="doc">
@@ -1422,17 +1422,17 @@ route. For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="post(path)-macro">
+    <div class="entry-detail" id="post(path,*path_aliases)-macro">
       <div class="signature">
         
-        macro <strong>post</strong>(path)
+        macro <strong>post</strong>(path, *path_aliases)
 
-        <a class="method-permalink" href="#post%28path%29-macro">#</a>
+        <a class="method-permalink" href="#post%28path%2C%2Apath_aliases%29-macro">#</a>
       </div>
       
         <div class="doc">
@@ -1455,17 +1455,17 @@ route. For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="put(path)-macro">
+    <div class="entry-detail" id="put(path,*path_aliases)-macro">
       <div class="signature">
         
-        macro <strong>put</strong>(path)
+        macro <strong>put</strong>(path, *path_aliases)
 
-        <a class="method-permalink" href="#put%28path%29-macro">#</a>
+        <a class="method-permalink" href="#put%28path%2C%2Apath_aliases%29-macro">#</a>
       </div>
       
         <div class="doc">
@@ -1488,7 +1488,7 @@ route. For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1510,17 +1510,17 @@ and http method (get, put, post, etc..) macros</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="trace(path)-macro">
+    <div class="entry-detail" id="trace(path,*path_aliases)-macro">
       <div class="signature">
         
-        macro <strong>trace</strong>(path)
+        macro <strong>trace</strong>(path, *path_aliases)
 
-        <a class="method-permalink" href="#trace%28path%29-macro">#</a>
+        <a class="method-permalink" href="#trace%28path%2C%2Apath_aliases%29-macro">#</a>
       </div>
       
         <div class="doc">
@@ -1543,7 +1543,7 @@ route. For example:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/308fd6fcceaf9f9e95928ddad3bece90426edaa5/src/lucky/routable.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e4f280aa9d6feb74b6858f6dc2d5638d269fd347/src/lucky/routable.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
