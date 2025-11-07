@@ -19,7 +19,7 @@ private class TestReportsAction < TestAction
   end
 end
 
-describe "Format Integration" do
+describe "Format Integration", focus: true do
   it "handles URL format extensions correctly" do
     # Test CSV format from URL extension
     context = build_context(path: "/reports/123.csv")
@@ -53,6 +53,18 @@ describe "Format Integration" do
     # Should detect JSON format from Accept header
     action.accepts?(:json).should be_true
     action.accepts?(:csv).should be_false
+  end
+
+  # testing https://github.com/luckyframework/lucky/issues/1999
+  it "handles other routes properly" do
+    context = build_context(path: "/js/main.js")
+    handler = Lucky::RouteHandler.new.call(context)
+    handler.should eq(nil)
+
+    context = build_context(path: "/reports/main.js")
+    expect_raises Lucky::NotAcceptableError do
+      Lucky::RouteHandler.new.call(context)
+    end
   end
 
   it "supports multiple format extensions" do
