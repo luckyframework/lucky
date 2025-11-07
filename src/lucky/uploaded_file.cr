@@ -38,9 +38,4 @@ class Lucky::UploadedFile
   def blank? : Bool
     tempfile.size.zero?
   end
-
-  @[Deprecated("`metadata` deprecated. Each method on metadata is accessible directly on Lucky::UploadedFile")]
-  def metadata : HTTP::FormData::FileMetadata
-    HTTP::FormData::FileMetadata.new(filename, creation_time, modification_time, read_time, size)
-  end
 end
