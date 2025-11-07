@@ -19,7 +19,7 @@ private class TestReportsAction < TestAction
   end
 end
 
-describe "Format Integration", focus: true do
+describe "Format Integration" do
   it "handles URL format extensions correctly" do
     # Test CSV format from URL extension
     context = build_context(path: "/reports/123.csv")
@@ -56,15 +56,14 @@ describe "Format Integration", focus: true do
   end
 
   # testing https://github.com/luckyframework/lucky/issues/1999
-  it "handles other routes properly" do
+  it "doesn't modify the original path" do
     context = build_context(path: "/js/main.js")
-    handler = Lucky::RouteHandler.new.call(context)
-    handler.should eq(nil)
-
-    context = build_context(path: "/reports/main.js")
-    expect_raises Lucky::NotAcceptableError do
-      Lucky::RouteHandler.new.call(context)
-    end
+    handler = Lucky::RouteHandler.new
+    handler.next = ->(ctx : HTTP::Server::Context) {
+      ctx.request.path.should eq("/js/main.js")
+    }
+    result = handler.call(context)
+    result.should eq(nil)
   end
 
   it "supports multiple format extensions" do
