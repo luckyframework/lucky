@@ -11,14 +11,12 @@ class Lucky::RouteHandler
       context._url_format = url_format
       # Create a modified request with format-stripped path for route matching
       path_without_format = original_path.sub(/^([^?]*)\.[a-zA-Z0-9]+(\?.*)?$/, "\\1\\2")
-      modified_request = context.request.dup
-      modified_request.path = path_without_format
-      lookup_request = modified_request
+      lookup_request_path = path_without_format
     else
-      lookup_request = context.request
+      lookup_request_path = original_path
     end
 
-    handler = Lucky.router.find_action(lookup_request)
+    handler = Lucky.router.find_action(context.request.method, lookup_request_path)
     if handler
       Lucky::Log.dexter.debug { {handled_by: handler.payload.to_s} }
       handler.payload.new(context, handler.params).perform_action
