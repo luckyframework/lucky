@@ -66,18 +66,13 @@ class Lucky::MaximumRequestSizeHandler
   end
 
   private def find_matching_action(context : HTTP::Server::Context)
-    Lucky.router.find_action(routing_request(context))
-  end
+    method = context.request.method
+    path = context.request.path
 
-  private def routing_request(context : HTTP::Server::Context) : HTTP::Request
-    original_path = context.request.path
-    if Lucky::MimeType.extract_format_from_path(original_path)
-      path_without_format = original_path.sub(/^([^?]*)\.[a-zA-Z0-9]+(\?.*)?$/, "\\1\\2")
-      modified_request = context.request.dup
-      modified_request.path = path_without_format
-      modified_request
-    else
-      context.request
+    if Lucky::MimeType.extract_format_from_path(path)
+      path = path.sub(/^([^?]*)\.[a-zA-Z0-9]+(\?.*)?$/, "\\1\\2")
     end
+
+    Lucky.router.find_action(method, path)
   end
 end

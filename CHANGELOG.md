@@ -6,7 +6,6 @@
 - Updated: `Lucky::BaseHTTPClient` now allows `IO` in `exec_raw`. [#1944](https://github.com/luckyframework/lucky/pull/1944)
 - Added: new Rate Limiting for actions. [#1945](https://github.com/luckyframework/lucky/pull/1945)
 - Fixed: params nil value when passing a query param key without a value. [#1946](https://github.com/luckyframework/lucky/pull/1946)
-- Added: per-action overrides for the `MaximumRequestSizeHandler` via `set_request_body_limit`. [#1989](https://github.com/luckyframework/lucky/issues/1989)
 - Refactor: added new `Lucky::Serialzable` module to replace `Lucky::Serializer` class allowing you to make your serializers structs if you wanted. [#1947](https://github.com/luckyframework/lucky/pull/1947)
 - Fixed: params no longer raise when passing empty nested params. [#1950](https://github.com/luckyframework/lucky/pull/1950)
 - Updated: Added method override to allow passing a NamedTuple to `Lucky::BaseHTTPClient#exec`. [#1952](https://github.com/luckyframework/lucky/pull/1952)
