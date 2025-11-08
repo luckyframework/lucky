@@ -3,7 +3,6 @@ module Lucky::RequestBodyLimit
     def self.request_body_limit : Int64?
       nil
     end
-
   end
 
   macro set_request_body_limit(bytes)
