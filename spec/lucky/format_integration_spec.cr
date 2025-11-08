@@ -55,6 +55,17 @@ describe "Format Integration" do
     action.accepts?(:csv).should be_false
   end
 
+  # testing https://github.com/luckyframework/lucky/issues/1999
+  it "doesn't modify the original path" do
+    context = build_context(path: "/js/main.js")
+    handler = Lucky::RouteHandler.new
+    handler.next = ->(ctx : HTTP::Server::Context) {
+      ctx.request.path.should eq("/js/main.js")
+    }
+    result = handler.call(context)
+    result.should eq(nil)
+  end
+
   it "supports multiple format extensions" do
     Lucky::MimeType.extract_format_from_path("/reports/123.html").should eq(Lucky::Format::Html)
     Lucky::MimeType.extract_format_from_path("/users/456.json").should eq(Lucky::Format::Json)
