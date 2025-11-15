@@ -20,6 +20,10 @@ class TextHelperTestPage
   def with_original_styles_and_additional_attributes
     inline_svg("lucky_logo.svg", strip_styling: false, data_very: "lucky")
   end
+
+  def without_file_extension
+    inline_svg("lucky_logo")
+  end
 end
 
 describe Lucky::SvgInliner do
@@ -68,6 +72,11 @@ describe Lucky::SvgInliner do
       inlined_svg = view.tap(&.with_original_styles_and_additional_attributes).render
       inlined_svg.should contain %(data-very="lucky")
       inlined_svg.should_not contain %(strip-styling="false")
+    end
+
+    it "allows passing the svg path name without an extension" do
+      inlined_svg = view.tap(&.without_file_extension).render
+      inlined_svg.should start_with %(<svg data-inline-svg="lucky_logo.svg")
     end
   end
 end

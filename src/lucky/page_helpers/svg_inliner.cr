@@ -10,6 +10,7 @@ module Lucky::SvgInliner
     {%
       svgs_path = Lucky::SvgInliner.annotation(Lucky::SvgInliner::Path).args.first
       regex = Lucky::SvgInliner.annotation(Lucky::SvgInliner::StripRegex).args.first
+      path = "#{path.id}.svg" unless path.ends_with?(".svg")
       full_path = "#{svgs_path.id}/#{path.id}"
 
       raise "SVG file #{full_path.id} is missing" unless file_exists?(full_path)
