@@ -28,7 +28,7 @@ module Lucky::Routable
   # and http method (get, put, post, etc..) macros
   macro route_prefix(prefix)
     {% unless prefix.starts_with?("/") %}
-      {% prefix.raise "Prefix must start with a slash. Example: '/#{prefix}'" %}
+      {% prefix.raise %(Prefix must start with a slash. Example: "/#{prefix.id}") %}
     {% end %}
     {% ROUTE_SETTINGS[:prefix] = prefix %}
   end
@@ -85,7 +85,7 @@ module Lucky::Routable
   # Will respond to an `HTTP OPTIONS` request.
   macro match(method, path)
     {% unless path.starts_with?("/") %}
-      {% path.raise "Path must start with a slash. Example: '/#{path}'" %}
+      {% path.raise %(Path must start with a slash. Example: "/#{path.id}") %}
     {% end %}
 
     {% unless method == method.downcase %}
