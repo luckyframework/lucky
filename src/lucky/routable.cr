@@ -63,6 +63,9 @@ module Lucky::Routable
   # :nodoc:
   macro setup_path_aliases(method, *path_aliases)
     {% for path in path_aliases %}
+      {% unless path.starts_with?("/") %}
+        {% path.raise %(Path alias must start with a slash. Example: "/#{path.id}") %}
+      {% end %}
       add_route(:{{ method }}, {{ path }}, {{ @type.name.id }})
     {% end %}
   end
