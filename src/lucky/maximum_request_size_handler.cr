@@ -21,7 +21,9 @@ class Lucky::MaximumRequestSizeHandler
   def call(context : HTTP::Server::Context)
     return call_next(context) unless settings.enabled
 
-    body_size = 0
+    max_size = request_limit_for(context)
+
+    body_size = 0_i64
     body = IO::Memory.new
 
     begin
@@ -30,7 +32,7 @@ class Lucky::MaximumRequestSizeHandler
         body_size += read_bytes
         body.write(buffer[0, read_bytes])
 
-        if body_size > settings.max_size
+        if body_size > max_size
           context.response.status = HTTP::Status::PAYLOAD_TOO_LARGE
           context.response.print("Request entity too large")
           return context
@@ -48,5 +50,29 @@ class Lucky::MaximumRequestSizeHandler
     context.request.body = IO::Memory.new(body.to_s)
 
     call_next(context)
+  end
+
+  private def request_limit_for(context : HTTP::Server::Context) : Int64
+    matched_action_limit(context) || settings.max_size
+  end
+
+  private def matched_action_limit(context : HTTP::Server::Context) : Int64?
+    find_matching_action(context).try do |match|
+      action_class = match.payload
+      if action_class.responds_to?(:request_body_limit)
+        action_class.request_body_limit
+      end
+    end
+  end
+
+  private def find_matching_action(context : HTTP::Server::Context)
+    method = context.request.method
+    path = context.request.path
+
+    if Lucky::MimeType.extract_format_from_path(path)
+      path = path.sub(/^([^?]*)\.[a-zA-Z0-9]+(\?.*)?$/, "\\1\\2")
+    end
+
+    Lucky.router.find_action(method, path)
   end
 end

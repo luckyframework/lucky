@@ -33,6 +33,28 @@ describe Lucky::MaximumRequestSizeHandler do
       end
       context.response.status.should eq(HTTP::Status::PAYLOAD_TOO_LARGE)
     end
+
+    it "allows larger request bodies for specific actions" do
+      context = build_request_context_with_body("/__max_request_size/large", 50_000, "POST")
+      Lucky::MaximumRequestSizeHandler.temp_config(
+        enabled: true,
+        max_size: 10_000,
+      ) do
+        run_request_size_handler(context)
+      end
+      context.response.status.should eq(HTTP::Status::OK)
+    end
+
+    it "enforces smaller limits on specific actions" do
+      context = build_request_context_with_body("/__max_request_size/small", 1_000, "POST")
+      Lucky::MaximumRequestSizeHandler.temp_config(
+        enabled: true,
+        max_size: 10_000,
+      ) do
+        run_request_size_handler(context)
+      end
+      context.response.status.should eq(HTTP::Status::PAYLOAD_TOO_LARGE)
+    end
   end
 end
 
@@ -52,3 +74,29 @@ private def build_large_request_context(path : String) : HTTP::Server::Context
     context.request.body = "a" * 1000000
   end
 end
+
+private def build_request_context_with_body(path : String, bytes : Int32, method : String = "POST") : HTTP::Server::Context
+  request = HTTP::Request.new(method, path)
+  request.headers["Content-Length"] = bytes.to_s
+  request.body = "a" * bytes
+  build_context(path: path, request: request)
+end
+
+private class LargeUploadAction < Lucky::Action
+  set_request_body_limit 50_000
+
+  def call : Lucky::Response
+    plain_text "ok"
+  end
+end
+
+private class SmallUploadAction < Lucky::Action
+  set_request_body_limit 500
+
+  def call : Lucky::Response
+    plain_text "ok"
+  end
+end
+
+Lucky.router.add :post, "/__max_request_size/large", LargeUploadAction
+Lucky.router.add :post, "/__max_request_size/small", SmallUploadAction
