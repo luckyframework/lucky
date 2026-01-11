@@ -5,6 +5,19 @@ require "lucky_task"
 class Lucky::Exec < LuckyTask::Task
   name "exec"
   summary "Execute code. Use this in place of a console/REPL"
+  help_message <<-TEXT
+  #{task_summary}
+
+    Options:
+      --editor=EDITOR, -e EDITOR    Use the EDITOR for editing code
+      --back=NUMBER, -b NUMBER      Load code NUMBER sessions back
+      --once, -o                    Only run this code once then exit
+
+    example: lucky exec -e emacs -b 3 -o
+
+    Run this task with 'lucky exec [OPTIONS]'
+  TEXT
+
   arg :editor, "Which editor to use", shortcut: "-e", optional: true
   arg :back, "Load code from this many sessions back. Default is 1.",
     shortcut: "-b",
@@ -15,21 +28,6 @@ class Lucky::Exec < LuckyTask::Task
   Habitat.create do
     setting editor : String = "vim"
     setting template_path : String = Path["#{__DIR__}/exec_template.cr.template"].normalize.to_s
-  end
-
-  def help_message
-    <<-TEXT
-    #{summary}
-
-    Options:
-      --editor=EDITOR, -e EDITOR    Use the EDITOR for editing code
-      --back=NUMBER, -b NUMBER      Load code NUMBER sessions back
-      --once, -o                    Only run this code once then exit
-
-    example: lucky exec -e emacs -b 3 -o
-
-    Run this task with 'lucky #{task_name} [OPTIONS]'
-    TEXT
   end
 
   def call
