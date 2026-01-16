@@ -1,9 +1,12 @@
+require "../../html/base_component"
+
 # Pagination component using Bootstrap styles
 #
 # https://getbootstrap.com/docs/4.0/components/pagination/
 class Lucky::Paginator::BootstrapNav < Lucky::BaseComponent
   needs pages : Lucky::Paginator
 
+  @[Deprecated("Consider using Lucky::Paginator::SimpleNav or writing a custom component")]
   def render
     nav aria_label: "pagination", role: "navigation" do
       ul class: "pagination", aria_label: "pagination" do

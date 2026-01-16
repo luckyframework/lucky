@@ -1,5 +1,5 @@
-require "./tags/**"
-require "./page_helpers/**"
+require "../tags/**"
+require "../page_helpers/**"
 require "./mount_component"
 
 module Lucky::HTMLBuilder
