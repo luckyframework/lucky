@@ -245,9 +245,9 @@ describe "Format Detection Edge Cases" do
       long_path = "/very/long/path/" + ("segment/" * 1000) + "file.json"
 
       # Should still extract format efficiently
-      start_time = Time.monotonic
+      start_time = {% if compare_versions(Crystal::VERSION, "1.19.0") < 0 %}Time.monotonic{% else %}Time.instant{% end %}
       format = Lucky::MimeType.extract_format_from_path(long_path)
-      end_time = Time.monotonic
+      end_time = {% if compare_versions(Crystal::VERSION, "1.19.0") < 0 %}Time.monotonic{% else %}Time.instant{% end %}
 
       format.should eq Lucky::Format::Json
       (end_time - start_time).should be < 0.1.seconds # Should be very fast
