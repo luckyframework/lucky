@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -29,11 +29,12 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+          - macos-latest
           - windows-latest
         shard_file:
           - shard.yml
         crystal_version:
-          - 1.15.1
+          - 1.16.3
           - latest
         experimental:
           - false
@@ -49,7 +50,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{matrix.crystal_version}}
