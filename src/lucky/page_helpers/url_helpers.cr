@@ -103,7 +103,7 @@ module Lucky::UrlHelpers
 
     if referrer_uri = referrer_header
       referrer_path = URI.parse(referrer_uri).path
-      return fallback.path if request.resource == referrer_path
+      return fallback.path if request.path == referrer_path
       return referrer_uri
     end
 
