@@ -104,6 +104,9 @@ module Lucky::Redirectable
   # They can be explicitly allowed if necessary
   #
   # redirect_back fallback: "/home", allow_external: true
+  #
+  # If the referer path matches the current request path, the fallback
+  # will be used to avoid redirecting back to the same page.
   def redirect_back(
     *,
     fallback : String,
@@ -113,7 +116,13 @@ module Lucky::Redirectable
     referer = request.headers["Referer"]?
 
     if referer && (allow_external || allowed_host?(referer))
-      redirect to: referer, status: status
+      referer_path = URI.parse(referer).path
+      request_path = request.path
+      if request_path == referer_path
+        redirect to: fallback, status: status
+      else
+        redirect to: referer, status: status
+      end
     else
       redirect to: fallback, status: status
     end

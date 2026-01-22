@@ -135,6 +135,24 @@ describe Lucky::Action do
       action.redirect_back fallback: "/fallback", allow_external: true
       should_redirect(action, to: "https://external.com/coming/from", status: 302)
     end
+
+    it "redirects to fallback if referer path matches current request path" do
+      request = HTTP::Request.new("POST", "/redirect_test")
+      request.headers["Host"] = "example.com"
+      request.headers["Referer"] = "https://example.com/redirect_test"
+      action = RedirectAction.new(build_context(request), params)
+      action.redirect_back fallback: "/fallback"
+      should_redirect(action, to: "/fallback", status: 302)
+    end
+
+    it "redirects to fallback if referer path matches current request path with query params" do
+      request = HTTP::Request.new("POST", "/redirect_test?foo=bar")
+      request.headers["Host"] = "example.com"
+      request.headers["Referer"] = "https://example.com/redirect_test"
+      action = RedirectAction.new(build_context(request), params)
+      action.redirect_back fallback: "/fallback"
+      should_redirect(action, to: "/fallback", status: 302)
+    end
   end
 
   it "turbolinks redirects after a XHR POST form submission" do
