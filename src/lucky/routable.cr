@@ -225,6 +225,16 @@ module Lucky::Routable
       end
     {% end %}
 
+    # Extract glob param name for use in URL building methods
+    {% glob_param_name = nil %}
+    {% if glob_param %}
+      {% if glob_param.starts_with?("*:") %}
+        {% glob_param_name = glob_param.gsub(/\*:/, "") %}
+      {% elsif glob_param == "*" %}
+        {% glob_param_name = "glob" %}
+      {% end %}
+    {% end %}
+
     def self.path(*args, **named_args) : String
       route(*args, **named_args).path
     end
@@ -240,6 +250,9 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
+    {% if glob_param_name %}
+      {{ glob_param_name.id }} = nil,
+    {% end %}
     subdomain : String? = nil
     ) : String
       path = path_from_parts(
@@ -248,6 +261,9 @@ module Lucky::Routable
         {% end %}
         {% for param in optional_path_params %}
           {{ param.gsub(/^\?:/, "").id }},
+        {% end %}
+        {% if glob_param_name %}
+          {{ glob_param_name.id }},
         {% end %}
       )
       Lucky::RouteHelper.new({{ method }}, path, subdomain).url
@@ -260,6 +276,9 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
+    {% if glob_param_name %}
+      {{ glob_param_name.id }} = nil,
+    {% end %}
     subdomain : String? = nil
     ) : String
       path = path_from_parts(
@@ -268,6 +287,9 @@ module Lucky::Routable
         {% end %}
         {% for param in optional_path_params %}
           {{ param.gsub(/^\?:/, "").id }},
+        {% end %}
+        {% if glob_param_name %}
+          {{ glob_param_name.id }},
         {% end %}
       )
       Lucky::RouteHelper.new({{ method }}, path, subdomain).path
@@ -300,6 +322,11 @@ module Lucky::Routable
     {% for param in optional_path_params %}
       {{ param.gsub(/^\?:/, "").id }} = nil,
     {% end %}
+
+    # glob param is optional
+    {% if glob_param_name %}
+      {{ glob_param_name.id }} = nil,
+    {% end %}
     anchor : String? = nil,
     subdomain : String? = nil
     ) : Lucky::RouteHelper
@@ -311,6 +338,9 @@ module Lucky::Routable
           {% end %}
           {% for param in optional_path_params %}
             {{ param.gsub(/^\?:/, "").id }},
+          {% end %}
+          {% if glob_param_name %}
+            {{ glob_param_name.id }},
           {% end %}
         )
 
@@ -363,6 +393,11 @@ module Lucky::Routable
       {% for param in optional_path_params %}
         {{ param.gsub(/^\?:/, "").id }} = nil,
       {% end %}
+
+      # glob param is optional
+      {% if glob_param_name %}
+        {{ glob_param_name.id }} = nil,
+      {% end %}
       anchor : String? = nil,
       subdomain : String? = nil
     ) : Lucky::RouteHelper
@@ -383,6 +418,9 @@ module Lucky::Routable
       {% for param in optional_path_params %}
         {{ param.gsub(/^\?:/, "").id }},
       {% end %}
+      {% if glob_param_name %}
+        {{ glob_param_name.id }},
+      {% end %}
     ) : Nil
       {% for part in path_parts %}
         {% if part.starts_with?("?:") %}
@@ -393,10 +431,22 @@ module Lucky::Routable
         {% elsif part.starts_with?(':') %}
           io << '/'
           URI.encode_www_form({{ part.gsub(/:/, "").id }}.to_param, io)
+        {% elsif part.starts_with?("*") %}
+          # glob param handled separately below
         {% else %}
           io << '/'
           URI.encode_www_form({{ part }}, io)
         {% end %}
+      {% end %}
+      {% if glob_param_name %}
+        if _glob_value = {{ glob_param_name.id }}
+          _glob_value.to_param.split('/').each do |segment|
+            unless segment.empty?
+              io << '/'
+              URI.encode_www_form(segment, io)
+            end
+          end
+        end
       {% end %}
     end
 
@@ -407,6 +457,9 @@ module Lucky::Routable
         {% for param in optional_path_params %}
           {{ param.gsub(/^\?:/, "").id }},
         {% end %}
+        {% if glob_param_name %}
+          {{ glob_param_name.id }},
+        {% end %}
     ) : String
       path = String.build do |io|
         path_from_parts(
@@ -416,6 +469,9 @@ module Lucky::Routable
           {% end %}
           {% for param in optional_path_params %}
             {{ param.gsub(/^\?:/, "").id }},
+          {% end %}
+          {% if glob_param_name %}
+            {{ glob_param_name.id }},
           {% end %}
         )
       end
