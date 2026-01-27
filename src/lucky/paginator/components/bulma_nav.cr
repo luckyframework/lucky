@@ -1,9 +1,12 @@
+require "../../html/base_component"
+
 # Pagination component using Bulma Pagination styles
 #
 # https://bulma.io/documentation/components/pagination/
 class Lucky::Paginator::BulmaNav < Lucky::BaseComponent
   needs pages : Lucky::Paginator
 
+  @[Deprecated("Consider using Lucky::Paginator::SimpleNav or writing a custom component")]
   def render
     nav aria_label: "pagination", class: "pagination", role: "navigation" do
       ul class: "pagination-list" do

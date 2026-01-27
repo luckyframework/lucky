@@ -1,5 +1,6 @@
 require "spec"
 require "../src/lucky"
+require "../src/html"
 require "../tasks/**"
 require "./support/**"
 

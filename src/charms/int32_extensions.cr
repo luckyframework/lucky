@@ -1,4 +1,4 @@
-require "../lucky/allowed_in_tags"
+require "../lucky/tags/allowed_in_tags"
 
 struct Int32
   include ::Lucky::AllowedInTags

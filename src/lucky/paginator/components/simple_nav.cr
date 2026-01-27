@@ -1,3 +1,5 @@
+require "../../html/base_component"
+
 # Pagination component with raw html and no styling
 #
 # Typically you would copy paste this component source into your app
