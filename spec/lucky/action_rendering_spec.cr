@@ -191,6 +191,94 @@ class Rendering::PlainComponentWithCustomStatus < TestAction
   end
 end
 
+class Rendering::YAML::Index < TestAction
+  get "/rendering/yaml" do
+    yaml({name: "Paul"})
+  end
+end
+
+class Rendering::YAML::WithStatus < TestAction
+  get "/foo17" do
+    yaml({name: "Paul"}, status: 201)
+  end
+end
+
+class Rendering::YAML::WithSymbolStatus < TestAction
+  get "/foo18" do
+    yaml({name: "Paul"}, status: :created)
+  end
+end
+
+class Rendering::MsgPack::Index < TestAction
+  get "/rendering/msgpack" do
+    msgpack({name: "Paul"})
+  end
+end
+
+class Rendering::MsgPack::WithStatus < TestAction
+  get "/foo19" do
+    msgpack({name: "Paul"}, status: 201)
+  end
+end
+
+class Rendering::MsgPack::WithSymbolStatus < TestAction
+  get "/foo20" do
+    msgpack({name: "Paul"}, status: :created)
+  end
+end
+
+class Rendering::ContentNegotiation::Index < TestAction
+  accepted_formats [:html, :json, :yaml, :xml, :csv], default: :json
+
+  get "/rendering/negotiate" do
+    respond_with({name: "Paul"})
+  end
+end
+
+class Rendering::ContentNegotiation::WithStatus < TestAction
+  accepted_formats [:html, :json, :yaml, :xml, :csv], default: :json
+
+  get "/foo21" do
+    respond_with({name: "Paul"}, status: 201)
+  end
+end
+
+class Rendering::CSV::Index < TestAction
+  get "/rendering/csv" do
+    csv({name: "Paul"})
+  end
+end
+
+class Rendering::CSV::WithStatus < TestAction
+  get "/foo22" do
+    csv({name: "Paul"}, status: 201)
+  end
+end
+
+class Rendering::CSV::WithSymbolStatus < TestAction
+  get "/foo23" do
+    csv({name: "Paul"}, status: :created)
+  end
+end
+
+class Rendering::XML::Index < TestAction
+  get "/rendering/xml" do
+    xml({name: "Paul"})
+  end
+end
+
+class Rendering::XML::WithStatus < TestAction
+  get "/foo24" do
+    xml({name: "Paul"}, status: 201)
+  end
+end
+
+class Rendering::XML::WithSymbolStatus < TestAction
+  get "/foo25" do
+    xml({name: "Paul"}, status: :created)
+  end
+end
+
 describe Lucky::Action do
   describe "rendering HTML pages" do
     it "render assigns" do
@@ -317,5 +405,95 @@ describe Lucky::Action do
     response = Rendering::File::CustomContentType.new(build_context, params).call
     response.status.should eq 200
     response.content_type.should eq "text/html"
+  end
+
+  it "renders YAML" do
+    response = Rendering::YAML::Index.new(build_context, params).call
+    # YAML might not be available, so it falls back to JSON with YAML content type
+    response.content_type.should eq("application/yaml")
+    response.status.should eq 200
+
+    status = Rendering::YAML::WithStatus.new(build_context, params).call.status
+    status.should eq 201
+
+    status = Rendering::YAML::WithSymbolStatus.new(build_context, params).call.status
+    status.should eq 201
+  end
+
+  it "renders MsgPack" do
+    response = Rendering::MsgPack::Index.new(build_context, params).call
+    response.content_type.should eq("application/msgpack")
+    response.status.should eq 200
+
+    status = Rendering::MsgPack::WithStatus.new(build_context, params).call.status
+    status.should eq 201
+
+    status = Rendering::MsgPack::WithSymbolStatus.new(build_context, params).call.status
+    status.should eq 201
+  end
+
+  it "handles content negotiation with respond_with" do
+    # Test JSON fallback (default)
+    context = build_context
+    response = Rendering::ContentNegotiation::Index.new(context, params).call
+    response.body.to_s.should eq(%({"name":"Paul"}))
+    response.content_type.should eq("application/json")
+
+    # Test explicit JSON request
+    context = build_context
+    context.request.headers["Accept"] = "application/json"
+    response = Rendering::ContentNegotiation::Index.new(context, params).call
+    response.body.to_s.should eq(%({"name":"Paul"}))
+    response.content_type.should eq("application/json")
+
+    # Test YAML request (using known MIME type)
+    context = build_context
+    context.request.headers["Accept"] = "text/yaml"
+    response = Rendering::ContentNegotiation::Index.new(context, params).call
+    # YAML might not be available, so it falls back to JSON with YAML content type
+    response.content_type.should eq("application/yaml")
+
+    # Test MsgPack request (skip for now since Lucky doesn't have built-in support)
+    # This would require registering the MIME type first
+
+    # Test CSV request
+    context = build_context
+    context.request.headers["Accept"] = "text/csv"
+    response = Rendering::ContentNegotiation::Index.new(context, params).call
+    response.content_type.should eq("text/csv")
+
+    # Test XML request
+    context = build_context
+    context.request.headers["Accept"] = "application/xml"
+    response = Rendering::ContentNegotiation::Index.new(context, params).call
+    response.content_type.should eq("text/xml")
+
+    # Test status code handling
+    status = Rendering::ContentNegotiation::WithStatus.new(build_context, params).call.status
+    status.should eq 201
+  end
+
+  it "renders CSV" do
+    response = Rendering::CSV::Index.new(build_context, params).call
+    response.content_type.should eq("text/csv")
+    response.status.should eq 200
+
+    status = Rendering::CSV::WithStatus.new(build_context, params).call.status
+    status.should eq 201
+
+    status = Rendering::CSV::WithSymbolStatus.new(build_context, params).call.status
+    status.should eq 201
+  end
+
+  it "renders XML" do
+    response = Rendering::XML::Index.new(build_context, params).call
+    response.content_type.should eq("text/xml")
+    response.status.should eq 200
+
+    status = Rendering::XML::WithStatus.new(build_context, params).call.status
+    status.should eq 201
+
+    status = Rendering::XML::WithSymbolStatus.new(build_context, params).call.status
+    status.should eq 201
   end
 end
