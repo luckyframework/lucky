@@ -11,7 +11,7 @@ struct AssetManifestBuilder
 
   def initialize
     @config = LuckyBun::Config.load
-    @manifest_path = resolve_manifest_path
+    @manifest_path = File.expand_path(@config.manifest_path)
 
     # These values can be configured at compile time via environment variables:
     # - LUCKY_ASSET_MANIFEST_RETRY_COUNT: Number of times to retry (default: 20)
@@ -23,10 +23,6 @@ struct AssetManifestBuilder
   def build_with_retry
     retry_or_raise_error unless File.exists?(@manifest_path)
     build_manifest
-  end
-
-  private def resolve_manifest_path
-    File.expand_path(File.join(@config.out_dir, @config.manifest_name))
   end
 
   private def retry_or_raise_error

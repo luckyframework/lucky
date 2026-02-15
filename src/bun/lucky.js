@@ -61,7 +61,7 @@ export default {
       staticDirs: ['src/images', 'src/fonts'],
       outDir: 'public/assets',
       publicPath: '/assets',
-      manifestName: 'manifest.json',
+      manifestPath: 'public/bun-manifest.json',
       devServer: {host: '127.0.0.1', port: 3002, secure: false}
     }
 
@@ -183,7 +183,7 @@ export default {
   async writeManifest() {
     mkdirSync(this.outDir, {recursive: true})
     await Bun.write(
-      join(this.outDir, this.config.manifestName),
+      join(this.outDir, this.config.manifestPath),
       JSON.stringify(this.manifest, null, 2)
     )
   },
