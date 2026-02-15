@@ -107,16 +107,6 @@ module Lucky::AssetHelpers
   # is found at runtime so it is possible the asset does not exist. Be sure to
   # manually test that the asset is returned as expected.
   def dynamic_asset(path : String) : String
-    Lucky::AssetHelpers.dynamic_asset(path)
-  end
-
-  # Class method variant for use outside pages/components.
-  #
-  # ```
-  # Lucky::AssetHelpers.dynamic_asset("images/logo.png")
-  # ```
-  #
-  def self.dynamic_asset(path : String) : String
     if fingerprinted_path = ASSET_MANIFEST[path]?
       Lucky::Server.settings.asset_host + fingerprinted_path
     else
