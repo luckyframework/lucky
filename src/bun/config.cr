@@ -1,6 +1,6 @@
 require "json"
 
-module Bun
+module LuckyBun
   struct Config
     include JSON::Serializable
 

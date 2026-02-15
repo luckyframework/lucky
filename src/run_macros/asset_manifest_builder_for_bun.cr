@@ -5,12 +5,12 @@ require "../bun/config"
 struct AssetManifestBuilder
   property retries = 0
   @manifest_path : String
-  @config : Bun::Config
+  @config : LuckyBun::Config
   @max_retries : Int32
   @retry_after : Float64
 
   def initialize
-    @config = Bun::Config.load
+    @config = LuckyBun::Config.load
     @manifest_path = resolve_manifest_path
 
     # These values can be configured at compile time via environment variables:
