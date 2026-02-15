@@ -7,7 +7,11 @@ include RoutesHelper
 
 Pulsar.enable_test_mode!
 
+# Load default Bun manifest
 Lucky::AssetHelpers.load_manifest
+# Load legacy Laravel Mix manifest
+Lucky::AssetHelpers.load_manifest(legacy: true)
+# Load alternative Vite manifest
 Lucky::AssetHelpers.load_manifest("./public/vite-manifest.json", use_vite: true)
 
 Spec.before_each do
