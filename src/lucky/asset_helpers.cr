@@ -4,33 +4,34 @@
 # and allow for setting a CDN.
 #
 # For an in-depth guide check: https://luckyframework.org/guides/frontend/asset-handling
+#
 module Lucky::AssetHelpers
   ASSET_MANIFEST = {} of String => String
   CONFIG         = {has_loaded_manifest: false}
 
-  macro load_manifest(manifest_file = "")
-    {{ run "../run_macros/generate_asset_helpers", manifest_file }}
-    {% CONFIG[:has_loaded_manifest] = true %}
-  end
-
-  # EXPERIMENTAL: This feature is experimental. Use this to test
-  # vite integration with Lucky
-  macro load_manifest(manifest_file, use_vite)
-    {{ run "../run_macros/generate_asset_helpers", manifest_file, use_vite }}
-    {% CONFIG[:has_loaded_manifest] = true %}
-  end
-
-  # Load manifest using the configured asset build system
-  # This is the new recommended way to load asset manifests
-  macro load_manifest_from_build_system
-    {% if @type.has_constant?("ASSET_BUILD_SYSTEM_TYPE") %}
-      {% if @type.constant("ASSET_BUILD_SYSTEM_TYPE") == "vite" %}
-        {{ run "../run_macros/generate_asset_helpers", "./public/.vite/manifest.json", "true" }}
-      {% else %}
-        {{ run "../run_macros/generate_asset_helpers", "./public/mix-manifest.json", "false" }}
-      {% end %}
+  # Loads the asset manifest at compile time.
+  #
+  # Call this once in src/app.cr:
+  #
+  # ```
+  # # For Bun (default):
+  # Lucky::AssetHelpers.load_manifest
+  #
+  # # For Laravel Mix (legacy):
+  # Lucky::AssetHelpers.load_manifest(legacy: true)
+  #
+  # # For Vite:
+  # Lucky::AssetHelpers.load_manifest(use_vite: true)
+  #
+  # # Laravel Mix with custom manifest path:
+  # Lucky::AssetHelpers.load_manifest("public/custom-manifest.json", legacy: true)
+  # ```
+  #
+  macro load_manifest(manifest_file = "", legacy = false, use_vite = false)
+    {% if legacy || use_vite %}
+      {{ run "../run_macros/asset_manifest_builder_for_mix", manifest_file, use_vite }}
     {% else %}
-      {{ run "../run_macros/generate_asset_helpers" }}
+      {{ run "../run_macros/asset_manifest_builder_for_bun" }}
     {% end %}
     {% CONFIG[:has_loaded_manifest] = true %}
   end
@@ -96,21 +97,35 @@ module Lucky::AssetHelpers
   # ```
   # # In a page or component
   # # Will find the asset in `public/assets/images/logo.png`
-  # img src: asset("images/logo.png")
+  # img src: dynamic_asset("images/logo.png")
   #
   # # Can also be used elsewhere by prepending Lucky::AssetHelpers
-  # Lucky::AssetHelpers.asset("images/logo.png")
+  # Lucky::AssetHelpers.dynamic_asset("images/logo.png")
   # ```
   #
   # NOTE: This method does *not* check assets at compile time. The asset path
   # is found at runtime so it is possible the asset does not exist. Be sure to
   # manually test that the asset is returned as expected.
   def dynamic_asset(path : String) : String
-    fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
-    if fingerprinted_path
+    Lucky::AssetHelpers.dynamic_asset(path)
+  end
+
+  # Class method variant for use outside pages/components.
+  #
+  # ```
+  # Lucky::AssetHelpers.dynamic_asset("images/logo.png")
+  # ```
+  #
+  def self.dynamic_asset(path : String) : String
+    if fingerprinted_path = ASSET_MANIFEST[path]?
       Lucky::Server.settings.asset_host + fingerprinted_path
     else
       raise "Missing asset: #{path}"
     end
+  end
+
+  # Returns all the CSS entrypoints from the manifest.
+  def self.css_entry_points : Array(String)
+    ASSET_MANIFEST.keys.select(&.ends_with?(".css"))
   end
 end
