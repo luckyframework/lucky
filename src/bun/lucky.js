@@ -100,6 +100,11 @@ export default {
       const entryPath = join(this.root, entry)
       const entryName = basename(entry).replace(/\.(ts|js|tsx|jsx|css)$/, '')
 
+      if (!existsSync(entryPath)) {
+        console.warn(` ▸ Missing entry point ${entry}, continuing...`)
+        continue
+      }
+
       const result = await Bun.build({
         entrypoints: [entryPath],
         minify: this.prod,
