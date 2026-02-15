@@ -2,6 +2,7 @@
 class Lucky::WelcomePage
   include Lucky::HTMLPage
   include Lucky::LiveReloadTag
+  include Lucky::BunReloadTag
 
   SIGN_UP_ACTION = SignUps::New
 
