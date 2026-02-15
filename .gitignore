@@ -12,3 +12,6 @@ server
 /shard.lock
 
 .DS_Store
+
+!/public/assets/manifest.json
+
