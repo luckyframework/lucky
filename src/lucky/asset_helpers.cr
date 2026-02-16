@@ -107,7 +107,7 @@ module Lucky::AssetHelpers
   # is found at runtime so it is possible the asset does not exist. Be sure to
   # manually test that the asset is returned as expected.
   def dynamic_asset(path : String) : String
-    if fingerprinted_path = ASSET_MANIFEST[path]?
+    if fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
       Lucky::Server.settings.asset_host + fingerprinted_path
     else
       raise "Missing asset: #{path}"
