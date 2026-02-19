@@ -19,11 +19,19 @@ module Lucky::Attachment
   # Lucky::Attachment.find_storage("store")   # => Storage::FileSystem
   # Lucky::Attachment.find_storage("missing") # raises Lucky::Attachment::Error
   # ```
+  #
   def self.find_storage(name : String) : Storage::Base
     settings.storages[name]? ||
       raise Error.new(
-        "Storage #{name.inspect} is not registered." \
-        "Available storages: #{settings.storages.keys.inspect}"
+        String.build do |io|
+          if settings.storages.keys.empty?
+            io << "There are no storages registered yet"
+          else
+            io << %(Storage ) << name.inspect
+            io << %( is not registered. The available storages are: )
+            io << settings.storages.keys.map { |s| s.inspect }.join(", ")
+          end
+        end
       )
   end
 
@@ -32,6 +40,7 @@ module Lucky::Attachment
   # ```
   # stored = Lucky::Attachment.promote(cached, to: "store")
   # ```
+  #
   def self.promote(
     file : UploadedFile,
     to storage : String,
@@ -56,6 +65,7 @@ module Lucky::Attachment
   # Lucky::Attachment.uploaded_file(json_any)
   # Lucky::Attachment.uploaded_file(uploaded_file)
   # ```
+  #
   def self.uploaded_file(json : String) : UploadedFile
     UploadedFile.from_json(json)
   end
@@ -80,6 +90,7 @@ module Lucky::Attachment
   #   # file is guaranteed to be a File with a path
   # end
   # ```
+  #
   def self.with_file(io : IO, &)
     if io.is_a?(File)
       yield io
