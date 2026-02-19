@@ -88,7 +88,9 @@ module Lucky::Attachment
       String.build do |url|
         url << host.rstrip('/') if host
         url << '/'
-        url << prefix.lstrip('/') << '/' if prefix
+        if p = prefix
+          url << p.lstrip('/') << '/'
+        end
         url << id
       end
     end
