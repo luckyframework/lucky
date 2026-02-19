@@ -204,7 +204,44 @@ describe Lucky::Attachment::Uploader do
   end
 end
 
+describe "Lucky::UploadedFile integration" do
+  memory_store = Lucky::Attachment::Storage::Memory.new
+
+  before_each do
+    memory_store.clear!
+    Lucky::Attachment.configure do |settings|
+      settings.storages["store"] = memory_store
+    end
+  end
+
+  it "extracts filename from Lucky::UploadedFile" do
+    part = build_form_data_part("avatar", "photo.jpg", "image/jpeg", "data")
+    lucky_file = Lucky::UploadedFile.new(part)
+    uploaded = AvatarUploader.new("store").upload(lucky_file.tempfile)
+
+    uploaded.original_filename.should eq(File.basename(lucky_file.tempfile.path))
+  end
+
+  it "extracts content_type when Lucky::UploadedFile exposes it" do
+    part = build_form_data_part("avatar", "photo.jpg", "image/jpeg", "data")
+    lucky_file = Lucky::UploadedFile.new(part)
+    uploaded = AvatarUploader.new("store").upload(lucky_file.tempfile)
+
+    uploaded.mime_type.should be_nil
+  end
+
+  it "handles blank files gracefully" do
+    part = build_form_data_part("avatar", "", "application/octet-stream", "")
+    lucky_file = Lucky::UploadedFile.new(part)
+
+    lucky_file.blank?.should be_true
+  end
+end
+
 private struct TestUploader < Lucky::Attachment::Uploader
+end
+
+private struct AvatarUploader < Lucky::Attachment::Uploader
 end
 
 private struct CustomLocationUploader < Lucky::Attachment::Uploader
@@ -226,4 +263,23 @@ private struct CustomMetadataUploader < Lucky::Attachment::Uploader
     data["custom_key"] = "custom_value"
     data
   end
+end
+
+private def build_form_data_part(
+  name : String,
+  filename : String,
+  content_type : String,
+  body : String,
+) : HTTP::FormData::Part
+  disposition = if filename.empty?
+                  %(form-data; name="#{name}")
+                else
+                  %(form-data; name="#{name}"; filename="#{filename}")
+                end
+  headers = HTTP::Headers{
+    "Content-Disposition" => disposition,
+    "Content-Type"        => content_type,
+  }
+
+  HTTP::FormData::Part.new(headers: headers, body: IO::Memory.new(body))
 end
