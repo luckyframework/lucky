@@ -98,7 +98,7 @@ module Lucky::Attachment
     # end
     # ```
     #
-    def generate_location(io : IO, metadata : MetadataHash) : String
+    def generate_location(io : IO, metadata : MetadataHash, **options) : String
       extension = extract_extension(io, metadata)
       basename = generate_uid
       extension ? "#{basename}.#{extension}" : basename
@@ -140,7 +140,7 @@ module Lucky::Attachment
       if io.responds_to?(:original_filename)
         io.original_filename
       elsif io.responds_to?(:filename)
-        io.filename
+        io.filename.presence
       elsif io.responds_to?(:path)
         File.basename(io.path)
       end
@@ -148,13 +148,17 @@ module Lucky::Attachment
 
     # Extracts the file size from the IO, if available.
     protected def extract_size(io : IO) : Int64?
-      io.size.to_i64 if io.responds_to?(:size)
+      if io.responds_to?(:tempfile)
+        io.tempfile.size
+      elsif io.responds_to?(:size)
+        io.size.to_i64
+      end
     end
 
     # Extracts the MIME type from the IO if available.
     #
     # NOTE: This relies on the IO providing content_type, which typically comes
-    # from HTTP headers and may not be accurate.
+    # from HTTP headers and may not be accurate, but it's a good fallback.
     #
     protected def extract_mime_type(io : IO) : String?
       return unless io.responds_to?(:content_type) && (type = io.content_type)

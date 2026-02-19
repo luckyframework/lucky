@@ -39,6 +39,17 @@ class Lucky::UploadedFile
     tempfile.size.zero?
   end
 
+  # Attempts to extract the content type from the part's headers.
+  #
+  # ```
+  # uploaded_file_object.content_type
+  # # => "image/png"
+  # ```
+  #
+  def content_type : String?
+    @part.headers["Content-Type"]?.try { |t| t.split(';').first.strip }
+  end
+
   # Avram::Uploadable needs to be updated when this is removed
   @[Deprecated("`metadata` deprecated. Each method on metadata is accessible directly on Lucky::UploadedFile")]
   def metadata : HTTP::FormData::FileMetadata
