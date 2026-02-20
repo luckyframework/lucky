@@ -40,6 +40,7 @@ module Lucky::Attachment
     # storage.url("uploads/photo.jpg")
     # # => "/uploads/photo.jpg"
     # storage.url("uploads/photo.jpg", host: "https://example.com")
+    # # => "https://example.com/uploads/photo.jpg"
     # ```
     #
     abstract def url(id : String, **options) : String

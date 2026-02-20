@@ -20,10 +20,12 @@ module Lucky::Attachment
       @store = {} of String => Bytes
     end
 
+    # Uploads an IO to the given location (id) in the storage.
     def upload(io : IO, id : String, **options) : Nil
       @store[id] = io.getb_to_end
     end
 
+    # Opens the file at the given location and returns an IO for reading.
     def open(id : String, **options) : IO
       if bytes = @store[id]?
         IO::Memory.new(bytes)
@@ -32,22 +34,27 @@ module Lucky::Attachment
       end
     end
 
+    # Returns whether a file exists at the given location.
     def exists?(id : String) : Bool
       @store.has_key?(id)
     end
 
+    # Returns the URL for accessing the file at the given location.
     def url(id : String, **options) : String
-      if base = @base_url
-        "#{base.rstrip('/')}/#{id}"
-      else
-        "/#{id}"
+      String.build do |io|
+        if base = @base_url
+          io << base.rstrip('/')
+        end
+        io << '/' << id
       end
     end
 
+    # Deletes the file at the given location.
     def delete(id : String) : Nil
       @store.delete(id)
     end
 
+    # Clears out the store.
     def clear! : Nil
       @store.clear
     end

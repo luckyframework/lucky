@@ -49,6 +49,7 @@ module Lucky::Attachment
       File.expand_path(File.join(directory, p))
     end
 
+    # Uploads an IO to the given location (id) in the storage.
     def upload(io : IO, id : String, move : Bool = false, **options) : Nil
       path = path_for(id)
       Dir.mkdir_p(File.dirname(path), mode: directory_permissions.value)
@@ -63,12 +64,14 @@ module Lucky::Attachment
       end
     end
 
+    # Opens the file at the given location and returns an IO for reading.
     def open(id : String, **options) : IO
       File.open(path_for(id), "rb")
     rescue ex : File::NotFoundError
       raise FileNotFound.new("File not found: #{id}")
     end
 
+    # Returns whether a file exists at the given location.
     def exists?(id : String) : Bool
       File.exists?(path_for(id))
     end
@@ -95,6 +98,7 @@ module Lucky::Attachment
       end
     end
 
+    # Deletes the file at the given location.
     def delete(id : String) : Nil
       path = path_for(id)
       File.delete?(path)
@@ -105,11 +109,7 @@ module Lucky::Attachment
 
     # Override move for efficient file system rename
     def move(io : IO, id : String, **options) : Nil
-      if io.is_a?(File)
-        upload(io, id, **options, move: true)
-      else
-        upload(io, id, **options)
-      end
+      upload(io, id, **options, move: io.is_a?(File))
     end
 
     # Cleans empty parent directories up to the expanded_directory.
