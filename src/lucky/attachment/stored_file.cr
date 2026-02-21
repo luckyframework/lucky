@@ -24,14 +24,17 @@ module Lucky::Attachment
   # }
   # ```
   #
-  class UploadedFile
+  class StoredFile
     include JSON::Serializable
 
-    getter id : String
+    # NOTE: This mimics the behavior of Avram's `JSON::Serializable` extension.
+    def self.adapter
+      Lucky(self)
+    end
 
+    getter id : String
     @[JSON::Field(key: "storage")]
     getter storage_key : String
-
     getter metadata : MetadataHash
 
     @[JSON::Field(ignore: true)]

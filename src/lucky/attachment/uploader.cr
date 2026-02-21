@@ -13,7 +13,7 @@ module Lucky::Attachment
   # end
   #
   # ImageUploader.new("store").upload(io)
-  # # => UploadedFile with id "images/2024/01/15/abc123.jpg"
+  # # => Lucky::Attachment::StoredFile with id "images/2024/01/15/abc123.jpg"
   # ```
   #
   abstract struct Uploader
@@ -27,8 +27,8 @@ module Lucky::Attachment
       Lucky::Attachment.find_storage(storage_key)
     end
 
-    # Uploads a file and returns an UploadedFile. This method accepts
-    # additional metadata and arbitrary arguments for overrides.
+    # Uploads a file and returns a `Lucky::Attachment::StoredFile`. This method
+    # accepts additional metadata and arbitrary arguments for overrides.
     #
     # ```
     # uploader.upload(io)
@@ -36,13 +36,13 @@ module Lucky::Attachment
     # uploader.upload(io, location: "custom/path.jpg")
     # ```
     #
-    def upload(io : IO, metadata : MetadataHash? = nil, **options) : UploadedFile
+    def upload(io : IO, metadata : MetadataHash? = nil, **options) : StoredFile
       data = extract_metadata(io, metadata, **options)
       data = data.merge(metadata) if metadata
       location = options[:location]? || generate_location(io, data, **options)
 
       storage.upload(io, location, **options.merge(metadata: data))
-      UploadedFile.new(id: location, storage_key: storage_key, metadata: data)
+      StoredFile.new(id: location, storage_key: storage_key, metadata: data)
     ensure
       io.close if options[:close]?.nil? || options[:close]?
     end
@@ -52,7 +52,7 @@ module Lucky::Attachment
     # ```
     # cached = ImageUploader.cache(io)
     # ```
-    def self.cache(io : IO, **options) : UploadedFile
+    def self.cache(io : IO, **options) : StoredFile
       new("cache").upload(io, **options)
     end
 
@@ -62,7 +62,7 @@ module Lucky::Attachment
     # stored = ImageUploader.store(io)
     # ```
     #
-    def self.store(io : IO, **options) : UploadedFile
+    def self.store(io : IO, **options) : StoredFile
       new("store").upload(io, **options)
     end
 
@@ -74,11 +74,11 @@ module Lucky::Attachment
     # ```
     #
     def self.promote(
-      file : UploadedFile,
+      file : StoredFile,
       to storage : String = "store",
       delete_source : Bool = true,
       **options,
-    ) : UploadedFile
+    ) : StoredFile
       Lucky::Attachment.promote(
         file,
         **options,
@@ -124,7 +124,7 @@ module Lucky::Attachment
       **options,
     ) : MetadataHash
       MetadataHash{
-        "filename"  => extract_filename(io),
+        "filename"  => options[:filename]? || extract_filename(io),
         "size"      => extract_size(io),
         "mime_type" => extract_mime_type(io),
       }

@@ -16,11 +16,11 @@ describe Lucky::Attachment::Uploader do
 
   describe "#upload" do
     context "with a basic IO" do
-      it "uploads and returns an UploadedFile" do
+      it "uploads and returns a stored file" do
         io = IO::Memory.new("hello")
         file = TestUploader.new("store").upload(io)
 
-        file.should be_a(Lucky::Attachment::UploadedFile)
+        file.should be_a(Lucky::Attachment::StoredFile)
         file.storage_key.should eq("store")
         file.exists?.should be_true
       end

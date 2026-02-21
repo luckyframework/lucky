@@ -1,8 +1,8 @@
 require "habitat"
-require "./attachment/uploaded_file"
 require "./attachment/storage"
-require "./attachment/storage/memory"
 require "./attachment/storage/file_system"
+require "./attachment/storage/memory"
+require "./attachment/stored_file"
 require "./attachment/uploader"
 
 module Lucky::Attachment
@@ -42,13 +42,13 @@ module Lucky::Attachment
   # ```
   #
   def self.promote(
-    file : UploadedFile,
+    file : StoredFile,
     to storage : String,
     delete_source : Bool = true,
-  ) : UploadedFile
+  ) : StoredFile
     file.open do |io|
       find_storage(storage).upload(io, file.id, metadata: file.metadata)
-      promoted = UploadedFile.new(
+      promoted = StoredFile.new(
         id: file.id,
         storage_key: storage,
         metadata: file.metadata
@@ -58,7 +58,7 @@ module Lucky::Attachment
     end
   end
 
-  # Deserialize an UploadedFile from various sources.
+  # Deserialize an StoredFile from various sources.
   #
   # ```
   # Lucky::Attachment.uploaded_file(json_string)
@@ -66,15 +66,15 @@ module Lucky::Attachment
   # Lucky::Attachment.uploaded_file(uploaded_file)
   # ```
   #
-  def self.uploaded_file(json : String) : UploadedFile
-    UploadedFile.from_json(json)
+  def self.uploaded_file(json : String) : StoredFile
+    StoredFile.from_json(json)
   end
 
-  def self.uploaded_file(json : JSON::Any) : UploadedFile
-    UploadedFile.from_json(json.to_json)
+  def self.uploaded_file(json : JSON::Any) : StoredFile
+    StoredFile.from_json(json.to_json)
   end
 
-  def self.uploaded_file(file : UploadedFile) : UploadedFile
+  def self.uploaded_file(file : StoredFile) : StoredFile
     file
   end
 
@@ -103,7 +103,7 @@ module Lucky::Attachment
     end
   end
 
-  def self.with_file(uploaded_file : UploadedFile, &)
+  def self.with_file(uploaded_file : StoredFile, &)
     uploaded_file.download do |tempfile|
       yield tempfile
     end
