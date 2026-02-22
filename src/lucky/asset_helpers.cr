@@ -14,25 +14,20 @@ module Lucky::AssetHelpers
   # Call this once in src/app.cr:
   #
   # ```
-  # # For Bun (default):
+  # # Bun (default):
   # Lucky::AssetHelpers.load_manifest
   #
-  # # For Laravel Mix (legacy):
-  # Lucky::AssetHelpers.load_manifest(legacy: true)
+  # # Laravel Mix:
+  # Lucky::AssetHelpers.load_manifest(from: :mix)
   #
-  # # For Vite:
-  # Lucky::AssetHelpers.load_manifest(use_vite: true)
+  # # Vite:
+  # Lucky::AssetHelpers.load_manifest(from: :vite)
   #
-  # # Laravel Mix with custom manifest path:
-  # Lucky::AssetHelpers.load_manifest("public/custom-manifest.json", legacy: true)
+  # # Custom manifest path (Mix or Vite only):
+  # Lucky::AssetHelpers.load_manifest("public/custom-manifest.json", from: :mix)
   # ```
-  #
-  macro load_manifest(manifest_file = "", legacy = false, use_vite = false)
-    {% if legacy || use_vite %}
-      {{ run "../run_macros/asset_manifest_builder_for_mix", manifest_file, use_vite }}
-    {% else %}
-      {{ run "../run_macros/asset_manifest_builder_for_bun" }}
-    {% end %}
+  macro load_manifest(manifest_file = "", from = :bun)
+    {{ run "../run_macros/asset_manifest_builder", from, manifest_file }}
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
@@ -53,7 +48,7 @@ module Lucky::AssetHelpers
   #
   # NOTE: This macro requires a `StringLiteral`. That means you cannot
   # interpolate strings like this: `asset("images/icon-#{service_name}.png")`.
-  # instead use `dynamic_asset` if you need string interpolation.
+  # Instead use `dynamic_asset` if you need string interpolation.
   macro asset(path)
     {% unless CONFIG[:has_loaded_manifest] %}
       {% raise "No manifest loaded. Call 'Lucky::AssetHelpers.load_manifest'" %}
