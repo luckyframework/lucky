@@ -98,7 +98,8 @@ abstract struct Lucky::Attachment::Uploader
   def generate_location(io : IO, metadata : MetadataHash, **options) : String
     extension = extract_extension(io, metadata)
     basename = generate_uid
-    extension ? "#{basename}.#{extension}" : basename
+    filename = extension ? "#{basename}.#{extension}" : basename
+    File.join([options[:path_prefix]?, filename].compact)
   end
 
   # Extracts metadata from the IO. Override in subclasses to add custom
