@@ -47,7 +47,7 @@ class Lucky::UploadedFile
   # ```
   #
   def content_type : String?
-    @part.headers["Content-Type"]?.try { |t| t.split(';').first.strip }
+    @part.headers["Content-Type"]?.try(&.split(';').first.strip)
   end
 
   # Avram::Uploadable needs to be updated when this is removed

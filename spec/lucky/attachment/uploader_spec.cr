@@ -73,7 +73,7 @@ describe Lucky::Attachment::Uploader do
 
     context "with a File IO" do
       it "extracts filename from path" do
-        file = File.tempfile("myfile", ".txt") { |f| f.print("content") }
+        file = File.tempfile("myfile", ".txt", &.print("content"))
         uploaded = TestUploader.new("store").upload(File.open(file.path))
 
         uploaded.original_filename.should eq(File.basename(file.path))
@@ -82,7 +82,7 @@ describe Lucky::Attachment::Uploader do
       end
 
       it "extracts size" do
-        file = File.tempfile("myfile", ".txt") { |f| f.print("content") }
+        file = File.tempfile("myfile", ".txt", &.print("content"))
         uploaded = TestUploader.new("store").upload(File.open(file.path))
 
         uploaded.size.should eq(7)

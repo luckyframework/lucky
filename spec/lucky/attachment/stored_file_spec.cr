@@ -156,7 +156,7 @@ describe Lucky::Attachment::StoredFile do
         storage_key: "store"
       )
 
-      file.open { |io| io.gets_to_end.should eq("file content") }
+      file.open(&.gets_to_end.should(eq("file content")))
     end
 
     it "closes the IO after the block" do
@@ -165,7 +165,7 @@ describe Lucky::Attachment::StoredFile do
       captured_io = nil
       file.open { |io| captured_io = io }
 
-      captured_io.not_nil!.closed?.should be_true
+      captured_io.as(IO).closed?.should be_true
     end
 
     it "closes the IO even if the block raises" do
@@ -179,7 +179,7 @@ describe Lucky::Attachment::StoredFile do
           raise "oops"
         end
       end
-      captured_io.not_nil!.closed?.should be_true
+      captured_io.as(IO).closed?.should be_true
     end
 
     describe "#download" do

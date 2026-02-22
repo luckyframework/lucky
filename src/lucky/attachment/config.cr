@@ -36,7 +36,7 @@ module Lucky::Attachment
           else
             io << %(Storage ) << name.inspect
             io << %( is not registered. The available storages are: )
-            io << settings.storages.keys.map { |s| s.inspect }.join(", ")
+            io << settings.storages.keys.map(&.inspect).join(", ")
           end
         end
       )
