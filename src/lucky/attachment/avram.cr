@@ -97,11 +97,11 @@ module Avram::Attachment::SaveOperation
     {%
       field_name = "#{name}_file".id if field_name.nil?
 
-      unless column = T.constant(:COLUMNS).find { |c| c[:name].stringify == name.stringify }
+      unless column = T.constant(:COLUMNS).find { |col| col[:name].stringify == name.stringify }
         raise %(The `#{T.name}` model does not have a column named `#{name}`)
       end
     %}
- 
+
     file_attribute :{{ field_name }}
 
     {% if nilable = column[:nilable] %}
@@ -134,7 +134,7 @@ module Avram::Attachment::SaveOperation
           file.delete
         end
       {% end %}
-      
+
       return unless {{ field_name }}.value && (cached = {{ name }}.value)
 
       stored = T::ATTACHMENT_UPLOADERS[:{{ name }}].promote(cached)
