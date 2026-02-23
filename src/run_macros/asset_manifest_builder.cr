@@ -27,6 +27,8 @@ struct AssetManifestBuilder
     @retry_after = ENV["LUCKY_ASSET_MANIFEST_RETRY_DELAY"]?.try(&.to_f) || 0.25
   end
 
+  # Tries to build a manifest from the chosen bundler and retries several times
+  # when it fails.
   def build_with_retry
     retry_or_raise_error unless File.exists?(@manifest_path)
 
@@ -37,6 +39,7 @@ struct AssetManifestBuilder
     end
   end
 
+  # Tracks retries and raises if maximum allowed retries are exceeded.
   private def retry_or_raise_error
     raise_missing_manifest_error unless retries < @max_retries
 
@@ -45,9 +48,12 @@ struct AssetManifestBuilder
     build_with_retry
   end
 
-  # Bun manifest format: { "js/app.js": "app-H2SH18AB.js", ... }
-  # Values are filenames relative to the output directory.
-  # We prepend the public_path from LuckyBun::Config (default: "/assets").
+  # Builds an internal asset manifest from Bun's generated manifest file.
+  #
+  # NOTE: Bun's manifest uses values are filenames relative to the output
+  # directory, so we need to prepend the public_path from `LuckyBun::Config`
+  # (defaults to "/assets").
+  #
   private def build_bun_manifest
     config = bun_config
     JSON.parse(File.read(@manifest_path)).as_h.each do |key, value|
@@ -56,9 +62,9 @@ struct AssetManifestBuilder
     end
   end
 
-  # Mix manifest format: { "/js/app.js": "/js/app.js?id=abc123", ... }
-  # Keys have leading "/" and optionally "assets/" prefix that we strip.
-  # Values are used as-is (they already include the leading "/").
+  # Builds an internal asset manifest from Laravel Mix's generated manifest
+  # file. Keys are prefixed with "/" and optionally "assets/" that we strip.
+  #
   private def build_mix_manifest
     JSON.parse(File.read(@manifest_path)).as_h.each do |key, value|
       clean_key = key.gsub(/^\//, "").gsub(/^assets\//, "")
@@ -66,13 +72,14 @@ struct AssetManifestBuilder
     end
   end
 
-  # Vite has two manifest formats:
+  # Builds an internal asset manifest from Vite's generated manifest files.
   #
+  # NOTE: Vite has two manifest formats:
   # Dev manifest (from vite-plugin-dev-manifest):
-  #   { "url": "http://localhost:5173/", "inputs": { "src/js/app.js": "src/js/app.js" } }
-  #
+  #   `{ "url": "http://localhost:5173/", "inputs": { "src/js/app.js": "src/js/app.js" } }`
   # Production manifest:
-  #   { "src/js/app.js": { "file": "assets/app.abc123.js", "src": "src/js/app.js" } }
+  #   `{ "src/js/app.js": { "file": "assets/app.abc123.js", "src": "src/js/app.js" } }`
+  #
   private def build_vite_manifest
     manifest = JSON.parse(File.read(@manifest_path))
 
@@ -83,6 +90,8 @@ struct AssetManifestBuilder
     end
   end
 
+  # Builds an internal asset manifest from Vite's generated development
+  # manifest file.
   private def build_vite_dev_manifest(manifest)
     base_url = manifest["url"].as_s
     manifest["inputs"].as_h.each do |_, value|
@@ -92,6 +101,8 @@ struct AssetManifestBuilder
     end
   end
 
+  # Builds an internal asset manifest from Vite's generated production manifest
+  # file.
   private def build_vite_prod_manifest(manifest)
     manifest.as_h.each do |key, value|
       next if key.starts_with?("_")
@@ -103,23 +114,28 @@ struct AssetManifestBuilder
     end
   end
 
-  private def resolve_manifest_path(manifest_file : String) : String
+  # Resolves the full path of the asset manifest file based on the selected
+  # bundler, with a fallback to defaults.
+  private def resolve_manifest_path(file : String) : String
     path = case @source
            in .bun?
              bun_config.manifest_path
            in .mix?
-             manifest_file.blank? ? "./public/mix-manifest.json" : manifest_file
+             file.blank? ? "./public/mix-manifest.json" : file
            in .vite?
-             manifest_file.blank? ? "./public/.vite/manifest.json" : manifest_file
+             file.blank? ? "./public/.vite/manifest.json" : file
            end
 
     File.expand_path(path)
   end
 
+  # Loads and memoizes the shared config between Bun and Lucky.
   private def bun_config : LuckyBun::Config
     @bun_config ||= LuckyBun::Config.load
   end
 
+  # Renders a helpful message and raises an error if the asset manifest file
+  # could not be found.
   private def raise_missing_manifest_error
     message = case @source
               in .bun?

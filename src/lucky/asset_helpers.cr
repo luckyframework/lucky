@@ -23,15 +23,19 @@ module Lucky::AssetHelpers
   # # Vite:
   # Lucky::AssetHelpers.load_manifest(from: :vite)
   #
-  # # Custom manifest path (Mix or Vite only):
+  # # Custom manifest path:
   # Lucky::AssetHelpers.load_manifest("public/custom-manifest.json", from: :mix)
   # ```
+  #
+  # NOTE: The custom manifest path is only considered by Mix or Vite. Bun's is
+  # defined in the shared `config/bun.json`.
+  #
   macro load_manifest(manifest_file = "", from = :bun)
     {{ run "../run_macros/asset_manifest_builder", from, manifest_file }}
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
-  # Return the string path to an asset
+  # Returns the string path to an asset.
   #
   # ```
   # # In a page or component:
@@ -49,6 +53,7 @@ module Lucky::AssetHelpers
   # NOTE: This macro requires a `StringLiteral`. That means you cannot
   # interpolate strings like this: `asset("images/icon-#{service_name}.png")`.
   # Instead use `dynamic_asset` if you need string interpolation.
+  #
   macro asset(path)
     {% unless CONFIG[:has_loaded_manifest] %}
       {% raise "No manifest loaded. Call 'Lucky::AssetHelpers.load_manifest'" %}
@@ -87,7 +92,7 @@ module Lucky::AssetHelpers
     {% end %}
   end
 
-  # Return the string path to an asset (allows string interpolation)
+  # Returns the string path to an asset (allows string interpolation).
   #
   # ```
   # # In a page or component
@@ -101,6 +106,7 @@ module Lucky::AssetHelpers
   # NOTE: This method does *not* check assets at compile time. The asset path
   # is found at runtime so it is possible the asset does not exist. Be sure to
   # manually test that the asset is returned as expected.
+  #
   def dynamic_asset(path : String) : String
     if fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
       Lucky::Server.settings.asset_host + fingerprinted_path
@@ -110,6 +116,9 @@ module Lucky::AssetHelpers
   end
 
   # Returns all the CSS entrypoints from the manifest.
+  #
+  # NOTE: This method is used by the CSS HMR implementation for Bun.
+  #
   def self.css_entry_points : Array(String)
     ASSET_MANIFEST.keys.select(&.ends_with?(".css"))
   end
