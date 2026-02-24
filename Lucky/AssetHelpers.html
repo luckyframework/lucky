@@ -57,6 +57,21 @@
   <div class="types-list">
     <ul>
   
+  <li class="parent " data-id="lucky/AssetManifestBuilder" data-name="assetmanifestbuilder">
+      <a href="../AssetManifestBuilder.html">AssetManifestBuilder</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/AssetManifestBuilder/Source" data-name="assetmanifestbuilder::source">
+      <a href="../AssetManifestBuilder/Source.html">Source</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="lucky/Bool" data-name="bool">
       <a href="../Bool.html">Bool</a>
       
@@ -169,6 +184,11 @@
   
   <li class=" " data-id="lucky/Lucky/BaseTags" data-name="lucky::basetags">
       <a href="../Lucky/BaseTags.html">BaseTags</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/Lucky/BunReloadTag" data-name="lucky::bunreloadtag">
+      <a href="../Lucky/BunReloadTag.html">BunReloadTag</a>
       
     </li>
   
@@ -967,6 +987,36 @@
       
     </li>
   
+  <li class="parent " data-id="lucky/LuckyBun" data-name="luckybun">
+      <a href="../LuckyBun.html">LuckyBun</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="lucky/LuckyBun/Config" data-name="luckybun::config">
+      <a href="../LuckyBun/Config.html">Config</a>
+      
+        <ul>
+  
+  <li class=" " data-id="lucky/LuckyBun/Config/DevServer" data-name="luckybun::config::devserver">
+      <a href="../LuckyBun/Config/DevServer.html">DevServer</a>
+      
+    </li>
+  
+  <li class=" " data-id="lucky/LuckyBun/Config/EntryPoints" data-name="luckybun::config::entrypoints">
+      <a href="../LuckyBun/Config/EntryPoints.html">EntryPoints</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="lucky/Nil" data-name="nil">
       <a href="../Nil.html">Nil</a>
       
@@ -1059,7 +1109,7 @@ and allow for setting a CDN.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/07a3ca9014c635f70ec81170b44a185494238cc5/src/lucky/asset_helpers.cr#L7" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/1a1492214695cf646101d4ccdb97488f833e3b4f/src/lucky/asset_helpers.cr#L8" target="_blank">
         lucky/asset_helpers.cr
       </a>
     
@@ -1097,6 +1147,25 @@ and allow for setting a CDN.</p>
   
 
   
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#css_entry_points%3AArray%28String%29-class-method" class="signature"><strong>.css_entry_points</strong> : Array(String)</a>
+        
+          <div class="summary"><p>Returns all the CSS entrypoints from the manifest.</p></div>
+        
+      </li>
+    
+  </ul>
+
 
   
   <h2>
@@ -1112,26 +1181,14 @@ and allow for setting a CDN.</p>
       <li class="entry-summary">
         <a href="#asset%28path%29-macro" class="signature"><strong>asset</strong>(path)</a>
         
-          <div class="summary"><p>Return the string path to an asset</p></div>
+          <div class="summary"><p>Returns the string path to an asset.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#load_manifest%28manifest_file%3D%22%22%29-macro" class="signature"><strong>load_manifest</strong>(manifest_file = <span class="s">&quot;&quot;</span>)</a>
+        <a href="#load_manifest%28manifest_file%3D%22%22%2Cfrom%3D%3Abun%29-macro" class="signature"><strong>load_manifest</strong>(manifest_file = <span class="s">&quot;&quot;</span>, from = <span class="n">:bun</span>)</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#load_manifest%28manifest_file%2Cuse_vite%29-macro" class="signature"><strong>load_manifest</strong>(manifest_file, use_vite)</a>
-        
-          <div class="summary"><p><span class="flag lime">EXPERIMENTAL</span>  This feature is experimental.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#load_manifest_from_build_system-macro" class="signature"><strong>load_manifest_from_build_system</strong></a>
-        
-          <div class="summary"><p>Load manifest using the configured asset build system This is the new recommended way to load asset manifests</p></div>
+          <div class="summary"><p>Loads the asset manifest at compile time.</p></div>
         
       </li>
     
@@ -1152,7 +1209,7 @@ and allow for setting a CDN.</p>
       <li class="entry-summary">
         <a href="#dynamic_asset%28path%3AString%29%3AString-instance-method" class="signature"><strong>#dynamic_asset</strong>(path : String) : String</a>
         
-          <div class="summary"><p>Return the string path to an asset (allows string interpolation)</p></div>
+          <div class="summary"><p>Returns the string path to an asset (allows string interpolation).</p></div>
         
       </li>
     
@@ -1167,6 +1224,38 @@ and allow for setting a CDN.</p>
   
 
   
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="css_entry_points:Array(String)-class-method">
+      <div class="signature">
+        
+        def self.<strong>css_entry_points</strong> : Array(<a href="../String.html">String</a>)
+
+        <a class="method-permalink" href="#css_entry_points%3AArray%28String%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns all the CSS entrypoints from the manifest.</p>
+<p><span class="flag purple">NOTE</span>  This method is used by the CSS HMR implementation for Bun.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/1a1492214695cf646101d4ccdb97488f833e3b4f/src/lucky/asset_helpers.cr#L122" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
 
   
   <h2>
@@ -1188,7 +1277,7 @@ and allow for setting a CDN.</p>
       
         <div class="doc">
           
-          <p>Return the string path to an asset</p>
+          <p>Returns the string path to an asset.</p>
 <pre><code class="language-crystal"><span class="c"># In a page or component:</span>
 <span class="c"># Will find the asset in `public/assets/images/logo.png`</span>
 img src: asset(<span class="s">&quot;images/logo.png&quot;</span>)
@@ -1200,73 +1289,48 @@ will let you know. It will also let you know if you had a typo and suggest an
 asset that is close to what you typed.</p>
 <p><span class="flag purple">NOTE</span>  This macro requires a <code>StringLiteral</code>. That means you cannot
 interpolate strings like this: <code><a href="../Lucky/AssetHelpers.html#asset%28path%29-macro">asset(&quot;images/icon-#{service_name}.png&quot;)</a></code>.
-instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset%28path%3AString%29%3AString-instance-method">#dynamic_asset</a></code> if you need string interpolation.</p>
+Instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset%28path%3AString%29%3AString-instance-method">#dynamic_asset</a></code> if you need string interpolation.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/07a3ca9014c635f70ec81170b44a185494238cc5/src/lucky/asset_helpers.cr#L56" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/1a1492214695cf646101d4ccdb97488f833e3b4f/src/lucky/asset_helpers.cr#L57" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="load_manifest(manifest_file=&quot;&quot;)-macro">
+    <div class="entry-detail" id="load_manifest(manifest_file=&quot;&quot;,from=:bun)-macro">
       <div class="signature">
         
-        macro <strong>load_manifest</strong>(manifest_file = <span class="s">&quot;&quot;</span>)
+        macro <strong>load_manifest</strong>(manifest_file = <span class="s">&quot;&quot;</span>, from = <span class="n">:bun</span>)
 
-        <a class="method-permalink" href="#load_manifest%28manifest_file%3D%22%22%29-macro">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/07a3ca9014c635f70ec81170b44a185494238cc5/src/lucky/asset_helpers.cr#L11" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="load_manifest(manifest_file,use_vite)-macro">
-      <div class="signature">
-        
-        macro <strong>load_manifest</strong>(manifest_file, use_vite)
-
-        <a class="method-permalink" href="#load_manifest%28manifest_file%2Cuse_vite%29-macro">#</a>
+        <a class="method-permalink" href="#load_manifest%28manifest_file%3D%22%22%2Cfrom%3D%3Abun%29-macro">#</a>
       </div>
       
         <div class="doc">
           
-          <p><span class="flag lime">EXPERIMENTAL</span>  This feature is experimental. Use this to test
-vite integration with Lucky</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/luckyframework/lucky/blob/07a3ca9014c635f70ec81170b44a185494238cc5/src/lucky/asset_helpers.cr#L18" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="load_manifest_from_build_system-macro">
-      <div class="signature">
-        
-        macro <strong>load_manifest_from_build_system</strong>
+          <p>Loads the asset manifest at compile time.</p>
+<p>Call this once in src/app.cr:</p>
+<pre><code class="language-crystal"><span class="c"># Bun (default):</span>
+<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.load_manifest
 
-        <a class="method-permalink" href="#load_manifest_from_build_system-macro">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Load manifest using the configured asset build system
-This is the new recommended way to load asset manifests</p>
+<span class="c"># Laravel Mix:</span>
+<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.load_manifest(from: <span class="n">:mix</span>)
+
+<span class="c"># Vite:</span>
+<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.load_manifest(from: <span class="n">:vite</span>)
+
+<span class="c"># Custom manifest path:</span>
+<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.load_manifest(<span class="s">&quot;public/custom-manifest.json&quot;</span>, from: <span class="n">:mix</span>)</code></pre>
+<p><span class="flag purple">NOTE</span>  The custom manifest path is only considered by Mix or Vite. Bun's is
+defined in the shared <code>config/bun.json</code>.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/07a3ca9014c635f70ec81170b44a185494238cc5/src/lucky/asset_helpers.cr#L25" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/1a1492214695cf646101d4ccdb97488f833e3b4f/src/lucky/asset_helpers.cr#L33" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1293,13 +1357,13 @@ This is the new recommended way to load asset manifests</p>
       
         <div class="doc">
           
-          <p>Return the string path to an asset (allows string interpolation)</p>
+          <p>Returns the string path to an asset (allows string interpolation).</p>
 <pre><code class="language-crystal"><span class="c"># In a page or component</span>
 <span class="c"># Will find the asset in `public/assets/images/logo.png`</span>
-img src: asset(<span class="s">&quot;images/logo.png&quot;</span>)
+img src: dynamic_asset(<span class="s">&quot;images/logo.png&quot;</span>)
 
 <span class="c"># Can also be used elsewhere by prepending Lucky::AssetHelpers</span>
-<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.asset(<span class="s">&quot;images/logo.png&quot;</span>)</code></pre>
+<span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.dynamic_asset(<span class="s">&quot;images/logo.png&quot;</span>)</code></pre>
 <p><span class="flag purple">NOTE</span>  This method does <em>not</em> check assets at compile time. The asset path
 is found at runtime so it is possible the asset does not exist. Be sure to
 manually test that the asset is returned as expected.</p>
@@ -1308,7 +1372,7 @@ manually test that the asset is returned as expected.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/07a3ca9014c635f70ec81170b44a185494238cc5/src/lucky/asset_helpers.cr#L108" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/1a1492214695cf646101d4ccdb97488f833e3b4f/src/lucky/asset_helpers.cr#L110" target="_blank">View source</a>]
         
       </div>
     </div>
