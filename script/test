@@ -5,6 +5,9 @@ COMPOSE="docker compose run --rm app"
 printf "\nrunning specs with 'crystal spec'\n\n"
 $COMPOSE crystal spec "$@"
 
+printf "\nrunning bun tests with 'bun test'\n\n"
+$COMPOSE bun test
+
 if [ $# = 0 ]; then
   printf "\nChecking that tasks build correctly\n\n"
   $COMPOSE shards build
