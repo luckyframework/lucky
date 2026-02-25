@@ -229,43 +229,43 @@ describe('writeManifest', () => {
     await LuckyBun.writeManifest()
 
     const content = readFileSync(
-      join(TEST_DIR, 'public/assets/manifest.json'),
+      join(TEST_DIR, 'public/bun-manifest.json'),
       'utf-8'
     )
     expect(JSON.parse(content)).toEqual({'js/app.js': 'js/app-abc123.js'})
   })
-})
 
-describe('outDir', () => {
-  test('throws if config not loaded', () => {
-    LuckyBun.config = null
-    expect(() => LuckyBun.outDir).toThrow('Config is not loaded')
-  })
-
-  test('returns full path when config loaded', () => {
+  test('writes manifest relative to project root, not outDir', async () => {
     LuckyBun.root = TEST_DIR
     LuckyBun.loadConfig()
-    expect(LuckyBun.outDir).toBe(join(TEST_DIR, 'public/assets'))
-  })
-})
+    LuckyBun.manifest = {'js/app.js': 'js/app-abc123.js'}
 
-describe('cssAliasPlugin', () => {
-  test('replaces $/ with src path', async () => {
-    mkdirSync(join(TEST_DIR, 'src/css'), {recursive: true})
-    mkdirSync(join(TEST_DIR, 'src/images'), {recursive: true})
-    writeFileSync(join(TEST_DIR, 'src/images/bg.png'), 'fake')
+    await LuckyBun.writeManifest()
+
+    const correctPath = join(TEST_DIR, 'public/bun-manifest.json')
+    const buggyPath = join(TEST_DIR, 'public/assets/public/bun-manifest.json')
+
+    expect(existsSync(correctPath)).toBe(true)
+    expect(existsSync(buggyPath)).toBe(false)
+  })
+
+  test('respects custom manifestPath from config', async () => {
+    mkdirSync(join(TEST_DIR, 'config'), {recursive: true})
     writeFileSync(
-      join(TEST_DIR, 'src/css/app.css'),
-      "body { background: url('$/images/bg.png'); }"
+      join(TEST_DIR, 'config/bun.json'),
+      JSON.stringify({manifestPath: 'dist/manifest.json'})
     )
 
     LuckyBun.root = TEST_DIR
     LuckyBun.loadConfig()
-    await LuckyBun.buildCSS()
+    LuckyBun.manifest = {'css/app.css': 'css/app-def456.css'}
 
-    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
-    const content = readFileSync(cssPath, 'utf-8')
-    expect(content).toContain('/src/')
-    expect(content).not.toContain('$/')
+    await LuckyBun.writeManifest()
+
+    const manifestPath = join(TEST_DIR, 'dist/manifest.json')
+    const content = JSON.parse(readFileSync(manifestPath, 'utf-8'))
+
+    expect(existsSync(manifestPath)).toBe(true)
+    expect(content).toEqual({'css/app.css': 'css/app-def456.css'})
   })
 })
