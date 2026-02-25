@@ -4,38 +4,38 @@
 # and allow for setting a CDN.
 #
 # For an in-depth guide check: https://luckyframework.org/guides/frontend/asset-handling
+#
 module Lucky::AssetHelpers
   ASSET_MANIFEST = {} of String => String
   CONFIG         = {has_loaded_manifest: false}
 
-  macro load_manifest(manifest_file = "")
-    {{ run "../run_macros/generate_asset_helpers", manifest_file }}
+  # Loads the asset manifest at compile time.
+  #
+  # Call this once in src/app.cr:
+  #
+  # ```
+  # # Bun (default):
+  # Lucky::AssetHelpers.load_manifest
+  #
+  # # Laravel Mix:
+  # Lucky::AssetHelpers.load_manifest(from: :mix)
+  #
+  # # Vite:
+  # Lucky::AssetHelpers.load_manifest(from: :vite)
+  #
+  # # Custom manifest path:
+  # Lucky::AssetHelpers.load_manifest("public/custom-manifest.json", from: :mix)
+  # ```
+  #
+  # NOTE: The custom manifest path is only considered by Mix or Vite. Bun's is
+  # defined in the shared `config/bun.json`.
+  #
+  macro load_manifest(manifest_file = "", from = :bun)
+    {{ run "../run_macros/asset_manifest_builder", from, manifest_file }}
     {% CONFIG[:has_loaded_manifest] = true %}
   end
 
-  # EXPERIMENTAL: This feature is experimental. Use this to test
-  # vite integration with Lucky
-  macro load_manifest(manifest_file, use_vite)
-    {{ run "../run_macros/generate_asset_helpers", manifest_file, use_vite }}
-    {% CONFIG[:has_loaded_manifest] = true %}
-  end
-
-  # Load manifest using the configured asset build system
-  # This is the new recommended way to load asset manifests
-  macro load_manifest_from_build_system
-    {% if @type.has_constant?("ASSET_BUILD_SYSTEM_TYPE") %}
-      {% if @type.constant("ASSET_BUILD_SYSTEM_TYPE") == "vite" %}
-        {{ run "../run_macros/generate_asset_helpers", "./public/.vite/manifest.json", "true" }}
-      {% else %}
-        {{ run "../run_macros/generate_asset_helpers", "./public/mix-manifest.json", "false" }}
-      {% end %}
-    {% else %}
-      {{ run "../run_macros/generate_asset_helpers" }}
-    {% end %}
-    {% CONFIG[:has_loaded_manifest] = true %}
-  end
-
-  # Return the string path to an asset
+  # Returns the string path to an asset.
   #
   # ```
   # # In a page or component:
@@ -52,7 +52,8 @@ module Lucky::AssetHelpers
   #
   # NOTE: This macro requires a `StringLiteral`. That means you cannot
   # interpolate strings like this: `asset("images/icon-#{service_name}.png")`.
-  # instead use `dynamic_asset` if you need string interpolation.
+  # Instead use `dynamic_asset` if you need string interpolation.
+  #
   macro asset(path)
     {% unless CONFIG[:has_loaded_manifest] %}
       {% raise "No manifest loaded. Call 'Lucky::AssetHelpers.load_manifest'" %}
@@ -91,26 +92,34 @@ module Lucky::AssetHelpers
     {% end %}
   end
 
-  # Return the string path to an asset (allows string interpolation)
+  # Returns the string path to an asset (allows string interpolation).
   #
   # ```
   # # In a page or component
   # # Will find the asset in `public/assets/images/logo.png`
-  # img src: asset("images/logo.png")
+  # img src: dynamic_asset("images/logo.png")
   #
   # # Can also be used elsewhere by prepending Lucky::AssetHelpers
-  # Lucky::AssetHelpers.asset("images/logo.png")
+  # Lucky::AssetHelpers.dynamic_asset("images/logo.png")
   # ```
   #
   # NOTE: This method does *not* check assets at compile time. The asset path
   # is found at runtime so it is possible the asset does not exist. Be sure to
   # manually test that the asset is returned as expected.
+  #
   def dynamic_asset(path : String) : String
-    fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
-    if fingerprinted_path
+    if fingerprinted_path = Lucky::AssetHelpers::ASSET_MANIFEST[path]?
       Lucky::Server.settings.asset_host + fingerprinted_path
     else
       raise "Missing asset: #{path}"
     end
+  end
+
+  # Returns all the CSS entrypoints from the manifest.
+  #
+  # NOTE: This method is used by the CSS HMR implementation for Bun.
+  #
+  def self.css_entry_points : Array(String)
+    ASSET_MANIFEST.keys.select(&.ends_with?(".css"))
   end
 end

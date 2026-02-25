@@ -21,6 +21,7 @@ module Lucky::HTMLBuilder
   include Lucky::RenderIfDefined
   include Lucky::TagDefaults
   include Lucky::LiveReloadTag
+  include Lucky::BunReloadTag
   include Lucky::SvgInliner
 
   abstract def view : IO
