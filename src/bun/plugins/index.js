@@ -1,11 +1,9 @@
 import {join} from 'path'
 import cssAliases from './cssAliases.js'
 import cssGlobs from './cssGlobs.js'
+import jsGlobs from './jsGlobs.js'
 
-// Defines the built-in plugins. Add new built-in JS/CSS plugins here.
-const builtins = {cssAliases, cssGlobs}
-
-// Defines
+const builtins = {cssAliases, cssGlobs, jsGlobs}
 const TYPE_REGEXES = {
   css: /\.css$/,
   js: /\.(js|ts|jsx|tsx)$/
