@@ -2,16 +2,18 @@ import {join} from 'path'
 import cssAliases from './cssAliases.js'
 import cssGlobs from './cssGlobs.js'
 
+// Defines the built-in plugins. Add new built-in JS/CSS plugins here.
 const builtins = {cssAliases, cssGlobs}
 
-const CONFIG = {
-  css: {filter: /\.css$/, loader: 'css'},
-  js: {filter: /\.(js|ts|jsx|tsx)$/, loader: 'js'}
+// Defines
+const TYPE_REGEXES = {
+  css: /\.css$/,
+  js: /\.(js|ts|jsx|tsx)$/
 }
 
 // Combines transform functions into a single Bun plugin for a given file type.
 function transformPipeline(type, transforms) {
-  const {filter, loader} = CONFIG[type]
+  const filter = TYPE_REGEXES[type]
 
   return {
     name: `${type}-transforms`,
@@ -20,7 +22,7 @@ function transformPipeline(type, transforms) {
         let content = await Bun.file(args.path).text()
         for (const transform of transforms)
           content = await transform(content, args)
-        return {contents: content, loader}
+        return {contents: content, loader: type}
       })
     }
   }
@@ -48,7 +50,7 @@ export async function resolvePlugins(pluginConfig, context) {
   for (const [type, names] of Object.entries(pluginConfig)) {
     if (!Array.isArray(names)) continue
 
-    if (CONFIG[type]) {
+    if (TYPE_REGEXES[type]) {
       const transforms = []
 
       for (const name of names) {
