@@ -85,7 +85,10 @@ describe('loadConfig', () => {
     expect(LuckyBun.config.outDir).toBe('public/assets')
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
     expect(LuckyBun.config.devServer.port).toBe(3002)
-    expect(LuckyBun.config.plugins).toEqual({css: ['cssAliases', 'cssGlobs']})
+    expect(LuckyBun.config.plugins).toEqual({
+      css: ['cssAliases', 'cssGlobs'],
+      js: ['jsGlobs']
+    })
   })
 
   test('merges user config with defaults', () => {
@@ -335,12 +338,15 @@ describe('outDir', () => {
 })
 
 describe('loadPlugins', () => {
-  test('loads default CSS plugins', async () => {
+  test('loads default plugins', async () => {
     LuckyBun.loadConfig()
     await LuckyBun.loadPlugins()
 
-    expect(LuckyBun.plugins).toHaveLength(1)
-    expect(LuckyBun.plugins[0].name).toBe('css-transforms')
+    expect(LuckyBun.plugins).toHaveLength(2)
+    expect(
+      LuckyBun.plugins.find(p => p.name === 'css-transforms')
+    ).toBeDefined()
+    expect(LuckyBun.plugins.find(p => p.name === 'js-transforms')).toBeDefined()
   })
 
   test('loads no plugins when config is empty', async () => {
@@ -505,6 +511,150 @@ describe('cssGlobs plugin', () => {
     const alphaPos = content.indexOf('.alpha')
     const middlePos = content.indexOf('.middle')
     const zebraPos = content.indexOf('.zebra')
+
+    expect(alphaPos).toBeLessThan(middlePos)
+    expect(middlePos).toBeLessThan(zebraPos)
+  })
+})
+
+describe('jsGlobs plugin', () => {
+  test('expands glob import into named exports', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import components from 'glob:./components/*.js'",
+          'console.log(components)'
+        ].join('\n'),
+        'src/js/components/modal.js': 'export default function modal() {}',
+        'src/js/components/dropdown.js': 'export default function dropdown() {}'
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toContain('modal')
+    expect(content).toContain('dropdown')
+  })
+
+  test('expands recursive glob import', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import controllers from 'glob:./controllers/**/*.js'",
+          'console.log(controllers)'
+        ].join('\n'),
+        'src/js/controllers/nav.js': 'export default function nav() {}',
+        'src/js/controllers/forms/input.js':
+          'export default function input() {}'
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toContain('nav')
+    expect(content).toContain('input')
+  })
+
+  test('converts kebab-case filenames to camelCase keys', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import components from 'glob:./components/*.js'",
+          'console.log(Object.keys(components))'
+        ].join('\n'),
+        'src/js/components/side-panel.js':
+          'export default function sidePanel() {}'
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toContain('sidePanel()')
+    expect(content).not.toContain('side-panel()')
+  })
+
+  test('handles glob matching no files', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import components from 'glob:./components/*.js'",
+          'console.log(components)'
+        ].join('\n'),
+        'src/js/components/.gitkeep': ''
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toBeDefined()
+  })
+
+  test('leaves non-glob imports untouched', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import {something} from './utils.js'",
+          'console.log(something)'
+        ].join('\n'),
+        'src/js/utils.js': 'export const something = 42'
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toContain('42')
+  })
+
+  test('handles multiple glob imports', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import data from 'glob:./data/*.js'",
+          "import stores from 'glob:./stores/*.js'",
+          'console.log(data, stores)'
+        ].join('\n'),
+        'src/js/data/counter.js': 'export default function counter() {}',
+        'src/js/stores/auth.js': 'export default function auth() {}'
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toContain('counter')
+    expect(content).toContain('auth')
+  })
+
+  test('expands globs in deterministic sorted order', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import components from 'glob:./components/*.js'",
+          'for (const [k, v] of Object.entries(components)) console.log(k)'
+        ].join('\n'),
+        'src/js/components/zebra.js': 'export default function zebra() {}',
+        'src/js/components/alpha.js': 'export default function alpha() {}',
+        'src/js/components/middle.js': 'export default function middle() {}'
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+    const alphaPos = content.indexOf('alpha')
+    const middlePos = content.indexOf('middle')
+    const zebraPos = content.indexOf('zebra')
 
     expect(alphaPos).toBeLessThan(middlePos)
     expect(middlePos).toBeLessThan(zebraPos)
