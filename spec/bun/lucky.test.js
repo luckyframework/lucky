@@ -10,13 +10,30 @@ beforeEach(() => {
   mkdirSync(TEST_DIR, {recursive: true})
   LuckyBun.manifest = {}
   LuckyBun.config = null
+  LuckyBun.plugins = []
   LuckyBun.prod = false
   LuckyBun.dev = false
+  LuckyBun.root = TEST_DIR
 })
 
 afterAll(() => {
   rmSync(TEST_DIR, {recursive: true, force: true})
 })
+
+function createFile(relativePath, content = '') {
+  const fullPath = join(TEST_DIR, relativePath)
+  mkdirSync(join(fullPath, '..'), {recursive: true})
+  writeFileSync(fullPath, content)
+  return fullPath
+}
+
+async function setupProject(files = {}, configOverrides = {}) {
+  for (const [path, content] of Object.entries(files)) createFile(path, content)
+  if (configOverrides && Object.keys(configOverrides).length)
+    createFile('config/bun.json', JSON.stringify(configOverrides))
+  LuckyBun.loadConfig()
+  await LuckyBun.loadPlugins()
+}
 
 describe('flags', () => {
   test('sets dev flag', () => {
@@ -64,27 +81,49 @@ describe('deepMerge', () => {
 
 describe('loadConfig', () => {
   test('uses defaults without a config file', () => {
-    LuckyBun.root = TEST_DIR
     LuckyBun.loadConfig()
     expect(LuckyBun.config.outDir).toBe('public/assets')
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
     expect(LuckyBun.config.devServer.port).toBe(3002)
+    expect(LuckyBun.config.plugins).toEqual({css: ['cssAliases', 'cssGlobs']})
   })
 
   test('merges user config with defaults', () => {
-    mkdirSync(join(TEST_DIR, 'config'), {recursive: true})
-    writeFileSync(
-      join(TEST_DIR, 'config/bun.json'),
+    createFile(
+      'config/bun.json',
       JSON.stringify({outDir: 'dist', devServer: {port: 4000}})
     )
 
-    LuckyBun.root = TEST_DIR
     LuckyBun.loadConfig()
 
     expect(LuckyBun.config.outDir).toBe('dist')
     expect(LuckyBun.config.devServer.port).toBe(4000)
     expect(LuckyBun.config.devServer.host).toBe('127.0.0.1')
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
+  })
+
+  test('user can override plugins', () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({plugins: {css: ['cssGlobs']}})
+    )
+
+    LuckyBun.loadConfig()
+
+    expect(LuckyBun.config.plugins).toEqual({css: ['cssGlobs']})
+  })
+
+  test('user can add JS plugins', () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({
+        plugins: {css: ['cssAliases'], js: ['config/bun/banner.js']}
+      })
+    )
+
+    LuckyBun.loadConfig()
+
+    expect(LuckyBun.config.plugins.js).toEqual(['config/bun/banner.js'])
   })
 })
 
@@ -142,12 +181,7 @@ describe('IGNORE_PATTERNS', () => {
 
 describe('buildAssets', () => {
   test('builds JS files', async () => {
-    mkdirSync(join(TEST_DIR, 'src/js'), {recursive: true})
-    mkdirSync(join(TEST_DIR, 'public/assets'), {recursive: true})
-    writeFileSync(join(TEST_DIR, 'src/js/app.js'), 'console.log("test")')
-
-    LuckyBun.root = TEST_DIR
-    LuckyBun.loadConfig()
+    await setupProject({'src/js/app.js': 'console.log("test")'})
     await LuckyBun.buildJS()
 
     expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
@@ -155,11 +189,7 @@ describe('buildAssets', () => {
   })
 
   test('builds CSS files', async () => {
-    mkdirSync(join(TEST_DIR, 'src/css'), {recursive: true})
-    writeFileSync(join(TEST_DIR, 'src/css/app.css'), 'body { color: pink }')
-
-    LuckyBun.root = TEST_DIR
-    LuckyBun.loadConfig()
+    await setupProject({'src/css/app.css': 'body { color: pink }'})
     await LuckyBun.buildCSS()
 
     expect(LuckyBun.manifest['css/app.css']).toBe('css/app.css')
@@ -167,25 +197,53 @@ describe('buildAssets', () => {
   })
 
   test('fingerprints in prod mode', async () => {
-    mkdirSync(join(TEST_DIR, 'src/js'), {recursive: true})
-    writeFileSync(join(TEST_DIR, 'src/js/app.js'), 'console.log("prod")')
-
-    LuckyBun.root = TEST_DIR
     LuckyBun.prod = true
-    LuckyBun.loadConfig()
+    await setupProject({'src/js/app.js': 'console.log("prod")'})
     await LuckyBun.buildJS()
 
     expect(LuckyBun.manifest['js/app.js']).toMatch(/^js\/app-[a-f0-9]{8}\.js$/)
+  })
+
+  test('warns on missing entry point and continues', async () => {
+    await setupProject()
+    // No src/js/app.js created — should not throw
+    await LuckyBun.buildJS()
+
+    expect(LuckyBun.manifest['js/app.js']).toBeUndefined()
+  })
+
+  test('builds multiple JS entry points', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': 'console.log("app")',
+        'src/js/admin.js': 'console.log("admin")'
+      },
+      {entryPoints: {js: ['src/js/app.js', 'src/js/admin.js']}}
+    )
+    await LuckyBun.buildJS()
+
+    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
+    expect(LuckyBun.manifest['js/admin.js']).toBe('js/admin.js')
+  })
+
+  test('builds multiple CSS entry points', async () => {
+    await setupProject(
+      {
+        'src/css/app.css': 'body { color: red }',
+        'src/css/admin.css': 'body { color: blue }'
+      },
+      {entryPoints: {css: ['src/css/app.css', 'src/css/admin.css']}}
+    )
+    await LuckyBun.buildCSS()
+
+    expect(LuckyBun.manifest['css/app.css']).toBe('css/app.css')
+    expect(LuckyBun.manifest['css/admin.css']).toBe('css/admin.css')
   })
 })
 
 describe('copyStaticAssets', () => {
   test('copies images', async () => {
-    mkdirSync(join(TEST_DIR, 'src/images'), {recursive: true})
-    writeFileSync(join(TEST_DIR, 'src/images/logo.png'), 'fake-image-data')
-
-    LuckyBun.root = TEST_DIR
-    LuckyBun.loadConfig()
+    await setupProject({'src/images/logo.png': 'fake-image-data'})
     await LuckyBun.copyStaticAssets()
 
     expect(LuckyBun.manifest['images/logo.png']).toBe('images/logo.png')
@@ -195,43 +253,69 @@ describe('copyStaticAssets', () => {
   })
 
   test('preserves nested directory structure', async () => {
-    mkdirSync(join(TEST_DIR, 'src/images/icons'), {recursive: true})
-    writeFileSync(join(TEST_DIR, 'src/images/icons/arrow.svg'), '<svg/>')
-
-    LuckyBun.root = TEST_DIR
-    LuckyBun.loadConfig()
+    await setupProject({'src/images/icons/arrow.svg': '<svg/>'})
     await LuckyBun.copyStaticAssets()
 
     expect(LuckyBun.manifest['images/icons/arrow.svg']).toBeDefined()
+    expect(
+      existsSync(join(TEST_DIR, 'public/assets/images/icons/arrow.svg'))
+    ).toBe(true)
+  })
+
+  test('copies fonts', async () => {
+    await setupProject({'src/fonts/Inter.woff2': 'fake-font-data'})
+    await LuckyBun.copyStaticAssets()
+
+    expect(LuckyBun.manifest['fonts/Inter.woff2']).toBe('fonts/Inter.woff2')
+  })
+
+  test('fingerprints static assets in prod mode', async () => {
+    LuckyBun.prod = true
+    await setupProject({'src/images/logo.png': 'fake-image-data'})
+    await LuckyBun.copyStaticAssets()
+
+    expect(LuckyBun.manifest['images/logo.png']).toMatch(
+      /^images\/logo-[a-f0-9]{8}\.png$/
+    )
+  })
+
+  test('skips missing static directories', async () => {
+    await setupProject()
+    await LuckyBun.copyStaticAssets()
+
+    expect(Object.keys(LuckyBun.manifest)).toHaveLength(0)
   })
 })
 
 describe('cleanOutDir', () => {
-  test('removes output directory', () => {
+  test('removes output directory', async () => {
     const outDir = join(TEST_DIR, 'public/assets')
-    mkdirSync(join(outDir, 'js'), {recursive: true})
-    writeFileSync(join(outDir, 'js/old.js'), 'old')
-
-    LuckyBun.root = TEST_DIR
-    LuckyBun.loadConfig()
+    createFile('public/assets/js/old.js', 'old')
+    await setupProject()
     LuckyBun.cleanOutDir()
 
     expect(existsSync(outDir)).toBe(false)
+  })
+
+  test('does not throw if output directory does not exist', async () => {
+    await setupProject()
+
+    expect(() => LuckyBun.cleanOutDir()).not.toThrow()
   })
 })
 
 describe('writeManifest', () => {
   test('writes manifest JSON', async () => {
-    LuckyBun.root = TEST_DIR
-    LuckyBun.loadConfig()
+    await setupProject()
     LuckyBun.manifest = {'js/app.js': 'js/app-abc123.js'}
-
     await LuckyBun.writeManifest()
-
-    const content = readFileSync(
-      join(TEST_DIR, 'public/assets/manifest.json'),
-      'utf-8'
+    const manifestPath = join(
+      TEST_DIR,
+      'public/assets',
+      LuckyBun.config.manifestPath
     )
+    const content = readFileSync(manifestPath, 'utf-8')
+
     expect(JSON.parse(content)).toEqual({'js/app.js': 'js/app-abc123.js'})
   })
 })
@@ -239,33 +323,287 @@ describe('writeManifest', () => {
 describe('outDir', () => {
   test('throws if config not loaded', () => {
     LuckyBun.config = null
+
     expect(() => LuckyBun.outDir).toThrow('Config is not loaded')
   })
 
   test('returns full path when config loaded', () => {
-    LuckyBun.root = TEST_DIR
     LuckyBun.loadConfig()
+
     expect(LuckyBun.outDir).toBe(join(TEST_DIR, 'public/assets'))
   })
 })
 
-describe('cssAliasPlugin', () => {
-  test('replaces $/ with src path', async () => {
-    mkdirSync(join(TEST_DIR, 'src/css'), {recursive: true})
-    mkdirSync(join(TEST_DIR, 'src/images'), {recursive: true})
-    writeFileSync(join(TEST_DIR, 'src/images/bg.png'), 'fake')
-    writeFileSync(
-      join(TEST_DIR, 'src/css/app.css'),
-      "body { background: url('$/images/bg.png'); }"
-    )
-
-    LuckyBun.root = TEST_DIR
+describe('loadPlugins', () => {
+  test('loads default CSS plugins', async () => {
     LuckyBun.loadConfig()
-    await LuckyBun.buildCSS()
+    await LuckyBun.loadPlugins()
 
+    expect(LuckyBun.plugins).toHaveLength(1)
+    expect(LuckyBun.plugins[0].name).toBe('css-transforms')
+  })
+
+  test('loads no plugins when config is empty', async () => {
+    createFile('config/bun.json', JSON.stringify({plugins: {}}))
+    LuckyBun.loadConfig()
+    await LuckyBun.loadPlugins()
+
+    expect(LuckyBun.plugins).toHaveLength(0)
+  })
+
+  test('handles unknown built-in plugin gracefully', async () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({plugins: {css: ['nonExistent']}})
+    )
+    LuckyBun.loadConfig()
+    await LuckyBun.loadPlugins()
+
+    expect(LuckyBun.plugins).toHaveLength(0)
+  })
+
+  test('loads custom plugin from path', async () => {
+    createFile(
+      'config/bun/uppercase.js',
+      `export default function() {
+        return content => content.toUpperCase()
+      }`
+    )
+    createFile(
+      'config/bun.json',
+      JSON.stringify({plugins: {css: ['config/bun/uppercase.js']}})
+    )
+    LuckyBun.loadConfig()
+    await LuckyBun.loadPlugins()
+
+    expect(LuckyBun.plugins).toHaveLength(1)
+    expect(LuckyBun.plugins[0].name).toBe('css-transforms')
+  })
+})
+
+describe('cssAliases plugin', () => {
+  test('replaces $/ with src path in url()', async () => {
+    await setupProject({
+      'src/css/app.css': "body { background: url('$/images/bg.png'); }",
+      'src/images/bg.png': 'fake'
+    })
+    await LuckyBun.buildCSS()
     const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
     const content = readFileSync(cssPath, 'utf-8')
+
     expect(content).toContain('/src/')
     expect(content).not.toContain('$/')
+  })
+
+  test('replaces multiple $/ references', async () => {
+    await setupProject({
+      'src/css/app.css': [
+        "body { background: url('$/images/bg.png'); }",
+        ".icon { background: url('$/images/icon.svg'); }"
+      ].join('\n'),
+      'src/images/bg.png': 'fake',
+      'src/images/icon.svg': '<svg/>'
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).not.toContain('$/')
+  })
+
+  test('leaves non-alias urls untouched', async () => {
+    await setupProject({
+      'src/css/app.css':
+        "body { background: url('https://example.com/bg.png'); }"
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).toContain('https://example.com/bg.png')
+  })
+})
+
+describe('cssGlobs plugin', () => {
+  test('expands glob @import with flat wildcard', async () => {
+    await setupProject({
+      'src/css/app.css': "@import './components/*.css';",
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/card.css': '.card { color: blue }'
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).toContain('.button')
+    expect(content).toContain('.card')
+  })
+
+  test('expands glob @import with ** recursive wildcard', async () => {
+    await setupProject({
+      'src/css/app.css': "@import './components/**/*.css';",
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/forms/input.css': '.input { color: green }',
+      'src/css/components/forms/select.css': '.select { color: blue }'
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).toContain('.button')
+    expect(content).toContain('.input')
+    expect(content).toContain('.select')
+  })
+
+  test('does not import the file itself', async () => {
+    await setupProject({
+      'src/css/app.css': "@import './*.css';",
+      'src/css/other.css': '.other { color: red }'
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).toContain('.other')
+  })
+
+  test('handles glob matching no files', async () => {
+    await setupProject({
+      'src/css/app.css': "@import './empty/**/*.css';",
+      'src/css/empty/.gitkeep': ''
+    })
+    await LuckyBun.buildCSS()
+  })
+
+  test('preserves non-glob imports', async () => {
+    await setupProject({
+      'src/css/app.css': [
+        "@import './reset.css';",
+        "@import './components/*.css';"
+      ].join('\n'),
+      'src/css/reset.css': '* { margin: 0 }',
+      'src/css/components/button.css': '.button { color: red }'
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).toContain('margin')
+    expect(content).toContain('.button')
+  })
+
+  test('expands globs in deterministic sorted order', async () => {
+    await setupProject({
+      'src/css/app.css': "@import './components/*.css';",
+      'src/css/components/zebra.css': '.zebra { order: 3 }',
+      'src/css/components/alpha.css': '.alpha { order: 1 }',
+      'src/css/components/middle.css': '.middle { order: 2 }'
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+    const alphaPos = content.indexOf('.alpha')
+    const middlePos = content.indexOf('.middle')
+    const zebraPos = content.indexOf('.zebra')
+
+    expect(alphaPos).toBeLessThan(middlePos)
+    expect(middlePos).toBeLessThan(zebraPos)
+  })
+})
+
+describe('plugin pipeline', () => {
+  test('css plugins run in configured order', async () => {
+    await setupProject({
+      'src/css/app.css': [
+        "@import './components/*.css';",
+        "body { background: url('$/images/bg.png'); }"
+      ].join('\n'),
+      'src/css/components/button.css': '.button { color: red }',
+      'src/images/bg.png': 'fake'
+    })
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).not.toContain('$/')
+    expect(content).toContain('.button')
+  })
+
+  test('disabling all plugins still builds valid CSS', async () => {
+    await setupProject(
+      {'src/css/app.css': 'body { color: red }'},
+      {plugins: {}}
+    )
+    await LuckyBun.buildCSS()
+    const cssPath = join(TEST_DIR, 'public/assets/css/app.css')
+    const content = readFileSync(cssPath, 'utf-8')
+
+    expect(content).toContain('color')
+  })
+
+  test('disabling all plugins still builds valid JS', async () => {
+    await setupProject({'src/js/app.js': 'console.log("hello")'}, {plugins: {}})
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toContain('hello')
+  })
+})
+
+describe('full build', () => {
+  test('runs the complete build pipeline', async () => {
+    createFile('src/js/app.js', 'console.log("built")')
+    createFile('src/css/app.css', 'body { color: red }')
+    createFile('src/images/logo.png', 'fake-image')
+    LuckyBun.loadConfig()
+    await LuckyBun.loadPlugins()
+    LuckyBun.cleanOutDir()
+    await LuckyBun.copyStaticAssets()
+    await LuckyBun.buildJS()
+    await LuckyBun.buildCSS()
+    await LuckyBun.writeManifest()
+    const manifestPath = join(
+      TEST_DIR,
+      'public/assets',
+      LuckyBun.config.manifestPath
+    )
+
+    expect(LuckyBun.manifest['js/app.js']).toBeDefined()
+    expect(LuckyBun.manifest['css/app.css']).toBeDefined()
+    expect(LuckyBun.manifest['images/logo.png']).toBeDefined()
+    expect(existsSync(manifestPath)).toBe(true)
+  })
+
+  test('clean build removes previous output', async () => {
+    createFile('public/assets/js/stale.js', 'old stuff')
+    createFile('src/js/app.js', 'console.log("fresh")')
+    LuckyBun.loadConfig()
+    await LuckyBun.loadPlugins()
+    LuckyBun.cleanOutDir()
+    await LuckyBun.buildJS()
+
+    expect(existsSync(join(TEST_DIR, 'public/assets/js/stale.js'))).toBe(false)
+    expect(existsSync(join(TEST_DIR, 'public/assets/js/app.js'))).toBe(true)
+  })
+})
+
+describe('prettyManifest', () => {
+  test('formats manifest entries', () => {
+    LuckyBun.manifest = {
+      'js/app.js': 'js/app-abc123.js',
+      'css/app.css': 'css/app-def456.css'
+    }
+    const output = LuckyBun.prettyManifest()
+
+    expect(output).toContain('js/app.js → js/app-abc123.js')
+    expect(output).toContain('css/app.css → css/app-def456.css')
+  })
+
+  test('returns newlines for empty manifest', () => {
+    LuckyBun.manifest = {}
+    const output = LuckyBun.prettyManifest()
+
+    expect(output).toContain('\n')
   })
 })
