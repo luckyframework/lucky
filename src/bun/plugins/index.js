@@ -1,0 +1,77 @@
+import {join} from 'path'
+import cssAliases from './cssAliases.js'
+import cssGlobs from './cssGlobs.js'
+
+const builtins = {cssAliases, cssGlobs}
+
+const CONFIG = {
+  css: {filter: /\.css$/, loader: 'css'},
+  js: {filter: /\.(js|ts|jsx|tsx)$/, loader: 'js'}
+}
+
+// Combines transform functions into a single Bun plugin for a given file type.
+function transformPipeline(type, transforms) {
+  const {filter, loader} = CONFIG[type]
+
+  return {
+    name: `${type}-transforms`,
+    setup(build) {
+      build.onLoad({filter}, async args => {
+        let content = await Bun.file(args.path).text()
+        for (const transform of transforms)
+          content = await transform(content, args)
+        return {contents: content, loader}
+      })
+    }
+  }
+}
+
+// Resolves a plugin name or path into a transform fucntion or Bun plugin.
+async function loadFactory(name, root) {
+  if (builtins[name]) return builtins[name]
+
+  try {
+    const mod = await import(join(root, name))
+    console.log(` ▸ Loaded custom plugin: ${name}`)
+    return mod.default || mod
+  } catch (err) {
+    console.error(` ✖ Failed to load plugin "${name}": ${err.message}`)
+  }
+}
+
+// Resolves plugin config into Bun plugin instances.
+export async function resolvePlugins(pluginConfig, context) {
+  const bunPlugins = []
+
+  if (!pluginConfig || typeof pluginConfig !== 'object') return bunPlugins
+
+  for (const [type, names] of Object.entries(pluginConfig)) {
+    if (!Array.isArray(names)) continue
+
+    if (CONFIG[type]) {
+      const transforms = []
+
+      for (const name of names) {
+        const factory = await loadFactory(name, context.root)
+        if (typeof factory !== 'function') {
+          if (factory != null)
+            console.error(` ✖ Plugin "${name}" does not export a function`)
+          continue
+        }
+
+        const result = factory(context)
+        if (typeof result === 'function') transforms.push(result)
+        else if (result?.setup) bunPlugins.push(result)
+        else console.error(` ✖ Plugin "${name}" returned an invalid value`)
+      }
+
+      if (transforms.length)
+        bunPlugins.unshift(transformPipeline(type, transforms))
+      continue
+    }
+
+    console.error(` ✖ Unknown plugin type "${type}"`)
+  }
+
+  return bunPlugins
+}
