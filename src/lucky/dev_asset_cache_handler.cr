@@ -1,3 +1,4 @@
+# Makes sure browser cache for assets is busted at every request in development.
 class Lucky::DevAssetCacheHandler
   include HTTP::Handler
 
