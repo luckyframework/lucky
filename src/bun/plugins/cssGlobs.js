@@ -28,7 +28,7 @@ export default function cssGlobs() {
 
       files.sort()
 
-      if (!files.length) console.warn(` ▸ Glob matched no files: ${pattern}`)
+      if (!files.length) console.warn(`  CSS glob matched no files: ${pattern}`)
 
       replacements.push({
         fullMatch,
@@ -40,7 +40,7 @@ export default function cssGlobs() {
 
     for (const {fullMatch, expanded, count, pattern} of replacements) {
       const s = count !== 1 ? 's' : ''
-      console.log(` ▸ Glob: ${pattern} → ${count} file${s}`)
+      console.log(`  CSS glob: ${pattern} → ${count} file${s}`)
       content = content.replace(fullMatch, expanded)
     }
 
