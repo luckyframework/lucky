@@ -4,7 +4,7 @@ const REGEX = /url\(\s*['"]?\$\//g
 
 // Resolves `$` root aliases in CSS url() references.
 // e.g. url('$/images/foo.png') → url('/absolute/src/images/foo.png')
-export default function cssAliases({root}) {
+export default function cssAliases(content, {root}) {
   const srcDir = join(root, 'src')
   return content => content.replace(REGEX, `url('${srcDir}/`)
 }
