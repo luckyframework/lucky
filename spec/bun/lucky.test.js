@@ -559,15 +559,16 @@ describe('jsGlobs plugin', () => {
     expect(content).toContain('input')
   })
 
-  test('converts kebab-case filenames to camelCase keys', async () => {
+  test('uses relative path as key preserving directory structure', async () => {
     await setupProject(
       {
         'src/js/app.js': [
-          "import components from 'glob:./components/*.js'",
-          'console.log(Object.keys(components))'
+          "import controllers from 'glob:./controllers/**/*.js'",
+          'console.log(Object.keys(controllers))'
         ].join('\n'),
-        'src/js/components/side-panel.js':
-          'export default function sidePanel() {}'
+        'src/js/controllers/nav.js': 'export default function nav() {}',
+        'src/js/controllers/forms/input.js':
+          'export default function input() {}'
       },
       {plugins: {js: ['jsGlobs']}}
     )
@@ -575,8 +576,29 @@ describe('jsGlobs plugin', () => {
     const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
     const content = readFileSync(jsPath, 'utf-8')
 
-    expect(content).toContain('sidePanel()')
-    expect(content).not.toContain('side-panel()')
+    expect(content).toContain('controllers/nav')
+    expect(content).toContain('controllers/forms/input')
+  })
+
+  test('avoids naming clashes for same-named files in different dirs', async () => {
+    await setupProject(
+      {
+        'src/js/app.js': [
+          "import modules from 'glob:./components/**/*.js'",
+          'console.log(Object.keys(modules))'
+        ].join('\n'),
+        'src/js/components/nav.js': 'export default function nav() {}',
+        'src/js/components/admin/nav.js':
+          'export default function adminNav() {}'
+      },
+      {plugins: {js: ['jsGlobs']}}
+    )
+    await LuckyBun.buildJS()
+    const jsPath = join(TEST_DIR, 'public/assets/js/app.js')
+    const content = readFileSync(jsPath, 'utf-8')
+
+    expect(content).toContain('components/nav')
+    expect(content).toContain('components/admin/nav')
   })
 
   test('handles glob matching no files', async () => {

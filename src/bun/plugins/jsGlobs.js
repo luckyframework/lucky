@@ -1,4 +1,4 @@
-import {basename, dirname, join, relative} from 'path'
+import {dirname, extname} from 'path'
 import {Glob} from 'bun'
 
 const REGEX = /import\s+(\w+)\s+from\s+['"]glob:([^'"]+)['"]/g
@@ -9,9 +9,10 @@ export default function jsGlobs() {
 
     REGEX.lastIndex = 0
 
-    return content.replace(REGEX, (match, binding, pattern) => {
+    return content.replace(REGEX, (_, binding, pattern) => {
       const dir = dirname(args.path)
-      const glob = new Glob(pattern)
+      const cleanPattern = pattern.replace(/^\.\//, '')
+      const glob = new Glob(cleanPattern)
       const files = Array.from(glob.scanSync({cwd: dir})).sort()
 
       if (!files.length) return `const ${binding} = {}`
@@ -20,12 +21,11 @@ export default function jsGlobs() {
       const entries = []
 
       for (const file of files) {
-        const name = basename(file, '.js')
-          .replace(/_|\//g, '-')
-          .replace(/-([a-z])/g, (_, l) => l.toUpperCase())
-        const safe = `_glob_${name}`
+        const ext = extname(file)
+        const key = file.slice(0, -ext.length)
+        const safe = `_glob_${key.replace(/[^a-zA-Z0-9]/g, '_')}`
         imports.push(`import ${safe} from './${file}'`)
-        entries.push(`  '${name}': ${safe}`)
+        entries.push(`  '${key}': ${safe}`)
       }
 
       return [
