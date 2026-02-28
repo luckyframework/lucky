@@ -3,6 +3,18 @@ import {Glob} from 'bun'
 
 const REGEX = /import\s+(\w+)\s+from\s+['"]glob:([^'"]+)['"]/g
 
+// Compiles an object with a file path to default export mapping from a glob
+// pattern in JS import statements.
+// e.g. import components from 'glob:./components/**/*.js'
+//
+// ... will generate ...
+//
+// import _glob_components_theme from './components/theme.js'
+// import _glob_components_shared_tooltip from './components/shared/tooltip.js'
+// const components = {
+//   'components/theme': _glob_components_theme,
+//   'components/shared/tooltip': _glob_components_shared_tooltip
+// }
 export default function jsGlobs() {
   return (content, args) => {
     if (!REGEX.test(content)) return content
