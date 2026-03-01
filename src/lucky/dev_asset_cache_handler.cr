@@ -20,9 +20,8 @@ class Lucky::DevAssetCacheHandler
   ]
 
   def call(context : HTTP::Server::Context) : Nil
-    if LuckyEnv.development? && asset_request?(context.request.path)
+    if asset_request?(context.request.path)
       context.response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
-      context.response.headers["Pragma"] = "no-cache"
       context.response.headers["Expires"] = "0"
     end
 
