@@ -19,8 +19,11 @@ class Lucky::DevAssetCacheHandler
     .eot
   ]
 
+  def initialize(@enabled : Bool)
+  end
+
   def call(context : HTTP::Server::Context) : Nil
-    if asset_request?(context.request.path)
+    if @enabled && asset_request?(context.request.path)
       context.response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
       context.response.headers["Expires"] = "0"
     end
