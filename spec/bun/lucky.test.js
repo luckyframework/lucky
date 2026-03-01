@@ -312,15 +312,12 @@ describe('writeManifest', () => {
     await setupProject()
     LuckyBun.manifest = {'js/app.js': 'js/app-abc123.js'}
     await LuckyBun.writeManifest()
-    const manifestPath = join(
-      TEST_DIR,
-      'public/assets',
-      LuckyBun.config.manifestPath
-    )
+    const manifestPath = join(TEST_DIR, LuckyBun.config.manifestPath)
     const content = readFileSync(manifestPath, 'utf-8')
 
     expect(JSON.parse(content)).toEqual({'js/app.js': 'js/app-abc123.js'})
   })
+})
 
 describe('outDir', () => {
   test('throws if config not loaded', () => {
@@ -734,11 +731,7 @@ describe('full build', () => {
     await LuckyBun.buildJS()
     await LuckyBun.buildCSS()
     await LuckyBun.writeManifest()
-    const manifestPath = join(
-      TEST_DIR,
-      'public/assets',
-      LuckyBun.config.manifestPath
-    )
+    const manifestPath = join(TEST_DIR, LuckyBun.config.manifestPath)
 
     expect(LuckyBun.manifest['js/app.js']).toBeDefined()
     expect(LuckyBun.manifest['css/app.css']).toBeDefined()
