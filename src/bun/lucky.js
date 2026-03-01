@@ -1,6 +1,7 @@
 import {mkdirSync, readFileSync, existsSync, rmSync, watch} from 'fs'
 import {join, dirname, basename, extname} from 'path'
 import {Glob} from 'bun'
+import {resolvePlugins} from './plugins/index.js'
 
 export default {
   CONFIG_PATH: 'config/bun.json',
@@ -21,21 +22,7 @@ export default {
   dev: false,
   prod: false,
   wsClients: new Set(),
-
-  // Plugin for Bun to allow using a `$` root alias to reference assets in CSS.
-  cssAliasPlugin(root) {
-    return {
-      name: 'css-alias',
-      setup(build) {
-        build.onLoad({filter: /\.css$/}, async args => {
-          let content = await Bun.file(args.path).text()
-          const srcDir = join(root, 'src')
-          content = content.replace(/url\(['"]?\$\//g, `url('${srcDir}/`)
-          return {contents: content, loader: 'css'}
-        })
-      }
-    }
-  },
+  plugins: [],
 
   // Sets environment flags.
   flags({dev, prod}) {
@@ -58,6 +45,7 @@ export default {
   loadConfig() {
     const defaults = {
       entryPoints: {js: ['src/js/app.js'], css: ['src/css/app.css']},
+      plugins: {css: ['cssAliases', 'cssGlobs'], js: ['jsGlobs']},
       staticDirs: ['src/images', 'src/fonts'],
       outDir: 'public/assets',
       publicPath: '/assets',
@@ -67,10 +55,23 @@ export default {
 
     try {
       const json = readFileSync(join(this.root, this.CONFIG_PATH), 'utf-8')
-      this.config = this.deepMerge(defaults, JSON.parse(json))
+      const user = JSON.parse(json)
+      this.config = this.deepMerge(defaults, user)
+      if (user.plugins != null) this.config.plugins = user.plugins
     } catch {
       this.config = defaults
     }
+  },
+
+  // Resolves all configured plugins into Bun plugin instances.
+  async loadPlugins() {
+    this.plugins = await resolvePlugins(this.config.plugins, {
+      root: this.root,
+      config: this.config,
+      dev: this.dev,
+      prod: this.prod,
+      manifest: this.manifest
+    })
   },
 
   // Returns the output directory.
@@ -108,7 +109,7 @@ export default {
       const result = await Bun.build({
         entrypoints: [entryPath],
         minify: this.prod,
-        plugins: [this.cssAliasPlugin(this.root)],
+        plugins: this.plugins,
         ...options
       })
 
@@ -192,6 +193,7 @@ export default {
     console.log(`Building manifest for ${env}...`)
     const start = performance.now()
     this.loadConfig()
+    await this.loadPlugins()
     this.cleanOutDir()
     await this.copyStaticAssets()
     await this.buildJS()
