@@ -182,11 +182,9 @@ export default {
 
   // Writes the asset manifest.
   async writeManifest() {
-    mkdirSync(this.outDir, {recursive: true})
-    await Bun.write(
-      join(this.outDir, this.config.manifestPath),
-      JSON.stringify(this.manifest, null, 2)
-    )
+    const manifestFullPath = join(this.root, this.config.manifestPath)
+    mkdirSync(dirname(manifestFullPath), {recursive: true})
+    await Bun.write(manifestFullPath, JSON.stringify(this.manifest, null, 2))
   },
 
   // Performs a full new build based on the current environment.

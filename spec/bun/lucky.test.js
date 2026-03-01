@@ -321,7 +321,6 @@ describe('writeManifest', () => {
 
     expect(JSON.parse(content)).toEqual({'js/app.js': 'js/app-abc123.js'})
   })
-})
 
 describe('outDir', () => {
   test('throws if config not loaded', () => {
