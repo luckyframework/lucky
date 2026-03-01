@@ -2,7 +2,7 @@
 # Implementations must provide methods for uploading, retreiving, checking
 # existence, and deleting files.
 #
-abstract class Lucky::Attachment::Storage::Base
+abstract class Lucky::Attachment::Storage
   # Uploads an IO to the given location (id) in the storage.
   #
   # ```

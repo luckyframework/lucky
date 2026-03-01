@@ -94,7 +94,7 @@ describe Lucky::Attachment::Uploader do
     context "error handling" do
       it "raises Error when no storages are not configured" do
         Lucky::Attachment.configure do |settings|
-          settings.storages = {} of String => Lucky::Attachment::Storage::Base
+          settings.storages = {} of String => Lucky::Attachment::Storage
         end
 
         expect_raises(

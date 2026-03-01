@@ -15,7 +15,7 @@ require "../storage"
 # end
 # ```
 #
-class Lucky::Attachment::Storage::FileSystem < Lucky::Attachment::Storage::Base
+class Lucky::Attachment::Storage::FileSystem < Lucky::Attachment::Storage
   DEFAULT_PERMISSIONS           = File::Permissions.new(0o644)
   DEFAULT_DIRECTORY_PERMISSIONS = File::Permissions.new(0o755)
 

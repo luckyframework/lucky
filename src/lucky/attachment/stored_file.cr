@@ -110,7 +110,7 @@ class Lucky::Attachment::StoredFile
   end
 
   # Returns the storage instance this file is stored in.
-  def storage : Storage::Base
+  def storage : Storage
     ::Lucky::Attachment.find_storage(storage_key)
   end
 

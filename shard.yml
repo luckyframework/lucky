@@ -56,5 +56,8 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 1.6.4
+  awscr-s3:
+    github: taylorfinnell/awscr-s3
+    version: ~> 0.10.0
 
 license: MIT

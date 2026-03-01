@@ -10,7 +10,7 @@ module Lucky::Attachment
     # NOTE: Additional stores are not supported yet. Please reach out if that
     # is something you need.
     #
-    setting storages : Hash(String, Storage::Base) = {} of String => Storage::Base
+    setting storages : Hash(String, Storage) = {} of String => Storage
 
     # Path prefix for uploads. Possible keywords are:
     # - `:model` (an underscored string of the model name)
@@ -27,7 +27,7 @@ module Lucky::Attachment
   # Lucky::Attachment.find_storage("missing") # raises Lucky::Attachment::Error
   # ```
   #
-  def self.find_storage(name : String) : Storage::Base
+  def self.find_storage(name : String) : Storage
     settings.storages[name]? ||
       raise Error.new(
         String.build do |io|

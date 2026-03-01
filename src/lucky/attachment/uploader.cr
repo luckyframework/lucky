@@ -22,7 +22,7 @@ abstract struct Lucky::Attachment::Uploader
   end
 
   # Returns the storage instance for this uploader.
-  def storage : Storage::Base
+  def storage : Storage
     Lucky::Attachment.find_storage(storage_key)
   end
 

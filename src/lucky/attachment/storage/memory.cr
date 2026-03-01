@@ -11,7 +11,7 @@ require "../storage"
 # end
 # ```
 #
-class Lucky::Attachment::Storage::Memory < Lucky::Attachment::Storage::Base
+class Lucky::Attachment::Storage::Memory < Lucky::Attachment::Storage
   getter store : Hash(String, Bytes)
   getter base_url : String?
 
