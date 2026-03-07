@@ -9,7 +9,6 @@ struct Lucky::Attachment::Extractor::DimensionsFromIdentify
     if result = run_command("identify", ["-format", "%[fx:w] %[fx:h]"], io)
       dimensions = result.split.map(&.to_i)
 
-      metadata["hay"] = "sma"
       metadata["width"] = dimensions[0]
       metadata["height"] = dimensions[1]
     end
