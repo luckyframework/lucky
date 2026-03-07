@@ -22,7 +22,7 @@ struct Lucky::Attachment::Extractor::MimeFromFile
     else
       Log.debug { "Unable to extract MIME type using `file` utility (#{stderr})" }
     end
-  rescue RuntimeError
+  rescue File::NotFoundError
     raise Error.new("file command-line tool is not installed")
   end
 end
