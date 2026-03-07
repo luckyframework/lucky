@@ -1,11 +1,11 @@
 require "../../../spec_helper"
 
-describe Lucky::Attachment::Extractor::DimensionsFromIdentify do
+describe Lucky::Attachment::Extractor::DimensionsFromMagick do
   describe "#extract" do
-    subject = Lucky::Attachment::Extractor::DimensionsFromIdentify.new
+    subject = Lucky::Attachment::Extractor::DimensionsFromMagick.new
     png_path = "spec/fixtures/lucky_logo_tiny.png"
 
-    context "when identify is not installed" do
+    context "when magick is not installed" do
       it "raises Lucky::Attachment::Error" do
         original_path = ENV["PATH"]
         ENV["PATH"] = ""
@@ -14,7 +14,7 @@ describe Lucky::Attachment::Extractor::DimensionsFromIdentify do
         begin
           expect_raises(
             Lucky::Attachment::Error,
-            "The `identify` command-line tool is not installed"
+            /The `magick|identify` command-line tool is not installed/
           ) do
             subject.extract(io, metadata: Lucky::Attachment::MetadataHash.new)
           end
@@ -24,7 +24,7 @@ describe Lucky::Attachment::Extractor::DimensionsFromIdentify do
       end
     end
 
-    context "when identify is installed" do
+    context "when magick is installed" do
       it "extracts width and height from a PNG file" do
         file = File.open(png_path)
         metadata = Lucky::Attachment::MetadataHash.new
@@ -34,7 +34,7 @@ describe Lucky::Attachment::Extractor::DimensionsFromIdentify do
         metadata["height"].should eq(16)
       end
 
-      it "does not modify metadata when identify returns no output" do
+      it "does not modify metadata when magick returns no output" do
         io = IO::Memory.new
         metadata = Lucky::Attachment::MetadataHash.new
         subject.extract(io, metadata: metadata)

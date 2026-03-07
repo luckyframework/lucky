@@ -7,7 +7,7 @@
 #   include Lucky::Attachment::Extractor::RunCommand
 #
 #   def extract(io, metadata, **options) : String?
-#     run_command("identify", ["-format", "%[colorspace]"], io)
+#     run_command("magick identify", ["-format", "%[colorspace]"], io)
 #   end
 # end
 # ```
@@ -19,11 +19,12 @@ module Lucky::Attachment::Extractor::RunCommand
     command : String,
     args : Array(String),
     input : IO,
+    fail_silent : Bool = false,
   ) : String?
     stdout, stderr = IO::Memory.new, IO::Memory.new
     result = Process.run(
       command,
-      args: args.push("-"),
+      args: args + ["-"],
       output: stdout,
       error: stderr,
       input: input
@@ -36,6 +37,8 @@ module Lucky::Attachment::Extractor::RunCommand
       "Unable to extract data with `#{command} #{args.join(' ')}` (#{stderr})"
     end
   rescue File::NotFoundError
+    return if fail_silent
+
     raise Error.new("The `#{command}` command-line tool is not installed")
   end
 end
