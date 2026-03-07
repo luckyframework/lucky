@@ -19,7 +19,6 @@ module Lucky::Attachment::Extractor::RunCommand
     command : String,
     args : Array(String),
     input : IO,
-    fail_silent : Bool = false,
   ) : String?
     stdout, stderr = IO::Memory.new, IO::Memory.new
     result = Process.run(
@@ -37,8 +36,6 @@ module Lucky::Attachment::Extractor::RunCommand
       "Unable to extract data with `#{command} #{args.join(' ')}` (#{stderr})"
     end
   rescue File::NotFoundError
-    return if fail_silent
-
-    raise Error.new("The `#{command}` command-line tool is not installed")
+    raise CliToolNotFound.new("The `#{command}` command-line tool is not installed")
   end
 end

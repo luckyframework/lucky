@@ -15,7 +15,8 @@ struct Lucky::Attachment::Extractor::DimensionsFromMagick
   end
 
   private def run_magick_command(io, args)
-    run_command("magick", args, io, fail_silent: true) ||
-      run_command("identify", args[1..], io)
+    run_command("magick", args, io)
+  rescue CliToolNotFound
+    run_command("identify", args[1..], io)
   end
 end

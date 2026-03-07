@@ -11,4 +11,6 @@ module Lucky::Attachment
   class FileNotFound < Error; end
 
   class InvalidFile < Error; end
+
+  class CliToolNotFound < Error; end
 end
