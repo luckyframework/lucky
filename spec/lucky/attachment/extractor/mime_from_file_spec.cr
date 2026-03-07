@@ -22,7 +22,7 @@ describe Lucky::Attachment::Extractor::MimeFromFile do
         begin
           expect_raises(
             Lucky::Attachment::Error,
-            "file command-line tool is not installed"
+            "The `file` command-line tool is not installed"
           ) do
             subject.extract(io, metadata: nil)
           end
