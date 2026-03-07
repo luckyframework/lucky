@@ -41,7 +41,7 @@ abstract struct Lucky::Attachment::Uploader
   # ```
   #
   macro extract(type_declaration)
-    EXTRACTORS["{{type_declaration.var.id}}"] = type_declaration.type.new
+    EXTRACTORS["{{type_declaration.var.id}}"] = {{type_declaration.type}}.new
   end
 
   getter storage_key : String
