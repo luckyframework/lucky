@@ -62,7 +62,9 @@ jobs:
         run: brew install imagemagick
       - name: Install ImageMagick (Windows)
         if: runner.os == 'Windows'
-        run: choco install imagemagick --no-progress
+        run: |
+          $magickPath = (Get-Item "C:\Program Files\ImageMagick-*" | Select-Object -Last 1).FullName
+          echo "$magickPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
         env:
