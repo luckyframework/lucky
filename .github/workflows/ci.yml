@@ -64,7 +64,14 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           $magickPath = (Get-Item "C:\Program Files\ImageMagick-*" | Select-Object -Last 1).FullName
+          Write-Output "Found ImageMagick at: $magickPath"
+          Write-Output "Contents: $(Get-ChildItem $magickPath | Select-Object -ExpandProperty Name)"
           echo "$magickPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Verify ImageMagick (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          Write-Output "identify location: $(Get-Command identify -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source)"
+          identify --version
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
         env:
