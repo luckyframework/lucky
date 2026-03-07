@@ -1,5 +1,20 @@
+# Some extractors may need to call on command-line tools to extract certain
+# data. This module will provide a helper to simplify running commands.
+#
+# ```
+# struct ColourspaceFromIdentify
+#   include Lucky::Attachment::Extractor
+#   include Lucky::Attachment::Extractor::RunCommand
+#
+#   def extract(io, metadata, **options) : String?
+#     run_command("identify", ["-format", "%[colorspace]"], io)
+#   end
+# end
+# ```
+#
 module Lucky::Attachment::Extractor::RunCommand
-  # Helper method to execute command-line tools for metadata extractors.
+  # Runs th given command on the given IO object and returns the resulting
+  # string if the command was successful.
   private def run_command(
     command : String,
     args : Array(String),

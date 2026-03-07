@@ -23,6 +23,23 @@ abstract struct Lucky::Attachment::Uploader
   } of String => Extractor
 
   # Registers an extractor for a given key.
+  #
+  # ```
+  # struct PdfUploader < Lucky::Attachment::Uploader
+  #   # Use a different MIME type extractor than the default one
+  #   extract mime_type : Lucky::Attachment::Extractor::MimeFromExtension
+  #
+  #   # Or use your own custom extractor to add arbitrary data
+  #   extract pages : MyNumberOfPagesExtractor
+  # end
+  # ```
+  #
+  # The result will then be added to the attachment's metadata after uploading:
+  # ```
+  # invoice.pdf.metadata["pages"]
+  # # => 24
+  # ```
+  #
   macro extract(type_declaration)
     EXTRACTORS["{{type_declaration.var.id}}"] = type_declaration.type.new
   end
