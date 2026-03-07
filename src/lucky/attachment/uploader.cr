@@ -16,6 +16,17 @@ require "uuid"
 # ```
 #
 abstract struct Lucky::Attachment::Uploader
+  EXTRACTORS = {
+    "filename"  => Extractor::FilenameFromIO.new,
+    "mime_type" => Extractor::MimeFromIO.new,
+    "size"      => Extractor::SizeFromIO.new,
+  } of String => Extractor
+
+  # Registers an extractor for a given key.
+  macro extract(type_declaration)
+    EXTRACTORS["{{type_declaration.var.id}}"] = type_declaration.type.new
+  end
+
   getter storage_key : String
 
   def initialize(@storage_key : String)
@@ -49,6 +60,7 @@ abstract struct Lucky::Attachment::Uploader
   # ```
   # cached = ImageUploader.cache(io)
   # ```
+  #
   def self.cache(io : IO, **options) : StoredFile
     new("cache").upload(io, **options)
   end
@@ -96,10 +108,25 @@ abstract struct Lucky::Attachment::Uploader
   # ```
   #
   def generate_location(io : IO, metadata : MetadataHash, **options) : String
-    extension = extract_extension(io, metadata)
-    basename = generate_uid
+    extension = file_extension(io, metadata)
+    basename = generate_uid(io, metadata, **options)
     filename = extension ? "#{basename}.#{extension}" : basename
     File.join([options[:path_prefix]?, filename].compact)
+  end
+
+  # Generates a unique identifier for file locations. Override this in
+  # subclasses for custom filenames in the storage.
+  #
+  # ```
+  # class ImageUploader < Lucky::Attachment::Uploader
+  #   def generate_uid(io, metadata, **options) : String
+  #     "#{metadata["filename"]}-#{Time.local.to_unix}"
+  #   end
+  # end
+  # ```
+  #
+  def generate_uid(io : IO, metadata : MetadataHash, **options) : String
+    UUID.random.to_s
   end
 
   # Extracts metadata from the IO. Override in subclasses to add custom
@@ -121,51 +148,17 @@ abstract struct Lucky::Attachment::Uploader
     metadata : MetadataHash? = nil,
     **options,
   ) : MetadataHash
-    MetadataHash{
-      "filename"  => options[:filename]? || extract_filename(io),
-      "size"      => extract_size(io),
-      "mime_type" => extract_mime_type(io),
-    }
-  end
-
-  # Generates a unique identifier for file locations.
-  protected def generate_uid : String
-    UUID.random.to_s
-  end
-
-  # Extracts the filename from the IO if available.
-  protected def extract_filename(io : IO) : String?
-    if io.responds_to?(:original_filename)
-      io.original_filename
-    elsif io.responds_to?(:filename)
-      io.filename.presence
-    elsif io.responds_to?(:path)
-      File.basename(io.path)
+    (metadata.try(&.dup) || MetadataHash.new).tap do |data|
+      EXTRACTORS.each do |key, extractor|
+        if value = extractor.extract(io, data, **options)
+          data[key] = value
+        end
+      end
     end
   end
 
-  # Extracts the file size from the IO, if available.
-  protected def extract_size(io : IO) : Int64?
-    if io.responds_to?(:tempfile)
-      io.tempfile.size
-    elsif io.responds_to?(:size)
-      io.size.to_i64
-    end
-  end
-
-  # Extracts the MIME type from the IO if available.
-  #
-  # NOTE: This relies on the IO providing content_type, which typically comes
-  # from HTTP headers and may not be accurate, but it's a good fallback.
-  #
-  protected def extract_mime_type(io : IO) : String?
-    return unless io.responds_to?(:content_type) && (type = io.content_type)
-
-    type.split(';').first.strip
-  end
-
-  # Extracts file extension from the IO or metadata.
-  protected def extract_extension(
+  # Tries to determine the file extension from the metadata or IO.
+  protected def file_extension(
     io : IO,
     metadata : MetadataHash,
   ) : String?
