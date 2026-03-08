@@ -7,7 +7,7 @@
 #   include Lucky::Attachment::Extractor::RunCommand
 #
 #   def extract(io, metadata, **options) : String?
-#     run_command("magick identify", ["-format", "%[colorspace]"], io)
+#     run_command("magick", ["identify", "-format", "%[colorspace]"], io)
 #   end
 # end
 # ```
