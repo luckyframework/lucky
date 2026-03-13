@@ -5,12 +5,13 @@ struct Lucky::Attachment::Extractor::DimensionsFromMagick
   include Lucky::Attachment::Extractor::RunCommand
 
   # Extracts the dimensions of a file using ImageMagick's `magick` command.
-  def extract(io, metadata, **options) : Nil
+  def extract(io, metadata, **options) : String?
     if result = run_magick_command(io, ["identify", "-format", "%[fx:w] %[fx:h]"])
       dimensions = result.split.map(&.to_i)
 
       metadata["width"] = dimensions[0]
       metadata["height"] = dimensions[1]
+      "#{dimensions[0]}x#{dimensions[0]}"
     end
   end
 
