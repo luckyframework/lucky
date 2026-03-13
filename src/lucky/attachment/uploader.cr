@@ -17,18 +17,29 @@ require "uuid"
 #
 abstract struct Lucky::Attachment::Uploader
   alias MetadataHash = ::Lucky::Attachment::MetadataHash
+  {% for extractor in %w[
+                        DimensionsFromMagick
+                        FilenameFromIO
+                        MimeFromExtension
+                        MimeFromFile
+                        MimeFromIO
+                        SizeFromIO
+                      ] %}
+    alias {{ extractor.id }}Extractor = Lucky::Attachment::Extractor::{{ extractor.id }}
+  {% end %}
 
-  EXTRACTORS = {
-    "filename"  => Extractor::FilenameFromIO.new,
-    "mime_type" => Extractor::MimeFromIO.new,
-    "size"      => Extractor::SizeFromIO.new,
-  } of String => Extractor
+  EXTRACTORS = {} of String => Extractor
 
   macro inherited
     {% stored_file = "#{@type}::StoredFile".id %}
 
     class {{ stored_file }} < Lucky::Attachment::StoredFile
     end
+
+    # Register default extractors
+    extract filename : String, using: Lucky::Attachment::Extractor::FilenameFromIO
+    extract mime_type : String, using: Lucky::Attachment::Extractor::MimeFromIO
+    extract size : Int64, using: Lucky::Attachment::Extractor::SizeFromIO
 
     # Uploads a file and returns a `Lucky::Attachment::StoredFile`. This method
     # accepts additional metadata and arbitrary arguments for overrides.
@@ -101,21 +112,48 @@ abstract struct Lucky::Attachment::Uploader
   # ```
   # struct PdfUploader < Lucky::Attachment::Uploader
   #   # Use a different MIME type extractor than the default one
-  #   extract mime_type, using: Lucky::Attachment::Extractor::MimeFromExtension
+  #   extract mime_type : String, using: Lucky::Attachment::Extractor::MimeFromExtension
   #
   #   # Or use your own custom extractor to add arbitrary data
-  #   extract pages, using: MyNumberOfPagesExtractor
+  #   extract pages : Int32, using: MyNumberOfPagesExtractor
   # end
   # ```
   #
   # The result will then be added to the attachment's metadata after uploading:
   # ```
-  # invoice.pdf.metadata["pages"]
+  # invoice.pdf.pages
   # # => 24
   # ```
   #
-  macro extract(name, using)
-    EXTRACTORS["{{name.id}}"] = {{using}}.new
+  macro extract(type_declaration, using)
+    {%
+      name = type_declaration.var
+      type = type_declaration.type.types.first
+    %}
+    
+    {%
+      if type_declaration.type.is_a?(Union)
+        raise <<-ERROR
+        Union types can't be used for extractors.
+
+        Try this...
+
+           ▸ extract #{name} : #{type}, using: #{using}
+        ERROR
+      end
+    %}
+
+    class {{ @type }}::StoredFile < Lucky::Attachment::StoredFile
+      def {{ name }}? : {{ type }}?
+        metadata["{{ name }}"]?.try(&.as?({{ type }}))
+      end
+
+      def {{ name }} : {{ type }}
+        metadata["{{ name }}"].as({{ type }})
+      end
+    end
+
+    EXTRACTORS["{{ name }}"] = {{ using }}.new
   end
 
   getter storage_key : String
@@ -161,8 +199,8 @@ abstract struct Lucky::Attachment::Uploader
     UUID.random.to_s
   end
 
-  # Extracts metadata from the IO. Override in subclasses to add custom
-  # metadata extraction.
+  # Extracts metadata from the IO. Override in subclasses to add completely
+  # custom metadata extraction outside of the `extract` DSL.
   #
   # ```
   # class ImageUploader < Lucky::Attachment::Uploader
@@ -171,6 +209,13 @@ abstract struct Lucky::Attachment::Uploader
   #     # Add custom metadata
   #     data["custom"] = "value"
   #     data
+  #   end
+  #
+  #   # Reopen the `StoredFile` class to add a method for the custom value.
+  #   class StoredFile
+  #     def custom : String
+  #       metadata["custom"].as(String)
+  #     end
   #   end
   # end
   # ```
@@ -181,9 +226,9 @@ abstract struct Lucky::Attachment::Uploader
     **options,
   ) : MetadataHash
     (metadata.try(&.dup) || MetadataHash.new).tap do |data|
-      EXTRACTORS.each do |key, extractor|
+      EXTRACTORS.each do |name, extractor|
         if value = extractor.extract(io, data, **options)
-          data[key] = value
+          data[name] = value
         end
       end
     end
