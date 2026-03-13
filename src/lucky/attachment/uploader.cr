@@ -16,11 +16,85 @@ require "uuid"
 # ```
 #
 abstract struct Lucky::Attachment::Uploader
+  alias MetadataHash = ::Lucky::Attachment::MetadataHash
+
   EXTRACTORS = {
     "filename"  => Extractor::FilenameFromIO.new,
     "mime_type" => Extractor::MimeFromIO.new,
     "size"      => Extractor::SizeFromIO.new,
   } of String => Extractor
+
+  macro inherited
+    {% stored_file = "#{@type}::StoredFile".id %}
+
+    class {{ stored_file }} < Lucky::Attachment::StoredFile
+    end
+
+    # Uploads a file and returns a `Lucky::Attachment::StoredFile`. This method
+    # accepts additional metadata and arbitrary arguments for overrides.
+    #
+    # ```
+    # uploader.upload(io)
+    # uploader.upload(io, metadata: {"custom" => "value"})
+    # uploader.upload(io, location: "custom/path.jpg")
+    # ```
+    #
+    def upload(io : IO, metadata : MetadataHash? = nil, **options) : {{ stored_file }}
+      data = extract_metadata(io, metadata, **options)
+      data = data.merge(metadata) if metadata
+      location = options[:location]? || generate_location(io, data, **options)
+
+      storage.upload(io, location, **options.merge(metadata: data))
+      {{ stored_file }}.new(id: location, storage_key: storage_key, metadata: data)
+    end
+
+    # Uploads to the "cache" storage.
+    #
+    # ```
+    # cached = ImageUploader.cache(io)
+    # ```
+    #
+    def self.cache(io : IO, **options) : {{ stored_file }}
+      new("cache").upload(io, **options)
+    end
+
+    # Uploads to the "store" storage.
+    #
+    # ```
+    # stored = ImageUploader.store(io)
+    # ```
+    #
+    def self.store(io : IO, **options) : {{ stored_file }}
+      new("store").upload(io, **options)
+    end
+
+    # Promotes a file from cache to store.
+    #
+    # ```
+    # cached = ImageUploader.cache(io)
+    # stored = ImageUploader.promote(cached)
+    # ```
+    #
+    def self.promote(
+      file : {{ stored_file }},
+      to storage : String = "store",
+      delete_source : Bool = true,
+      **options,
+    ) : {{ stored_file }}
+      file.open do |io|
+        ::Lucky::Attachment
+          .find_storage(storage)
+          .upload(io, file.id, metadata: file.metadata)
+        promoted = {{ stored_file }}.new(
+          id: file.id,
+          storage_key: storage,
+          metadata: file.metadata
+        )
+        file.delete if delete_source
+        promoted
+      end
+    end
+  end
 
   # Registers an extractor for a given key.
   #
@@ -52,65 +126,6 @@ abstract struct Lucky::Attachment::Uploader
   # Returns the storage instance for this uploader.
   def storage : Storage
     Lucky::Attachment.find_storage(storage_key)
-  end
-
-  # Uploads a file and returns a `Lucky::Attachment::StoredFile`. This method
-  # accepts additional metadata and arbitrary arguments for overrides.
-  #
-  # ```
-  # uploader.upload(io)
-  # uploader.upload(io, metadata: {"custom" => "value"})
-  # uploader.upload(io, location: "custom/path.jpg")
-  # ```
-  #
-  def upload(io : IO, metadata : MetadataHash? = nil, **options) : StoredFile
-    data = extract_metadata(io, metadata, **options)
-    data = data.merge(metadata) if metadata
-    location = options[:location]? || generate_location(io, data, **options)
-
-    storage.upload(io, location, **options.merge(metadata: data))
-    StoredFile.new(id: location, storage_key: storage_key, metadata: data)
-  end
-
-  # Uploads to the "cache" storage.
-  #
-  # ```
-  # cached = ImageUploader.cache(io)
-  # ```
-  #
-  def self.cache(io : IO, **options) : StoredFile
-    new("cache").upload(io, **options)
-  end
-
-  # Uploads to the "store" storage.
-  #
-  # ```
-  # stored = ImageUploader.store(io)
-  # ```
-  #
-  def self.store(io : IO, **options) : StoredFile
-    new("store").upload(io, **options)
-  end
-
-  # Promotes a file from cache to store.
-  #
-  # ```
-  # cached = ImageUploader.cache(io)
-  # stored = ImageUploader.promote(cached)
-  # ```
-  #
-  def self.promote(
-    file : StoredFile,
-    to storage : String = "store",
-    delete_source : Bool = true,
-    **options,
-  ) : StoredFile
-    Lucky::Attachment.promote(
-      file,
-      **options,
-      to: storage,
-      delete_source: delete_source
-    )
   end
 
   # Generates a unique location for the uploaded file. Override this in

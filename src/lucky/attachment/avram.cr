@@ -15,9 +15,9 @@ module Avram::Attachment::Model
   # class as the type.
   #
   # ```
-  # attach avatar : ImageUploader
+  # attach avatar : ImageUploader::StoredFile
   # # or
-  # attach avatar : ImageUploader?
+  # attach avatar : ImageUploader::StoredFile?
   # ```
   #
   # It is assumed that a `jsonb` column exists with the same name. So in your
@@ -33,7 +33,7 @@ module Avram::Attachment::Model
   #
   # ```
   # user.avatar.class
-  # # => Lucky::Attachment::StoredFile
+  # # => ImageUploader::StoredFile
   #
   # user.avatar.url
   # # => "https://bucket.s3.amazonaws.com/user/1/avatar/abc123.jpg"
@@ -46,18 +46,19 @@ module Avram::Attachment::Model
   # settings, but also on attachment level:
   #
   # ```
-  # attach avatar : ImageUploader?, path_prefix: ":model/images/:id"
+  # attach avatar : ImageUploader::StoredFile?, path_prefix: ":model/images/:id"
   # ```
   #
   macro attach(type_declaration, path_prefix = nil)
     {% name = type_declaration.var %}
     {% if type_declaration.type.is_a?(Union) %}
-      {% uploader = type_declaration.type.types.first %}
+      {% stored_file = type_declaration.type.types.first %}
       {% nilable = true %}
     {% else %}
-      {% uploader = type_declaration.type %}
+      {% stored_file = type_declaration.type %}
       {% nilable = false %}
     {% end %}
+    {% uploader = stored_file.stringify.split("::")[0..-2].join("::").id %}
 
     # Registers a path prefix for the attachment.
     {% if !@type.constant(:ATTACHMENT_PREFIXES) %}
@@ -74,7 +75,7 @@ module Avram::Attachment::Model
     {% end %}
     ATTACHMENT_UPLOADERS[:{{ name }}] = {{ uploader }}
 
-    column {{ name }} : ::Lucky::Attachment::StoredFile{% if nilable %}?{% end %}, serialize: true
+    column {{ name }} : ::{{ stored_file }}{% if nilable %}?{% end %}, serialize: true
   end
 end
 
