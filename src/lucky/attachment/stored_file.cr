@@ -43,17 +43,6 @@ class Lucky::Attachment::StoredFile
   )
   end
 
-  # Returns the original filename from metadata.
-  #
-  # ```
-  # file.original_filename
-  # # => "photo.jpg"
-  # ```
-  #
-  def original_filename : String?
-    metadata["filename"]?.try(&.as(String))
-  end
-
   # Returns the file extension based on the id or original filename.
   #
   # ```
@@ -67,46 +56,6 @@ class Lucky::Attachment::StoredFile
       ext = File.extname(original_filename.to_s).lchop('.')
     end
     ext.presence.try(&.downcase)
-  end
-
-  # Returns the file size in bytes from metadata.
-  #
-  # ```
-  # file.size
-  # # => 102400
-  # ```
-  #
-  def size : Int64?
-    case value = metadata["size"]?
-    when Int32  then value.to_i64
-    when Int64  then value
-    when String then value.to_i64?
-    else             nil
-    end
-  end
-
-  # Returns the MIME type from metadata.
-  #
-  # ```
-  # file.mime_type
-  # # => "image/jpeg"
-  # ```
-  #
-  def mime_type : String?
-    metadata["mime_type"]?.try(&.as(String))
-  end
-
-  # Access arbitrary metadata values.
-  #
-  # ```
-  # file["width"]
-  # # => 800
-  # file["custom"]
-  # # => "value"
-  # ```
-  #
-  def [](key : String) : MetadataValue
-    metadata[key]?
   end
 
   # Returns the storage instance this file is stored in.
