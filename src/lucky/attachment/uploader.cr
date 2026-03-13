@@ -27,10 +27,10 @@ abstract struct Lucky::Attachment::Uploader
   # ```
   # struct PdfUploader < Lucky::Attachment::Uploader
   #   # Use a different MIME type extractor than the default one
-  #   extract mime_type : Lucky::Attachment::Extractor::MimeFromExtension
+  #   extract mime_type, using: Lucky::Attachment::Extractor::MimeFromExtension
   #
   #   # Or use your own custom extractor to add arbitrary data
-  #   extract pages : MyNumberOfPagesExtractor
+  #   extract pages, using: MyNumberOfPagesExtractor
   # end
   # ```
   #
@@ -40,8 +40,8 @@ abstract struct Lucky::Attachment::Uploader
   # # => 24
   # ```
   #
-  macro extract(type_declaration)
-    EXTRACTORS["{{type_declaration.var.id}}"] = {{type_declaration.type}}.new
+  macro extract(name, using)
+    EXTRACTORS["{{name.id}}"] = {{using}}.new
   end
 
   getter storage_key : String
