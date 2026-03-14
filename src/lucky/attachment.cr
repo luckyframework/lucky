@@ -1,8 +1,11 @@
 require "./attachment/storage"
 
 module Lucky::Attachment
-  alias MetadataValue = String | Int32 | Int64 | UInt32 | UInt64 | Float64 | Bool | Nil
+  alias MetadataValue = String | Int64 | Int32 | Float64 | Bool | Nil
   alias MetadataHash = Hash(String, MetadataValue)
+
+  annotation MetadataMethods
+  end
 
   class Error < Exception; end
 

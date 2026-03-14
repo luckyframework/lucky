@@ -17,6 +17,9 @@ require "uuid"
 #
 abstract struct Lucky::Attachment::Uploader
   alias MetadataHash = ::Lucky::Attachment::MetadataHash
+
+  # Adds shorter local aliases for built-in extractors.
+  # e.g. `Lucky::Attachment::Extractor::SizeFromIO` -> `SizeFromIOExtractor`
   {% for extractor in %w[
                         DimensionsFromMagick
                         FilenameFromIO
@@ -145,12 +148,44 @@ abstract struct Lucky::Attachment::Uploader
 
     class {{ @type }}::StoredFile < Lucky::Attachment::StoredFile
       def {{ name }}? : {{ type }}?
-        metadata["{{ name }}"]?.try(&.as?({{ type }}))
+        {% if {Int32, Int64}.includes? type.resolve %}
+          if value = metadata["{{ name }}"]?
+            {{ type }}.new(value.as(Int32 | Int64))
+          end
+        {% else %}
+          metadata["{{ name }}"]?.try(&.as?({{ type }}))
+        {% end %}
       end
 
       def {{ name }} : {{ type }}
-        metadata["{{ name }}"].as({{ type }})
+        {% if {Int32, Int64}.includes? type.resolve %}
+          {{ type }}.new(metadata["{{ name }}"].as(Int32 | Int64))
+        {% else %}
+          metadata["{{ name }}"].as({{ type }})
+        {% end %}
       end
+
+      {% if methods = using.resolve.annotation(Lucky::Attachment::MetadataMethods) %}
+        {% for td in methods.args %}
+          def {{ td.var }}? : {{ td.type }}?
+            {% if {Int32, Int64}.includes? td.type.resolve %}
+              if value = metadata["{{ td.var }}"]?
+                {{ td.type }}.new(value.as(Int32 | Int64))
+              end
+            {% else %}
+              metadata["{{ td.var }}"]?.try(&.as?({{ td.type }}))
+            {% end %}
+          end
+
+          def {{ td.var }} : {{ td.type }}
+            {% if {Int32, Int64}.includes? td.type.resolve %}
+              {{ td.type }}.new(metadata["{{ td.var }}"].as(Int32 | Int64))
+            {% else %}
+              metadata["{{ td.var }}"].as({{ td.type }})
+            {% end %}
+          end
+        {% end %}
+      {% end %}
     end
 
     EXTRACTORS["{{ name }}"] = {{ using }}.new
