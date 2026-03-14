@@ -42,14 +42,7 @@ module Avram::Attachment::Model
   # user.avatar.url(expires_in: 1.hour)
   # ```
   #
-  # The path prefix of an attachment can be customised globally in the
-  # settings, but also on attachment level:
-  #
-  # ```
-  # attach avatar : ImageUploader::StoredFile?, path_prefix: ":model/images/:id"
-  # ```
-  #
-  macro attach(type_declaration, path_prefix = nil)
+  macro attach(type_declaration)
     {% name = type_declaration.var %}
     {% if type_declaration.type.is_a?(Union) %}
       {% stored_file = type_declaration.type.types.first %}
@@ -64,8 +57,8 @@ module Avram::Attachment::Model
     {% if !@type.constant(:ATTACHMENT_PREFIXES) %}
       ATTACHMENT_PREFIXES = {} of Symbol => String
     {% end %}
-    path_prefix = {{ path_prefix }} || ::Lucky::Attachment.settings.path_prefix
-    ATTACHMENT_PREFIXES[:{{ name }}] = path_prefix
+    
+    ATTACHMENT_PREFIXES[:{{ name }}] = {{ uploader }}.path_prefix
       .gsub(/:model/, {{ @type.stringify.gsub(/::/, "_").underscore }})
       .gsub(/:attachment/, {{ name.stringify }})
 

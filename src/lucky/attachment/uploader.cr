@@ -18,6 +18,12 @@ require "uuid"
 abstract struct Lucky::Attachment::Uploader
   alias MetadataHash = ::Lucky::Attachment::MetadataHash
 
+  # Defines the path prefix for uploads in the storage. Overwrite this method
+  # in uploader subclasses to use custom path prefixes per uploader.
+  def self.path_prefix : String
+    Lucky::Attachment.settings.path_prefix
+  end
+
   # Adds shorter local aliases for built-in extractors.
   # e.g. `Lucky::Attachment::Extractor::SizeFromIO` -> `SizeFromIOExtractor`
   {% for extractor in %w[
