@@ -20,7 +20,7 @@ require "uuid"
 # }
 # ```
 #
-class Lucky::Attachment::StoredFile
+abstract class Lucky::Attachment::StoredFile
   include JSON::Serializable
 
   # NOTE: This mimics the behavior of Avram's `JSON::Serializable` extension.

@@ -173,7 +173,7 @@ describe Lucky::Attachment::Storage::S3 do
           .to_return(status: 204)
         Lucky::Attachment.settings.storages["cache"] = storage
 
-        source = Lucky::Attachment::StoredFile.new(
+        source = TestUploader::StoredFile.new(
           id: "cache/photo.jpg",
           storage_key: "cache",
           metadata: Lucky::Attachment::MetadataHash.new
@@ -190,7 +190,7 @@ describe Lucky::Attachment::Storage::S3 do
           .to_return(status: 200, body_io: test_file_io("data"), headers: test_headers)
         WebMock.stub(:put, "#{base_url}/photo.jpg")
           .to_return(status: 200, headers: test_headers)
-        source = Lucky::Attachment::StoredFile.new(
+        source = TestUploader::StoredFile.new(
           id: "photo.jpg",
           storage_key: "other",
           metadata: Lucky::Attachment::MetadataHash.new
@@ -207,7 +207,7 @@ describe Lucky::Attachment::Storage::S3 do
         WebMock.stub(:delete, "#{base_url}/store/photo.jpg?")
           .to_return(status: 204)
 
-        source = Lucky::Attachment::StoredFile.new(
+        source = TestUploader::StoredFile.new(
           id: "photo.jpg",
           storage_key: "store",
           metadata: Lucky::Attachment::MetadataHash.new
@@ -349,6 +349,8 @@ private class TestAwss3Client < Awscr::S3::Client
   def put_object(_bucket, _id, _io, @headers)
   end
 end
+
+private struct TestUploader < Lucky::Attachment::Uploader; end
 
 private def bucket
   "lucky-bucket"
