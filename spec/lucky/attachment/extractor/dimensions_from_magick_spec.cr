@@ -28,8 +28,9 @@ describe Lucky::Attachment::Extractor::DimensionsFromMagick do
       it "extracts width and height from a PNG file" do
         file = File.open(png_path)
         metadata = Lucky::Attachment::MetadataHash.new
-        subject.extract(file, metadata: metadata)
+        result = subject.extract(file, metadata: metadata)
 
+        result.should be_nil
         metadata["width"].should eq(69)
         metadata["height"].should eq(16)
       end
