@@ -40,9 +40,9 @@ abstract struct Lucky::Attachment::Uploader
     end
 
     # Register default extractors
-    extract filename : String, using: Lucky::Attachment::Extractor::FilenameFromIO
-    extract mime_type : String, using: Lucky::Attachment::Extractor::MimeFromIO
-    extract size : Int64, using: Lucky::Attachment::Extractor::SizeFromIO
+    extract filename, using: Lucky::Attachment::Extractor::FilenameFromIO
+    extract mime_type, using: Lucky::Attachment::Extractor::MimeFromIO
+    extract size, using: Lucky::Attachment::Extractor::SizeFromIO
 
     # Uploads a file and returns a `Lucky::Attachment::StoredFile`. This method
     # accepts additional metadata and arbitrary arguments for overrides.
@@ -115,10 +115,10 @@ abstract struct Lucky::Attachment::Uploader
   # ```
   # struct PdfUploader < Lucky::Attachment::Uploader
   #   # Use a different MIME type extractor than the default one
-  #   extract mime_type : String, using: Lucky::Attachment::Extractor::MimeFromExtension
+  #   extract mime_type, using: Lucky::Attachment::Extractor::MimeFromExtension
   #
   #   # Or use your own custom extractor to add arbitrary data
-  #   extract pages : Int32, using: MyNumberOfPagesExtractor
+  #   extract pages, using: MyNumberOfPagesExtractor
   # end
   # ```
   #
@@ -128,22 +128,11 @@ abstract struct Lucky::Attachment::Uploader
   # # => 24
   # ```
   #
-  macro extract(type_declaration, using)
+  macro extract(name, using)
     {%
-      name = type_declaration.var
-      type = type_declaration.type.types.first
-    %}
-    
-    {%
-      if type_declaration.type.is_a?(Union)
-        raise <<-ERROR
-        Union types can't be used for extractors.
-
-        Try this...
-
-           ▸ extract #{name} : #{type}, using: #{using}
-        ERROR
-      end
+      type = using.resolve.methods
+        .find { |method| method.name == :extract.id }
+        .return_type.types.first
     %}
 
     class {{ @type }}::StoredFile < Lucky::Attachment::StoredFile
