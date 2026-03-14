@@ -20,7 +20,7 @@ describe Lucky::Attachment::Uploader do
         io = IO::Memory.new("hello")
         file = TestUploader.new("store").upload(io)
 
-        file.should be_a(Lucky::Attachment::StoredFile)
+        file.should be_a(TestUploader::StoredFile)
         file.storage_key.should eq("store")
         file.exists?.should be_true
       end
@@ -66,8 +66,8 @@ describe Lucky::Attachment::Uploader do
           }
         )
 
-        file.original_filename.should eq("override.png")
-        file["custom"].should eq("value")
+        file.filename.should eq("override.png")
+        file["custom"]?.should eq("value")
       end
     end
 
@@ -76,7 +76,7 @@ describe Lucky::Attachment::Uploader do
         file = File.tempfile("myfile", ".txt", &.print("content"))
         uploaded = TestUploader.new("store").upload(File.open(file.path))
 
-        uploaded.original_filename.should eq(File.basename(file.path))
+        uploaded.filename.should eq(File.basename(file.path))
       ensure
         file.try(&.delete)
       end
@@ -126,7 +126,7 @@ describe Lucky::Attachment::Uploader do
     it "uses overridden extract_metadata" do
       file = CustomMetadataUploader.new("store").upload(IO::Memory.new("data"))
 
-      file["custom_key"].should eq("custom_value")
+      file["custom_key"]?.should eq("custom_value")
     end
   end
 
@@ -187,7 +187,7 @@ describe Lucky::Attachment::Uploader do
       )
       stored = TestUploader.promote(cached)
 
-      stored.original_filename.should eq("test.jpg")
+      stored.filename.should eq("test.jpg")
     end
 
     it "can promote to a custom storage key" do
@@ -219,7 +219,7 @@ describe "Lucky::UploadedFile integration" do
     lucky_file = Lucky::UploadedFile.new(part)
     uploaded = AvatarUploader.new("store").upload(lucky_file.tempfile)
 
-    uploaded.original_filename.should eq(File.basename(lucky_file.tempfile.path))
+    uploaded.filename.should eq(File.basename(lucky_file.tempfile.path))
   end
 
   it "extracts content_type when Lucky::UploadedFile exposes it" do
@@ -227,7 +227,7 @@ describe "Lucky::UploadedFile integration" do
     lucky_file = Lucky::UploadedFile.new(part)
     uploaded = AvatarUploader.new("store").upload(lucky_file.tempfile)
 
-    uploaded.mime_type.should be_nil
+    uploaded.mime_type?.should be_nil
   end
 
   it "handles blank files gracefully" do

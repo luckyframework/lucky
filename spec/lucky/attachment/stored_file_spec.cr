@@ -13,7 +13,7 @@ describe Lucky::Attachment::StoredFile do
 
   describe ".from_json" do
     it "deserializes from JSON" do
-      file = Lucky::Attachment::StoredFile.from_json(
+      file = TestUploader::StoredFile.from_json(
         {
           id:       "test.jpg",
           storage:  "store",
@@ -27,7 +27,7 @@ describe Lucky::Attachment::StoredFile do
 
       file.id.should eq("test.jpg")
       file.storage_key.should eq("store")
-      file.original_filename.should eq("original.jpg")
+      file.filename.should eq("original.jpg")
       file.size.should eq(1024)
       file.mime_type.should eq("image/jpeg")
     end
@@ -35,7 +35,7 @@ describe Lucky::Attachment::StoredFile do
 
   describe "#to_json" do
     it "serializes to JSON" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "test.jpg",
         storage_key: "store",
         metadata: Lucky::Attachment::MetadataHash{
@@ -56,7 +56,7 @@ describe Lucky::Attachment::StoredFile do
 
   describe "#extension" do
     it "extracts from id" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "path/to/file.jpg",
         storage_key: "store"
       )
@@ -65,7 +65,7 @@ describe Lucky::Attachment::StoredFile do
     end
 
     it "falls back to filename metadata" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "abc123",
         storage_key: "store",
         metadata: Lucky::Attachment::MetadataHash{"filename" => "photo.png"}
@@ -75,18 +75,18 @@ describe Lucky::Attachment::StoredFile do
     end
 
     it "returns nil when no extension can be determined" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "abc123",
         storage_key: "store"
       )
 
-      file.extension.should be_nil
+      file.extension?.should be_nil
     end
   end
 
   describe "#size" do
     it "returns Int64 from integer metadata" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "file.jpg",
         storage_key: "store",
         metadata: Lucky::Attachment::MetadataHash{"size" => 1024_i64}
@@ -97,7 +97,7 @@ describe Lucky::Attachment::StoredFile do
     end
 
     it "coerces Int32 to Int64" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "file.jpg",
         storage_key: "store",
         metadata: Lucky::Attachment::MetadataHash{"size" => 512_i32}
@@ -108,18 +108,18 @@ describe Lucky::Attachment::StoredFile do
     end
 
     it "returns nil when size is absent" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "file.jpg",
         storage_key: "store"
       )
 
-      file.size.should be_nil
+      file.size?.should be_nil
     end
   end
 
   describe "#url" do
     it "delegates to storage" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "uploads/photo.jpg",
         storage_key: "store"
       )
@@ -131,7 +131,7 @@ describe Lucky::Attachment::StoredFile do
   describe "#exists?" do
     it "returns true when file is in storage" do
       memory_store.upload(IO::Memory.new("data"), "photo.jpg")
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "photo.jpg",
         storage_key: "store"
       )
@@ -140,7 +140,7 @@ describe Lucky::Attachment::StoredFile do
     end
 
     it "returns false when file is not in storage" do
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "missing.jpg",
         storage_key: "store"
       )
@@ -151,7 +151,7 @@ describe Lucky::Attachment::StoredFile do
   describe "#open" do
     it "yields the file IO" do
       memory_store.upload(IO::Memory.new("file content"), "test.txt")
-      file = Lucky::Attachment::StoredFile.new(
+      file = TestUploader::StoredFile.new(
         id: "test.txt",
         storage_key: "store"
       )
@@ -161,7 +161,7 @@ describe Lucky::Attachment::StoredFile do
 
     it "closes the IO after the block" do
       memory_store.upload(IO::Memory.new("data"), "test.txt")
-      file = Lucky::Attachment::StoredFile.new(id: "test.txt", storage_key: "store")
+      file = TestUploader::StoredFile.new(id: "test.txt", storage_key: "store")
       captured_io = nil
       file.open { |io| captured_io = io }
 
@@ -170,7 +170,7 @@ describe Lucky::Attachment::StoredFile do
 
     it "closes the IO even if the block raises" do
       memory_store.upload(IO::Memory.new("data"), "test.txt")
-      file = Lucky::Attachment::StoredFile.new(id: "test.txt", storage_key: "store")
+      file = TestUploader::StoredFile.new(id: "test.txt", storage_key: "store")
       captured_io = nil
 
       expect_raises(Exception) do
@@ -185,7 +185,7 @@ describe Lucky::Attachment::StoredFile do
     describe "#download" do
       it "returns a tempfile with file content" do
         memory_store.upload(IO::Memory.new("downloaded content"), "test.txt")
-        file = Lucky::Attachment::StoredFile.new(id: "test.txt", storage_key: "store")
+        file = TestUploader::StoredFile.new(id: "test.txt", storage_key: "store")
         tempfile = file.download
 
         tempfile.gets_to_end.should eq("downloaded content")
@@ -195,7 +195,7 @@ describe Lucky::Attachment::StoredFile do
 
       it "cleans up the tempfile after the block" do
         memory_store.upload(IO::Memory.new("data"), "test.txt")
-        file = Lucky::Attachment::StoredFile.new(id: "test.txt", storage_key: "store")
+        file = TestUploader::StoredFile.new(id: "test.txt", storage_key: "store")
         tempfile_path = ""
         file.download { |tempfile| tempfile_path = tempfile.path }
 
@@ -207,7 +207,7 @@ describe Lucky::Attachment::StoredFile do
   describe "#delete" do
     it "removes the file from storage" do
       memory_store.upload(IO::Memory.new("data"), "test.txt")
-      file = Lucky::Attachment::StoredFile.new(id: "test.txt", storage_key: "store")
+      file = TestUploader::StoredFile.new(id: "test.txt", storage_key: "store")
       file.delete
 
       memory_store.exists?("test.txt").should be_false
@@ -216,24 +216,26 @@ describe Lucky::Attachment::StoredFile do
 
   describe "#==" do
     it "is equal when id and storage_key match" do
-      a = Lucky::Attachment::StoredFile.new(id: "file.jpg", storage_key: "store")
-      b = Lucky::Attachment::StoredFile.new(id: "file.jpg", storage_key: "store")
+      a = TestUploader::StoredFile.new(id: "file.jpg", storage_key: "store")
+      b = TestUploader::StoredFile.new(id: "file.jpg", storage_key: "store")
 
       (a == b).should be_true
     end
 
     it "is not equal when id differs" do
-      a = Lucky::Attachment::StoredFile.new(id: "a.jpg", storage_key: "store")
-      b = Lucky::Attachment::StoredFile.new(id: "b.jpg", storage_key: "store")
+      a = TestUploader::StoredFile.new(id: "a.jpg", storage_key: "store")
+      b = TestUploader::StoredFile.new(id: "b.jpg", storage_key: "store")
 
       (a == b).should be_false
     end
 
     it "is not equal when storage_key differs" do
-      a = Lucky::Attachment::StoredFile.new(id: "file.jpg", storage_key: "cache")
-      b = Lucky::Attachment::StoredFile.new(id: "file.jpg", storage_key: "store")
+      a = TestUploader::StoredFile.new(id: "file.jpg", storage_key: "cache")
+      b = TestUploader::StoredFile.new(id: "file.jpg", storage_key: "store")
 
       (a == b).should be_false
     end
   end
 end
+
+private struct TestUploader < Lucky::Attachment::Uploader; end

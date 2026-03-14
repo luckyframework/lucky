@@ -46,16 +46,32 @@ class Lucky::Attachment::StoredFile
   # Returns the file extension based on the id or original filename.
   #
   # ```
-  # file.extension
+  # file.extension?
   # # => "jpg"
   # ```
   #
-  def extension : String?
+  def extension? : String?
     ext = File.extname(id).lchop('.')
-    if ext.empty? && original_filename
-      ext = File.extname(original_filename.to_s).lchop('.')
-    end
+    ext = File.extname(filename).lchop('.') if ext.empty? && filename?
     ext.presence.try(&.downcase)
+  end
+
+  # The non-nilable variant of the `extension?` method.
+  def extension : String
+    extension?.as(String)
+  end
+
+  # Aliases the `[]?` method on the metadata property.
+  #
+  # ```
+  # file["width"]?
+  # # => 800
+  # file["custom"]?
+  # # => "value"
+  # ```
+  #
+  def []?(key : String) : MetadataValue
+    metadata[key]?
   end
 
   # Returns the storage instance this file is stored in.
