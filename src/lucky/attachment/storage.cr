@@ -54,8 +54,13 @@ abstract class Lucky::Attachment::Storage
   #
   abstract def delete(id : String) : Nil
 
-  # Moves a file from another location.
+  # Moves an IO from another location.
   def move(io : IO, id : String, **options) : Nil
     upload(io, id, **options)
+  end
+
+  # Moves a file from another location.
+  def move(file : Lucky::Attachment::StoredFile, id : String, **options) : Nil
+    upload(file.io, id, **options)
   end
 end
