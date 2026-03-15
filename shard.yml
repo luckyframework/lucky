@@ -1,7 +1,7 @@
 name: lucky
 version: 1.4.0
 
-crystal: ">= 1.16.3"
+crystal: '>= 1.16.3'
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -56,5 +56,11 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 1.6.4
+  awscr-s3:
+    github: taylorfinnell/awscr-s3
+    version: ~> 0.10.0
+  webmock:
+    github: manastech/webmock.cr
+    branch: master
 
 license: MIT

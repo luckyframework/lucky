@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: "*"
+    branches: '*'
 
 jobs:
   check_format:
@@ -54,6 +54,12 @@ jobs:
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{matrix.crystal_version}}
+      - name: Install ImageMagick (Ubuntu)
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y imagemagick
+      - name: Install ImageMagick (macOS)
+        if: runner.os == 'macOS'
+        run: brew install imagemagick
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
         env:
