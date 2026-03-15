@@ -201,6 +201,21 @@ describe Lucky::Attachment::Uploader do
 
       offsite.storage_key.should eq("offsite")
     end
+
+    it "stores the file at the provided location" do
+      cached = TestUploader.cache(IO::Memory.new("data"))
+      stored = TestUploader.promote(cached, location: "custom/path/file.jpg")
+
+      stored.id.should eq("custom/path/file.jpg")
+      memory_store.exists?("custom/path/file.jpg").should be_true
+    end
+
+    it "uses the cached file id as location when none is provided" do
+      cached = TestUploader.cache(IO::Memory.new("data"))
+      stored = TestUploader.promote(cached)
+
+      stored.id.should eq(cached.id)
+    end
   end
 end
 

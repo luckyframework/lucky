@@ -102,11 +102,12 @@ abstract struct Lucky::Attachment::Uploader
       **options,
     ) : {{ stored_file }}
       file.open do |io|
+        store_location = options[:location]? || file.id
         ::Lucky::Attachment
           .find_storage(storage)
-          .upload(io, file.id, metadata: file.metadata)
+          .upload(io, store_location, **options, metadata: file.metadata)
         promoted = {{ stored_file }}.new(
-          id: file.id,
+          id: store_location,
           storage_key: storage,
           metadata: file.metadata
         )
