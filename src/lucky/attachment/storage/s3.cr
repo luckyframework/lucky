@@ -191,21 +191,15 @@ class Lucky::Attachment::Storage::S3 < Lucky::Attachment::Storage
   # a `StoredFile` in the same bucket, avoiding the download/re-upload. Falls
   # back to a regular upload for plain `IO` sources.
   #
-  def move(io : IO, id : String, **options) : Nil
-    upload(io, id, **options)
-  end
-
   def move(file : Lucky::Attachment::StoredFile, id : String, **options) : Nil
-    if same_bucket?(file)
-      copy_object(
-        **options,
-        source_key: object_key(file.id),
-        dest_key: object_key(id)
-      )
-      file.delete
-    else
-      move(file.io, id, **options)
-    end
+    return move(file.io, id, **options) unless same_bucket?(file)
+
+    source_storage = file.storage.as(S3)
+    copy_object(
+      **options,
+      source_key: source_storage.object_key(file.id),
+      dest_key: object_key(id)
+    )
   end
 
   # Returns the full object key including any configured prefix.

@@ -101,19 +101,17 @@ abstract struct Lucky::Attachment::Uploader
       delete_source : Bool = true,
       **options,
     ) : {{ stored_file }}
-      file.open do |io|
-        store_location = options[:location]? || file.id
-        ::Lucky::Attachment
-          .find_storage(storage)
-          .upload(io, store_location, **options, metadata: file.metadata)
-        promoted = {{ stored_file }}.new(
-          id: store_location,
-          storage_key: storage,
-          metadata: file.metadata
-        )
-        file.delete if delete_source
-        promoted
-      end
+      store_location = options[:location]? || file.id
+      store_storage = ::Lucky::Attachment.find_storage(storage)
+      store_storage.move(file, store_location, **options, metadata: file.metadata)
+
+      promoted = {{ stored_file }}.new(
+        id: store_location,
+        storage_key: storage,
+        metadata: file.metadata
+      )
+      file.delete if delete_source
+      promoted
     end
   end
 

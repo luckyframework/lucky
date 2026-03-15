@@ -215,6 +215,26 @@ describe Lucky::Attachment::Storage::S3 do
 
         storage.move(source, "photo.jpg")
       end
+
+      it "uses the source storage prefix for the copy source key" do
+        cache_storage = build_storage(prefix: "cache")
+        store_storage = build_storage
+
+        Lucky::Attachment.settings.storages["cache"] = cache_storage
+        Lucky::Attachment.settings.storages["store"] = store_storage
+
+        WebMock.stub(:put, "#{base_url}/photo.jpg")
+          .with(headers: {"x-amz-copy-source" => "/lucky-bucket/cache/photo.jpg"})
+          .to_return(status: 200, body: copy_object_xml)
+
+        source = TestUploader::StoredFile.new(
+          id: "photo.jpg",
+          storage_key: "cache",
+          metadata: Lucky::Attachment::MetadataHash.new
+        )
+
+        store_storage.move(source, "photo.jpg")
+      end
     end
 
     describe "presigned URL (with expires_in)" do
