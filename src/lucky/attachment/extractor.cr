@@ -8,7 +8,7 @@ module Lucky::Attachment::Extractor
   # (e.g. the dimensions of an image).
   #
   abstract def extract(
-    io : IO,
+    uploaded_file : Lucky::UploadedFile,
     metadata : MetadataHash,
     **options,
   ) : MetadataValue?

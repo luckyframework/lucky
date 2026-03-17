@@ -5,13 +5,13 @@ require "uuid"
 #
 # ```
 # struct ImageUploader < Lucky::Attachment::Uploader
-#   def generate_location(io, metadata, **options) : String
+#   def generate_location(uploaded_file, metadata, **options) : String
 #     date = Time.utc.to_s("%Y/%m/%d")
 #     File.join("images", date, super)
 #   end
 # end
 #
-# ImageUploader.new("store").upload(io)
+# ImageUploader.new("store").upload(uploaded_file)
 # # => Lucky::Attachment::StoredFile with id "images/2024/01/15/abc123.jpg"
 # ```
 #
@@ -54,63 +54,77 @@ abstract struct Lucky::Attachment::Uploader
     # accepts additional metadata and arbitrary arguments for overrides.
     #
     # ```
-    # uploader.upload(io)
-    # uploader.upload(io, metadata: {"custom" => "value"})
-    # uploader.upload(io, location: "custom/path.jpg")
+    # uploader.upload(uploaded_file)
+    # uploader.upload(uploaded_file, metadata: {"custom" => "value"})
+    # uploader.upload(uploaded_file, location: "custom/path.jpg")
     # ```
     #
-    def upload(io : IO, metadata : MetadataHash? = nil, **options) : {{ stored_file }}
-      data = extract_metadata(io, metadata, **options)
+    def upload(
+      uploaded_file : Lucky::UploadedFile,
+      metadata : MetadataHash? = nil,
+      **options
+    ) : {{ stored_file }}
+      data = extract_metadata(uploaded_file, metadata, **options)
       data = data.merge(metadata) if metadata
-      location = options[:location]? || generate_location(io, data, **options)
+      location = options[:location]? || generate_location(uploaded_file, data, **options)
 
-      storage.upload(io, location, **options.merge(metadata: data))
+      storage.upload(uploaded_file.tempfile, location, **options.merge(metadata: data))
       {{ stored_file }}.new(id: location, storage_key: storage_key, metadata: data)
     end
 
     # Uploads to the "cache" storage.
     #
     # ```
-    # cached = ImageUploader.cache(io)
+    # cached = ImageUploader.cache(uploaded_file)
     # ```
     #
-    def self.cache(io : IO, **options) : {{ stored_file }}
-      new("cache").upload(io, **options)
+    def self.cache(
+      uploaded_file : Lucky::UploadedFile,
+      **options
+    ) : {{ stored_file }}
+      new("cache").upload(uploaded_file, **options)
     end
 
     # Uploads to the "store" storage.
     #
     # ```
-    # stored = ImageUploader.store(io)
+    # stored = ImageUploader.store(uploaded_file)
     # ```
     #
-    def self.store(io : IO, **options) : {{ stored_file }}
-      new("store").upload(io, **options)
+    def self.store(
+      uploaded_file : Lucky::UploadedFile,
+      **options
+    ) : {{ stored_file }}
+      new("store").upload(uploaded_file, **options)
     end
 
     # Promotes a file from cache to store.
     #
     # ```
-    # cached = ImageUploader.cache(io)
+    # cached = ImageUploader.cache(uploaded_file)
     # stored = ImageUploader.promote(cached)
     # ```
     #
     def self.promote(
-      file : {{ stored_file }},
+      stored_file : {{ stored_file }},
       to storage : String = "store",
       delete_source : Bool = true,
       **options,
     ) : {{ stored_file }}
-      store_location = options[:location]? || file.id
+      store_location = options[:location]? || stored_file.id
       store_storage = ::Lucky::Attachment.find_storage(storage)
-      store_storage.move(file, store_location, **options, metadata: file.metadata)
-
+      store_storage.move(
+        stored_file,
+        store_location,
+        **options,
+        metadata: stored_file.metadata
+      )
       promoted = {{ stored_file }}.new(
         id: store_location,
         storage_key: storage,
-        metadata: file.metadata
+        metadata: stored_file.metadata
       )
-      file.delete if delete_source
+      stored_file.delete if delete_source
       promoted
     end
   end
@@ -200,15 +214,19 @@ abstract struct Lucky::Attachment::Uploader
   #
   # ```
   # class ImageUploader < Lucky::Attachment::Uploader
-  #   def generate_location(io, metadata, **options) : String
+  #   def generate_location(uploaded_file, metadata, **options) : String
   #     File.join("images", super)
   #   end
   # end
   # ```
   #
-  def generate_location(io : IO, metadata : MetadataHash, **options) : String
-    extension = file_extension(io, metadata)
-    basename = generate_uid(io, metadata, **options)
+  def generate_location(
+    uploaded_file : Lucky::UploadedFile,
+    metadata : MetadataHash,
+    **options,
+  ) : String
+    extension = file_extension(uploaded_file, metadata)
+    basename = generate_uid(uploaded_file, metadata, **options)
     filename = extension ? "#{basename}.#{extension}" : basename
     File.join([options[:path_prefix]?, filename].compact)
   end
@@ -218,13 +236,17 @@ abstract struct Lucky::Attachment::Uploader
   #
   # ```
   # class ImageUploader < Lucky::Attachment::Uploader
-  #   def generate_uid(io, metadata, **options) : String
+  #   def generate_uid(uploaded_file, metadata, **options) : String
   #     "#{metadata["filename"]}-#{Time.local.to_unix}"
   #   end
   # end
   # ```
   #
-  def generate_uid(io : IO, metadata : MetadataHash, **options) : String
+  def generate_uid(
+    uploaded_file : Lucky::UploadedFile,
+    metadata : MetadataHash,
+    **options,
+  ) : String
     UUID.random.to_s
   end
 
@@ -233,7 +255,11 @@ abstract struct Lucky::Attachment::Uploader
   #
   # ```
   # class ImageUploader < Lucky::Attachment::Uploader
-  #   def extract_metadata(io, metadata : MetadataHash? = nil, **options) : MetadataHash
+  #   def extract_metadata(
+  #     uploaded_file : Lucky::UploadedFile,
+  #     metadata : MetadataHash? = nil,
+  #     **options,
+  #   ) : MetadataHash
   #     data = super
   #     # Add custom metadata
   #     data["custom"] = "value"
@@ -250,13 +276,13 @@ abstract struct Lucky::Attachment::Uploader
   # ```
   #
   def extract_metadata(
-    io : IO,
+    uploaded_file : Lucky::UploadedFile,
     metadata : MetadataHash? = nil,
     **options,
   ) : MetadataHash
     (metadata.try(&.dup) || MetadataHash.new).tap do |data|
       EXTRACTORS.each do |name, extractor|
-        if value = extractor.extract(io, data, **options)
+        if value = extractor.extract(uploaded_file, data, **options)
           data[name] = value
         end
       end
@@ -265,7 +291,7 @@ abstract struct Lucky::Attachment::Uploader
 
   # Tries to determine the file extension from the metadata or IO.
   protected def file_extension(
-    io : IO,
+    uploaded_file : Lucky::UploadedFile,
     metadata : MetadataHash,
   ) : String?
     if filename = metadata["filename"]?.try(&.as(String))
@@ -273,9 +299,6 @@ abstract struct Lucky::Attachment::Uploader
       return ext.downcase unless ext.empty?
     end
 
-    if io.responds_to?(:path)
-      ext = File.extname(io.path).lchop('.')
-      return ext.downcase unless ext.empty?
-    end
+    File.extname(uploaded_file.path).lchop('.').try(&.downcase.presence)
   end
 end

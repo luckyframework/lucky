@@ -15,84 +15,66 @@ describe Lucky::Attachment::Uploader do
   end
 
   describe "#upload" do
-    context "with a basic IO" do
-      it "uploads and returns a stored file" do
-        io = IO::Memory.new("hello")
-        file = TestUploader.new("store").upload(io)
+    it "uploads and returns a stored file" do
+      uploaded_file = build_uploaded_file(content: "hello", filename: "test.txt")
+      file = TestUploader.new("store").upload(uploaded_file)
 
-        file.should be_a(TestUploader::StoredFile)
-        file.storage_key.should eq("store")
-        file.exists?.should be_true
-      end
-
-      it "generates a unique location each time" do
-        file_a = TestUploader.new("store").upload(IO::Memory.new("a"))
-        file_b = TestUploader.new("store").upload(IO::Memory.new("b"))
-
-        file_a.id.should_not eq(file_b.id)
-      end
-
-      it "extracts size metadata" do
-        io = IO::Memory.new("hello world")
-        file = TestUploader.new("store").upload(io)
-
-        file.size.should eq(11)
-      end
-
-      it "preserves extension in the location" do
-        io = IO::Memory.new("data")
-        file = TestUploader.new("store").upload(
-          io,
-          metadata: Lucky::Attachment::MetadataHash{"filename" => "photo.jpg"}
-        )
-
-        file.id.should end_with(".jpg")
-      end
-
-      it "accepts a custom location" do
-        io = IO::Memory.new("data")
-        file = TestUploader.new("store").upload(io, location: "my/custom/path.jpg")
-
-        file.id.should eq("my/custom/path.jpg")
-      end
-
-      it "merges provided metadata with extracted metadata" do
-        io = IO::Memory.new("data")
-        file = TestUploader.new("store").upload(
-          io,
-          metadata: Lucky::Attachment::MetadataHash{
-            "filename" => "override.png",
-            "custom"   => "value",
-          }
-        )
-
-        file.filename.should eq("override.png")
-        file["custom"]?.should eq("value")
-      end
+      file.should be_a(TestUploader::StoredFile)
+      file.storage_key.should eq("store")
+      file.exists?.should be_true
     end
 
-    context "with a File IO" do
-      it "extracts filename from path" do
-        file = File.tempfile("myfile", ".txt", &.print("content"))
-        uploaded = TestUploader.new("store").upload(File.open(file.path))
+    it "generates a unique location each time" do
+      file_a = TestUploader.new("store").upload(
+        build_uploaded_file(content: "a", filename: "a.txt")
+      )
+      file_b = TestUploader.new("store").upload(
+        build_uploaded_file(content: "b", filename: "b.txt")
+      )
 
-        uploaded.filename.should eq(File.basename(file.path))
-      ensure
-        file.try(&.delete)
-      end
+      file_a.id.should_not eq(file_b.id)
+    end
 
-      it "extracts size" do
-        file = File.tempfile("myfile", ".txt", &.print("content"))
-        uploaded = TestUploader.new("store").upload(File.open(file.path))
+    it "extracts size metadata" do
+      uploaded_file = build_uploaded_file(content: "hello world", filename: "test.txt")
+      file = TestUploader.new("store").upload(uploaded_file)
 
-        uploaded.size.should eq(7)
-      ensure
-        file.try(&.delete)
-      end
+      file.size.should eq(11)
+    end
+
+    it "preserves extension in the location" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "photo.jpg")
+      file = TestUploader.new("store").upload(uploaded_file)
+
+      file.id.should end_with(".jpg")
+    end
+
+    it "accepts a custom location" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = TestUploader.new("store").upload(
+        uploaded_file,
+        location: "my/custom/path.jpg"
+      )
+
+      file.id.should eq("my/custom/path.jpg")
+    end
+
+    it "merges provided metadata with extracted metadata" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = TestUploader.new("store").upload(
+        uploaded_file,
+        metadata: Lucky::Attachment::MetadataHash{
+          "filename" => "override.png",
+          "custom"   => "value",
+        }
+      )
+
+      file.filename.should eq("override.png")
+      file["custom"]?.should eq("value")
     end
 
     context "error handling" do
-      it "raises Error when no storages are not configured" do
+      it "raises Error when no storages are configured" do
         Lucky::Attachment.configure do |settings|
           settings.storages = {} of String => Lucky::Attachment::Storage
         end
@@ -101,7 +83,9 @@ describe Lucky::Attachment::Uploader do
           Lucky::Attachment::Error,
           "There are no storages registered yet"
         ) do
-          TestUploader.new("store").upload(IO::Memory.new("data"))
+          TestUploader.new("store").upload(
+            build_uploaded_file(content: "data", filename: "test.txt")
+          )
         end
       end
 
@@ -110,7 +94,9 @@ describe Lucky::Attachment::Uploader do
           Lucky::Attachment::Error,
           %(Storage "missing" is not registered. The available storages are: "cache", "store")
         ) do
-          TestUploader.new("missing").upload(IO::Memory.new("data"))
+          TestUploader.new("missing").upload(
+            build_uploaded_file(content: "data", filename: "test.txt")
+          )
         end
       end
     end
@@ -118,13 +104,15 @@ describe Lucky::Attachment::Uploader do
 
   describe "custom uploader behaviour" do
     it "uses overridden generate_location" do
-      file = CustomLocationUploader.new("store").upload(IO::Memory.new("data"))
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = CustomLocationUploader.new("store").upload(uploaded_file)
 
       file.id.should start_with("custom/")
     end
 
     it "uses overridden extract_metadata" do
-      file = CustomMetadataUploader.new("store").upload(IO::Memory.new("data"))
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = CustomMetadataUploader.new("store").upload(uploaded_file)
 
       file["custom_key"]?.should eq("custom_value")
     end
@@ -132,7 +120,8 @@ describe Lucky::Attachment::Uploader do
 
   describe ".cache" do
     it "uploads to the cache storage" do
-      file = TestUploader.cache(IO::Memory.new("data"))
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = TestUploader.cache(uploaded_file)
 
       file.storage_key.should eq("cache")
       memory_cache.exists?(file.id).should be_true
@@ -141,7 +130,8 @@ describe Lucky::Attachment::Uploader do
 
   describe ".store" do
     it "uploads to the store storage" do
-      file = TestUploader.store(IO::Memory.new("data"))
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = TestUploader.store(uploaded_file)
 
       file.storage_key.should eq("store")
       memory_store.exists?(file.id).should be_true
@@ -150,7 +140,9 @@ describe Lucky::Attachment::Uploader do
 
   describe ".promote" do
     it "moves a cached file to the store" do
-      cached = TestUploader.cache(IO::Memory.new("data"))
+      cached = TestUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
       stored = TestUploader.promote(cached)
 
       stored.storage_key.should eq("store")
@@ -158,7 +150,9 @@ describe Lucky::Attachment::Uploader do
     end
 
     it "deletes the source file by default" do
-      cached = TestUploader.cache(IO::Memory.new("data"))
+      cached = TestUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
       cached_id = cached.id
       TestUploader.promote(cached)
 
@@ -166,7 +160,9 @@ describe Lucky::Attachment::Uploader do
     end
 
     it "preserves the source when delete_source is false" do
-      cached = TestUploader.cache(IO::Memory.new("data"))
+      cached = TestUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
       cached_id = cached.id
       TestUploader.promote(cached, delete_source: false)
 
@@ -174,7 +170,9 @@ describe Lucky::Attachment::Uploader do
     end
 
     it "preserves the file id across storages" do
-      cached = TestUploader.cache(IO::Memory.new("data"))
+      cached = TestUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
       stored = TestUploader.promote(cached)
 
       stored.id.should eq(cached.id)
@@ -182,7 +180,7 @@ describe Lucky::Attachment::Uploader do
 
     it "preserves metadata" do
       cached = TestUploader.cache(
-        IO::Memory.new("data"),
+        build_uploaded_file(content: "data", filename: "test.jpg"),
         metadata: Lucky::Attachment::MetadataHash{"filename" => "test.jpg"}
       )
       stored = TestUploader.promote(cached)
@@ -196,14 +194,18 @@ describe Lucky::Attachment::Uploader do
         settings.storages["store"] = memory_store
         settings.storages["offsite"] = Lucky::Attachment::Storage::Memory.new
       end
-      cached = TestUploader.cache(IO::Memory.new("data"))
+      cached = TestUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
       offsite = TestUploader.promote(cached, to: "offsite")
 
       offsite.storage_key.should eq("offsite")
     end
 
     it "stores the file at the provided location" do
-      cached = TestUploader.cache(IO::Memory.new("data"))
+      cached = TestUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
       stored = TestUploader.promote(cached, location: "custom/path/file.jpg")
 
       stored.id.should eq("custom/path/file.jpg")
@@ -211,7 +213,9 @@ describe Lucky::Attachment::Uploader do
     end
 
     it "uses the cached file id as location when none is provided" do
-      cached = TestUploader.cache(IO::Memory.new("data"))
+      cached = TestUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
       stored = TestUploader.promote(cached)
 
       stored.id.should eq(cached.id)
@@ -219,50 +223,14 @@ describe Lucky::Attachment::Uploader do
   end
 end
 
-describe "Lucky::UploadedFile integration" do
-  memory_store = Lucky::Attachment::Storage::Memory.new
-
-  before_each do
-    memory_store.clear!
-    Lucky::Attachment.configure do |settings|
-      settings.storages["store"] = memory_store
-    end
-  end
-
-  it "extracts filename from Lucky::UploadedFile" do
-    part = build_form_data_part("avatar", "photo.jpg", "image/jpeg", "data")
-    lucky_file = Lucky::UploadedFile.new(part)
-    uploaded = AvatarUploader.new("store").upload(lucky_file.tempfile)
-
-    uploaded.filename.should eq(File.basename(lucky_file.tempfile.path))
-  end
-
-  it "extracts content_type when Lucky::UploadedFile exposes it" do
-    part = build_form_data_part("avatar", "photo.jpg", "image/jpeg", "data")
-    lucky_file = Lucky::UploadedFile.new(part)
-    uploaded = AvatarUploader.new("store").upload(lucky_file.tempfile)
-
-    uploaded.mime_type?.should be_nil
-  end
-
-  it "handles blank files gracefully" do
-    part = build_form_data_part("avatar", "", "application/octet-stream", "")
-    lucky_file = Lucky::UploadedFile.new(part)
-
-    lucky_file.blank?.should be_true
-  end
-end
-
 private struct TestUploader < Lucky::Attachment::Uploader
-end
-
-private struct AvatarUploader < Lucky::Attachment::Uploader
 end
 
 private struct CustomLocationUploader < Lucky::Attachment::Uploader
   def generate_location(
-    io : IO,
+    uploaded_file : Lucky::UploadedFile,
     metadata : Lucky::Attachment::MetadataHash,
+    **options,
   ) : String
     "custom/#{super}"
   end
@@ -270,7 +238,7 @@ end
 
 private struct CustomMetadataUploader < Lucky::Attachment::Uploader
   def extract_metadata(
-    io : IO,
+    uploaded_file : Lucky::UploadedFile,
     metadata : Lucky::Attachment::MetadataHash? = nil,
     **options,
   ) : Lucky::Attachment::MetadataHash
@@ -280,21 +248,16 @@ private struct CustomMetadataUploader < Lucky::Attachment::Uploader
   end
 end
 
-private def build_form_data_part(
-  name : String,
+private def build_uploaded_file(
+  content : String,
   filename : String,
-  content_type : String,
-  body : String,
-) : HTTP::FormData::Part
-  disposition = if filename.empty?
-                  %(form-data; name="#{name}")
-                else
-                  %(form-data; name="#{name}"; filename="#{filename}")
-                end
-  headers = HTTP::Headers{
-    "Content-Disposition" => disposition,
-    "Content-Type"        => content_type,
-  }
-
-  HTTP::FormData::Part.new(headers: headers, body: IO::Memory.new(body))
+  size : Int32? = nil,
+) : Lucky::UploadedFile
+  headers = HTTP::Headers.new
+  actual_size = size || content.bytesize
+  headers["Content-Disposition"] =
+    %[form-data; name="file"; filename="#{filename}"; size=#{actual_size}]
+  body = IO::Memory.new(content)
+  part = HTTP::FormData::Part.new(headers: headers, body: body)
+  Lucky::UploadedFile.new(part)
 end

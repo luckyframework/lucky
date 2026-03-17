@@ -5,18 +5,21 @@ describe Lucky::Attachment::Extractor::DimensionsFromMagick do
     subject = Lucky::Attachment::Extractor::DimensionsFromMagick.new
     png_path = "spec/fixtures/lucky_logo_tiny.png"
 
-    context "when magick is not installed" do
+    context "when neither magick nor identify is installed" do
       it "raises Lucky::Attachment::Error" do
         original_path = ENV["PATH"]
         ENV["PATH"] = ""
-        io = IO::Memory.new
+        uploaded_file = build_uploaded_file(filename: "test.png")
 
         begin
           expect_raises(
             Lucky::Attachment::Error,
             /The `magick|identify` command-line tool is not installed/
           ) do
-            subject.extract(io, metadata: Lucky::Attachment::MetadataHash.new)
+            subject.extract(
+              uploaded_file,
+              metadata: {} of String => Lucky::Attachment::MetadataValue
+            )
           end
         ensure
           ENV["PATH"] = original_path
@@ -24,32 +27,39 @@ describe Lucky::Attachment::Extractor::DimensionsFromMagick do
       end
     end
 
-    context "when magick is installed" do
+    context "when magick or identify is installed" do
       it "extracts width and height from a PNG file" do
-        file = File.open(png_path)
-        metadata = Lucky::Attachment::MetadataHash.new
-        result = subject.extract(file, metadata: metadata)
+        uploaded_file = build_uploaded_file(
+          path: png_path,
+          filename: "lucky_logo_tiny.png"
+        )
+        metadata = {} of String => Lucky::Attachment::MetadataValue
+        result = subject.extract(uploaded_file, metadata: metadata)
 
         result.should be_nil
         metadata["width"].should eq(69)
         metadata["height"].should eq(16)
       end
 
-      it "does not modify metadata when magick returns no output" do
-        io = IO::Memory.new
-        metadata = Lucky::Attachment::MetadataHash.new
-        subject.extract(io, metadata: metadata)
+      it "does not modify metadata for an unrecognised file" do
+        uploaded_file = build_uploaded_file(filename: "empty.bin")
+        metadata = {} of String => Lucky::Attachment::MetadataValue
+        subject.extract(uploaded_file, metadata: metadata)
 
         metadata.should be_empty
       end
-
-      it "rewinds the IO after reading" do
-        file = File.open(png_path)
-        metadata = Lucky::Attachment::MetadataHash.new
-        subject.extract(file, metadata: metadata)
-
-        file.pos.should eq(0)
-      end
     end
   end
+end
+
+private def build_uploaded_file(
+  filename : String,
+  path : String? = nil,
+) : Lucky::UploadedFile
+  headers = HTTP::Headers.new
+  headers["Content-Disposition"] =
+    %[form-data; name="file"; filename="#{filename}"]
+  body = path ? File.open(path) : IO::Memory.new
+  part = HTTP::FormData::Part.new(headers: headers, body: body)
+  Lucky::UploadedFile.new(part)
 end

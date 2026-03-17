@@ -5,10 +5,10 @@ struct Lucky::Attachment::Extractor::MimeFromFile
   include Lucky::Attachment::Extractor::RunCommand
 
   # Extracts the MIME type using the `file` utility.
-  def extract(io, metadata, **options) : String?
-    # Avoids returning "application/x-empty" for empty files
-    return nil if io.size.try &.zero?
+  def extract(uploaded_file, metadata, **options) : String?
+    # NOTE: Avoids returning "application/x-empty" for empty files
+    return nil if uploaded_file.size.try &.zero?
 
-    run_command("file", %w[--mime-type --brief], io)
+    run_command("file", %w[--mime-type --brief], uploaded_file.tempfile)
   end
 end
