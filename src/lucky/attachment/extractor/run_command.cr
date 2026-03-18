@@ -6,14 +6,18 @@
 #   include Lucky::Attachment::Extractor
 #   include Lucky::Attachment::Extractor::RunCommand
 #
-#   def extract(io, metadata, **options) : String?
-#     run_command("magick", ["identify", "-format", "%[colorspace]"], io)
+#   def extract(uploaded_file, metadata, **options) : String?
+#     run_command(
+#       "magick",
+#       ["identify", "-format", "%[colorspace]"],
+#       uploaded_file
+#     )
 #   end
 # end
 # ```
 #
 module Lucky::Attachment::Extractor::RunCommand
-  # Runs th given command on the given IO object and returns the resulting
+  # Runs the given command on the given IO object and returns the resulting
   # string if the command was successful.
   private def run_command(
     command : String,
@@ -37,5 +41,15 @@ module Lucky::Attachment::Extractor::RunCommand
     end
   rescue File::NotFoundError
     raise CliToolNotFound.new("The `#{command}` command-line tool is not installed")
+  end
+
+  # Convenience method accepting the `Lucky::UploadedFile` wrapper instead of
+  # the `IO`.
+  private def run_command(
+    command : String,
+    args : Array(String),
+    uploaded_file : Lucky::UploadedFile,
+  ) : String?
+    run_command(command, args, uploaded_file.tempfile)
   end
 end
