@@ -83,9 +83,9 @@ private def build_uploaded_file(
   size : UInt64? = nil,
 ) : Lucky::UploadedFile
   headers = HTTP::Headers.new
-  disposition = String.build do |s|
-    s << %[form-data; name="file"; filename="#{filename}"]
-    s << "; size=#{size}" if size
+  disposition = String.build do |io|
+    io << %[form-data; name="file"; filename="#{filename}"]
+    io << "; size=#{size}" if size
   end
   headers["Content-Disposition"] = disposition
   body = IO::Memory.new(content)

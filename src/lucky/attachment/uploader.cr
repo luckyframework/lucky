@@ -24,6 +24,12 @@ abstract struct Lucky::Attachment::Uploader
     Lucky::Attachment.settings.path_prefix
   end
 
+  # Defines the storages used by this uploader. Overwrite this method in
+  # uploader subclasses to use different storages per uploader.
+  def self.storages : NamedTuple(cache: String, store: String)
+    {cache: "cache", store: "store"}
+  end
+
   # Adds shorter local aliases for built-in extractors.
   # e.g. `Lucky::Attachment::Extractor::SizeFromIO` -> `SizeFromIOExtractor`
   {% for extractor in %w[
@@ -82,7 +88,7 @@ abstract struct Lucky::Attachment::Uploader
       uploaded_file : Lucky::UploadedFile,
       **options
     ) : {{ stored_file }}
-      new("cache").upload(uploaded_file, **options)
+      new(self.storages[:cache]).upload(uploaded_file, **options)
     end
 
     # Uploads to the "store" storage.
@@ -95,7 +101,7 @@ abstract struct Lucky::Attachment::Uploader
       uploaded_file : Lucky::UploadedFile,
       **options
     ) : {{ stored_file }}
-      new("store").upload(uploaded_file, **options)
+      new(self.storages[:store]).upload(uploaded_file, **options)
     end
 
     # Promotes a file from cache to store.
@@ -107,7 +113,7 @@ abstract struct Lucky::Attachment::Uploader
     #
     def self.promote(
       stored_file : {{ stored_file }},
-      to storage : String = "store",
+      to storage : String = self.storages[:store],
       delete_source : Bool = true,
       **options,
     ) : {{ stored_file }}

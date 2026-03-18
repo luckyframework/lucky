@@ -14,6 +14,79 @@ describe Lucky::Attachment::Uploader do
     end
   end
 
+  describe "#storage" do
+    it "returns the storage for the given key" do
+      TestUploader.new("store").storage.should eq(memory_store)
+    end
+  end
+
+  describe "#generate_location" do
+    it "generates a UUID-based filename with extension" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "photo.jpg")
+      uploader = TestUploader.new("store")
+      metadata = Lucky::Attachment::MetadataHash{"filename" => "photo.jpg"}
+      location = uploader.generate_location(uploaded_file, metadata)
+
+      location.should match(/\A[0-9a-f-]{36}\.jpg\z/)
+    end
+
+    it "omits extension when filename has none" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "noext")
+      uploader = TestUploader.new("store")
+      metadata = Lucky::Attachment::MetadataHash{"filename" => "noext"}
+      location = uploader.generate_location(uploaded_file, metadata)
+
+      location.should match(/\A[0-9a-f-]{36}\z/)
+    end
+
+    it "prepends path_prefix when provided" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "photo.jpg")
+      uploader = TestUploader.new("store")
+      metadata = Lucky::Attachment::MetadataHash{"filename" => "photo.jpg"}
+      location = uploader.generate_location(uploaded_file, metadata, path_prefix: "uploads")
+
+      location.should start_with("uploads/")
+    end
+  end
+
+  describe "#generate_uid" do
+    it "returns a valid UUID" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      uploader = TestUploader.new("store")
+      uid = uploader.generate_uid(uploaded_file, Lucky::Attachment::MetadataHash.new)
+
+      UUID.parse?(uid).should_not be_nil
+    end
+
+    it "returns a unique value each call" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      uploader = TestUploader.new("store")
+      metadata = Lucky::Attachment::MetadataHash.new
+
+      uploader.generate_uid(uploaded_file, metadata)
+        .should_not eq(uploader.generate_uid(uploaded_file, metadata))
+    end
+  end
+
+  describe "#extract_metadata" do
+    it "runs all default extractors" do
+      uploaded_file = build_uploaded_file(content: "hello", filename: "test.txt")
+      data = TestUploader.new("store").extract_metadata(uploaded_file)
+
+      data["filename"]?.should_not be_nil
+      data["mime_type"]?.should_not be_nil
+      data["size"]?.should_not be_nil
+    end
+
+    it "does not mutate the provided metadata hash" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      original = Lucky::Attachment::MetadataHash{"custom" => "value"}
+      TestUploader.new("store").extract_metadata(uploaded_file, original)
+
+      original.size.should eq(1)
+    end
+  end
+
   describe "#upload" do
     it "uploads and returns a stored file" do
       uploaded_file = build_uploaded_file(content: "hello", filename: "test.txt")
@@ -73,6 +146,16 @@ describe Lucky::Attachment::Uploader do
       file["custom"]?.should eq("value")
     end
 
+    it "does not lose extracted metadata when extra metadata is passed" do
+      uploaded_file = build_uploaded_file(content: "hello", filename: "test.txt")
+      file = TestUploader.new("store").upload(
+        uploaded_file,
+        metadata: Lucky::Attachment::MetadataHash{"custom" => "value"}
+      )
+
+      file.size.should eq(5)
+    end
+
     context "error handling" do
       it "raises Error when no storages are configured" do
         Lucky::Attachment.configure do |settings|
@@ -118,6 +201,45 @@ describe Lucky::Attachment::Uploader do
     end
   end
 
+  describe "extract macro" do
+    it "registers a custom extractor and exposes accessor methods" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = CustomExtractorUploader.new("store").upload(uploaded_file)
+
+      file.custom_key?.should eq("custom_value")
+      file.custom_key.should eq("custom_value")
+    end
+
+    it "overwrites a default extractor" do
+      uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
+      file = OverriddenExtractorUploader.new("store").upload(uploaded_file)
+
+      file.mime_type.should eq("text/plain")
+    end
+  end
+
+  describe ".storages" do
+    it "returns the default cache and store keys" do
+      TestUploader.storages[:cache].should eq("cache")
+      TestUploader.storages[:store].should eq("store")
+    end
+
+    it "returns overridden keys in a subclass" do
+      CustomStoragesUploader.storages[:cache].should eq("tmp")
+      CustomStoragesUploader.storages[:store].should eq("offsite")
+    end
+  end
+
+  describe ".path_prefix" do
+    it "returns the configured path prefix" do
+      Lucky::Attachment.configure do |settings|
+        settings.path_prefix = "uploads"
+      end
+
+      TestUploader.path_prefix.should eq("uploads")
+    end
+  end
+
   describe ".cache" do
     it "uploads to the cache storage" do
       uploaded_file = build_uploaded_file(content: "data", filename: "test.txt")
@@ -125,6 +247,20 @@ describe Lucky::Attachment::Uploader do
 
       file.storage_key.should eq("cache")
       memory_cache.exists?(file.id).should be_true
+    end
+
+    it "uses the overridden cache storage key" do
+      memory_tmp = Lucky::Attachment::Storage::Memory.new
+      Lucky::Attachment.configure do |settings|
+        settings.storages["tmp"] = memory_tmp
+      end
+
+      file = CustomStoragesUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
+
+      file.storage_key.should eq("tmp")
+      memory_tmp.exists?(file.id).should be_true
     end
   end
 
@@ -135,6 +271,20 @@ describe Lucky::Attachment::Uploader do
 
       file.storage_key.should eq("store")
       memory_store.exists?(file.id).should be_true
+    end
+
+    it "uses the overridden store storage key" do
+      memory_offsite = Lucky::Attachment::Storage::Memory.new
+      Lucky::Attachment.configure do |settings|
+        settings.storages["offsite"] = memory_offsite
+      end
+
+      file = CustomStoragesUploader.store(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
+
+      file.storage_key.should eq("offsite")
+      memory_offsite.exists?(file.id).should be_true
     end
   end
 
@@ -220,10 +370,33 @@ describe Lucky::Attachment::Uploader do
 
       stored.id.should eq(cached.id)
     end
+
+    it "defaults to the overridden store storage key" do
+      memory_tmp = Lucky::Attachment::Storage::Memory.new
+      memory_offsite = Lucky::Attachment::Storage::Memory.new
+      Lucky::Attachment.configure do |settings|
+        settings.storages["tmp"] = memory_tmp
+        settings.storages["offsite"] = memory_offsite
+      end
+
+      cached = CustomStoragesUploader.cache(
+        build_uploaded_file(content: "data", filename: "test.txt")
+      )
+      stored = CustomStoragesUploader.promote(cached)
+
+      stored.storage_key.should eq("offsite")
+      memory_offsite.exists?(stored.id).should be_true
+    end
   end
 end
 
 private struct TestUploader < Lucky::Attachment::Uploader
+end
+
+private struct CustomStoragesUploader < Lucky::Attachment::Uploader
+  def self.storages : NamedTuple(cache: String, store: String)
+    {cache: "tmp", store: "offsite"}
+  end
 end
 
 private struct CustomLocationUploader < Lucky::Attachment::Uploader
@@ -246,6 +419,38 @@ private struct CustomMetadataUploader < Lucky::Attachment::Uploader
     data["custom_key"] = "custom_value"
     data
   end
+end
+
+private struct StaticExtractor
+  include Lucky::Attachment::Extractor
+
+  def extract(
+    uploaded_file : Lucky::UploadedFile,
+    metadata : Lucky::Attachment::MetadataHash,
+    **options,
+  ) : String?
+    "custom_value"
+  end
+end
+
+private struct StaticMimeExtractor
+  include Lucky::Attachment::Extractor
+
+  def extract(
+    uploaded_file : Lucky::UploadedFile,
+    metadata : Lucky::Attachment::MetadataHash,
+    **options,
+  ) : String?
+    "text/plain"
+  end
+end
+
+private struct CustomExtractorUploader < Lucky::Attachment::Uploader
+  extract custom_key, using: StaticExtractor
+end
+
+private struct OverriddenExtractorUploader < Lucky::Attachment::Uploader
+  extract mime_type, using: StaticMimeExtractor
 end
 
 private def build_uploaded_file(
