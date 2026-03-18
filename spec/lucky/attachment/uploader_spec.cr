@@ -45,7 +45,7 @@ describe Lucky::Attachment::Uploader do
       metadata = Lucky::Attachment::MetadataHash{"filename" => "photo.jpg"}
       location = uploader.generate_location(uploaded_file, metadata, path_prefix: "uploads")
 
-      location.should start_with("uploads/")
+      location.should match(/\Auploads[\/\\][0-9a-f-]{36}\.jpg\z/)
     end
   end
 
@@ -70,7 +70,8 @@ describe Lucky::Attachment::Uploader do
 
   describe "#extract_metadata" do
     it "runs all default extractors" do
-      uploaded_file = build_uploaded_file(content: "hello", filename: "test.txt")
+      png_bytes = "\x89PNG\r\n\x1a\n"
+      uploaded_file = build_uploaded_file(content: png_bytes, filename: "test.png")
       data = TestUploader.new("store").extract_metadata(uploaded_file)
 
       data["filename"]?.should_not be_nil
