@@ -70,8 +70,11 @@ describe Lucky::Attachment::Uploader do
 
   describe "#extract_metadata" do
     it "runs all default extractors" do
-      png_bytes = "\x89PNG\r\n\x1a\n"
-      uploaded_file = build_uploaded_file(content: png_bytes, filename: "test.png")
+      uploaded_file = build_uploaded_file(
+        content: "data",
+        filename: "test.txt",
+        content_type: "text/plain"
+      )
       data = TestUploader.new("store").extract_metadata(uploaded_file)
 
       data["filename"]?.should_not be_nil
@@ -458,11 +461,13 @@ private def build_uploaded_file(
   content : String,
   filename : String,
   size : Int32? = nil,
+  content_type : String? = nil,
 ) : Lucky::UploadedFile
   headers = HTTP::Headers.new
   actual_size = size || content.bytesize
   headers["Content-Disposition"] =
     %[form-data; name="file"; filename="#{filename}"; size=#{actual_size}]
+  headers["Content-Type"] = content_type if content_type
   body = IO::Memory.new(content)
   part = HTTP::FormData::Part.new(headers: headers, body: body)
   Lucky::UploadedFile.new(part)

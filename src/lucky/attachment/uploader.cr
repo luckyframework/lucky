@@ -43,10 +43,10 @@ abstract struct Lucky::Attachment::Uploader
     alias {{ extractor.id }}Extractor = Lucky::Attachment::Extractor::{{ extractor.id }}
   {% end %}
 
-  EXTRACTORS = {} of String => Extractor
-
   macro inherited
     {% stored_file = "#{@type}::StoredFile".id %}
+
+    @@extractors = {} of String => Lucky::Attachment::Extractor
 
     class {{ stored_file }} < Lucky::Attachment::StoredFile
     end
@@ -202,7 +202,7 @@ abstract struct Lucky::Attachment::Uploader
       {% end %}
     end
 
-    EXTRACTORS["{{ name }}"] = {{ using }}.new
+    @@extractors["{{ name }}"] = {{ using }}.new
   end
 
   getter storage_key : String
@@ -287,7 +287,7 @@ abstract struct Lucky::Attachment::Uploader
     **options,
   ) : MetadataHash
     (metadata.try(&.dup) || MetadataHash.new).tap do |data|
-      EXTRACTORS.each do |name, extractor|
+      @@extractors.each do |name, extractor|
         if value = extractor.extract(uploaded_file, data, **options)
           data[name] = value
         end
