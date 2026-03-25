@@ -26,7 +26,7 @@ function transformPipeline(type, transforms) {
   }
 }
 
-// Resolves a plugin name or path into a transform fucntion or Bun plugin.
+// Resolves a plugin name or path into a transform function.
 async function loadFactory(name, root) {
   if (builtins[name]) return builtins[name]
 
@@ -39,6 +39,28 @@ async function loadFactory(name, root) {
   }
 }
 
+// Resolves plugin names into transforms for a single type.
+async function resolveType(names, context) {
+  const transforms = []
+  const plugins = []
+
+  for (const name of names) {
+    const factory = await loadFactory(name, context.root)
+    if (typeof factory !== 'function') {
+      if (factory != null)
+        console.error(` ✖ Plugin "${name}" does not export a function`)
+      continue
+    }
+
+    const result = factory(context)
+    if (typeof result === 'function') transforms.push(result)
+    else if (result?.setup) plugins.push(result)
+    else console.error(` ✖ Plugin "${name}" returned an invalid value`)
+  }
+
+  return {transforms, plugins}
+}
+
 // Resolves plugin config into Bun plugin instances.
 export async function resolvePlugins(pluginConfig, context) {
   const bunPlugins = []
@@ -48,29 +70,15 @@ export async function resolvePlugins(pluginConfig, context) {
   for (const [type, names] of Object.entries(pluginConfig)) {
     if (!Array.isArray(names)) continue
 
-    if (TYPE_REGEXES[type]) {
-      const transforms = []
-
-      for (const name of names) {
-        const factory = await loadFactory(name, context.root)
-        if (typeof factory !== 'function') {
-          if (factory != null)
-            console.error(` ✖ Plugin "${name}" does not export a function`)
-          continue
-        }
-
-        const result = factory(context)
-        if (typeof result === 'function') transforms.push(result)
-        else if (result?.setup) bunPlugins.push(result)
-        else console.error(` ✖ Plugin "${name}" returned an invalid value`)
-      }
-
-      if (transforms.length)
-        bunPlugins.unshift(transformPipeline(type, transforms))
+    if (!TYPE_REGEXES[type]) {
+      console.error(` ✖ Unknown plugin type "${type}"`)
       continue
     }
 
-    console.error(` ✖ Unknown plugin type "${type}"`)
+    const {transforms, plugins} = await resolveType(names, context)
+    bunPlugins.push(...plugins)
+    if (transforms.length)
+      bunPlugins.unshift(transformPipeline(type, transforms))
   }
 
   return bunPlugins

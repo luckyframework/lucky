@@ -3,7 +3,7 @@ import {Glob} from 'bun'
 
 const REGEX = /import\s+(\w+)\s+from\s+['"]glob:([^'"]+)['"]/g
 
-// Compiles an object with a file path to default export mapping from a glob
+// Compiles an object with a file path => default export mapping from a glob
 // pattern in JS import statements.
 // e.g. import components from 'glob:./components/**/*.js'
 //
@@ -17,10 +17,6 @@ const REGEX = /import\s+(\w+)\s+from\s+['"]glob:([^'"]+)['"]/g
 // }
 export default function jsGlobs() {
   return (content, args) => {
-    if (!REGEX.test(content)) return content
-
-    REGEX.lastIndex = 0
-
     return content.replace(REGEX, (_, binding, pattern) => {
       const dir = dirname(args.path)
       const cleanPattern = pattern.replace(/^\.\//, '')

@@ -11,12 +11,10 @@ export default function cssGlobs() {
     const replacements = []
 
     for (const [fullMatch, pattern] of content.matchAll(REGEX)) {
-      const parts = pattern.split('/')
-      const globStart = parts.findIndex(p => p.includes('*'))
-      const basePath = parts.slice(0, globStart).join('/')
-      const globPattern = parts.slice(globStart).join('/')
+      const lastSlash = pattern.lastIndexOf('/', pattern.indexOf('*'))
+      const basePath = lastSlash > 0 ? pattern.slice(0, lastSlash) : '.'
       const baseDir = resolve(fileDir, basePath)
-      const glob = new Glob(globPattern)
+      const glob = new Glob(pattern.slice(lastSlash + 1))
       const files = []
 
       for await (const file of glob.scan({cwd: baseDir, onlyFiles: true})) {

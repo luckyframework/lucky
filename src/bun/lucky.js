@@ -24,13 +24,11 @@ export default {
   wsClients: new Set(),
   plugins: [],
 
-  // Sets environment flags.
   flags({dev, prod}) {
     if (dev != null) this.dev = dev
     if (prod != null) this.prod = prod
   },
 
-  // Deeply merges two objects.
   deepMerge(target, source) {
     const result = {...target}
     for (const k of Object.keys(source))
@@ -41,7 +39,6 @@ export default {
     return result
   },
 
-  // Safely loads config file with a fallback to defaults.
   loadConfig() {
     const defaults = {
       entryPoints: {js: ['src/js/app.js'], css: ['src/css/app.css']},
@@ -63,7 +60,6 @@ export default {
     }
   },
 
-  // Resolves all configured plugins into Bun plugin instances.
   async loadPlugins() {
     this.plugins = await resolvePlugins(this.config.plugins, {
       root: this.root,
@@ -74,14 +70,12 @@ export default {
     })
   },
 
-  // Returns the output directory.
   get outDir() {
     if (this.config == null) throw new Error(' ✖ Config is not loaded')
 
     return join(this.root, this.config.outDir)
   },
 
-  // Fingerprints a file name, but only in production.
   fingerprint(name, ext, content) {
     if (!this.prod) return `${name}${ext}`
 
@@ -89,7 +83,6 @@ export default {
     return `${name}-${hash}${ext}`
   },
 
-  // Builds assets for a given file type (e.g. css or js/jsx/ts/tsx).
   async buildAssets(type, options = {}) {
     const outDir = join(this.outDir, type)
     mkdirSync(outDir, {recursive: true})
@@ -115,7 +108,7 @@ export default {
 
       if (!result.success) {
         console.error(` ▸ Failed to build ${entry}`)
-        result.logs.forEach(log => console.error(log))
+        for (const log of result.logs) console.error(log)
         continue
       }
 
@@ -133,7 +126,6 @@ export default {
     }
   },
 
-  // Builds JS assets.
   async buildJS() {
     await this.buildAssets('js', {
       target: 'browser',
@@ -142,12 +134,10 @@ export default {
     })
   },
 
-  // Builds CSS assets.
   async buildCSS() {
     await this.buildAssets('css')
   },
 
-  // Copies static assets to the output directory.
   async copyStaticAssets() {
     const glob = new Glob('**/*.*')
 
@@ -175,19 +165,16 @@ export default {
     }
   },
 
-  // Clears out the output directory.
   cleanOutDir() {
     rmSync(this.outDir, {recursive: true, force: true})
   },
 
-  // Writes the asset manifest.
   async writeManifest() {
     const manifestFullPath = join(this.root, this.config.manifestPath)
     mkdirSync(dirname(manifestFullPath), {recursive: true})
     await Bun.write(manifestFullPath, JSON.stringify(this.manifest, null, 2))
   },
 
-  // Performs a full new build based on the current environment.
   async build() {
     const env = this.prod ? 'production' : 'development'
     console.log(`Building manifest for ${env}...`)
@@ -203,7 +190,6 @@ export default {
     console.log(`DONE  Built successfully in ${ms} ms`, this.prettyManifest())
   },
 
-  // Returns a printable version of the manifest.
   prettyManifest() {
     const lines = Object.entries(this.manifest)
       .map(([key, value]) => `  ${key} → ${value}`)
@@ -211,7 +197,6 @@ export default {
     return `\n${lines}\n\n`
   },
 
-  // Sends a hot or cold reload command over WebSockets.
   reload(type = 'full') {
     setTimeout(() => {
       const message = JSON.stringify({type})
@@ -225,7 +210,6 @@ export default {
     }, 50)
   },
 
-  // Watches for file changes to rebuild the appropriate files.
   async watch() {
     const srcDir = join(this.root, 'src')
 
@@ -255,7 +239,6 @@ export default {
     console.log('Beginning to watch your project')
   },
 
-  // Starts the development server.
   async serve() {
     await this.build()
     await this.watch()
@@ -287,7 +270,6 @@ export default {
     console.log(`\n\n    🔌 Live reload at ${protocol}://${host}:${port}\n\n`)
   },
 
-  // Main entry point to bake your Lucky Buns based on the current environment.
   async bake() {
     this.dev ? await this.serve() : await this.build()
   }
