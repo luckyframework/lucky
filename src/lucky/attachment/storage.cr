@@ -1,5 +1,5 @@
 # Storage backends handle the actual persistence of uploaded files.
-# Implementations must provide methods for uploading, retreiving, checking
+# Implementations must provide methods for uploading, retrieving, checking
 # existence, and deleting files.
 #
 abstract class Lucky::Attachment::Storage

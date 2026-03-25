@@ -215,31 +215,50 @@ class Lucky::Attachment::Storage::S3 < Lucky::Attachment::Storage
     "#{p.strip('/')}/#{id.lstrip('/')}"
   end
 
-  # Builds a header hash.
+  # Builds a header hash for S3 upload requests. Headers are applied in order
+  # of precedence: metadata defaults, then per-call overrides, then the ACL
+  # flag, and finally `upload_options` fill in any remaining gaps.
   private def build_upload_headers(**options) : Hash(String, String)
     Hash(String, String).new.tap do |headers|
-      if metadata = options[:metadata]?.try(&.as?(MetadataHash))
-        if filename = metadata["filename"]?.try(&.as?(String))
-          headers["Content-Disposition"] = %(inline; filename="#{filename}")
-        end
-        if mime_type = metadata["mime_type"]?.try(&.as?(String))
-          headers["Content-Type"] = mime_type
-        end
-      end
-
-      if content_type = options[:content_type]?.try(&.to_s.presence)
-        headers["Content-Type"] = content_type
-      end
-
-      if content_disposition = options[:content_disposition]?.try(&.to_s.presence)
-        headers["Content-Disposition"] = content_disposition
-      end
-
+      apply_metadata_headers(headers, **options)
+      apply_option_overrides(headers, **options)
       headers["x-amz-acl"] = "public-read" if public?
+      apply_upload_options(headers)
+    end
+  end
 
-      @upload_options.each do |key, value|
-        headers[key] ||= value
-      end
+  # Sets Content-Disposition and Content-Type from the metadata hash.
+  private def apply_metadata_headers(
+    headers : Hash(String, String),
+    **options,
+  ) : Nil
+    return unless metadata = options[:metadata]?.try(&.as?(MetadataHash))
+
+    if filename = metadata["filename"]?.try(&.as?(String))
+      headers["Content-Disposition"] = %(inline; filename="#{filename}")
+    end
+    if mime_type = metadata["mime_type"]?.try(&.as?(String))
+      headers["Content-Type"] = mime_type
+    end
+  end
+
+  # Applies per-call `content_type` and `content_disposition` overrides.
+  private def apply_option_overrides(
+    headers : Hash(String, String),
+    **options,
+  ) : Nil
+    if content_type = options[:content_type]?.try(&.to_s.presence)
+      headers["Content-Type"] = content_type
+    end
+    if content_disposition = options[:content_disposition]?.try(&.to_s.presence)
+      headers["Content-Disposition"] = content_disposition
+    end
+  end
+
+  # Merges `upload_options` into the headers without overriding existing keys.
+  private def apply_upload_options(headers : Hash(String, String)) : Nil
+    @upload_options.each do |key, value|
+      headers[key] ||= value
     end
   end
 
