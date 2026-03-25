@@ -11,9 +11,11 @@ struct Lucky::Attachment::Extractor::DimensionsFromMagick
   def extract(uploaded_file, metadata, **options) : Nil
     return unless result = run_magick_command(uploaded_file.tempfile)
 
-    dimensions = result.split.map(&.to_i)
-    metadata["width"] = dimensions[0]
-    metadata["height"] = dimensions[1]
+    dimensions = result.split
+    return unless dimensions.size >= 2
+
+    metadata["width"] = dimensions[0].to_i
+    metadata["height"] = dimensions[1].to_i
   end
 
   private def run_magick_command(io)
