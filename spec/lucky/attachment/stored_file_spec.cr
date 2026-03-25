@@ -193,6 +193,16 @@ describe Lucky::Attachment::StoredFile do
         tempfile.delete
       end
 
+      it "works for files without an extension" do
+        memory_store.upload(IO::Memory.new("binary data"), "abc123")
+        file = TestUploader::StoredFile.new(id: "abc123", storage_key: "store")
+        tempfile = file.download
+
+        tempfile.gets_to_end.should eq("binary data")
+        tempfile.close
+        tempfile.delete
+      end
+
       it "cleans up the tempfile after the block" do
         memory_store.upload(IO::Memory.new("data"), "test.txt")
         file = TestUploader::StoredFile.new(id: "test.txt", storage_key: "store")

@@ -45,6 +45,11 @@ abstract class Lucky::Attachment::StoredFile
 
   # Returns the file extension based on the id or original filename.
   #
+  # NOTE: This method relies on `filename?` and `filename` which are generated
+  # by the `extract` macro on `Lucky::Attachment::Uploader`. Concrete
+  # `StoredFile` subclasses created through the `Uploader.inherited` macro
+  # will have these methods available automatically.
+  #
   # ```
   # file.extension?
   # # => "jpg"
@@ -165,7 +170,8 @@ abstract class Lucky::Attachment::StoredFile
   # ```
   #
   def download(**options) : File
-    tempfile = File.tempfile("lucky-attachment", ".#{extension}")
+    suffix = extension?.try { |ext| ".#{ext}" }
+    tempfile = File.tempfile("lucky-attachment", suffix)
     stream(tempfile, **options)
     tempfile.rewind
     tempfile
@@ -227,7 +233,7 @@ abstract class Lucky::Attachment::StoredFile
     }
   end
 
-  # Compares two `StoredFile` by thier id and storage.
+  # Compares two `StoredFile` by their id and storage.
   def ==(other : StoredFile) : Bool
     id == other.id && storage_key == other.storage_key
   end
