@@ -46,6 +46,18 @@ describe Lucky::Attachment::Storage::S3 do
 
       storage.upload(IO::Memory.new("data"), "test.txt")
     end
+
+    it "uses FileUploader for File inputs" do
+      storage = build_storage
+      WebMock.stub(:put, "#{base_url}/test.txt")
+        .to_return(status: 200, headers: test_headers)
+
+      File.tempfile("s3-test") do |tempfile|
+        tempfile.print("file data")
+        tempfile.rewind
+        storage.upload(tempfile, "test.txt")
+      end
+    end
   end
 
   describe "#open" do

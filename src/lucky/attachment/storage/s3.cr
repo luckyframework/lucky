@@ -103,8 +103,29 @@ class Lucky::Attachment::Storage::S3 < Lucky::Attachment::Storage
     @secret_access_key = @client.@aws_secret_key
   end
 
-  # Uploads an IO to the given key in the bucket. Any additional keys in
-  # `options` are forwarded to the S3 client.
+  # Uploads a File to the given key in the bucket using `FileUploader`, which
+  # automatically switches to multipart uploads for files larger than 5MB.
+  #
+  # ```
+  # storage.upload(File.open("photo.jpg"), "uploads/photo.jpg")
+  # ```
+  #
+  def upload(file : File, id : String, **options) : Nil
+    opts = Awscr::S3::FileUploader::Options.new(with_content_types: false)
+    uploader = Awscr::S3::FileUploader.new(@client, opts)
+    uploader.upload(
+      bucket,
+      object_key(id),
+      file,
+      build_upload_headers(**options)
+    )
+  end
+
+  # Uploads an IO to the given key in the bucket. The IO is fully read into
+  # memory before uploading because `awscr-s3` requires a sized body.
+  #
+  # NOTE: Prefer the `File` overload when possible to avoid reading the
+  # entire file into memory and to benefit from automatic multipart uploads.
   #
   # ```
   # storage.upload(io, "uploads/photo.jpg")
@@ -118,7 +139,7 @@ class Lucky::Attachment::Storage::S3 < Lucky::Attachment::Storage
     @client.put_object(
       bucket,
       object_key(id),
-      io.gets_to_end,
+      io.getb_to_end,
       build_upload_headers(**options)
     )
   end
