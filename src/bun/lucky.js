@@ -42,7 +42,7 @@ export default {
   loadConfig() {
     const defaults = {
       entryPoints: {js: ['src/js/app.js'], css: ['src/css/app.css']},
-      plugins: {css: ['cssAliases', 'cssGlobs'], js: ['jsGlobs']},
+      plugins: {css: ['aliases', 'cssGlobs'], js: ['aliases', 'jsGlobs']},
       staticDirs: ['src/images', 'src/fonts'],
       outDir: 'public/assets',
       publicPath: '/assets',

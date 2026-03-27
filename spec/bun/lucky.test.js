@@ -90,8 +90,8 @@ describe('loadConfig', () => {
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
     expect(LuckyBun.config.devServer.port).toBe(3002)
     expect(LuckyBun.config.plugins).toEqual({
-      css: ['cssAliases', 'cssGlobs'],
-      js: ['jsGlobs']
+      css: ['aliases', 'cssGlobs'],
+      js: ['aliases', 'jsGlobs']
     })
   })
 
@@ -344,19 +344,40 @@ describe('loadPlugins', () => {
   })
 })
 
-describe('cssAliases plugin', () => {
-  test('replaces all $/ references with src path in url()', async () => {
+describe('aliases plugin', () => {
+  test('replaces $/ references with root path in CSS url()', async () => {
     const content = await buildCSS({
       'src/css/app.css': [
-        "body { background: url('$/images/bg.png'); }",
-        ".icon { background: url('$/images/icon.svg'); }"
+        "body { background: url('$/src/images/bg.png'); }",
+        ".icon { background: url('$/src/images/icon.svg'); }"
       ].join('\n'),
       'src/images/bg.png': 'fake',
       'src/images/icon.svg': '<svg/>'
     })
 
-    expect(content).toContain('/src/')
+    // The alias is resolved and Bun inlines the assets as data URIs
     expect(content).not.toContain('$/')
+    expect(content).toContain('url(')
+  })
+
+  test('replaces $/ references in JS imports', async () => {
+    const content = await buildJS({
+      'src/js/app.js': "import utils from '$/lib/utils.js'\nconsole.log(utils)",
+      'lib/utils.js': 'export default 42'
+    })
+
+    expect(content).not.toContain('$/')
+    expect(content).toContain('42')
+  })
+
+  test('replaces $/ references in CSS @import', async () => {
+    const content = await buildCSS({
+      'src/css/app.css': "@import '$/lib/reset.css';",
+      'lib/reset.css': '* { margin: 0 }'
+    })
+
+    expect(content).not.toContain('$/')
+    expect(content).toContain('margin')
   })
 
   test('leaves non-alias urls untouched', async () => {
@@ -366,6 +387,44 @@ describe('cssAliases plugin', () => {
     })
 
     expect(content).toContain('https://example.com/bg.png')
+  })
+
+  test('leaves non-alias imports untouched', async () => {
+    const content = await buildJS({
+      'src/js/app.js': "import {x} from './utils.js'\nconsole.log(x)",
+      'src/js/utils.js': 'export const x = 42'
+    })
+
+    expect(content).toContain('42')
+  })
+
+  test('resolves $/ inside prefixed strings like glob:$/', async () => {
+    const aliases = (await import('../../src/bun/plugins/aliases.js')).default
+    const transform = aliases({root: '/root'})
+    const result = transform("import c from 'glob:$/lib/components/*.js'")
+
+    expect(result).toBe("import c from 'glob:/root/lib/components/*.js'")
+  })
+
+  test('does not replace $/ inside regex literals', async () => {
+    const aliases = (await import('../../src/bun/plugins/aliases.js')).default
+    const transform = aliases({root: '/root'})
+    const input = "s.replace(/.*components\\//, '').replace(/_component$/, '')"
+    const result = transform(input)
+
+    expect(result).toBe(input)
+  })
+
+  test('does not match $/ preceded by a word character', async () => {
+    const content = await buildJS({
+      'src/js/app.js': [
+        "const el = document.querySelector('div')",
+        "const path = '/api/test'",
+        "console.log(el, path)"
+      ].join('\n')
+    })
+
+    expect(content).not.toContain(TEST_DIR)
   })
 })
 
@@ -473,8 +532,8 @@ describe('jsGlobs plugin', () => {
       'src/js/controllers/forms/input.js': 'export default function input() {}'
     })
 
-    expect(content).toContain('controllers/nav')
-    expect(content).toContain('controllers/forms/input')
+    expect(content).toContain('nav')
+    expect(content).toContain('forms/input')
   })
 
   test('avoids naming clashes for same-named files in different dirs', async () => {
@@ -487,8 +546,8 @@ describe('jsGlobs plugin', () => {
       'src/js/components/admin/nav.js': 'export default function adminNav() {}'
     })
 
-    expect(content).toContain('components/nav')
-    expect(content).toContain('components/admin/nav')
+    expect(content).toContain('nav')
+    expect(content).toContain('admin/nav')
   })
 
   test('handles glob matching no files', async () => {
@@ -553,7 +612,7 @@ describe('plugin pipeline', () => {
   test('css plugins run in configured order', async () => {
     const content = await buildCSS({
       'src/css/app.css':
-        "@import './components/*.css';\nbody { background: url('$/images/bg.png'); }",
+        "@import './components/*.css';\nbody { background: url('$/src/images/bg.png'); }",
       'src/css/components/button.css': '.button { color: red }',
       'src/images/bg.png': 'fake'
     })

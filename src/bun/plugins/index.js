@@ -1,9 +1,9 @@
 import {join} from 'path'
-import cssAliases from './cssAliases.js'
+import aliases from './aliases.js'
 import cssGlobs from './cssGlobs.js'
 import jsGlobs from './jsGlobs.js'
 
-const builtins = {cssAliases, cssGlobs, jsGlobs}
+const builtins = {aliases, cssGlobs, jsGlobs}
 const TYPE_REGEXES = {
   css: /\.css$/,
   js: /\.(js|ts|jsx|tsx)$/
