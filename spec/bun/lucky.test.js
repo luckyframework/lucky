@@ -589,6 +589,23 @@ describe('jsGlobs plugin', () => {
     expect(content).toContain('auth')
   })
 
+  test('avoids variable collisions across multiple globs with same filenames', async () => {
+    const content = await buildJSGlobs({
+      ...jsApp(
+        "import components from 'glob:./components/*.js'",
+        "import widgets from 'glob:./widgets/*.js'",
+        'console.log(components, widgets)'
+      ),
+      'src/js/components/theme.js':
+        'export default function componentTheme() { return "component" }',
+      'src/js/widgets/theme.js':
+        'export default function widgetTheme() { return "widget" }'
+    })
+
+    expect(content).toContain('component')
+    expect(content).toContain('widget')
+  })
+
   test('expands globs in deterministic sorted order', async () => {
     const content = await buildJSGlobs({
       ...jsApp(

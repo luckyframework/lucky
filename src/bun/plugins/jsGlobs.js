@@ -34,7 +34,8 @@ export default function jsGlobs() {
         const ext = extname(file)
         const relative = baseDir ? file.slice(baseDir.length + 1) : file
         const key = relative.slice(0, -ext.length)
-        const safe = `_glob_${key.replace(/[^a-zA-Z0-9]/g, '_')}`
+        const prefix = baseDir ? `${baseDir}_` : ''
+        const safe = `_glob_${prefix}${key}`.replace(/[^a-zA-Z0-9]/g, '_')
         imports.push(`import ${safe} from './${file}'`)
         entries.push(`  '${key}': ${safe}`)
       }
