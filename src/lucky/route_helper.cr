@@ -62,7 +62,5 @@ class Lucky::RouteHelper
     end
   end
 
-  def ==(other : Lucky::RouteHelper) : Bool
-    method == other.method && path == other.path && subdomain == other.subdomain
-  end
+  def_equals @method, @path, @subdomain
 end

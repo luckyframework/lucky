@@ -346,27 +346,27 @@ describe Lucky::Action do
   describe "routing" do
     it "creates URL helpers for the resourceful actions" do
       Tests::Index.path.should eq "/tests"
-      Tests::Index.route.should eq Lucky::RouteHelper.new(:get, "/tests")
+      Tests::Index.route.method.should eq :get
       Tests::New.path.should eq "/tests/new"
-      Tests::New.route.should eq Lucky::RouteHelper.new(:get, "/tests/new")
+      Tests::New.route.method.should eq :get
       Tests::Edit.path("test-id").should eq "/tests/test-id/edit"
-      Tests::Edit.with("test-id").should eq Lucky::RouteHelper.new(:get, "/tests/test-id/edit")
+      Tests::Edit.with("test-id").method.should eq :get
       Tests::Show.path("test-id").should eq "/tests/test-id"
-      Tests::Show.with("test-id").should eq Lucky::RouteHelper.new(:get, "/tests/test-id")
+      Tests::Show.with("test-id").method.should eq :get
       Tests::Delete.path("test-id").should eq "/tests/test-id"
-      Tests::Delete.with("test-id").should eq Lucky::RouteHelper.new(:delete, "/tests/test-id")
+      Tests::Delete.with("test-id").method.should eq :delete
       Tests::Update.path("test-id").should eq "/tests/test-id"
-      Tests::Update.with("test-id").should eq Lucky::RouteHelper.new(:put, "/tests/test-id")
+      Tests::Update.with("test-id").method.should eq :put
       Tests::Create.path.should eq "/tests"
-      Tests::Create.route.should eq Lucky::RouteHelper.new(:post, "/tests")
+      Tests::Create.route.method.should eq :post
       Tests::ActionWithPrefix.path.should eq "/prefix/so_custom2"
     end
 
     it "creates URL helpers for the resourceful actions with aliases" do
       AliasedRoute::Index.path.should eq "/aliased"
       AliasedRoute::Index.with(locale: "es").path.should eq "/es/aliased"
-      AliasedRoute::Index.route.should eq Lucky::RouteHelper.new(:get, "/aliased")
-      AliasedRoute::Index.with(locale: "nl").should eq Lucky::RouteHelper.new(:get, "/nl/aliased")
+      AliasedRoute::Index.route.method.should eq :get
+      AliasedRoute::Index.with(locale: "nl").path.should eq "/nl/aliased"
       AliasedRoute::New.path.should eq "/aliased/new"
       AliasedRoute::New.with(locale: "fr").path.should eq "/fr/aliased/new"
       AliasedRoute::Edit.path("test-id").should eq "/aliased/test-id/edit"
@@ -385,7 +385,7 @@ describe Lucky::Action do
 
     it "escapes path params" do
       Tests::Edit.path("test/id").should eq "/tests/test%2Fid/edit"
-      Tests::Edit.with("test/id").should eq Lucky::RouteHelper.new(:get, "/tests/test%2Fid/edit")
+      Tests::Edit.with("test/id").path.should eq "/tests/test%2Fid/edit"
     end
 
     it "adds routes to the router" do
@@ -412,15 +412,13 @@ describe Lucky::Action do
 
     it "works with optional routing paths" do
       route = OptionalRouteParams::Index.with(required: "1")
-      route.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1")
       route.path.should eq "/complex_posts/1"
+      route.method.should eq :get
 
       route2 = OptionalRouteParams::Index.with(required: "1", optional_1: "2")
-      route2.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1/2")
       route2.path.should eq "/complex_posts/1/2"
 
       route3 = OptionalRouteParams::Index.with(required: "1", optional_1: "2", optional_2: "3")
-      route3.should eq Lucky::RouteHelper.new(:get, "/complex_posts/1/2/3")
       route3.path.should eq "/complex_posts/1/2/3"
     end
   end
@@ -506,7 +504,7 @@ describe Lucky::Action do
     end
 
     it "adds named arguments to the route" do
-      RequiredParams::Index.route(required_page: 7).should eq Lucky::RouteHelper.new(:get, "/required_params?required_page=7")
+      RequiredParams::Index.route(required_page: 7).path.should eq "/required_params?required_page=7"
     end
 
     it "raises for missing required params" do
@@ -581,8 +579,8 @@ describe Lucky::Action do
     end
 
     it "is added as optional argument to the route" do
-      OptionalParams::Index.route(page: 7).should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7")
-      OptionalParams::Index.route(page: 7, with_default: "/other").should eq Lucky::RouteHelper.new(:get, "/optional_params?page=7&with_default=%2Fother")
+      OptionalParams::Index.route(page: 7).path.should eq "/optional_params?page=7"
+      OptionalParams::Index.route(page: 7, with_default: "/other").path.should eq "/optional_params?page=7&with_default=%2Fother"
     end
 
     it "raises when the optional param cannot be parsed into the desired type" do

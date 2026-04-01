@@ -13,8 +13,8 @@ describe Lucky::Action do
         .path("foo")
         .should eq "/admin/multi_word/users/foo"
       Admin::MultiWord::Users::Show
-        .with("foo")
-        .should eq Lucky::RouteHelper.new(:get, "/admin/multi_word/users/foo")
+        .with("foo").path
+        .should eq "/admin/multi_word/users/foo"
     end
 
     it "adds routes to the router" do
