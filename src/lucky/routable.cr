@@ -235,6 +235,59 @@ module Lucky::Routable
       {% end %}
     {% end %}
 
+    class RouteHelper < Lucky::RouteHelper
+      {% if @type.has_constant?(:ACCEPTED_FORMAT_SYMBOLS) %}
+        {% for ext in @type.constant(:ACCEPTED_FORMAT_SYMBOLS) %}
+          def as_{{ ext.id }} : Lucky::RouteHelper
+            extension = Lucky::RouteHelper.resolve_extension({{ ext }})
+            Lucky::RouteHelper.new(
+              method,
+              Lucky::RouteHelper.insert_extension(path, extension),
+              subdomain
+            )
+          end
+        {% end %}
+      {% end %}
+    end
+
+    struct FormatBuilder
+      getter extension : String
+
+      def initialize(@extension : String)
+      end
+
+      def with(*args, **named_args) : Lucky::RouteHelper
+        route = {{ @type.name.id }}.with(*args, **named_args)
+        Lucky::RouteHelper.new(
+          route.method,
+          Lucky::RouteHelper.insert_extension(route.path, @extension),
+          route.subdomain
+        )
+      end
+
+      def path : String
+        route = {{ @type.name.id }}.route
+        Lucky::RouteHelper.insert_extension(route.path, @extension)
+      end
+
+      def url : String
+        route = {{ @type.name.id }}.route
+        Lucky::RouteHelper.new(
+          route.method,
+          Lucky::RouteHelper.insert_extension(route.path, @extension),
+          route.subdomain
+        ).url
+      end
+    end
+
+    {% if @type.has_constant?(:ACCEPTED_FORMAT_SYMBOLS) %}
+      {% for ext in @type.constant(:ACCEPTED_FORMAT_SYMBOLS) %}
+        def self.as_{{ ext.id }} : FormatBuilder
+          FormatBuilder.new(Lucky::RouteHelper.resolve_extension({{ ext }}))
+        end
+      {% end %}
+    {% end %}
+
     def self.path(*args, **named_args) : String
       route(*args, **named_args).path
     end
@@ -329,7 +382,7 @@ module Lucky::Routable
     {% end %}
     anchor : String? = nil,
     subdomain : String? = nil
-    ) : Lucky::RouteHelper
+    ) : RouteHelper
       path = String.build do |io|
         path_from_parts(
           io,
@@ -370,7 +423,7 @@ module Lucky::Routable
         end
       end
 
-      Lucky::RouteHelper.new({{ method }}, path.presence || "/", subdomain)
+      RouteHelper.new({{ method }}, path.presence || "/", subdomain)
     end
 
     def self.with(
@@ -400,7 +453,7 @@ module Lucky::Routable
       {% end %}
       anchor : String? = nil,
       subdomain : String? = nil
-    ) : Lucky::RouteHelper
+    ) : RouteHelper
       \{% begin %}
       route(
         \{% for arg in @def.args %}
