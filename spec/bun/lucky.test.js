@@ -143,7 +143,6 @@ describe('IGNORE_PATTERNS', () => {
 
     for (const f of [
       '.#file.js',
-      'file.js~',
       'file.swp',
       'file.swo',
       'file.tmp',
@@ -420,7 +419,7 @@ describe('aliases plugin', () => {
       'src/js/app.js': [
         "const el = document.querySelector('div')",
         "const path = '/api/test'",
-        "console.log(el, path)"
+        'console.log(el, path)'
       ].join('\n')
     })
 

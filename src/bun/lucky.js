@@ -8,7 +8,6 @@ export default {
   IGNORE_PATTERNS: [
     /^\d+$/,
     /^\.#/,
-    /~$/,
     /\.swp$/,
     /\.swo$/,
     /\.tmp$/,
@@ -22,6 +21,7 @@ export default {
   dev: false,
   prod: false,
   wsClients: new Set(),
+  watchTimers: new Map(),
   plugins: [],
 
   flags({dev, prod}) {
@@ -99,12 +99,20 @@ export default {
         continue
       }
 
-      const result = await Bun.build({
-        entrypoints: [entryPath],
-        minify: this.prod,
-        plugins: this.plugins,
-        ...options
-      })
+      let result
+      try {
+        result = await Bun.build({
+          entrypoints: [entryPath],
+          minify: this.prod,
+          plugins: this.plugins,
+          ...options
+        })
+      } catch (err) {
+        console.error(` ▸ Failed to build ${entry}`)
+        if (err.errors) for (const e of err.errors) console.error(e)
+        else console.error(err)
+        continue
+      }
 
       if (!result.success) {
         console.error(` ▸ Failed to build ${entry}`)
@@ -213,27 +221,44 @@ export default {
   async watch() {
     const srcDir = join(this.root, 'src')
 
-    watch(srcDir, {recursive: true}, async (event, filename) => {
+    watch(srcDir, {recursive: true}, (event, filename) => {
       if (!filename) return
 
-      const normalizedFilename = filename.replace(/\\/g, '/')
+      let normalizedFilename = filename.replace(/\\/g, '/')
+
+      // Vim backup files (e.g. app.css~) signal the original file changed
+      if (normalizedFilename.endsWith('~'))
+        normalizedFilename = normalizedFilename.slice(0, -1)
+
       const base = basename(normalizedFilename)
       const ext = extname(base).slice(1)
 
       if (this.IGNORE_PATTERNS.some(pattern => pattern.test(base))) return
 
+      // Debounce multiple events for the same file (e.g. actual save + backup)
+      if (this.watchTimers.has(normalizedFilename)) return
+      this.watchTimers.set(
+        normalizedFilename,
+        setTimeout(() => {
+          this.watchTimers.delete(normalizedFilename)
+        }, 100)
+      )
+
       console.log(` ▸ ${normalizedFilename} changed`)
+      ;(async () => {
+        try {
+          if (ext === 'css') await this.buildCSS()
+          else if (['js', 'ts', 'jsx', 'tsx'].includes(ext))
+            await this.buildJS()
+          else if (base.includes('.')) await this.copyStaticAssets()
 
-      try {
-        if (ext === 'css') await this.buildCSS()
-        else if (['js', 'ts', 'jsx', 'tsx'].includes(ext)) await this.buildJS()
-        else if (base.includes('.')) await this.copyStaticAssets()
-
-        await this.writeManifest()
-        this.reload(ext === 'css' ? 'css' : 'full')
-      } catch (err) {
-        console.error(' ✖ Build error:', err.message)
-      }
+          await this.writeManifest()
+          this.reload(ext === 'css' ? 'css' : 'full')
+        } catch (err) {
+          console.error(' ✖ Build error:', err.message)
+          if (err.errors) for (const e of err.errors) console.error(e)
+        }
+      })()
     })
 
     console.log('Beginning to watch your project')
