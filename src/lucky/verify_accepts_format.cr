@@ -59,8 +59,10 @@ module Lucky::VerifyAcceptsFormat
       {% formats.raise "#{@type} default format should be a symbol. Example: :html" %}
     {% end %}
 
+    ACCEPTED_FORMAT_SYMBOLS = {{ formats }}
+
     def self._accepted_formats : Array(Symbol)
-      {{ formats }}
+      ACCEPTED_FORMAT_SYMBOLS
     end
     default_format {{ default }}
   end

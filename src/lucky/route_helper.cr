@@ -42,5 +42,25 @@ class Lucky::RouteHelper
     host_parts.size > 2
   end
 
+  def self.resolve_extension(ext : Symbol) : String
+    if format = Lucky::Format.parse?(ext.to_s)
+      format.to_extension
+    elsif custom = Lucky::FormatRegistry.custom_formats[ext.to_s]?
+      custom.extension
+    else
+      ext.to_s
+    end
+  end
+
+  def self.insert_extension(path : String, extension : String) : String
+    return path if extension.empty?
+
+    if index = (path.index('?') || path.index('#'))
+      "#{path[0...index]}.#{extension}#{path[index..]}"
+    else
+      "#{path}.#{extension}"
+    end
+  end
+
   def_equals @method, @path, @subdomain
 end

@@ -112,6 +112,6 @@ describe "Glob route URL building" do
 
   it "returns correct RouteHelper with glob" do
     route_helper = TestGlobAction.with(glob: "a/b/c")
-    route_helper.should eq Lucky::RouteHelper.new(:get, "/test_complex_posts_glob/a/b/c")
+    route_helper.path.should eq "/test_complex_posts_glob/a/b/c"
   end
 end
