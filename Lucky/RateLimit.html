@@ -1041,8 +1041,8 @@
   </h2>
 
   <p>Adds in action level rate limiting. Limit the request rate of a specific
-action by including this module, then define the <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method to configue.
-For convienence, you can also use the <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> macro.</p>
+action by including this module, then define the <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method to configure.
+For convenience, you can also use the <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> macro.</p>
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Reports</span><span class="t">::</span><span class="t">Index</span> <span class="o">&lt;</span> <span class="t">ApiAction</span>
   <span class="k">include</span> <span class="t">Lucky</span><span class="t">::</span><span class="t">RateLimit</span>
   rate_limit to: <span class="n">5</span>, within: <span class="n">1</span>.minute
@@ -1079,7 +1079,7 @@ to define a different strategy.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/4cfb12525fa61c8d8ec7f4376f9b77881e271e6c/src/lucky/rate_limit.cr#L18" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/47662670f6af33918ef0e33c622cb9c12c8d9cf4/src/lucky/rate_limit.cr#L18" target="_blank">
         lucky/rate_limit.cr
       </a>
     
@@ -1108,7 +1108,7 @@ to define a different strategy.</p>
       <li class="entry-summary">
         <a href="#rate_limit%28to%2Cwithin%29-macro" class="signature"><strong>rate_limit</strong>(to, within)</a>
         
-          <div class="summary"><p>Convience macro to define the required <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method <code>rate_limit to: 5, within: 1.minute</code></p></div>
+          <div class="summary"><p>Convenience macro to define the required <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method <code>rate_limit to: 5, within: 1.minute</code></p></div>
         
       </li>
     
@@ -1165,14 +1165,14 @@ to define a different strategy.</p>
       
         <div class="doc">
           
-          <p>Convience macro to define the required <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method</p>
+          <p>Convenience macro to define the required <code><a href="../Lucky/RateLimit.html#rate_limit%3ANamedTuple%28to%3AInt32%2Cwithin%3ATime%3A%3ASpan%29-instance-method">#rate_limit</a></code> method</p>
 <pre><code class="language-crystal">rate_limit to: <span class="n">5</span>, within: <span class="n">1</span>.minute</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/4cfb12525fa61c8d8ec7f4376f9b77881e271e6c/src/lucky/rate_limit.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/47662670f6af33918ef0e33c622cb9c12c8d9cf4/src/lucky/rate_limit.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1208,7 +1208,7 @@ to define a different strategy.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/4cfb12525fa61c8d8ec7f4376f9b77881e271e6c/src/lucky/rate_limit.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/47662670f6af33918ef0e33c622cb9c12c8d9cf4/src/lucky/rate_limit.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
