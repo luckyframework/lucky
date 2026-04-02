@@ -139,7 +139,7 @@ describe Lucky::Subdomain do
 
   it "will not fail if using localhost and port with tld length set to 0" do
     Lucky::Subdomain.temp_config(tld_length: 0) do
-      request = build_request(host: "foo.locahost:3000")
+      request = build_request(host: "foo.localhost:3000")
       response = Simple::Index.new(build_context(request), params).call
       response.body.should eq "foo"
     end

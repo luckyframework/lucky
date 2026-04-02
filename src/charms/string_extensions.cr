@@ -7,7 +7,7 @@ class String
   #
   # `String#squish` strips whitespace at the end of the string, and changes
   # consecutive whitespace groups into one space each. For example, it will
-  # replace newlines with a single space and convert mutiple spaces to just one
+  # replace newlines with a single space and convert multiple spaces to just one
   # space.
   def squish : String
     if ascii_only?

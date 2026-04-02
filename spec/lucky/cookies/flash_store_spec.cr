@@ -129,7 +129,7 @@ describe Lucky::FlashStore do
       flash_store.get("dungeons").should eq("dragons")
     end
 
-    it "overwrites exsiting values" do
+    it "overwrites existing values" do
       flash_store = build_flash_store({"name" => "Paul"})
 
       flash_store.set(:name, "Pauline")

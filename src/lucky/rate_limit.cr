@@ -1,6 +1,6 @@
 # Adds in action level rate limiting. Limit the request rate of a specific
-# action by including this module, then define the `rate_limit` method to configue.
-# For convienence, you can also use the `rate_limit` macro.
+# action by including this module, then define the `rate_limit` method to configure.
+# For convenience, you can also use the `rate_limit` macro.
 #
 # ```
 # class Reports::Index < ApiAction
@@ -28,7 +28,7 @@ module Lucky::RateLimit
   # ```
   abstract def rate_limit : NamedTuple(to: Int32, within: Time::Span)
 
-  # Convience macro to define the required `rate_limit` method
+  # Convenience macro to define the required `rate_limit` method
   # ```
   # rate_limit to: 5, within: 1.minute
   # ```

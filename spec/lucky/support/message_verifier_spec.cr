@@ -15,7 +15,7 @@ describe Lucky::MessageVerifier do
       verifier.verify(new_token).should eq("1646092702:bcfe6d38-03a5-41f8-b938-d0c96b87f891")
     end
 
-    it "still works with some more complext data" do
+    it "still works with some more complex data" do
       verifier = Lucky::MessageVerifier.new(secret_key, :sha256)
       signed_message = verifier.generate("#{Time.utc(2022, 1, 15, 10, 12).to_unix}:some_special_dude@hotmail.com:b211cbb5-3cc0-475a-9ebe-45f3fd2fe650")
       verifier.verify(signed_message).should eq("1642241520:some_special_dude@hotmail.com:b211cbb5-3cc0-475a-9ebe-45f3fd2fe650")
@@ -44,7 +44,7 @@ describe Lucky::MessageVerifier do
       String.new(verifier.verify_raw(new_token)).should eq("1646092702:bcfe6d38-03a5-41f8-b938-d0c96b87f891")
     end
 
-    it "still works with some more complext data" do
+    it "still works with some more complex data" do
       verifier = Lucky::MessageVerifier.new(secret_key, :sha256)
       signed_message = verifier.generate("#{Time.utc(2022, 1, 15, 10, 12).to_unix}:some_special_dude@hotmail.com:b211cbb5-3cc0-475a-9ebe-45f3fd2fe650")
       String.new(verifier.verify_raw(signed_message)).should eq("1642241520:some_special_dude@hotmail.com:b211cbb5-3cc0-475a-9ebe-45f3fd2fe650")

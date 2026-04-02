@@ -36,7 +36,7 @@ class Lucky::Params
   #
   # > You can also get JSON params with `Lucky::Params#get/nested`. Sometimes
   # > `Lucky::Params` are not flexible enough. In those cases this method opens
-  # > the possiblity to do just about anything with JSON.
+  # > the possibility to do just about anything with JSON.
   def from_json : JSON::Any
     parsed_json
   end

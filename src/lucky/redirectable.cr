@@ -99,7 +99,7 @@ module Lucky::Redirectable
   # redirect_back fallback: "/home", status: 301
   # ```
   #
-  # External referers are ignored by default.
+  # External referrers are ignored by default.
   # It is determined by comparing the referer header to the request host.
   # They can be explicitly allowed if necessary
   #
