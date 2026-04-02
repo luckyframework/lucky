@@ -1,7 +1,7 @@
 name: lucky
 version: 1.4.0
 
-crystal: ">= 1.16.3"
+crystal: '>= 1.16.3'
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -50,7 +50,7 @@ dependencies:
     version: ~> 0.2.0
   lucky_cache:
     github: luckyframework/lucky_cache
-    version: ~> 0.1.1
+    version: ~> 0.2.0
 
 development_dependencies:
   ameba:
