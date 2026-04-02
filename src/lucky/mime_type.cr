@@ -215,7 +215,7 @@ class Lucky::MimeType
       if parameter && parameter =~ QVALUE_RE
         # qvalues start with 0 or 1 and can have up to three digits after the
         # decimal point. To avoid needing to deal with floats, the value is
-        # muliplied by 1000 and then handled as an integer.
+        # multiplied by 1000 and then handled as an integer.
         begin
           ($1.to_f32 * 1000).round.to_u16
         rescue ArgumentError | OverflowError

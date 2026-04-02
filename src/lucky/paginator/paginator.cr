@@ -250,7 +250,7 @@ class Lucky::Paginator
       page_number = page + i # + 1
       # Don't add the page if it is greater than the total pages
       # So if you're on page `10` with a total of `10` pages it will not add pages
-      # to the rigth
+      # to the right
       if page_number <= total
         arr << Page.new(self, page_number)
       end

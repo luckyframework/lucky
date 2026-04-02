@@ -63,7 +63,7 @@ describe Lucky::SvgInliner do
       inlined_svg.should contain %(fill="none" stroke="#2a2a2a" class="logo")
     end
 
-    it "accepts additional arguments for aribitrary attributes" do
+    it "accepts additional arguments for arbitrary attributes" do
       inlined_svg = view.tap(&.with_additional_attributes).render
       inlined_svg.should contain %(data-very="lucky")
     end
