@@ -138,11 +138,11 @@ class Lucky::CookieJar
   end
 
   private def encrypt(raw_value : String) : String
-    encrypted = encryptor.encrypt(raw_value)
+    encrypted = encryptor.encrypt_and_sign(raw_value)
 
     String.build do |value|
       value << LUCKY_ENCRYPTION_PREFIX
-      value << Base64.strict_encode(encrypted)
+      value << encrypted
     end
   end
 
@@ -150,11 +150,24 @@ class Lucky::CookieJar
     return unless encrypted_with_lucky?(cookie_value)
 
     base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
-    decoded = Base64.decode(base_64_encrypted_part)
-    String.new(encryptor.decrypt(decoded))
+
+    begin
+      String.new(encryptor.verify_and_decrypt(base_64_encrypted_part))
+    rescue
+      decrypt_unsigned_cookie(base_64_encrypted_part)
+    end
   rescue e
     # an error happened while decrypting the cookie
     # we will treat that as if no cookie was passed
+  end
+
+  # Fallback for cookies encrypted without HMAC signing (pre-Lucky 1.5).
+  # Without HMAC verification, decryption with the wrong key may silently
+  # return garbage data instead of failing (~1/256 chance of valid PKCS padding).
+  @[Deprecated("Unsigned cookie encryption is deprecated. Re-issue cookies to upgrade them to the signed format.")]
+  private def decrypt_unsigned_cookie(base_64_encrypted_part : String) : String?
+    decoded = Base64.decode(base_64_encrypted_part)
+    String.new(encryptor.decrypt(decoded))
   end
 
   private def encrypted_with_lucky?(value : String) : Bool
