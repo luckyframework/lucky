@@ -20,7 +20,8 @@ function transformPipeline(type, transforms) {
         let content = await Bun.file(args.path).text()
         for (const transform of transforms)
           content = await transform(content, args)
-        return {contents: content, loader: type}
+        const ext = args.path.split('.').pop()
+        return {contents: content, loader: ext}
       })
     }
   }
