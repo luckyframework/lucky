@@ -263,8 +263,14 @@ export default {
       })()
     }
 
-    for (const dir of this.config.watchDirs)
-      watch(join(this.root, dir), {recursive: true}, handler)
+    for (const dir of this.config.watchDirs) {
+      const fullDir = join(this.root, dir)
+      if (!existsSync(fullDir)) {
+        console.warn(` ▸ Watch directory ${dir} does not exist, skipping...`)
+        continue
+      }
+      watch(fullDir, {recursive: true}, handler)
+    }
 
     console.log('Beginning to watch your project')
   },
