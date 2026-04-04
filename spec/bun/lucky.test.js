@@ -91,6 +91,7 @@ describe('loadConfig', () => {
   test('uses defaults without a config file', () => {
     LuckyBun.loadConfig()
     expect(LuckyBun.config.outDir).toBe('public/assets')
+    expect(LuckyBun.config.watchDirs).toEqual(['src/js', 'src/css', 'src/images', 'src/fonts'])
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
     expect(LuckyBun.config.devServer.port).toBe(3002)
     expect(LuckyBun.config.plugins).toEqual({
@@ -111,6 +112,17 @@ describe('loadConfig', () => {
     expect(LuckyBun.config.devServer.port).toBe(4000)
     expect(LuckyBun.config.devServer.host).toBe('127.0.0.1')
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
+  })
+
+  test('merges watchDirs from user config', () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({watchDirs: ['src/js', 'src/css']})
+    )
+
+    LuckyBun.loadConfig()
+
+    expect(LuckyBun.config.watchDirs).toEqual(['src/js', 'src/css'])
   })
 
   test('merges listenHost into devServer config', () => {
