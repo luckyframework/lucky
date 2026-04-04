@@ -11,6 +11,7 @@ beforeEach(() => {
   LuckyBun.manifest = {}
   LuckyBun.config = null
   LuckyBun.plugins = []
+  LuckyBun.debug = false
   LuckyBun.prod = false
   LuckyBun.dev = false
   LuckyBun.root = TEST_DIR
@@ -58,6 +59,9 @@ describe('flags', () => {
 
     LuckyBun.flags({prod: true})
     expect(LuckyBun.prod).toBe(true)
+
+    LuckyBun.flags({debug: true})
+    expect(LuckyBun.debug).toBe(true)
 
     LuckyBun.dev = true
     LuckyBun.flags({prod: false})

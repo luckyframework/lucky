@@ -18,13 +18,15 @@ export default {
   root: process.cwd(),
   config: null,
   manifest: {},
+  debug: false,
   dev: false,
   prod: false,
   wsClients: new Set(),
   watchTimers: new Map(),
   plugins: [],
 
-  flags({dev, prod}) {
+  flags({debug, dev, prod}) {
+    if (debug != null) this.debug = debug
     if (dev != null) this.dev = dev
     if (prod != null) this.prod = prod
   },
@@ -270,6 +272,7 @@ export default {
     await this.watch()
 
     const {host, port, secure} = this.config.devServer
+    const debug = this.debug
     const wsClients = this.wsClients
 
     Bun.serve({
@@ -282,11 +285,11 @@ export default {
       websocket: {
         open(ws) {
           wsClients.add(ws)
-          console.log(` ▸ Client connected (${wsClients.size})\n\n`)
+          if (debug) console.log(` ▸ Client connected (${wsClients.size})\n\n`)
         },
         close(ws) {
           wsClients.delete(ws)
-          console.log(` ▸ Client disconnected (${wsClients.size})\n\n`)
+          if (debug) console.log(` ▸ Client disconnected (${wsClients.size})\n\n`)
         },
         message() {}
       }
