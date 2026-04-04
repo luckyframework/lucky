@@ -45,6 +45,7 @@ export default {
     const defaults = {
       entryPoints: {js: ['src/js/app.js'], css: ['src/css/app.css']},
       plugins: {css: ['aliases', 'cssGlobs'], js: ['aliases', 'jsGlobs']},
+      watchDirs: ['src/js', 'src/css', 'src/images', 'src/fonts'],
       staticDirs: ['src/images', 'src/fonts'],
       outDir: 'public/assets',
       publicPath: '/assets',
@@ -222,9 +223,7 @@ export default {
   },
 
   async watch() {
-    const srcDir = join(this.root, 'src')
-
-    watch(srcDir, {recursive: true}, (event, filename) => {
+    const handler = (event, filename) => {
       if (!filename) return
 
       let normalizedFilename = filename.replace(/\\/g, '/')
@@ -262,7 +261,10 @@ export default {
           if (err.errors) for (const e of err.errors) console.error(e)
         }
       })()
-    })
+    }
+
+    for (const dir of this.config.watchDirs)
+      watch(join(this.root, dir), {recursive: true}, handler)
 
     console.log('Beginning to watch your project')
   },
