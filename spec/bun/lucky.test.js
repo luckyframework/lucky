@@ -11,6 +11,7 @@ beforeEach(() => {
   LuckyBun.manifest = {}
   LuckyBun.config = null
   LuckyBun.plugins = []
+  LuckyBun.debug = false
   LuckyBun.prod = false
   LuckyBun.dev = false
   LuckyBun.root = TEST_DIR
@@ -59,6 +60,9 @@ describe('flags', () => {
     LuckyBun.flags({prod: true})
     expect(LuckyBun.prod).toBe(true)
 
+    LuckyBun.flags({debug: true})
+    expect(LuckyBun.debug).toBe(true)
+
     LuckyBun.dev = true
     LuckyBun.flags({prod: false})
     expect(LuckyBun.dev).toBe(true)
@@ -87,6 +91,7 @@ describe('loadConfig', () => {
   test('uses defaults without a config file', () => {
     LuckyBun.loadConfig()
     expect(LuckyBun.config.outDir).toBe('public/assets')
+    expect(LuckyBun.config.watchDirs).toEqual(['src/js', 'src/css', 'src/images', 'src/fonts'])
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
     expect(LuckyBun.config.devServer.port).toBe(3002)
     expect(LuckyBun.config.plugins).toEqual({
@@ -107,6 +112,29 @@ describe('loadConfig', () => {
     expect(LuckyBun.config.devServer.port).toBe(4000)
     expect(LuckyBun.config.devServer.host).toBe('127.0.0.1')
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
+  })
+
+  test('merges watchDirs from user config', () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({watchDirs: ['src/js', 'src/css']})
+    )
+
+    LuckyBun.loadConfig()
+
+    expect(LuckyBun.config.watchDirs).toEqual(['src/js', 'src/css'])
+  })
+
+  test('merges listenHost into devServer config', () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({devServer: {listenHost: '0.0.0.0'}})
+    )
+
+    LuckyBun.loadConfig()
+
+    expect(LuckyBun.config.devServer.listenHost).toBe('0.0.0.0')
+    expect(LuckyBun.config.devServer.host).toBe('127.0.0.1')
   })
 
   test('user can override plugins', () => {
@@ -185,6 +213,16 @@ describe('buildAssets', () => {
     await LuckyBun.buildJS()
 
     expect(LuckyBun.manifest['js/app.js']).toBeUndefined()
+  })
+
+  test('accepts a string entry point', async () => {
+    await setupProject(
+      {'src/js/app.js': 'console.log("single")'},
+      {entryPoints: {js: 'src/js/app.js'}}
+    )
+    await LuckyBun.buildJS()
+
+    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
   })
 
   test('builds multiple JS entry points', async () => {

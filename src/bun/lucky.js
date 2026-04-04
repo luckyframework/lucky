@@ -18,13 +18,15 @@ export default {
   root: process.cwd(),
   config: null,
   manifest: {},
+  debug: false,
   dev: false,
   prod: false,
   wsClients: new Set(),
   watchTimers: new Map(),
   plugins: [],
 
-  flags({dev, prod}) {
+  flags({debug, dev, prod}) {
+    if (debug != null) this.debug = debug
     if (dev != null) this.dev = dev
     if (prod != null) this.prod = prod
   },
@@ -43,6 +45,7 @@ export default {
     const defaults = {
       entryPoints: {js: ['src/js/app.js'], css: ['src/css/app.css']},
       plugins: {css: ['aliases', 'cssGlobs'], js: ['aliases', 'jsGlobs']},
+      watchDirs: ['src/js', 'src/css', 'src/images', 'src/fonts'],
       staticDirs: ['src/images', 'src/fonts'],
       outDir: 'public/assets',
       publicPath: '/assets',
@@ -87,7 +90,8 @@ export default {
     const outDir = join(this.outDir, type)
     mkdirSync(outDir, {recursive: true})
 
-    const entries = this.config.entryPoints[type]
+    const raw = this.config.entryPoints[type]
+    const entries = Array.isArray(raw) ? raw : [raw]
     const ext = `.${type}`
 
     for (const entry of entries) {
@@ -219,9 +223,7 @@ export default {
   },
 
   async watch() {
-    const srcDir = join(this.root, 'src')
-
-    watch(srcDir, {recursive: true}, (event, filename) => {
+    const handler = (event, filename) => {
       if (!filename) return
 
       let normalizedFilename = filename.replace(/\\/g, '/')
@@ -259,7 +261,16 @@ export default {
           if (err.errors) for (const e of err.errors) console.error(e)
         }
       })()
-    })
+    }
+
+    for (const dir of this.config.watchDirs) {
+      const fullDir = join(this.root, dir)
+      if (!existsSync(fullDir)) {
+        console.warn(` ▸ Watch directory ${dir} does not exist, skipping...`)
+        continue
+      }
+      watch(fullDir, {recursive: true}, handler)
+    }
 
     console.log('Beginning to watch your project')
   },
@@ -268,11 +279,13 @@ export default {
     await this.build()
     await this.watch()
 
-    const {host, port, secure} = this.config.devServer
+    const {host, listenHost, port, secure} = this.config.devServer
+    const hostname = listenHost || (secure ? '0.0.0.0' : host)
+    const debug = this.debug
     const wsClients = this.wsClients
 
     Bun.serve({
-      hostname: secure ? '0.0.0.0' : host,
+      hostname,
       port,
       fetch(req, server) {
         if (server.upgrade(req)) return
@@ -281,11 +294,11 @@ export default {
       websocket: {
         open(ws) {
           wsClients.add(ws)
-          console.log(` ▸ Client connected (${wsClients.size})\n\n`)
+          if (debug) console.log(` ▸ Client connected (${wsClients.size})\n\n`)
         },
         close(ws) {
           wsClients.delete(ws)
-          console.log(` ▸ Client disconnected (${wsClients.size})\n\n`)
+          if (debug) console.log(` ▸ Client disconnected (${wsClients.size})\n\n`)
         },
         message() {}
       }

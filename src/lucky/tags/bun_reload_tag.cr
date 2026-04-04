@@ -13,6 +13,7 @@ module Lucky::BunReloadTag
       (() => {
         const cssPaths = #{bun_reload_connect_css_files(config).to_json};
         const ws = new WebSocket('#{config.dev_server.ws_url}')
+        let connected = false
 
         ws.onmessage = (event) => {
           const data = JSON.parse(event.data)
@@ -35,8 +36,13 @@ module Lucky::BunReloadTag
           }
         }
 
-        ws.onopen = () => console.log('▸ Live reload connected')
-        ws.onclose = () => setTimeout(() => location.reload(), 2000)
+        ws.onopen = () => {
+          connected = true
+          console.log('▸ Live reload connected')
+        }
+        ws.onclose = () => {
+          if (connected) setTimeout(() => location.reload(), 2000)
+        }
       })()
       JS
     end

@@ -27,8 +27,24 @@ module LuckyBun
     struct EntryPoints
       include JSON::Serializable
 
+      @[JSON::Field(converter: LuckyBun::Config::StringOrArray)]
       getter js : Array(String) = %w[src/js/app.js]
+
+      @[JSON::Field(converter: LuckyBun::Config::StringOrArray)]
       getter css : Array(String) = %w[src/css/app.css]
+    end
+
+    module StringOrArray
+      def self.from_json(pull : JSON::PullParser) : Array(String)
+        case pull.kind
+        when .string? then [pull.read_string]
+        else               Array(String).new(pull)
+        end
+      end
+
+      def self.to_json(value : Array(String), json : JSON::Builder) : Nil
+        value.to_json(json)
+      end
     end
 
     struct DevServer
