@@ -87,7 +87,8 @@ export default {
     const outDir = join(this.outDir, type)
     mkdirSync(outDir, {recursive: true})
 
-    const entries = this.config.entryPoints[type]
+    const raw = this.config.entryPoints[type]
+    const entries = Array.isArray(raw) ? raw : [raw]
     const ext = `.${type}`
 
     for (const entry of entries) {

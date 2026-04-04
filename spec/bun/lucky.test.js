@@ -187,6 +187,16 @@ describe('buildAssets', () => {
     expect(LuckyBun.manifest['js/app.js']).toBeUndefined()
   })
 
+  test('accepts a string entry point', async () => {
+    await setupProject(
+      {'src/js/app.js': 'console.log("single")'},
+      {entryPoints: {js: 'src/js/app.js'}}
+    )
+    await LuckyBun.buildJS()
+
+    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
+  })
+
   test('builds multiple JS entry points', async () => {
     await buildJS(
       {
