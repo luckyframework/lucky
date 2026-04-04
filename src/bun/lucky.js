@@ -271,12 +271,13 @@ export default {
     await this.build()
     await this.watch()
 
-    const {host, port, secure} = this.config.devServer
+    const {host, listenHost, port, secure} = this.config.devServer
+    const hostname = listenHost || (secure ? '0.0.0.0' : host)
     const debug = this.debug
     const wsClients = this.wsClients
 
     Bun.serve({
-      hostname: secure ? '0.0.0.0' : host,
+      hostname,
       port,
       fetch(req, server) {
         if (server.upgrade(req)) return

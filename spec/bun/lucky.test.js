@@ -113,6 +113,18 @@ describe('loadConfig', () => {
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
   })
 
+  test('merges listenHost into devServer config', () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({devServer: {listenHost: '0.0.0.0'}})
+    )
+
+    LuckyBun.loadConfig()
+
+    expect(LuckyBun.config.devServer.listenHost).toBe('0.0.0.0')
+    expect(LuckyBun.config.devServer.host).toBe('127.0.0.1')
+  })
+
   test('user can override plugins', () => {
     createFile(
       'config/bun.json',
