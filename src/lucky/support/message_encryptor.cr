@@ -12,7 +12,7 @@ module Lucky
     end
 
     # Encrypt and sign a message. We need to sign the message in order to avoid
-    # padding attacks. Reference: http://www.limited-entropy.com/padding-oracle-attacks.
+    # padding attacks. Reference: https://en.wikipedia.org/wiki/Padding_oracle_attack.
     def encrypt_and_sign(value : Slice(UInt8)) : String
       verifier.generate(encrypt(value))
     end
@@ -22,7 +22,7 @@ module Lucky
     end
 
     # Verify and Decrypt a message. We need to verify the message in order to
-    # avoid padding attacks. Reference: http://www.limited-entropy.com/padding-oracle-attacks.
+    # avoid padding attacks. Reference: https://en.wikipedia.org/wiki/Padding_oracle_attack.
     def verify_and_decrypt(value : String) : Bytes
       decrypt(verifier.verify_raw(value))
     end

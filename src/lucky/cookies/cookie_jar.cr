@@ -138,11 +138,11 @@ class Lucky::CookieJar
   end
 
   private def encrypt(raw_value : String) : String
-    encrypted = encryptor.encrypt(raw_value)
+    encrypted = encryptor.encrypt_and_sign(raw_value)
 
     String.build do |value|
       value << LUCKY_ENCRYPTION_PREFIX
-      value << Base64.strict_encode(encrypted)
+      value << encrypted
     end
   end
 
@@ -150,8 +150,7 @@ class Lucky::CookieJar
     return unless encrypted_with_lucky?(cookie_value)
 
     base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
-    decoded = Base64.decode(base_64_encrypted_part)
-    String.new(encryptor.decrypt(decoded))
+    String.new(encryptor.verify_and_decrypt(base_64_encrypted_part))
   rescue e
     # an error happened while decrypting the cookie
     # we will treat that as if no cookie was passed
