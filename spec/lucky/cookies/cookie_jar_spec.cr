@@ -84,14 +84,27 @@ describe Lucky::CookieJar do
     # meant to be a regression test to make sure we don't
     # accidentally break cookie decryption
     #
+    # this cookie was created with Lucky 1.5
+    cookie_key = "cookie_key"
+    cookie_value = "bHVja3k=--WyJuaEd0U1poaVRPeUdkTlRSMVVKSURBTUc2bGgyN1l1d3RUZE1rZnR4OVNaVG1vbmNkUU9UT1ZlNzZzWmoySlhjIiwiMHFLa3ZFS1RBMFRMaTZsTFZwT1Z3NFNGMUVzPSJd"
+    cookies = HTTP::Cookies.new
+    cookies[cookie_key] = cookie_value
+    jar = Lucky::CookieJar.from_request_cookies(cookies)
+
+    JSON.parse(jar.get(cookie_key)).should eq({"key" => "value", "abc" => "123"})
+  end
+
+  it "returns nil when a valid cookie from a former Lucky version is decrypted" do
+    # Previous versions of Lucky had a vulnerability
+    # and the encrypted cookie can't be decrypted
+    #
     # this cookie was created with Lucky 0.27
     cookie_key = "cookie_key"
     cookie_value = "bHVja3k=--hY71kbRfob4pb9NS7wJpWKOBRhF+kwYPsHRQQanyXzGSKsCO6MIHCZfRBxDRqqm6"
     cookies = HTTP::Cookies.new
     cookies[cookie_key] = cookie_value
     jar = Lucky::CookieJar.from_request_cookies(cookies)
-
-    JSON.parse(jar.get(cookie_key)).should eq({"key" => "value", "abc" => "123"})
+    jar.get?(cookie_key).should eq(nil)
   end
 
   describe "#set" do
