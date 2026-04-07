@@ -8,10 +8,7 @@ module Lucky::SpecialtyTags
   #
   # Additional tag attributes can be passed in keyword arguments via *options*.
   def css_link(href, **options) : Nil
-    if href.starts_with?(LuckyBun::Config.instance.public_path) &&
-       href !~ /-[0-9a-f]{8}\.css$/
-      href = "#{href}#{href.includes?('?') ? '&' : '?'}bust=#{Time.utc.to_unix_ms}"
-    end
+    href = build_css_link_href_with_timestamp(href)
     options = {href: href, rel: "stylesheet", media: "screen"}.merge(options)
     empty_tag "link", **options
   end
@@ -84,6 +81,24 @@ module Lucky::SpecialtyTags
   def nbsp(how_many : Int32 = 1) : Nil
     how_many.times { raw("&nbsp;") }
     view
+  end
+
+  private def build_css_link_href_with_timestamp(href) : String
+    config = LuckyBun::Config.instance
+    return href unless href.starts_with?(config.public_path)
+    return href if href =~ /-[0-9a-f]{8}\.css$/
+
+    String.build do |io|
+      file_path = href.sub(config.public_path, config.out_dir)
+      io << href
+      io << (href.includes?('?') ? '&' : '?')
+      io << "bust="
+      if File.exists?(file_path)
+        io << File.info(file_path).modification_time.to_unix
+      else
+        io << Time.utc.to_unix
+      end
+    end
   end
 
   private def build_viewport_properties(options) : String
