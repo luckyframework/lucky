@@ -63,6 +63,8 @@ module LuckyBun
       end
     end
 
+    class_getter instance : Config { load }
+
     def self.load : Config
       Config.from_json(File.read(File.expand_path(CONFIG_PATH)))
     rescue File::NotFoundError

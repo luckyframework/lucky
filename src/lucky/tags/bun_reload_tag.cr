@@ -7,12 +7,11 @@ module Lucky::BunReloadTag
   def bun_reload_connect_tag
     return unless LuckyEnv.development?
 
-    config = LuckyBun::Config.load
     tag "script" do
       raw <<-JS
       (() => {
-        const cssPaths = #{bun_reload_connect_css_files(config).to_json};
-        const ws = new WebSocket('#{config.dev_server.ws_url}')
+        const cssPaths = #{bun_reload_connect_css_files.to_json};
+        const ws = new WebSocket('#{LuckyBun::Config.instance.dev_server.ws_url}')
         let connected = false
 
         ws.onmessage = (event) => {
@@ -49,11 +48,9 @@ module Lucky::BunReloadTag
   end
 
   # Collects all CSS entrypoints at their public paths.
-  private def bun_reload_connect_css_files(
-    config : LuckyBun::Config,
-  ) : Array(String)
+  private def bun_reload_connect_css_files : Array(String)
     Lucky::AssetHelpers.css_entry_points.map do |key|
-      File.join(config.public_path, key)
+      File.join(LuckyBun::Config.instance.public_path, key)
     end
   end
 end
