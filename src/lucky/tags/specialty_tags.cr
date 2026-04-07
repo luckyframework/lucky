@@ -8,6 +8,9 @@ module Lucky::SpecialtyTags
   #
   # Additional tag attributes can be passed in keyword arguments via *options*.
   def css_link(href, **options) : Nil
+    if LuckyEnv.development? && href.starts_with?(LuckyBun::Config.instance.public_path)
+      href = "#{href}#{href.includes?('?') ? '&' : '?'}bust=#{Time.utc.to_unix_ms}"
+    end
     options = {href: href, rel: "stylesheet", media: "screen"}.merge(options)
     empty_tag "link", **options
   end

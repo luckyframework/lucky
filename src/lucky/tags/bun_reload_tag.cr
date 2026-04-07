@@ -22,7 +22,7 @@ module Lucky::BunReloadTag
               const linkPath = new URL(link.href).pathname.split('?')[0]
               if (cssPaths.some(p => linkPath.startsWith(p))) {
                 const url = new URL(link.href)
-                url.searchParams.set('r', Date.now())
+                url.searchParams.set('bust', Date.now())
                 link.href = url.toString()
               }
             })
