@@ -26,14 +26,32 @@ describe Lucky::SpecialtyTags do
     HTML
   end
 
-  it "cache-busts local css links in development" do
+  it "cache-busts non-fingerprinted local css links" do
     html = view(&.css_link("/assets/css/app.css"))
 
     html.should contain "bust="
   end
 
+  it "does not cache-bust fingerprinted local css links" do
+    html = view(&.css_link("/assets/css/app-5e6f7a8b.css"))
+
+    html.should_not contain "bust="
+  end
+
   it "does not cache-bust external css links" do
     html = view(&.css_link("https://fonts.googleapis.com/css?family=Inter"))
+
+    html.should_not contain "bust="
+  end
+
+  it "does not cache-bust protocol-relative css links" do
+    html = view(&.css_link("//cdn.example.com/style.css"))
+
+    html.should_not contain "bust="
+  end
+
+  it "does not cache-bust css links outside the asset path" do
+    html = view(&.css_link("/other/path/style.css"))
 
     html.should_not contain "bust="
   end
