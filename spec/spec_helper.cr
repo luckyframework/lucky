@@ -1,4 +1,5 @@
 require "spec"
+require "lucky_env"
 require "../src/lucky"
 require "../tasks/**"
 require "./support/**"
