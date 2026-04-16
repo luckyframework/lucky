@@ -1,44 +1,82 @@
-import {dirname, extname} from 'path'
+import {dirname, extname, isAbsolute, relative, join} from 'path'
 import {Glob} from 'bun'
 
 const REGEX = /import\s+(\w+)\s+from\s+['"]glob:([^'"]+)['"]/g
 
-// Compiles an object with a file path => default export mapping from a glob
-// pattern in JS import statements.
-// e.g. import components from 'glob:./components/**/*.js'
-//
-// ... will generate ...
-//
-// import _glob_components_theme from './components/theme.js'
-// import _glob_components_shared_tooltip from './components/shared/tooltip.js'
-// const components = {
-//   'theme': _glob_components_theme,
-//   'shared/tooltip': _glob_components_shared_tooltip
-// }
+function parseImport(raw) {
+  const parts = raw.split(/\s+not\s+/)
+  return {pattern: parts[0], excludes: parts.slice(1)}
+}
+
+function splitBase(pattern) {
+  const clean = pattern.replace(/^\.\//, '')
+  const base = clean.slice(0, clean.search(/[*?{[]|$/)).replace(/\/$/, '')
+  return {clean, base}
+}
+
+function excluded(file, matchers) {
+  return matchers.some(m => m.match(file))
+}
+
+function scanFiles(dir, pattern, excludes) {
+  const {clean, base} = splitBase(pattern)
+  const abs = isAbsolute(clean)
+  const cwd = abs ? base : dir
+  const globPart = abs ? clean.slice(base.length + 1) : clean
+  const matchers = excludes.map(e => {
+    const ex = e.replace(/^\.\//, '')
+    return new Glob(abs && isAbsolute(ex) ? ex.slice(base.length + 1) : ex)
+  })
+  const glob = new Glob(globPart)
+  const files = []
+
+  for (const file of glob.scanSync({cwd})) {
+    if (excluded(file, matchers)) continue
+    const absPath = join(cwd, file)
+    const rel = relative(dir, absPath)
+    files.push(rel)
+  }
+
+  return files.sort()
+}
+
+function keyBase(pattern) {
+  const {base} = splitBase(pattern)
+  if (!isAbsolute(base)) return base
+  const last = base.lastIndexOf('/')
+  return last > 0 ? base.slice(last + 1) : base
+}
+
+function buildImportMap(files, dir, base) {
+  const imports = []
+  const entries = []
+
+  for (const file of files) {
+    const ext = extname(file)
+    const key = file
+      .slice(0, -ext.length)
+      .replace(/^[./]+/, '')
+      .replace(new RegExp(`^.*${base}/`), '')
+    const safe = `_glob_${base}_${key}`.replace(/[^a-zA-Z0-9]/g, '_')
+    const rel = file.startsWith('.') ? file : `./${file}`
+    imports.push(`import ${safe} from '${rel}'`)
+    entries.push(`  '${key}': ${safe}`)
+  }
+
+  return {imports, entries}
+}
+
 export default function jsGlobs() {
   return (content, args) => {
-    return content.replace(REGEX, (_, binding, pattern) => {
+    return content.replace(REGEX, (_, binding, raw) => {
+      const {pattern, excludes} = parseImport(raw)
+      const base = keyBase(pattern)
       const dir = dirname(args.path)
-      const cleanPattern = pattern.replace(/^\.\//, '')
-      const baseDir = cleanPattern.slice(0, cleanPattern.search(/[*?{[]|$/))
-        .replace(/\/$/, '')
-      const glob = new Glob(cleanPattern)
-      const files = Array.from(glob.scanSync({cwd: dir})).sort()
+      const files = scanFiles(dir, pattern, excludes)
 
       if (!files.length) return `const ${binding} = {}`
 
-      const imports = []
-      const entries = []
-
-      for (const file of files) {
-        const ext = extname(file)
-        const relative = baseDir ? file.slice(baseDir.length + 1) : file
-        const key = relative.slice(0, -ext.length)
-        const prefix = baseDir ? `${baseDir}_` : ''
-        const safe = `_glob_${prefix}${key}`.replace(/[^a-zA-Z0-9]/g, '_')
-        imports.push(`import ${safe} from './${file}'`)
-        entries.push(`  '${key}': ${safe}`)
-      }
+      const {imports, entries} = buildImportMap(files, dir, base)
 
       return [
         ...imports,

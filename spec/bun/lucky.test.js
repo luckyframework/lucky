@@ -91,7 +91,12 @@ describe('loadConfig', () => {
   test('uses defaults without a config file', () => {
     LuckyBun.loadConfig()
     expect(LuckyBun.config.outDir).toBe('public/assets')
-    expect(LuckyBun.config.watchDirs).toEqual(['src/js', 'src/css', 'src/images', 'src/fonts'])
+    expect(LuckyBun.config.watchDirs).toEqual([
+      'src/js',
+      'src/css',
+      'src/images',
+      'src/fonts'
+    ])
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
     expect(LuckyBun.config.devServer.port).toBe(3002)
     expect(LuckyBun.config.plugins).toEqual({
@@ -457,7 +462,8 @@ describe('aliases plugin', () => {
   test('replaces $/ references in TypeScript imports', async () => {
     await setupProject(
       {
-        'src/js/app.ts': "import utils from '$/lib/utils.ts'\nconsole.log(utils)",
+        'src/js/app.ts':
+          "import utils from '$/lib/utils.ts'\nconsole.log(utils)",
         'lib/utils.ts': 'const val: number = 99\nexport default val'
       },
       {entryPoints: {js: ['src/js/app.ts']}}
@@ -574,6 +580,37 @@ describe('cssGlobs plugin', () => {
 
     expect(alphaPos).toBeLessThan(middlePos)
     expect(middlePos).toBeLessThan(zebraPos)
+  })
+
+  test('excludes paths matching not clause', async () => {
+    const content = await buildCSS({
+      'src/css/app.css':
+        "@import './components/**/*.css' not './components/admin/**';",
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/admin/panel.css': '.panel { color: blue }',
+      'src/css/components/forms/input.css': '.input { color: pink }'
+    })
+
+    expect(content).toContain('.button')
+    expect(content).toContain('.input')
+    expect(content).not.toContain('.panel')
+  })
+
+  test('supports multiple not clauses', async () => {
+    const content = await buildCSS({
+      'src/css/app.css': [
+        "@import './components/**/*.css'",
+        "  not './components/admin/**'",
+        "  not './components/internal/**';"
+      ].join('\n'),
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/admin/panel.css': '.admin { color: blue }',
+      'src/css/components/internal/debug.css': '.debug { color: green }'
+    })
+
+    expect(content).toContain('.button')
+    expect(content).not.toContain('.admin')
+    expect(content).not.toContain('.debug')
   })
 })
 
@@ -702,6 +739,36 @@ describe('jsGlobs plugin', () => {
 
     expect(alphaPos).toBeLessThan(middlePos)
     expect(middlePos).toBeLessThan(zebraPos)
+  })
+
+  test('excludes paths matching not clause', async () => {
+    const content = await buildJSGlobs({
+      ...jsApp(
+        "import c from 'glob:./components/**/*.js not ./components/admin/**'",
+        'console.log(c)'
+      ),
+      'src/js/components/modal.js': 'export default function modal() {}',
+      'src/js/components/admin/nav.js': 'export default function adminNav() {}'
+    })
+
+    expect(content).toContain('modal')
+    expect(content).not.toContain('adminNav')
+  })
+
+  test('handles absolute glob paths with exclusions', async () => {
+    const absComponents = join(TEST_DIR, 'app/components')
+    const content = await buildJSGlobs({
+      ...jsApp(
+        `import c from 'glob:${absComponents}/**/*_component.js not ${absComponents}/admin/**'`,
+        'console.log(c)'
+      ),
+      'app/components/modal_component.js': 'export default function modal() {}',
+      'app/components/admin/panel_component.js':
+        'export default function panel() {}'
+    })
+
+    expect(content).toContain('modal')
+    expect(content).not.toContain('panel')
   })
 })
 
