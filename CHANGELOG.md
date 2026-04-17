@@ -1,4 +1,47 @@
-### Changes in 1.4.0
+### Changes in 1.5.0
+
+- Added: new `subdomain` parameter to build Lucky routes with a subdomain. [#1974](https://github.com/luckyframework/lucky/pull/1974)
+- Updated: HTML Components will fail at compile-time for unused arguments. [#1978](https://github.com/luckyframework/lucky/pull/1978)
+- Added: format detection from URL extensions in actions. [#1979](https://github.com/luckyframework/lucky/pull/1979)
+- Added: Allow customizing the manifest retry timeout. [#1977](https://github.com/luckyframework/lucky/pull/1977)
+- Added: Route path aliases [#1998](https://github.com/luckyframework/lucky/pull/1998)
+- Fixed: issues with development docker setup. [#1997](https://github.com/luckyframework/lucky/pull/1997)
+- Updated: `inline_svg` to allow arbitrary attributes [#2006](https://github.com/luckyframework/lucky/pull/2006)
+- Added: ability to set body size limit per action. [#2004](https://github.com/luckyframework/lucky/pull/2004)
+- Updated: help output for `lucky exec` CLI task. [#2010](https://github.com/luckyframework/lucky/pull/2010)
+- Updated: min supported Crystal version is now v1.16 [#2011](https://github.com/luckyframework/lucky/pull/2011)
+- Added: ability to create route objects using globs. [#2012](https://github.com/luckyframework/lucky/pull/2012)
+- Added: new `--format` flag to `lucky routes` CLI task. [#2013](https://github.com/luckyframework/lucky/pull/2013)
+- Fixed: bug with `redirect_back` when query params were added. [#2014](https://github.com/luckyframework/lucky/pull/2014)
+- Added: asset processing will all be handled via `bun` in place of using `mix`. [#2015](https://github.com/luckyframework/lucky/pull/2015)
+- Added: bun plugin system for extending asset handling. [#2020](https://github.com/luckyframework/lucky/pull/2020)
+- Added: new `format` route method to generate routes with a specific file extension. [#2022](https://github.com/luckyframework/lucky/pull/2022)
+- **Breaking change** Updated: how cookies are now decrypted to fix vulnerability. [#2026](https://github.com/luckyframework/lucky/pull/2026)
+- Fixed: using `new_record?` returning false in SaveOperation when setting the `id` manually. [#1106 in Avram](https://github.com/luckyframework/avram/pull/1106)
+- Added: support for table partitioning. [#1110 in Avram](https://github.com/luckyframework/avram/pull/1110)
+- Added: conditional callbacks for normal Operations. [#1108 in Avram](https://github.com/luckyframework/avram/pull/1108)
+- Added: new `create_many` factory method to create multiple factory records in a single call. [#1117 in Avram](https://github.com/luckyframework/avram/pull/1117)
+- Added: new safe `reload?` and `.reload?(&)` methods for models to not raise when the record is not found. [#1122 in Avram](https://github.com/luckyframework/avram/pull/1122)
+- Added: option to create indexes concurrently in migrations. [#1127 in Avram](https://github.com/luckyframework/avram/pull/1127)
+- Fixed: compilation error caused by ordering of needs in operations. [#1130 in Avram](https://github.com/luckyframework/avram/pull/1130)
+- Added: "has one through" option for models. This works similar to "has many through". [#1132 in Avram](https://github.com/luckyframework/avram/pull/1132)
+- Added: new `vacuum` method for Database to run vacuums. [#1134 in Avram](https://github.com/luckyframework/avram/pull/1134)
+- Updated: Avram::Credentials to be a bit more agnostic to allow for other possible engines. [#1135 in Avram](https://github.com/luckyframework/avram/pull/1135)
+- Updated: `create_function` migration helper method allows specifying alternate languages and behaviors. [#1136 in Avram](https://github.com/luckyframework/avram/pull/1136)
+- Updated: minor performance improvements in Avram. [#1137 in Avram](https://github.com/luckyframework/avram/pull/1137) and [#1138 in Avram](https://github.com/luckyframework/avram/pull/1138)
+- Added: ability to run migrations outside of a transaction with new `unsafe_migration`. [#1140 in Avram](https://github.com/luckyframework/avram/pull/1140)
+- Updated: migrations to require a `rollback` method to be defined, even if just empty. [#1145 in Avram](https://github.com/luckyframework/avram/pull/1145)
+- Fixed: updating columns that have names similar to reserved keywords not working. [#1144 in Avram](https://github.com/luckyframework/avram/pull/1144)
+- Added: `for_collection` serializer method that accepts a `Lucky::Paginator`. [#884 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/884)
+- Removed: SASS from asset dependencies. [#909 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/909)
+- Updated: new generated Lucky apps will default using the new `bun` system. [#924 in LuckyCLI](https://github.com/luckyframework/lucky_cli/pull/924)
+- Updated: LuckyCache can now store Array data types. [#17 in LuckyCache](https://github.com/luckyframework/lucky_cache/pull/17)
+- Updated: LuckyCache to remove expired items and avoid memory leaks. [#20 in LuckyCache](https://github.com/luckyframework/lucky_cache/pull/20)
+- Added: new RedisStore extension shard for LuckyCache. [See LuckyCache::RedisStore](https://github.com/luckyframework/lucky_cache_redis_store)
+- Added: support for `categories` and `send_at` with Carbon SendGrid: [#26 in Carbon SendGrid](https://github.com/luckyframework/carbon_sendgrid_adapter/pull/26)
+- Added: `subscribe_async` to Pulsar. [#24 in Pulsar](https://github.com/luckyframework/pulsar/pull/24)
+
+### Changes in 1.4.0 (2025-06-03)
 
 - Fixed: `Lucky::Response` require for defining `debug_message` on custom response types. [#1927](https://github.com/luckyframework/lucky/pull/1927)
 - Fixed: Compilation error on Windows. [#1929](https://github.com/luckyframework/lucky/pull/1929)
@@ -32,8 +75,6 @@
 - Added: dynamic environment aware .env loading. [#37 in LuckyEnv](https://github.com/luckyframework/lucky_env/pull/37)
 - Added: type-safe ENV method generation. [#39 in LuckyEnv](https://github.com/luckyframework/lucky_env/pull/39)
 
-
-
 ### Changes in 1.3.0 (2024-11-02)
 
 - Fixed: re-compilation time not resetting. [#1894](https://github.com/luckyframework/lucky/pull/1894)
@@ -65,8 +106,6 @@
 - Added: `validate_url_format` for operation validations. [#1065 in Avram](https://github.com/luckyframework/avram/pull/1065)
 - Refactor: built-in db related tasks are no longer precompiled. [#1069 in Avram](https://github.com/luckyframework/avram/pull/1069)
 - Refacor: built-in `gen.email` task is no longer precompiled. [#95 in Carbon](https://github.com/luckyframework/carbon/pull/95)
-
-
 
 ### Changes in 1.2.0 (2024-04-21)
 
@@ -112,8 +151,6 @@
 - Fixed: the location where Carbon emails are generated with `lucky gen.email`. [#93 in Carbon](https://github.com/luckyframework/carbon/pull/93)
 - Updated: CarbonSMTP Adapter support on Email shard dependency. [#18 in CarbonSMTPAdapter](https://github.com/luckyframework/carbon_smtp_adapter/pull/18)
 - Added: support for attachments in CarbonSMTPAdapter. [#20 in CarbonSMTPAdapter](https://github.com/luckyframework/carbon_smtp_adapter/pull/20)
-
-
 
 ### Changes in 1.1.0 (2023-10-29)
 
@@ -162,7 +199,6 @@
 - Updated: Pulsar is now supported on Windows. [#22 in Pulsar](https://github.com/luckyframework/pulsar/pull/22)
 - Updated: Wordsmith is now supported on Windows. [#25 in Wordsmith](https://github.com/luckyframework/wordsmith/pull/25)
 
-
 ### Changes in 1.0.0 (2023-03-12)
 
 - Added: Inline SVG files. [#1761](https://github.com/luckyframework/lucky/pull/1761)
@@ -193,7 +229,6 @@
 - Updated: Authentic with better primary key agnostic support. [#77 in Authentic](https://github.com/luckyframework/authentic/pull/77)
 - Updated: Small performance boost with the router. [#60 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/60)
 - Updated: to lastest Bright security SecTester. [#27 in LuckySecTester](https://github.com/luckyframework/lucky_sec_tester/pull/27)
-
 
 ### Changes in 1.0.0-rc1 (2022-10-2)
 
@@ -244,7 +279,6 @@
 - Fixed: issue when generating a new email and using the word "Email" duplicating it. [#74 in Carbon](https://github.com/luckyframework/carbon/pull/74)
 - Updated: LuckySecTester is officially released with v0.1.0. [View Shard](https://github.com/luckyframework/lucky_sec_tester)
 - Added: new `ws` CLI utility with Wordsmith allowing you to process words from the CLI. [#23 in Wordsmith](https://github.com/luckyframework/wordsmith/pull/23)
-
 
 ### Changes in 0.30.1 (2022-04-17)
 
@@ -298,7 +332,6 @@
 - Added: `clear_subscribers` method to Pulsar to clear events of subscribers. [#18 in Pulsar](https://github.com/luckyframework/pulsar/pull/18)
 - Added: extra log metadata when using `emit()` with Dexter. [#45 in Dexter](https://github.com/luckyframework/dexter/pull/45)
 - Added: support for passing unsubscribe group data to Sendgrid. [#8 in Carbon Sendgrid Adapter](https://github.com/luckyframework/carbon_sendgrid_adapter/pull/8)
-
 
 ### v0.29 (2021-11-30)
 
@@ -360,7 +393,6 @@
 - Added: new `int32` and `float64` task args. [#3 in LuckyTask](https://github.com/luckyframework/lucky_task/pull/3)
 - Added: faster routing! [#54 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/54), [#55 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/55)
 - Updated: `ENV["LUCKY_TASK"]` to be nilable. [#21 in LuckyTask](https://github.com/luckyframework/lucky_env/pull/21)
-
 
 ### v0.28.0 (2021-07-22)
 
@@ -424,7 +456,6 @@
 - Added: storing before/after pipes in Breeze. [#36 in Breeze](https://github.com/luckyframework/breeze/pull/36)
 - Fixed: issue when running specs on an app using Breeze. [#42 in Breeze](https://github.com/luckyframework/breeze/pull/42)
 
-
 ### v0.27.2 (2021-04-12)
 
 - Removed: legacy ecrypted cookies handling. [#1470](https://github.com/luckyframework/lucky/pull/1470)
@@ -463,7 +494,6 @@
 - Added: new `Habitat.extend` macro for extending existing configuration settings. [#59 in Habitat](https://github.com/luckyframework/habitat/pull/59)
 - Added: new development dashboard shard `Breeze`. [View Breeze](https://github.com/luckyframework/breeze)
 - Added: new .env parsing shard `LuckyEnv`. [View LuckyEnv](https://github.com/luckyframework/lucky_env)
-
 
 ### v0.26.0 (2021-02-06)
 
@@ -518,7 +548,6 @@
 - Added: new `pause` method for LuckyFlow to pause execution of flow for debugging. [#117 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/117)
 - Updated: runtime-error for duplicate defined routes. [#45 in LuckyRouter](https://github.com/luckyframework/lucky_router/pull/45)
 - Added: `have_delivered_emails` spec expectation method for `Carbo`. [#45 in Carbon](https://github.com/luckyframework/carbon/pull/45)
-
 
 ### v0.25.0 (2020-12-18)
 
@@ -584,7 +613,6 @@
 - Added: flow to fill a select field. [#104 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/104)
 - Added: flow to select multiple values from a select field. [#106 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/106)
 - Added: flow method `element.hover` to hover over an element. [#108 in LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/108)
-
 
 ### v0.24.0 (2020-09-05)
 
@@ -678,7 +706,6 @@
 - Added: a new `validation` option to Habitat settings. [#49 in Habitat](https://github.com/luckyframework/habitat/pull/49)
 - Renamed: the internal Habitat `Settings` class to `HabitatSettings` to avoid name conflicts in some Lucky apps. [#48 in Habitat](https://github.com/luckyframework/habitat/pull/48)
 - Fixed: bug when setting a default value in a Habitat setting that could potentially raise an exception. [#51 in Habitat](https://github.com/luckyframework/habitat/pull/51)
-
 
 ### v0.22.0 (2020-06-17)
 
@@ -783,7 +810,6 @@
 - Fixed: bug when using a Box that had no columns [See Avram](https://github.com/luckyframework/avram/pull/310)
 - Updated: preloads to only call when there are parent records. This is a query optimization update. [See Avram](https://github.com/luckyframework/avram/pull/306)
 
-
 ### v0.18.3 (2020-02-17)
 
 - Added: support for Crystal 0.33.0
@@ -850,7 +876,6 @@
 - Fixed: `lucky init` to catch invalid project names properly.
 - Added: support for `browser_binary` in LuckyFlow [see LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/59)
 
-
 ### v0.17 (2019-08-13)
 
 - Rename: `Avram::BaseForm` to `Avram::SaveOperation` [see Avram](https://github.com/luckyframework/avram/pull/104)
@@ -916,11 +941,9 @@
 - Fixed passing `Symbol` for statuses in redirects [#730](https://github.com/luckyframework/lucky/pull/730)
 - More helpful errors [#733](https://github.com/luckyframework/lucky/pull/733), [#732](https://github.com/luckyframework/lucky/pull/732)
 
-
 ### v.0.14 (2019-04-18)
 
 - Crystal 0.28.0 support added
-
 
 ### v0.13 (2019-02-27)
 
@@ -939,6 +962,6 @@
 - Pages ignore unused exposures [#666](https://github.com/luckyframework/lucky/issues/666)
 
 - `unexpose` and `unexpose_if_exposed` have been removed because they are no
-longer necessary now that pages ignore unused exposures.
+  longer necessary now that pages ignore unused exposures.
 
 - `is` in queries has been renamed to `eq`. For example: `UserQuery.new.name.not.is("Emily")` should now be `UserQuery.new.name.not.eq("Emily")`. If passing in something that could be `Nil`, one must use `nilable_eq` instead. [avram#46](https://github.com/luckyframework/avram/pull/46)
