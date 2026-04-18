@@ -16,6 +16,14 @@ class TestParamAction < TestAction
   end
 end
 
+class TestSubdomainFormatAction < TestAction
+  accepted_formats [:html, :rss, :json], default: :html
+
+  get "/subdomain_reports/:id" do
+    plain_text "report"
+  end
+end
+
 describe Lucky::RouteHelper do
   describe "url" do
     it "returns the host + path" do
@@ -59,26 +67,26 @@ describe Lucky::RouteHelper do
     end
   end
 
-  describe ".with subdomain support" do
-    it "generates URLs with subdomains using .with() method" do
+  describe ".subdomain" do
+    it "generates URLs with subdomains via Action.subdomain" do
       Lucky::RouteHelper.temp_config(base_uri: "https://example.com") do
-        route = TestSubdomainAction.with(subdomain: "admin")
+        route = TestSubdomainAction.subdomain("admin")
 
         route.url.should eq("https://admin.example.com/dashboard")
         route.path.should eq("/dashboard")
       end
     end
 
-    it "generates URLs with subdomains and params using .with() method" do
+    it "generates URLs with subdomains via .with().subdomain()" do
       Lucky::RouteHelper.temp_config(base_uri: "https://example.com") do
-        route = TestParamAction.with(page: 2, subdomain: "blog")
+        route = TestParamAction.with(page: 2).subdomain("blog")
 
         route.url.should eq("https://blog.example.com/posts?page=2")
         route.path.should eq("/posts?page=2")
       end
     end
 
-    it "generates URLs without subdomain when not specified in .with()" do
+    it "generates URLs without subdomain when .subdomain is not called" do
       Lucky::RouteHelper.temp_config(base_uri: "https://example.com") do
         route = TestSubdomainAction.with
 
@@ -89,17 +97,33 @@ describe Lucky::RouteHelper do
 
     it "handles anchors with subdomains" do
       Lucky::RouteHelper.temp_config(base_uri: "https://example.com") do
-        route = TestSubdomainAction.with(subdomain: "admin", anchor: "top")
+        route = TestSubdomainAction.with(anchor: "top").subdomain("admin")
 
         route.url.should eq("https://admin.example.com/dashboard#top")
       end
     end
 
-    it "replaces existing subdomain in base_uri when subdomain is specified" do
+    it "replaces existing subdomain in base_uri" do
       Lucky::RouteHelper.temp_config(base_uri: "https://www.example.com") do
-        route = TestSubdomainAction.with(subdomain: "admin")
+        route = TestSubdomainAction.with.subdomain("admin")
 
         route.url.should eq("https://admin.example.com/dashboard")
+      end
+    end
+
+    it "chains with .as_* in either order" do
+      Lucky::RouteHelper.temp_config(base_uri: "https://example.com") do
+        TestSubdomainFormatAction.with(id: 4).as_json.subdomain("reporting").url
+          .should eq("https://reporting.example.com/subdomain_reports/4.json")
+
+        TestSubdomainFormatAction.with(id: 4).subdomain("reporting").as_json.url
+          .should eq("https://reporting.example.com/subdomain_reports/4.json")
+
+        TestSubdomainFormatAction.as_json.subdomain("reporting").with(id: 4).url
+          .should eq("https://reporting.example.com/subdomain_reports/4.json")
+
+        TestSubdomainFormatAction.subdomain("reporting").as_json.with(id: 4).url
+          .should eq("https://reporting.example.com/subdomain_reports/4.json")
       end
     end
   end

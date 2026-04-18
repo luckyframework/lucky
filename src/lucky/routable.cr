@@ -236,6 +236,10 @@ module Lucky::Routable
     {% end %}
 
     class RouteHelper < Lucky::RouteHelper
+      def subdomain(value : String) : RouteHelper
+        RouteHelper.new(@method, @path, value)
+      end
+
       {% if @type.has_constant?(:ACCEPTED_FORMAT_SYMBOLS) %}
         {% for ext in @type.constant(:ACCEPTED_FORMAT_SYMBOLS) %}
           def as_{{ ext.id }} : Lucky::RouteHelper
@@ -252,16 +256,29 @@ module Lucky::Routable
 
     struct FormatBuilder
       getter extension : String
+      getter subdomain : String?
 
-      def initialize(@extension : String)
+      def initialize(@extension : String, @subdomain : String? = nil)
       end
+
+      def subdomain(value : String) : FormatBuilder
+        FormatBuilder.new(@extension, value)
+      end
+
+      {% if @type.has_constant?(:ACCEPTED_FORMAT_SYMBOLS) %}
+        {% for ext in @type.constant(:ACCEPTED_FORMAT_SYMBOLS) %}
+          def as_{{ ext.id }} : FormatBuilder
+            FormatBuilder.new(Lucky::RouteHelper.resolve_extension({{ ext }}), @subdomain)
+          end
+        {% end %}
+      {% end %}
 
       def with(*args, **named_args) : Lucky::RouteHelper
         route = {{ @type.name.id }}.with(*args, **named_args)
         Lucky::RouteHelper.new(
           route.method,
           Lucky::RouteHelper.insert_extension(route.path, @extension),
-          route.subdomain
+          @subdomain
         )
       end
 
@@ -275,9 +292,13 @@ module Lucky::Routable
         Lucky::RouteHelper.new(
           route.method,
           Lucky::RouteHelper.insert_extension(route.path, @extension),
-          route.subdomain
+          @subdomain
         ).url
       end
+    end
+
+    def self.subdomain(value : String) : FormatBuilder
+      FormatBuilder.new("", value)
     end
 
     {% if @type.has_constant?(:ACCEPTED_FORMAT_SYMBOLS) %}
@@ -306,7 +327,6 @@ module Lucky::Routable
     {% if glob_param_name %}
       {{ glob_param_name.id }} = nil,
     {% end %}
-    subdomain : String? = nil
     ) : String
       path = path_from_parts(
         {% for param in path_params %}
@@ -319,7 +339,7 @@ module Lucky::Routable
           {{ glob_param_name.id }},
         {% end %}
       )
-      Lucky::RouteHelper.new({{ method }}, path, subdomain).url
+      Lucky::RouteHelper.new({{ method }}, path).url
     end
 
     def self.path_without_query_params(
@@ -332,7 +352,6 @@ module Lucky::Routable
     {% if glob_param_name %}
       {{ glob_param_name.id }} = nil,
     {% end %}
-    subdomain : String? = nil
     ) : String
       path = path_from_parts(
         {% for param in path_params %}
@@ -345,7 +364,7 @@ module Lucky::Routable
           {{ glob_param_name.id }},
         {% end %}
       )
-      Lucky::RouteHelper.new({{ method }}, path, subdomain).path
+      Lucky::RouteHelper.new({{ method }}, path).path
     end
 
     {% params_with_defaults = PARAM_DECLARATIONS.select do |decl|
@@ -380,8 +399,7 @@ module Lucky::Routable
     {% if glob_param_name %}
       {{ glob_param_name.id }} = nil,
     {% end %}
-    anchor : String? = nil,
-    subdomain : String? = nil
+    anchor : String? = nil
     ) : RouteHelper
       path = String.build do |io|
         path_from_parts(
@@ -423,7 +441,7 @@ module Lucky::Routable
         end
       end
 
-      RouteHelper.new({{ method }}, path.presence || "/", subdomain)
+      RouteHelper.new({{ method }}, path.presence || "/")
     end
 
     def self.with(
@@ -451,8 +469,7 @@ module Lucky::Routable
       {% if glob_param_name %}
         {{ glob_param_name.id }} = nil,
       {% end %}
-      anchor : String? = nil,
-      subdomain : String? = nil
+      anchor : String? = nil
     ) : RouteHelper
       \{% begin %}
       route(

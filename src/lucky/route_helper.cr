@@ -10,6 +10,10 @@ class Lucky::RouteHelper
   def initialize(@method : Symbol, @path : String, @subdomain : String? = nil)
   end
 
+  def subdomain(value : String) : Lucky::RouteHelper
+    Lucky::RouteHelper.new(@method, @path, value)
+  end
+
   def url : String
     if subdomain
       build_subdomain_url
