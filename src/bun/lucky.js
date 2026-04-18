@@ -21,14 +21,42 @@ export default {
   debug: false,
   dev: false,
   prod: false,
+  fingerprint: false,
+  minify: false,
+  sourcemap: null,
   wsClients: new Set(),
   watchTimers: new Map(),
   plugins: [],
 
-  flags({debug, dev, prod}) {
+  flags(input) {
+    const {debug, dev, prod, fingerprint, minify, sourcemap} =
+      Array.isArray(input) ? this.parseArgv(input) : input
     if (debug != null) this.debug = debug
     if (dev != null) this.dev = dev
     if (prod != null) this.prod = prod
+    if (fingerprint != null) this.fingerprint = fingerprint
+    else if (prod === true) this.fingerprint = true
+    if (minify != null) this.minify = minify
+    else if (prod === true) this.minify = true
+    if (sourcemap != null) this.sourcemap = sourcemap
+  },
+
+  SOURCEMAP_KINDS: ['inline', 'linked', 'external', 'none'],
+
+  parseArgv(argv) {
+    const opts = {}
+    if (argv.includes('--debug')) opts.debug = true
+    if (argv.includes('--dev')) opts.dev = true
+    if (argv.includes('--prod')) opts.prod = true
+    if (argv.includes('--fingerprint')) opts.fingerprint = true
+    if (argv.includes('--minify')) opts.minify = true
+    const sm = argv.find(a => a === '--sourcemap' || a.startsWith('--sourcemap='))
+    if (sm) {
+      const value = sm.includes('=') ? sm.split('=')[1] : 'linked'
+      if (this.SOURCEMAP_KINDS.includes(value)) opts.sourcemap = value
+      else console.warn(` ▸ Ignoring --sourcemap=${value} (valid: ${this.SOURCEMAP_KINDS.join(', ')})`)
+    }
+    return opts
   },
 
   deepMerge(target, source) {
@@ -69,6 +97,9 @@ export default {
       config: this.config,
       dev: this.dev,
       prod: this.prod,
+      fingerprint: this.fingerprint,
+      minify: this.minify,
+      sourcemap: this.sourcemap,
       manifest: this.manifest
     })
   },
@@ -79,8 +110,8 @@ export default {
     return join(this.root, this.config.outDir)
   },
 
-  fingerprint(name, ext, content) {
-    if (!this.prod) return `${name}${ext}`
+  fingerprintName(name, ext, content) {
+    if (!this.fingerprint) return `${name}${ext}`
 
     const hash = Bun.hash(content).toString(16).slice(0, 8)
     return `${name}-${hash}${ext}`
@@ -107,7 +138,7 @@ export default {
       try {
         result = await Bun.build({
           entrypoints: [entryPath],
-          minify: this.prod,
+          minify: this.minify,
           plugins: this.plugins,
           ...options
         })
@@ -124,16 +155,26 @@ export default {
         continue
       }
 
-      const output = result.outputs.find(o => o.path.endsWith(ext))
-      if (!output) {
+      const mainOutput = result.outputs.find(o => o.path.endsWith(ext))
+      if (!mainOutput) {
         console.error(` ▸ No ${type.toUpperCase()} output for ${entry}`)
         continue
       }
+      const mapOutput = result.outputs.find(o => o.kind === 'sourcemap')
 
-      const content = await output.text()
-      const fileName = this.fingerprint(entryName, ext, content)
+      let content = await mainOutput.text()
+      const fileName = this.fingerprintName(entryName, ext, content)
+
+      if (mapOutput) {
+        const mapFileName = `${fileName}.map`
+        content = content.replace(
+          /\/\/# sourceMappingURL=\S+/,
+          () => `//# sourceMappingURL=${mapFileName}`
+        )
+        await Bun.write(join(outDir, mapFileName), await mapOutput.text())
+      }
+
       await Bun.write(join(outDir, fileName), content)
-
       this.manifest[`${type}/${entryName}${ext}`] = `${type}/${fileName}`
     }
   },
@@ -142,7 +183,7 @@ export default {
     await this.buildAssets('js', {
       target: 'browser',
       format: 'iife',
-      sourcemap: this.dev ? 'inline' : 'none'
+      sourcemap: this.sourcemap || (this.dev ? 'inline' : 'linked')
     })
   },
 
@@ -166,7 +207,7 @@ export default {
 
         const ext = extname(file)
         const name = file.slice(0, -ext.length) || file
-        const fileName = this.fingerprint(name, ext, new Uint8Array(content))
+        const fileName = this.fingerprintName(name, ext, new Uint8Array(content))
         const destPath = join(destDir, fileName)
 
         mkdirSync(dirname(destPath), {recursive: true})

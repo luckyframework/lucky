@@ -14,6 +14,19 @@ module Lucky::BunReloadTag
         const ws = new WebSocket('#{LuckyBun::Config.instance.dev_server.ws_url}')
         let connected = false
 
+        const scrollKey = 'bun-scroll:' + location.pathname
+        addEventListener('load', () => {
+          const saved = sessionStorage.getItem(scrollKey)
+          if (saved !== null) {
+            sessionStorage.removeItem(scrollKey)
+            scrollTo(0, parseInt(saved, 10))
+          }
+        })
+        const reload = () => {
+          sessionStorage.setItem(scrollKey, String(scrollY))
+          location.reload()
+        }
+
         ws.onmessage = (event) => {
           const data = JSON.parse(event.data)
 
@@ -31,7 +44,7 @@ module Lucky::BunReloadTag
             console.error('✖ Build error:', data.message)
           } else {
             console.log('▸ Reloading...')
-            location.reload()
+            reload()
           }
         }
 
@@ -40,7 +53,7 @@ module Lucky::BunReloadTag
           console.log('▸ Live reload connected')
         }
         ws.onclose = () => {
-          if (connected) setTimeout(() => location.reload(), 2000)
+          if (connected) setTimeout(reload, 2000)
         }
       })()
       JS

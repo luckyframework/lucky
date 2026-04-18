@@ -1,6 +1,6 @@
 import {describe, test, expect, beforeEach, afterAll} from 'bun:test'
 import {mkdirSync, writeFileSync, rmSync, existsSync, readFileSync} from 'fs'
-import {join} from 'path'
+import {join, basename} from 'path'
 import LuckyBun from '../../src/bun/lucky.js'
 
 const TEST_DIR = join(process.cwd(), '.test-tmp')
@@ -14,6 +14,9 @@ beforeEach(() => {
   LuckyBun.debug = false
   LuckyBun.prod = false
   LuckyBun.dev = false
+  LuckyBun.fingerprint = false
+  LuckyBun.minify = false
+  LuckyBun.sourcemap = null
   LuckyBun.root = TEST_DIR
 })
 
@@ -57,9 +60,6 @@ describe('flags', () => {
     LuckyBun.flags({dev: true})
     expect(LuckyBun.dev).toBe(true)
 
-    LuckyBun.flags({prod: true})
-    expect(LuckyBun.prod).toBe(true)
-
     LuckyBun.flags({debug: true})
     expect(LuckyBun.debug).toBe(true)
 
@@ -67,6 +67,50 @@ describe('flags', () => {
     LuckyBun.flags({prod: false})
     expect(LuckyBun.dev).toBe(true)
     expect(LuckyBun.prod).toBe(false)
+  })
+
+  test('--prod implies --fingerprint and --minify', () => {
+    LuckyBun.flags({prod: true})
+    expect(LuckyBun.prod).toBe(true)
+    expect(LuckyBun.fingerprint).toBe(true)
+    expect(LuckyBun.minify).toBe(true)
+  })
+
+  test('explicit fingerprint/minify override prod implication', () => {
+    LuckyBun.flags({prod: true, minify: false})
+    expect(LuckyBun.prod).toBe(true)
+    expect(LuckyBun.fingerprint).toBe(true)
+    expect(LuckyBun.minify).toBe(false)
+  })
+
+  test('fingerprint and minify can be set without prod', () => {
+    LuckyBun.flags({fingerprint: true})
+    expect(LuckyBun.prod).toBe(false)
+    expect(LuckyBun.fingerprint).toBe(true)
+    expect(LuckyBun.minify).toBe(false)
+  })
+
+  test('sourcemap accepts a string value', () => {
+    LuckyBun.flags({sourcemap: 'external'})
+    expect(LuckyBun.sourcemap).toBe('external')
+  })
+
+  test('parses argv arrays', () => {
+    LuckyBun.flags(['--prod', '--sourcemap=none'])
+    expect(LuckyBun.prod).toBe(true)
+    expect(LuckyBun.fingerprint).toBe(true)
+    expect(LuckyBun.minify).toBe(true)
+    expect(LuckyBun.sourcemap).toBe('none')
+  })
+
+  test('bare --sourcemap defaults to linked', () => {
+    LuckyBun.flags(['--sourcemap'])
+    expect(LuckyBun.sourcemap).toBe('linked')
+  })
+
+  test('ignores invalid --sourcemap value', () => {
+    LuckyBun.flags(['--sourcemap=bogus'])
+    expect(LuckyBun.sourcemap).toBe(null)
   })
 })
 
@@ -91,7 +135,12 @@ describe('loadConfig', () => {
   test('uses defaults without a config file', () => {
     LuckyBun.loadConfig()
     expect(LuckyBun.config.outDir).toBe('public/assets')
-    expect(LuckyBun.config.watchDirs).toEqual(['src/js', 'src/css', 'src/images', 'src/fonts'])
+    expect(LuckyBun.config.watchDirs).toEqual([
+      'src/js',
+      'src/css',
+      'src/images',
+      'src/fonts'
+    ])
     expect(LuckyBun.config.entryPoints.js).toEqual(['src/js/app.js'])
     expect(LuckyBun.config.devServer.port).toBe(3002)
     expect(LuckyBun.config.plugins).toEqual({
@@ -151,17 +200,17 @@ describe('loadConfig', () => {
   })
 })
 
-describe('fingerprint', () => {
-  test('returns plain filename in dev mode', () => {
-    expect(LuckyBun.fingerprint('app', '.js', 'content')).toBe('app.js')
+describe('fingerprintName', () => {
+  test('returns plain filename when fingerprint is off', () => {
+    expect(LuckyBun.fingerprintName('app', '.js', 'content')).toBe('app.js')
   })
 
-  test('returns consistent, content-dependent hashes in prod mode', () => {
-    LuckyBun.prod = true
-    const hash = LuckyBun.fingerprint('app', '.js', 'content')
+  test('returns consistent, content-dependent hashes when enabled', () => {
+    LuckyBun.fingerprint = true
+    const hash = LuckyBun.fingerprintName('app', '.js', 'content')
     expect(hash).toMatch(/^app-[a-f0-9]{8}\.js$/)
-    expect(LuckyBun.fingerprint('app', '.js', 'content')).toBe(hash)
-    expect(LuckyBun.fingerprint('app', '.js', 'different')).not.toBe(hash)
+    expect(LuckyBun.fingerprintName('app', '.js', 'content')).toBe(hash)
+    expect(LuckyBun.fingerprintName('app', '.js', 'different')).not.toBe(hash)
   })
 })
 
@@ -199,12 +248,48 @@ describe('buildAssets', () => {
     expect(existsSync(join(TEST_DIR, 'public/assets/css/app.css'))).toBe(true)
   })
 
-  test('fingerprints in prod mode', async () => {
-    LuckyBun.prod = true
+  test('fingerprints when fingerprint is enabled', async () => {
+    LuckyBun.fingerprint = true
     await setupProject({'src/js/app.js': 'console.log("prod")'})
     await LuckyBun.buildJS()
 
     expect(LuckyBun.manifest['js/app.js']).toMatch(/^js\/app-[a-f0-9]{8}\.js$/)
+  })
+
+  test('writes linked sourcemap alongside JS', async () => {
+    LuckyBun.sourcemap = 'linked'
+    await setupProject({'src/js/app.js': 'console.log("maps")'})
+    await LuckyBun.buildJS()
+
+    const js = readOutput('js/app.js')
+    expect(existsSync(join(TEST_DIR, 'public/assets/js/app.js.map'))).toBe(true)
+    expect(js).toContain('//# sourceMappingURL=app.js.map')
+  })
+
+  test('renames sourcemap and rewrites URL when fingerprinting', async () => {
+    LuckyBun.fingerprint = true
+    LuckyBun.sourcemap = 'linked'
+    await setupProject({'src/js/app.js': 'console.log("both")'})
+    await LuckyBun.buildJS()
+
+    const fingerprinted = LuckyBun.manifest['js/app.js']
+    const jsPath = join(TEST_DIR, 'public/assets', fingerprinted)
+    const mapPath = `${jsPath}.map`
+    expect(existsSync(jsPath)).toBe(true)
+    expect(existsSync(mapPath)).toBe(true)
+
+    const js = readFileSync(jsPath, 'utf-8')
+    const mapName = basename(mapPath)
+    expect(js).toContain(`//# sourceMappingURL=${mapName}`)
+    expect(js).not.toContain('//# sourceMappingURL=app.js.map')
+  })
+
+  test('omits sourcemap file when set to none', async () => {
+    LuckyBun.sourcemap = 'none'
+    await setupProject({'src/js/app.js': 'console.log("bare")'})
+    await LuckyBun.buildJS()
+
+    expect(existsSync(join(TEST_DIR, 'public/assets/js/app.js.map'))).toBe(false)
   })
 
   test('warns on missing entry point and continues', async () => {
@@ -304,8 +389,8 @@ describe('copyStaticAssets', () => {
     ).toBe(true)
   })
 
-  test('fingerprints static assets in prod mode', async () => {
-    LuckyBun.prod = true
+  test('fingerprints static assets when fingerprint is enabled', async () => {
+    LuckyBun.fingerprint = true
     await copyAssets({'src/images/logo.png': 'fake-image-data'})
 
     expect(LuckyBun.manifest['images/logo.png']).toMatch(
@@ -457,7 +542,8 @@ describe('aliases plugin', () => {
   test('replaces $/ references in TypeScript imports', async () => {
     await setupProject(
       {
-        'src/js/app.ts': "import utils from '$/lib/utils.ts'\nconsole.log(utils)",
+        'src/js/app.ts':
+          "import utils from '$/lib/utils.ts'\nconsole.log(utils)",
         'lib/utils.ts': 'const val: number = 99\nexport default val'
       },
       {entryPoints: {js: ['src/js/app.ts']}}
@@ -574,6 +660,37 @@ describe('cssGlobs plugin', () => {
 
     expect(alphaPos).toBeLessThan(middlePos)
     expect(middlePos).toBeLessThan(zebraPos)
+  })
+
+  test('excludes paths matching not clause', async () => {
+    const content = await buildCSS({
+      'src/css/app.css':
+        "@import './components/**/*.css' not './components/admin/**';",
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/admin/panel.css': '.panel { color: blue }',
+      'src/css/components/forms/input.css': '.input { color: pink }'
+    })
+
+    expect(content).toContain('.button')
+    expect(content).toContain('.input')
+    expect(content).not.toContain('.panel')
+  })
+
+  test('supports multiple not clauses', async () => {
+    const content = await buildCSS({
+      'src/css/app.css': [
+        "@import './components/**/*.css'",
+        "  not './components/admin/**'",
+        "  not './components/internal/**';"
+      ].join('\n'),
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/admin/panel.css': '.admin { color: blue }',
+      'src/css/components/internal/debug.css': '.debug { color: green }'
+    })
+
+    expect(content).toContain('.button')
+    expect(content).not.toContain('.admin')
+    expect(content).not.toContain('.debug')
   })
 })
 
@@ -702,6 +819,36 @@ describe('jsGlobs plugin', () => {
 
     expect(alphaPos).toBeLessThan(middlePos)
     expect(middlePos).toBeLessThan(zebraPos)
+  })
+
+  test('excludes paths matching not clause', async () => {
+    const content = await buildJSGlobs({
+      ...jsApp(
+        "import c from 'glob:./components/**/*.js not ./components/admin/**'",
+        'console.log(c)'
+      ),
+      'src/js/components/modal.js': 'export default function modal() {}',
+      'src/js/components/admin/nav.js': 'export default function adminNav() {}'
+    })
+
+    expect(content).toContain('modal')
+    expect(content).not.toContain('adminNav')
+  })
+
+  test('handles absolute glob paths with exclusions', async () => {
+    const absComponents = join(TEST_DIR, 'app/components')
+    const content = await buildJSGlobs({
+      ...jsApp(
+        `import c from 'glob:${absComponents}/**/*_component.js not ${absComponents}/admin/**'`,
+        'console.log(c)'
+      ),
+      'app/components/modal_component.js': 'export default function modal() {}',
+      'app/components/admin/panel_component.js':
+        'export default function panel() {}'
+    })
+
+    expect(content).toContain('modal')
+    expect(content).not.toContain('panel')
   })
 })
 
