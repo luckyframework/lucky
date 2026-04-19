@@ -29,8 +29,11 @@ export default {
   plugins: [],
 
   flags(input) {
-    const {debug, dev, prod, fingerprint, minify, sourcemap} =
-      Array.isArray(input) ? this.parseArgv(input) : input
+    const {debug, dev, prod, fingerprint, minify, sourcemap} = Array.isArray(
+      input
+    )
+      ? this.parseArgv(input)
+      : input
     if (debug != null) this.debug = debug
     if (dev != null) this.dev = dev
     if (prod != null) this.prod = prod
@@ -50,11 +53,16 @@ export default {
     if (argv.includes('--prod')) opts.prod = true
     if (argv.includes('--fingerprint')) opts.fingerprint = true
     if (argv.includes('--minify')) opts.minify = true
-    const sm = argv.find(a => a === '--sourcemap' || a.startsWith('--sourcemap='))
+    const sm = argv.find(
+      a => a === '--sourcemap' || a.startsWith('--sourcemap=')
+    )
     if (sm) {
       const value = sm.includes('=') ? sm.split('=')[1] : 'linked'
       if (this.SOURCEMAP_KINDS.includes(value)) opts.sourcemap = value
-      else console.warn(` ▸ Ignoring --sourcemap=${value} (valid: ${this.SOURCEMAP_KINDS.join(', ')})`)
+      else
+        console.warn(
+          ` ▸ Ignoring --sourcemap=${value} (valid: ${this.SOURCEMAP_KINDS.join(', ')})`
+        )
     }
     return opts
   },
@@ -207,7 +215,11 @@ export default {
 
         const ext = extname(file)
         const name = file.slice(0, -ext.length) || file
-        const fileName = this.fingerprintName(name, ext, new Uint8Array(content))
+        const fileName = this.fingerprintName(
+          name,
+          ext,
+          new Uint8Array(content)
+        )
         const destPath = join(destDir, fileName)
 
         mkdirSync(dirname(destPath), {recursive: true})
@@ -264,6 +276,10 @@ export default {
   },
 
   async watch() {
+    const extras = this.config.watchExtensions || {}
+    const cssExts = ['css', ...(extras.css || [])]
+    const jsExts = ['js', 'ts', 'jsx', 'tsx', ...(extras.js || [])]
+
     const handler = (event, filename) => {
       if (!filename) return
 
@@ -290,9 +306,8 @@ export default {
       console.log(` ▸ ${normalizedFilename} changed`)
       ;(async () => {
         try {
-          if (ext === 'css') await this.buildCSS()
-          else if (['js', 'ts', 'jsx', 'tsx'].includes(ext))
-            await this.buildJS()
+          if (cssExts.includes(ext)) await this.buildCSS()
+          else if (jsExts.includes(ext)) await this.buildJS()
           else if (base.includes('.')) await this.copyStaticAssets()
 
           await this.writeManifest()
@@ -339,7 +354,8 @@ export default {
         },
         close(ws) {
           wsClients.delete(ws)
-          if (debug) console.log(` ▸ Client disconnected (${wsClients.size})\n\n`)
+          if (debug)
+            console.log(` ▸ Client disconnected (${wsClients.size})\n\n`)
         },
         message() {}
       }
