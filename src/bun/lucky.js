@@ -276,9 +276,11 @@ export default {
   },
 
   async watch() {
+    const cssBase = ['css']
+    const jsBase = ['js', 'ts', 'jsx', 'tsx']
     const extras = this.config.watchExtensions || {}
-    const cssExts = ['css', ...(extras.css || [])]
-    const jsExts = ['js', 'ts', 'jsx', 'tsx', ...(extras.js || [])]
+    const cssExts = [...cssBase, ...(extras.css || [])]
+    const jsExts = [...jsBase, ...(extras.js || [])]
 
     const handler = (event, filename) => {
       if (!filename) return
@@ -306,12 +308,20 @@ export default {
       console.log(` ▸ ${normalizedFilename} changed`)
       ;(async () => {
         try {
-          if (cssExts.includes(ext)) await this.buildCSS()
-          else if (jsExts.includes(ext)) await this.buildJS()
-          else if (base.includes('.')) await this.copyStaticAssets()
+          let kind = null
+          if (cssExts.includes(ext)) {
+            await this.buildCSS()
+            if (cssBase.includes(ext)) kind = 'css'
+          } else if (jsExts.includes(ext)) {
+            await this.buildJS()
+            if (jsBase.includes(ext)) kind = 'full'
+          } else if (base.includes('.')) {
+            await this.copyStaticAssets()
+            kind = 'full'
+          }
 
           await this.writeManifest()
-          this.reload(ext === 'css' ? 'css' : 'full')
+          if (kind) this.reload(kind)
         } catch (err) {
           console.error(' ✖ Build error:', err.message)
           if (err.errors) for (const e of err.errors) console.error(e)
