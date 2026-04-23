@@ -33,6 +33,19 @@ scoop install lucky
 - Update: to Crystal 1.16 or later
 - Remove: any unused args being passed to Components. [See PR](https://github.com/luckyframework/lucky/pull/1978)
 - Update: Cookie decryption changed. Old cookies will fail to decrypt. They just need to set again after deploy. [See PR](https://github.com/luckyframework/lucky/pull/2026)
+- Update: `Lucky::AssetHelpers.load_manifest` now defaults to `bun`. If you continue to use `mix` or `vite` you'll need to add a second argument
+
+```diff
+# for mix
+- Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
++ Lucky::AssetHelpers.load_manifest "public/mix-manifest.json", from: :mix
+```
+
+```diff
+# for vite
+- Lucky::AssetHelpers.load_manifest "public/manifest.dev.json"
++ Lucky::AssetHelpers.load_manifest "public/manifest.dev.json", from: :vite
+```
 
 ### Optional update
 
@@ -73,6 +86,13 @@ bun_reload_connect_tag if LuckyEnv.development?
 7. Update SCSS files with plain CSS.
 
 8. Bootstrap with `bun install` then `bun run build` to generate initial manifest
+
+9. Pull manifest from bun setup in `src/app.cr`
+
+```diff
+- Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
++ Lucky::AssetHelpers.load_manifest(from: :bun)
+```
 
 9. `lucky dev` and you should be good!
 

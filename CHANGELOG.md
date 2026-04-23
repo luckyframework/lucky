@@ -1,6 +1,5 @@
 ### Changes in 1.5.0
 
-- Added: new `subdomain` parameter to build Lucky routes with a subdomain. [#1974](https://github.com/luckyframework/lucky/pull/1974)
 - Updated: HTML Components will fail at compile-time for unused arguments. [#1978](https://github.com/luckyframework/lucky/pull/1978)
 - Added: format detection from URL extensions in actions. [#1979](https://github.com/luckyframework/lucky/pull/1979)
 - Added: Allow customizing the manifest retry timeout. [#1977](https://github.com/luckyframework/lucky/pull/1977)
@@ -17,6 +16,7 @@
 - Added: bun plugin system for extending asset handling. [#2020](https://github.com/luckyframework/lucky/pull/2020)
 - Added: new `format` route method to generate routes with a specific file extension. [#2022](https://github.com/luckyframework/lucky/pull/2022)
 - **Breaking change** Updated: how cookies are now decrypted to fix vulnerability. [#2026](https://github.com/luckyframework/lucky/pull/2026)
+- Added: new `subdomain` method to build Lucky routes with a subdomain. [#2036](https://github.com/luckyframework/lucky/pull/2036)
 - Fixed: using `new_record?` returning false in SaveOperation when setting the `id` manually. [#1106 in Avram](https://github.com/luckyframework/avram/pull/1106)
 - Added: support for table partitioning. [#1110 in Avram](https://github.com/luckyframework/avram/pull/1110)
 - Added: conditional callbacks for normal Operations. [#1108 in Avram](https://github.com/luckyframework/avram/pull/1108)
