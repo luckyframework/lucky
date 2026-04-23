@@ -1,3 +1,101 @@
+## Upgrading from 1.4.0 to 1.5.0
+
+For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.4.0&to=1.5.0).
+
+- Upgrade Lucky CLI (homebrew)
+
+```
+brew update
+brew upgrade lucky
+```
+
+- Upgrade Lucky CLI (Linux)
+
+> Remove the existing Lucky binary and follow the Linux
+> instructions in this section
+> https://luckyframework.org/guides/getting-started/installing#on-linux
+
+- Update versions in `shard.yml`
+  - Lucky should be `~> 1.5.0`
+  - Avram should be `~> 1.5.0`
+
+- Run `shards update`
+
+- Upgrade Lucky CLI on Windows (Scoop)
+
+```
+scoop bucket add lucky https://github.com/luckyframework/scoop-bucket
+scoop install lucky
+```
+
+### General updates
+
+- Update: to Crystal 1.16 or later
+- Remove: any unused args being passed to Components. [See PR](https://github.com/luckyframework/lucky/pull/1978)
+- Update: Cookie decryption changed. Old cookies will fail to decrypt. They just need to set again after deploy. [See PR](https://github.com/luckyframework/lucky/pull/2026)
+- Update: `Lucky::AssetHelpers.load_manifest` now defaults to `bun`. If you continue to use `mix` or `vite` you'll need to add a second argument
+
+```diff
+# for mix
+- Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
++ Lucky::AssetHelpers.load_manifest "public/mix-manifest.json", from: :mix
+```
+
+```diff
+# for vite
+- Lucky::AssetHelpers.load_manifest "public/manifest.dev.json"
++ Lucky::AssetHelpers.load_manifest "public/manifest.dev.json", from: :vite
+```
+
+### Optional update
+
+Update asset building to use the new `bun` system. [See PR](https://github.com/luckyframework/lucky/pull/2015)
+
+1. Install `bun` from https://bun.sh/
+
+2. Update your `package.json`. Remove dev dependencies you're not using that were originally generated with your Lucky app. The new asset system has no dev dependecies.
+
+3. Update your `package.json` "scripts" block.
+
+```javascript
+// then update the scripts block
+"scripts": {
+  "build": "bun lib/lucky/src/bun/bake.js",
+  "dev": "bun run build --dev",
+  "prod": "bun run build --prod"
+}
+```
+
+4. Update your `layout_head` component and add the `bun_reload_connect_tag`.
+
+```crystal
+# add to src/components/shared/layout_head.cr
+# Add this line below `live_reload_connect_tag`
+bun_reload_connect_tag if LuckyEnv.development?
+```
+
+5. Update `Procfile.dev` with the new asset watcher
+
+```diff
+- assets: yarn watch
++ assets: bun run dev
+```
+
+6. Replace calls to `yarn` with `bun`. (e.g. script/setup.cr)
+
+7. Update SCSS files with plain CSS.
+
+8. Bootstrap with `bun install` then `bun run build` to generate initial manifest
+
+9. Pull manifest from bun setup in `src/app.cr`
+
+```diff
+- Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
++ Lucky::AssetHelpers.load_manifest(from: :bun)
+```
+
+9. `lucky dev` and you should be good!
+
 ## Upgrading from 1.3.0 to 1.4.0
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=1.3.0&to=1.4.0).
@@ -48,6 +146,7 @@ UserQuery.new.join_subscriptions(SubscriptionQuery.new)
 ### Optional update
 
 - Update: to Crystal 1.16 or later and use type-safe ENV methods. [See PR](https://github.com/luckyframework/lucky_env/pull/39)
+
 ```crystal
 LuckyEnv.init_env(".env")
 LuckyEnv.load(".env")
@@ -173,13 +272,13 @@ brew upgrade lucky
   - LuckyFlow should be `~> 0.9.2`
   - LuckySecTester should be `~> 0.3.2`
 
-
 - Run `shards update`
 
 ### General updates
 
 - Add: `Avram.initialize_logging` to your `config/log.cr` file near the bottom. [See PR](https://github.com/luckyframework/avram/pull/967)
 - Update: all LuckyTask tasks. [See PR](https://github.com/luckyframework/lucky_task/pull/25)
+
 ```crystal
 # All help_message instance methods are macro calls
 def help_message
@@ -203,6 +302,7 @@ end
 ### Optional update
 
 - Add: `allow_blank: true` on String columns you want to allow empty strings to be saved. [See PR](https://github.com/luckyframework/avram/pull/956)
+
 ```crystal
 class Post < BaseModel
   table do
@@ -282,6 +382,7 @@ brew upgrade lucky
 - Update: `Avram::Params.new()` now takes `Hash(String, Array(String))` instead of `Hash(String, String)`. [See PR](https://github.com/luckyframework/avram/pull/847)
 - Update: arg names in `validate_numeric` from `less_than` and `greater_than` to `at_least` and `no_more_than`. [See PR](https://github.com/luckyframework/avram/pull/867)
 - Update: your LuckyFlow configuration...
+
 ```crystal
 # spec/spec_helper.cr
 # ...
@@ -303,7 +404,6 @@ LuckyFlow::Spec.setup
 - Replace turbolinks with [Turbo](https://turbo.hotwired.dev/)
 - Replace laravel-mix with [Vite](https://vitejs.dev/)
 
-
 ## Upgrading from 0.29 to 0.30
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.29.0&to=0.30.0).
@@ -324,13 +424,14 @@ brew upgrade lucky
 - Update versions in `shard.yml`
   - Lucky should be `~> 0.30.0`
   - Authentic should be `~> 0.8.2`
-  - LuckyFlow should be `~> 0.7.3` *NOTE*: 0.8.0 is released, but may not be compatible yet
+  - LuckyFlow should be `~> 0.7.3` _NOTE_: 0.8.0 is released, but may not be compatible yet
 
 - Run `shards update`
 
 ### General updates
 
 - Update: `spec/support/api_client.cr` with `app AppServer.new` defined in the class.
+
 ```crystal
 class ApiClient < Lucky::BaseHTTPClient
   app AppServer.new
@@ -345,15 +446,16 @@ class ApiClient < Lucky::BaseHTTPClient
   end
 end
 ```
+
 - Update: the `request.remote_ip` method now pulls from the last (instead of first) valid IP in the `X-Forwarded-For` list. [See PR for details](https://github.com/luckyframework/lucky/pull/1675)
 - Update: All primary repo branches are now `main`. Adjust any references accordingly.
 - Update: `./script/system_check` and remove mentions of `ensure_process_runner_installed`. Nox is built-in [See PR for details](https://github.com/luckyframework/lucky_cli/pull/720)
-
 
 ### Optional updates
 
 - Update: uses of `AvramSlugify` to `Avram::Slugify`. [See PR for details](https://github.com/luckyframework/avram/pull/786)
 - Update: specs to use transactions instead of truncate. [See PR for details](https://github.com/luckyframework/avram/pull/780)
+
 ```crystal
 # in spec/spec_helper.cr
 require "./setup/**"
@@ -365,9 +467,9 @@ include Carbon::Expectations
 include Lucky::RequestExpectations
 include LuckyFlow::Expectations
 ```
+
 - Remove: the `spec/setup/clean_database.cr` file. This accompanies the transactional specs update
 - Update: the `spec/setup/start_app_server.cr` file. This file is no longer needed if your action specs make standard calls, and are not using LuckyFlow. [See PR for details](https://github.com/luckyframework/lucky/pull/1644)
-
 
 ## Upgrading from 0.28 to 0.29
 
@@ -410,16 +512,18 @@ brew upgrade lucky
 - Update: your `src/app_server.cr` middleware stack with `Lucky::RequestIdHandler.new` at the top of the stack before `Lucky::ForceSSLHandler.new`. [See PR for details](https://github.com/luckyframework/lucky_cli/pull/700)
 - Update: any usage of `add_belongs_to` with namespaced models to specify the `references` option. [See PR for details](https://github.com/luckyframework/avram/pull/742)
 - Update: the `error_html` method in `src/actions/errors/show.cr`. Replace the following code
+
 ```diff
 - html Errors::ShowPage, message: message, status: status
 + html_with_status Errors::ShowPage, status, message: message, status_code: status
 ```
-- Rename: the `status` variable to `status_code` in `src/pages/errors/show_page.cr`
 
+- Rename: the `status` variable to `status_code` in `src/pages/errors/show_page.cr`
 
 ### Optional updates
 
 - Add: a new config `Lucky::RequestIdHandler` in `config/server.cr` to set a request ID.
+
 ```crystal
 #...
 
@@ -429,7 +533,9 @@ Lucky::RequestIdHandler.configure do |settings|
   }
 end
 ```
+
 - Add: query cache to `config/database.cr`. [See PR for details](https://github.com/luckyframework/avram/pull/763)
+
 ```crystal
 Avram.configure do |settings|
   settings.database_to_migrate = AppDatabase
@@ -442,7 +548,6 @@ Avram.configure do |settings|
   settings.query_cache_enabled = !LuckyEnv.test?
 end
 ```
-
 
 ## Upgrading from 0.27 to 0.28
 
@@ -476,6 +581,7 @@ brew upgrade lucky
 - Remove: `needs context : HTTP::Server::Context` from any component, as well as passing it in to the `mount()` for the components. [See PR for details](https://github.com/luckyframework/lucky/pull/1488)
 - Rename: all `DeleteOperation.destroy` calls to `DeleteOperation.delete`
 - Update: `avram_enum` to use the Crystal `enum`. [See PR for details](https://github.com/luckyframework/avram/pull/698)
+
 ```diff
 # Models get this update
 - avram_enum State do
@@ -496,7 +602,9 @@ brew upgrade lucky
 - ThingQuery.new.state(Thing::State.new(:started).value)
 + ThingQuery.new.state(Thing::State::Started)
 ```
+
 - Update: your `config/env.cr` to this.
+
 ```crystal
 # Environments are managed using `LuckyEnv`. By default, development, production
 # and test are supported.
@@ -504,33 +612,36 @@ brew upgrade lucky
 # If you need additional environment support, add it here
 # LuckyEnv.add_env :staging
 ```
+
 - Update: any use of `Lucky::Env` to use `LuckyEnv`. (e.g. `Lucky::Env.test?` -> `LuckyEnv.test?`). [See PR for details](https://github.com/luckyframework/lucky_cli/pull/655)
 - Update: any use of `Lucky::Env.name` to use `LuckyEnv.environment`.
 - Update: any use of `route` or `nested_route`, and replace them with the generated routes. Use `lucky routes` to view all generated routes. If you still need this, you can use the [Lucky Legacy Routing](https://github.com/matthewmcgarvey/lucky_legacy_routing) shard.
 - Add: the [luckyframework/carbon_sendgrid_adapter](https://github.com/luckyframework/carbon_sendgrid_adapter) shard if you're using Sendgrid to send mail. Be sure to `require "carbon_sendgrid_adapter"` in `config/email.cr`.
 
-
 ### Optional updates
 
 - Update: all routes to use underscore (`_`) instead of dash (`-`) as word separator. Include the `Lucky::EnforceUnderscoredRoute` module in your base actions. (e.g. `/this-route` -> `/this_route`)
+
 ```crystal
 class BrowserAction < Lucky::Action
   include Lucky::EnforceUnderscoredRoute
   # ...
 end
 ```
+
 - Update: `send_text_response()` responses if you're passing a raw JSON string to use `raw_json()` instead.
 - Add: `include Lucky::SecureHeaders::DisableFLoC` to your `BrowserAction` to disable FLoC.
+
 ```crystal
 class BrowserAction < Lucky::Action
   include Lucky::SecureHeaders::DisableFLoC
   # ...
 end
 ```
+
 - Remove: `normalize-scss` from your `package.json` and replace with `modern-normalize` if you're using `normalize-scss`.
 - Update: any query where you write code like `if SomeQuery.new.first?` to `if SomeQuery.new.any?`. `.any?` returns a Bool instead of loading the whole object which has a small performance gain.
 - Add: the [Breeze](https://github.com/luckyframework/breeze) shard to your development workflow!
-
 
 ## Upgrading from 0.26 to 0.27
 
@@ -570,6 +681,7 @@ brew upgrade lucky
 
 - Add: the new `lucky_task` shard as a dependency.
 - Update: your `tasks.cr` file with the new require, and module name change:
+
   ```crystal
   # tasks.cr
   ENV["LUCKY_TASK"] = "true"
@@ -583,8 +695,10 @@ brew upgrade lucky
 
   LuckyTask::Runner.run
   ```
+
 - Update: all tasks in your `tasks/` directory to inherit from `LuckyTask::Task` instead of `LuckyCli::Task`. (e.g. `Db::Seed::RequiredData < LuckyCli::Task` -> `Db::Seed::RequiredData < LuckyTask::Task`)
 - Update: your `config/cookies.cr` with a default cookie path of `"/"`.
+
   ```crystal
   Lucky::CookieJar.configure do |settings|
     settings.on_set = ->(cookie : HTTP::Cookie) {
@@ -600,7 +714,6 @@ brew upgrade lucky
 
 - Update: to Crystal 1.0.0. You can continue to use Crystal 0.36.1 if you need.
 - Update: `LuckyFlow` to be a `development_dependency`.
-
 
 ## Upgrading from 0.25 to 0.26
 
@@ -637,7 +750,6 @@ brew upgrade lucky
 - Rename: all `Avram::Box` classes, filenames, and the `spec/support/boxes` directory (sorry 😬) to `Avram::Factory`, etc.... e.g. `UserBox` -> `UserFactory` [read more](https://github.com/luckyframework/avram/pull/614). [view discussion](https://github.com/luckyframework/lucky/discussions/1282)
 - Notice: the `Avram::Operation` now avoids calling `run` if there were validation errors in any `before_run`. This may change some of your logic, or create surprised. [read more](https://github.com/luckyframework/avram/pull/621)
 
-
 ### Optional updates
 
 - Update: any calls made in Github CI config to `lucky db.create_required_seeds` to `lucky db.seed.required_data`. [read more](https://github.com/luckyframework/lucky_cli/pull/600)
@@ -645,6 +757,7 @@ brew upgrade lucky
 - Add: `DB::Log.level = :info` to your `config/log.cr` file to quiet the excessive "Executing query" notices
 - Update: your Laravel Mix to version 6. [read more](https://github.com/luckyframework/lucky_cli/pull/592)
 - Add: a new migration to have UUID primary keys generated from the database for existing tables. [read more](https://github.com/luckyframework/avram/pull/578)
+
 ```crystal
 # in a new migration file
 def migrate
@@ -653,6 +766,7 @@ def migrate
   execute("ALTER TABLE users ALTER COLUMN id SET DEFAULT gen_random_uuid();")
 end
 ```
+
 - Remove: all calls to `flash.keep` in your actions. [read more](https://github.com/luckyframework/lucky/pull/1374)
 
 ## Upgrading from 0.24 to 0.25
@@ -721,8 +835,10 @@ brew upgrade lucky
   RequestPasswordReset.run(params) do |operation, user|
   end
   ```
+
 - Rename: all usage of `with_defaults` to `tag_defaults`
 - Update: query objects to no longer rely on mutating the query.
+
   ```crystal
   # Before update
   q = UserQuery.new
@@ -734,8 +850,10 @@ brew upgrade lucky
   q.age.gte(21)
   q.to_sql #=> SELECT * FROM users
   ```
+
 - Rename: all usage of `raw_where` to `where`
 - Update: query objects that set a default query in the initializer to use the `defaults` method.
+
   ```crystal
   # Before update
   class UserQuery < User::BaseQuery
@@ -755,7 +873,9 @@ brew upgrade lucky
 
   UserQuery.new.to_sql #=> SELECT * FROM users WHERE admin = false
   ```
+
 - Update: any `has_many through` model association to include the new assocation chain.
+
   ```crystal
   # Before update
   has_many posts : Post
@@ -767,7 +887,9 @@ brew upgrade lucky
   has_many posts : Post
   has_many comments : Comment, through: [:posts, :comments]
   ```
+
 - Update: any query that used a `where_XXX` on a `belongs_to` from the pluralized name to singularized.
+
   ```crystal
   # assuming Post belongs_to User
 
@@ -802,7 +924,6 @@ brew upgrade lucky
 - Rename: your seed tasks `tasks/create_required_seeds.cr` -> `tasks/db/seed/required_data.cr`, and `tasks/create_sample_seeds.cr` -> `tasks/db/seed/sample_data.cr`
 - Update: `config/log.cr` to silence some of the query logging with `DB::Log.level = :info`.
 
-
 ## Upgrading from 0.23 to 0.24
 
 For a full diff of necessary changes, please see [LuckyDiff](https://luckydiff.com?from=0.23.0&to=0.24.0).
@@ -831,6 +952,7 @@ brew upgrade lucky
 
 - Rename: all instances of the `m` method to `mount`. e.g. `m Shared::Footer, year: 2020` -> `mount Shared::Footer, year: 2020`.
 - Update: `config/database.cr` with new `Avram::Credentials`.
+
 ```crystal
 AppDatabase.configure do |settings|
   if Lucky::Env.production?
@@ -847,6 +969,7 @@ AppDatabase.configure do |settings|
   end
 end
 ```
+
 - Rename: all instances of `AppClient` to `ApiClient` in your `spec/` directory.
 - Update: `script/setup` with `shards install --ignore-crystal-version`. Alternatively, you can set a global `SHARDS_OPTS=--ignore-crystal-version` environment variable
 
@@ -854,6 +977,7 @@ end
 
 - Update: `redirect_back` with `allow_external: true` argument if you need to allow external referers
 - Update: your database credentials with the new `query` option to pass query string options
+
 ```crystal
 # config/database.cr
 settings.credentials = Avram::Credentials.new(
@@ -866,6 +990,7 @@ settings.credentials = Avram::Credentials.new(
   query: "initial_pool_size=5&max_pool_size=20"
 )
 ```
+
 - Add: `disable_cookies` to `ApiAction` in `src/actions/api_action.cr`.
 
 ## Upgrading from 0.22 to 0.23
@@ -906,7 +1031,6 @@ brew upgrade lucky
 - Add: `Avram::RecordNotFoundError` to the `dont_report` array in `src/actions/errors/show.cr`
 - Update: `def render(error : Lucky::RouteNotFoundError` to `def render(error : Lucky::RouteNotFoundError | Avram::RecordNotFoundError)` in `src/actions/errors/show.cr`.
 - Update: any CLI tasks that use `ARGV` to use the native args [See implementation](https://github.com/luckyframework/lucky_cli/pull/466)
-
 
 ## Upgrading from 0.21 to 0.22
 
@@ -965,6 +1089,7 @@ brew upgrade lucky
 - Update: `Procfile.dev` and update the `system_check` to `script/system_check && sleep 100000`.
 - Update: all `Lucky.logger.{level}("message")` calls to use the new Crystal Log `Log.{level} { "message" }`
 - Remove: the following lines from `config/database.cr`
+
 ```crystal
 # Uncomment the next line to log all SQL queries
 # settings.query_log_level = ::Logger::Severity::DEBUG
@@ -988,7 +1113,6 @@ Log.debug { "Logging some message" }
 # Use the Dexter extension for logging key/value data
 Log.dexter.info { {path: @context.request.path} }
 ```
-
 
 ## Upgrading from 0.19 to 0.20
 
@@ -1025,7 +1149,6 @@ brew upgrade lucky
 - Update: all `SaveOperation` classes where a raw hash is being passed in. e.g. `MyOperation.new({"name" => "Gary"})` -> `MyOperation.new(name: "Gary")`, or if you must use a hash, wrap it in params first: `MyOperation.new(Avram::Params.new({"name" => "Gary"})`
 - Remove: the `on:` option from `needs` inside every Operation class. e.g. `needs created_by : String, on: :create` -> `needs created_by : String`. You will need to explicitly pass these when calling `new`, `create`, and `update`.
 
-
 ### Optional updates
 
 - Update: all instance variables called from a `needs` on a page or component can now just use the method of that name. e.g. `@current_user` -> `current_user`
@@ -1044,7 +1167,6 @@ brew upgrade lucky
 - Add: the new `system_check` script in `script/system_check`. Note: you may need to `chmod +x script/system_check`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/system_check.ecr). Be sure to remove the ECR tags.
 - Add: the new `function_helpers` script in `script/helpers/function_helpers`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/helpers/function_helpers)
 - Add: the new `text_helpers` script in `script/helpers/text_helpers`. [See implementation](https://github.com/luckyframework/lucky_cli/tree/ee7699bddde50b80e495a89edb442b754f627239/src/web_app_skeleton/script/helpers/text_helpers)
-
 
 ## Upgrading from 0.18 to 0.19
 
@@ -1075,17 +1197,16 @@ brew upgrade lucky
 
 ### Recommended (but optional) changes
 
-
 #### GZip static assets
 
-* [Add the compression plugin](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-73db280623fcd1a64ac1ab76c8700dbc) to `package.json`
-* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-cd19e42e70bfbcf2a12480b0b6b1f590)
+- [Add the compression plugin](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-73db280623fcd1a64ac1ab76c8700dbc) to `package.json`
+- Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-cd19e42e70bfbcf2a12480b0b6b1f590)
   to your `webpack.mix.js` file
-* In `src/app_server.cr` add `Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip")` above the `Lucky::StaticFileHandler.new`.
+- In `src/app_server.cr` add `Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip")` above the `Lucky::StaticFileHandler.new`.
 
 #### GZip text responses
 
-* Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-83ca1a783e82ef6f0d38f400b7c1eaa1) to `config/server.cr` to gzip text responses.
+- Make [these changes](https://github.com/luckyframework/lucky_cli/commit/8bc002ab51cb13e67f515c4de977766f96825a18#diff-83ca1a783e82ef6f0d38f400b7c1eaa1) to `config/server.cr` to gzip text responses.
 
 ## Upgrading from 0.17 to 0.18
 
@@ -1235,6 +1356,7 @@ brew upgrade lucky
   end
 
   ```
+
 - Add: `Avram::SchemaEnforcer.ensure_correct_column_mappings!` to `src/start_server.cr` below `Avram::Migrator::Runner.new.ensure_migrated!`.
 - Update: any mention to renamed errors in [this commit](https://github.com/luckyframework/lucky/pull/911/files#diff-02d01a64649367eb50f82f303c2d07e2R248). You can likely ignore this as most people do not rescue these specific errors.
 - Add: `accepted_formats [:json]` to `ApiAction` in `src/actions/api_action.cr`.
@@ -1254,6 +1376,7 @@ brew upgrade lucky
   ```
 
 - Update: `src/app_server.cr` with explicit return type on the `middleware` method.
+
 ```crystal
 # Add return type here
 def middleware : Array(HTTP::Handler)
@@ -1295,13 +1418,14 @@ brew upgrade lucky
 If you're not sure about an upgrade step, or simply want to look at an example, see the [lucky_bits upgrade](https://github.com/edwardloveall/lucky_bits/commit/47473a19084f1781062ce3767e3fbcf527c11e4d).
 
 ### General updates
+
 - Rename: Action rendering method `text` to `plain_text`.
 - Update: use of `number_to_currency` now returns a String instead of writing to the view directly.
 - Delete: `config/static_file_handler.cr`.
 - Add: a new `Lucky::LogHandler` configure to the bottom of `config/logger.cr`.
 - Update: `Avram::Repo.configure` to `Avram.configure` in `config/logger.cr`.
-<details>
-  <summary>config/logger.cr</summary>
+  <details>
+    <summary>config/logger.cr</summary>
 
   ```crystal
   require "file_utils"
@@ -1353,7 +1477,8 @@ If you're not sure about an upgrade step, or simply want to look at an example, 
     settings.logger = logger
   end
   ```
-</details>
+
+  </details>
 
 - Update: `script/setup` to include the new postgres checks.
 
@@ -1371,6 +1496,7 @@ lucky db.create | indent
 ```
 
 ### Database updates
+
 - Add: a new `AppDatabase` class in `src/app_database.cr` that inherits from `Avram::Database`.
 
 ```crystal
@@ -1381,8 +1507,8 @@ end
 - Add: `require "./app_database"` to `src/app.cr` right below the `require "./shards"`.
 - Rename: `Avram::Repo.configure` to `AppDatabase.configure` in `config/database.cr`.
 - Add: `Avram.configure` block.
-<details>
-  <summary>config/database.cr</summary>
+  <details>
+    <summary>config/database.cr</summary>
 
   ```crystal
   database_name = "..."
@@ -1409,10 +1535,12 @@ end
     settings.lazy_load_enabled = Lucky::Env.production?
   end
   ```
-</details>
+
+  </details>
 
 - Move: the `settings.lazy_load_enabled` from `AppDatabase.configure` to `Avram.configure` block.
 - Add: a `database` class method to `src/models/base_model.cr` that returns `AppDatabase`.
+
 ```crystal
 abstract class BaseModel < Avram::Model
   def self.database : Avram::Database.class
@@ -1420,6 +1548,7 @@ abstract class BaseModel < Avram::Model
   end
 end
 ```
+
 - Update: `Avram::Repo` to `AppDatabase` in `spec/setup/clean_database.cr`.
 - Avram no longer automatically adds a timestamp and primary key to migrations.
   Add a primary key and timestamps to your old migrations.
@@ -1438,8 +1567,9 @@ end
   ```
 
 - Note: Avram now defaults primary keys to `Int64` instead of `Int32`. You
-can use the `change_type` macro to migrate your **primary keys and foreign keys**
-to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
+  can use the `change_type` macro to migrate your **primary keys and foreign keys**
+  to `Int64` if you need. Run `lucky gen.migration UpdatePrimaryKeyTypes`.
+
 ```crystal
 class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
   def migrate
@@ -1453,9 +1583,10 @@ class UpdatePrimaryKeyTypesV20190723233131 < Avram::Migrator::Migration::V1
   end
 end
 ```
+
 - Update: models now default the primary key to `Int64`. This can be
-overridden if your tables uses a different column type for your primary keys,
-such as Int32 or UUID
+  overridden if your tables uses a different column type for your primary keys,
+  such as Int32 or UUID
 
 ```crystal
 abstract class BaseModel < Avram::Model
@@ -1483,12 +1614,14 @@ end
 ```
 
 ### Updating queries
+
 - Rename: `Query.new.destroy_all` to `Query.truncate`. (e.g. `UserQuery.new.destroy_all` => `UserQuery.truncate`)
 - Rename: all association query methods from the association name to `where_{association_name}`. (e.g. `UserQuery.new.posts` => `UserQuery.new.where_posts`)
 - Update: all association query methods no longer take a block. Pass the query in as an argument. (e.g. `UserQuery.new.posts { |post_query| }` => `UserQuery.new.where_posts(PostQuery.new)`)
 - Update: `where_{association_name}` methods no longer need to be preceded by a `join_{assoc}`, unless you need a custom join (i.e. `left_join_{assoc}`). If you use a custom join, you will need to add the `auto_inner_join: false` option to your `where_{assoc}` method.
 
 ### Moving forms to operations
+
 - Rename: the `src/forms` directory to `src/operations`.
 - Update: `require "./forms/mixins/**"` and `require "./forms/**"` to `require "./operations/mixins/**"` and `require "./operations/**"` respectively in `src/app.cr`
 - Rename: `BaseForm` to `SaveOperation` in `src/operations`. (e.g. `User::BaseForm` => `User::SaveOperation`)
@@ -1500,8 +1633,8 @@ end
 - Update: all `SaveOperation` classes to call `before_save prepare`. The `prepare` method is no longer called by default, which allows you to rename this method as well.
 - Update: `FillableField` to `PermittedAttribute` in `src/components/shared/`. Check `field.cr` and `field_errors.cr`.
 - Update: all authentic classes and modules to use new operation setup. This may require renaming some files to fit the `VerbNoun` `verb_noun.cr` convention.
-<details>
-  <summary>Files in src/operations/</summary>
+  <details>
+    <summary>Files in src/operations/</summary>
 
   ```diff
   # src/operations/mixins/password_validations.cr
@@ -1538,7 +1671,8 @@ end
       validate_uniqueness_of email
   -   run_password_validations
   ```
-</details>
+
+  </details>
 
 - Update `sign_in_user.cr` to match [the new template](https://github.com/luckyframework/lucky_cli/blob/c45e1860751bba25a16120402f93e7537c0be5b5/src/base_authentication_app_skeleton/src/operations/sign_in_user.cr).
 - Rename the `FindAuthenticatable` mixin to `UserFromEmail`, again the Lucky CLI [template](https://github.com/luckyframework/lucky_cli/blob/c45e1860751bba25a16120402f93e7537c0be5b5/src/base_authentication_app_skeleton/src/operations/mixins/user_from_email.cr) is a helpful guide.
@@ -1575,8 +1709,8 @@ brew upgrade lucky
 
 - Rename `src/server.cr` to `src/start_server.cr`.
 - Edit `src/start_server.cr` by changing
-    * `app` to `app_server` and `App` to `AppServer`.
-    * delete the line that starts with `puts "Listening on`
+  - `app` to `app_server` and `App` to `AppServer`.
+  - delete the line that starts with `puts "Listening on`
 - Update `src/{your app name}.cr` to require `./start_server`
 - Rename `src/dependencies.cr` to `src/shards.cr`
 - Move the `App` class to a new file in `src/app_server.cr`
@@ -1747,7 +1881,6 @@ brew upgrade lucky
 - Configuration now requires passing an argument. Find and replace `.configure do` with `.configure do |settings|` in all files in `config`
 
 - Update `config/session.cr`
-
   - Change `Lucky::Session::Store.configure` to `Lucky::Session.configure do |settings|`
 
   - Change your session key because signing/encryption has changed. For example: add `_0_12_0` to the end of the key.
@@ -1783,7 +1916,6 @@ brew upgrade lucky
 - In `config/server.cr`, copy the new block starting at [`line 15`](https://github.com/luckyframework/lucky_cli/blob/baaeeb0b8c7a410625320af394437f8665442664/src/web_app_skeleton/config/server.cr.ecr#L15-L23).
 
 - Update shard versions in `shard.yml`:
-
   - Lucky `~> 0.12`
   - LuckyRecord `~> 0.7`
   - Authentic `~> 0.2`
@@ -1816,7 +1948,6 @@ brew upgrade lucky
 - Change `crystal deps` to `shards install` in `bin/setup`
 
 - Update `lucky_flow` and `lucky_migrator` in `shard.yml`
-
   - `lucky_flow` should now be `0.2`
   - `lucky_migrator` should now be `0.6`
 
@@ -1843,13 +1974,11 @@ brew upgrade lucky
 - Remove `/public` from `.gitignore`
 
 - Add these to `.gitignore`
-
   - `/public/mix-manifest.json`
   - `/public/js`
   - `/public/css`
 
 - Update `src/app.cr` lines:
-
   - Remove host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L25
   - Add `bind_tcp` with host and port: https://github.com/luckyframework/lucky_cli/blob/ce677b8aefbbef2f06587d835795cbb59c5801dd/src/web_app_skeleton/src/app.cr.ecr#L50
 
@@ -1921,7 +2050,7 @@ https://luckyframework.org/guides/installing/#install-lucky
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: "~> 0.8.0"
+    version: '~> 0.8.0'
   lucky_migrator:
     github: luckyframework/lucky_migrator
     version: ~> 0.4.0
@@ -2105,7 +2234,7 @@ If you are on Linux, remove the existing Lucky binary and follow the Linux instr
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: "~> 0.7.0"
+    version: '~> 0.7.0'
   lucky_migrator:
     github: luckyframework/lucky_migrator
     version: ~> 0.4.0
