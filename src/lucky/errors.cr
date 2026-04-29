@@ -19,8 +19,8 @@ module Lucky
 
     getter request
 
-    def initialize(@request : HTTP::Request)
-      super "Failed to parse the request parameters."
+    def initialize(@request : HTTP::Request, cause = nil)
+      super "Failed to parse the request parameters.", cause
     end
 
     def renderable_status : Int32
@@ -126,10 +126,11 @@ module Lucky
   class InvalidCookieValueError < Error
     getter :key
 
-    def initialize(@key : String | Symbol)
+    def initialize(@key : String | Symbol, cause = nil)
+      super(_message, cause)
     end
 
-    def message : String
+    private def _message
       <<-ERROR
       Cookie value for '#{key}' is invalid.
 
@@ -225,10 +226,11 @@ module Lucky
   class InvalidFlashJSONError < Error
     getter bad_json
 
-    def initialize(@bad_json : String?)
+    def initialize(@bad_json : String?, cause = nil)
+      super(_message, cause)
     end
 
-    def message : String?
+    private def _message
       <<-MESSAGE
       The flash messages (stored as JSON) failed to parse in a JSON parser.
       Here's what it tries to parse:
