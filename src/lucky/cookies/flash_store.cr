@@ -19,7 +19,7 @@ class Lucky::FlashStore
     end
     self
   rescue e : JSON::ParseException
-    raise Lucky::InvalidFlashJSONError.new(session.get?(SESSION_KEY))
+    raise Lucky::InvalidFlashJSONError.new(session.get?(SESSION_KEY), cause: e)
   end
 
   def keep : Nil

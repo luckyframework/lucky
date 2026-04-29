@@ -218,8 +218,8 @@ class Lucky::MimeType
         # multiplied by 1000 and then handled as an integer.
         begin
           ($1.to_f32 * 1000).round.to_u16
-        rescue ArgumentError | OverflowError
-          raise InvalidMediaRange.new("#{parameter} is not a valid qvalue")
+        rescue e : ArgumentError | OverflowError
+          raise InvalidMediaRange.new("#{parameter} is not a valid qvalue", cause: e)
         end
       else
         1000u16

@@ -61,7 +61,7 @@ module Lucky
     private def set_cipher_key(cipher) : Nil
       cipher.key = @secret
     rescue error : ArgumentError
-      raise InvalidSecretKeyBase.new(<<-MESSAGE
+      raise InvalidSecretKeyBase.new <<-MESSAGE, cause: error
         The secret key is invalid:
 
           #{error.message}
@@ -78,7 +78,6 @@ module Lucky
 
 
         MESSAGE
-      )
     end
 
     class InvalidSecretKeyBase < Exception
