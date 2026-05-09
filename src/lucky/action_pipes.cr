@@ -10,8 +10,9 @@ module Lucky::ActionPipes
   # ```
   macro skip(*pipes)
     {% for pipe in pipes %}
-      {% if BEFORE_PIPES.includes?(pipe.id) || AFTER_PIPES.includes?(pipe.id) %}
-        {% SKIPPED_PIPES << pipe.id %}
+      {% if BEFORE_PIPES[pipe.id] || AFTER_PIPES[pipe.id] %}
+        {% BEFORE_PIPES[pipe.id] = false %}
+        {% AFTER_PIPES[pipe.id] = false %}
       {% else %}
         {% pipe.raise <<-ERROR.lines.join(" ")
         Can't skip '#{pipe}' because the pipe is not used.
@@ -24,14 +25,12 @@ module Lucky::ActionPipes
 
   # :nodoc:
   macro included
-    AFTER_PIPES   = [] of Symbol
-    BEFORE_PIPES  = [] of Symbol
-    SKIPPED_PIPES = [] of Symbol
+    AFTER_PIPES     = {} of Symbol => Bool
+    BEFORE_PIPES    = {} of Symbol => Bool
 
     macro inherited
-      AFTER_PIPES   = [] of Symbol
-      BEFORE_PIPES  = [] of Symbol
-      SKIPPED_PIPES = [] of Symbol
+      AFTER_PIPES     = {} of Symbol => Bool
+      BEFORE_PIPES    = {} of Symbol => Bool
 
       inherit_pipes
     end
@@ -39,16 +38,12 @@ module Lucky::ActionPipes
 
   # :nodoc:
   macro inherit_pipes
-    \{% for v in @type.ancestors.first.constant :BEFORE_PIPES %}
-      \{% BEFORE_PIPES << v %}
+    \{% for k, v in @type.ancestors.first.constant :BEFORE_PIPES %}
+      \{% BEFORE_PIPES[k] = v %}
     \{% end %}
 
-    \{% for v in @type.ancestors.first.constant :AFTER_PIPES %}
-      \{% AFTER_PIPES << v %}
-    \{% end %}
-
-    \{% for v in @type.ancestors.first.constant :SKIPPED_PIPES %}
-      \{% SKIPPED_PIPES << v %}
+    \{% for k, v in @type.ancestors.first.constant :AFTER_PIPES %}
+      \{% AFTER_PIPES[k] = v %}
     \{% end %}
   end
 
@@ -82,7 +77,7 @@ module Lucky::ActionPipes
   # end
   # ```
   macro before(method_name)
-    {% BEFORE_PIPES << method_name.id %}
+    {% BEFORE_PIPES[method_name.id] = true %}
   end
 
   # Run a method after an action ends
@@ -108,59 +103,59 @@ module Lucky::ActionPipes
   # end
   # ```
   macro after(method_name)
-    {% AFTER_PIPES << method_name.id %}
+    {% AFTER_PIPES[method_name.id] = true %}
   end
 
   # :nodoc:
   macro run_before_pipes
-    {% pipes = BEFORE_PIPES.reject { |pipe| SKIPPED_PIPES.includes?(pipe) } %}
+    {% for pipe_method, is_enabled in BEFORE_PIPES %}
+      {% if is_enabled %}
+        pipe_result = {{ pipe_method }}
+        ensure_pipe_return_response_or_continue(pipe_result)
+        # Pipe {{ pipe_method }} should return a Lucky::Response or Lucky::ActionPipes::Continue
+        # Do this by using `continue` or one of rendering methods like `html` or `redirect`
+        #
+        #   def {{ pipe_method }}
+        #     cookies["name"] = "John"
+        #     continue # or redirect, render
+        #   end
 
-    {% for pipe_method in pipes %}
-      pipe_result = {{ pipe_method }}
-      ensure_pipe_return_response_or_continue(pipe_result)
-      # Pipe {{ pipe_method }} should return a Lucky::Response or Lucky::ActionPipes::Continue
-      # Do this by using `continue` or one of rendering methods like `html` or `redirect`
-      #
-      #   def {{ pipe_method }}
-      #     cookies["name"] = "John"
-      #     continue # or redirect, render
-      #   end
-
-      if pipe_result.is_a?(Lucky::Response)
-        publish_before_event("{{ pipe_method.id }}", continued: false)
-        Lucky::ActionPipes.log_halted_pipe("{{ pipe_method.id }}")
-        return pipe_result
-      else
-        publish_before_event("{{ pipe_method.id }}", continued: true)
-        Lucky::ActionPipes.log_continued_pipe("{{ pipe_method.id }}")
-      end
+        if pipe_result.is_a?(Lucky::Response)
+          publish_before_event("{{ pipe_method.id }}", continued: false)
+          Lucky::ActionPipes.log_halted_pipe("{{ pipe_method.id }}")
+          return pipe_result
+        else
+          publish_before_event("{{ pipe_method.id }}", continued: true)
+          Lucky::ActionPipes.log_continued_pipe("{{ pipe_method.id }}")
+        end
+      {% end %}
     {% end %}
   end
 
   # :nodoc:
   macro run_after_pipes
-    {% pipes = AFTER_PIPES.reject { |pipe| SKIPPED_PIPES.includes?(pipe) } %}
+    {% for pipe_method, is_enabled in AFTER_PIPES %}
+      {% if is_enabled %}
+        pipe_result = {{ pipe_method }}
 
-    {% for pipe_method in pipes %}
-      pipe_result = {{ pipe_method }}
+        ensure_pipe_return_response_or_continue(pipe_result)
+        # Pipe {{ pipe_method }} should return a Lucky::Response or Lucky::ActionPipes::Continue
+        # Do this by using `continue` or one of rendering methods like `html` or `redirect`
+        #
+        #   def {{ pipe_method }}
+        #     cookies["name"] = "John"
+        #     continue # or redirect, render
+        #   end
 
-      ensure_pipe_return_response_or_continue(pipe_result)
-      # Pipe {{ pipe_method }} should return a Lucky::Response or Lucky::ActionPipes::Continue
-      # Do this by using `continue` or one of rendering methods like `html` or `redirect`
-      #
-      #   def {{ pipe_method }}
-      #     cookies["name"] = "John"
-      #     continue # or redirect, render
-      #   end
-
-      if pipe_result.is_a?(Lucky::Response)
-        publish_after_event("{{ pipe_method.id }}", continued: false)
-        Lucky::ActionPipes.log_halted_pipe("{{ pipe_method.id }}")
-        return pipe_result
-      else
-        publish_after_event("{{ pipe_method.id }}", continued: true)
-        Lucky::ActionPipes.log_continued_pipe("{{ pipe_method.id }}")
-      end
+        if pipe_result.is_a?(Lucky::Response)
+          publish_after_event("{{ pipe_method.id }}", continued: false)
+          Lucky::ActionPipes.log_halted_pipe("{{ pipe_method.id }}")
+          return pipe_result
+        else
+          publish_after_event("{{ pipe_method.id }}", continued: true)
+          Lucky::ActionPipes.log_continued_pipe("{{ pipe_method.id }}")
+        end
+      {% end %}
     {% end %}
   end
 
