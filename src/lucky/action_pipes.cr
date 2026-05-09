@@ -25,12 +25,12 @@ module Lucky::ActionPipes
 
   # :nodoc:
   macro included
-    AFTER_PIPES     = {} of Symbol => Bool
-    BEFORE_PIPES    = {} of Symbol => Bool
+    AFTER_PIPES  = {} of Symbol => Bool
+    BEFORE_PIPES = {} of Symbol => Bool
 
     macro inherited
-      AFTER_PIPES     = {} of Symbol => Bool
-      BEFORE_PIPES    = {} of Symbol => Bool
+      AFTER_PIPES  = {} of Symbol => Bool
+      BEFORE_PIPES = {} of Symbol => Bool
 
       inherit_pipes
     end
