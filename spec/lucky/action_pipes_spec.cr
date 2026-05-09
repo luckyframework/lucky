@@ -151,11 +151,9 @@ describe Lucky::Action do
   end
 
   it "readds skipped pipes" do
-    Lucky::ContinuedPipeLog.dexter.temp_config do |log_io|
-      response = Pipes::Readded.new(build_context, params).call
-      response.context.cookies.get?("before").should eq "before"
-      response.context.cookies.get?("after").should eq "after"
-    end
+    response = Pipes::Readded.new(build_context, params).call
+    response.context.cookies.get?("before").should eq "before"
+    response.context.cookies.get?("after").should eq "after"
   end
 
   describe "handles before pipes" do
