@@ -38,6 +38,16 @@ class Pipes::Skipped < InheritablePipes
   end
 end
 
+class Pipes::Readded < Pipes::Skipped
+  before set_before_cookie
+  after overwrite_after_cookie
+
+  get "/readded_pipes" do
+    cookies.set("after", "This should be overwritten by the after pipe")
+    plain_text "Body"
+  end
+end
+
 class Pipes::Index < InheritablePipes
   before set_second_before_cookie
   after set_second_after_cookie
@@ -138,6 +148,12 @@ describe Lucky::Action do
     response = Pipes::Skipped.new(build_context, params).call
     response.context.cookies.get?("before").should be_nil
     response.context.cookies.get?("after").should be_nil
+  end
+
+  it "readds skipped pipes" do
+    response = Pipes::Readded.new(build_context, params).call
+    response.context.cookies.get?("before").should eq "before"
+    response.context.cookies.get?("after").should eq "after"
   end
 
   describe "handles before pipes" do
