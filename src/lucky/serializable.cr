@@ -1,4 +1,5 @@
 require "uuid/json"
+require "./serializable/format_macro"
 
 module Lucky::Serializable
   abstract def render
