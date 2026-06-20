@@ -161,7 +161,7 @@ class Lucky::MimeType
         end
 
         # No known formats match the ones requested
-        return nil
+        return
       end
 
       # Finally the client accepts anything so use the default format
