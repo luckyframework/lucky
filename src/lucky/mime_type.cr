@@ -67,7 +67,7 @@ class Lucky::MimeType
   end
 
   # Extract format from URL path (e.g., "/reports/123.csv" -> Format::Csv)
-  def self.extract_format_from_path(path : String) : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil
+  def self.extract_format_from_path(path : String) : Lucky::Format | Lucky::FormatRegistry::CustomFormat?
     # Only match extensions in the path portion (before any query string)
     if match = path.match(/^[^?]*\.([a-zA-Z0-9]+)(?:\?|$)/)
       extension = match[1]

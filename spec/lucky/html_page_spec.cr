@@ -72,7 +72,7 @@ class LessNeedyDefaultsPage < MainLayout
   needs bool : Bool = false
   needs nil_default : String? = nil
   needs inferred_nil_default : String?
-  needs inferred_nil_default2 : String | Nil
+  needs inferred_nil_default2 : String?
 
   def inner
     div @a_string

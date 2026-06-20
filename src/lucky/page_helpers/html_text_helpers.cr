@@ -30,13 +30,13 @@ module Lucky::HTMLTextHelpers
   # ```html
   # "Four score and se...<a href="#">Read more</a>"
   # ```
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, blk : Nil | Proc = nil) : Nil
+  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String? = nil, escape : Bool = true, blk : Proc? = nil) : Nil
     content = truncate_text(text, length, omission, separator)
     raw(escape ? HTML.escape(content) : content)
     blk.call if !blk.nil? && text.size > length
   end
 
-  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil, escape : Bool = true, &block : -> _) : Nil
+  def truncate(text : String, length : Int32 = 30, omission : String = "...", separator : String? = nil, escape : Bool = true, &block : -> _) : Nil
     truncate(text, length, omission, separator, escape, blk: block)
   end
 

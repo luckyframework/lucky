@@ -116,7 +116,7 @@ module Lucky::RequestTypeHelpers
 
   # Get the detected format as an enum (if available)
   # Returns nil if the format came from Accept header or is unknown
-  def url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil
+  def url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat?
     context._url_format
   end
 

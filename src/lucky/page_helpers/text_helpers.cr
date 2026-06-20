@@ -16,7 +16,7 @@ module Lucky::TextHelpers
   # ```html
   # <a href=\"#\">Four score and se...</a>
   # ```
-  def truncate_text(text : String, length : Int32 = 30, omission : String = "...", separator : String | Nil = nil) : String
+  def truncate_text(text : String, length : Int32 = 30, omission : String = "...", separator : String? = nil) : String
     return text unless text.size > length
 
     length_with_room_for_omission = length - omission.size
@@ -86,7 +86,7 @@ module Lucky::TextHelpers
 
   # It pluralizes `singular` unless `count` is 1. You can specify the `plural` option
   # to override the chosen plural word.
-  def pluralize(count : Int | String | Nil, singular : String, plural = nil) : String
+  def pluralize(count : Int | String?, singular : String, plural = nil) : String
     word = if (count == 1) || (count =~ /^1(\.0+)?$/)
              singular
            else
@@ -237,7 +237,7 @@ module Lucky::TextHelpers
     @@_cycles[name] = cycle_object
   end
 
-  private def cut_excerpt_part(part_position : Symbol, part : String | Nil, separator : String, radius : Int32, omission : String)
+  private def cut_excerpt_part(part_position : Symbol, part : String?, separator : String, radius : Int32, omission : String)
     return "", "" if part.nil?
 
     part = part.split(separator)
