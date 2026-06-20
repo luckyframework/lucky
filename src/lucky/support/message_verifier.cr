@@ -38,8 +38,8 @@ module Lucky
       else
         raise(InvalidSignatureError.new)
       end
-    rescue e : Base64::Error | JSON::ParseException
-      raise InvalidSignatureError.new(cause: e)
+    rescue ex : Base64::Error | JSON::ParseException
+      raise InvalidSignatureError.new(cause: ex)
     end
 
     def generate(value : String | Bytes) : String

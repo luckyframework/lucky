@@ -179,7 +179,7 @@ begin
   manifest_file = ARGV[1]? || ""
 
   AssetManifestBuilder.new(source, manifest_file).build_with_retry
-rescue e
-  puts e.message.try(&.colorize(:red))
-  raise e
+rescue ex
+  puts ex.message.try(&.colorize(:red))
+  raise ex
 end

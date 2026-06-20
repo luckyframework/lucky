@@ -37,9 +37,9 @@ class Lucky::LogHandler
       log_request_end(context, duration: duration)
       Lucky::Events::RequestCompleteEvent.publish(duration)
     end
-  rescue e
-    log_exception(context, Time.utc, e)
-    raise e
+  rescue ex
+    log_exception(context, Time.utc, ex)
+    raise ex
   end
 
   private def log_request_start(context : HTTP::Server::Context) : Nil

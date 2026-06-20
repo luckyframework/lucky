@@ -32,8 +32,8 @@ class Lucky::TextResponse < Lucky::Response
     context.response.headers.add "Date", HTTP.format_time(Time.utc)
     gzip if should_gzip?
     context.response.print(body) if should_print?
-  rescue e : IO::Error
-    Lucky::Log.error(exception: e) { "Broken Pipe: Maybe the client navigated away?" }
+  rescue ex : IO::Error
+    Lucky::Log.error(exception: ex) { "Broken Pipe: Maybe the client navigated away?" }
   end
 
   def status : Int
