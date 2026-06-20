@@ -50,12 +50,10 @@ module Lucky::ParamParser
 
   def self.parse(param : String, klass : Time.class) : Time?
     TIME_FORMATS.each do |format|
-      begin
-        parsed = format.parse(param)
-        return parsed if parsed
-      rescue Time::Format::Error
-        nil
-      end
+      parsed = format.parse(param)
+      return parsed if parsed
+    rescue Time::Format::Error
+      nil
     end
   end
 

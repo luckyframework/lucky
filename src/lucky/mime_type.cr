@@ -121,12 +121,10 @@ class Lucky::MimeType
     # quality value.
     def self.parse(accept : String) : Array(MediaRange)
       list = accept.split(ACCEPT_SEP).compact_map do |range|
-        begin
-          MediaRange.parse(range)
-        rescue ex : InvalidMediaRange
-          Log.debug { "invalid media range in Accept: #{accept} - #{ex}" }
-          nil
-        end
+        MediaRange.parse(range)
+      rescue ex : InvalidMediaRange
+        Log.debug { "invalid media range in Accept: #{accept} - #{ex}" }
+        nil
       end
       list.unstable_sort_by! { |range| -range.qvalue.to_i32 }
     end
