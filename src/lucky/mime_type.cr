@@ -144,7 +144,7 @@ class Lucky::MimeType
       # If we find a match in the things we accept then pick one of those
       formats_in_common = known_formats.select { |_media, format| accepted_formats.includes?(format) }
       unless formats_in_common.empty?
-        self.list.each do |media_range|
+        list.each do |media_range|
           if match = formats_in_common.find { |media, _format| media_range.matches?(media) }
             return match[1]
           end
@@ -154,7 +154,7 @@ class Lucky::MimeType
       # Otherwise if the client doesn't just accept anything then try to find something they
       # do accept in the list of known formats
       unless includes_catch_all?
-        self.list.each do |media_range|
+        list.each do |media_range|
           if match = known_formats.find { |media, _format| media_range.matches?(media) }
             return match[1]
           end

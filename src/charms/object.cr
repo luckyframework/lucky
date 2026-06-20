@@ -4,7 +4,7 @@ class Object
 
   def blank? : Bool
     if self.responds_to?(:empty?)
-      self.empty?
+      self.empty? # ameba:disable Style/RedundantSelf
     else
       false
     end

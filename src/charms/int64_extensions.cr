@@ -4,6 +4,6 @@ struct Int64
   include ::Lucky::AllowedInTags
 
   def to_param : String
-    self.to_s
+    to_s
   end
 end
