@@ -151,7 +151,7 @@ class Lucky::CookieJar
 
     base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
     String.new(encryptor.verify_and_decrypt(base_64_encrypted_part))
-  rescue e
+  rescue
     # an error happened while decrypting the cookie
     # we will treat that as if no cookie was passed
   end

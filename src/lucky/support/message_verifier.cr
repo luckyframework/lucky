@@ -17,7 +17,7 @@ module Lucky
       if valid_message?(data.to_s, digest.to_s)
         String.new(decode(data.to_s))
       end
-    rescue e : Base64::Error | JSON::ParseException
+    rescue Base64::Error | JSON::ParseException
       nil
     end
 

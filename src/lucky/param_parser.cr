@@ -53,7 +53,7 @@ module Lucky::ParamParser
       begin
         parsed = format.parse(param)
         return parsed if parsed
-      rescue e : Time::Format::Error
+      rescue Time::Format::Error
         nil
       end
     end
