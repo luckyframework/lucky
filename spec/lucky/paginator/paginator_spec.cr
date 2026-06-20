@@ -47,32 +47,32 @@ describe Lucky::Paginator do
 
   describe "#last_page?" do
     it "returns true if the current page is the last one" do
-      build_pages(page: 2, per_page: 1, item_count: 2).last_page?.should eq(true)
-      build_pages(page: 1, per_page: 1, item_count: 1).last_page?.should eq(true)
+      build_pages(page: 2, per_page: 1, item_count: 2).last_page?.should be_true
+      build_pages(page: 1, per_page: 1, item_count: 1).last_page?.should be_true
     end
 
     it "returns false if the current page is not the last one" do
-      build_pages(page: 1, per_page: 1, item_count: 2).last_page?.should eq(false)
+      build_pages(page: 1, per_page: 1, item_count: 2).last_page?.should be_false
     end
   end
 
   describe "#first_page?" do
     it "returns true if the current page is the first one" do
-      build_pages(page: 1, per_page: 1, item_count: 1).first_page?.should eq(true)
+      build_pages(page: 1, per_page: 1, item_count: 1).first_page?.should be_true
     end
 
     it "otherwise returns false" do
-      build_pages(page: 2, per_page: 1, item_count: 2).first_page?.should eq(false)
+      build_pages(page: 2, per_page: 1, item_count: 2).first_page?.should be_false
     end
   end
 
   describe "#overflowed?" do
     it "returns true if the current page is past the last page" do
-      build_pages(page: 2, per_page: 1, item_count: 1).overflowed?.should eq(true)
+      build_pages(page: 2, per_page: 1, item_count: 1).overflowed?.should be_true
     end
 
     it "otherwise returns false" do
-      build_pages(page: 1, per_page: 1, item_count: 1).overflowed?.should eq(false)
+      build_pages(page: 1, per_page: 1, item_count: 1).overflowed?.should be_false
     end
   end
 

@@ -8,7 +8,7 @@ describe Lucky::RemoteIpHandler do
       context = build_context(path: "/path")
 
       run_remote_ip_handler(context)
-      context.request.remote_address.should eq nil
+      context.request.remote_address.should be_nil
       context.request.remote_ip.should eq ""
     end
 
@@ -44,7 +44,7 @@ describe Lucky::RemoteIpHandler do
       context = build_context(request)
 
       run_remote_ip_handler(context)
-      context.request.remote_address.should eq nil
+      context.request.remote_address.should be_nil
       context.request.remote_ip.should eq ""
     end
 

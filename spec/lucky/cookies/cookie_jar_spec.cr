@@ -104,7 +104,7 @@ describe Lucky::CookieJar do
     cookies = HTTP::Cookies.new
     cookies[cookie_key] = cookie_value
     jar = Lucky::CookieJar.from_request_cookies(cookies)
-    jar.get?(cookie_key).should eq(nil)
+    jar.get?(cookie_key).should be_nil
   end
 
   describe "#set" do

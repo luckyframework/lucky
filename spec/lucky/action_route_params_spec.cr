@@ -39,7 +39,7 @@ describe "Automatically generated param helpers" do
     action = TestOptionalParamAction.new(build_context, {"required" => "1", "optional_1" => "2"})
     action.required.should eq "1"
     action.optional_1.should eq "2"
-    action.optional_2.should eq nil
+    action.optional_2.should be_nil
     typeof(action.optional_1).should eq String?
     typeof(action.optional_2).should eq String?
   end
