@@ -56,7 +56,6 @@ enum Lucky::Format
   end
 
   # Parse format from file extension
-  # ameba:disable Metrics/CyclomaticComplexity
   def self.from_extension(extension : String) : Format?
     case extension.downcase
     when "html", "htm" then Html
