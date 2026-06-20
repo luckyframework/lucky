@@ -672,8 +672,6 @@ class Lucky::Params
     vals = params.fetch_all(key + "[]")
     if !vals.empty?
       vals
-    else
-      nil
     end
   end
 

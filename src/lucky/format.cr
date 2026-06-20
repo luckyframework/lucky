@@ -70,7 +70,6 @@ enum Lucky::Format
     when "atom"        then Atom
     when "ics", "ical" then Ics
     when "css"         then Css
-    else                    nil
     end
   end
 
@@ -91,7 +90,6 @@ enum Lucky::Format
     when "text/css"                          then Css
     when "multipart/form-data"               then MultipartForm
     when "application/x-www-form-urlencoded" then UrlEncodedForm
-    else                                          nil
     end
   end
 end

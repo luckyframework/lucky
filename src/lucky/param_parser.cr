@@ -39,8 +39,6 @@ module Lucky::ParamParser
       true
     elsif %w[false 0].includes? param
       false
-    else
-      nil
     end
   end
 
