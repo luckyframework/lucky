@@ -1,6 +1,6 @@
 module Lucky::BaseTags
   include Lucky::CheckTagContent
-  TAGS = %i(
+  TAGS = %i[
     a
     abbr
     address
@@ -98,9 +98,9 @@ module Lucky::BaseTags
     ul
     video
     wbr
-  )
+  ]
   RENAMED_TAGS     = {"para": "p", "select_tag": "select"}
-  EMPTY_TAGS       = %i(img br hr input meta source)
+  EMPTY_TAGS       = %i[img br hr input meta source]
   EMPTY_HTML_ATTRS = {} of String => String
 
   macro generate_tag_methods(method_name, tag)

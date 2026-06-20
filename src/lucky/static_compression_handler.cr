@@ -78,7 +78,7 @@ class Lucky::StaticCompressionHandler
   end
 
   private def etag(modification_time)
-    %{W/"#{modification_time.to_unix}"}
+    %(W/"#{modification_time.to_unix}")
   end
 
   private def modification_time(file_path)

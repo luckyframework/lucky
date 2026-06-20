@@ -8,7 +8,7 @@ class Lucky::Server
     setting port : Int32
     setting asset_host : String = ""
     setting gzip_enabled : Bool = false
-    setting gzip_content_types : Array(String) = %w(
+    setting gzip_content_types : Array(String) = %w[
       application/json
       application/javascript
       application/xml
@@ -22,6 +22,6 @@ class Lucky::Server
       text/html
       text/javascript
       text/plain
-    )
+    ]
   end
 end

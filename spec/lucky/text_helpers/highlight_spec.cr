@@ -38,7 +38,7 @@ describe Lucky::TextHelpers do
     end
 
     it "highlights with multiple phrases in one pass" do
-      view(&.highlight("wow em", %w(wow em), highlighter: "<em>\\1</em>")).should eq %(<em>wow</em> <em>em</em>)
+      view(&.highlight("wow em", %w[wow em], highlighter: "<em>\\1</em>")).should eq %(<em>wow</em> <em>em</em>)
     end
 
     it "escapes HTML by default" do

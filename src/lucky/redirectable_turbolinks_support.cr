@@ -19,7 +19,7 @@ module Lucky::RedirectableTurbolinksSupport
 
       Lucky::TextResponse.new(context,
         "text/javascript",
-        %[Turbolinks.clearCache();\nTurbolinks.visit(#{path.to_json}, {"action": "replace"})],
+        %(Turbolinks.clearCache();\nTurbolinks.visit(#{path.to_json}, {"action": "replace"})),
         status: 200)
     else
       if request.headers["Turbolinks-Referrer"]?

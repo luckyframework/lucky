@@ -3,7 +3,7 @@
 # This module is automatically included in `BrowserAction` to protect from CSRF
 # attacks.
 module Lucky::ProtectFromForgery
-  ALLOWED_METHODS = %w(GET HEAD OPTIONS TRACE)
+  ALLOWED_METHODS = %w[GET HEAD OPTIONS TRACE]
   SESSION_KEY     = "X-CSRF-TOKEN"
   PARAM_KEY       = "_csrf"
 

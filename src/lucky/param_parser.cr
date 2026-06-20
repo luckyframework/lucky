@@ -35,9 +35,9 @@ module Lucky::ParamParser
   end
 
   def self.parse(param : String, klass : Bool.class) : Bool?
-    if %w(true 1).includes? param
+    if %w[true 1].includes? param
       true
-    elsif %w(false 0).includes? param
+    elsif %w[false 0].includes? param
       false
     else
       nil

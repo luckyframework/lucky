@@ -165,7 +165,7 @@ describe Lucky::Action do
     response = action.redirect to: "/somewhere", status: 302
     should_redirect(action, to: "/somewhere", status: 200)
     action.context.response.headers.has_key?("Turbolinks-Location").should be_false
-    response.body.should eq %[Turbolinks.clearCache();\nTurbolinks.visit("/somewhere", {"action": "replace"})]
+    response.body.should eq %(Turbolinks.clearCache();\nTurbolinks.visit("/somewhere", {"action": "replace"}))
   end
 
   it "set a cookie for redirects occurring during a turbolinks GET request" do
