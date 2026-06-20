@@ -129,7 +129,7 @@ describe Lucky::BaseHTTPClient do
   {% for method in [:put, :patch, :post, :delete, :get, :options] %}
     describe "\#{{method.id}}" do
       it "sends correct request to correct uri and gives the correct response" do
-        response = MyClient.new.{{method.id}}(
+        response = MyClient.new.{{ method.id }}(
           path: "hello",
           foo: "bar"
         )
@@ -141,7 +141,7 @@ describe Lucky::BaseHTTPClient do
       end
 
       it "works without params" do
-        response = MyClient.new.{{method.id}}(path: "hello")
+        response = MyClient.new.{{ method.id }}(path: "hello")
 
         request = TestServer.last_request
         request.method.should eq({{ method.id.stringify }}.upcase)

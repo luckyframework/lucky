@@ -40,7 +40,7 @@ module Lucky::Memoizable
       end
     %}
 
-    @__memoized_{{safe_method_name}} : Tuple(
+    @__memoized_{{ safe_method_name }} : Tuple(
       {{ method_def.return_type }},
       {% for arg in method_def.args %}
         {{ arg.restriction }},
@@ -78,18 +78,18 @@ module Lucky::Memoizable
       {% end %}
     )
       {% for arg, index in method_def.args %}
-        @__memoized_{{ safe_method_name }} = nil if {{arg.internal_name}} != @__memoized_{{ safe_method_name }}.try &.at({{index}} + 1)
+        @__memoized_{{ safe_method_name }} = nil if {{ arg.internal_name }} != @__memoized_{{ safe_method_name }}.try &.at({{ index }} + 1)
       {% end %}
       @__memoized_{{ safe_method_name }} ||= -> do
         result = {{ safe_method_name }}__uncached{% if special_ending %}{{ special_ending.id }}{% end %}(
           {% for arg in method_def.args %}
-            {{arg.internal_name}},
+            {{ arg.internal_name }},
           {% end %}
         )
         {
           result,
           {% for arg in method_def.args %}
-            {{arg.internal_name}},
+            {{ arg.internal_name }},
           {% end %}
         }
       end.call.not_nil!
@@ -108,7 +108,7 @@ module Lucky::Memoizable
     ) : {{ method_def.return_type }}
       {{ safe_method_name }}__tuple_cached{% if special_ending %}{{ special_ending.id }}{% end %}(
         {% for arg in method_def.args %}
-          {{arg.internal_name}},
+          {{ arg.internal_name }},
         {% end %}
       ).first
     end

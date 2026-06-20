@@ -33,6 +33,6 @@ module Lucky::SvgInliner
       end
     %}
 
-    raw {{svg.gsub(/<svg/, %(<svg #{attributes.join(" ").id}))}}
+    raw {{ svg.gsub(/<svg/, %(<svg #{attributes.join(" ").id})) }}
   end
 end
