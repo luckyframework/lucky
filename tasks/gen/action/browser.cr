@@ -7,15 +7,15 @@ class Gen::Action::Browser < LuckyTask::Task
 
   summary "Generate a new browser action"
   help_message <<-TEXT
-  #{task_summary}
+    #{task_summary}
 
-  Optionally, you can pass the --with-page flag to generate
-  a page for the Action.
+    Optionally, you can pass the --with-page flag to generate
+    a page for the Action.
 
-  Example:
+    Example:
 
-    lucky gen.action.browser Users::Index --with-page
-  TEXT
+      lucky gen.action.browser Users::Index --with-page
+    TEXT
 
   positional_arg :action_name, "The name of the action"
   switch :with_page, "Generate a Page matching this Action"

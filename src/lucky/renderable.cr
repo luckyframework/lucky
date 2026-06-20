@@ -141,27 +141,27 @@ module Lucky::Renderable
       raise <<-ERROR
 
 
-      An action returned Nil
+        An action returned Nil
 
-      But it should return a Lucky::Response.
+        But it should return a Lucky::Response.
 
-      Try this...
+        Try this...
 
-        ▸ Return a response with html, redirect, or json at the end of your action.
-        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
+          ▸ Return a response with html, redirect, or json at the end of your action.
+          ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
 
-      For example...
+        For example...
 
-        get "/admin/users" do
-          # Make sure there is a response in all conditional branches
-          if current_user.admin?
-            html IndexPage, users: UserQuery.new
-          else
-            redirect Home::Index
+          get "/admin/users" do
+            # Make sure there is a response in all conditional branches
+            if current_user.admin?
+              html IndexPage, users: UserQuery.new
+            else
+              redirect Home::Index
+            end
           end
-        end
 
-      ERROR
+        ERROR
     %}
   end
 
@@ -170,23 +170,23 @@ module Lucky::Renderable
       raise <<-ERROR
 
 
-      An action returned #{T}
+        An action returned #{T}
 
-      But it should return a Lucky::Response
+        But it should return a Lucky::Response
 
-      Try this...
+        Try this...
 
-        ▸ Return a response with html, redirect, or json at the end of your action.
-        ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
+          ▸ Return a response with html, redirect, or json at the end of your action.
+          ▸ Ensure all conditionals (like if/else) return a response with html, redirect, json, etc.
 
-      For example...
+        For example...
 
-        get "/users" do
-          # Return a response with json, redirect, html, etc.
-          html IndexPage, users: UserQuery.new
-        end
+          get "/users" do
+            # Return a response with json, redirect, html, etc.
+            html IndexPage, users: UserQuery.new
+          end
 
-      ERROR
+        ERROR
     %}
   end
 
@@ -290,13 +290,13 @@ module Lucky::Renderable
     {%
       raise <<-ERROR
 
-      Looks like your trying to pass a string to json response.
+        Looks like your trying to pass a string to json response.
 
-      Use `raw_json(body, ...)` instead.
+        Use `raw_json(body, ...)` instead.
 
-      NOTE: `raw_json` doesn't validate JSON string validity/integrity, use at your own risk.
+        NOTE: `raw_json` doesn't validate JSON string validity/integrity, use at your own risk.
 
-      ERROR
+        ERROR
     %}
   end
 

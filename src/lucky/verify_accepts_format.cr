@@ -85,19 +85,19 @@ module Lucky::VerifyAcceptsFormat
   private def verify_all_formats_recognized! : Nil
     find_unrecognized_format.try do |unrecognized_format|
       raise <<-TEXT
-      #{self.class.name} accepts an unrecognized format :#{unrecognized_format}
+        #{self.class.name} accepts an unrecognized format :#{unrecognized_format}
 
-      You can teach Lucky how to handle this format:
+        You can teach Lucky how to handle this format:
 
-          # Add this in config/mime_types.cr
-          Lucky::MimeType.register "text/custom", :#{unrecognized_format}
+            # Add this in config/mime_types.cr
+            Lucky::MimeType.register "text/custom", :#{unrecognized_format}
 
-      Or use one of these formats Lucky knows about:
+        Or use one of these formats Lucky knows about:
 
-          #{Lucky::MimeType.known_formats.join(", ")}
+            #{Lucky::MimeType.known_formats.join(", ")}
 
 
-      TEXT
+        TEXT
     end
   end
 

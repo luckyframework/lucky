@@ -10,11 +10,11 @@ describe Lucky::FlashStore do
 
     it "raises an error when flash JSON is invalid" do
       message = <<-MESSAGE
-      The flash messages (stored as JSON) failed to parse in a JSON parser.
-      Here's what it tries to parse:
+        The flash messages (stored as JSON) failed to parse in a JSON parser.
+        Here's what it tries to parse:
 
-      not_valid_json=invalid
-      MESSAGE
+        not_valid_json=invalid
+        MESSAGE
 
       expect_raises(Lucky::InvalidFlashJSONError, message) do
         Lucky::FlashStore.from_session(build_invalid_session)

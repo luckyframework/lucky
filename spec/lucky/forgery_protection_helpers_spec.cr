@@ -15,8 +15,8 @@ describe Lucky::ForgeryProtectionHelpers do
     context.session.set(Lucky::ProtectFromForgery::SESSION_KEY, "my_token")
 
     view(context, &.csrf_hidden_input).should contain <<-HTML
-    <input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token">
-    HTML
+      <input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token">
+      HTML
   end
 
   it "renders a meta tag for Rails UJS (and other JS that may need it)" do
@@ -25,11 +25,11 @@ describe Lucky::ForgeryProtectionHelpers do
     rendered = view(context, &.csrf_meta_tags)
 
     rendered.should contain <<-HTML
-    <meta name="csrf-param" content="#{Lucky::ProtectFromForgery::PARAM_KEY}">
-    HTML
+      <meta name="csrf-param" content="#{Lucky::ProtectFromForgery::PARAM_KEY}">
+      HTML
     rendered.should contain <<-HTML
-    <meta name="csrf-token" content="my_token">
-    HTML
+      <meta name="csrf-token" content="my_token">
+      HTML
   end
 end
 

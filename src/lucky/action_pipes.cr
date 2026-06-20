@@ -15,9 +15,9 @@ module Lucky::ActionPipes
         {% AFTER_PIPES[pipe.id] = false %}
       {% else %}
         {% pipe.raise <<-ERROR.lines.join(" ")
-        Can't skip '#{pipe}' because the pipe is not used.
-        Check the spelling of the pipe that you are trying to skip.
-        ERROR
+          Can't skip '#{pipe}' because the pipe is not used.
+          Check the spelling of the pipe that you are trying to skip.
+          ERROR
         %}
       {% end %}
     {% end %}

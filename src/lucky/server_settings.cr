@@ -41,14 +41,14 @@ module Lucky::ServerSettings
       File.read YAML_SETTINGS_PATH
     else
       <<-ERROR
-      Expected config file for the watcher at #{YAML_SETTINGS_PATH}.
+        Expected config file for the watcher at #{YAML_SETTINGS_PATH}.
 
-      Try this...
+        Try this...
 
-        ▸ If this is Production, be sure to set LUCKY_ENV=production
-        ▸ If this is Development, ensure the #{YAML_SETTINGS_PATH} file exists
+          ▸ If this is Production, be sure to set LUCKY_ENV=production
+          ▸ If this is Development, ensure the #{YAML_SETTINGS_PATH} file exists
 
-      ERROR
+        ERROR
     end
   end
 end

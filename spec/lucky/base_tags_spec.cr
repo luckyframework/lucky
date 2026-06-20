@@ -54,8 +54,8 @@ describe Lucky::BaseTags do
   describe "#style" do
     it "renders a style tag" do
       view(&.style("body { font-size: 2em; }")).should contain <<-HTML
-      <style>body { font-size: 2em; }</style>
-      HTML
+        <style>body { font-size: 2em; }</style>
+        HTML
     end
   end
 end

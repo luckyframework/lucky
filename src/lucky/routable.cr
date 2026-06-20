@@ -149,14 +149,14 @@ module Lucky::Routable
 
     {% if already_used_route = NORMALIZED_ROUTES[normalized_key] %}
       {% raise <<-ERROR
-      #{original_path} in '#{@type.name}' collides with the path in '#{already_used_route[:action]}'
+        #{original_path} in '#{@type.name}' collides with the path in '#{already_used_route[:action]}'
 
-      Try this...
+        Try this...
 
-        ▸ Change the paths in one of the actions to something unique
-        ▸ Run `lucky routes` to verify all of your route paths
+          ▸ Change the paths in one of the actions to something unique
+          ▸ Run `lucky routes` to verify all of your route paths
 
-      ERROR
+        ERROR
       %}
     {% else %}
       {% NORMALIZED_ROUTES[normalized_key] = {

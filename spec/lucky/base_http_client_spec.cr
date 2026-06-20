@@ -103,7 +103,7 @@ describe Lucky::BaseHTTPClient do
           { "event_id": "1"}
           { "type": "event"}
           { "event_id": "2", "type": "event", "platform": ""}
-        JSON
+          JSON
         response = MyClient.new.exec_raw(HelloWorldAction, test_data)
 
         request = TestServer.last_request
@@ -117,7 +117,7 @@ describe Lucky::BaseHTTPClient do
           { "event_id": "1"}
           { "type": "event"}
           { "event_id": "2", "type": "event", "platform": ""}
-        JSON
+          JSON
         response = MyClient.new.exec_raw(HelloWorldAction.route, test_data)
 
         request = TestServer.last_request

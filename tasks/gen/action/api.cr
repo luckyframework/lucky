@@ -6,12 +6,12 @@ class Gen::Action::Api < LuckyTask::Task
 
   summary "Generate a new api action"
   help_message <<-TEXT
-  #{task_summary}
+    #{task_summary}
 
-  Example:
+    Example:
 
-    lucky gen.action.api Api::Users::Index
-  TEXT
+      lucky gen.action.api Api::Users::Index
+    TEXT
 
   positional_arg :action_name, "The name of the action"
   switch :with_page, "This flag is used with gen.action.browser Only"

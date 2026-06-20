@@ -73,34 +73,34 @@ describe Lucky::FormHelpers do
   it "renders a form tag" do
     without_csrf_protection do
       view(&.inferred_put_form).should contain <<-HTML
-      <form action="/form_helpers/fake_id" method="post"><input type="hidden" name="_method" value="put">foo</form>
-      HTML
+        <form action="/form_helpers/fake_id" method="post"><input type="hidden" name="_method" value="put">foo</form>
+        HTML
 
       view(&.inferred_post_form).should contain <<-HTML
-      <form action="/form_helpers" method="post">foo</form>
-      HTML
+        <form action="/form_helpers" method="post">foo</form>
+        HTML
 
       view(&.inferred_get_form).should contain <<-HTML
-      <form action="/form_helpers" method="get">foo</form>
-      HTML
+        <form action="/form_helpers" method="get">foo</form>
+        HTML
 
       view(&.form_with_html_options).should contain <<-HTML
-      <form action="/form_helpers" method="post" class="cool-form">foo</form>
-      HTML
+        <form action="/form_helpers" method="post" class="cool-form">foo</form>
+        HTML
 
       form = view(&.form_for(FormHelpers::Index) { })
       form.should contain <<-HTML
-      <form action="/form_helpers" method="get"></form>
-      HTML
+        <form action="/form_helpers" method="get"></form>
+        HTML
 
       form = view(&.form_for(FormHelpers::Index, class: "form-block") { })
       form.should contain <<-HTML
-      <form action="/form_helpers" method="get" class="form-block"></form>
-      HTML
+        <form action="/form_helpers" method="get" class="form-block"></form>
+        HTML
 
       view(&.form_with_bool_attr).should contain <<-HTML
-      <form action="/form_helpers" method="post" class="even-cooler-form" novalidate>foo</form>
-      HTML
+        <form action="/form_helpers" method="post" class="even-cooler-form" novalidate>foo</form>
+        HTML
 
       form = view do |page|
         page.form_wrapper(FormHelpers::Create) do
@@ -109,8 +109,8 @@ describe Lucky::FormHelpers do
       end
 
       form.should contain <<-HTML
-      <form action="/form_helpers" method="post">purple</form>
-      HTML
+        <form action="/form_helpers" method="post">purple</form>
+        HTML
     end
   end
 
@@ -121,40 +121,40 @@ describe Lucky::FormHelpers do
     form = view(context_with_csrf, &.form_for(FormHelpers::Index) { })
 
     form.should contain <<-HTML
-    <form action="/form_helpers" method="get"><input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token"></form>
-    HTML
+      <form action="/form_helpers" method="get"><input type="hidden" name="#{Lucky::ProtectFromForgery::PARAM_KEY}" value="my_token"></form>
+      HTML
   end
 
   it "converts the multipart argument" do
     without_csrf_protection do
       view(&.form_with_multipart).should contain <<-HTML
-      <form action="/form_helpers" method="post" enctype="multipart/form-data">foo</form>
-      HTML
+        <form action="/form_helpers" method="post" enctype="multipart/form-data">foo</form>
+        HTML
 
       view(&.form_with_multipart_false).should contain <<-HTML
-      <form action="/form_helpers" method="post">foo</form>
-      HTML
+        <form action="/form_helpers" method="post">foo</form>
+        HTML
     end
   end
 
   it "renders submit input" do
     view(&.submit("Save")).should contain <<-HTML
-    <input type="submit" value="Save">
-    HTML
+      <input type="submit" value="Save">
+      HTML
 
     view(&.submit("Save", class: "cool")).should contain <<-HTML
-    <input type="submit" value="Save" class="cool">
-    HTML
+      <input type="submit" value="Save" class="cool">
+      HTML
   end
 
   it "renders submit input with attributes" do
     view(&.submit("Save", attrs: [:disabled])).should contain <<-HTML
-    <input type="submit" value="Save" disabled>
-    HTML
+      <input type="submit" value="Save" disabled>
+      HTML
 
     view(&.submit("Save", class: "cool", attrs: [:hidden, :disabled])).should contain <<-HTML
-    <input type="submit" value="Save" class="cool" hidden disabled>
-    HTML
+      <input type="submit" value="Save" class="cool" hidden disabled>
+      HTML
   end
 end
 
