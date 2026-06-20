@@ -5,3 +5,7 @@ Lint/Typos:
     - spec/lucky/text_helpers/truncate_spec.cr
     - spec/lucky/text_helpers/excerpts_spec.cr
     - spec/lucky/secure_headers_spec.cr
+
+Lint/AssignmentInCallArgument:
+  Excluded:
+    - spec/lucky/memoize_spec.cr
