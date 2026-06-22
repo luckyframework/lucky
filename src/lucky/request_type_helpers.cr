@@ -4,22 +4,22 @@
 module Lucky::RequestTypeHelpers
   private def default_format
     {% raise <<-TEXT
-    Must set 'accepted_formats' or 'default_format' in #{@type} (or its parent class).
+      Must set 'accepted_formats' or 'default_format' in #{@type} (or its parent class).
 
-    Example of 'accepted_formats' (recommended):
+      Example of 'accepted_formats' (recommended):
 
-      abstract class MyBaseAction < Lucky::Action
-        accepted_formats [:html, :json], default: :html
-      end
+        abstract class MyBaseAction < Lucky::Action
+          accepted_formats [:html, :json], default: :html
+        end
 
-    Example of 'default_format' (typically used only in Errors::Show):
+      Example of 'default_format' (typically used only in Errors::Show):
 
-      class Errors::Show < Lucky::ErrorAction
-        default_format :html
-      end
+        class Errors::Show < Lucky::ErrorAction
+          default_format :html
+        end
 
 
-    TEXT
+      TEXT
     %}
   end
 
@@ -116,7 +116,7 @@ module Lucky::RequestTypeHelpers
 
   # Get the detected format as an enum (if available)
   # Returns nil if the format came from Accept header or is unknown
-  def url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil
+  def url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat?
     context._url_format
   end
 

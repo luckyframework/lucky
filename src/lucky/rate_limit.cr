@@ -34,7 +34,7 @@ module Lucky::RateLimit
   # ```
   macro rate_limit(to, within)
     def rate_limit : NamedTuple(to: Int32, within: Time::Span)
-      {to: {{to}}, within: {{within}}}
+      {to: {{ to }}, within: {{ within }}}
     end
   end
 

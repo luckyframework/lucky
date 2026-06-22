@@ -115,6 +115,6 @@ describe Gen::Action do
       route: %(get "/users")
     )
     folder = template.template_folder
-    LuckyTemplate.snapshot(folder).has_key?("src/actions/user/index.cr").should eq(true)
+    LuckyTemplate.snapshot(folder).has_key?("src/actions/user/index.cr").should be_true
   end
 end

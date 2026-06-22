@@ -67,7 +67,7 @@ class Lucky::MimeType
   end
 
   # Extract format from URL path (e.g., "/reports/123.csv" -> Format::Csv)
-  def self.extract_format_from_path(path : String) : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil
+  def self.extract_format_from_path(path : String) : Lucky::Format | Lucky::FormatRegistry::CustomFormat?
     # Only match extensions in the path portion (before any query string)
     if match = path.match(/^[^?]*\.([a-zA-Z0-9]+)(?:\?|$)/)
       extension = match[1]
@@ -121,12 +121,10 @@ class Lucky::MimeType
     # quality value.
     def self.parse(accept : String) : Array(MediaRange)
       list = accept.split(ACCEPT_SEP).compact_map do |range|
-        begin
-          MediaRange.parse(range)
-        rescue ex : InvalidMediaRange
-          Log.debug { "invalid media range in Accept: #{accept} - #{ex}" }
-          nil
-        end
+        MediaRange.parse(range)
+      rescue ex : InvalidMediaRange
+        Log.debug { "invalid media range in Accept: #{accept} - #{ex}" }
+        nil
       end
       list.unstable_sort_by! { |range| -range.qvalue.to_i32 }
     end
@@ -144,7 +142,7 @@ class Lucky::MimeType
       # If we find a match in the things we accept then pick one of those
       formats_in_common = known_formats.select { |_media, format| accepted_formats.includes?(format) }
       unless formats_in_common.empty?
-        self.list.each do |media_range|
+        list.each do |media_range|
           if match = formats_in_common.find { |media, _format| media_range.matches?(media) }
             return match[1]
           end
@@ -154,14 +152,14 @@ class Lucky::MimeType
       # Otherwise if the client doesn't just accept anything then try to find something they
       # do accept in the list of known formats
       unless includes_catch_all?
-        self.list.each do |media_range|
+        list.each do |media_range|
           if match = known_formats.find { |media, _format| media_range.matches?(media) }
             return match[1]
           end
         end
 
         # No known formats match the ones requested
-        return nil
+        return
       end
 
       # Finally the client accepts anything so use the default format
@@ -218,8 +216,8 @@ class Lucky::MimeType
         # multiplied by 1000 and then handled as an integer.
         begin
           ($1.to_f32 * 1000).round.to_u16
-        rescue e : ArgumentError | OverflowError
-          raise InvalidMediaRange.new("#{parameter} is not a valid qvalue", cause: e)
+        rescue ex : ArgumentError | OverflowError
+          raise InvalidMediaRange.new("#{parameter} is not a valid qvalue", cause: ex)
         end
       else
         1000u16

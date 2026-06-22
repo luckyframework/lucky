@@ -6,11 +6,11 @@ class HighlightTestPage
   include Lucky::HTMLPage
 
   def test_highlight
-    highlight "This is a beautiful morning, but also a beautiful day", "beautiful" { |word|
+    highlight "This is a beautiful morning, but also a beautiful day", "beautiful" do |word|
       # you can't use HTMLPage here since they append to 'view' rather than return in-place
       # the block highlight expects is passed to gsub which expects to get a string returned
       "<span data-highlight-word=\"#{word}\" data-color=\"yellow\" data-español=\"bello\">#{word}</span>"
-    }
+    end
   end
 end
 
@@ -38,7 +38,7 @@ describe Lucky::TextHelpers do
     end
 
     it "highlights with multiple phrases in one pass" do
-      view(&.highlight("wow em", %w(wow em), highlighter: "<em>\\1</em>")).should eq %(<em>wow</em> <em>em</em>)
+      view(&.highlight("wow em", %w[wow em], highlighter: "<em>\\1</em>")).should eq %(<em>wow</em> <em>em</em>)
     end
 
     it "escapes HTML by default" do

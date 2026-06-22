@@ -68,26 +68,26 @@ module Lucky::AssetHelpers
       {% end %}
     {% elsif path.is_a?(StringInterpolation) %}
       {% raise <<-ERROR
-      \n
-      The 'asset' macro doesn't work with string interpolation
+        \n
+        The 'asset' macro doesn't work with string interpolation
 
-      Try this...
+        Try this...
 
-        ▸ Use the 'dynamic_asset' method instead
+          ▸ Use the 'dynamic_asset' method instead
 
-      ERROR
+        ERROR
       %}
     {% else %}
       {% raise <<-ERROR
-      \n
-      The 'asset' macro requires a literal string like "my-logo.png", instead got: #{path}
+        \n
+        The 'asset' macro requires a literal string like "my-logo.png", instead got: #{path}
 
-      Try this...
+        Try this...
 
-        ▸ If you're using a variable, switch to a literal string
-        ▸ If you can't use a literal string, use the 'dynamic_asset' method instead
+          ▸ If you're using a variable, switch to a literal string
+          ▸ If you can't use a literal string, use the 'dynamic_asset' method instead
 
-      ERROR
+        ERROR
       %}
     {% end %}
   end

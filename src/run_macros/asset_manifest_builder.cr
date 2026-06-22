@@ -140,33 +140,33 @@ struct AssetManifestBuilder
     message = case @source
               in .bun?
                 <<-ERROR
-                #{"Manifest not found:".colorize(:red)} #{@manifest_path}
+                  #{"Manifest not found:".colorize(:red)} #{@manifest_path}
 
-                #{"Make sure you have compiled your assets:".colorize(:yellow)}
-                  bun run dev     # start development server with watcher
-                  bun run build   # normal build
-                  bun run prod    # minified and fingerprinted build
+                  #{"Make sure you have compiled your assets:".colorize(:yellow)}
+                    bun run dev     # start development server with watcher
+                    bun run build   # normal build
+                    bun run prod    # minified and fingerprinted build
 
-                ERROR
+                  ERROR
               in .mix?
                 <<-ERROR
-                #{"Manifest not found:".colorize(:red)} #{@manifest_path}
+                  #{"Manifest not found:".colorize(:red)} #{@manifest_path}
 
-                #{"Make sure you have compiled your assets:".colorize(:yellow)}
-                  yarn run mix         # development build
-                  yarn run mix watch   # development build with watcher
-                  yarn run mix --production  # production build
+                  #{"Make sure you have compiled your assets:".colorize(:yellow)}
+                    yarn run mix         # development build
+                    yarn run mix watch   # development build with watcher
+                    yarn run mix --production  # production build
 
-                ERROR
+                  ERROR
               in .vite?
                 <<-ERROR
-                #{"Manifest not found:".colorize(:red)} #{@manifest_path}
+                  #{"Manifest not found:".colorize(:red)} #{@manifest_path}
 
-                #{"Make sure you have compiled your assets:".colorize(:yellow)}
-                  npx vite        # start development server
-                  npx vite build  # production build
+                  #{"Make sure you have compiled your assets:".colorize(:yellow)}
+                    npx vite        # start development server
+                    npx vite build  # production build
 
-                ERROR
+                  ERROR
               end
 
     puts message
@@ -179,7 +179,7 @@ begin
   manifest_file = ARGV[1]? || ""
 
   AssetManifestBuilder.new(source, manifest_file).build_with_retry
-rescue e
-  puts e.message.try(&.colorize(:red))
-  raise e
+rescue ex
+  puts ex.message.try(&.colorize(:red))
+  raise ex
 end

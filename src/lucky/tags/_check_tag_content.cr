@@ -20,14 +20,14 @@ module Lucky::CheckTagContent
     {%
       raise <<-MESSAGE
 
-      A tag in #{@type} has a nested String, but it must return a tag or `text`.
+        A tag in #{@type} has a nested String, but it must return a tag or `text`.
 
-      If you want to display text, try this:
+        If you want to display text, try this:
 
-        div do
-          text "my string"
-        end
-      MESSAGE
+          div do
+            text "my string"
+          end
+        MESSAGE
     %}
   end
 end

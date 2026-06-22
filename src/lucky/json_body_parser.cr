@@ -12,7 +12,7 @@ class Lucky::JsonBodyParser
     else
       JSON.parse(body)
     end
-  rescue e : JSON::ParseException
-    raise Lucky::ParamParsingError.new(@request, cause: e)
+  rescue ex : JSON::ParseException
+    raise Lucky::ParamParsingError.new(@request, cause: ex)
   end
 end

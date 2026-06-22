@@ -235,9 +235,9 @@ describe Lucky::Action do
       end
       Pipes::HaltedBefore.new(build_context, params).call
       halted_pipe = events.find! { |e| e.name == "redirect_me" }
-      halted_pipe.continued.should eq false
+      halted_pipe.continued.should be_false
       halted_pipe.position.to_s.should eq "Before"
-      halted_pipe.before?.should eq true
+      halted_pipe.before?.should be_true
     end
 
     it "publishes an event on after when halted" do
@@ -247,9 +247,9 @@ describe Lucky::Action do
       end
       Pipes::HaltedAfter.new(build_context, params).call
       halted_pipe = events.find! { |e| e.name == "redirect_me" }
-      halted_pipe.continued.should eq false
+      halted_pipe.continued.should be_false
       halted_pipe.position.to_s.should eq "After"
-      halted_pipe.after?.should eq true
+      halted_pipe.after?.should be_true
     end
   end
 end

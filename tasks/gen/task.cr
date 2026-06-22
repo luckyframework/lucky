@@ -33,13 +33,13 @@ end
 class Gen::Task < LuckyTask::Task
   summary "Generate a lucky command line task"
   help_message <<-TEXT
-  #{task_summary}
+    #{task_summary}
 
-  Example:
-    lucky gen.task email.monthly_update
+    Example:
+      lucky gen.task email.monthly_update
 
-  See Also: https://luckyframework.org/guides/command-line-tasks/custom-tasks
-  TEXT
+    See Also: https://luckyframework.org/guides/command-line-tasks/custom-tasks
+    TEXT
 
   arg :task_summary, "The -h help text for the task", optional: true
   positional_arg :task_name, "The name of the task to generate"
@@ -56,12 +56,12 @@ class Gen::Task < LuckyTask::Task
         .render(Path["."])
 
       output.puts <<-TEXT
-      Generated #{output_path.join(task_filename).colorize.green}
+        Generated #{output_path.join(task_filename).colorize.green}
 
-      Run it with:
+        Run it with:
 
-      lucky #{task_name}
-      TEXT
+        lucky #{task_name}
+        TEXT
     end
   end
 

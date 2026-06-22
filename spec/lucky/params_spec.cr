@@ -420,7 +420,7 @@ describe Lucky::Params do
       request = build_request body: "", content_type: ""
       request.query = "a=1"
       params = Lucky::Params.new(request)
-      params.nested?("a").empty?.should eq true
+      params.nested?("a").empty?.should be_true
     end
 
     it "gets nested params after unescaping" do
@@ -531,7 +531,7 @@ describe Lucky::Params do
       request = build_request body: "", content_type: ""
       request.query = "a[]=1"
       params = Lucky::Params.new(request)
-      params.nested_arrays?("a").empty?.should eq true
+      params.nested_arrays?("a").empty?.should be_true
     end
 
     it "gets nested array params after unescaping" do
@@ -573,7 +573,7 @@ describe Lucky::Params do
       params = Lucky::Params.new(request)
 
       file = params.get_file(:welcome_file)
-      file.is_a?(Lucky::UploadedFile).should eq(true)
+      file.is_a?(Lucky::UploadedFile).should be_true
       File.read(file.path).should eq "welcome file contents"
     end
 
@@ -772,7 +772,7 @@ describe Lucky::Params do
       request = build_request body: "", content_type: ""
       request.query = "a=1"
       params = Lucky::Params.new(request)
-      params.many_nested?("a").empty?.should eq true
+      params.many_nested?("a").empty?.should be_true
     end
 
     it "gets nested params after unescaping" do
@@ -844,7 +844,7 @@ describe Lucky::Params do
       route_params = {"id" => "from_route"}
       params = Lucky::Params.new(request)
 
-      params.get?(:id).should eq nil
+      params.get?(:id).should be_nil
 
       params.route_params = route_params
       params.get?(:id).should eq "from_route"

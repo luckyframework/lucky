@@ -61,26 +61,26 @@ describe Lucky::LinkHelpers do
 
   it "renders a link tag with an action" do
     view(&.link("Test", to: LinkHelpers::Index)).should contain <<-HTML
-    <a href="/link_helpers">Test</a>
-    HTML
+      <a href="/link_helpers">Test</a>
+      HTML
 
     link = view(&.link(to: LinkHelpers::Index, class: "link") { })
 
     link.should contain <<-HTML
-    <a href="/link_helpers" class="link"></a>
-    HTML
+      <a href="/link_helpers" class="link"></a>
+      HTML
   end
 
   it "renders a link tag with a block" do
     view(&.http_get_route_with_block).should contain <<-HTML
-    <a href="/link_helpers">Hello</a>
-    HTML
+      <a href="/link_helpers">Hello</a>
+      HTML
   end
 
   it "renders a link tag without text" do
     view(&.http_get_route_without_text).should contain <<-HTML
-    <a href="/link_helpers"></a>
-    HTML
+      <a href="/link_helpers"></a>
+      HTML
   end
 
   it "renders a link with uuid" do
@@ -90,26 +90,26 @@ describe Lucky::LinkHelpers do
 
   it "renders a link with a special data attribute" do
     view(&.link(to: LinkHelpers::Index, "data-is-useless": true)).should contain <<-HTML
-    <a href="/link_helpers" data-is-useless="true"></a>
-    HTML
+      <a href="/link_helpers" data-is-useless="true"></a>
+      HTML
 
     view(&.link(to: LinkHelpers::Index, "data-num": 4)).should contain <<-HTML
-    <a href="/link_helpers" data-num="4"></a>
-    HTML
+      <a href="/link_helpers" data-num="4"></a>
+      HTML
   end
 
   it "renders a link with boolean attrs" do
     view(&.http_get_route_with_text_and_attrs).should contain <<-HTML
-    <a href="/link_helpers" disabled>Text</a>
-    HTML
+      <a href="/link_helpers" disabled>Text</a>
+      HTML
 
     view(&.http_get_route_with_attrs_no_text).should contain <<-HTML
-    <a href="/link_helpers" disabled></a>
-    HTML
+      <a href="/link_helpers" disabled></a>
+      HTML
 
     view(&.http_get_route_with_block_and_attrs).should contain <<-HTML
-    <a href="/link_helpers" disabled>Hello</a>
-    HTML
+      <a href="/link_helpers" disabled>Hello</a>
+      HTML
   end
 end
 

@@ -6,21 +6,21 @@ require "json"
 class Routes < LuckyTask::Task
   summary "Show all the routes for the app"
   help_message <<-TEXT
-  #{task_summary}
+    #{task_summary}
 
-  Optionally, you can pass the --with-params flag (-p) to print out
-  the available params for each Action.
+    Optionally, you can pass the --with-params flag (-p) to print out
+    the available params for each Action.
 
-  example: lucky routes --with-params
+    example: lucky routes --with-params
 
-  You can also output routes as JSON using the --format flag (-f).
+    You can also output routes as JSON using the --format flag (-f).
 
-  example: lucky routes --format=json
+    example: lucky routes --format=json
 
-  Routing documentation:
+    Routing documentation:
 
-      https://luckyframework.org/guides/http-and-routing/routing-and-params
-  TEXT
+        https://luckyframework.org/guides/http-and-routing/routing-and-params
+    TEXT
 
   switch :with_params, "Include action params with each route", shortcut: "-p"
   arg :format, "Output format (table or json)", shortcut: "-f", optional: true
@@ -71,10 +71,10 @@ class Routes < LuckyTask::Task
     )
 
     <<-TEXT
-    #{print_banner_message}
+      #{print_banner_message}
 
-    #{table}
-    TEXT
+      #{table}
+      TEXT
   end
 
   private def build_json_from_routes(routes : Array(Tuple(String, String, Lucky::Action.class))) : String
@@ -118,9 +118,9 @@ class Routes < LuckyTask::Task
   private def print_banner_message : Colorize::Object(String)
     <<-TEXT.colorize.dim
 
-    Routing documentation:
+      Routing documentation:
 
-      https://luckyframework.org/guides/http-and-routing/routing-and-params
-    TEXT
+        https://luckyframework.org/guides/http-and-routing/routing-and-params
+      TEXT
   end
 end

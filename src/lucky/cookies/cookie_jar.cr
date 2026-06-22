@@ -133,8 +133,8 @@ class Lucky::CookieJar
       raise Lucky::CookieOverflowError.new("size of '#{key}' cookie is too big")
     end
     cookies[key.to_s] = set_cookies[key.to_s] = raw_cookie
-  rescue e : IO::Error
-    raise InvalidCookieValueError.new(key, cause: e)
+  rescue ex : IO::Error
+    raise InvalidCookieValueError.new(key, cause: ex)
   end
 
   private def encrypt(raw_value : String) : String
@@ -151,7 +151,7 @@ class Lucky::CookieJar
 
     base_64_encrypted_part = cookie_value.lchop(LUCKY_ENCRYPTION_PREFIX)
     String.new(encryptor.verify_and_decrypt(base_64_encrypted_part))
-  rescue e
+  rescue
     # an error happened while decrypting the cookie
     # we will treat that as if no cookie was passed
   end

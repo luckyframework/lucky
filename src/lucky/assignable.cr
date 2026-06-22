@@ -86,15 +86,15 @@ module Lucky::Assignable
 
   macro generate_needy_initializer
     {% if !@type.abstract? %}
-      {% sorted_assigns = ASSIGNS.sort_by { |dec|
+      {% sorted_assigns = ASSIGNS.sort_by do |dec|
            has_explicit_value =
              dec.type.is_a?(Metaclass) ||
-               dec.type.types.any? { |type|
+               dec.type.types.any? do |type|
                  (type.is_a?(Metaclass) || type.is_a?(ProcNotation) || type.is_a?(Generic)) ? false : type.names.includes?(Nil.id)
-               } ||
+               end ||
                !dec.value.is_a?(Nop)
            has_explicit_value ? 1 : 0
-         } %}
+         end %}
 
       # Check if this is a BaseComponent - if so, don't accept unused exposures
       {% is_component = @type.ancestors.any? { |ancestor| ancestor.stringify == "Lucky::BaseComponent" } %}

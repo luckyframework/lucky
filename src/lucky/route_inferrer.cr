@@ -79,7 +79,7 @@ class Lucky::RouteInferrer
 
       Expected something like:
         #{examples}
-    ERROR
+      ERROR
   end
 
   private def parent_resource_pieces : Array(String)

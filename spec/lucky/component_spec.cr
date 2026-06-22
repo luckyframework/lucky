@@ -171,8 +171,8 @@ describe "components rendering" do
   it "uses context from being mounted" do
     contents = TestMountPage.new(context_with_csrf).render.to_s
     contents.should contain <<-HTML
-    input type="hidden" name="_csrf"
-    HTML
+      input type="hidden" name="_csrf"
+      HTML
   end
 end
 

@@ -92,7 +92,7 @@ module Lucky::Routable
       {% method.raise "HTTP methods should be lower-case symbols. Use #{method.downcase} instead of #{method}." %}
     {% end %}
 
-    add_route({{method}}, {{ path }}, {{ @type.name.id }})
+    add_route({{ method }}, {{ path }}, {{ @type.name.id }})
 
     setup_call_method({{ yield }})
   end
@@ -149,14 +149,14 @@ module Lucky::Routable
 
     {% if already_used_route = NORMALIZED_ROUTES[normalized_key] %}
       {% raise <<-ERROR
-      #{original_path} in '#{@type.name}' collides with the path in '#{already_used_route[:action]}'
+        #{original_path} in '#{@type.name}' collides with the path in '#{already_used_route[:action]}'
 
-      Try this...
+        Try this...
 
-        ▸ Change the paths in one of the actions to something unique
-        ▸ Run `lucky routes` to verify all of your route paths
+          ▸ Change the paths in one of the actions to something unique
+          ▸ Run `lucky routes` to verify all of your route paths
 
-      ERROR
+        ERROR
       %}
     {% else %}
       {% NORMALIZED_ROUTES[normalized_key] = {
@@ -173,7 +173,7 @@ module Lucky::Routable
     {% path = ROUTE_SETTINGS[:prefix] + path %}
 
     enforce_route_style({{ path }}, {{ @type.name.id }})
-    enforce_route_uniqueness({{method}}, {{ path }})
+    enforce_route_uniqueness({{ method }}, {{ path }})
 
     Lucky.router.add({{ method }}, {{ path }}, {{ @type.name.id }})
     {% path_parts = path.split('/').reject(&.empty?) %}

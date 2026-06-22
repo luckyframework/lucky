@@ -23,7 +23,7 @@ module Lucky::FormatRegistry
   end
 
   # Find format by extension (checks both built-in and custom formats)
-  def self.from_extension(extension : String) : Lucky::Format | CustomFormat | Nil
+  def self.from_extension(extension : String) : Lucky::Format | CustomFormat?
     # Try built-in formats first
     if format = Lucky::Format.from_extension(extension)
       return format
@@ -38,7 +38,7 @@ module Lucky::FormatRegistry
   end
 
   # Find format by MIME type (checks both built-in and custom formats)
-  def self.from_mime_type(mime_type : String) : Lucky::Format | CustomFormat | Nil
+  def self.from_mime_type(mime_type : String) : Lucky::Format | CustomFormat?
     # Try built-in formats first
     if format = Lucky::Format.from_mime_type(mime_type)
       return format

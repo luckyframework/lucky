@@ -18,7 +18,7 @@ describe Lucky::StaticCompressionHandler do
   end
 
   it "calls next when content type isn't in Lucky::Server.gzip_content_types" do
-    Lucky::Server.temp_config(gzip_enabled: true, gzip_content_types: %w(text/html)) do
+    Lucky::Server.temp_config(gzip_enabled: true, gzip_content_types: %w[text/html]) do
       context = build_context(path: PATH)
       context.request.headers["Accept-Encoding"] = "gzip"
       next_called = false
@@ -95,7 +95,7 @@ private def gzip_path
 end
 
 private def etag
-  %{W/"#{last_modified.to_unix}"}
+  %(W/"#{last_modified.to_unix}")
 end
 
 private def last_modified

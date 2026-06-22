@@ -44,12 +44,12 @@ module Lucky
         else
           raise <<-MESSAGE
 
-          You set frame_guard_value to #{value}, but it must be one of these options:
+            You set frame_guard_value to #{value}, but it must be one of these options:
 
-            - "sameorigin"
-            - "deny"
-            - A valid URL
-          MESSAGE
+              - "sameorigin"
+              - "deny"
+              - A valid URL
+            MESSAGE
         end
       end
     end

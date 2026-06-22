@@ -63,7 +63,7 @@ describe "Format Integration" do
       ctx.request.path.should eq("/js/main.js")
     }
     result = handler.call(context)
-    result.should eq(nil)
+    result.should be_nil
   end
 
   it "supports multiple format extensions" do

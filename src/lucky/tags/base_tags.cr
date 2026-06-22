@@ -1,6 +1,6 @@
 module Lucky::BaseTags
   include Lucky::CheckTagContent
-  TAGS = %i(
+  TAGS = %i[
     a
     abbr
     address
@@ -98,22 +98,22 @@ module Lucky::BaseTags
     ul
     video
     wbr
-  )
+  ]
   RENAMED_TAGS     = {"para": "p", "select_tag": "select"}
-  EMPTY_TAGS       = %i(img br hr input meta source)
+  EMPTY_TAGS       = %i[img br hr input meta source]
   EMPTY_HTML_ATTRS = {} of String => String
 
   macro generate_tag_methods(method_name, tag)
-    # Generates a `&lt;{{method_name.id}}&gt;&lt;/{{method_name.id}}&gt;` tag.
+    # Generates a `&lt;{{ method_name.id }}&gt;&lt;/{{ method_name.id }}&gt;` tag.
     #
     # * The *content* argument is either a `String`, or any type that has included `Lucky::AllowedInTags`. This is the content that goes inside of the tag.
     # * The *options* argument is a `Hash(String, String)` of any HTML attribute that has a key/value like `class`, `id`, `type`, etc...
     # * The *attrs* argument is an `Array(Symbol)` for specifying [Boolean Attributes](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes) such as `required`, `disabled`, `autofocus`, etc...
     #
     # ```
-    # {{method_name.id}}("Sample", {"class" => "cls-1 red"}, [:required]) #=> <{{method_name.id}} class="cls-1 red" required>Sample</{{method_name.id}}>
+    # {{ method_name.id }}("Sample", {"class" => "cls-1 red"}, [:required]) #=> <{{ method_name.id }} class="cls-1 red" required>Sample</{{ method_name.id }}>
     # ```
-    def {{method_name.id}}(
+    def {{ method_name.id }}(
         content : Lucky::AllowedInTags | String = "",
         options = EMPTY_HTML_ATTRS,
         attrs : Array(Symbol) = [] of Symbol,
@@ -122,14 +122,14 @@ module Lucky::BaseTags
       boolean_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">" << HTML.escape(content.to_s) << "</{{tag.id}}>"
+      view << "<{{ tag.id }}" << tag_attrs << boolean_attrs << ">" << HTML.escape(content.to_s) << "</{{ tag.id }}>"
     end
 
-    def {{method_name.id}}(content : Lucky::AllowedInTags | String) : Nil
-      view << "<{{tag.id}}>" << HTML.escape(content.to_s) << "</{{tag.id}}>"
+    def {{ method_name.id }}(content : Lucky::AllowedInTags | String) : Nil
+      view << "<{{ tag.id }}>" << HTML.escape(content.to_s) << "</{{ tag.id }}>"
     end
 
-    def {{method_name.id}}(
+    def {{ method_name.id }}(
         content : Nil,
         options = EMPTY_HTML_ATTRS,
         attrs : Array(Symbol) = [] of Symbol,
@@ -142,14 +142,14 @@ module Lucky::BaseTags
           Try this...
 
             if value = some_nilable_value
-              {{method_name.id}}(value, class: "header")
+              {{ method_name.id }}(value, class: "header")
             end
 
           ERROR
           %}
     end
 
-    def {{method_name.id}}(
+    def {{ method_name.id }}(
         content : Time,
         options = EMPTY_HTML_ATTRS,
         attrs : Array(Symbol) = [] of Symbol,
@@ -158,75 +158,75 @@ module Lucky::BaseTags
       \{%
         raise <<-ERROR
           HTML tags content must be a String or Lucky::AllowedInTags object.
-          {{method_name.id}} received a Time object which has an ambiguous display format.
+          {{ method_name.id }} received a Time object which has an ambiguous display format.
 
           Try this...
 
-            {{method_name.id}}(current_time.to_s("%F"), html_opts)
+            {{ method_name.id }}(current_time.to_s("%F"), html_opts)
 
           ERROR
           %}
     end
 
-    def {{method_name.id}}(options, **other_options) : Nil
+    def {{ method_name.id }}(options, **other_options) : Nil
       {{ method_name.id }}("", options, **other_options)
     end
 
-    def {{method_name.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
+    def {{ method_name.id }}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      view << "<{{tag.id}}" << tag_attrs << ">"
+      view << "<{{ tag.id }}" << tag_attrs << ">"
       check_tag_content!(yield)
-      view << "</{{tag.id}}>"
+      view << "</{{ tag.id }}>"
     end
 
-    def {{method_name.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options) : Nil
+    def {{ method_name.id }}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options) : Nil
       boolean_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      view << "<{{tag.id}}" << tag_attrs << boolean_attrs << ">"
+      view << "<{{ tag.id }}" << tag_attrs << boolean_attrs << ">"
       check_tag_content!(yield)
-      view << "</{{tag.id}}>"
+      view << "</{{ tag.id }}>"
     end
 
-    def {{method_name.id}} : Nil
-      view << "<{{tag.id}}>"
+    def {{ method_name.id }} : Nil
+      view << "<{{ tag.id }}>"
       check_tag_content!(yield)
-      view << "</{{tag.id}}>"
+      view << "</{{ tag.id }}>"
     end
   end
 
   {% for tag in TAGS %}
-    generate_tag_methods(method_name: {{tag.id}}, tag: {{tag.id}})
+    generate_tag_methods(method_name: {{ tag.id }}, tag: {{ tag.id }})
   {% end %}
 
   {% for name, tag in RENAMED_TAGS %}
-    generate_tag_methods(method_name: {{name}}, tag: {{tag}})
+    generate_tag_methods(method_name: {{ name }}, tag: {{ tag }})
   {% end %}
 
   {% for tag in EMPTY_TAGS %}
-    # Generates a `&lt;{{tag.id}}&gt;` tag.
-    def {{tag.id}} : Nil
-      view << %(<{{tag.id}}>)
+    # Generates a `&lt;{{ tag.id }}&gt;` tag.
+    def {{ tag.id }} : Nil
+      view << %(<{{ tag.id }}>)
     end
 
-    def {{tag.id}}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
-      {{tag.id}}([] of Symbol, options, **other_options)
+    def {{ tag.id }}(options = EMPTY_HTML_ATTRS, **other_options) : Nil
+      {{ tag.id }}([] of Symbol, options, **other_options)
     end
 
-    # Generates a `&lt;{{tag.id}}&gt;` tag.
+    # Generates a `&lt;{{ tag.id }}&gt;` tag.
     #
     # * The *attrs* argument is an `Array(Symbol)` for specifying [Boolean Attributes](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes) such as `required`, `disabled`, `autofocus`, etc...
     # * The *options* argument is a `Hash(String, String)` of any HTML attribute that has a key/value like `class`, `id`, `type`, etc...
     #
     # ```
-    # {{tag.id}}([:required], {"class" => "cls-1"}) #=> <{{tag.id}} class="cls-1" required>
+    # {{ tag.id }}([:required], {"class" => "cls-1"}) #=> <{{ tag.id }} class="cls-1" required>
     # ```
-    def {{tag.id}}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options) : Nil
+    def {{ tag.id }}(attrs : Array(Symbol), options = EMPTY_HTML_ATTRS, **other_options) : Nil
       bool_attrs = build_boolean_attrs(attrs)
       merged_options = merge_options(other_options, options)
       tag_attrs = build_tag_attrs(merged_options)
-      view << %(<{{tag.id}}#{tag_attrs}#{bool_attrs}>)
+      view << %(<{{ tag.id }}#{tag_attrs}#{bool_attrs}>)
     end
   {% end %}
 

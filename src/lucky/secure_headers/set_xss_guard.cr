@@ -27,9 +27,9 @@ module Lucky
       private def xss_guard_value : String
         useragent = context.request.headers.fetch("User-Agent", "").downcase
         value = "1; mode=block"
-        useragent.match(/msie\s+(\d+)/).try { |match|
+        useragent.match(/msie\s+(\d+)/).try do |match|
           value = "0" if match[1].to_i < 9
-        }
+        end
         value
       end
     end

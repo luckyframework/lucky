@@ -27,12 +27,12 @@ end
 class Gen::Page < LuckyTask::Task
   summary "Generate a new HTML page"
   help_message <<-TEXT
-  #{task_summary}
+    #{task_summary}
 
-  Example:
+    Example:
 
-    lucky gen.page Users::IndexPage
-  TEXT
+      lucky gen.page Users::IndexPage
+    TEXT
 
   positional_arg :page_class, "The name of the page"
 

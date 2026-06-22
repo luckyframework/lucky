@@ -537,7 +537,7 @@ describe Lucky::Action do
 
     it "is initialized to nil" do
       action = OptionalParams::Index.new(build_context(path: ""), params)
-      action.page.should eq nil
+      action.page.should be_nil
     end
 
     it "is fetched if present" do
@@ -557,7 +557,7 @@ describe Lucky::Action do
 
     it "can specify nil as the default value" do
       action = OptionalParams::Index.new(build_context(path: ""), params)
-      action.nilable_with_explicit_nil.should eq nil
+      action.nilable_with_explicit_nil.should be_nil
     end
 
     it "overrides the default if present" do
@@ -612,7 +612,7 @@ describe Lucky::Action do
 
     it "returns nil when the key is passed with no value for an optional param" do
       action = OptionalParams::Index.new(build_context(path: "/?optional_bool_with_no_default"), params)
-      action.optional_bool_with_no_default.should eq(nil)
+      action.optional_bool_with_no_default.should be_nil
     end
   end
 end

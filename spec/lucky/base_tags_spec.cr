@@ -38,9 +38,9 @@ describe Lucky::BaseTags do
       page.video(attrs: [:autoplay, :controls, :loop], poster: "https://luckyframework.org/nothing.png") do
         page.source(src: "https://luckyframework.org/nothing.mp4", type: "video/mp4")
       end
-    end.should contain %{<video poster="https://luckyframework.org/nothing.png" autoplay controls loop><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"></video>}
+    end.should contain %(<video poster="https://luckyframework.org/nothing.png" autoplay controls loop><source src="https://luckyframework.org/nothing.mp4" type="video/mp4"></video>)
 
-    view(&.video(id: "player", "data-stream": "https://luckyframework.org/demo.mp4")).should eq %{<video id="player" data-stream="https://luckyframework.org/demo.mp4"></video>}
+    view(&.video(id: "player", "data-stream": "https://luckyframework.org/demo.mp4")).should eq %(<video id="player" data-stream="https://luckyframework.org/demo.mp4"></video>)
   end
 
   it "renders a button with a disabled boolean attribute" do
@@ -48,14 +48,14 @@ describe Lucky::BaseTags do
   end
 
   it "renders an input with autofocus boolean attribute" do
-    view(&.input(attrs: [:autofocus], type: "text")).to_s.should contain %{<input type="text" autofocus>}
+    view(&.input(attrs: [:autofocus], type: "text")).to_s.should contain %(<input type="text" autofocus>)
   end
 
   describe "#style" do
     it "renders a style tag" do
       view(&.style("body { font-size: 2em; }")).should contain <<-HTML
-      <style>body { font-size: 2em; }</style>
-      HTML
+        <style>body { font-size: 2em; }</style>
+        HTML
     end
   end
 end

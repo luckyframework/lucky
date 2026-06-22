@@ -37,25 +37,25 @@ module Lucky::TagDefaults
           {% raise <<-ERROR
 
 
-          Use 'replace_class' or 'append_class' instead of 'class'.
+            Use 'replace_class' or 'append_class' instead of 'class'.
 
-          Correct example:
+            Correct example:
 
-              tag_defaults class: "default" do |tag_builder|
-                # Use 'replace_class' or 'append_class' here
-                tag_builder.div replace_class: "replaced"
-              end
+                tag_defaults class: "default" do |tag_builder|
+                  # Use 'replace_class' or 'append_class' here
+                  tag_builder.div replace_class: "replaced"
+                end
 
-          Incorrect example:
+            Incorrect example:
 
-              tag_defaults class: "default" do |tag_builder|
-                # Won't work with 'class'
-                tag_builder.div class: "replaced"
-              end
+                tag_defaults class: "default" do |tag_builder|
+                  # Won't work with 'class'
+                  tag_builder.div class: "replaced"
+                end
 
-          -----------------
+            -----------------
 
-          ERROR
+            ERROR
           %}
         {% end %}
 

@@ -11,7 +11,7 @@ class HTTP::Server::Context
   #
   # This stores the format extracted from the URL path (e.g., .csv, .json)
   # This takes precedence over Accept header-based format detection
-  property _url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat | Nil = nil
+  property _url_format : Lucky::Format | Lucky::FormatRegistry::CustomFormat? = nil
 
   # :nodoc:
   #

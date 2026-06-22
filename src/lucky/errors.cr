@@ -40,21 +40,21 @@ module Lucky
     def initialize(@request : HTTP::Request)
       accept_header = request.headers["accept"]?
       super <<-TEXT
-      Lucky couldn't figure out what format the client accepts.
+        Lucky couldn't figure out what format the client accepts.
 
-          The client's Accept header: '#{accept_header}'
+            The client's Accept header: '#{accept_header}'
 
-      You can teach Lucky how to handle this header:
+        You can teach Lucky how to handle this header:
 
-          #{"# Add this in config/mime_types.cr".colorize.dim}
-          Lucky::MimeType.register "#{accept_header}", :custom_format
+            #{"# Add this in config/mime_types.cr".colorize.dim}
+            Lucky::MimeType.register "#{accept_header}", :custom_format
 
-      Or use one of these headers Lucky knows about:
+        Or use one of these headers Lucky knows about:
 
-          #{Lucky::MimeType.known_accept_headers.join(", ")}
+            #{Lucky::MimeType.known_accept_headers.join(", ")}
 
 
-      TEXT
+        TEXT
     end
 
     def renderable_status : Int32
@@ -73,17 +73,17 @@ module Lucky
 
     def initialize(@request : HTTP::Request, action_name : String, format : Symbol, accepted_formats : Array(Symbol))
       super <<-TEXT
-      The request wants :#{format}, but #{action_name} does not accept it.
+        The request wants :#{format}, but #{action_name} does not accept it.
 
-      Accepted formats: #{accepted_formats.map(&.to_s).join(", ")}
+        Accepted formats: #{accepted_formats.map(&.to_s).join(", ")}
 
-      Try this...
+        Try this...
 
-        ▸ Add :#{format} to 'accepted_formats' in #{action_name} or its parent class.
-        ▸ Make your request using one of the accepted formats.
+          ▸ Add :#{format} to 'accepted_formats' in #{action_name} or its parent class.
+          ▸ Make your request using one of the accepted formats.
 
 
-      TEXT
+        TEXT
     end
 
     def renderable_status : Int32
@@ -132,14 +132,14 @@ module Lucky
 
     private def _message
       <<-ERROR
-      Cookie value for '#{key}' is invalid.
+        Cookie value for '#{key}' is invalid.
 
-      Be sure the value does not contain any blank characters,
-      comma, double quote, semicolon, or double backslash.
+        Be sure the value does not contain any blank characters,
+        comma, double quote, semicolon, or double backslash.
 
-      See https://tools.ietf.org/html/rfc6265#section-4.1.1 for valid
-      characters
-      ERROR
+        See https://tools.ietf.org/html/rfc6265#section-4.1.1 for valid
+        characters
+        ERROR
     end
   end
 
@@ -232,11 +232,11 @@ module Lucky
 
     private def _message
       <<-MESSAGE
-      The flash messages (stored as JSON) failed to parse in a JSON parser.
-      Here's what it tries to parse:
+        The flash messages (stored as JSON) failed to parse in a JSON parser.
+        Here's what it tries to parse:
 
-      #{bad_json}
-      MESSAGE
+        #{bad_json}
+        MESSAGE
     end
   end
 
@@ -253,7 +253,7 @@ module Lucky
         <<-MESSAGE
           Expected subdomain matcher(s): #{@expected}
           Did not match host: #{@host}
-        MESSAGE
+          MESSAGE
       end
     end
   end

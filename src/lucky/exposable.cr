@@ -111,14 +111,14 @@ module Lucky::Exposable
     {% if method_name_str.ends_with?('?') || method_name_str.ends_with?('!') %}
       {% method_name.raise <<-ERROR
 
-      Methods ending in '?' or '!' cannot be exposed to pages.
-      #{@type.name} called `expose #{method_name_str.id}`
+        Methods ending in '?' or '!' cannot be exposed to pages.
+        #{@type.name} called `expose #{method_name_str.id}`
 
-      Try this...
+        Try this...
 
-        ▸ Define your method without ? or ! then...
-        ▸ expose #{method_name_str.gsub(/[!?]$/, "").id}
-      ERROR
+          ▸ Define your method without ? or ! then...
+          ▸ expose #{method_name_str.gsub(/[!?]$/, "").id}
+        ERROR
       %}
     {% end %}
     {% EXPOSURES << method_name.id %}

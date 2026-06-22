@@ -9,54 +9,54 @@ module Lucky::BunReloadTag
 
     tag "script" do
       raw <<-JS
-      (() => {
-        const cssPaths = #{bun_reload_connect_css_files.to_json};
-        const ws = new WebSocket('#{LuckyBun::Config.instance.dev_server.ws_url}')
-        let connected = false
+        (() => {
+          const cssPaths = #{bun_reload_connect_css_files.to_json};
+          const ws = new WebSocket('#{LuckyBun::Config.instance.dev_server.ws_url}')
+          let connected = false
 
-        const scrollKey = 'bun-scroll:' + location.pathname
-        addEventListener('load', () => {
-          const saved = sessionStorage.getItem(scrollKey)
-          if (saved !== null) {
-            sessionStorage.removeItem(scrollKey)
-            scrollTo(0, parseInt(saved, 10))
+          const scrollKey = 'bun-scroll:' + location.pathname
+          addEventListener('load', () => {
+            const saved = sessionStorage.getItem(scrollKey)
+            if (saved !== null) {
+              sessionStorage.removeItem(scrollKey)
+              scrollTo(0, parseInt(saved, 10))
+            }
+          })
+          const reload = () => {
+            sessionStorage.setItem(scrollKey, String(scrollY))
+            location.reload()
           }
-        })
-        const reload = () => {
-          sessionStorage.setItem(scrollKey, String(scrollY))
-          location.reload()
-        }
 
-        ws.onmessage = (event) => {
-          const data = JSON.parse(event.data)
+          ws.onmessage = (event) => {
+            const data = JSON.parse(event.data)
 
-          if (data.type === 'css') {
-            document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-              const linkPath = new URL(link.href).pathname.split('?')[0]
-              if (cssPaths.some(p => linkPath.startsWith(p))) {
-                const url = new URL(link.href)
-                url.searchParams.set('bust', Date.now())
-                link.href = url.toString()
-              }
-            })
-            console.log('▸ CSS reloaded')
-          } else if (data.type === 'error') {
-            console.error('✖ Build error:', data.message)
-          } else {
-            console.log('▸ Reloading...')
-            reload()
+            if (data.type === 'css') {
+              document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                const linkPath = new URL(link.href).pathname.split('?')[0]
+                if (cssPaths.some(p => linkPath.startsWith(p))) {
+                  const url = new URL(link.href)
+                  url.searchParams.set('bust', Date.now())
+                  link.href = url.toString()
+                }
+              })
+              console.log('▸ CSS reloaded')
+            } else if (data.type === 'error') {
+              console.error('✖ Build error:', data.message)
+            } else {
+              console.log('▸ Reloading...')
+              reload()
+            }
           }
-        }
 
-        ws.onopen = () => {
-          connected = true
-          console.log('▸ Live reload connected')
-        }
-        ws.onclose = () => {
-          if (connected) setTimeout(reload, 2000)
-        }
-      })()
-      JS
+          ws.onopen = () => {
+            connected = true
+            console.log('▸ Live reload connected')
+          }
+          ws.onclose = () => {
+            if (connected) setTimeout(reload, 2000)
+          }
+        })()
+        JS
     end
   end
 

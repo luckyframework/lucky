@@ -663,7 +663,7 @@ class Lucky::Params
 
   private def get_all_json(key : String) : Array(String)?
     val = parsed_json[key]?
-    return nil if val.nil?
+    return if val.nil?
 
     val.as_a?.try(&.map(&.to_s)) || [val.to_s]
   end
@@ -672,8 +672,6 @@ class Lucky::Params
     vals = params.fetch_all(key + "[]")
     if !vals.empty?
       vals
-    else
-      nil
     end
   end
 

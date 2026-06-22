@@ -27,12 +27,12 @@ end
 class Gen::Component < LuckyTask::Task
   summary "Generate a new HTML component"
   help_message <<-TEXT
-  #{task_summary}
+    #{task_summary}
 
-  Example:
+    Example:
 
-    lucky gen.component SettingsMenu
-  TEXT
+      lucky gen.component SettingsMenu
+    TEXT
 
   positional_arg :component_class, "The name of the component"
 

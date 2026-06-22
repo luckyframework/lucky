@@ -284,14 +284,14 @@ module LuckySentry
       if successful_compilations.zero?
         puts <<-ERROR
 
-        #{"---".colorize.dim}
+          #{"---".colorize.dim}
 
-        Feeling stuck? Try this...
+          Feeling stuck? Try this...
 
-          ▸  Run setup: #{"script/setup".colorize.bold}
-          ▸  Reinstall shards: #{"rm -rf lib bin && shards install".colorize.bold}
-          ▸  Ask for help: #{"https://luckyframework.org/chat".colorize.bold}
-        ERROR
+            ▸  Run setup: #{"script/setup".colorize.bold}
+            ▸  Reinstall shards: #{"rm -rf lib bin && shards install".colorize.bold}
+            ▸  Ask for help: #{"https://luckyframework.org/chat".colorize.bold}
+          ERROR
       end
     end
 

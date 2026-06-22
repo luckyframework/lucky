@@ -6,17 +6,17 @@ class Lucky::Exec < LuckyTask::Task
   name "exec"
   summary "Execute code. Use this in place of a console/REPL"
   help_message <<-TEXT
-  #{task_summary}
+    #{task_summary}
 
-    Options:
-      --editor=EDITOR, -e EDITOR    Use the EDITOR for editing code
-      --back=NUMBER, -b NUMBER      Load code NUMBER sessions back
-      --once, -o                    Only run this code once then exit
+      Options:
+        --editor=EDITOR, -e EDITOR    Use the EDITOR for editing code
+        --back=NUMBER, -b NUMBER      Load code NUMBER sessions back
+        --once, -o                    Only run this code once then exit
 
-    example: lucky exec -e emacs -b 3 -o
+      example: lucky exec -e emacs -b 3 -o
 
-    Run this task with 'lucky exec [OPTIONS]'
-  TEXT
+      Run this task with 'lucky exec [OPTIONS]'
+    TEXT
 
   arg :editor, "Which editor to use", shortcut: "-e", optional: true
   arg :back, "Load code from this many sessions back. Default is 1.",

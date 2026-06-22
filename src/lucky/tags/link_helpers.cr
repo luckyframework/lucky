@@ -12,19 +12,19 @@ module Lucky::LinkHelpers
   def link(to : Lucky::RouteHelper, href : String, **html_options, &) : Nil
     {%
       raise <<-ERROR
-      'link' cannot be called with an href.
+        'link' cannot be called with an href.
 
-      Use 'a()' or remove the href argument.
+        Use 'a()' or remove the href argument.
 
-      Example:
+        Example:
 
-        a href: "/" do
-        end
+          a href: "/" do
+          end
 
-        link to: Home::Index do
-        end
+          link to: Home::Index do
+          end
 
-      ERROR
+        ERROR
     %}
   end
 
@@ -61,35 +61,35 @@ module Lucky::LinkHelpers
   def link(text, to : String, attrs : Array(Symbol) = [] of Symbol, **html_options)
     {%
       raise <<-ERROR
-      'link' no longer supports passing a String to 'to'.
+        'link' no longer supports passing a String to 'to'.
 
-      Use 'a()' or pass an Action class instead.
+        Use 'a()' or pass an Action class instead.
 
-      Example:
+        Example:
 
-        a "Home", href: "/"
-        link "Home", to: Home::Index
+          a "Home", href: "/"
+          link "Home", to: Home::Index
 
-      ERROR
+        ERROR
     %}
   end
 
   def link(to : String, attrs : Array(Symbol) = [] of Symbol, **html_options, &)
     {%
       raise <<-ERROR
-      'link' no longer supports passing a String to 'to'.
+        'link' no longer supports passing a String to 'to'.
 
-      Use 'a()' or pass an Action class instead.
+        Use 'a()' or pass an Action class instead.
 
-      Example:
+        Example:
 
-        a href: "/" do
-        end
+          a href: "/" do
+          end
 
-        link to: Home::Index do
-        end
+          link to: Home::Index do
+          end
 
-      ERROR
+        ERROR
     %}
     yield
   end
