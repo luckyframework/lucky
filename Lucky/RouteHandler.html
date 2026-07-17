@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.19.1">
+<meta name="generator" content="Crystal Docs 1.20.3">
 <meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="lucky">
 
@@ -1077,7 +1077,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/ad81be05ccd2950015c81a8a7de9d141b830b599/src/lucky/route_handler.cr#L3" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/8c0e50f4c051e6a10b6147fb187aa69e47668154/src/lucky/route_handler.cr#L3" target="_blank">
         lucky/route_handler.cr
       </a>
     
@@ -1107,6 +1107,8 @@
     
       <li class="entry-summary">
         <a href="#call%28context%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method" class="signature"><strong>#call</strong>(context : HTTP::Server::Context)</a>
+        
+          <div class="summary"><p>Assuming a request path comes in for <code>/reports.json</code>, we find and actions with an explicit extension set like <code>/reports.json</code>.</p></div>
         
       </li>
     
@@ -1195,10 +1197,17 @@
         <a class="method-permalink" href="#call%28context%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Assuming a request path comes in for <code>/reports.json</code>,
+we find and actions with an explicit extension set like <code>/reports.json</code>. If none are found,
+then we look for <code>/reports</code> that accepts the json mime type.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/ad81be05ccd2950015c81a8a7de9d141b830b599/src/lucky/route_handler.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/8c0e50f4c051e6a10b6147fb187aa69e47668154/src/lucky/route_handler.cr#L9" target="_blank">View source</a>]
         
       </div>
     </div>
