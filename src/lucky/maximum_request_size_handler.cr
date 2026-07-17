@@ -69,10 +69,13 @@ class Lucky::MaximumRequestSizeHandler
     method = context.request.method
     path = context.request.path
 
-    if Lucky::MimeType.extract_format_from_path(path)
-      path = path.sub(/^([^?]*)\.[a-zA-Z0-9]+(\?.*)?$/, "\\1\\2")
+    # Match the full path first; only fall back to the format-stripped path so
+    # actions declared with an explicit extension keep their request_body_limit.
+    Lucky.router.find_action(method, path) || begin
+      if Lucky::MimeType.extract_format_from_path(path)
+        stripped = path.sub(/^([^?]*)\.[a-zA-Z0-9]+(\?.*)?$/, "\\1\\2")
+        Lucky.router.find_action(method, stripped)
+      end
     end
-
-    Lucky.router.find_action(method, path)
   end
 end

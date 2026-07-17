@@ -55,6 +55,17 @@ describe Lucky::MaximumRequestSizeHandler do
       end
       context.response.status.should eq(HTTP::Status::PAYLOAD_TOO_LARGE)
     end
+
+    it "honors the request body limit for actions declared with an explicit extension" do
+      context = build_request_context_with_body("/__max_request_size/explicit.json", 50_000, "POST")
+      Lucky::MaximumRequestSizeHandler.temp_config(
+        enabled: true,
+        max_size: 10_000,
+      ) do
+        run_request_size_handler(context)
+      end
+      context.response.status.should eq(HTTP::Status::OK)
+    end
   end
 end
 
@@ -98,5 +109,14 @@ private class SmallUploadAction < Lucky::Action
   end
 end
 
+private class ExplicitExtensionUploadAction < Lucky::Action
+  set_request_body_limit 50_000
+
+  def call : Lucky::Response
+    plain_text "ok"
+  end
+end
+
 Lucky.router.add :post, "/__max_request_size/large", LargeUploadAction
 Lucky.router.add :post, "/__max_request_size/small", SmallUploadAction
+Lucky.router.add :post, "/__max_request_size/explicit.json", ExplicitExtensionUploadAction
