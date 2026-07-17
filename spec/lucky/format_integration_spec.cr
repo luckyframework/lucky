@@ -19,6 +19,17 @@ private class TestReportsAction < TestAction
   end
 end
 
+private class TestExplicitExtensionAction < TestAction
+  accepted_formats [:html, :json], default: :html
+
+  class_property reached = false
+
+  get "/explicit_extension/path.json" do
+    TestExplicitExtensionAction.reached = true
+    plain_text "matched explicit json route"
+  end
+end
+
 describe "Format Integration" do
   it "handles URL format extensions correctly" do
     # Test CSV format from URL extension
@@ -64,6 +75,23 @@ describe "Format Integration" do
     }
     result = handler.call(context)
     result.should be_nil
+  end
+
+  it "matches a route that is explicitly declared with a known extension" do
+    TestExplicitExtensionAction.reached = false
+    context = build_context(path: "/explicit_extension/path.json")
+
+    Lucky::RouteHandler.new.call(context)
+
+    TestExplicitExtensionAction.reached.should be_true
+  end
+
+  it "does not set a url format when the explicit extension route matches" do
+    context = build_context(path: "/explicit_extension/path.json")
+
+    Lucky::RouteHandler.new.call(context)
+
+    context._url_format.should be_nil
   end
 
   it "supports multiple format extensions" do
