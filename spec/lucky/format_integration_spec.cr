@@ -22,7 +22,7 @@ end
 private class TestExplicitExtensionAction < TestAction
   accepted_formats [:html, :json], default: :html
 
-  class_property reached = false
+  class_property? reached = false
 
   get "/explicit_extension/path.json" do
     TestExplicitExtensionAction.reached = true
@@ -83,7 +83,7 @@ describe "Format Integration" do
 
     Lucky::RouteHandler.new.call(context)
 
-    TestExplicitExtensionAction.reached.should be_true
+    TestExplicitExtensionAction.reached?.should be_true
   end
 
   it "does not set a url format when the explicit extension route matches" do
