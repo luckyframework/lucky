@@ -1,5 +1,6 @@
 ### Changes in 1.5.0
 
+- Fixed: isolate text helper cycles between page instances. [#2048](https://github.com/luckyframework/lucky/issues/2048)
 - Updated: HTML Components will fail at compile-time for unused arguments. [#1978](https://github.com/luckyframework/lucky/pull/1978)
 - Added: format detection from URL extensions in actions. [#1979](https://github.com/luckyframework/lucky/pull/1979)
 - Added: Allow customizing the manifest retry timeout. [#1977](https://github.com/luckyframework/lucky/pull/1977)
