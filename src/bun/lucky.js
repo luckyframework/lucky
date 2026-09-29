@@ -1,4 +1,4 @@
-import {mkdirSync, readFileSync, existsSync, rmSync, watch} from 'fs'
+import {mkdirSync, readFileSync, existsSync, rmSync, statSync, watch} from 'fs'
 import {join, dirname, basename, extname} from 'path'
 import {Glob} from 'bun'
 import {resolvePlugins} from './plugins/index.js'
@@ -29,6 +29,7 @@ export default {
   watchTimers: new Map(),
   watchers: [],
   plugins: [],
+  ok: true,
 
   SRI_ALGORITHMS: ['sha256', 'sha384', 'sha512'],
 
@@ -137,7 +138,6 @@ export default {
       const json = readFileSync(join(this.root, this.CONFIG_PATH), 'utf-8')
       const user = JSON.parse(json)
       this.config = this.deepMerge(defaults, user)
-      if (user.plugins != null) this.config.plugins = user.plugins
     } catch {
       this.config = defaults
     }
@@ -198,18 +198,21 @@ export default {
         console.error(` ▸ Failed to build ${entry}`)
         if (err.errors) for (const e of err.errors) console.error(e)
         else console.error(err)
+        this.ok = false
         continue
       }
 
       if (!result.success) {
         console.error(` ▸ Failed to build ${entry}`)
         for (const log of result.logs) console.error(log)
+        this.ok = false
         continue
       }
 
       const mainOutput = result.outputs.find(o => o.path.endsWith(ext))
       if (!mainOutput) {
         console.error(` ▸ No ${type.toUpperCase()} output for ${entry}`)
+        this.ok = false
         continue
       }
       const mapOutput = result.outputs.find(o => o.kind === 'sourcemap')
@@ -291,6 +294,7 @@ export default {
     const env = this.prod ? 'production' : 'development'
     console.log(`Building manifest for ${env}...`)
     const start = performance.now()
+    this.ok = true
     this.loadConfig()
     await this.loadPlugins()
     this.cleanOutDir()
@@ -299,7 +303,9 @@ export default {
     await this.buildCSS()
     await this.writeManifest()
     const ms = Math.round(performance.now() - start)
-    console.log(`DONE  Built successfully in ${ms} ms`, this.prettyManifest())
+    const status = this.ok ? 'DONE  Built successfully' : ' ✖  Built with errors'
+    console.log(`${status} in ${ms} ms`, this.prettyManifest())
+    return this.ok
   },
 
   prettyManifest() {
@@ -346,7 +352,7 @@ export default {
 
       if (this.IGNORE_PATTERNS.some(pattern => pattern.test(base))) return
 
-      // Debounce multiple events for the same file (e.g. actual save + backup)
+      // Debounce: multiple events for the same file (e.g. actual save + backup)
       if (this.watchTimers.has(normalizedFilename)) return
       this.watchTimers.set(
         normalizedFilename,
@@ -379,13 +385,18 @@ export default {
       })()
     }
 
-    for (const dir of this.config.watchDirs) {
-      const fullDir = join(this.root, dir)
-      if (!existsSync(fullDir)) {
-        console.warn(` ▸ Watch directory ${dir} does not exist, skipping...`)
-        continue
+    for (const pattern of this.config.watchDirs) {
+      const dirs = pattern.includes('*')
+        ? await Array.fromAsync(new Glob(pattern).scan({cwd: this.root, onlyFiles: false}))
+        : [pattern]
+      for (const dir of dirs) {
+        const fullDir = join(this.root, dir)
+        if (!existsSync(fullDir) || !statSync(fullDir).isDirectory()) {
+          console.warn(` ▸ Watch directory ${dir} does not exist, skipping...`)
+          continue
+        }
+        this.watchers.push(watch(fullDir, {recursive: true}, handler))
       }
-      this.watchers.push(watch(fullDir, {recursive: true}, handler))
     }
 
     console.log('Beginning to watch your project')
@@ -447,9 +458,25 @@ export default {
       } catch {}
       process.exit(0)
     })
+
+    const parentPid = process.ppid
+    const parentCheck = setInterval(() => {
+      try {
+        process.kill(parentPid, 0)
+      } catch {
+        clearInterval(parentCheck)
+        this.shutdown()
+        try {
+          server.stop(true)
+        } catch {}
+        process.exit(0)
+      }
+    }, 1000)
   },
 
   async bake() {
-    this.dev ? await this.serve() : await this.build()
+    if (this.dev) return this.serve()
+    const ok = await this.build()
+    if (!ok) process.exit(1)
   }
 }
