@@ -24,16 +24,17 @@ export default {
   fingerprint: false,
   minify: false,
   sourcemap: null,
+  sri: [],
   wsClients: new Set(),
   watchTimers: new Map(),
+  watchers: [],
   plugins: [],
 
+  SRI_ALGORITHMS: ['sha256', 'sha384', 'sha512'],
+
   flags(input) {
-    const {debug, dev, prod, fingerprint, minify, sourcemap} = Array.isArray(
-      input
-    )
-      ? this.parseArgv(input)
-      : input
+    const {debug, dev, prod, fingerprint, minify, sourcemap, sri} =
+      Array.isArray(input) ? this.parseArgv(input) : input
     if (debug != null) this.debug = debug
     if (dev != null) this.dev = dev
     if (prod != null) this.prod = prod
@@ -42,29 +43,72 @@ export default {
     if (minify != null) this.minify = minify
     else if (prod === true) this.minify = true
     if (sourcemap != null) this.sourcemap = sourcemap
+    if (sri != null) this.sri = sri
   },
 
   SOURCEMAP_KINDS: ['inline', 'linked', 'external', 'none'],
+  BOOLEAN_FLAGS: ['debug', 'dev', 'prod', 'fingerprint', 'minify'],
 
   parseArgv(argv) {
+    return {
+      ...this.parseBooleanFlags(argv),
+      ...this.parseSourcemapFlag(argv),
+      ...this.parseSriFlag(argv)
+    }
+  },
+
+  parseBooleanFlags(argv) {
     const opts = {}
-    if (argv.includes('--debug')) opts.debug = true
-    if (argv.includes('--dev')) opts.dev = true
-    if (argv.includes('--prod')) opts.prod = true
-    if (argv.includes('--fingerprint')) opts.fingerprint = true
-    if (argv.includes('--minify')) opts.minify = true
-    const sm = argv.find(
-      a => a === '--sourcemap' || a.startsWith('--sourcemap=')
-    )
-    if (sm) {
-      const value = sm.includes('=') ? sm.split('=')[1] : 'linked'
-      if (this.SOURCEMAP_KINDS.includes(value)) opts.sourcemap = value
-      else
-        console.warn(
-          ` ▸ Ignoring --sourcemap=${value} (valid: ${this.SOURCEMAP_KINDS.join(', ')})`
-        )
+    for (const name of this.BOOLEAN_FLAGS) {
+      if (argv.includes(`--${name}`)) opts[name] = true
     }
     return opts
+  },
+
+  findValueFlag(argv, name, defaultValue) {
+    const flag = argv.find(a => a === `--${name}` || a.startsWith(`--${name}=`))
+    if (!flag) return null
+    return flag.includes('=') ? flag.split('=')[1] : defaultValue
+  },
+
+  parseSourcemapFlag(argv) {
+    const value = this.findValueFlag(argv, 'sourcemap', 'linked')
+    if (value === null) return {}
+    if (this.SOURCEMAP_KINDS.includes(value)) return {sourcemap: value}
+    console.warn(
+      ` ▸ Ignoring --sourcemap=${value} (valid: ${this.SOURCEMAP_KINDS.join(', ')})`
+    )
+    return {}
+  },
+
+  parseSriFlag(argv) {
+    const value = this.findValueFlag(argv, 'sri', 'sha384')
+    if (value === null) return {}
+    const algos = value.split(',').map(a => a.trim()).filter(Boolean)
+    const valid = algos.filter(a => this.SRI_ALGORITHMS.includes(a))
+    const invalid = algos.filter(a => !this.SRI_ALGORITHMS.includes(a))
+    if (invalid.length) {
+      console.warn(
+        ` ▸ Ignoring --sri=${invalid.join(',')} (valid: ${this.SRI_ALGORITHMS.join(', ')})`
+      )
+    }
+    return valid.length ? {sri: valid} : {}
+  },
+
+  computeSri(content) {
+    if (!this.sri.length) return null
+    return this.sri.map(algo => {
+      const hasher = new Bun.CryptoHasher(algo)
+      hasher.update(content)
+      return `${algo}-${hasher.digest('base64')}`
+    })
+  },
+
+  manifestEntry(url, content) {
+    const entry = {url}
+    const sri = this.computeSri(content)
+    if (sri) entry.sri = sri
+    return entry
   },
 
   deepMerge(target, source) {
@@ -183,7 +227,10 @@ export default {
       }
 
       await Bun.write(join(outDir, fileName), content)
-      this.manifest[`${type}/${entryName}${ext}`] = `${type}/${fileName}`
+      this.manifest[`${type}/${entryName}${ext}`] = this.manifestEntry(
+        `${type}/${fileName}`,
+        content
+      )
     }
   },
 
@@ -212,20 +259,20 @@ export default {
       for await (const file of glob.scan({cwd: fullDir, onlyFiles: true})) {
         const srcPath = join(fullDir, file)
         const content = await Bun.file(srcPath).arrayBuffer()
+        const bytes = new Uint8Array(content)
 
         const ext = extname(file)
         const name = file.slice(0, -ext.length) || file
-        const fileName = this.fingerprintName(
-          name,
-          ext,
-          new Uint8Array(content)
-        )
+        const fileName = this.fingerprintName(name, ext, bytes)
         const destPath = join(destDir, fileName)
 
         mkdirSync(dirname(destPath), {recursive: true})
         await Bun.write(destPath, content)
 
-        this.manifest[`${assetType}/${file}`] = `${assetType}/${fileName}`
+        this.manifest[`${assetType}/${file}`] = this.manifestEntry(
+          `${assetType}/${fileName}`,
+          bytes
+        )
       }
     }
   },
@@ -257,7 +304,10 @@ export default {
 
   prettyManifest() {
     const lines = Object.entries(this.manifest)
-      .map(([key, value]) => `  ${key} → ${value}`)
+      .map(([key, value]) => {
+        const url = value && typeof value === 'object' ? value.url : value
+        return `  ${key} → ${url}`
+      })
       .join('\n')
     return `\n${lines}\n\n`
   },
@@ -335,10 +385,25 @@ export default {
         console.warn(` ▸ Watch directory ${dir} does not exist, skipping...`)
         continue
       }
-      watch(fullDir, {recursive: true}, handler)
+      this.watchers.push(watch(fullDir, {recursive: true}, handler))
     }
 
     console.log('Beginning to watch your project')
+  },
+
+  shutdown() {
+    for (const w of this.watchers) {
+      try {
+        w.close()
+      } catch {}
+    }
+    this.watchers = []
+    for (const client of this.wsClients) {
+      try {
+        client.close()
+      } catch {}
+    }
+    this.wsClients.clear()
   },
 
   async serve() {
@@ -350,7 +415,7 @@ export default {
     const debug = this.debug
     const wsClients = this.wsClients
 
-    Bun.serve({
+    const server = Bun.serve({
       hostname,
       port,
       fetch(req, server) {
@@ -373,6 +438,15 @@ export default {
 
     const protocol = secure ? 'wss' : 'ws'
     console.log(`\n\n    🔌 Live reload at ${protocol}://${host}:${port}\n\n`)
+
+    process.on('SIGINT', () => {
+      console.log('\n ▸ Shutting down...')
+      this.shutdown()
+      try {
+        server.stop(true)
+      } catch {}
+      process.exit(0)
+    })
   },
 
   async bake() {

@@ -1,4 +1,4 @@
-const CSS_REGEX = /((?:url\(\s*|@import\s+)['"]?(?:glob:)?)\$\//g
+const CSS_REGEX = /((?:url\(\s*|@import\s+|not\s+)['"]?(?:glob:)?)\$\//g
 const JS_REGEX =
   /((?:from\s+|require\s*\(\s*|import\s*\(\s*)['"](?:glob:)?)\$\//g
 

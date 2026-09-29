@@ -57,9 +57,29 @@ struct AssetManifestBuilder
   private def build_bun_manifest
     config = bun_config
     JSON.parse(File.read(@manifest_path)).as_h.each do |key, value|
-      path = File.join(config.public_path, value.as_s)
+      entry = value.as_h? || raise_bun_migration_error
+      url_value = entry["url"]?.try(&.as_s?) || raise_bun_invalid_entry(key)
+      path = File.join(config.public_path, url_value)
       puts %({% ::Lucky::AssetHelpers::ASSET_MANIFEST["#{key}"] = "#{path}" %})
+      if sri = entry["sri"]?
+        items = sri.as_a.map { |s| %("#{s.as_s}") }.join(", ")
+        puts %({% ::Lucky::AssetHelpers::ASSET_SRI["#{key}"] = [#{items}] of String %})
+      end
     end
+  end
+
+  private def raise_bun_migration_error
+    puts "#{"Bun manifest predates bun_bun_bundle 0.13.".colorize(:red)}"
+    puts ""
+    puts "#{"Rebuild your assets:".colorize(:yellow)}"
+    puts "  bun run build"
+    puts ""
+    raise "Bun manifest predates bun_bun_bundle 0.13"
+  end
+
+  private def raise_bun_invalid_entry(key)
+    puts "#{"Invalid Bun manifest entry for '#{key}': missing 'url'".colorize(:red)}"
+    raise "Invalid Bun manifest entry for '#{key}'"
   end
 
   # Builds an internal asset manifest from Laravel Mix's generated manifest
