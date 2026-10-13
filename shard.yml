@@ -58,6 +58,6 @@ development_dependencies:
     version: ~> 0.3.0
   ameba:
     github: crystal-ameba/ameba
-    branch: master
+    version: ~> 1.7.0
 
 license: MIT
