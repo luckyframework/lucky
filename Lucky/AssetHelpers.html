@@ -1089,7 +1089,7 @@ and allow for setting a CDN.</p>
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/cae89b54ef84c476e95cf5b60e546a85a70793fa/src/lucky/asset_helpers.cr#L8" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/ddd7318e29a28ed7e20c027285f3abd943636c46/src/lucky/asset_helpers.cr#L8" target="_blank">
         lucky/asset_helpers.cr
       </a>
     
@@ -1112,6 +1112,11 @@ and allow for setting a CDN.</p>
     
       <dt class="entry-const" id="ASSET_MANIFEST">
         <strong>ASSET_MANIFEST</strong> = <code>{} <span class="k">of</span> <span class="t">String</span> <span class="o">=&gt;</span> <span class="t">String</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="ASSET_SRI">
+        <strong>ASSET_SRI</strong> = <code>{} <span class="k">of</span> <span class="t">String</span> <span class="o">=&gt;</span> <span class="t">Array</span>(<span class="t">String</span>)</code>
       </dt>
       
     
@@ -1193,6 +1198,13 @@ and allow for setting a CDN.</p>
         
       </li>
     
+      <li class="entry-summary">
+        <a href="#dynamic_asset_sri%28path%3AString%29%3AArray%28String%29-instance-method" class="signature"><strong>#dynamic_asset_sri</strong>(path : String) : Array(String)</a>
+        
+          <div class="summary"><p>Returns the Subresource Integrity digests for an asset, or an empty array if none were computed at build time.</p></div>
+        
+      </li>
+    
   </ul>
 
 
@@ -1230,7 +1242,7 @@ and allow for setting a CDN.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/cae89b54ef84c476e95cf5b60e546a85a70793fa/src/lucky/asset_helpers.cr#L122" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/ddd7318e29a28ed7e20c027285f3abd943636c46/src/lucky/asset_helpers.cr#L134" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1275,7 +1287,7 @@ Instead use <code><a href="../Lucky/AssetHelpers.html#dynamic_asset%28path%3AStr
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/cae89b54ef84c476e95cf5b60e546a85a70793fa/src/lucky/asset_helpers.cr#L57" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/ddd7318e29a28ed7e20c027285f3abd943636c46/src/lucky/asset_helpers.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1310,7 +1322,7 @@ defined in the shared <code>config/bun.json</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/cae89b54ef84c476e95cf5b60e546a85a70793fa/src/lucky/asset_helpers.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/ddd7318e29a28ed7e20c027285f3abd943636c46/src/lucky/asset_helpers.cr#L34" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1352,7 +1364,31 @@ manually test that the asset is returned as expected.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/cae89b54ef84c476e95cf5b60e546a85a70793fa/src/lucky/asset_helpers.cr#L110" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/ddd7318e29a28ed7e20c027285f3abd943636c46/src/lucky/asset_helpers.cr#L111" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dynamic_asset_sri(path:String):Array(String)-instance-method">
+      <div class="signature">
+        
+        def <strong>dynamic_asset_sri</strong>(path : <a href="../String.html">String</a>) : Array(<a href="../String.html">String</a>)
+
+        <a class="method-permalink" href="#dynamic_asset_sri%28path%3AString%29%3AArray%28String%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the Subresource Integrity digests for an asset, or an empty
+array if none were computed at build time.</p>
+<pre><code class="language-crystal"><span class="t">Lucky</span><span class="t">::</span><span class="t">AssetHelpers</span>.dynamic_asset_sri(<span class="s">&quot;js/app.js&quot;</span>)
+<span class="c"># =&gt; [&quot;sha384-...&quot;]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/ddd7318e29a28ed7e20c027285f3abd943636c46/src/lucky/asset_helpers.cr#L126" target="_blank">View source</a>]
         
       </div>
     </div>
