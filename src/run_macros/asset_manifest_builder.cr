@@ -62,7 +62,7 @@ struct AssetManifestBuilder
       path = File.join(config.public_path, url_value)
       puts %({% ::Lucky::AssetHelpers::ASSET_MANIFEST["#{key}"] = "#{path}" %})
       if sri = entry["sri"]?
-        items = sri.as_a.map { |s| %("#{s.as_s}") }.join(", ")
+        items = sri.as_a.map { |resource| %("#{resource.as_s}") }.join(", ")
         puts %({% ::Lucky::AssetHelpers::ASSET_SRI["#{key}"] = [#{items}] of String %})
       end
     end
