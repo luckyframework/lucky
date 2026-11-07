@@ -465,7 +465,7 @@ describe Lucky::Action do
     end
 
     it "renders with optional path params" do
-      response = OptionalRouteParams::Index.new(build_context("/complex_posts/1/2/3"), {"required" => "1", "optional_1" => "2", "optional_2" => "3"}).call
+      response = OptionalRouteParams::Index.new(build_context(path: "/complex_posts/1/2/3"), {"required" => "1", "optional_1" => "2", "optional_2" => "3"}).call
       response.body.to_s.should eq("test 1 2 3 2")
     end
   end
@@ -508,7 +508,7 @@ describe Lucky::Action do
     end
 
     it "raises for missing required params" do
-      action = RequiredParams::Index.new(build_context(path: ""), params)
+      action = RequiredParams::Index.new(build_context(path: "/"), params)
       expect_raises(Lucky::MissingParamError) { action.required_page }
     end
 
@@ -536,7 +536,7 @@ describe Lucky::Action do
     end
 
     it "is initialized to nil" do
-      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action = OptionalParams::Index.new(build_context(path: "/"), params)
       action.page.should be_nil
     end
 
@@ -551,12 +551,12 @@ describe Lucky::Action do
     end
 
     it "can specify a default value" do
-      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action = OptionalParams::Index.new(build_context(path: "/"), params)
       action.with_default.should eq "default"
     end
 
     it "can specify nil as the default value" do
-      action = OptionalParams::Index.new(build_context(path: ""), params)
+      action = OptionalParams::Index.new(build_context(path: "/"), params)
       action.nilable_with_explicit_nil.should be_nil
     end
 

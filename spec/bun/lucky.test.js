@@ -1,5 +1,14 @@
 import {describe, test, expect, beforeEach, afterAll} from 'bun:test'
-import {mkdirSync, writeFileSync, rmSync, existsSync, readFileSync} from 'fs'
+import {
+  mkdirSync,
+  writeFileSync,
+  rmSync,
+  existsSync,
+  readFileSync,
+  openSync,
+  closeSync,
+  fsyncSync
+} from 'fs'
 import {join, basename} from 'path'
 import LuckyBun from '../../src/bun/lucky.js'
 
@@ -17,6 +26,7 @@ beforeEach(() => {
   LuckyBun.fingerprint = false
   LuckyBun.minify = false
   LuckyBun.sourcemap = null
+  LuckyBun.sri = []
   LuckyBun.root = TEST_DIR
 })
 
@@ -28,6 +38,14 @@ function createFile(relativePath, content = '') {
   const fullPath = join(TEST_DIR, relativePath)
   mkdirSync(join(fullPath, '..'), {recursive: true})
   writeFileSync(fullPath, content)
+  // Force the file data to disk so Bun.build can read it on container
+  // filesystems where dir entries land before file contents do.
+  const fd = openSync(fullPath, 'r')
+  try {
+    fsyncSync(fd)
+  } finally {
+    closeSync(fd)
+  }
   return fullPath
 }
 
@@ -112,6 +130,32 @@ describe('flags', () => {
     LuckyBun.flags(['--sourcemap=bogus'])
     expect(LuckyBun.sourcemap).toBe(null)
   })
+
+  test('--sri accepts a comma-separated list of algorithms', () => {
+    LuckyBun.flags(['--sri=sha256,sha384'])
+    expect(LuckyBun.sri).toEqual(['sha256', 'sha384'])
+  })
+
+  test('bare --sri defaults to sha384', () => {
+    LuckyBun.flags(['--sri'])
+    expect(LuckyBun.sri).toEqual(['sha384'])
+  })
+
+  test('--sri ignores unknown algorithms', () => {
+    LuckyBun.flags(['--sri=md5,sha384'])
+    expect(LuckyBun.sri).toEqual(['sha384'])
+  })
+
+  test('--sri= with an empty value leaves SRI disabled', () => {
+    LuckyBun.sri = []
+    LuckyBun.flags(['--sri='])
+    expect(LuckyBun.sri).toEqual([])
+  })
+
+  test('--prod does NOT auto-enable SRI', () => {
+    LuckyBun.flags(['--prod'])
+    expect(LuckyBun.sri).toEqual([])
+  })
 })
 
 describe('deepMerge', () => {
@@ -186,7 +230,7 @@ describe('loadConfig', () => {
     expect(LuckyBun.config.devServer.host).toBe('127.0.0.1')
   })
 
-  test('user can override plugins', () => {
+  test('user plugin lists replace defaults per type', () => {
     createFile(
       'config/bun.json',
       JSON.stringify({
@@ -197,6 +241,17 @@ describe('loadConfig', () => {
 
     expect(LuckyBun.config.plugins.css).toEqual(['cssAliases'])
     expect(LuckyBun.config.plugins.js).toEqual(['config/bun/banner.js'])
+  })
+
+  test('overriding one plugin type keeps defaults for the other', () => {
+    createFile(
+      'config/bun.json',
+      JSON.stringify({plugins: {js: ['config/bun/banner.js']}})
+    )
+    LuckyBun.loadConfig()
+
+    expect(LuckyBun.config.plugins.js).toEqual(['config/bun/banner.js'])
+    expect(LuckyBun.config.plugins.css).toEqual(['aliases', 'cssGlobs'])
   })
 })
 
@@ -237,14 +292,14 @@ describe('buildAssets', () => {
   test('builds JS files', async () => {
     await buildJS({'src/js/app.js': 'console.log("test")'})
 
-    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
+    expect(LuckyBun.manifest['js/app.js']).toEqual({url: 'js/app.js'})
     expect(existsSync(join(TEST_DIR, 'public/assets/js/app.js'))).toBe(true)
   })
 
   test('builds CSS files', async () => {
     await buildCSS({'src/css/app.css': 'body { color: pink }'})
 
-    expect(LuckyBun.manifest['css/app.css']).toBe('css/app.css')
+    expect(LuckyBun.manifest['css/app.css']).toEqual({url: 'css/app.css'})
     expect(existsSync(join(TEST_DIR, 'public/assets/css/app.css'))).toBe(true)
   })
 
@@ -253,7 +308,9 @@ describe('buildAssets', () => {
     await setupProject({'src/js/app.js': 'console.log("prod")'})
     await LuckyBun.buildJS()
 
-    expect(LuckyBun.manifest['js/app.js']).toMatch(/^js\/app-[a-f0-9]{8}\.js$/)
+    expect(LuckyBun.manifest['js/app.js'].url).toMatch(
+      /^js\/app-[a-f0-9]{8}\.js$/
+    )
   })
 
   test('writes linked sourcemap alongside JS', async () => {
@@ -272,7 +329,7 @@ describe('buildAssets', () => {
     await setupProject({'src/js/app.js': 'console.log("both")'})
     await LuckyBun.buildJS()
 
-    const fingerprinted = LuckyBun.manifest['js/app.js']
+    const fingerprinted = LuckyBun.manifest['js/app.js'].url
     const jsPath = join(TEST_DIR, 'public/assets', fingerprinted)
     const mapPath = `${jsPath}.map`
     expect(existsSync(jsPath)).toBe(true)
@@ -309,7 +366,7 @@ describe('buildAssets', () => {
     )
     await LuckyBun.buildJS()
 
-    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
+    expect(LuckyBun.manifest['js/app.js']).toEqual({url: 'js/app.js'})
   })
 
   test('builds multiple JS entry points', async () => {
@@ -321,8 +378,8 @@ describe('buildAssets', () => {
       {entryPoints: {js: ['src/js/app.js', 'src/js/admin.js']}}
     )
 
-    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
-    expect(LuckyBun.manifest['js/admin.js']).toBe('js/admin.js')
+    expect(LuckyBun.manifest['js/app.js']).toEqual({url: 'js/app.js'})
+    expect(LuckyBun.manifest['js/admin.js']).toEqual({url: 'js/admin.js'})
   })
 
   test('builds TypeScript files', async () => {
@@ -332,7 +389,7 @@ describe('buildAssets', () => {
     )
     await LuckyBun.buildJS()
 
-    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
+    expect(LuckyBun.manifest['js/app.js']).toEqual({url: 'js/app.js'})
     expect(existsSync(join(TEST_DIR, 'public/assets/js/app.js'))).toBe(true)
     expect(readOutput('js/app.js')).toContain('hello')
   })
@@ -349,7 +406,7 @@ describe('buildAssets', () => {
     )
     await LuckyBun.buildJS()
 
-    expect(LuckyBun.manifest['js/app.js']).toBe('js/app.js')
+    expect(LuckyBun.manifest['js/app.js']).toEqual({url: 'js/app.js'})
     expect(existsSync(join(TEST_DIR, 'public/assets/js/app.js'))).toBe(true)
   })
 
@@ -362,8 +419,49 @@ describe('buildAssets', () => {
       {entryPoints: {css: ['src/css/app.css', 'src/css/admin.css']}}
     )
 
-    expect(LuckyBun.manifest['css/app.css']).toBe('css/app.css')
-    expect(LuckyBun.manifest['css/admin.css']).toBe('css/admin.css')
+    expect(LuckyBun.manifest['css/app.css']).toEqual({url: 'css/app.css'})
+    expect(LuckyBun.manifest['css/admin.css']).toEqual({url: 'css/admin.css'})
+  })
+
+  test('embeds SRI digests when sri is configured', async () => {
+    LuckyBun.sri = ['sha384']
+    await setupProject({'src/js/app.js': 'console.log("hi")'})
+    await LuckyBun.buildJS()
+
+    const entry = LuckyBun.manifest['js/app.js']
+    expect(entry.url).toBe('js/app.js')
+    expect(entry.sri).toHaveLength(1)
+    expect(entry.sri[0]).toMatch(/^sha384-[A-Za-z0-9+/=]+$/)
+  })
+
+  test('embeds one SRI digest per requested algorithm', async () => {
+    LuckyBun.sri = ['sha256', 'sha384']
+    await setupProject({'src/css/app.css': 'body { color: red }'})
+    await LuckyBun.buildCSS()
+
+    const entry = LuckyBun.manifest['css/app.css']
+    expect(entry.sri).toHaveLength(2)
+    expect(entry.sri[0]).toMatch(/^sha256-/)
+    expect(entry.sri[1]).toMatch(/^sha384-/)
+  })
+
+  test('flips ok to false when an entry fails to build', async () => {
+    LuckyBun.ok = true
+    await setupProject({
+      'src/js/app.js': "import 'does-not-exist-anywhere'"
+    })
+    await LuckyBun.buildJS()
+
+    expect(LuckyBun.ok).toBe(false)
+    expect(LuckyBun.manifest['js/app.js']).toBeUndefined()
+  })
+
+  test('leaves ok true when all entries succeed', async () => {
+    LuckyBun.ok = true
+    await setupProject({'src/js/app.js': 'console.log("ok")'})
+    await LuckyBun.buildJS()
+
+    expect(LuckyBun.ok).toBe(true)
   })
 })
 
@@ -380,9 +478,13 @@ describe('copyStaticAssets', () => {
       'src/fonts/Inter.woff2': 'fake-font-data'
     })
 
-    expect(LuckyBun.manifest['images/logo.png']).toBe('images/logo.png')
+    expect(LuckyBun.manifest['images/logo.png']).toEqual({
+      url: 'images/logo.png'
+    })
     expect(LuckyBun.manifest['images/icons/arrow.svg']).toBeDefined()
-    expect(LuckyBun.manifest['fonts/Inter.woff2']).toBe('fonts/Inter.woff2')
+    expect(LuckyBun.manifest['fonts/Inter.woff2']).toEqual({
+      url: 'fonts/Inter.woff2'
+    })
     expect(existsSync(join(TEST_DIR, 'public/assets/images/logo.png'))).toBe(
       true
     )
@@ -395,9 +497,18 @@ describe('copyStaticAssets', () => {
     LuckyBun.fingerprint = true
     await copyAssets({'src/images/logo.png': 'fake-image-data'})
 
-    expect(LuckyBun.manifest['images/logo.png']).toMatch(
+    expect(LuckyBun.manifest['images/logo.png'].url).toMatch(
       /^images\/logo-[a-f0-9]{8}\.png$/
     )
+  })
+
+  test('computes SRI digests for static assets when configured', async () => {
+    LuckyBun.sri = ['sha384']
+    await copyAssets({'src/images/logo.png': 'fake-image-data'})
+
+    const entry = LuckyBun.manifest['images/logo.png']
+    expect(entry.sri).toHaveLength(1)
+    expect(entry.sri[0]).toMatch(/^sha384-[A-Za-z0-9+/=]+$/)
   })
 
   test('skips missing static directories', async () => {
@@ -419,16 +530,42 @@ describe('cleanOutDir', () => {
 })
 
 describe('writeManifest', () => {
-  test('writes manifest JSON', async () => {
+  test('writes manifest JSON with object entries', async () => {
     await setupProject()
-    LuckyBun.manifest = {'js/app.js': 'js/app-abc123.js'}
+    LuckyBun.manifest = {'js/app.js': {url: 'js/app-abc123.js'}}
     await LuckyBun.writeManifest()
     const content = readFileSync(
       join(TEST_DIR, LuckyBun.config.manifestPath),
       'utf-8'
     )
 
-    expect(JSON.parse(content)).toEqual({'js/app.js': 'js/app-abc123.js'})
+    expect(JSON.parse(content)).toEqual({
+      'js/app.js': {url: 'js/app-abc123.js'}
+    })
+  })
+
+  test('preserves SRI digests in the manifest', async () => {
+    await setupProject()
+    LuckyBun.manifest = {
+      'js/app.js': {url: 'js/app-abc123.js', sri: ['sha384-xyz']}
+    }
+    await LuckyBun.writeManifest()
+    const data = JSON.parse(
+      readFileSync(join(TEST_DIR, LuckyBun.config.manifestPath), 'utf-8')
+    )
+
+    expect(data['js/app.js'].sri).toEqual(['sha384-xyz'])
+  })
+
+  test('does not write a $schema key', async () => {
+    await setupProject()
+    LuckyBun.manifest = {'js/app.js': {url: 'js/app-abc123.js'}}
+    await LuckyBun.writeManifest()
+    const data = JSON.parse(
+      readFileSync(join(TEST_DIR, LuckyBun.config.manifestPath), 'utf-8')
+    )
+
+    expect(data.$schema).toBeUndefined()
   })
 })
 
@@ -458,8 +595,8 @@ describe('loadPlugins', () => {
     expect(LuckyBun.plugins.find(p => p.name === 'js-transforms')).toBeDefined()
   })
 
-  test('loads no plugins when config is empty', async () => {
-    createFile('config/bun.json', JSON.stringify({plugins: {}}))
+  test('loads no plugins when plugin lists are empty', async () => {
+    createFile('config/bun.json', JSON.stringify({plugins: {css: [], js: []}}))
     LuckyBun.loadConfig()
     await LuckyBun.loadPlugins()
 
@@ -469,7 +606,7 @@ describe('loadPlugins', () => {
   test('handles unknown built-in plugin gracefully', async () => {
     createFile(
       'config/bun.json',
-      JSON.stringify({plugins: {css: ['nonExistent']}})
+      JSON.stringify({plugins: {css: ['nonExistent'], js: []}})
     )
     LuckyBun.loadConfig()
     await LuckyBun.loadPlugins()
@@ -486,7 +623,7 @@ describe('loadPlugins', () => {
     )
     createFile(
       'config/bun.json',
-      JSON.stringify({plugins: {css: ['config/bun/uppercase.js']}})
+      JSON.stringify({plugins: {css: ['config/bun/uppercase.js'], js: []}})
     )
     LuckyBun.loadConfig()
     await LuckyBun.loadPlugins()
@@ -522,6 +659,28 @@ describe('aliases plugin', () => {
     expect(content).toContain('42')
   })
 
+  test('replaces $/ references in bare side-effect imports', async () => {
+    const aliases = (await import('../../src/bun/plugins/aliases.js')).default
+    const transform = aliases({root: '/root'})
+
+    expect(transform("import '$/lib/setup.js'", {path: 'app.js'})).toBe(
+      "import '/root/lib/setup.js'"
+    )
+    expect(transform('import "$/lib/setup.js"', {path: 'app.js'})).toBe(
+      'import "/root/lib/setup.js"'
+    )
+  })
+
+  test('builds JS with a bare side-effect import of a $/ path', async () => {
+    const content = await buildJS({
+      'src/js/app.js': "import '$/lib/setup.js'\nconsole.log('app')",
+      'lib/setup.js': "console.log('side effect')"
+    })
+
+    expect(content).not.toContain('$/')
+    expect(content).toContain('side effect')
+  })
+
   test('replaces $/ references in CSS @import', async () => {
     const content = await buildCSS({
       'src/css/app.css': "@import '$/lib/reset.css';",
@@ -530,6 +689,19 @@ describe('aliases plugin', () => {
 
     expect(content).not.toContain('$/')
     expect(content).toContain('margin')
+  })
+
+  test('replaces $/ references in CSS @import not clauses', async () => {
+    const content = await buildCSS({
+      'src/css/app.css':
+        "@import '$/src/components/**/*.css' not '$/src/components/admin/**';",
+      'src/components/button.css': '.button { color: red }',
+      'src/components/admin/panel.css': '.panel { color: blue }'
+    })
+
+    expect(content).not.toContain('$/')
+    expect(content).toContain('.button')
+    expect(content).not.toContain('.panel')
   })
 
   test('leaves non-alias urls untouched', async () => {
@@ -677,6 +849,53 @@ describe('cssGlobs plugin', () => {
 
     expect(content).toContain('.button')
     expect(content).toContain('.input')
+    expect(content).not.toContain('.panel')
+  })
+
+  test('preserves layer(name) on glob @import', async () => {
+    const content = await buildCSS({
+      'src/css/app.css':
+        "@import './components/*.css' layer(components);",
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/card.css': '.card { color: blue }'
+    })
+
+    expect(content).toContain('@layer components')
+    expect(content).toContain('.button')
+    expect(content).toContain('.card')
+  })
+
+  test('preserves nested layer name', async () => {
+    const content = await buildCSS({
+      'src/css/app.css':
+        "@import './components/*.css' layer(ui.components);",
+      'src/css/components/button.css': '.button { color: red }'
+    })
+
+    expect(content).toContain('@layer ui.components')
+    expect(content).toContain('.button')
+  })
+
+  test('preserves anonymous layer on glob @import', async () => {
+    const content = await buildCSS({
+      'src/css/app.css': "@import './components/*.css' layer;",
+      'src/css/components/button.css': '.button { color: red }'
+    })
+
+    expect(content).toContain('@layer')
+    expect(content).toContain('.button')
+  })
+
+  test('combines layer and not clauses', async () => {
+    const content = await buildCSS({
+      'src/css/app.css':
+        "@import './components/**/*.css' layer(components) not './components/admin/**';",
+      'src/css/components/button.css': '.button { color: red }',
+      'src/css/components/admin/panel.css': '.panel { color: blue }'
+    })
+
+    expect(content).toContain('@layer components')
+    expect(content).toContain('.button')
     expect(content).not.toContain('.panel')
   })
 
@@ -903,6 +1122,29 @@ describe('full build', () => {
     expect(existsSync(join(TEST_DIR, LuckyBun.config.manifestPath))).toBe(true)
   })
 
+  test('persists object-shape entries with sri when configured', async () => {
+    LuckyBun.sri = ['sha384']
+    await setupProject({
+      'src/js/app.js': 'console.log("on disk")',
+      'src/css/app.css': 'body { color: red }',
+      'src/images/logo.png': 'fake-image'
+    })
+    LuckyBun.cleanOutDir()
+    await LuckyBun.copyStaticAssets()
+    await LuckyBun.buildJS()
+    await LuckyBun.buildCSS()
+    await LuckyBun.writeManifest()
+
+    const data = JSON.parse(
+      readFileSync(join(TEST_DIR, LuckyBun.config.manifestPath), 'utf-8')
+    )
+    expect(data.$schema).toBeUndefined()
+    expect(data['js/app.js'].url).toBe('js/app.js')
+    expect(data['js/app.js'].sri[0]).toMatch(/^sha384-/)
+    expect(data['css/app.css'].sri[0]).toMatch(/^sha384-/)
+    expect(data['images/logo.png'].url).toBe('images/logo.png')
+  })
+
   test('clean build removes previous output', async () => {
     createFile('public/assets/js/stale.js', 'old stuff')
     await setupProject({'src/js/app.js': 'console.log("fresh")'})
@@ -912,13 +1154,48 @@ describe('full build', () => {
     expect(existsSync(join(TEST_DIR, 'public/assets/js/stale.js'))).toBe(false)
     expect(existsSync(join(TEST_DIR, 'public/assets/js/app.js'))).toBe(true)
   })
+
+  test('build() returns true when all entries succeed', async () => {
+    createFile('src/js/app.js', 'console.log("ok")')
+    createFile('src/css/app.css', 'body { color: red }')
+
+    expect(await LuckyBun.build()).toBe(true)
+  })
+
+  test('build() returns false when any entry fails', async () => {
+    createFile('src/js/app.js', "import 'does-not-exist-anywhere'")
+    createFile('src/css/app.css', 'body { color: red }')
+
+    expect(await LuckyBun.build()).toBe(false)
+  })
+})
+
+describe('watch', () => {
+  test('watches a literal directory path', async () => {
+    createFile('src/css/app.css', '')
+    await setupProject({}, {watchDirs: ['src/css']})
+
+    await LuckyBun.watch()
+    expect(LuckyBun.watchers.length).toBe(1)
+    LuckyBun.shutdown()
+  })
+
+  test('expands glob patterns to matching directories', async () => {
+    createFile('slices/admin/assets/css/app.css', '')
+    createFile('slices/auth/assets/css/app.css', '')
+    await setupProject({}, {watchDirs: ['slices/*/assets']})
+
+    await LuckyBun.watch()
+    expect(LuckyBun.watchers.length).toBe(2)
+    LuckyBun.shutdown()
+  })
 })
 
 describe('prettyManifest', () => {
   test('formats manifest entries and handles empty manifest', () => {
     LuckyBun.manifest = {
-      'js/app.js': 'js/app-abc123.js',
-      'css/app.css': 'css/app-def456.css'
+      'js/app.js': {url: 'js/app-abc123.js'},
+      'css/app.css': {url: 'css/app-def456.css'}
     }
     const output = LuckyBun.prettyManifest()
     expect(output).toContain('js/app.js → js/app-abc123.js')

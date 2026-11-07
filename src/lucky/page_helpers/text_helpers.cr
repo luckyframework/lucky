@@ -1,7 +1,5 @@
 # These helper methods will return a `String`.
 module Lucky::TextHelpers
-  @@_cycles = Hash(String, Cycle).new
-
   # Shorten text after a length point.
   #
   # Unlike `truncate`, this method can be used inside of other tags because it
@@ -181,60 +179,20 @@ module Lucky::TextHelpers
     cycle.reset if cycle
   end
 
-  class Cycle
-    @values : Array(String)
-    getter :values
-    @index = 0
-
-    def initialize(*values)
-      string_values = Array(String).new
-      values.each { |v| string_values << v.to_s }
-      @values = string_values
-      reset
-    end
-
-    def initialize(values : Array(String))
-      @values = Array(String).new
-      @values = values
-      reset
-    end
-
-    def reset : Int32
-      @index = 0
-    end
-
-    def current_value : String
-      @values[previous_index]?.to_s
-    end
-
-    def to_s(io : IO)
-      io << @values[@index]?
-      @index = next_index
-    end
-
-    private def next_index : Int32
-      step_index(1)
-    end
-
-    private def previous_index : Int32
-      step_index(-1)
-    end
-
-    private def step_index(n : Int32) : Int32
-      (@index + n) % @values.size
-    end
-  end
-
   def reset_cycles : Hash(String, Cycle)
-    @@_cycles = Hash(String, Cycle).new
+    @cycles = Hash(String, Cycle).new
   end
 
   private def get_cycle(name : String) : Cycle?
-    @@_cycles[name]?
+    cycles[name]?
   end
 
   private def set_cycle(name : String, cycle_object : Cycle) : Cycle
-    @@_cycles[name] = cycle_object
+    cycles[name] = cycle_object
+  end
+
+  private def cycles : Hash(String, Cycle)
+    @cycles ||= Hash(String, Cycle).new
   end
 
   private def cut_excerpt_part(part_position : Symbol, part : String?, separator : String, radius : Int32, omission : String)

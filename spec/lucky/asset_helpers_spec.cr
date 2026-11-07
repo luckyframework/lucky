@@ -64,6 +64,22 @@ describe Lucky::AssetHelpers do
     end
   end
 
+  describe "Subresource Integrity helper" do
+    it "returns digests when present in the manifest" do
+      {% Lucky::AssetHelpers::ASSET_SRI["js/secure.js"] = ["sha384-xyz"] of String %}
+
+      TestPage.new.dynamic_asset_sri("js/secure.js").should eq ["sha384-xyz"]
+    end
+
+    it "returns an empty array when no SRI was computed" do
+      TestPage.new.dynamic_asset_sri("images/logo.png").should eq [] of String
+    end
+
+    it "returns an empty array for unknown assets" do
+      TestPage.new.dynamic_asset_sri("does/not/exist").should eq [] of String
+    end
+  end
+
   describe "dynamic asset helper" do
     it "returns the fingerprinted path" do
       TestPage.new.dynamic_asset_path.should eq "/images/logo-with-hash.png"

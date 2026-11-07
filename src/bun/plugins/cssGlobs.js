@@ -2,12 +2,16 @@ import {dirname, relative, resolve, join} from 'path'
 import {Glob} from 'bun'
 
 const IMPORT_RE =
-  /@import\s+['"]([^'"]*\*[^'"]*)['"]((?:\s+not\s+['"][^'"]*['"])*)\s*;/g
+  /@import\s+['"]([^'"]*\*[^'"]*)['"](?:\s+(layer(?:\([^)]*\))?))?((?:\s+not\s+['"][^'"]*['"])*)\s*;/g
 const NOT_RE = /not\s+['"]([^'"]*)['"]/g
 
 function parseImport(match) {
-  const nots = [...(match[2] || '').matchAll(NOT_RE)]
-  return {pattern: match[1], excludes: nots.map(m => m[1])}
+  const nots = [...(match[3] || '').matchAll(NOT_RE)]
+  return {
+    pattern: match[1],
+    layer: match[2] || null,
+    excludes: nots.map(m => m[1])
+  }
 }
 
 function splitGlob(pattern) {
@@ -48,7 +52,7 @@ export default function cssGlobs() {
     const replacements = []
 
     for (const match of content.matchAll(IMPORT_RE)) {
-      const {pattern, excludes} = parseImport(match)
+      const {pattern, layer, excludes} = parseImport(match)
       const files = (await scanFiles(fileDir, pattern, excludes)).filter(
         f => resolve(fileDir, f) !== args.path
       )
@@ -64,9 +68,10 @@ export default function cssGlobs() {
       const s = files.length !== 1 ? 's' : ''
       console.log(`  CSS glob: ${label} → ${files.length} file${s}`)
 
+      const suffix = layer ? ` ${layer}` : ''
       replacements.push({
         fullMatch: match[0],
-        expanded: files.map(f => `@import '${f}';`).join('\n')
+        expanded: files.map(f => `@import '${f}'${suffix};`).join('\n')
       })
     }
 

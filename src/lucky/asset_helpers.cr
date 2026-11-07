@@ -7,6 +7,7 @@
 #
 module Lucky::AssetHelpers
   ASSET_MANIFEST = {} of String => String
+  ASSET_SRI      = {} of String => Array(String)
   CONFIG         = {has_loaded_manifest: false}
 
   # Loads the asset manifest at compile time.
@@ -113,6 +114,17 @@ module Lucky::AssetHelpers
     else
       raise "Missing asset: #{path}"
     end
+  end
+
+  # Returns the Subresource Integrity digests for an asset, or an empty
+  # array if none were computed at build time.
+  #
+  # ```
+  # Lucky::AssetHelpers.dynamic_asset_sri("js/app.js")
+  # # => ["sha384-..."]
+  # ```
+  def dynamic_asset_sri(path : String) : Array(String)
+    Lucky::AssetHelpers::ASSET_SRI[path]? || [] of String
   end
 
   # Returns all the CSS entrypoints from the manifest.
