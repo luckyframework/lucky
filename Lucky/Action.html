@@ -597,6 +597,11 @@
       
     </li>
   
+  <li class=" " data-id="lucky/Lucky/PathParam" data-name="lucky::pathparam">
+      <a href="../Lucky/PathParam.html">PathParam</a>
+      
+    </li>
+  
   <li class=" " data-id="lucky/Lucky/PrettyLogFormatter" data-name="lucky::prettylogformatter">
       <a href="../Lucky/PrettyLogFormatter.html">PrettyLogFormatter</a>
       
@@ -1095,7 +1100,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/51f49504d2b5a3ba9e057da1c233375c31d05bca/src/lucky/action.cr#L3" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L3" target="_blank">
         lucky/action.cr
       </a>
     
@@ -1187,6 +1192,13 @@
     
       <li class="entry-summary">
         <a href="#request_body_limit%3AInt64%7CNil-class-method" class="signature"><strong>.request_body_limit</strong> : Int64 | Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#valid_path_params%3F%28route_params%3AHash%28String%2CString%29%29%3ABool-class-method" class="signature"><strong>.valid_path_params?</strong>(route_params : Hash(String, String)) : Bool</a>
+        
+          <div class="summary"><p>Returns whether the matched route params satisfy the action's declared <code><a href="../Lucky/PathParam.html">Lucky::PathParam</a></code> types.</p></div>
         
       </li>
     
@@ -1822,7 +1834,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/51f49504d2b5a3ba9e057da1c233375c31d05bca/src/lucky/action.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1850,7 +1862,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/51f49504d2b5a3ba9e057da1c233375c31d05bca/src/lucky/action.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1880,7 +1892,31 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/51f49504d2b5a3ba9e057da1c233375c31d05bca/src/lucky/action.cr#L20" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="valid_path_params?(route_params:Hash(String,String)):Bool-class-method">
+      <div class="signature">
+        
+        def self.<strong>valid_path_params?</strong>(route_params : <a href="../Hash.html">Hash</a>(<a href="../String.html">String</a>, <a href="../String.html">String</a>)) : <a href="../Bool.html">Bool</a>
+
+        <a class="method-permalink" href="#valid_path_params%3F%28route_params%3AHash%28String%2CString%29%29%3ABool-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns whether the matched route params satisfy the action's declared
+<code><a href="../Lucky/PathParam.html">Lucky::PathParam</a></code> types. Actions without typed route params always
+return <code>true</code>. The <code><a href="../Lucky/RouteHandler.html">Lucky::RouteHandler</a></code> uses this to treat a segment
+that can't be parsed to its declared type as a non-match.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1910,7 +1946,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/51f49504d2b5a3ba9e057da1c233375c31d05bca/src/lucky/action.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1926,7 +1962,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/51f49504d2b5a3ba9e057da1c233375c31d05bca/src/lucky/action.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2054,7 +2090,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/51f49504d2b5a3ba9e057da1c233375c31d05bca/src/lucky/action.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/e7574add6251092c6da01d7bbbda2e29573387e3/src/lucky/action.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
