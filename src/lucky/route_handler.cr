@@ -19,7 +19,7 @@ class Lucky::RouteHandler
       end
     end
 
-    if handler
+    if handler && handler.payload.valid_path_params?(handler.params)
       Lucky::Log.dexter.debug { {handled_by: handler.payload.to_s} }
       handler.payload.new(context, handler.params).perform_action
     else

@@ -188,14 +188,45 @@ module Lucky::Routable
       {% glob_param.raise "Glob param must be defined at the end of the path." %}
     {% end %}
 
+    {% path_param_annotation = @type.annotation(Lucky::PathParam) %}
+
+    {% if path_param_annotation %}
+      {% required_param_names = path_params.map(&.gsub(/:/, "")) %}
+      {% optional_param_names = optional_path_params.map(&.gsub(/^\?:/, "")) %}
+      {% typeable_param_names = required_param_names + optional_param_names %}
+      {% glob_param_named = nil %}
+      {% if glob_param %}
+        {% if glob_param.starts_with?("*:") %}
+          {% glob_param_named = glob_param.gsub(/\*:/, "") %}
+        {% elsif glob_param == "*" %}
+          {% glob_param_named = "glob" %}
+        {% end %}
+      {% end %}
+      {% for key, value in path_param_annotation.named_args %}
+        {% key_name = key.id.stringify %}
+        {% if glob_param_named && key_name == glob_param_named %}
+          {% path_param_annotation.raise "Lucky::PathParam in '#{@type}' can't type the glob param '#{key_name.id}'. Glob params capture the remaining path and are always String." %}
+        {% elsif !typeable_param_names.includes?(key_name) %}
+          {% path_param_annotation.raise "Lucky::PathParam in '#{@type}' references '#{key_name.id}', but the path '#{path.id}' has no such path param. Path params available to type: #{typeable_param_names}." %}
+        {% end %}
+      {% end %}
+    {% end %}
+
     {% for param in path_params %}
       {% if param.includes?("-") %}
         {% param.raise "Path variables must only use underscores. Use #{param.gsub(/-/, "_")} instead of #{param}." %}
       {% end %}
       {% part = param.gsub(/:/, "").id %}
-      def {{ part }} : String
-        params.get(:{{ part }})
-      end
+      {% param_type = path_param_annotation && path_param_annotation[part] %}
+      {% if param_type %}
+        def {{ part }} : {{ param_type }}
+          Lucky::ParamParser.parse!(params.get(:{{ part }}), {{ param_type }}, "{{ part }}")
+        end
+      {% else %}
+        def {{ part }} : String
+          params.get(:{{ part }})
+        end
+      {% end %}
     {% end %}
 
     {% for param in optional_path_params %}
@@ -203,8 +234,40 @@ module Lucky::Routable
         {% param.raise "Optional path variables must only use underscores. Use #{param.gsub(/-/, "_")} instead of #{param}." %}
       {% end %}
       {% part = param.gsub(/^\?:/, "").id %}
-      def {{ part }} : String?
-        params.get?(:{{ part }})
+      {% param_type = path_param_annotation && path_param_annotation[part] %}
+      {% if param_type %}
+        def {{ part }} : {{ param_type }}?
+          value = params.get?(:{{ part }})
+          value.nil? ? nil : Lucky::ParamParser.parse!(value, {{ param_type }}, "{{ part }}")
+        end
+      {% else %}
+        def {{ part }} : String?
+          params.get?(:{{ part }})
+        end
+      {% end %}
+    {% end %}
+
+    {% if path_param_annotation %}
+      def self.valid_path_params?(route_params : Hash(String, String)) : Bool
+        {% for param in path_params %}
+          {% part = param.gsub(/:/, "") %}
+          {% param_type = path_param_annotation[part.id] %}
+          {% if param_type %}
+            if value = route_params[{{ part }}]?
+              return false if Lucky::ParamParser.parse(value, {{ param_type }}).nil?
+            end
+          {% end %}
+        {% end %}
+        {% for param in optional_path_params %}
+          {% part = param.gsub(/^\?:/, "") %}
+          {% param_type = path_param_annotation[part.id] %}
+          {% if param_type %}
+            if value = route_params[{{ part }}]?
+              return false if Lucky::ParamParser.parse(value, {{ param_type }}).nil?
+            end
+          {% end %}
+        {% end %}
+        true
       end
     {% end %}
 

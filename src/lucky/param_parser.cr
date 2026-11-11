@@ -63,4 +63,18 @@ module Lucky::ParamParser
 
     casts.size == param.size ? casts.as(Array(T)) : nil
   end
+
+  def self.parse!(param : String, klass : T.class, name : String) : T forall T
+    parsed = parse(param, klass)
+
+    if parsed.nil?
+      raise Lucky::InvalidParamError.new(
+        param_name: name,
+        param_value: param,
+        param_type: klass.to_s
+      )
+    end
+
+    parsed
+  end
 end
