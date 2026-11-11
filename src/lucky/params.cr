@@ -350,7 +350,7 @@ class Lucky::Params
   # ```
   def to_h
     if json?
-      parsed_json.as_h.merge(query_params.to_h)
+      json_hash.merge(query_params.to_h)
     else
       hash = {} of String => String | Hash(String, String)
       params = body_params.to_h.merge(query_params.to_h)
@@ -414,7 +414,7 @@ class Lucky::Params
   end
 
   private def nested_json_params(nested_key : String) : Hash(String, String)?
-    parsed_json[nested_key]?.try do |nested_key_json|
+    json_hash[nested_key]?.try do |nested_key_json|
       empty_params.tap do |nested_params|
         nested_key_json.as_h.each do |key, value|
           nested_params[key.to_s] = stringify_json_value(value)
@@ -424,7 +424,7 @@ class Lucky::Params
   end
 
   private def nested_array_json_params(nested_key : String) : Hash(String, Array(String))?
-    parsed_json[nested_key]?.try do |nested_key_json|
+    json_hash[nested_key]?.try do |nested_key_json|
       nested_params = Hash(String, Array(String)).new.tap do |params|
         nested_key_json.as_h.each do |key, value|
           if array_value = value.as_a?
@@ -552,7 +552,7 @@ class Lucky::Params
 
   private def many_nested_json_params(nested_key : String) : Array(Hash(String, String))
     many_nested_params = [] of Hash(String, String)
-    nested_key_json = parsed_json[nested_key]? || JSON.parse("[]")
+    nested_key_json = json_hash[nested_key]? || JSON.parse("[]")
 
     nested_key_json.as_a.each do |nested_values|
       nested_params = {} of String => String
@@ -595,7 +595,7 @@ class Lucky::Params
 
   private def body_param(key : String)
     if json?
-      parsed_json[key]?.try { |value| stringify_json_value(value) }
+      json_hash[key]?.try { |value| stringify_json_value(value) }
     elsif multipart?
       multipart_params[key]?
     else
@@ -605,7 +605,7 @@ class Lucky::Params
 
   private def body_params
     if json?
-      parsed_json.as_h
+      json_hash
     elsif multipart?
       multipart_params
     else
@@ -645,6 +645,10 @@ class Lucky::Params
     Lucky::JsonBodyParser.new(body, request).parsed_json
   end
 
+  private def json_hash : Hash(String, JSON::Any)
+    parsed_json.as_h? || {} of String => JSON::Any
+  end
+
   memoize def body : String
     Lucky::RequestBodyReader.new(request).body
   end
@@ -662,7 +666,7 @@ class Lucky::Params
   end
 
   private def get_all_json(key : String) : Array(String)?
-    val = parsed_json[key]?
+    val = json_hash[key]?
     return if val.nil?
 
     val.as_a?.try(&.map(&.to_s)) || [val.to_s]
