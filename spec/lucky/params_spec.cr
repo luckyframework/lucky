@@ -194,6 +194,33 @@ describe Lucky::Params do
       params.get_raw?(:anything)
     end
 
+    it "falls back to query params when the JSON body is an array" do
+      request = build_request body: [{data: 123}].to_json,
+        content_type: "application/json"
+      request.query = "env=production&tags[]=a&tags[]=b"
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:env).should eq "production"
+      params.get_raw?(:missing).should be_nil
+      params.get_all?(:tags).should eq ["a", "b"]
+      params.nested?(:env).should eq({} of String => String)
+      params.nested_arrays?(:env).should eq({} of String => Array(String))
+      params.many_nested?(:env).should eq([] of Hash(String, String))
+      params.to_h.should eq({"env" => "production", "tags[]" => "b"})
+      params.from_json.as_a.size.should eq 1
+    end
+
+    it "falls back to query params when the JSON body is a scalar" do
+      request = build_request body: "123",
+        content_type: "application/json"
+      request.query = "env=production"
+
+      params = Lucky::Params.new(request)
+
+      params.get_raw?(:env).should eq "production"
+    end
+
     it "handles JSON with charset directive in Content-Type header" do
       request = build_request body: {page: 1, foo: "bar"}.to_json,
         content_type: "application/json;charset=UTF-8"
