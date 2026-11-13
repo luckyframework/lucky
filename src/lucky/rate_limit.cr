@@ -40,12 +40,11 @@ module Lucky::RateLimit
 
   private def enforce_rate_limit
     cache = LuckyCache.settings.storage
-    count = cache.fetch(rate_limit_key, as: Int32, expires_in: rate_limit["within"]) { 0 }
-    cache.write(rate_limit_key, expires_in: rate_limit["within"]) { count + 1 }
+    count = cache.increment(rate_limit_key, expires_in: rate_limit["within"])
 
     if count > rate_limit["to"]
       context.response.status = HTTP::Status::TOO_MANY_REQUESTS
-      context.response.headers["Retry-After"] = rate_limit["within"].to_s
+      context.response.headers["Retry-After"] = rate_limit["within"].total_seconds.to_i.to_s
       plain_text("Rate limit exceeded")
     else
       continue
@@ -54,7 +53,7 @@ module Lucky::RateLimit
 
   private def rate_limit_key : String
     klass = {{ @type.stringify.downcase.gsub(/::/, ":") }}
-    "ratelimit:#{klass}:#{rate_limit_identifier}"
+    "rate_limit:#{klass}:#{rate_limit_identifier}"
   end
 
   private def rate_limit_identifier : String
