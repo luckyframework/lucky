@@ -38,7 +38,7 @@ class Lucky::MaximumRequestSizeHandler
           return context
         end
 
-        break if read_bytes < buffer.size # End of body
+        break if read_bytes.zero? # End of body
       end
     rescue IO::Error
       context.response.status = HTTP::Status::BAD_REQUEST
