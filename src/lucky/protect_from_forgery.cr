@@ -39,7 +39,11 @@ module Lucky::ProtectFromForgery
   end
 
   private def valid_csrf_token? : Bool
-    session_token == user_provided_token
+    if user_token = user_provided_token
+      Crypto::Subtle.constant_time_compare(session_token, user_token)
+    else
+      false
+    end
   end
 
   private def session_token : String

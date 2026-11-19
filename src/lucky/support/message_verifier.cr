@@ -1,6 +1,3 @@
-require "openssl/hmac"
-require "crypto/subtle"
-
 module Lucky
   class MessageVerifier
     def initialize(@secret : String, @digest = :sha1)
