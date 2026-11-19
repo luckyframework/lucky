@@ -66,7 +66,62 @@ describe Lucky::MaximumRequestSizeHandler do
       end
       context.response.status.should eq(HTTP::Status::OK)
     end
+
+    it "passes the whole body along when it arrives in short reads" do
+      context = build_short_read_request_context("/path", bytes: 20_000, chunk_size: 100)
+      received_body = ""
+      handler = Lucky::MaximumRequestSizeHandler.new
+      handler.next = ->(ctx : HTTP::Server::Context) do
+        received_body = ctx.request.body.try(&.gets_to_end) || ""
+        nil
+      end
+
+      Lucky::MaximumRequestSizeHandler.temp_config(enabled: true) do
+        handler.call(context)
+      end
+
+      context.response.status.should eq(HTTP::Status::OK)
+      received_body.bytesize.should eq(20_000)
+      received_body.should eq("a" * 20_000)
+    end
+
+    it "denies a large request that arrives in short reads" do
+      context = build_short_read_request_context("/path", bytes: 20_000, chunk_size: 100)
+      next_called = false
+      handler = Lucky::MaximumRequestSizeHandler.new
+      handler.next = ->(_ctx : HTTP::Server::Context) do
+        next_called = true
+        nil
+      end
+
+      Lucky::MaximumRequestSizeHandler.temp_config(enabled: true, max_size: 10_000) do
+        handler.call(context)
+      end
+
+      context.response.status.should eq(HTTP::Status::PAYLOAD_TOO_LARGE)
+      next_called.should be_false
+    end
   end
+end
+
+private class ShortReadIO < IO
+  def initialize(@io : IO, @chunk_size : Int32)
+  end
+
+  def read(slice : Bytes) : Int32
+    @io.read(slice[0, Math.min(slice.size, @chunk_size)])
+  end
+
+  def write(slice : Bytes) : Nil
+    raise IO::Error.new("ShortReadIO is read only")
+  end
+end
+
+private def build_short_read_request_context(path : String, bytes : Int32, chunk_size : Int32) : HTTP::Server::Context
+  request = HTTP::Request.new("POST", path)
+  request.headers["Content-Length"] = bytes.to_s
+  request.body = ShortReadIO.new(IO::Memory.new("a" * bytes), chunk_size)
+  build_context(path: path, request: request)
 end
 
 private def run_request_size_handler(context)
