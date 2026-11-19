@@ -31,6 +31,19 @@ class RateLimitRoutesWithMacro::Index < TestAction
   end
 end
 
+class RateLimitRoutesWithBoundary::Index < TestAction
+  include Lucky::RateLimit
+  rate_limit to: 2, within: 1.minute
+
+  get "/rate_limit_3" do
+    plain_text "hello"
+  end
+
+  private def rate_limit_identifier : String
+    "test-key"
+  end
+end
+
 describe Lucky::RateLimit do
   describe "RateLimit" do
     it "when request count is less than the rate limit" do
@@ -58,6 +71,34 @@ describe Lucky::RateLimit do
 
         route = RateLimitRoutesWithMacro::Index.new(context, params).call
         route.context.response.status.should eq(HTTP::Status::TOO_MANY_REQUESTS)
+      end
+    end
+
+    it "allows exactly the configured number of requests" do
+      with_memory_store do
+        request = HTTP::Request.new("GET", "/rate_limit_3", body: "", headers: HTTP::Headers.new)
+        context = build_context(request)
+
+        2.times do
+          route = RateLimitRoutesWithBoundary::Index.new(context, params).call
+          route.context.response.status.should eq(HTTP::Status::OK)
+        end
+
+        route = RateLimitRoutesWithBoundary::Index.new(context, params).call
+        route.context.response.status.should eq(HTTP::Status::TOO_MANY_REQUESTS)
+      end
+    end
+
+    it "sets Retry-After in number of seconds" do
+      with_memory_store do
+        request = HTTP::Request.new("GET", "/rate_limit_3", body: "", headers: HTTP::Headers.new)
+        context = build_context(request)
+
+        3.times do
+          RateLimitRoutesWithBoundary::Index.new(context, params).call
+        end
+
+        context.response.headers["Retry-After"].should eq("60")
       end
     end
   end
