@@ -44,7 +44,7 @@ dependencies:
     version: ~> 0.3.4
   pulsar:
     github: luckyframework/pulsar
-    version: ~> 0.2.3
+    version: ~> 0.3.0
   lucky_template:
     github: luckyframework/lucky_template
     version: ~> 0.2.0
