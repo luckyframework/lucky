@@ -7,6 +7,17 @@ abstract class Lucky::BaseAppServer
 
   def initialize
     @server = HTTP::Server.new(middleware)
+    resize_execution_context(Lucky::Server.settings.workers)
+  end
+
+  private def resize_execution_context(workers : Int32) : Nil
+    return if workers == 1
+
+    {% if Fiber.has_constant?(:ExecutionContext) && Fiber::ExecutionContext.has_constant?(:Parallel) %}
+      Fiber::ExecutionContext.default.resize(workers)
+    {% else %}
+      Lucky::Log.dexter.warn { {crystal_version: "does not support execution contexts."} }
+    {% end %}
   end
 
   # :nodoc:
