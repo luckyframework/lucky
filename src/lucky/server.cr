@@ -6,6 +6,7 @@ class Lucky::Server
     setting secret_key_base : String
     setting host : String
     setting port : Int32
+    setting workers : Int32 = 1, validation: :validate_workers
     setting asset_host : String = ""
     setting gzip_enabled : Bool = false
     setting gzip_content_types : Array(String) = %w[
@@ -23,5 +24,9 @@ class Lucky::Server
       text/javascript
       text/plain
     ]
+  end
+
+  def self.validate_workers(value : Int32)
+    value >= 1 || Habitat.raise_validation_error("workers must be at least 1")
   end
 end
