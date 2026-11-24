@@ -1096,7 +1096,7 @@
   </h2>
   
     
-      <a href="https://github.com/luckyframework/lucky/blob/7f0f0ff632b64acda6af8f12124fec3f7e53ff33/src/lucky/server.cr#L4" target="_blank">
+      <a href="https://github.com/luckyframework/lucky/blob/d6d3461a1652f7a96e9a282b444b5e6db4d118ad/src/lucky/server.cr#L4" target="_blank">
         lucky/server.cr
       </a>
     
@@ -1118,7 +1118,12 @@
   <dl>
     
       <dt class="entry-const" id="HABITAT_SETTINGS">
-        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: secret_key_base : <span class="t">String</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: host : <span class="t">String</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: port : <span class="t">Int32</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: asset_host : <span class="t">String</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: gzip_enabled : <span class="t">Bool</span> <span class="o">=</span> <span class="n">false</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: gzip_content_types : <span class="t">Array</span>(<span class="t">String</span>) <span class="o">=</span> [<span class="s">&quot;application/json&quot;</span>, <span class="s">&quot;application/javascript&quot;</span>, <span class="s">&quot;application/xml&quot;</span>, <span class="s">&quot;font/otf&quot;</span>, <span class="s">&quot;font/ttf&quot;</span>, <span class="s">&quot;font/woff&quot;</span>, <span class="s">&quot;font/woff2&quot;</span>, <span class="s">&quot;image/svg+xml&quot;</span>, <span class="s">&quot;text/css&quot;</span>, <span class="s">&quot;text/csv&quot;</span>, <span class="s">&quot;text/html&quot;</span>, <span class="s">&quot;text/javascript&quot;</span>, <span class="s">&quot;text/plain&quot;</span>] <span class="k">of</span> <span class="t">::</span><span class="t">String</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
+        <strong>HABITAT_SETTINGS</strong> = <code>[{decl: secret_key_base : <span class="t">String</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: host : <span class="t">String</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: port : <span class="t">Int32</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: workers : <span class="t">Int32</span> <span class="o">=</span> <span class="n">1</span>, example: <span class="n">nil</span>,
+
+
+
+
+  validation: <span class="n">:validate_workers</span>}, {decl: asset_host : <span class="t">String</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: gzip_enabled : <span class="t">Bool</span> <span class="o">=</span> <span class="n">false</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}, {decl: gzip_content_types : <span class="t">Array</span>(<span class="t">String</span>) <span class="o">=</span> [<span class="s">&quot;application/json&quot;</span>, <span class="s">&quot;application/javascript&quot;</span>, <span class="s">&quot;application/xml&quot;</span>, <span class="s">&quot;font/otf&quot;</span>, <span class="s">&quot;font/ttf&quot;</span>, <span class="s">&quot;font/woff&quot;</span>, <span class="s">&quot;font/woff2&quot;</span>, <span class="s">&quot;image/svg+xml&quot;</span>, <span class="s">&quot;text/css&quot;</span>, <span class="s">&quot;text/csv&quot;</span>, <span class="s">&quot;text/html&quot;</span>, <span class="s">&quot;text/javascript&quot;</span>, <span class="s">&quot;text/plain&quot;</span>] <span class="k">of</span> <span class="t">::</span><span class="t">String</span>, example: <span class="n">nil</span>, validation: <span class="n">nil</span>}] <span class="k">of</span> <span class="t">Nil</span></code>
       </dt>
       
     
@@ -1146,6 +1151,11 @@
     
       <li class="entry-summary">
         <a href="#settings-class-method" class="signature"><strong>.settings</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#validate_workers%28value%3AInt32%29-class-method" class="signature"><strong>.validate_workers</strong>(value : Int32)</a>
         
       </li>
     
@@ -1267,7 +1277,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7f0f0ff632b64acda6af8f12124fec3f7e53ff33/src/lucky/server.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/d6d3461a1652f7a96e9a282b444b5e6db4d118ad/src/lucky/server.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1283,7 +1293,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7f0f0ff632b64acda6af8f12124fec3f7e53ff33/src/lucky/server.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/d6d3461a1652f7a96e9a282b444b5e6db4d118ad/src/lucky/server.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="validate_workers(value:Int32)-class-method">
+      <div class="signature">
+        
+        def self.<strong>validate_workers</strong>(value : <a href="../Int32.html">Int32</a>)
+
+        <a class="method-permalink" href="#validate_workers%28value%3AInt32%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky/blob/d6d3461a1652f7a96e9a282b444b5e6db4d118ad/src/lucky/server.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1313,7 +1339,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/luckyframework/lucky/blob/7f0f0ff632b64acda6af8f12124fec3f7e53ff33/src/lucky/server.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/luckyframework/lucky/blob/d6d3461a1652f7a96e9a282b444b5e6db4d118ad/src/lucky/server.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
